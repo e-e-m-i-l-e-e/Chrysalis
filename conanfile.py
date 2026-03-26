@@ -9,7 +9,11 @@ class CLOExtensionsConan(ConanFile):
 
     requires = [
         "qt/5.15.16",
-        "polyhook2/2.0"
+        "spdlog/1.17.0",
+        "polyhook2/2.0",
+        "clo-sdk/9.1.0",
+
+        "gtest/1.17.0"
     ]
 
     generators = "CMakeConfigDeps", "CMakeToolchain"
@@ -21,5 +25,9 @@ class CLOExtensionsConan(ConanFile):
         "qt/5.15.16:shared": True,
 
         "qt/5.15.16:openssl": False,
-        "qt/5.15.16:with_mysql": False
+        "qt/5.15.16:with_mysql": False,
+
+        "qt/5.15.16:qttools": True,
+
+        "polyhook2/2.0:shared": True
     }

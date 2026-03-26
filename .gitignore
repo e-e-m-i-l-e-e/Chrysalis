@@ -1,5 +1,6 @@
 .idea
 .misc
 .venv
+.logs
 .build
 .conan
