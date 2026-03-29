@@ -1,16 +1,15 @@
 #ifndef CLOEXTENSIONS_EXTENSION_H
 #define CLOEXTENSIONS_EXTENSION_H
 
-#include "ExtensionsManager.h"
+#include <QMenu>
 
 class Extension {
 protected:
-    explicit Extension() {
-        ExtensionsManager::extensions.push_back(this);
-    }
+    explicit Extension() = default;
     virtual ~Extension() = default;
 public:
     virtual void configureMenu(QMenu* extensionMenu) {}
+    virtual void configureStatusBar(QWidget* parent) {}
 };
 
 #endif //CLOEXTENSIONS_EXTENSION_H

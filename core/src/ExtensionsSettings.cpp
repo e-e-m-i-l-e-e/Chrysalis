@@ -296,6 +296,7 @@ void ExtensionsSettings::exportUI() const {
 
     if (ui->jsonEnabled->isChecked()) exportJson();
     if (ui->xmlEnabled->isChecked()) exportXML();
+    else ExtensionsManager::clearMessage();
 }
 
 void ExtensionsSettings::exportJson() const {
@@ -312,7 +313,10 @@ void ExtensionsSettings::exportJson() const {
         // Export everything
         for (const auto widget: QApplication::topLevelWidgets()) {
             if (!widget->parent()) {
-                root.append(getWidgetJson(widget, visibleOnly, ignoreCSS));
+                if (const auto object = getWidgetJson(widget, visibleOnly, ignoreCSS);
+                    !object.keys().empty()) {
+                    root.append(object);
+                }
             }
         }
     } else {
@@ -325,7 +329,10 @@ void ExtensionsSettings::exportJson() const {
                     widget->objectName().toStdString(),
                     widget->metaObject()->className()
                 );
-                root.append(getWidgetJson(widget, visibleOnly, ignoreCSS));
+                if (const auto object = getWidgetJson(widget, visibleOnly, ignoreCSS);
+                    !object.keys().empty()) {
+                    root.append(object);
+                }
             }
         }
     }
@@ -484,8 +491,10 @@ void ExtensionsSettings::exportXML() const {
                 UI_MESSAGE(QString("Post-processing layouts %1 / %2.").arg(QString::number(layouts.count() - i)).arg(QString::number(layouts.count())));
 
                 if (const auto layoutElement = layouts.at(i).toElement();
-                    layoutElement.attribute("class") == "QStackedLayout") {
-                    // Transform QStackedWidget widget
+                    QStringList({
+                    "QDockWidgetLayout", "QStackedLayout"
+                    }).contains(layoutElement.attribute("class"))) {
+                    // Transform Qt internal layouts
                     const auto items = layoutElement.elementsByTagName("item");
                     while (!items.isEmpty()) {
                         // Move widgets from private QStackedLayout into QStackedWidget
@@ -493,7 +502,7 @@ void ExtensionsSettings::exportXML() const {
                         item.parentNode().parentNode().appendChild(item.firstChildElement());
                         item.parentNode().removeChild(item);
                     }
-                    // Delete private QStackedLayout
+                    // Delete internal layout
                     layoutElement.parentNode().removeChild(layoutElement);
                 }
             }
@@ -645,7 +654,7 @@ void ExtensionsSettings::exportXML() const {
         ExtensionsManager::clearMessage();
 
         QMetaObject::invokeMethod(qApp, [] {
-            UTILITY_API->DisplayMessageBox("XML data have been exported successfully.");
+            UTILITY_API->DisplayMessageBox("UI data have been exported successfully.");
         });
     });
 }

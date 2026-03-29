@@ -24,15 +24,11 @@ target_link_libraries(Main PRIVATE Logger)
 find_package(Qt5 REQUIRED)
 
 add_subdirectory(clo)
+add_subdirectory(pattern-builder)
 add_subdirectory(core)
 
 add_library(Extensions SHARED resources/resources.qrc extensions.cpp)
 target_link_libraries(Extensions PRIVATE HooksManager Core)
-
-if (SAMPLES_EXTENSION)
-    target_link_libraries(Extensions PRIVATE CloSamples)
-    target_compile_definitions(Extensions PRIVATE SAMPLES_EXTENSION)
-endif ()
 
 add_subdirectory(test)
 

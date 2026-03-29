@@ -5,11 +5,14 @@
 #include <QApplication>
 #include <QMenuBar>
 
-#include "Extension.h"
 #include "ExtensionsSettings.h"
 
 #include "HooksManager.h"
 #include "MVStatusBar.h"
+
+void ExtensionsManager::registerExtension(Extension *extension) {
+    extensions.push_back(extension);
+}
 
 void ExtensionsManager::install() {
     HooksManager::addBefore<&QApplication::exec>([&](const HookHandle &handle) {
@@ -31,10 +34,15 @@ void ExtensionsManager::install() {
                 for (const auto statusBar = dynamic_cast<MVStatusBar*>(widget);
                      const auto child: statusBar->children()) {
                     if (child->metaObject() == &QWidget::staticMetaObject && !child->children().empty()) {
-                        backgroundMessage_ = new QLabel(qobject_cast<QWidget*>(child));
+                        const auto parent = qobject_cast<QWidget*>(child);
+                        backgroundMessage_ = new QLabel(parent);
                         backgroundMessage_->setGeometry(statusBar->width() / 2, 2, 500, 20);
                         UTILITY_API->UpdateCloStyleForPlugIn(backgroundMessage_);
                         backgroundMessage_->show();
+
+                        for (const auto extension: extensions) {
+                            extension->configureStatusBar(parent);
+                        }
                     }
                 }
             }

@@ -6,9 +6,8 @@
 #include <vector>
 #include <Windows.h>
 
+#include "Extension.h"
 #include "ExtensionsSettings.h"
-
-class Extension;
 
 class ExtensionsManager {
 
@@ -20,6 +19,8 @@ class ExtensionsManager {
 
     inline static QLabel* backgroundMessage_;
 public:
+
+    static void registerExtension(Extension* extension);
 
     static void setMessage(const QString& extensionName, const QString& message, bool logMessage = false);
     static void clearMessage();
