@@ -43,11 +43,12 @@ static QMetaObject::Connection hookConnectImpl(
     QtPrivate::QSlotObjectBase* slot, Qt::ConnectionType type,
     const int* types, const QMetaObject* senderMeta)
 {
-    if (receiver->objectName() == "mvdockingButton" || QStringList({"CloUICommon::Accordion", "CloUICommon::ImageLabel"}).contains(receiver->metaObject()->className())) {
-        LOG_DEBUG("connectImpl  sender={}  receiver={}  meta={}",
+    if (receiver->objectName() == "mvdockingButton" || QStringList({"CloUICommon::Accordion", "CloUICommon::ImageLabel", "MVToolButton", "MVDockingButton", "MVDockingBar"}).contains(receiver->metaObject()->className())) {
+        LOG_DEBUG("connectImpl  sender={}  receiver={}  meta={} signal={}",
                   sender ? sender->metaObject()->className() : "<null>",
                   receiver ? receiver->metaObject()->className() : "<null>",
-                  senderMeta ? senderMeta->className() : "<null>");
+                  senderMeta ? senderMeta->className() : "<null>",
+                  signal ? *signal : nullptr);
     }
 
     return reinterpret_cast<ConnectImplFn>(s_connectImplOriginal)(
@@ -83,7 +84,7 @@ static PLH::x64Detour* s_activateRangeDetour    = nullptr;
 // Primary MOC-generated path — resolves the signal name from m + local index.
 static void hookActivateMOC(QObject* sender, const QMetaObject* m, int localIdx, void** argv)
 {
-    if (sender && m) {
+    if (sender && m && !QString(sender->metaObject()->className()).startsWith("Q")) {
         const int absIdx = m->methodOffset() + localIdx;
         const QMetaMethod sig = sender->metaObject()->method(absIdx);
         LOG_DEBUG("emit  {}({})::{}",
@@ -110,14 +111,14 @@ static void hookActivateLegacy(QObject* sender, int signalIdx, void** argv)
 // Range form — logs the first signal in the range (edge case, rarely fired).
 static void hookActivateRange(QObject* sender, int fromIdx, int toIdx, void** argv)
 {
-    if (sender) {
-        const QMetaMethod sig = sender->metaObject()->method(fromIdx);
-        LOG_DEBUG("emit(range {}-{})  {}({})::{}",
-            fromIdx, toIdx,
-            sender->metaObject()->className(),
-            sender->objectName().toStdString(),
-            sig.methodSignature().constData());
-    }
+    // if (sender) {
+    //     const QMetaMethod sig = sender->metaObject()->method(fromIdx);
+    //     LOG_DEBUG("emit(range {}-{})  {}({})::{}",
+    //         fromIdx, toIdx,
+    //         sender->metaObject()->className(),
+    //         sender->objectName().toStdString(),
+    //         sig.methodSignature().constData());
+    // }
     reinterpret_cast<ActivateRangeFn>(s_activateRangeOriginal)(sender, fromIdx, toIdx, argv);
 }
 
@@ -126,57 +127,6 @@ void ExtensionsManager::registerExtension(Extension *extension) {
 }
 
 void ExtensionsManager::install() {
-    // QObject::connect has multiple overloads in Qt5 (string-based, QMetaMethod-based,
-    // and several functor templates). We must disambiguate explicitly; otherwise
-    // `&QObject::connect` is ambiguous and the compiler rejects it.
-    // We target the classic string-based (Qt4-style) overload because it is the one
-    // CLO internally uses for most of its own signal wiring.
-    using ConnectFn = QMetaObject::Connection(*)(
-        const QObject *, const char *,
-        const QObject *, const char *,
-        Qt::ConnectionType);
-    constexpr ConnectFn qObjectConnect =
-        static_cast<ConnectFn>(&QObject::connect);
-
-    // HooksManager passes every argument as T& — the lambda must accept references.
-    // This also lets a Before callback redirect sender/receiver/signal at intercept time.
-    HooksManager::addBefore<qObjectConnect>([](
-        const HookHandle & /*handle*/,
-        const QObject *&sender,   const char *&signal,
-        const QObject *&receiver, const char *&member,
-        Qt::ConnectionType & /*type*/) {
-            if (receiver->objectName() == "mvdockingButton" || QStringList({"CloUICommon::Accordion", "CloUICommon::ImageLabel"}).contains(receiver->metaObject()->className())) {
-                LOG_DEBUG("QObject::connect(char*)  {}::{}  →  {}::{}",
-                          sender ? sender->metaObject()->className() : "<null>", signal ? signal : "<null>",
-                          receiver ? receiver->metaObject()->className() : "<null>", member ? member : "<null>");
-            }
-    });
-
-    // ── Overload 2: QMetaMethod-based static connect ──────────────────────────
-    // connect(const QObject*, const QMetaMethod&, const QObject*, const QMetaMethod&,
-    //         Qt::ConnectionType)
-    // Used internally by Qt's own meta-system when it resolves signals at runtime
-    // (e.g. QMetaObject::activate, QSignalSpy). Not commonly called by user code
-    // directly but is the path taken by Qt when two QMetaMethod handles are known.
-    using ConnectMetaFn = QMetaObject::Connection(*)(
-        const QObject *, const QMetaMethod &,
-        const QObject *, const QMetaMethod &,
-        Qt::ConnectionType);
-    constexpr ConnectMetaFn qObjectConnectMeta =
-        static_cast<ConnectMetaFn>(&QObject::connect);
-
-    HooksManager::addBefore<qObjectConnectMeta>([](
-        const HookHandle & /*handle*/,
-        const QObject *&sender,   const QMetaMethod &signal,
-        const QObject *&receiver, const QMetaMethod &method,
-        Qt::ConnectionType & /*type*/) {
-            if (receiver->objectName() == "mvdockingButton" || QStringList({"CloUICommon::Accordion", "CloUICommon::ImageLabel"}).contains(receiver->metaObject()->className())) {
-                LOG_DEBUG("QObject::connect(QMetaMethod)  {}::{}  →  {}::{}",
-                          sender ? sender->metaObject()->className() : "<null>", signal.name().constData(),
-                          receiver ? receiver->metaObject()->className() : "<null>", method.name().constData());
-            }
-    });
-
     // ── Overloads NOT hooked and why ──────────────────────────────────────────
     //
     // Overload 3 — inline non-static const:
