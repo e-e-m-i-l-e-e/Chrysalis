@@ -8,6 +8,7 @@ protected:
     explicit Extension() = default;
     virtual ~Extension() = default;
 public:
+    virtual void configure(QWidget* widget) {}
     virtual void configureMenu(QMenu* extensionMenu) {}
     virtual void configureStatusBar(QWidget* parent) {}
 };

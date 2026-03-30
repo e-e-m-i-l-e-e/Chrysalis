@@ -177,6 +177,7 @@ void ExtensionsSettings::loadSettings() {
     settings.beginGroup(Key::SHORTCUT);
     if (settings.contains(Key::SHORTCUT_MODIFIERS)) shortcut.modifiers = settings.value(Key::SHORTCUT_MODIFIERS).toUInt();
     if (settings.contains(Key::SHORTCUT_KEY)) shortcut.key = settings.value(Key::SHORTCUT_KEY).toUInt();
+    if (settings.contains(Key::PICK_WIDGET_BY_MOUSE_POSITION)) ui->pickWidgetByMouse->setChecked(settings.value(Key::PICK_WIDGET_BY_MOUSE_POSITION).toBool());
     settings.endGroup();
     settings.endGroup();
 
@@ -215,6 +216,7 @@ void ExtensionsSettings::saveSettings() {
     settings.beginGroup(Key::SHORTCUT);
     settings.setValue(Key::SHORTCUT_MODIFIERS, shortcut.modifiers);
     settings.setValue(Key::SHORTCUT_KEY, shortcut.key);
+    settings.setValue(Key::PICK_WIDGET_BY_MOUSE_POSITION, ui->pickWidgetByMouse->isChecked());
     settings.endGroup();
     settings.endGroup();
 
@@ -240,6 +242,7 @@ void ExtensionsSettings::saveSettings() {
 void ExtensionsSettings::resetSettings() {
     ui->generalRootFolder->setText(Key::DEFAULT_ROOT_FOLDER);
     ui->generalFileName->setText(Key::DEFAULT_FILE_NAME);
+    ui->pickWidgetByMouse->setChecked(false);
     ui->generalClassName->setText("");
     ui->generalObjectName->setText("");
 
@@ -296,7 +299,10 @@ void ExtensionsSettings::exportUI() const {
 
     if (ui->jsonEnabled->isChecked()) exportJson();
     if (ui->xmlEnabled->isChecked()) exportXML();
-    else ExtensionsManager::clearMessage();
+    else {
+        ExtensionsManager::clearMessage();
+        UTILITY_API->DisplayMessageBox("Json data have been exported successfully.");
+    }
 }
 
 void ExtensionsSettings::exportJson() const {
@@ -307,9 +313,17 @@ void ExtensionsSettings::exportJson() const {
     const auto objectName = ui->jsonObjectName->text();
     const auto visibleOnly = ui->visibleOnly->isChecked();
     const auto ignoreCSS = ui->ignoreCSS->isChecked();
+    const auto pickWidgetByMouse = ui->pickWidgetByMouse->isChecked();
 
     QJsonArray root;
-    if (className.isEmpty() && objectName.isEmpty()) {
+    if (pickWidgetByMouse) {
+        const auto widget = QApplication::widgetAt(QCursor::pos());
+        LOG_INFO("Exporting Json of the widget at cursor position. Class name: {}, object name: {}.", widget->metaObject()->className(), widget->objectName().toStdString());
+        if (const auto object = getWidgetJson(widget, visibleOnly, ignoreCSS);
+            !object.keys().empty()) {
+            root.append(object);
+        }
+    } else if (className.isEmpty() && objectName.isEmpty()) {
         // Export everything
         for (const auto widget: QApplication::topLevelWidgets()) {
             if (!widget->parent()) {
@@ -360,7 +374,9 @@ void ExtensionsSettings::exportXML() const {
     LOG_UI_MESSAGE("Exporting UI in xml format.");
 
     QWidget* widget = ExtensionsManager::mainWindow;
-    if (const auto objectName = ui->xmlObjectName->text(), className = ui->xmlClassName->text();
+    if (ui->pickWidgetByMouse->isChecked()) {
+        widget = QApplication::widgetAt(QCursor::pos());
+    } else if (const auto objectName = ui->xmlObjectName->text(), className = ui->xmlClassName->text();
         !className.isEmpty() || !objectName.isEmpty()) {
         for (const auto w: QApplication::allWidgets()) {
             if ((objectName.isEmpty() || objectName == w->objectName()) &&

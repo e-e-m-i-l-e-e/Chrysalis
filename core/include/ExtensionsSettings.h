@@ -49,6 +49,7 @@ private:
         const static inline QString CLASS_NAME = "className";
         const static inline QString OBJECT_NAME = "objectName";
         const static inline QString ENABLED = "enabled";
+        const static inline QString PICK_WIDGET_BY_MOUSE_POSITION = "pickWidgetByMouse";
 
         const static inline QString SHORTCUT = "shortcut";
         const static inline QString SHORTCUT_MODIFIERS = "modifiers";

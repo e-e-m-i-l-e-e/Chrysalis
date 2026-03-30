@@ -9,6 +9,7 @@ protected:
     ~PatternBuilder() override = default;
 
 public:
+    void configure(QWidget *widget) override;
     void configureStatusBar(QWidget *parent) override;
 };
 

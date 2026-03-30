@@ -15,6 +15,10 @@ void ExtensionsManager::registerExtension(Extension *extension) {
 }
 
 void ExtensionsManager::install() {
+    HooksManager::addBefore<&QObject::connect>([&](const HookHandle& handle, const QObject *sender, const char *signal,
+                        const QObject *receiver, const char *member, Qt::ConnectionType connection) {
+
+    });
     HooksManager::addBefore<&QApplication::exec>([&](const HookHandle &handle) {
 
         QMenuBar* menu = nullptr;
@@ -27,10 +31,10 @@ void ExtensionsManager::install() {
             }
 
             // Getting menu bar for further configuration
-            if (widget->objectName() == "myMenuBar") menu = qobject_cast<QMenuBar*>(widget);
+            else if (widget->objectName() == "myMenuBar") menu = qobject_cast<QMenuBar*>(widget);
 
             // Inject QLabel for displaying messages from background processes into bottom status bar.
-            if (QString(widget->metaObject()->className()) == "MVStatusBar") {
+            else if (QString(widget->metaObject()->className()) == "MVStatusBar") {
                 for (const auto statusBar = dynamic_cast<MVStatusBar*>(widget);
                      const auto child: statusBar->children()) {
                     if (child->metaObject() == &QWidget::staticMetaObject && !child->children().empty()) {
@@ -45,6 +49,10 @@ void ExtensionsManager::install() {
                         }
                     }
                 }
+            }
+
+            for (const auto extension: extensions) {
+                extension->configure(widget);
             }
         }
 
