@@ -20,8 +20,8 @@ void PatternBuilder::configure(QWidget *widget) {
         LOG_INFO("Configuring right docking bar.");
         const auto patternBuilderDockItem = new MVDockingButton(widget);
         patternBuilderDockItem->setObjectName("mvdockingButton");
-        UTILITY_API->UpdateCloStyleForPlugIn(patternBuilderDockItem);
-        qobject_cast<QVBoxLayout*>(widget->layout())->insertWidget(0, patternBuilderDockItem);
+        // UTILITY_API->UpdateCloStyleForPlugIn(patternBuilderDockItem);
+        qobject_cast<QVBoxLayout*>(widget->layout())->insertWidget(2, patternBuilderDockItem);
         patternBuilderDockItem->show();
         widget->update();
     }

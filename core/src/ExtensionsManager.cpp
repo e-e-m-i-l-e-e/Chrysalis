@@ -12,24 +12,26 @@
 #include "HooksManager.h"
 #include "MVStatusBar.h"
 
-// ── connectImpl static hook infrastructure ────────────────────────────────────
-// QObject::connectImpl is private but exported from Qt5Core.dll.
-// All new-style connect() template overloads (pointer-to-member, functor) funnel
-// into this single function, so one hook here covers every new-style connection.
+// ── QObjectPrivate::connectImpl hook infrastructure ───────────────────────────
+// QObjectPrivate::connectImpl is the internal dispatch point for ALL new-style
+// connect() calls (pointer-to-member and functor overloads).
 //
-// Because the member is private, &QObject::connectImpl is inaccessible at compile
-// time. The address must be resolved at runtime via GetProcAddress.
+// Preferred over QObject::connectImpl because:
+//   • Second parameter is int signal_index (absolute method index on sender's
+//     metaobject) rather than void** — the signal name is directly readable via
+//     sender->metaObject()->method(signal_index).name() with no pointer chasing.
+//   • Public static (SA) vs private static (CA) — cleaner intent, same runtime
+//     access pattern (both require GetProcAddress since qobject_p.h is private).
 //
-// Mangled symbol confirmed via PE export table inspection of Qt5Core.dll:
-//   ?connectImpl@QObject@@CA?AVConnection@QMetaObject@@PEBV1@PEAPEAX01
-//   PEAVQSlotObjectBase@QtPrivate@@W4ConnectionType@Qt@@PEBHPEBU3@@Z
+// Mangled symbol confirmed from .misc/Qt5Core demangled export table:
+//   ?connectImpl@QObjectPrivate@@SA?AVConnection@QMetaObject@@PEBVQObject@@
+//   H0PEAPEAXPEAVQSlotObjectBase@QtPrivate@@W4ConnectionType@Qt@@PEBHPEBU3@@Z
 //
-// QSlotObjectBase is forward-declared because we only pass the pointer through
-// without dereferencing — the full definition is not needed here.
+// QSlotObjectBase is forward-declared; we only pass the pointer through.
 namespace QtPrivate { class QSlotObjectBase; }
 
 using ConnectImplFn = QMetaObject::Connection(*)(
-    const QObject*, void**,
+    const QObject*, int,
     const QObject*, void**,
     QtPrivate::QSlotObjectBase*, Qt::ConnectionType,
     const int*, const QMetaObject*);
@@ -37,22 +39,65 @@ using ConnectImplFn = QMetaObject::Connection(*)(
 static uint64_t        s_connectImplOriginal = 0;
 static PLH::x64Detour* s_connectImplDetour   = nullptr;
 
+// ── QMetaObject::connect hook infrastructure ──────────────────────────────────
+// Old-style SIGNAL/SLOT connections (connect(sender, SIGNAL(...), SLOT(...)))
+// do NOT go through QObjectPrivate::connectImpl. They resolve the char* strings
+// to integer indices and call QMetaObject::connect(sender, signalIdx, receiver,
+// slotIdx, type, types) — a completely separate code path.
+//
+// Hooking this function catches every old-style connection.
+// signalIdx / slotIdx are absolute method indices on the sender/receiver metaobject.
+//
+// Symbol confirmed from .misc/Qt5Core:
+//   ?connect@QMetaObject@@SA?AVConnection@1@PEBVQObject@@H0HHPEAH@Z
+//   QMetaObject::connect(const QObject*, int, const QObject*, int, int, int*)
+using QMetaObjectConnectFn = QMetaObject::Connection(*)(
+    const QObject*, int,
+    const QObject*, int,
+    int, int*);
+
+static uint64_t        s_metaObjectConnectOriginal = 0;
+static PLH::x64Detour* s_metaObjectConnectDetour   = nullptr;
+
+static QMetaObject::Connection hookQMetaObjectConnect(
+    const QObject* sender,   int signalIndex,
+    const QObject* receiver, int slotIndex,
+    int type, int* types)
+{
+    if (sender && receiver) {
+        if (!QString(sender->metaObject()->className()).startsWith("Q") || !QString(receiver->metaObject()->className()).startsWith("Q")) {
+            const QMetaMethod signal = sender->metaObject()->method(signalIndex);
+            LOG_DEBUG("connect(old-style)  {}({})::{}  →  {}({})",
+                sender->metaObject()->className(),
+                sender->objectName().toStdString(),
+                signal.methodSignature().constData(),
+                receiver->metaObject()->className(),
+                receiver->objectName().toStdString());
+        }
+    }
+    return reinterpret_cast<QMetaObjectConnectFn>(s_metaObjectConnectOriginal)(
+        sender, signalIndex, receiver, slotIndex, type, types);
+}
+
 static QMetaObject::Connection hookConnectImpl(
-    const QObject* sender,   void** signal,
+    const QObject* sender,   int signalIndex,
     const QObject* receiver, void** slotPtr,
     QtPrivate::QSlotObjectBase* slot, Qt::ConnectionType type,
     const int* types, const QMetaObject* senderMeta)
 {
-    if (receiver->objectName() == "mvdockingButton" || QStringList({"CloUICommon::Accordion", "CloUICommon::ImageLabel", "MVToolButton", "MVDockingButton", "MVDockingBar"}).contains(receiver->metaObject()->className())) {
-        LOG_DEBUG("connectImpl  sender={}  receiver={}  meta={} signal={}",
-                  sender ? sender->metaObject()->className() : "<null>",
-                  receiver ? receiver->metaObject()->className() : "<null>",
-                  senderMeta ? senderMeta->className() : "<null>",
-                  signal ? *signal : nullptr);
+    if (sender) {
+        if (!QString(sender->metaObject()->className()).startsWith("Q") || receiver && !QString(receiver->metaObject()->className()).startsWith("Q")) {
+            const QMetaMethod signal = sender->metaObject()->method(signalIndex);
+            LOG_DEBUG("connectImpl  {}({}) ::{}  →  {}({})",
+                sender->metaObject()->className(),
+                sender->objectName().toStdString(),
+                signal.methodSignature().constData(),
+                receiver ? receiver->metaObject()->className() : "<nullptr>",
+                receiver ? receiver->objectName().toStdString() : "<nullptr>");
+        }
     }
-
     return reinterpret_cast<ConnectImplFn>(s_connectImplOriginal)(
-        sender, signal, receiver, slotPtr, slot, type, types, senderMeta);
+        sender, signalIndex, receiver, slotPtr, slot, type, types, senderMeta);
 }
 
 // ── QMetaObject::activate hook infrastructure ─────────────────────────────────
@@ -81,16 +126,36 @@ static PLH::x64Detour* s_activateMOCDetour      = nullptr;
 static PLH::x64Detour* s_activateLegacyDetour   = nullptr;
 static PLH::x64Detour* s_activateRangeDetour    = nullptr;
 
+struct Hack : QObject {
+    using QObject::receivers;
+};
+
+struct TestObject: QObject {
+    Q_OBJECT
+public slots:
+    void testSlot() {
+        LOG_INFO("TEST SLOT: {}", "SignalForCloseSubToolbar()");
+    }
+};
+
 // Primary MOC-generated path — resolves the signal name from m + local index.
 static void hookActivateMOC(QObject* sender, const QMetaObject* m, int localIdx, void** argv)
 {
     if (sender && m && !QString(sender->metaObject()->className()).startsWith("Q")) {
         const int absIdx = m->methodOffset() + localIdx;
         const QMetaMethod sig = sender->metaObject()->method(absIdx);
-        LOG_DEBUG("emit  {}({})::{}",
+        const auto sigName = sig.methodSignature();
+
+        const QByteArray macroSig = QByteArray("2") + sigName;
+        const auto modifiedSender = static_cast<Hack*>(sender);
+        const auto numOfReceivers = modifiedSender->receivers(macroSig.constData());
+
+        if (numOfReceivers > 0) {
+            LOG_DEBUG("emit  {}({})::{} receivers: {}",
             sender->metaObject()->className(),
             sender->objectName().toStdString(),
-            sig.methodSignature().constData());
+            sigName.constData(), numOfReceivers);
+        }
     }
     reinterpret_cast<ActivateMOCFn>(s_activateMOCOriginal)(sender, m, localIdx, argv);
 }
@@ -127,29 +192,16 @@ void ExtensionsManager::registerExtension(Extension *extension) {
 }
 
 void ExtensionsManager::install() {
-    // ── Overloads NOT hooked and why ──────────────────────────────────────────
-    //
-    // Overload 3 — inline non-static const:
-    //   connect(const QObject*, const char*, const char*, ConnectionType) const
-    //   This is an inline wrapper defined entirely in qobject.h that just calls
-    //   overload 1 (the char* static). It has no independent address in Qt5Core.dll
-    //   and is already caught by the hook above.
-    //
-    // Template overloads (new-style signal/slot):
-    //   connect(sender, &Foo::signal, receiver, &Bar::slot, ...)
-    //   connect(sender, &Foo::signal, functor, ...)
-    //   These are inline function templates in qobject.h; they do not compile to
-    //   a single exportable symbol. All of them funnel into the protected static
-    //   QObject::connectImpl(). Because connectImpl is protected, it cannot be
-    //   addressed from external code via &QObject::connectImpl. To hook new-style
-    //   connections, resolve connectImpl's address at runtime via GetProcAddress
-    //   on Qt5Core.dll and install a raw PolyHook detour manually.
+    // ── connectImpl hook: new-style template connect() overloads ─────────────
+    // Covers: connect(sender, &Foo::signal, receiver, &Bar::slot, ...)
+    //         connect(sender, &Foo::signal, functor, ...)
+    // Does NOT cover old-style SIGNAL/SLOT macros — see QMetaObject::connect hook below.
 
     // ── connectImpl hook: covers all new-style template connect() overloads ──
     // Symbol confirmed from Qt5Core.dll PE export table.
     constexpr const char* kConnectImplSymbol =
-        "?connectImpl@QObject@@CA?AVConnection@QMetaObject@@PEBV1@PEAPEAX01"
-        "PEAVQSlotObjectBase@QtPrivate@@W4ConnectionType@Qt@@PEBHPEBU3@@Z";
+        "?connectImpl@QObjectPrivate@@SA?AVConnection@QMetaObject@@PEBVQObject@@"
+        "H0PEAPEAXPEAVQSlotObjectBase@QtPrivate@@W4ConnectionType@Qt@@PEBHPEBU3@@Z";
 
     if (const HMODULE hQt5Core = GetModuleHandleA("Qt5Core.dll")) {
         if (const auto addr = GetProcAddress(hQt5Core, kConnectImplSymbol)) {
@@ -160,10 +212,30 @@ void ExtensionsManager::install() {
             s_connectImplDetour->hook();
             LOG_INFO("connectImpl hook installed (new-style signals covered)");
         } else {
-            LOG_CRITICAL("connectImpl symbol not found in Qt5Core.dll — new-style connections will not be intercepted");
+            LOG_CRITICAL("connectImpl symbol not found in Qt5Core.dll");
         }
     } else {
         LOG_CRITICAL("Qt5Core.dll not loaded — connectImpl hook skipped");
+    }
+
+    // ── QMetaObject::connect hook: old-style SIGNAL/SLOT connections ──────────
+    // connect(sender, SIGNAL(foo()), receiver, SLOT(bar())) resolves strings to
+    // integer indices and calls QMetaObject::connect(int, int) — never touches
+    // QObjectPrivate::connectImpl. This hook closes that gap.
+    constexpr const char* kMetaObjectConnectSymbol =
+        "?connect@QMetaObject@@SA?AVConnection@1@PEBVQObject@@H0HHPEAH@Z";
+
+    if (const HMODULE hQt5Core = GetModuleHandleA("Qt5Core.dll")) {
+        if (const auto addr = GetProcAddress(hQt5Core, kMetaObjectConnectSymbol)) {
+            s_metaObjectConnectDetour = new PLH::x64Detour(
+                reinterpret_cast<uint64_t>(addr),
+                reinterpret_cast<uint64_t>(&hookQMetaObjectConnect),
+                &s_metaObjectConnectOriginal);
+            s_metaObjectConnectDetour->hook();
+            LOG_INFO("QMetaObject::connect hook installed (old-style SIGNAL/SLOT covered)");
+        } else {
+            LOG_CRITICAL("QMetaObject::connect symbol not found in Qt5Core.dll");
+        }
     }
 
     // ── QMetaObject::activate hooks: intercept every signal emission ──────────
@@ -275,3 +347,5 @@ void ExtensionsManager::setMessage(const QString &extensionName, const QString &
 void ExtensionsManager::clearMessage() {
     setMessage("");
 }
+
+#include "ExtensionsManager.moc"
