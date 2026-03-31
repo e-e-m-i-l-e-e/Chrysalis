@@ -124,6 +124,69 @@ static QMetaObject::Connection hookConnectImpl(
 // Overload 1 (range form — rarely used):
 //   activate(QObject* sender, int from_signal_index, int to_signal_index, void** argv)
 
+// ── QObjectPrivate::addConnection hook ───────────────────────────────────────
+// addConnection() is the single leaf called by EVERY connection path in Qt5:
+//   - QObjectPrivate::connectImpl  (A7A) — new-style template connects
+//   - QMetaObjectPrivate::connect  (unexported) — string/int old-style connects
+// All other hooks (connectImpl, connect(char*), connect(QMetaMethod)) fire at
+// the public entry points but miss any direct internal caller.  addConnection
+// fires last, after the Connection struct is fully initialised, so sender,
+// receiver and signal_index are all available.
+//
+// Connection struct layout (from qobject_p.h, x64):
+//   offset  0 : ConnectionOrSignalVector::next  (8 bytes)
+//   offset  8 : Connection **prev               (8 bytes)
+//   offset 16 : QAtomicPointer<Connection> nextConnectionList (8 bytes)
+//   offset 24 : Connection *prevConnectionList  (8 bytes)
+//   offset 32 : QObject *sender                 (8 bytes)  ← c->sender
+//   offset 40 : QAtomicPointer<QObject> receiver(8 bytes)  ← raw ptr to receiver
+//
+// QObjectData (base of QObjectPrivate):
+//   offset  0 : vtable ptr   (8 bytes)
+//   offset  8 : QObject *q_ptr                  ← sender confirmed via Q_ASSERT(c->sender == q_ptr)
+//
+// signal_index is the private 0-based signal index counting ALL signals in the
+// metaobject hierarchy.  Enumerate methods to resolve the name.
+//
+// Symbol confirmed from .misc/Qt5Core (A73 call target in A7A at +0x22E):
+//   ?addConnection@QObjectPrivate@@QEAAXHPEAUConnection@1@@Z
+//   void QObjectPrivate::addConnection(int signal, QObjectPrivate::Connection*)
+using AddConnectionFn = void(*)(void*, int, void*);
+
+static uint64_t        s_addConnectionOriginal = 0;
+static PLH::x64Detour* s_addConnectionDetour   = nullptr;
+
+static void hookAddConnection(void* priv, int signalIdx, void* c)
+{
+    // sender is at q_ptr offset 8 inside QObjectData
+    const auto sender = *reinterpret_cast<QObject**>(static_cast<char*>(priv) + 8);
+    // receiver is at Connection offset 40 (QAtomicPointer stores raw ptr)
+    const auto receiver = *reinterpret_cast<QObject**>(static_cast<char*>(c) + 40);
+
+    if (sender && !QString(sender->metaObject()->className()).startsWith("Q")) {
+        const QMetaObject* mo = sender->metaObject();
+        // Resolve signal name: signalIdx is 0-based counting only Signal methods
+        // across the full metaobject hierarchy (including inherited).
+        int sigCount = 0;
+        for (int i = 0; i < mo->methodCount(); ++i) {
+            if (mo->method(i).methodType() == QMetaMethod::Signal) {
+                if (sigCount == signalIdx) {
+                    LOG_DEBUG("addConnection  {}({})::{}  →  {}({})",
+                        mo->className(),
+                        sender->objectName().toStdString(),
+                        mo->method(i).methodSignature().constData(),
+                        receiver ? receiver->metaObject()->className() : "<null>",
+                        receiver ? receiver->objectName().toStdString() : "");
+                    break;
+                }
+                ++sigCount;
+            }
+        }
+    }
+
+    reinterpret_cast<AddConnectionFn>(s_addConnectionOriginal)(priv, signalIdx, c);
+}
+
 // ── QObjectPrivate::connectNotify hook ────────────────────────────────────────
 // QMetaObjectPrivate::connect() — the unexported internal function every public
 // connect() path ultimately converges to — calls sender->d->connectNotify(signal)
@@ -346,6 +409,25 @@ void ExtensionsManager::install() {
         }
     } else {
         LOG_CRITICAL("Qt5Core.dll not loaded — connectImpl hook skipped");
+    }
+
+    // ── QObjectPrivate::addConnection hook: true catch-all ────────────────────
+    // Called by both connectImpl (A7A) and QMetaObjectPrivate::connect after
+    // every connection, regardless of which public entry point was used.
+    constexpr const char* kAddConnectionSymbol =
+        "?addConnection@QObjectPrivate@@QEAAXHPEAUConnection@1@@Z";
+
+    if (const HMODULE hQt5Core = GetModuleHandleA("Qt5Core.dll")) {
+        if (const auto addr = GetProcAddress(hQt5Core, kAddConnectionSymbol)) {
+            s_addConnectionDetour = new PLH::x64Detour(
+                reinterpret_cast<uint64_t>(addr),
+                reinterpret_cast<uint64_t>(&hookAddConnection),
+                &s_addConnectionOriginal);
+            s_addConnectionDetour->hook();
+            LOG_INFO("QObjectPrivate::addConnection hook installed (true catch-all)");
+        } else {
+            LOG_CRITICAL("QObjectPrivate::addConnection symbol not found in Qt5Core.dll");
+        }
     }
 
     // ── QObjectPrivate::connectNotify hook: catch-all for every connection ────
