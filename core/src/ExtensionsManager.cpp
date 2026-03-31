@@ -124,6 +124,88 @@ static QMetaObject::Connection hookConnectImpl(
 // Overload 1 (range form — rarely used):
 //   activate(QObject* sender, int from_signal_index, int to_signal_index, void** argv)
 
+// ── QObjectPrivate::connectNotify hook ────────────────────────────────────────
+// QMetaObjectPrivate::connect() — the unexported internal function every public
+// connect() path ultimately converges to — calls sender->d->connectNotify(signal)
+// after writing the connection.  QObjectPrivate::connectNotify (A7E @ 0x9B30) is
+// the trampoline that reads q_ptr and dispatches to QObject::connectNotify()
+// virtually.  Hooking A7E catches ALL connections regardless of which public
+// connect() overload (or private direct call) established them.
+//
+// QObjectData layout (base of QObjectPrivate):
+//   offset 0 : vtable ptr   (8 bytes)
+//   offset 8 : QObject* q_ptr  ← sender
+//
+// Disassembly confirmed:
+//   48 8b 49 08   mov rcx, [rcx+8]   ; load q_ptr
+//   48 8b 01      mov rax, [rcx]     ; load sender vtable
+//   48 ff 60 48   jmp [rax+0x48]     ; tail-call virtual connectNotify
+//
+// Symbol: ?connectNotify@QObjectPrivate@@QEAAXAEBVQMetaMethod@@@Z
+//   void QObjectPrivate::connectNotify(const QMetaMethod& signal)
+using ConnectNotifyFn = void(*)(void*, const QMetaMethod&);
+
+static uint64_t        s_connectNotifyOriginal = 0;
+static PLH::x64Detour* s_connectNotifyDetour   = nullptr;
+
+static void hookConnectNotify(void* priv, const QMetaMethod& signal)
+{
+    // q_ptr is at offset 8 inside QObjectData (after vtable ptr)
+    const auto sender = *reinterpret_cast<QObject**>(reinterpret_cast<char*>(priv) + 8);
+
+    if (sender && !QString(sender->metaObject()->className()).startsWith("Q")) {
+        LOG_DEBUG("connectNotify  {}({})::{}",
+            sender->metaObject()->className(),
+            sender->objectName().toStdString(),
+            signal.methodSignature().constData());
+    }
+
+    reinterpret_cast<ConnectNotifyFn>(s_connectNotifyOriginal)(priv, signal);
+}
+
+// ── QObject::connect(QMetaMethod) hook infrastructure ─────────────────────────
+// QObject::connect(const QObject*, const QMetaMethod&, const QObject*,
+//                  const QMetaMethod&, Qt::ConnectionType)  A75 @ 0x1E4370
+//
+// This overload is used when the caller already holds resolved QMetaMethod
+// objects (e.g. CLO's own framework wiring connections programmatically after
+// introspecting the meta-object tree). It goes through internal 0x1CC300 and
+// never reaches QObjectPrivate::connectImpl (A7A) or QObject::connect(char*) (A76).
+//
+// QMetaMethod carries the full signature via methodSignature(), so no string
+// stripping or index lookup is required.
+//
+// Symbol confirmed from .misc/Qt5Core:
+//   ?connect@QObject@@SA?AVConnection@QMetaObject@@PEBV1@AEBVQMetaMethod@@01W4ConnectionType@Qt@@@Z
+//   QObject::connect(const QObject*, const QMetaMethod&, const QObject*, const QMetaMethod&, ConnectionType)
+using QObjectConnectMetaMethodFn = QMetaObject::Connection(*)(
+    const QObject*, const QMetaMethod&,
+    const QObject*, const QMetaMethod&,
+    Qt::ConnectionType);
+
+static uint64_t        s_qobjectConnectMetaMethodOriginal = 0;
+static PLH::x64Detour* s_qobjectConnectMetaMethodDetour   = nullptr;
+
+static QMetaObject::Connection hookQObjectConnectMetaMethod(
+    const QObject* sender,   const QMetaMethod& signal,
+    const QObject* receiver, const QMetaMethod& slot,
+    Qt::ConnectionType type)
+{
+    if (sender && receiver) {
+        if (!QString(sender->metaObject()->className()).startsWith("Q") ||
+            !QString(receiver->metaObject()->className()).startsWith("Q")) {
+            LOG_DEBUG("connect(QMetaMethod)  {}({})::{}  →  {}({})",
+                sender->metaObject()->className(),
+                sender->objectName().toStdString(),
+                signal.methodSignature().constData(),
+                receiver->metaObject()->className(),
+                receiver->objectName().toStdString());
+        }
+    }
+    return reinterpret_cast<QObjectConnectMetaMethodFn>(s_qobjectConnectMetaMethodOriginal)(
+        sender, signal, receiver, slot, type);
+}
+
 // ── QMetaObject::connectSlotsByName hook ──────────────────────────────────────
 // connectSlotsByName() is called by MOC-generated setupUi() for every widget
 // loaded from a .ui file.  It scans child objects by objectName and wires slots
@@ -266,6 +348,25 @@ void ExtensionsManager::install() {
         LOG_CRITICAL("Qt5Core.dll not loaded — connectImpl hook skipped");
     }
 
+    // ── QObjectPrivate::connectNotify hook: catch-all for every connection ────
+    // Fires after QMetaObjectPrivate::connect() writes any connection, including
+    // direct internal calls that bypass all public connect() overloads.
+    constexpr const char* kConnectNotifySymbol =
+        "?connectNotify@QObjectPrivate@@QEAAXAEBVQMetaMethod@@@Z";
+
+    if (const HMODULE hQt5Core = GetModuleHandleA("Qt5Core.dll")) {
+        if (const auto addr = GetProcAddress(hQt5Core, kConnectNotifySymbol)) {
+            s_connectNotifyDetour = new PLH::x64Detour(
+                reinterpret_cast<uint64_t>(addr),
+                reinterpret_cast<uint64_t>(&hookConnectNotify),
+                &s_connectNotifyOriginal);
+            s_connectNotifyDetour->hook();
+            LOG_INFO("QObjectPrivate::connectNotify hook installed (catch-all covered)");
+        } else {
+            LOG_CRITICAL("QObjectPrivate::connectNotify symbol not found in Qt5Core.dll");
+        }
+    }
+
     // ── QObject::connect(char*,char*) hook: old-style SIGNAL/SLOT connections ─
     // Binary analysis confirmed that SIGNAL/SLOT macros reach A76 directly and
     // never call QMetaObject::connect(int,int) (A73) in this Qt build.
@@ -283,6 +384,25 @@ void ExtensionsManager::install() {
             LOG_INFO("QObject::connect(char*) hook installed (SIGNAL/SLOT macros covered)");
         } else {
             LOG_CRITICAL("QObject::connect(char*) symbol not found in Qt5Core.dll");
+        }
+    }
+
+    // ── QObject::connect(QMetaMethod) hook ────────────────────────────────────
+    // Covers connections made with pre-resolved QMetaMethod objects (A75).
+    // Goes through internal 0x1CC300 — never touches A7A or A76.
+    constexpr const char* kQObjectConnectMetaMethodSymbol =
+        "?connect@QObject@@SA?AVConnection@QMetaObject@@PEBV1@AEBVQMetaMethod@@01W4ConnectionType@Qt@@@Z";
+
+    if (const HMODULE hQt5Core = GetModuleHandleA("Qt5Core.dll")) {
+        if (const auto addr = GetProcAddress(hQt5Core, kQObjectConnectMetaMethodSymbol)) {
+            s_qobjectConnectMetaMethodDetour = new PLH::x64Detour(
+                reinterpret_cast<uint64_t>(addr),
+                reinterpret_cast<uint64_t>(&hookQObjectConnectMetaMethod),
+                &s_qobjectConnectMetaMethodOriginal);
+            s_qobjectConnectMetaMethodDetour->hook();
+            LOG_INFO("QObject::connect(QMetaMethod) hook installed (meta-method connections covered)");
+        } else {
+            LOG_CRITICAL("QObject::connect(QMetaMethod) symbol not found in Qt5Core.dll");
         }
     }
 
