@@ -305,7 +305,7 @@
                             border: none;
                             }
 
-                            QWidget[widget-type=Hover]
+                            QWidget:hover
                             {
                             background: rgba(45, 52, 68, 255);
                             border-color: rgba(52, 80, 130, 255);

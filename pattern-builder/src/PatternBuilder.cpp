@@ -4,9 +4,11 @@
 
 #include <CLOAPIInterface.h>
 #include <QLayout>
+#include <QMainWindow>
 
 #include "Logger.h"
 #include "MVDockingButton.h"
+#include "PatternBuilderDockWidget.h"
 #include "clo-ui-common/IconButton.h"
 
 void PatternBuilder::configureStatusBar(QWidget *parent) {
@@ -16,13 +18,18 @@ void PatternBuilder::configureStatusBar(QWidget *parent) {
 }
 
 void PatternBuilder::configure(QWidget *widget) {
-    if (widget->objectName() == "dockingBarContents") {
+    if (widget->objectName() == "dockingBarContents" && widget->parent()->findChild<QAction*>()->iconText() == "Right Docking Bar") {
         LOG_INFO("Configuring right docking bar.");
         const auto patternBuilderDockItem = new MVDockingButton(widget);
-        patternBuilderDockItem->setObjectName("mvdockingButton");
-        // UTILITY_API->UpdateCloStyleForPlugIn(patternBuilderDockItem);
-        qobject_cast<QVBoxLayout*>(widget->layout())->insertWidget(2, patternBuilderDockItem);
+        qobject_cast<QVBoxLayout*>(widget->layout())->insertWidget(8, patternBuilderDockItem);
         patternBuilderDockItem->show();
-        widget->update();
+
+        new PatternBuilderDockWidget(widget);
+    } else if (widget->objectName() == "DummyDockingWindow") {
+        const auto mainWindow = qobject_cast<QMainWindow*>(widget);
+        for (auto docks: mainWindow->findChildren<QDockWidget*>()) {
+            LOG_INFO("Docking widget: {}", docks->objectName().toStdString());
+        }
+        mainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, new PatternBuilderDockWidget(widget));
     }
 }

@@ -11,6 +11,6 @@ if (SAMPLES_EXTENSION)
 endif ()
 
 target_sources(Core PRIVATE ${CORE_SOURCES})
-set_target_properties(Core PROPERTIES AUTOUIC_SEARCH_PATHS ${CMAKE_CURRENT_SOURCE_DIR}/ui)
+set_target_properties(Core PROPERTIES AUTOUIC_SEARCH_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/ui;${PATTERN_BUILDER_UI}")
 target_include_directories(Core PUBLIC include ${PATTERN_BUILDER_INCLUDE})
 target_link_libraries(Core PUBLIC Logger HooksManager CloUI Qt5::Designer Qt5::Xml Qt5::Concurrent)
