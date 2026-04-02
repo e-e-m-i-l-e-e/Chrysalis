@@ -9,6 +9,7 @@
 #include "Logger.h"
 #include "MVDockingButton.h"
 #include "PatternBuilderDockWidget.h"
+#include "MVDockWidgetTitleBar.h"
 #include "clo-ui-common/IconButton.h"
 
 void PatternBuilder::configureStatusBar(QWidget *parent) {
@@ -23,13 +24,10 @@ void PatternBuilder::configure(QWidget *widget) {
         const auto patternBuilderDockItem = new MVDockingButton(widget);
         qobject_cast<QVBoxLayout*>(widget->layout())->insertWidget(8, patternBuilderDockItem);
         patternBuilderDockItem->show();
-
-        new PatternBuilderDockWidget(widget);
     } else if (widget->objectName() == "DummyDockingWindow") {
-        const auto mainWindow = qobject_cast<QMainWindow*>(widget);
-        for (auto docks: mainWindow->findChildren<QDockWidget*>()) {
-            LOG_INFO("Docking widget: {}", docks->objectName().toStdString());
-        }
-        mainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, new PatternBuilderDockWidget(widget));
+        // const auto mainWindow = qobject_cast<QMainWindow*>(widget);
+        // const auto patternBuilderDockWidget = new PatternBuilderDockWidget(widget);
+        // mainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, patternBuilderDockWidget);
+        // patternBuilderDockWidget->setTitleBarWidget(new MVDockWidgetTitleBar());
     }
 }

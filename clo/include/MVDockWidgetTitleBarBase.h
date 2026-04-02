@@ -7,9 +7,9 @@ class MVDockWidgetTitleBarBase : public QWidget {
     Q_OBJECT
 
 public:
-    explicit MVDockWidgetTitleBarBase(QWidget *parent = nullptr);
+    explicit MVDockWidgetTitleBarBase(QWidget *parent = nullptr): QWidget(parent) {};
 
-    ~MVDockWidgetTitleBarBase() override;
+    ~MVDockWidgetTitleBarBase() override {};
 };
 
 

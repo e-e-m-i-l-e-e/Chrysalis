@@ -1,93 +1,183 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-    <author/>
-    <comment/>
-    <exportmacro/>
-    <class>PatternBuilderDockWidget</class>
-    <widget class="MVDockWidget" name="PatternBuilderDockWidget">
-        <property name="minimumWidth">
-            <number>0</number>
-        </property>
-        <property name="windowModified">
-            <bool>false</bool>
-        </property>
-        <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="autoFillBackground">
-            <bool>false</bool>
-        </property>
-        <property name="maximumHeight">
-            <number>16777215</number>
-        </property>
-        <property name="objectName">
-            <string notr="true">ObjectBrowserContents</string>
-        </property>
-        <property name="locale">
-            <locale language="English" country="UnitedKingdom"/>
-        </property>
-        <property name="focusPolicy">
-            <enum>Qt::NoFocus</enum>
-        </property>
-        <property name="windowOpacity">
-            <double>1.000000000000000</double>
-        </property>
-        <property name="visible">
-            <bool>true</bool>
-        </property>
-        <property name="maximumWidth">
-            <number>16777215</number>
-        </property>
-        <property name="enabled">
-            <bool>true</bool>
-        </property>
-        <property name="cursor">
-            <cursorShape>ArrowCursor</cursorShape>
-        </property>
-        <property name="contextMenuPolicy">
-            <enum>Qt::DefaultContextMenu</enum>
-        </property>
-        <property name="toolTipDuration">
-            <number>-1</number>
-        </property>
-        <property name="size" stdset="0">
-            <size>
-                <width>576</width>
-                <height>924</height>
-            </size>
-        </property>
-        <property name="maximumSize">
-            <size>
-                <width>16777215</width>
-                <height>16777215</height>
-            </size>
-        </property>
-        <property name="pos" stdset="0">
-            <point>
-                <x>0</x>
-                <y>20</y>
-            </point>
-        </property>
-        <property name="updatesEnabled">
-            <bool>true</bool>
-        </property>
-        <property name="baseSize">
-            <size>
-                <width>0</width>
-                <height>0</height>
-            </size>
-        </property>
-        <property name="tabletTracking">
-            <bool>false</bool>
-        </property>
-        <property name="minimumSize">
-            <size>
-                <width>0</width>
-                <height>0</height>
-            </size>
-        </property>
-        <property name="styleSheet">
-            <string notr="true">	.Contents_Widget
+ <class>PatternBuilderDockWidget</class>
+ <widget class="MVDockWidget" name="PatternBuilderDockWidget">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>576</width>
+    <height>924</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>95</width>
+    <height>26</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>524287</width>
+    <height>524287</height>
+   </size>
+  </property>
+  <property name="sizeIncrement">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="palette">
+   <palette>
+    <active>
+     <colorrole role="Button">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>37</red>
+        <green>37</green>
+        <blue>40</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>37</red>
+        <green>37</green>
+        <blue>40</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>37</red>
+        <green>37</green>
+        <blue>40</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </active>
+    <inactive>
+     <colorrole role="Button">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>37</red>
+        <green>37</green>
+        <blue>40</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>37</red>
+        <green>37</green>
+        <blue>40</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>37</red>
+        <green>37</green>
+        <blue>40</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </inactive>
+    <disabled>
+     <colorrole role="Button">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>37</red>
+        <green>37</green>
+        <blue>40</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Base">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>37</red>
+        <green>37</green>
+        <blue>40</blue>
+       </color>
+      </brush>
+     </colorrole>
+     <colorrole role="Window">
+      <brush brushstyle="SolidPattern">
+       <color alpha="255">
+        <red>37</red>
+        <green>37</green>
+        <blue>40</blue>
+       </color>
+      </brush>
+     </colorrole>
+    </disabled>
+   </palette>
+  </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
+  </property>
+  <property name="tabletTracking">
+   <bool>false</bool>
+  </property>
+  <property name="focusPolicy">
+   <enum>Qt::NoFocus</enum>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::DefaultContextMenu</enum>
+  </property>
+  <property name="updatesEnabled">
+   <bool>true</bool>
+  </property>
+  <property name="visible">
+   <bool>true</bool>
+  </property>
+  <property name="acceptDrops">
+   <bool>false</bool>
+  </property>
+  <property name="windowOpacity">
+   <double>1.000000000000000</double>
+  </property>
+  <property name="windowModified">
+   <bool>false</bool>
+  </property>
+  <property name="toolTipDuration">
+   <number>-1</number>
+  </property>
+  <property name="layoutDirection">
+   <enum>Qt::LeftToRight</enum>
+  </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">	.Contents_Widget
                 {
                 background: rgba(37, 37, 40, 255);
                 border: none;
@@ -159,1424 +249,462 @@
                 width: 6px;
                 }
             </string>
-        </property>
-        <property name="geometry">
-            <rect>
-                <x>0</x>
-                <y>20</y>
-                <width>576</width>
-                <height>924</height>
-            </rect>
-        </property>
-        <property name="palette">
-            <palette>
-                <active>
-                    <colorrole role="Button">
-                        <brush brushstyle="SolidPattern">
-                            <color alpha="255">
-                                <red>37</red>
-                                <green>37</green>
-                                <blue>40</blue>
-                            </color>
-                        </brush>
-                    </colorrole>
-                    <colorrole role="Base">
-                        <brush brushstyle="SolidPattern">
-                            <color alpha="255">
-                                <red>37</red>
-                                <green>37</green>
-                                <blue>40</blue>
-                            </color>
-                        </brush>
-                    </colorrole>
-                    <colorrole role="Window">
-                        <brush brushstyle="SolidPattern">
-                            <color alpha="255">
-                                <red>37</red>
-                                <green>37</green>
-                                <blue>40</blue>
-                            </color>
-                        </brush>
-                    </colorrole>
-                </active>
-                <inactive>
-                    <colorrole role="Button">
-                        <brush brushstyle="SolidPattern">
-                            <color alpha="255">
-                                <red>37</red>
-                                <green>37</green>
-                                <blue>40</blue>
-                            </color>
-                        </brush>
-                    </colorrole>
-                    <colorrole role="Base">
-                        <brush brushstyle="SolidPattern">
-                            <color alpha="255">
-                                <red>37</red>
-                                <green>37</green>
-                                <blue>40</blue>
-                            </color>
-                        </brush>
-                    </colorrole>
-                    <colorrole role="Window">
-                        <brush brushstyle="SolidPattern">
-                            <color alpha="255">
-                                <red>37</red>
-                                <green>37</green>
-                                <blue>40</blue>
-                            </color>
-                        </brush>
-                    </colorrole>
-                </inactive>
-                <disabled>
-                    <colorrole role="Button">
-                        <brush brushstyle="SolidPattern">
-                            <color alpha="255">
-                                <red>37</red>
-                                <green>37</green>
-                                <blue>40</blue>
-                            </color>
-                        </brush>
-                    </colorrole>
-                    <colorrole role="Base">
-                        <brush brushstyle="SolidPattern">
-                            <color alpha="255">
-                                <red>37</red>
-                                <green>37</green>
-                                <blue>40</blue>
-                            </color>
-                        </brush>
-                    </colorrole>
-                    <colorrole role="Window">
-                        <brush brushstyle="SolidPattern">
-                            <color alpha="255">
-                                <red>37</red>
-                                <green>37</green>
-                                <blue>40</blue>
-                            </color>
-                        </brush>
-                    </colorrole>
-                </disabled>
-            </palette>
-        </property>
-        <property name="sizeIncrement">
-            <size>
-                <width>0</width>
-                <height>0</height>
-            </size>
-        </property>
-        <property name="inputMethodHints">
-            <enum>Qt::ImhNone</enum>
-        </property>
-        <property name="mouseTracking">
-            <bool>false</bool>
-        </property>
-        <property name="minimumHeight">
-            <number>0</number>
-        </property>
-        <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-            </sizepolicy>
-        </property>
-        <property name="windowModality">
-            <enum>Qt::NonModal</enum>
-        </property>
-        <property name="acceptDrops">
-            <bool>false</bool>
-        </property>
-        <layout name="m_DockWidgetSelectionLayout" class="QGridLayout">
-            <property name="spacing">
-                <number>0</number>
-            </property>
-            <property name="objectName">
-                <string notr="true">m_DockWidgetSelectionLayout</string>
-            </property>
-            <property name="margin">
-                <number>0</number>
-            </property>
-            <property name="sizeConstraint">
-                <enum>QLayout::SetDefaultConstraint</enum>
-            </property>
-            <item row="0" column="0">
-                <widget class="QFrame">
-                    <property name="minimumWidth">
-                        <number>0</number>
-                    </property>
-                    <property name="windowModified">
-                        <bool>false</bool>
-                    </property>
-                    <property name="frameShape">
-                        <enum>QFrame::NoFrame</enum>
-                    </property>
-                    <property name="layoutDirection">
-                        <enum>Qt::LeftToRight</enum>
-                    </property>
-                    <property name="autoFillBackground">
-                        <bool>false</bool>
-                    </property>
-                    <property name="maximumHeight">
-                        <number>16777215</number>
-                    </property>
-                    <property name="lineWidth">
-                        <number>1</number>
-                    </property>
-                    <property name="objectName">
-                        <string notr="true">ObjectFrame</string>
-                    </property>
-                    <property name="locale">
-                        <locale language="English" country="UnitedKingdom"/>
-                    </property>
-                    <property name="focusPolicy">
-                        <enum>Qt::NoFocus</enum>
-                    </property>
-                    <property name="frameRect">
-                        <rect>
-                            <x>0</x>
-                            <y>0</y>
-                            <width>576</width>
-                            <height>924</height>
-                        </rect>
-                    </property>
-                    <property name="windowOpacity">
-                        <double>1.000000000000000</double>
-                    </property>
-                    <property name="visible">
-                        <bool>true</bool>
-                    </property>
-                    <property name="maximumWidth">
-                        <number>16777215</number>
-                    </property>
-                    <property name="enabled">
-                        <bool>true</bool>
-                    </property>
-                    <property name="cursor">
-                        <cursorShape>ArrowCursor</cursorShape>
-                    </property>
-                    <property name="midLineWidth">
-                        <number>0</number>
-                    </property>
-                    <property name="contextMenuPolicy">
-                        <enum>Qt::DefaultContextMenu</enum>
-                    </property>
-                    <property name="toolTipDuration">
-                        <number>-1</number>
-                    </property>
-                    <property name="size" stdset="0">
-                        <size>
-                            <width>576</width>
-                            <height>924</height>
-                        </size>
-                    </property>
-                    <property name="frameShadow">
-                        <enum>QFrame::Plain</enum>
-                    </property>
-                    <property name="maximumSize">
-                        <size>
-                            <width>16777215</width>
-                            <height>16777215</height>
-                        </size>
-                    </property>
-                    <property name="pos" stdset="0">
-                        <point>
-                            <x>0</x>
-                            <y>0</y>
-                        </point>
-                    </property>
-                    <property name="updatesEnabled">
-                        <bool>true</bool>
-                    </property>
-                    <property name="baseSize">
-                        <size>
-                            <width>0</width>
-                            <height>0</height>
-                        </size>
-                    </property>
-                    <property name="tabletTracking">
-                        <bool>false</bool>
-                    </property>
-                    <property name="minimumSize">
-                        <size>
-                            <width>0</width>
-                            <height>0</height>
-                        </size>
-                    </property>
-                    <property name="styleSheet">
-                        <string notr="true">	.Transparent_Widget
-                            {
-                            background: transparent;
-                            border: none;
-                            }
-                        </string>
-                    </property>
-                    <property name="geometry">
-                        <rect>
-                            <x>0</x>
-                            <y>0</y>
-                            <width>576</width>
-                            <height>924</height>
-                        </rect>
-                    </property>
-                    <property name="palette">
-                        <palette>
-                            <active>
-                                <colorrole role="Button">
-                                    <brush brushstyle="SolidPattern">
-                                        <color alpha="0">
-                                            <red>0</red>
-                                            <green>0</green>
-                                            <blue>0</blue>
-                                        </color>
-                                    </brush>
-                                </colorrole>
-                                <colorrole role="Base">
-                                    <brush brushstyle="SolidPattern">
-                                        <color alpha="0">
-                                            <red>0</red>
-                                            <green>0</green>
-                                            <blue>0</blue>
-                                        </color>
-                                    </brush>
-                                </colorrole>
-                                <colorrole role="Window">
-                                    <brush brushstyle="SolidPattern">
-                                        <color alpha="0">
-                                            <red>0</red>
-                                            <green>0</green>
-                                            <blue>0</blue>
-                                        </color>
-                                    </brush>
-                                </colorrole>
-                            </active>
-                            <inactive>
-                                <colorrole role="Button">
-                                    <brush brushstyle="SolidPattern">
-                                        <color alpha="0">
-                                            <red>0</red>
-                                            <green>0</green>
-                                            <blue>0</blue>
-                                        </color>
-                                    </brush>
-                                </colorrole>
-                                <colorrole role="Base">
-                                    <brush brushstyle="SolidPattern">
-                                        <color alpha="0">
-                                            <red>0</red>
-                                            <green>0</green>
-                                            <blue>0</blue>
-                                        </color>
-                                    </brush>
-                                </colorrole>
-                                <colorrole role="Window">
-                                    <brush brushstyle="SolidPattern">
-                                        <color alpha="0">
-                                            <red>0</red>
-                                            <green>0</green>
-                                            <blue>0</blue>
-                                        </color>
-                                    </brush>
-                                </colorrole>
-                            </inactive>
-                            <disabled>
-                                <colorrole role="Button">
-                                    <brush brushstyle="SolidPattern">
-                                        <color alpha="0">
-                                            <red>0</red>
-                                            <green>0</green>
-                                            <blue>0</blue>
-                                        </color>
-                                    </brush>
-                                </colorrole>
-                                <colorrole role="Base">
-                                    <brush brushstyle="SolidPattern">
-                                        <color alpha="0">
-                                            <red>0</red>
-                                            <green>0</green>
-                                            <blue>0</blue>
-                                        </color>
-                                    </brush>
-                                </colorrole>
-                                <colorrole role="Window">
-                                    <brush brushstyle="SolidPattern">
-                                        <color alpha="0">
-                                            <red>0</red>
-                                            <green>0</green>
-                                            <blue>0</blue>
-                                        </color>
-                                    </brush>
-                                </colorrole>
-                            </disabled>
-                        </palette>
-                    </property>
-                    <property name="sizeIncrement">
-                        <size>
-                            <width>0</width>
-                            <height>0</height>
-                        </size>
-                    </property>
-                    <property name="inputMethodHints">
-                        <enum>Qt::ImhNone</enum>
-                    </property>
-                    <property name="mouseTracking">
-                        <bool>false</bool>
-                    </property>
-                    <property name="minimumHeight">
-                        <number>0</number>
-                    </property>
-                    <property name="sizePolicy">
-                        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                            <horstretch>0</horstretch>
-                            <verstretch>0</verstretch>
-                        </sizepolicy>
-                    </property>
-                    <property name="windowModality">
-                        <enum>Qt::NonModal</enum>
-                    </property>
-                    <property name="acceptDrops">
-                        <bool>false</bool>
-                    </property>
-                    <layout name="m_FrmaeLayout" class="QGridLayout">
-                        <property name="spacing">
-                            <number>0</number>
-                        </property>
-                        <property name="objectName">
-                            <string notr="true">m_FrmaeLayout</string>
-                        </property>
-                        <property name="margin">
-                            <number>0</number>
-                        </property>
-                        <property name="sizeConstraint">
-                            <enum>QLayout::SetDefaultConstraint</enum>
-                        </property>
-                        <item row="0" column="0">
-                            <widget class="CloUICommon::Tab">
-                                <property name="documentMode">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="maximumHeight">
-                                    <number>16777215</number>
-                                </property>
-                                <property name="minimumWidth">
-                                    <number>0</number>
-                                </property>
-                                <property name="tabBarAutoHide">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="minimumHeight">
-                                    <number>0</number>
-                                </property>
-                                <property name="updatesEnabled">
-                                    <bool>true</bool>
-                                </property>
-                                <property name="baseSize">
-                                    <size>
-                                        <width>0</width>
-                                        <height>0</height>
-                                    </size>
-                                </property>
-                                <property name="tabsClosable">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="layoutDirection">
-                                    <enum>Qt::LeftToRight</enum>
-                                </property>
-                                <property name="styleSheet">
-                                    <string notr="true">	QTabWidget::pane
-                                        {
-                                        background: transparent;
-                                        border: none;
-                                        }
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedKingdom"/>
+  </property>
+  <property name="inputMethodHints">
+   <set>Qt::ImhNone</set>
+  </property>
+  <widget class="QFrame" name="ObjectFrame">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>16777215</width>
+     <height>16777215</height>
+    </size>
+   </property>
+   <property name="sizeIncrement">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="baseSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="palette">
+    <palette>
+     <active>
+      <colorrole role="Button">
+       <brush brushstyle="SolidPattern">
+        <color alpha="0">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Base">
+       <brush brushstyle="SolidPattern">
+        <color alpha="0">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Window">
+       <brush brushstyle="SolidPattern">
+        <color alpha="0">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </active>
+     <inactive>
+      <colorrole role="Button">
+       <brush brushstyle="SolidPattern">
+        <color alpha="0">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Base">
+       <brush brushstyle="SolidPattern">
+        <color alpha="0">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Window">
+       <brush brushstyle="SolidPattern">
+        <color alpha="0">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </inactive>
+     <disabled>
+      <colorrole role="Button">
+       <brush brushstyle="SolidPattern">
+        <color alpha="0">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Base">
+       <brush brushstyle="SolidPattern">
+        <color alpha="0">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+      <colorrole role="Window">
+       <brush brushstyle="SolidPattern">
+        <color alpha="0">
+         <red>0</red>
+         <green>0</green>
+         <blue>0</blue>
+        </color>
+       </brush>
+      </colorrole>
+     </disabled>
+    </palette>
+   </property>
+   <property name="cursor">
+    <cursorShape>ArrowCursor</cursorShape>
+   </property>
+   <property name="mouseTracking">
+    <bool>false</bool>
+   </property>
+   <property name="tabletTracking">
+    <bool>false</bool>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::NoFocus</enum>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::DefaultContextMenu</enum>
+   </property>
+   <property name="updatesEnabled">
+    <bool>true</bool>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+   <property name="acceptDrops">
+    <bool>false</bool>
+   </property>
+   <property name="windowOpacity">
+    <double>1.000000000000000</double>
+   </property>
+   <property name="windowModified">
+    <bool>false</bool>
+   </property>
+   <property name="toolTipDuration">
+    <number>-1</number>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">	.Transparent_Widget
+     {
+     background: transparent;
+     border: none;
+     }
+    </string>
+   </property>
+   <property name="locale">
+    <locale language="English" country="UnitedKingdom"/>
+   </property>
+   <property name="inputMethodHints">
+    <set>Qt::ImhNone</set>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Plain</enum>
+   </property>
+   <property name="lineWidth">
+    <number>1</number>
+   </property>
+   <property name="midLineWidth">
+    <number>0</number>
+   </property>
+   <property name="frameRect">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>576</width>
+     <height>898</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="m_FrmaeLayout">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetDefaultConstraint</enum>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="CloUICommon::Tab" name="patternBuilderTab">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="sizeIncrement">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="palette">
+       <palette>
+        <active/>
+        <inactive/>
+        <disabled/>
+       </palette>
+      </property>
+      <property name="cursor">
+       <cursorShape>ArrowCursor</cursorShape>
+      </property>
+      <property name="mouseTracking">
+       <bool>false</bool>
+      </property>
+      <property name="tabletTracking">
+       <bool>false</bool>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::TabFocus</enum>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::DefaultContextMenu</enum>
+      </property>
+      <property name="updatesEnabled">
+       <bool>true</bool>
+      </property>
+      <property name="visible">
+       <bool>true</bool>
+      </property>
+      <property name="acceptDrops">
+       <bool>false</bool>
+      </property>
+      <property name="windowOpacity">
+       <double>1.000000000000000</double>
+      </property>
+      <property name="windowModified">
+       <bool>false</bool>
+      </property>
+      <property name="toolTipDuration">
+       <number>-1</number>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+<!--      <property name="styleSheet">-->
+<!--       <string notr="true">	QTabWidget::pane-->
+<!--        {-->
+<!--        background: transparent;-->
+<!--        border: none;-->
+<!--        }-->
 
-                                        QTabBar::tab
-                                        {
-                                        background: transparent;
-                                        color: rgba(255, 255, 255, 255);
-                                        border: 2px solid transparent;
-                                        border-bottom-color: rgba(52, 52, 55, 255);
-                                        }
+<!--        QTabBar::tab-->
+<!--        {-->
+<!--        background: transparent;-->
+<!--        color: rgba(255, 255, 255, 255);-->
+<!--        border: 2px solid transparent;-->
+<!--        border-bottom-color: rgba(52, 52, 55, 255);-->
+<!--        }-->
 
-                                        QTabBar::tab:hover
-                                        {
-                                        background: transparent;
-                                        color: rgba(110, 185, 255, 255);
-                                        }
+<!--        QTabBar::tab:hover-->
+<!--        {-->
+<!--        background: transparent;-->
+<!--        color: rgba(110, 185, 255, 255);-->
+<!--        }-->
 
-                                        QTabBar::tab:selected
-                                        {
-                                        background: rgba(0, 0, 0, 153);
-                                        color: rgba(110, 185, 255, 255);
-                                        border-bottom-color: rgba(110, 185, 255, 255);
-                                        }
+<!--        QTabBar::tab:selected-->
+<!--        {-->
+<!--        background: rgba(0, 0, 0, 153);-->
+<!--        color: rgba(110, 185, 255, 255);-->
+<!--        border-bottom-color: rgba(110, 185, 255, 255);-->
+<!--        }-->
 
-                                        QTabBar::tab:disabled
-                                        {
-                                        background: transparent;
-                                        color: rgba(70, 70, 73, 255);
-                                        }
+<!--        QTabBar::tab:disabled-->
+<!--        {-->
+<!--        background: transparent;-->
+<!--        color: rgba(70, 70, 73, 255);-->
+<!--        }-->
 
-                                        QTabBar::tear
-                                        {
-                                        image: none;
-                                        width: 0px;
-                                        }
+<!--        QTabBar::tear-->
+<!--        {-->
+<!--        image: none;-->
+<!--        width: 0px;-->
+<!--        }-->
 
-                                        QTabBar QToolButton
-                                        {
-                                        border: none;
-                                        }
+<!--        QTabBar QToolButton-->
+<!--        {-->
+<!--        border: none;-->
+<!--        }-->
 
-                                        QTabBar QToolButton::right-arrow
-                                        {
-                                        background: rgba(42, 42, 45, 255);
-                                        image: url(:/Resources/CommonIcon/Arrow Right Primary Normal.svg);
-                                        }
+<!--        QTabBar QToolButton::right-arrow-->
+<!--        {-->
+<!--        background: rgba(42, 42, 45, 255);-->
+<!--        image: url(:/Resources/CommonIcon/Arrow Right Primary Normal.svg);-->
+<!--        }-->
 
-                                        QTabBar QToolButton::right-arrow:hover
-                                        {
-                                        image: url(:/Resources/CommonIcon/Arrow Right Primary Selected.svg);
-                                        }
+<!--        QTabBar QToolButton::right-arrow:hover-->
+<!--        {-->
+<!--        image: url(:/Resources/CommonIcon/Arrow Right Primary Selected.svg);-->
+<!--        }-->
 
-                                        QTabBar QToolButton::right-arrow:disabled
-                                        {
-                                        image: url(:/Resources/CommonIcon/Arrow Right Disabled.svg);
-                                        }
+<!--        QTabBar QToolButton::right-arrow:disabled-->
+<!--        {-->
+<!--        image: url(:/Resources/CommonIcon/Arrow Right Disabled.svg);-->
+<!--        }-->
 
-                                        QTabBar QToolButton::left-arrow
-                                        {
-                                        background: rgba(42, 42, 45, 255);
-                                        image: url(:/Resources/CommonIcon/Arrow Left Primary Normal.svg);
-                                        }
+<!--        QTabBar QToolButton::left-arrow-->
+<!--        {-->
+<!--        background: rgba(42, 42, 45, 255);-->
+<!--        image: url(:/Resources/CommonIcon/Arrow Left Primary Normal.svg);-->
+<!--        }-->
 
-                                        QTabBar QToolButton::left-arrow:hover
-                                        {
-                                        image: url(:/Resources/CommonIcon/Arrow Left Primary Selected.svg);
-                                        }
+<!--        QTabBar QToolButton::left-arrow:hover-->
+<!--        {-->
+<!--        image: url(:/Resources/CommonIcon/Arrow Left Primary Selected.svg);-->
+<!--        }-->
 
-                                        QTabBar QToolButton::left-arrow:disabled
-                                        {
-                                        image: url(:/Resources/CommonIcon/Arrow Left Disabled.svg);
-                                        }
-                                    </string>
-                                </property>
-                                <property name="minimumSize">
-                                    <size>
-                                        <width>0</width>
-                                        <height>0</height>
-                                    </size>
-                                </property>
-                                <property name="geometry">
-                                    <rect>
-                                        <x>0</x>
-                                        <y>0</y>
-                                        <width>576</width>
-                                        <height>924</height>
-                                    </rect>
-                                </property>
-                                <property name="size" stdset="0">
-                                    <size>
-                                        <width>576</width>
-                                        <height>924</height>
-                                    </size>
-                                </property>
-                                <property name="inputMethodHints">
-                                    <enum>Qt::ImhNone</enum>
-                                </property>
-                                <property name="mouseTracking">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="visible">
-                                    <bool>true</bool>
-                                </property>
-                                <property name="windowModality">
-                                    <enum>Qt::NonModal</enum>
-                                </property>
-                                <property name="objectName">
-                                    <string notr="true">ObjectBrowser</string>
-                                </property>
-                                <property name="movable">
-                                    <bool>true</bool>
-                                </property>
-                                <property name="elideMode">
-                                    <enum>Qt::ElideNone</enum>
-                                </property>
-                                <property name="pos" stdset="0">
-                                    <point>
-                                        <x>0</x>
-                                        <y>0</y>
-                                    </point>
-                                </property>
-                                <property name="sizeIncrement">
-                                    <size>
-                                        <width>0</width>
-                                        <height>0</height>
-                                    </size>
-                                </property>
-                                <property name="iconSize">
-                                    <size>
-                                        <width>24</width>
-                                        <height>16</height>
-                                    </size>
-                                </property>
-                                <property name="tabShape">
-                                    <enum>QTabWidget::Rounded</enum>
-                                </property>
-                                <property name="cursor">
-                                    <cursorShape>ArrowCursor</cursorShape>
-                                </property>
-                                <property name="tabletTracking">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="autoFillBackground">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="focusPolicy">
-                                    <enum>Qt::TabFocus</enum>
-                                </property>
-                                <property name="maximumWidth">
-                                    <number>16777215</number>
-                                </property>
-                                <property name="usesScrollButtons">
-                                    <bool>true</bool>
-                                </property>
-                                <property name="palette">
-                                    <palette>
-                                        <active/>
-                                        <inactive/>
-                                        <disabled/>
-                                    </palette>
-                                </property>
-                                <property name="windowModified">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="enabled">
-                                    <bool>true</bool>
-                                </property>
-                                <property name="toolTipDuration">
-                                    <number>-1</number>
-                                </property>
-                                <property name="acceptDrops">
-                                    <bool>false</bool>
-                                </property>
-                                <property name="locale">
-                                    <locale language="English" country="UnitedKingdom"/>
-                                </property>
-                                <property name="tabPosition">
-                                    <enum>QTabWidget::North</enum>
-                                </property>
-                                <property name="windowOpacity">
-                                    <double>1.000000000000000</double>
-                                </property>
-                                <property name="sizePolicy">
-                                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                                        <horstretch>0</horstretch>
-                                        <verstretch>0</verstretch>
-                                    </sizepolicy>
-                                </property>
-                                <property name="contextMenuPolicy">
-                                    <enum>Qt::DefaultContextMenu</enum>
-                                </property>
-                                <property name="currentIndex">
-                                    <number>0</number>
-                                </property>
-                                <property name="maximumSize">
-                                    <size>
-                                        <width>16777215</width>
-                                        <height>16777215</height>
-                                    </size>
-                                </property>
-                                <widget class="QStackedWidget">
-                                    <property name="maximumHeight">
-                                        <number>16777215</number>
-                                    </property>
-                                    <property name="minimumWidth">
-                                        <number>0</number>
-                                    </property>
-                                    <property name="minimumHeight">
-                                        <number>0</number>
-                                    </property>
-                                    <property name="frameShape">
-                                        <enum>QFrame::NoFrame</enum>
-                                    </property>
-                                    <property name="updatesEnabled">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="baseSize">
-                                        <size>
-                                            <width>0</width>
-                                            <height>0</height>
-                                        </size>
-                                    </property>
-                                    <property name="layoutDirection">
-                                        <enum>Qt::LeftToRight</enum>
-                                    </property>
-                                    <property name="frameShadow">
-                                        <enum>QFrame::Plain</enum>
-                                    </property>
-                                    <property name="minimumSize">
-                                        <size>
-                                            <width>0</width>
-                                            <height>0</height>
-                                        </size>
-                                    </property>
-                                    <property name="geometry">
-                                        <rect>
-                                            <x>0</x>
-                                            <y>30</y>
-                                            <width>576</width>
-                                            <height>894</height>
-                                        </rect>
-                                    </property>
-                                    <property name="frameRect">
-                                        <rect>
-                                            <x>0</x>
-                                            <y>0</y>
-                                            <width>576</width>
-                                            <height>894</height>
-                                        </rect>
-                                    </property>
-                                    <property name="size" stdset="0">
-                                        <size>
-                                            <width>576</width>
-                                            <height>894</height>
-                                        </size>
-                                    </property>
-                                    <property name="inputMethodHints">
-                                        <enum>Qt::ImhNone</enum>
-                                    </property>
-                                    <property name="mouseTracking">
-                                        <bool>false</bool>
-                                    </property>
-                                    <property name="visible">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="midLineWidth">
-                                        <number>0</number>
-                                    </property>
-                                    <property name="windowModality">
-                                        <enum>Qt::NonModal</enum>
-                                    </property>
-                                    <property name="objectName">
-                                        <string notr="true">qt_tabwidget_stackedwidget</string>
-                                    </property>
-                                    <property name="pos" stdset="0">
-                                        <point>
-                                            <x>0</x>
-                                            <y>30</y>
-                                        </point>
-                                    </property>
-                                    <property name="sizeIncrement">
-                                        <size>
-                                            <width>0</width>
-                                            <height>0</height>
-                                        </size>
-                                    </property>
-                                    <property name="cursor">
-                                        <cursorShape>ArrowCursor</cursorShape>
-                                    </property>
-                                    <property name="tabletTracking">
-                                        <bool>false</bool>
-                                    </property>
-                                    <property name="autoFillBackground">
-                                        <bool>false</bool>
-                                    </property>
-                                    <property name="focusPolicy">
-                                        <enum>Qt::NoFocus</enum>
-                                    </property>
-                                    <property name="maximumWidth">
-                                        <number>16777215</number>
-                                    </property>
-                                    <property name="palette">
-                                        <palette>
-                                            <active/>
-                                            <inactive/>
-                                            <disabled/>
-                                        </palette>
-                                    </property>
-                                    <property name="windowModified">
-                                        <bool>false</bool>
-                                    </property>
-                                    <property name="enabled">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="toolTipDuration">
-                                        <number>-1</number>
-                                    </property>
-                                    <property name="acceptDrops">
-                                        <bool>false</bool>
-                                    </property>
-                                    <property name="locale">
-                                        <locale language="English" country="UnitedKingdom"/>
-                                    </property>
-                                    <property name="lineWidth">
-                                        <number>0</number>
-                                    </property>
-                                    <property name="windowOpacity">
-                                        <double>1.000000000000000</double>
-                                    </property>
-                                    <property name="sizePolicy">
-                                        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                                            <horstretch>0</horstretch>
-                                            <verstretch>0</verstretch>
-                                        </sizepolicy>
-                                    </property>
-                                    <property name="contextMenuPolicy">
-                                        <enum>Qt::DefaultContextMenu</enum>
-                                    </property>
-                                    <property name="currentIndex">
-                                        <number>0</number>
-                                    </property>
-                                    <property name="maximumSize">
-                                        <size>
-                                            <width>16777215</width>
-                                            <height>16777215</height>
-                                        </size>
-                                    </property>
-                                </widget>
-                                <widget class="CloUICommon::TabBar">
-                                    <property name="documentMode">
-                                        <bool>false</bool>
-                                    </property>
-                                    <property name="maximumHeight">
-                                        <number>16777215</number>
-                                    </property>
-                                    <property name="minimumWidth">
-                                        <number>0</number>
-                                    </property>
-                                    <property name="minimumHeight">
-                                        <number>0</number>
-                                    </property>
-                                    <property name="changeCurrentOnDrag">
-                                        <bool>false</bool>
-                                    </property>
-                                    <property name="updatesEnabled">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="baseSize">
-                                        <size>
-                                            <width>0</width>
-                                            <height>0</height>
-                                        </size>
-                                    </property>
-                                    <property name="tabsClosable">
-                                        <bool>false</bool>
-                                    </property>
-                                    <property name="layoutDirection">
-                                        <enum>Qt::LeftToRight</enum>
-                                    </property>
-                                    <property name="expanding">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="styleSheet">
-                                        <string notr="true">	QTabBar::tab
-                                            {
-                                            background: transparent;
-                                            color: rgba(255, 255, 255, 255);
-                                            border: 2px solid transparent;
-                                            border-top-color: rgba(37, 37, 40, 255);
-                                            border-bottom-color: rgba(52, 52, 55, 255);
-                                            }
-
-                                            QTabBar::tab:hover
-                                            {
-                                            background: transparent;
-                                            color: rgba(110, 185, 255, 255);
-                                            }
-
-                                            QTabBar::tab:selected
-                                            {
-                                            background: rgba(0, 0, 0, 153);
-                                            color: rgba(110, 185, 255, 255);
-                                            border-bottom-color: rgba(110, 185, 255, 255);
-                                            }
-
-                                            QTabBar::tab:disabled
-                                            {
-                                            background: transparent;
-                                            color: rgba(70, 70, 73, 255);
-                                            }
-
-                                            QTabBar::tear
-                                            {
-                                            image: none;
-                                            width: 0px;
-                                            }
-
-                                            QTabBar QToolButton
-                                            {
-                                            border: none;
-                                            }
-
-                                            QTabBar QToolButton::right-arrow
-                                            {
-                                            background: rgba(42, 42, 45, 255);
-                                            image: url(:/Resources/CommonIcon/Arrow Right Primary Normal.svg);
-                                            }
-
-                                            QTabBar QToolButton::right-arrow:hover
-                                            {
-                                            image: url(:/Resources/CommonIcon/Arrow Right Primary Selected.svg);
-                                            }
-
-                                            QTabBar QToolButton::right-arrow:disabled
-                                            {
-                                            image: url(:/Resources/CommonIcon/Arrow Right Disabled.svg);
-                                            }
-
-                                            QTabBar QToolButton::left-arrow
-                                            {
-                                            background: rgba(42, 42, 45, 255);
-                                            image: url(:/Resources/CommonIcon/Arrow Left Primary Normal.svg);
-                                            }
-
-                                            QTabBar QToolButton::left-arrow:hover
-                                            {
-                                            image: url(:/Resources/CommonIcon/Arrow Left Primary Selected.svg);
-                                            }
-
-                                            QTabBar QToolButton::left-arrow:disabled
-                                            {
-                                            image: url(:/Resources/CommonIcon/Arrow Left Disabled.svg);
-                                            }
-                                            QTabBar::tab
-                                            {
-                                            icon-size: 14px;
-                                            height: 22px;
-                                            padding-top: 2px;
-                                            padding-bottom: 2px;
-                                            padding-left: 6px;
-                                            padding-right: 6px;
-                                            }
-
-                                            QTabBar QToolButton::right-arrow
-                                            {
-                                            width: 14px;
-                                            height: 14px;
-                                            }
-
-                                            QTabBar QToolButton::left-arrow
-                                            {
-                                            width: 14px;
-                                            height: 14px;
-                                            }
-                                            QTabBar::tab
-                                            {
-                                            width: 22px;
-                                            padding-top: 0px;
-                                            padding-bottom: 4px;
-                                            padding-left: 4px;
-                                            padding-right: 4px;
-                                            }
-                                            QTabBar::tab:selected
-                                            {
-                                            background: transparent;
-                                            }
-                                        </string>
-                                    </property>
-                                    <property name="drawBase">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="minimumSize">
-                                        <size>
-                                            <width>0</width>
-                                            <height>0</height>
-                                        </size>
-                                    </property>
-                                    <property name="geometry">
-                                        <rect>
-                                            <x>0</x>
-                                            <y>0</y>
-                                            <width>374</width>
-                                            <height>30</height>
-                                        </rect>
-                                    </property>
-                                    <property name="shape">
-                                        <enum>QTabBar::RoundedNorth</enum>
-                                    </property>
-                                    <property name="size" stdset="0">
-                                        <size>
-                                            <width>374</width>
-                                            <height>30</height>
-                                        </size>
-                                    </property>
-                                    <property name="inputMethodHints">
-                                        <enum>Qt::ImhNone</enum>
-                                    </property>
-                                    <property name="mouseTracking">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="visible">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="windowModality">
-                                        <enum>Qt::NonModal</enum>
-                                    </property>
-                                    <property name="font">
-                                        <font>
-                                            <pointsize>-1</pointsize>
-                                        </font>
-                                    </property>
-                                    <property name="movable">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="elideMode">
-                                        <enum>Qt::ElideNone</enum>
-                                    </property>
-                                    <property name="pos" stdset="0">
-                                        <point>
-                                            <x>0</x>
-                                            <y>0</y>
-                                        </point>
-                                    </property>
-                                    <property name="sizeIncrement">
-                                        <size>
-                                            <width>0</width>
-                                            <height>0</height>
-                                        </size>
-                                    </property>
-                                    <property name="iconSize">
-                                        <size>
-                                            <width>24</width>
-                                            <height>16</height>
-                                        </size>
-                                    </property>
-                                    <property name="cursor">
-                                        <cursorShape>ArrowCursor</cursorShape>
-                                    </property>
-                                    <property name="tabletTracking">
-                                        <bool>false</bool>
-                                    </property>
-                                    <property name="autoFillBackground">
-                                        <bool>false</bool>
-                                    </property>
-                                    <property name="focusPolicy">
-                                        <enum>Qt::TabFocus</enum>
-                                    </property>
-                                    <property name="maximumWidth">
-                                        <number>16777215</number>
-                                    </property>
-                                    <property name="usesScrollButtons">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="palette">
-                                        <palette>
-                                            <active/>
-                                            <inactive/>
-                                            <disabled/>
-                                        </palette>
-                                    </property>
-                                    <property name="windowModified">
-                                        <bool>false</bool>
-                                    </property>
-                                    <property name="enabled">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="toolTipDuration">
-                                        <number>-1</number>
-                                    </property>
-                                    <property name="acceptDrops">
-                                        <bool>true</bool>
-                                    </property>
-                                    <property name="locale">
-                                        <locale language="English" country="UnitedKingdom"/>
-                                    </property>
-                                    <property name="autoHide">
-                                        <bool>false</bool>
-                                    </property>
-                                    <property name="windowOpacity">
-                                        <double>1.000000000000000</double>
-                                    </property>
-                                    <property name="sizePolicy">
-                                        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                                            <horstretch>0</horstretch>
-                                            <verstretch>0</verstretch>
-                                        </sizepolicy>
-                                    </property>
-                                    <property name="contextMenuPolicy">
-                                        <enum>Qt::DefaultContextMenu</enum>
-                                    </property>
-                                    <property name="currentIndex">
-                                        <number>0</number>
-                                    </property>
-                                    <property name="maximumSize">
-                                        <size>
-                                            <width>16777215</width>
-                                            <height>16777215</height>
-                                        </size>
-                                    </property>
-                                    <widget class="QToolButton">
-                                        <property name="maximumHeight">
-                                            <number>16777215</number>
-                                        </property>
-                                        <property name="minimumWidth">
-                                            <number>0</number>
-                                        </property>
-                                        <property name="accessibleName">
-                                            <string>Scroll Left</string>
-                                        </property>
-                                        <property name="popupMode">
-                                            <enum>QToolButton::DelayedPopup</enum>
-                                        </property>
-                                        <property name="minimumHeight">
-                                            <number>0</number>
-                                        </property>
-                                        <property name="autoExclusive">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="updatesEnabled">
-                                            <bool>true</bool>
-                                        </property>
-                                        <property name="baseSize">
-                                            <size>
-                                                <width>0</width>
-                                                <height>0</height>
-                                            </size>
-                                        </property>
-                                        <property name="layoutDirection">
-                                            <enum>Qt::LeftToRight</enum>
-                                        </property>
-                                        <property name="minimumSize">
-                                            <size>
-                                                <width>0</width>
-                                                <height>0</height>
-                                            </size>
-                                        </property>
-                                        <property name="geometry">
-                                            <rect>
-                                                <x>61</x>
-                                                <y>0</y>
-                                                <width>20</width>
-                                                <height>30</height>
-                                            </rect>
-                                        </property>
-                                        <property name="size" stdset="0">
-                                            <size>
-                                                <width>20</width>
-                                                <height>30</height>
-                                            </size>
-                                        </property>
-                                        <property name="inputMethodHints">
-                                            <enum>Qt::ImhNone</enum>
-                                        </property>
-                                        <property name="autoRaise">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="autoRepeatInterval">
-                                            <number>100</number>
-                                        </property>
-                                        <property name="mouseTracking">
-                                            <bool>true</bool>
-                                        </property>
-                                        <property name="visible">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="windowModality">
-                                            <enum>Qt::NonModal</enum>
-                                        </property>
-                                        <property name="autoRepeat">
-                                            <bool>true</bool>
-                                        </property>
-                                        <property name="toolButtonStyle">
-                                            <enum>Qt::ToolButtonIconOnly</enum>
-                                        </property>
-                                        <property name="font">
-                                            <font>
-                                                <pointsize>8</pointsize>
-                                            </font>
-                                        </property>
-                                        <property name="objectName">
-                                            <string notr="true">ScrollLeftButton</string>
-                                        </property>
-                                        <property name="pos" stdset="0">
-                                            <point>
-                                                <x>61</x>
-                                                <y>0</y>
-                                            </point>
-                                        </property>
-                                        <property name="sizeIncrement">
-                                            <size>
-                                                <width>0</width>
-                                                <height>0</height>
-                                            </size>
-                                        </property>
-                                        <property name="iconSize">
-                                            <size>
-                                                <width>16</width>
-                                                <height>16</height>
-                                            </size>
-                                        </property>
-                                        <property name="cursor">
-                                            <cursorShape>ArrowCursor</cursorShape>
-                                        </property>
-                                        <property name="tabletTracking">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="down">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="autoFillBackground">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="focusPolicy">
-                                            <enum>Qt::TabFocus</enum>
-                                        </property>
-                                        <property name="maximumWidth">
-                                            <number>16777215</number>
-                                        </property>
-                                        <property name="palette">
-                                            <palette>
-                                                <active/>
-                                                <inactive/>
-                                                <disabled/>
-                                            </palette>
-                                        </property>
-                                        <property name="arrowType">
-                                            <enum>Qt::LeftArrow</enum>
-                                        </property>
-                                        <property name="windowModified">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="enabled">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="toolTipDuration">
-                                            <number>-1</number>
-                                        </property>
-                                        <property name="acceptDrops">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="locale">
-                                            <locale language="English" country="UnitedKingdom"/>
-                                        </property>
-                                        <property name="windowOpacity">
-                                            <double>1.000000000000000</double>
-                                        </property>
-                                        <property name="checked">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="sizePolicy">
-                                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                                <horstretch>0</horstretch>
-                                                <verstretch>0</verstretch>
-                                            </sizepolicy>
-                                        </property>
-                                        <property name="checkable">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="contextMenuPolicy">
-                                            <enum>Qt::DefaultContextMenu</enum>
-                                        </property>
-                                        <property name="maximumSize">
-                                            <size>
-                                                <width>16777215</width>
-                                                <height>16777215</height>
-                                            </size>
-                                        </property>
-                                        <property name="autoRepeatDelay">
-                                            <number>300</number>
-                                        </property>
-                                    </widget>
-                                    <widget class="QToolButton">
-                                        <property name="maximumHeight">
-                                            <number>16777215</number>
-                                        </property>
-                                        <property name="minimumWidth">
-                                            <number>0</number>
-                                        </property>
-                                        <property name="accessibleName">
-                                            <string>Scroll Right</string>
-                                        </property>
-                                        <property name="popupMode">
-                                            <enum>QToolButton::DelayedPopup</enum>
-                                        </property>
-                                        <property name="minimumHeight">
-                                            <number>0</number>
-                                        </property>
-                                        <property name="autoExclusive">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="updatesEnabled">
-                                            <bool>true</bool>
-                                        </property>
-                                        <property name="baseSize">
-                                            <size>
-                                                <width>0</width>
-                                                <height>0</height>
-                                            </size>
-                                        </property>
-                                        <property name="layoutDirection">
-                                            <enum>Qt::LeftToRight</enum>
-                                        </property>
-                                        <property name="minimumSize">
-                                            <size>
-                                                <width>0</width>
-                                                <height>0</height>
-                                            </size>
-                                        </property>
-                                        <property name="geometry">
-                                            <rect>
-                                                <x>80</x>
-                                                <y>0</y>
-                                                <width>20</width>
-                                                <height>30</height>
-                                            </rect>
-                                        </property>
-                                        <property name="size" stdset="0">
-                                            <size>
-                                                <width>20</width>
-                                                <height>30</height>
-                                            </size>
-                                        </property>
-                                        <property name="inputMethodHints">
-                                            <enum>Qt::ImhNone</enum>
-                                        </property>
-                                        <property name="autoRaise">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="autoRepeatInterval">
-                                            <number>100</number>
-                                        </property>
-                                        <property name="mouseTracking">
-                                            <bool>true</bool>
-                                        </property>
-                                        <property name="visible">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="windowModality">
-                                            <enum>Qt::NonModal</enum>
-                                        </property>
-                                        <property name="autoRepeat">
-                                            <bool>true</bool>
-                                        </property>
-                                        <property name="toolButtonStyle">
-                                            <enum>Qt::ToolButtonIconOnly</enum>
-                                        </property>
-                                        <property name="font">
-                                            <font>
-                                                <pointsize>8</pointsize>
-                                            </font>
-                                        </property>
-                                        <property name="objectName">
-                                            <string notr="true">ScrollRightButton</string>
-                                        </property>
-                                        <property name="pos" stdset="0">
-                                            <point>
-                                                <x>80</x>
-                                                <y>0</y>
-                                            </point>
-                                        </property>
-                                        <property name="sizeIncrement">
-                                            <size>
-                                                <width>0</width>
-                                                <height>0</height>
-                                            </size>
-                                        </property>
-                                        <property name="iconSize">
-                                            <size>
-                                                <width>16</width>
-                                                <height>16</height>
-                                            </size>
-                                        </property>
-                                        <property name="cursor">
-                                            <cursorShape>ArrowCursor</cursorShape>
-                                        </property>
-                                        <property name="tabletTracking">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="down">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="autoFillBackground">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="focusPolicy">
-                                            <enum>Qt::TabFocus</enum>
-                                        </property>
-                                        <property name="maximumWidth">
-                                            <number>16777215</number>
-                                        </property>
-                                        <property name="palette">
-                                            <palette>
-                                                <active/>
-                                                <inactive/>
-                                                <disabled/>
-                                            </palette>
-                                        </property>
-                                        <property name="arrowType">
-                                            <enum>Qt::RightArrow</enum>
-                                        </property>
-                                        <property name="windowModified">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="enabled">
-                                            <bool>true</bool>
-                                        </property>
-                                        <property name="toolTipDuration">
-                                            <number>-1</number>
-                                        </property>
-                                        <property name="acceptDrops">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="locale">
-                                            <locale language="English" country="UnitedKingdom"/>
-                                        </property>
-                                        <property name="windowOpacity">
-                                            <double>1.000000000000000</double>
-                                        </property>
-                                        <property name="checked">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="sizePolicy">
-                                            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                                                <horstretch>0</horstretch>
-                                                <verstretch>0</verstretch>
-                                            </sizepolicy>
-                                        </property>
-                                        <property name="checkable">
-                                            <bool>false</bool>
-                                        </property>
-                                        <property name="contextMenuPolicy">
-                                            <enum>Qt::DefaultContextMenu</enum>
-                                        </property>
-                                        <property name="maximumSize">
-                                            <size>
-                                                <width>16777215</width>
-                                                <height>16777215</height>
-                                            </size>
-                                        </property>
-                                        <property name="autoRepeatDelay">
-                                            <number>300</number>
-                                        </property>
-                                    </widget>
-                                </widget>
-                            </widget>
-                        </item>
-                    </layout>
-                </widget>
-            </item>
-        </layout>
-    </widget>
-    <pixmapfunction/>
-    <customwidgets>
-        <customwidget>
-            <class>CloUICommon::TabBar</class>
-            <extends>QTabBar</extends>
-            <header>clo-ui-common/TabBar.h</header>
-        </customwidget>
-        <customwidget>
-            <class>CloUICommon::ScrollArea</class>
-            <extends>QScrollArea</extends>
-            <header>clo-ui-common/ScrollArea.h</header>
-        </customwidget>
-        <customwidget>
-            <class>CloUICommon::IconButton</class>
-            <extends>QToolButton</extends>
-            <header>clo-ui-common/IconButton.h</header>
-        </customwidget>
-        <customwidget>
-            <class>CloUICommon::Tab</class>
-            <extends>QTabWidget</extends>
-            <header>clo-ui-common/Tab.h</header>
-        </customwidget>
-    </customwidgets>
+<!--        QTabBar QToolButton::left-arrow:disabled-->
+<!--        {-->
+<!--        image: url(:/Resources/CommonIcon/Arrow Left Disabled.svg);-->
+<!--        }-->
+<!--       </string>-->
+<!--      </property>-->
+      <property name="locale">
+       <locale language="English" country="UnitedKingdom"/>
+      </property>
+      <property name="inputMethodHints">
+       <set>Qt::ImhNone</set>
+      </property>
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>24</width>
+        <height>16</height>
+       </size>
+      </property>
+      <property name="elideMode">
+       <enum>Qt::ElideNone</enum>
+      </property>
+      <property name="usesScrollButtons">
+       <bool>false</bool>
+      </property>
+      <property name="documentMode">
+       <bool>false</bool>
+      </property>
+      <property name="tabsClosable">
+       <bool>false</bool>
+      </property>
+      <property name="movable">
+       <bool>true</bool>
+      </property>
+      <property name="tabBarAutoHide">
+       <bool>false</bool>
+      </property>
+      <widget class="QWidget" name="parameters">
+       <attribute name="title">
+        <string>Parameters</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="outline">
+       <attribute name="title">
+        <string>Outline</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="sewing">
+       <attribute name="title">
+        <string>Sewing</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CloUICommon::Tab</class>
+   <extends>QTabWidget</extends>
+   <header>clo-ui-common/Tab.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MVDockWidget</class>
+   <extends>QDockWidget</extends>
+   <header>MVDockWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
 </ui>

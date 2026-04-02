@@ -8,7 +8,7 @@ namespace CloUICommon {
     {
         Q_OBJECT
     public:
-        explicit TabBar(QWidget* parent = nullptr) : QTabBar(parent) {}
+        explicit TabBar(QWidget* parent = nullptr);
     };
 }
 
