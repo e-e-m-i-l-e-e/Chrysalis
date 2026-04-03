@@ -9,7 +9,7 @@ QString TabularInputPlugin::toolTip() const     { return "A reusable widget"; }
 QString TabularInputPlugin::whatsThis() const   { return ""; }
 QString TabularInputPlugin::includeFile() const { return "TabularInput.h"; }
 QIcon   TabularInputPlugin::icon() const        { return QIcon(); }
-bool    TabularInputPlugin::isContainer() const { return true; }
+bool    TabularInputPlugin::isContainer() const { return false; }
 
 QWidget *TabularInputPlugin::createWidget(QWidget *parent) {
     return new TabularInput(parent);

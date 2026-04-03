@@ -32,7 +32,7 @@ QScrollArea &gt; QWidget {
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="projectTab">
        <attribute name="title">
@@ -60,13 +60,13 @@ QScrollArea &gt; QWidget {
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
-             <widget class="QWidget" name="manualParametersWidget" native="true"/>
+             <widget class="TabularInput" name="expressions"/>
             </item>
             <item>
-             <widget class="QWidget" name="avatarMeasuresWidget" native="true"/>
+             <widget class="TabularInput" name="avatarMeasuresWidget"/>
             </item>
             <item>
-             <widget class="QWidget" name="expressions" native="true"/>
+             <widget class="TabularInput" name="manualParametersWidget"/>
             </item>
             <item>
              <spacer name="verticalSpacer">
@@ -148,6 +148,15 @@ QScrollArea &gt; QWidget {
    </layout>
   </widget>
  </widget>
- <resources/>
+ <customwidgets>
+  <customwidget>
+   <class>TabularInput</class>
+   <extends>QWidget</extends>
+   <header>TabularInput.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../../resources/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

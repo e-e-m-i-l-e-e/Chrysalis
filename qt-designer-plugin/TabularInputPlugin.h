@@ -9,11 +9,11 @@
 
 
 class TabularInputPlugin: public QObject, public QDesignerCustomWidgetInterface {
-public:
     Q_OBJECT
     // This macro is CRITICAL — it registers the plugin interface
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetInterface")
     Q_INTERFACES(QDesignerCustomWidgetInterface)
+public:
 
     explicit TabularInputPlugin(QObject *parent = nullptr);
 

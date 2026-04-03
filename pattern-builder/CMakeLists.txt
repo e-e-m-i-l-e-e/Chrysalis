@@ -5,3 +5,11 @@ set(PATTERN_BUILDER_SRC     ${PATTERN_BUILDER_SRC}                  PARENT_SCOPE
 set(PATTERN_BUILDER_H       ${PATTERN_BUILDER_H}                    PARENT_SCOPE)
 set(PATTERN_BUILDER_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include     PARENT_SCOPE)
 set(PATTERN_BUILDER_UI      ${CMAKE_CURRENT_SOURCE_DIR}/ui          PARENT_SCOPE)
+
+# Pure-Qt widget sources safe for Qt Designer (no CLO/Core dependencies)
+set(PATTERN_BUILDER_WIDGETS_SRC
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/TabularInput.cpp
+    PARENT_SCOPE)
+set(PATTERN_BUILDER_WIDGETS_H
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/TabularInput.h
+    PARENT_SCOPE)
