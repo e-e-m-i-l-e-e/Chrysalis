@@ -7,6 +7,7 @@
 //
 //  Stub for compilation / automoc purposes only.
 // =============================================================================
+#include <CLOAPIInterface.h>
 #include <QComboBox>
 
 class MVCustomComboBox : public QComboBox

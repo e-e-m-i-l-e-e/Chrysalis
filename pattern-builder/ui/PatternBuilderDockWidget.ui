@@ -12,12 +12,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>576</width>
+    <width>579</width>
     <height>924</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -261,7 +261,7 @@
     <bool>true</bool>
    </property>
    <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
@@ -450,7 +450,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>576</width>
+     <width>579</width>
      <height>898</height>
     </rect>
    </property>
@@ -554,84 +554,6 @@
       <property name="autoFillBackground">
        <bool>false</bool>
       </property>
-<!--      <property name="styleSheet">-->
-<!--       <string notr="true">	QTabWidget::pane-->
-<!--        {-->
-<!--        background: transparent;-->
-<!--        border: none;-->
-<!--        }-->
-
-<!--        QTabBar::tab-->
-<!--        {-->
-<!--        background: transparent;-->
-<!--        color: rgba(255, 255, 255, 255);-->
-<!--        border: 2px solid transparent;-->
-<!--        border-bottom-color: rgba(52, 52, 55, 255);-->
-<!--        }-->
-
-<!--        QTabBar::tab:hover-->
-<!--        {-->
-<!--        background: transparent;-->
-<!--        color: rgba(110, 185, 255, 255);-->
-<!--        }-->
-
-<!--        QTabBar::tab:selected-->
-<!--        {-->
-<!--        background: rgba(0, 0, 0, 153);-->
-<!--        color: rgba(110, 185, 255, 255);-->
-<!--        border-bottom-color: rgba(110, 185, 255, 255);-->
-<!--        }-->
-
-<!--        QTabBar::tab:disabled-->
-<!--        {-->
-<!--        background: transparent;-->
-<!--        color: rgba(70, 70, 73, 255);-->
-<!--        }-->
-
-<!--        QTabBar::tear-->
-<!--        {-->
-<!--        image: none;-->
-<!--        width: 0px;-->
-<!--        }-->
-
-<!--        QTabBar QToolButton-->
-<!--        {-->
-<!--        border: none;-->
-<!--        }-->
-
-<!--        QTabBar QToolButton::right-arrow-->
-<!--        {-->
-<!--        background: rgba(42, 42, 45, 255);-->
-<!--        image: url(:/Resources/CommonIcon/Arrow Right Primary Normal.svg);-->
-<!--        }-->
-
-<!--        QTabBar QToolButton::right-arrow:hover-->
-<!--        {-->
-<!--        image: url(:/Resources/CommonIcon/Arrow Right Primary Selected.svg);-->
-<!--        }-->
-
-<!--        QTabBar QToolButton::right-arrow:disabled-->
-<!--        {-->
-<!--        image: url(:/Resources/CommonIcon/Arrow Right Disabled.svg);-->
-<!--        }-->
-
-<!--        QTabBar QToolButton::left-arrow-->
-<!--        {-->
-<!--        background: rgba(42, 42, 45, 255);-->
-<!--        image: url(:/Resources/CommonIcon/Arrow Left Primary Normal.svg);-->
-<!--        }-->
-
-<!--        QTabBar QToolButton::left-arrow:hover-->
-<!--        {-->
-<!--        image: url(:/Resources/CommonIcon/Arrow Left Primary Selected.svg);-->
-<!--        }-->
-
-<!--        QTabBar QToolButton::left-arrow:disabled-->
-<!--        {-->
-<!--        image: url(:/Resources/CommonIcon/Arrow Left Disabled.svg);-->
-<!--        }-->
-<!--       </string>-->
-<!--      </property>-->
       <property name="locale">
        <locale language="English" country="UnitedKingdom"/>
       </property>
@@ -671,10 +593,182 @@
       <property name="tabBarAutoHide">
        <bool>false</bool>
       </property>
-      <widget class="QWidget" name="parameters">
+      <widget class="QWidget" name="parametersTab">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <attribute name="title">
         <string>Parameters</string>
        </attribute>
+       <widget class="QScrollArea" name="scrollArea">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>571</width>
+          <height>871</height>
+         </rect>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>569</width>
+           <height>869</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <widget class="QWidget" name="">
+          <property name="geometry">
+           <rect>
+            <x>11</x>
+            <y>11</y>
+            <width>551</width>
+            <height>851</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <widget class="QWidget" name="parametersTitle" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>25</height>
+              </size>
+             </property>
+             <widget class="QWidget" name="layoutWidget_2">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>551</width>
+                <height>24</height>
+               </rect>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout">
+               <item>
+                <widget class="QToolButton" name="toolButton">
+                 <property name="text">
+                  <string>...</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>Parameters</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QToolButton" name="toolButton_2">
+                 <property name="text">
+                  <string>...</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="parametersContent" native="true">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <widget class="QTableWidget" name="tableWidget">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>10</y>
+                <width>551</width>
+                <height>100</height>
+               </rect>
+              </property>
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <attribute name="horizontalHeaderStretchLastSection">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="verticalHeaderStretchLastSection">
+               <bool>false</bool>
+              </attribute>
+              <column>
+               <property name="text">
+                <string>Name</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Value</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Default</string>
+               </property>
+              </column>
+             </widget>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Minimum</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>0</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </widget>
       </widget>
       <widget class="QWidget" name="outline">
        <attribute name="title">

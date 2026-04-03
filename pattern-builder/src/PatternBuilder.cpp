@@ -25,9 +25,9 @@ void PatternBuilder::configure(QWidget *widget) {
         qobject_cast<QVBoxLayout*>(widget->layout())->insertWidget(8, patternBuilderDockItem);
         patternBuilderDockItem->show();
     } else if (widget->objectName() == "DummyDockingWindow") {
-        // const auto mainWindow = qobject_cast<QMainWindow*>(widget);
-        // const auto patternBuilderDockWidget = new PatternBuilderDockWidget(widget);
-        // mainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, patternBuilderDockWidget);
-        // patternBuilderDockWidget->setTitleBarWidget(new MVDockWidgetTitleBar());
+        const auto mainWindow = qobject_cast<QMainWindow*>(widget);
+        const auto patternBuilderDockWidget = new PatternBuilderDockWidget(widget);
+        mainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, patternBuilderDockWidget);
+        patternBuilderDockWidget->setTitleBarWidget(new MVDockWidgetTitleBar());
     }
 }
