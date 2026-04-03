@@ -1,5 +1,7 @@
 <RCC>
   <qresource>
+    <file>add.png</file>
+    <file>expand.png</file>
     <file>folder.png</file>
   </qresource>
 </RCC>

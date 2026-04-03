@@ -45,3 +45,5 @@ add_custom_command(TARGET Extensions POST_BUILD
         "${CLO_HOME}/Extensions.dll"
         COMMENT "Deploying Extensions.dll to CLO directory"
 )
+
+add_subdirectory(qt-designer-plugin)

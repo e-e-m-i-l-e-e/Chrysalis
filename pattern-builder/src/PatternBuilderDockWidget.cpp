@@ -10,7 +10,11 @@ PatternBuilderDockWidget::PatternBuilderDockWidget(QWidget *parent) : MVDockWidg
                                                                       ui(new Ui::PatternBuilderDockWidget) {
     ui->setupUi(this);
     UTILITY_API->UpdateCloStyleForPlugIn(this);
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->tabWidget->tabBar()->setExpanding(true);
+    ui->tabWidget->tabBar()->setDocumentMode(true);
+    // ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    // ui->scrollArea->viewport()->setAutoFillBackground(false);
+    // ui->scrollArea->viewport()->setStyleSheet("background: transparent;");
 }
 
 PatternBuilderDockWidget::~PatternBuilderDockWidget() {
