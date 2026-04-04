@@ -5,4 +5,4 @@ add_library(myplugin SHARED
 set_target_properties(myplugin PROPERTIES AUTOUIC_SEARCH_PATHS "${PATTERN_BUILDER_UI}")
 target_include_directories(myplugin PUBLIC ${PATTERN_BUILDER_INCLUDE} ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(myplugin PRIVATE Qt5::Widgets Qt5::UiPlugin)
+target_link_libraries(myplugin PUBLIC Qt5::Widgets Qt5::UiPlugin)

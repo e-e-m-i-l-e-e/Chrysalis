@@ -46,6 +46,68 @@ QScrollArea &gt; QWidget {
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
          <widget class="QScrollArea" name="scrollArea">
+          <property name="styleSheet">
+           <string notr="true">/* Scrollbar track */
+QScrollBar {
+    background: rgba(0, 0, 0, 153);
+    border: none;
+}
+
+/* Scrollbar handle (thumb) */
+QScrollBar::handle {
+    background: rgba(90, 90, 92, 255);
+    border: 1px solid transparent;
+    border-radius: 3px;
+    margin: 1px;
+}
+
+/* Minimum sizes for vertical and horizontal handles */
+QScrollBar::handle:vertical {
+    min-height: 9px;
+    width: 6px;  /* width of vertical handle */
+}
+
+QScrollBar::handle:horizontal {
+    min-width: 9px;
+    height: 6px; /* height of horizontal handle */
+}
+
+/* Hover effect for handle */
+QScrollBar::handle:hover {
+    background: rgba(90, 90, 92, 255);
+    border-color: rgba(225, 225, 228, 255);
+}
+
+/* Pressed effect for handle */
+QScrollBar::handle:pressed {
+    background: rgba(52, 80, 130, 255);
+    border-color: rgba(110, 185, 255, 255);
+}
+
+/* Remove arrow buttons */
+QScrollBar::add-line,
+QScrollBar::sub-line {
+    border: none;
+    background: transparent;
+    width: 0;
+    height: 0;
+}
+
+/* Page area (space between handles) */
+QScrollBar::add-page,
+QScrollBar::sub-page {
+    background: rgba(0, 0, 0, 77);
+}
+
+/* Scrollbar size */
+QScrollBar:horizontal {
+    height: 10px;
+}
+
+QScrollBar:vertical {
+    width: 10px;
+}</string>
+          </property>
           <property name="widgetResizable">
            <bool>true</bool>
           </property>
@@ -60,13 +122,25 @@ QScrollArea &gt; QWidget {
            </property>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
-             <widget class="TabularInput" name="expressions"/>
+             <widget class="TabularInput" name="manualParametersWidget">
+              <property name="title">
+               <string>Manual Parameters</string>
+              </property>
+             </widget>
             </item>
             <item>
-             <widget class="TabularInput" name="avatarMeasuresWidget"/>
+             <widget class="TabularInput" name="avatarMeasuresWidget">
+              <property name="title">
+               <string>Avatar Measures</string>
+              </property>
+             </widget>
             </item>
             <item>
-             <widget class="TabularInput" name="manualParametersWidget"/>
+             <widget class="TabularInput" name="expressions">
+              <property name="title">
+               <string>Expressions</string>
+              </property>
+             </widget>
             </item>
             <item>
              <spacer name="verticalSpacer">

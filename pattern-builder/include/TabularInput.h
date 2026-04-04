@@ -18,11 +18,15 @@ QT_END_NAMESPACE
 
 class TabularInput : public QWidget {
     Q_OBJECT
+    Q_PROPERTY(QString title READ getTitle WRITE setTitle)
 
 public:
     explicit TabularInput(QWidget *parent = nullptr);
 
     ~TabularInput() override;
+
+    QString getTitle() const;
+    void setTitle(const QString& title) const;
 
 private:
     Ui::TabularInput *ui;
