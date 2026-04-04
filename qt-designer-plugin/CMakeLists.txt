@@ -1,8 +1,5 @@
-add_library(myplugin SHARED
-        TabularInputPlugin.h TabularInputPlugin.cpp
-        ${PATTERN_BUILDER_WIDGETS_SRC} ${PATTERN_BUILDER_WIDGETS_H}
-)
-set_target_properties(myplugin PROPERTIES AUTOUIC_SEARCH_PATHS "${PATTERN_BUILDER_UI}")
-target_include_directories(myplugin PUBLIC ${PATTERN_BUILDER_INCLUDE} ${CMAKE_CURRENT_SOURCE_DIR})
+file(GLOB_RECURSE QT_DESIGNER_PLUGIN_HEADERS CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/*.h)
+file(GLOB_RECURSE QT_DESIGNER_PLUGIN_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
-target_link_libraries(myplugin PUBLIC Qt5::Widgets Qt5::UiPlugin)
+add_library(QtDesignerPlugin SHARED ${QT_DESIGNER_PLUGIN_SOURCES})
+target_link_libraries(QtDesignerPlugin PUBLIC UI)

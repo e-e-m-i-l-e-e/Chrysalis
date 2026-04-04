@@ -6,7 +6,7 @@
 
 #include "TabularInput.h"
 
-#include <CLOAPIInterface.h>
+// #include <CLOAPIInterface.h>
 
 #include "ui_TabularInput.h"
 
@@ -15,7 +15,7 @@ TabularInput::TabularInput(QWidget *parent) : QWidget(parent), ui(new Ui::Tabula
     ui->setupUi(this);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     ui->widget->setVisible(ui->expandButton->isChecked());
-    UTILITY_API->UpdateCloStyleForPlugIn(this);
+    // UTILITY_API->UpdateCloStyleForPlugIn(this);
 }
 
 TabularInput::~TabularInput() {

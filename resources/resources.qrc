@@ -3,5 +3,7 @@
     <file>add.png</file>
     <file>expand.png</file>
     <file>folder.png</file>
+    <file>patternBuilder.png</file>
+    <file>patternBuilder_hover.png</file>
   </qresource>
 </RCC>

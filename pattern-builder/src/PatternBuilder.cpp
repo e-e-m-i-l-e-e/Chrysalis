@@ -5,6 +5,7 @@
 #include <CLOAPIInterface.h>
 #include <QLayout>
 #include <QMainWindow>
+#include <QMainWindow>
 
 #include "Logger.h"
 #include "MVDockingButton.h"
@@ -13,9 +14,29 @@
 #include "clo-ui-common/IconButton.h"
 
 void PatternBuilder::configureStatusBar(QWidget *parent) {
-    const auto patternBuilderIcon = new CloUICommon::IconButton(parent);
-    // patternBuilderIcon->setGeometry(parent->width() * 2 / 3, 2, 500, 20);
-    patternBuilderIcon->show();
+    for (const auto childIcon: parent->findChildren<QToolButton*>()) {
+        if (childIcon->toolTip() == "3D / 2D Window") {
+
+            // TODO:
+            //      - change icon on hover
+            //      - configure clicks
+
+            const auto patternBuilderIcon = new QToolButton(parent);
+
+            patternBuilderIcon->setIcon(QIcon(":/patternBuilder.png"));
+
+            patternBuilderIcon->setIconSize(childIcon->iconSize());
+            patternBuilderIcon->setFixedSize(childIcon->size());
+            patternBuilderIcon->setStyleSheet(childIcon->styleSheet());
+
+            patternBuilderIcon->setToolTip("Pattern Builder");
+
+            patternBuilderIcon->move(childIcon->pos().x() - childIcon->width(), childIcon->pos().y());
+            patternBuilderIcon->show();
+            return;
+        }
+    }
+    LOG_CRITICAL("\"Pattern Builder\" cannot be configured. \"3D / 2D Window\" wasn't found in status bar.");
 }
 
 void PatternBuilder::configure(QWidget *widget) {

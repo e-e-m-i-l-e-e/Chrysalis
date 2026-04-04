@@ -10,7 +10,6 @@
 #include "ExtensionsSettings.h"
 
 class ExtensionsManager {
-
     friend Extension;
     friend BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved);
 

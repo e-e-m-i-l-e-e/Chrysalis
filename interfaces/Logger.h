@@ -263,6 +263,7 @@ public:
     template<typename... Args>
     void critical(spdlog::format_string_t<Args...> fmt, Args &&... args) const {
         log(spdlog::level::critical, fmt, std::forward<Args>(args)...);
+        exit(1);
     }
 
     // ── Accessors ─────────────────────────────────────────────────────────────
