@@ -11,6 +11,7 @@
 #include "MVDockingButton.h"
 #include "PatternBuilderDockWidget.h"
 #include "MVDockWidgetTitleBar.h"
+#include "Accordion.h"
 #include "clo-ui-common/IconButton.h"
 
 void PatternBuilder::configureStatusBar(QWidget *parent) {
@@ -50,5 +51,8 @@ void PatternBuilder::configure(QWidget *widget) {
         const auto patternBuilderDockWidget = new PatternBuilderDockWidget(widget);
         mainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, patternBuilderDockWidget);
         patternBuilderDockWidget->setTitleBarWidget(new MVDockWidgetTitleBar());
+
+        const auto w = new UI::Accordion(widget);
+        w->show();
     }
 }

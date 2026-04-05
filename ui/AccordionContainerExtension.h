@@ -37,7 +37,8 @@ public:
 
 private:
     UI::Accordion *accordion_;
-    int m_currentIndex = 0;
+    int m_currentIndex = 0;   // active page shown in Designer's navigator
+    int m_nextFillIndex = 0;  // tracks next slot when addWidget() is called sequentially
 };
 
 #endif //CLOEXTENSIONS_ACCORDIONCONTAINEREXTENSION_H
