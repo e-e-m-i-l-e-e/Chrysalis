@@ -50,8 +50,24 @@ void AccordionPlugin::initialize(QDesignerFormEditorInterface *core) {
 QString AccordionPlugin::domXml() const {
     return R"(
 <widget class="UI::Accordion" name="accordion">
-    <widget class="UI::AccordionTitleContainer" name="titleWidget"/>
-    <widget class="QWidget" name="contentWidget"/>
- </widget>
+    <widget class="UI::AccordionTitleContainer" name="titleWidget">
+        <widget class="QWidget" name="customWidget">
+            <layout class="QHBoxLayout" name="horizontalLayout">
+                <property name="leftMargin"><number>0</number></property>
+                <property name="topMargin"><number>0</number></property>
+                <property name="rightMargin"><number>0</number></property>
+                <property name="bottomMargin"><number>0</number></property>
+            </layout>
+        </widget>
+    </widget>
+    <widget class="QWidget" name="contentWidget">
+        <layout class="QVBoxLayout" name="verticalLayout">
+            <property name="leftMargin"><number>0</number></property>
+            <property name="topMargin"><number>0</number></property>
+            <property name="rightMargin"><number>0</number></property>
+            <property name="bottomMargin"><number>0</number></property>
+        </layout>
+    </widget>
+</widget>
 )";
 }

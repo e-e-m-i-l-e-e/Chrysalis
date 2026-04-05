@@ -52,7 +52,14 @@ void AccordionTitleContainerPlugin::initialize(QDesignerFormEditorInterface *cor
 QString AccordionTitleContainerPlugin::domXml() const {
     return R"(
 <widget class="UI::AccordionTitleContainer" name="accordionTitleContainer">
-    <widget class="QWidget" name="customWidget"/>
+    <widget class="QWidget" name="customWidget">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+            <property name="leftMargin"><number>0</number></property>
+            <property name="topMargin"><number>0</number></property>
+            <property name="rightMargin"><number>0</number></property>
+            <property name="bottomMargin"><number>0</number></property>
+        </layout>
+    </widget>
 </widget>
 )";
 }

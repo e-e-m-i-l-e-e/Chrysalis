@@ -1,6 +1,8 @@
 #include "AccordionTitleContainer.h"
 #include "ui_AccordionTitleContainer.h"
 
+#include <QHBoxLayout>
+
 using namespace UI;
 
 AccordionTitleContainer::AccordionTitleContainer(QWidget *parent) : QWidget(parent),
@@ -8,6 +10,8 @@ AccordionTitleContainer::AccordionTitleContainer(QWidget *parent) : QWidget(pare
     ui->setupUi(this);
     customWidget_ = new QWidget(this);
     customWidget_->setObjectName("customWidget");
+    customWidget_->setLayout(new QHBoxLayout(customWidget_));
+    customWidget_->layout()->setContentsMargins(0, 0, 0, 0);
     ui->horizontalLayout->addWidget(customWidget_);
 }
 
