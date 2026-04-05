@@ -1,16 +1,14 @@
-#ifndef CLOEXTENSIONS_ACCORDIONPLUGIN_H
-#define CLOEXTENSIONS_ACCORDIONPLUGIN_H
+#ifndef CLOEXTENSIONS_ACCORDIONTITLECONTAINERPLUGIN_H
+#define CLOEXTENSIONS_ACCORDIONTITLECONTAINERPLUGIN_H
 
 #include <QtUiPlugin/QDesignerCustomWidgetInterface>
 
-class AccordionPlugin : public QObject, public QDesignerCustomWidgetInterface
-{
+class AccordionTitleContainerPlugin: public QObject, public QDesignerCustomWidgetInterface {
+
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 
 public:
-    AccordionPlugin() = default;
-
     QString name() const override;
 
     QString group() const override;
@@ -27,14 +25,8 @@ public:
 
     QWidget * createWidget(QWidget *parent) override;
 
-    bool isInitialized() const override;
-
-    void initialize(QDesignerFormEditorInterface *core) override;
-
     QString domXml() const override;
-
-private:
-    bool m_initialized = false;
 };
 
-#endif //CLOEXTENSIONS_ACCORDIONPLUGIN_H
+
+#endif //CLOEXTENSIONS_ACCORDIONTITLECONTAINERPLUGIN_H
