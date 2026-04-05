@@ -8,7 +8,7 @@ int AccordionTitleContainerExtension::count() const {
 }
 
 QWidget * AccordionTitleContainerExtension::widget(int index) const {
-    return container_.getCustomWidget();
+    return container_->getCustomWidget();
 }
 
 int AccordionTitleContainerExtension::currentIndex() const {
@@ -18,11 +18,11 @@ int AccordionTitleContainerExtension::currentIndex() const {
 void AccordionTitleContainerExtension::setCurrentIndex(int index) {}
 
 void AccordionTitleContainerExtension::addWidget(QWidget *widget) {
-    // container_.setCustomWidget(widget);
+    insertWidget(0, widget);
 }
 
 void AccordionTitleContainerExtension::insertWidget(int index, QWidget *widget) {
-    // if (index == 0) addWidget(widget);
+    if (index == 0) container_->setCustomWidget(widget);
 }
 
 void AccordionTitleContainerExtension::remove(int index) {}

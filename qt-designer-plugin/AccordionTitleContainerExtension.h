@@ -32,7 +32,7 @@ public:
     bool canRemove(int index) const override;
 
 private:
-    UI::AccordionTitleContainer container_;
+    UI::AccordionTitleContainer* container_;
 };
 
 

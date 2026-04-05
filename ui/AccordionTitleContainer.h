@@ -30,10 +30,11 @@ namespace UI {
 
     private:
 
-        void setCustomWidget(QWidget *widget) const;
+        void setCustomWidget(QWidget *widget);
         QWidget* getCustomWidget() const;
 
         Ui::AccordionTitleContainer *ui;
+        QWidget* customWidget_ = nullptr;
     };
 }
 

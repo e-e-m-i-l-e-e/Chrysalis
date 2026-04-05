@@ -6,6 +6,9 @@ using namespace UI;
 AccordionTitleContainer::AccordionTitleContainer(QWidget *parent) : QWidget(parent),
                                                                     ui(new Ui::AccordionTitleContainer) {
     ui->setupUi(this);
+    customWidget_ = new QWidget(this);
+    customWidget_->setObjectName("customWidget");
+    ui->horizontalLayout->addWidget(customWidget_);
 }
 
 AccordionTitleContainer::~AccordionTitleContainer() {
@@ -20,15 +23,17 @@ void AccordionTitleContainer::setTitle(const QString& title) const {
     ui->title->setText(title);
 }
 
-void AccordionTitleContainer::setCustomWidget(QWidget *widget) const {
-    ui->horizontalLayout->addWidget(widget);
-    // if (auto* customWidget = getCustomWidget()) {
-    //     ui->horizontalLayout->replaceWidget(customWidget, widget);
-    // } else ui->horizontalLayout->addWidget(widget);
+void AccordionTitleContainer::setCustomWidget(QWidget *widget) {
+    if (customWidget_) {
+        ui->horizontalLayout->replaceWidget(customWidget_, widget);
+        customWidget_->deleteLater();
+    } else {
+        ui->horizontalLayout->addWidget(widget);
+    }
+    widget->setParent(this);
+    customWidget_ = widget;
 }
 
 QWidget * AccordionTitleContainer::getCustomWidget() const {
-    const auto widget = new QWidget();
-    widget->setObjectName("customWidget");
-    return widget;
+    return customWidget_;
 }

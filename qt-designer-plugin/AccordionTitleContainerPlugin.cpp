@@ -1,6 +1,10 @@
 #include "AccordionTitleContainerPlugin.h"
 
-#include "AccordionTitleContainer.h"
+#include <QExtensionManager>
+#include <QDesignerFormEditorInterface>
+
+#include "AccordionTitleContainerExtension.h"
+#include "ExtensionFactory.h"
 
 QString AccordionTitleContainerPlugin::name() const {
     return "UI::AccordionTitleContainer";
@@ -32,6 +36,17 @@ bool AccordionTitleContainerPlugin::isContainer() const {
 
 QWidget * AccordionTitleContainerPlugin::createWidget(QWidget *parent) {
     return new UI::AccordionTitleContainer(parent);
+}
+
+bool AccordionTitleContainerPlugin::isInitialized() const {
+    return m_initialized;
+}
+
+void AccordionTitleContainerPlugin::initialize(QDesignerFormEditorInterface *core) {
+    if (m_initialized) return;
+    auto* manager = core->extensionManager();
+    manager->registerExtensions(new ExtensionFactory(manager), Q_TYPEID(QDesignerContainerExtension));
+    m_initialized = true;
 }
 
 QString AccordionTitleContainerPlugin::domXml() const {
