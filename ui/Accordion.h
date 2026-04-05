@@ -15,15 +15,13 @@ namespace UI {
     class Accordion : public QWidget {
         Q_OBJECT
 
-        Q_PROPERTY(QString title READ getTitle WRITE setTitle)
-
     public:
         explicit Accordion(QWidget *parent = nullptr);
 
         ~Accordion() override;
 
-        QString getTitle() const;
-        void setTitle(const QString &title) const;
+        QWidget *titleWidget() const;
+        QWidget *contentWidget() const;
 
     private:
         Ui::Accordion *ui;

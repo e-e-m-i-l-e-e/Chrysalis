@@ -10,11 +10,11 @@ namespace UI {
         delete ui;
     }
 
-    QString Accordion::getTitle() const {
-        return ui->title->text();
+    QWidget *Accordion::titleWidget() const {
+        return ui->titleWidget;
     }
 
-    void Accordion::setTitle(const QString& title) const {
-        ui->title->setText(title);
+    QWidget *Accordion::contentWidget() const {
+        return ui->contentWidget;
     }
 } // UI

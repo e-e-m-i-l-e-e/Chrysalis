@@ -7,7 +7,7 @@
 #include "AccordionContainerExtension.h"
 
 QString AccordionPlugin::name() const {
-    return QString("Accordion");
+    return QString("UI::Accordion");
 }
 
 QString AccordionPlugin::group() const {
@@ -49,7 +49,16 @@ void AccordionPlugin::initialize(QDesignerFormEditorInterface *core) {
 }
 
 QString AccordionPlugin::domXml() const {
-    return QDesignerCustomWidgetInterface::domXml();
+    return R"(
+<ui language="c++">
+  <widget class="UI::Accordion" name="accordion">
+    <property name="geometry">
+      <rect><x>0</x><y>0</y><width>300</width><height>200</height></rect>
+    </property>
+    <widget class="QWidget" name="titleWidget"/>
+    <widget class="QWidget" name="contentWidget"/>
+  </widget>
+</ui>)";
 }
 
 QString AccordionPlugin::codeTemplate() const {

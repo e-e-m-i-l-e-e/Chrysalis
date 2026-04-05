@@ -37,6 +37,7 @@ public:
 
 private:
     UI::Accordion *accordion_;
+    int m_currentIndex = 0;
 };
 
 #endif //CLOEXTENSIONS_ACCORDIONCONTAINEREXTENSION_H
