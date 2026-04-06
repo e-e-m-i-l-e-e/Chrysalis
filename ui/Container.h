@@ -1,0 +1,9 @@
+#ifndef CLOEXTENSIONS_CONTAINER_H
+#define CLOEXTENSIONS_CONTAINER_H
+
+
+class Container {
+};
+
+
+#endif //CLOEXTENSIONS_CONTAINER_H

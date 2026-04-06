@@ -5,13 +5,10 @@
 
 class ExtensionFactory: public QExtensionFactory {
     Q_OBJECT
-
 public:
     explicit ExtensionFactory(QExtensionManager *parent);
-
 protected:
-    QObject * createExtension(QObject *object, const QString &iid, QObject *parent) const override;
+    QObject* createExtension(QObject *object, const QString &iid, QObject *parent) const override;
 };
-
 
 #endif //CLOEXTENSIONS_EXTENSIONFACTORY_H

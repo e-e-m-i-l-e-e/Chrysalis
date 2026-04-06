@@ -1,11 +1,10 @@
 #ifndef CLOEXTENSIONS_ACCORDIONTITLECONTAINEREXTENSION_H
 #define CLOEXTENSIONS_ACCORDIONTITLECONTAINEREXTENSION_H
 
-#include <QDesignerContainerExtension>
-
+#include "ContainerExtension.h"
 #include "AccordionTitleContainer.h"
 
-class AccordionTitleContainerExtension: public QObject, public QDesignerContainerExtension {
+class AccordionTitleContainerExtension: public ContainerExtension {
     Q_OBJECT
     Q_INTERFACES(QDesignerContainerExtension)
 
@@ -17,19 +16,9 @@ public:
 
     QWidget * widget(int index) const override;
 
-    int currentIndex() const override;
-
-    void setCurrentIndex(int index) override;
-
     void addWidget(QWidget *widget) override;
 
     void insertWidget(int index, QWidget *widget) override;
-
-    void remove(int index) override;
-
-    bool canAddWidget() const override;
-
-    bool canRemove(int index) const override;
 
 private:
     UI::AccordionTitleContainer* container_;

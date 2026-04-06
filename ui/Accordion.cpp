@@ -8,15 +8,6 @@ namespace UI {
     Accordion::Accordion(QWidget *parent) : QWidget(parent), ui(new Ui::Accordion)
     {
         ui->setupUi(this);
-
-        // Pre-create placeholder widgets so widget() never returns null or accordion_ itself.
-        // Designer will replace these via setTitleWidget / setContentWidget
-        // once it processes the domXml child declarations.
-        m_titleWidget = new QWidget(this);
-        ui->titleLayout->addWidget(m_titleWidget, 0, 0);
-
-        m_contentWidget = new QWidget(this);
-        ui->contentLayout->addWidget(m_contentWidget, 0, 0);
     }
 
     Accordion::~Accordion()

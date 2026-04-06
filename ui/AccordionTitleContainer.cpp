@@ -8,11 +8,11 @@ using namespace UI;
 AccordionTitleContainer::AccordionTitleContainer(QWidget *parent) : QWidget(parent),
                                                                     ui(new Ui::AccordionTitleContainer) {
     ui->setupUi(this);
-    customWidget_ = new QWidget(this);
-    customWidget_->setObjectName("customWidget");
-    customWidget_->setLayout(new QHBoxLayout(customWidget_));
-    customWidget_->layout()->setContentsMargins(0, 0, 0, 0);
-    ui->horizontalLayout->addWidget(customWidget_);
+    // customWidget_ = new QWidget(this);
+    // customWidget_->setObjectName("customWidget");
+    // customWidget_->setLayout(new QHBoxLayout(customWidget_));
+    // customWidget_->layout()->setContentsMargins(0, 0, 0, 0);
+    // ui->horizontalLayout->addWidget(customWidget_);
 }
 
 AccordionTitleContainer::~AccordionTitleContainer() {

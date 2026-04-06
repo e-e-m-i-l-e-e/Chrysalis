@@ -1,40 +1,17 @@
 #ifndef CLOEXTENSIONS_ACCORDIONPLUGIN_H
 #define CLOEXTENSIONS_ACCORDIONPLUGIN_H
 
-#include <QtUiPlugin/QDesignerCustomWidgetInterface>
+#include "ContainerPlugin.h"
 
-class AccordionPlugin : public QObject, public QDesignerCustomWidgetInterface
+class AccordionPlugin : public ContainerPlugin
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 
 public:
-    AccordionPlugin() = default;
-
-    QString name() const override;
-
-    QString group() const override;
-
-    QString toolTip() const override;
-
-    QString whatsThis() const override;
-
-    QString includeFile() const override;
-
-    QIcon icon() const override;
-
-    bool isContainer() const override;
-
-    QWidget * createWidget(QWidget *parent) override;
-
-    bool isInitialized() const override;
-
-    void initialize(QDesignerFormEditorInterface *core) override;
-
-    QString domXml() const override;
-
-private:
-    bool m_initialized = false;
+    QWidget* createWidget(QWidget *parent) override;
+protected:
+    [[nodiscard]] QString domXmlContent() const override;
 };
 
 #endif //CLOEXTENSIONS_ACCORDIONPLUGIN_H

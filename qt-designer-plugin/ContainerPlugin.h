@@ -1,0 +1,18 @@
+#ifndef CLOEXTENSIONS_CONTAINERPLUGIN_H
+#define CLOEXTENSIONS_CONTAINERPLUGIN_H
+
+#include "WidgetPlugin.h"
+
+class ContainerPlugin: public WidgetPlugin {
+public:
+    QString group() const override; // NOLINT(*-use-nodiscard)
+    bool isContainer() const override; // NOLINT(*-use-nodiscard)
+    void initialize(QDesignerFormEditorInterface *core) override;
+    QString domXml() const override; // NOLINT(*-use-nodiscard)
+protected:
+    [[nodiscard]] virtual QString domXmlContent() const = 0;
+    static QString containerXml(const QString& className, const QString& objectName, const QString& layoutClassName);
+};
+
+
+#endif //CLOEXTENSIONS_CONTAINERPLUGIN_H
