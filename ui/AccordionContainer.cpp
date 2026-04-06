@@ -14,13 +14,6 @@ AccordionContainer::~AccordionContainer() {
     delete ui;
 }
 
-QLayout* AccordionContainer::getLayout(const int index) {
-    switch (index) {
-        case 0:
-            return ui->titleLayout;
-        case 1:
-            return ui->contentLayout;
-        default:
-            return nullptr;
-    }
+QLayout* AccordionContainer::getLayout() {
+    return ui->verticalLayout;
 }

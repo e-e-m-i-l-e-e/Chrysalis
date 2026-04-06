@@ -7,7 +7,7 @@ namespace UI {
     class Container: public QWidget {
     protected:
         explicit Container(QWidget* parent);
-        virtual QLayout* getLayout(int index) = 0;
+        virtual QLayout* getLayout() = 0;
     public:
         int count() const; // NOLINT(*-use-nodiscard)
         void addWidget(QWidget* widget);

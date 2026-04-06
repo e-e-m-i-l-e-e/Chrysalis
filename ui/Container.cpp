@@ -12,7 +12,7 @@ int Container::count() const {
 
 void Container::addWidget(QWidget* widget) {
     customWidgets.append(widget);
-    getLayout(customWidgets.size() - 1)->addWidget(widget);
+    getLayout()->addWidget(widget);
 }
 
 QWidget* Container::getWidget(const int index) const {

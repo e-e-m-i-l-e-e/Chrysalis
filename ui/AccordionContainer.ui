@@ -26,20 +26,6 @@
    <property name="bottomMargin">
     <number>0</number>
    </property>
-   <item>
-    <layout class="QHBoxLayout" name="titleLayout">
-     <property name="spacing">
-      <number>0</number>
-     </property>
-    </layout>
-   </item>
-   <item>
-    <layout class="QVBoxLayout" name="contentLayout">
-     <property name="spacing">
-      <number>0</number>
-     </property>
-    </layout>
-   </item>
   </layout>
  </widget>
  <resources/>
