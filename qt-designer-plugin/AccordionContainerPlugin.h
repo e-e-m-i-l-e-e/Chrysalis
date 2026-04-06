@@ -3,7 +3,7 @@
 
 #include "ContainerPlugin.h"
 
-class AccordionPlugin : public ContainerPlugin
+class AccordionContainerPlugin : public ContainerPlugin
 {
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
@@ -11,7 +11,7 @@ class AccordionPlugin : public ContainerPlugin
 public:
     QWidget* createWidget(QWidget *parent) override;
 protected:
-    [[nodiscard]] QString domXmlContent() const override;
+    [[nodiscard]] QStringList domXmlContent() const override;
 };
 
 #endif //CLOEXTENSIONS_ACCORDIONPLUGIN_H

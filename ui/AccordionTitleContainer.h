@@ -1,7 +1,7 @@
 #ifndef CLOEXTENSIONS_ACCORDIONTITLECONTAINER_H
 #define CLOEXTENSIONS_ACCORDIONTITLECONTAINER_H
 
-#include <QWidget>
+#include "Container.h"
 
 class AccordionTitleContainerExtension;
 
@@ -14,27 +14,25 @@ namespace UI {
 
     QT_END_NAMESPACE
 
-    class AccordionTitleContainer : public QWidget {
+    class AccordionTitleContainer: public Container {
         Q_OBJECT
         Q_PROPERTY(QString title READ getTitle WRITE setTitle)
 
         friend class ::AccordionTitleContainerExtension;
 
     public:
-        explicit AccordionTitleContainer(QWidget *parent = nullptr);
+        explicit AccordionTitleContainer(QWidget* parent = nullptr);
 
         ~AccordionTitleContainer() override;
 
-        QString getTitle() const;
+        [[nodiscard]] QString getTitle() const;
         void setTitle(const QString& title) const;
 
+    protected:
+        QLayout* getLayout(int index) override;
+
     private:
-
-        void setCustomWidget(QWidget *widget);
-        QWidget* getCustomWidget() const;
-
         Ui::AccordionTitleContainer *ui;
-        QWidget* customWidget_ = nullptr;
     };
 }
 

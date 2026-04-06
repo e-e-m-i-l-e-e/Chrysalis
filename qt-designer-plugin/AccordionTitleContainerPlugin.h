@@ -12,7 +12,7 @@ class AccordionTitleContainerPlugin: public ContainerPlugin {
 public:
     QWidget* createWidget(QWidget *parent) override;
 protected:
-    [[nodiscard]] QString domXmlContent() const override;
+    [[nodiscard]] QStringList domXmlContent() const override;
 };
 
 

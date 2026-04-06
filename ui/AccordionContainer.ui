@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UI::Accordion</class>
- <widget class="QWidget" name="UI::Accordion">
+ <class>UI::AccordionContainer</class>
+ <widget class="QWidget" name="UI::AccordionContainer">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -27,14 +27,14 @@
     <number>0</number>
    </property>
    <item>
-    <layout class="QGridLayout" name="titleLayout">
+    <layout class="QHBoxLayout" name="titleLayout">
      <property name="spacing">
       <number>0</number>
      </property>
     </layout>
    </item>
    <item>
-    <layout class="QGridLayout" name="contentLayout">
+    <layout class="QVBoxLayout" name="contentLayout">
      <property name="spacing">
       <number>0</number>
      </property>

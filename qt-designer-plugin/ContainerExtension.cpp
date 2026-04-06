@@ -1,14 +1,28 @@
 #include "ContainerExtension.h"
 
-ContainerExtension::ContainerExtension(QObject *parent): QObject(parent) {}
+ContainerExtension::ContainerExtension(UI::Container* container, QObject* parent)
+    : QObject(parent),
+      container_(container) {}
+
+int ContainerExtension::count() const {
+    return container_->count();
+}
+
+QWidget* ContainerExtension::widget(int index) const {
+    return container_->getWidget(index);
+}
 
 int ContainerExtension::currentIndex() const {
-    return currentIndex_;
+    return 0;
 }
 
-void ContainerExtension::setCurrentIndex(int index) {
-    currentIndex_ = index;
+void ContainerExtension::setCurrentIndex(int index) {}
+
+void ContainerExtension::addWidget(QWidget *widget) {
+    container_->addWidget(widget);
 }
+
+void ContainerExtension::insertWidget(int index, QWidget *widget) {}
 
 void ContainerExtension::remove(int index) {}
 

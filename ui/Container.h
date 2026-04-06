@@ -1,9 +1,20 @@
 #ifndef CLOEXTENSIONS_CONTAINER_H
 #define CLOEXTENSIONS_CONTAINER_H
 
+#include <QWidget>
 
-class Container {
-};
-
+namespace UI {
+    class Container: public QWidget {
+    protected:
+        explicit Container(QWidget* parent);
+        virtual QLayout* getLayout(int index) = 0;
+    public:
+        int count() const; // NOLINT(*-use-nodiscard)
+        void addWidget(QWidget* widget);
+        [[nodiscard]] QWidget* getWidget(int index) const;
+    private:
+        QList<QWidget*> customWidgets;
+    };
+}
 
 #endif //CLOEXTENSIONS_CONTAINER_H

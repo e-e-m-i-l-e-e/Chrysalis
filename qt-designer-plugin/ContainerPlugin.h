@@ -10,7 +10,7 @@ public:
     void initialize(QDesignerFormEditorInterface *core) override;
     QString domXml() const override; // NOLINT(*-use-nodiscard)
 protected:
-    [[nodiscard]] virtual QString domXmlContent() const = 0;
+    [[nodiscard]] virtual QStringList domXmlContent() const = 0;
     static QString containerXml(const QString& className, const QString& objectName, const QString& layoutClassName);
 };
 

@@ -39,7 +39,7 @@ QString ContainerPlugin::domXml() const {
     auto objectName = className;
     objectName.remove(0, 4); // remove namespace
     objectName[0] = objectName[0].toLower(); // start objectName in lower case
-    return basicWidget.arg(className).arg(objectName).arg(domXmlContent());
+    return basicWidget.arg(className).arg(objectName).arg(domXmlContent().join("\n"));
 }
 
 void ContainerPlugin::initialize(QDesignerFormEditorInterface *core) {

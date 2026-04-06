@@ -5,14 +5,10 @@
 
 using namespace UI;
 
-AccordionTitleContainer::AccordionTitleContainer(QWidget *parent) : QWidget(parent),
-                                                                    ui(new Ui::AccordionTitleContainer) {
+AccordionTitleContainer::AccordionTitleContainer(QWidget *parent)
+    : Container(parent),
+      ui(new Ui::AccordionTitleContainer) {
     ui->setupUi(this);
-    // customWidget_ = new QWidget(this);
-    // customWidget_->setObjectName("customWidget");
-    // customWidget_->setLayout(new QHBoxLayout(customWidget_));
-    // customWidget_->layout()->setContentsMargins(0, 0, 0, 0);
-    // ui->horizontalLayout->addWidget(customWidget_);
 }
 
 AccordionTitleContainer::~AccordionTitleContainer() {
@@ -27,17 +23,6 @@ void AccordionTitleContainer::setTitle(const QString& title) const {
     ui->title->setText(title);
 }
 
-void AccordionTitleContainer::setCustomWidget(QWidget *widget) {
-    if (customWidget_) {
-        ui->horizontalLayout->replaceWidget(customWidget_, widget);
-        customWidget_->deleteLater();
-    } else {
-        ui->horizontalLayout->addWidget(widget);
-    }
-    widget->setParent(this);
-    customWidget_ = widget;
-}
-
-QWidget * AccordionTitleContainer::getCustomWidget() const {
-    return customWidget_;
+QLayout* AccordionTitleContainer::getLayout(int index) {
+    return ui->horizontalLayout;
 }
