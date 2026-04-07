@@ -19,7 +19,7 @@ int ContainerExtension::currentIndex() const {
 void ContainerExtension::setCurrentIndex(int index) {}
 
 void ContainerExtension::addWidget(QWidget *widget) {
-    container_->addWidget(widget);
+    container_->insertWidget(0, widget);
 }
 
 void ContainerExtension::insertWidget(int index, QWidget *widget) {}
