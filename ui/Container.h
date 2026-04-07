@@ -10,7 +10,7 @@ namespace UI {
         virtual QLayout* getLayout() = 0;
     public:
         int count() const; // NOLINT(*-use-nodiscard)
-        void addWidget(QWidget* widget);
+        void insertWidget(int index, QWidget* widget);
         [[nodiscard]] QWidget* getWidget(int index) const;
     private:
         QList<QWidget*> customWidgets;

@@ -3,4 +3,4 @@ file(GLOB_RECURSE UI_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
 
 add_library(UI STATIC ${UI_SOURCES})
 target_include_directories(UI PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(UI PUBLIC Qt5::Core Qt5::Widgets Qt5::Designer)
+target_link_libraries(UI PUBLIC Logger Qt5::Core Qt5::Widgets Qt5::Designer)

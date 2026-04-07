@@ -10,7 +10,7 @@ int Container::count() const {
     return customWidgets.count();
 }
 
-void Container::addWidget(QWidget* widget) {
+void Container::insertWidget(int index, QWidget* widget) {
     customWidgets.append(widget);
     getLayout()->addWidget(widget);
 }
