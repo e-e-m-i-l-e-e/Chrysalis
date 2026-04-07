@@ -10,6 +10,8 @@ class DesignerPlugin: public QObject, public QDesignerCustomWidgetCollectionInte
     Q_INTERFACES(QDesignerCustomWidgetCollectionInterface)
 
 public:
+    DesignerPlugin();
+
     QList<QDesignerCustomWidgetInterface*> customWidgets() const override; // NOLINT(*-use-nodiscard)
 
     static inline AccordionTitleContainerPlugin* accordionTitleContainerPlugin;

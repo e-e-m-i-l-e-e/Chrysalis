@@ -10,7 +10,7 @@ class AccordionContainerExtension: public ContainerExtension
     Q_INTERFACES(QDesignerContainerExtension)
 
 public:
-    explicit AccordionContainerExtension(UI::AccordionContainer* widget, QObject *parent);
+    explicit AccordionContainerExtension(UI::AccordionContainer* widget, QObject *parent, int count);
 };
 
 #endif //CLOEXTENSIONS_ACCORDIONCONTAINEREXTENSION_H

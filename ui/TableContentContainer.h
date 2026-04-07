@@ -25,7 +25,7 @@ namespace UI {
         void setColumns(const QStringList& columns) const;
 
     protected:
-        QLayout * getLayout() override;
+        QBoxLayout* getLayout() override;
     private:
         Ui::TableContentContainer *ui;
     };

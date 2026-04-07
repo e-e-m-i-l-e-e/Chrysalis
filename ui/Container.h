@@ -2,18 +2,16 @@
 #define CLOEXTENSIONS_CONTAINER_H
 
 #include <QWidget>
+#include <QBoxLayout>
 
 namespace UI {
     class Container: public QWidget {
     protected:
         explicit Container(QWidget* parent);
-        virtual QLayout* getLayout() = 0;
+        virtual QBoxLayout* getLayout() = 0;
     public:
-        int count() const; // NOLINT(*-use-nodiscard)
         void insertWidget(int index, QWidget* widget);
-        [[nodiscard]] QWidget* getWidget(int index) const;
-    private:
-        QList<QWidget*> customWidgets;
+        [[nodiscard]] QWidget* getWidget(int index);
     };
 }
 

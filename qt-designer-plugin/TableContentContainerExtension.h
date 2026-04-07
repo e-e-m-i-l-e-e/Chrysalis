@@ -11,7 +11,7 @@ class TableContentContainerExtension: public ContainerExtension
     Q_INTERFACES(QDesignerContainerExtension)
 
 public:
-    explicit TableContentContainerExtension(UI::TableContentContainer* widget, QObject *parent);
+    explicit TableContentContainerExtension(UI::TableContentContainer* widget, QObject *parent, QVector<int> indexes);
 };
 
 

@@ -16,7 +16,7 @@ namespace UI {
         ~AccordionContainer() override;
 
     protected:
-        QLayout* getLayout() override;
+        QBoxLayout* getLayout() override;
 
     private:
         Ui::AccordionContainer *ui;

@@ -8,7 +8,7 @@ class AccordionTitleContainerExtension: public ContainerExtension {
     Q_OBJECT
     Q_INTERFACES(QDesignerContainerExtension)
 public:
-    explicit AccordionTitleContainerExtension(UI::AccordionTitleContainer* container, QObject* parent = nullptr);
+    explicit AccordionTitleContainerExtension(UI::AccordionTitleContainer* container, QObject* parent, QVector<int> indexes);
 };
 
 

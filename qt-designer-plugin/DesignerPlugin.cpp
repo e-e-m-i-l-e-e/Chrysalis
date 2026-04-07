@@ -4,11 +4,14 @@
 #include "AccordionTitleContainerPlugin.h"
 #include "TableContentContainerPlugin.h"
 
-QList<QDesignerCustomWidgetInterface*> DesignerPlugin::customWidgets() const {
+DesignerPlugin::DesignerPlugin() {
     accordionTitleContainerPlugin = new AccordionTitleContainerPlugin();
+}
+
+QList<QDesignerCustomWidgetInterface*> DesignerPlugin::customWidgets() const {
     return {
-        new AccordionContainerPlugin(),
         accordionTitleContainerPlugin,
+        new AccordionContainerPlugin(),
         new TableContentContainerPlugin()
     };
 }

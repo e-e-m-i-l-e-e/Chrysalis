@@ -25,6 +25,6 @@ void TableContentContainer::setColumns(const QStringList& columns) const {
     ui->table->setHorizontalHeaderLabels(columns);
 }
 
-QLayout* TableContentContainer::getLayout() {
+QBoxLayout* TableContentContainer::getLayout() {
     return ui->verticalLayout;
 }

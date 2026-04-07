@@ -14,6 +14,6 @@ AccordionContainer::~AccordionContainer() {
     delete ui;
 }
 
-QLayout* AccordionContainer::getLayout() {
+QBoxLayout* AccordionContainer::getLayout() {
     return ui->verticalLayout;
 }

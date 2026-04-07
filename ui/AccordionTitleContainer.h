@@ -29,7 +29,7 @@ namespace UI {
         void setTitle(const QString& title) const;
 
     protected:
-        QLayout* getLayout() override;
+        QBoxLayout* getLayout() override;
 
     private:
         Ui::AccordionTitleContainer *ui;

@@ -1,4 +1,6 @@
 #include "TableContentContainerExtension.h"
 
-TableContentContainerExtension::TableContentContainerExtension(UI::TableContentContainer *widget, QObject *parent)
-: ContainerExtension(widget, parent) {}
+#include <utility>
+
+TableContentContainerExtension::TableContentContainerExtension(UI::TableContentContainer *widget, QObject *parent, QVector<int> indexes)
+: ContainerExtension(widget, parent, std::move(indexes)) {}

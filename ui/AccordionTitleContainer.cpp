@@ -23,6 +23,6 @@ void AccordionTitleContainer::setTitle(const QString& title) const {
     ui->title->setText(title);
 }
 
-QLayout* AccordionTitleContainer::getLayout() {
+QBoxLayout* AccordionTitleContainer::getLayout() {
     return ui->horizontalLayout;
 }
