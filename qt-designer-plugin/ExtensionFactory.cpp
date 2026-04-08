@@ -4,6 +4,8 @@
 #include "AccordionTitleContainerExtension.h"
 #include "TableContentContainer.h"
 #include "TableContentContainerExtension.h"
+#include "TableInputAccordion.h"
+#include "TableInputAccordionExtension.h"
 
 ExtensionFactory::ExtensionFactory(QExtensionManager* parent, int count): QExtensionFactory(parent), count_(count) {}
 
@@ -17,6 +19,9 @@ QObject* ExtensionFactory::createExtension(QObject* object, const QString& iid, 
         }
         if (auto* tableContent = qobject_cast<UI::TableContentContainer*>(object)) {
             return new TableContentContainerExtension(tableContent, parent, {0, 2});
+        }
+        if (auto* tableInputAccordion = qobject_cast<UI::TableInputAccordion*>(object)) {
+            return new TableInputAccordionExtension(tableInputAccordion, parent, count_);
         }
     }
     return nullptr;

@@ -8,7 +8,7 @@ QWidget * TableContentContainerPlugin::createWidget(QWidget *parent) {
 
 QStringList TableContentContainerPlugin::domXmlContent() const {
     return {
-        containerXml("QWidget", "beforeWidget", "QVBoxLayout"),
-        containerXml("QWidget", "afterWidget", "QVBoxLayout")
+        containerXml("QWidget", "before", "QVBoxLayout"),
+        containerXml("QWidget", "after", "QVBoxLayout")
     };
 }

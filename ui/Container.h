@@ -10,8 +10,8 @@ namespace UI {
         explicit Container(QWidget* parent);
         virtual QBoxLayout* getLayout() = 0;
     public:
-        void insertWidget(int index, QWidget* widget);
-        [[nodiscard]] QWidget* getWidget(int index);
+        virtual void insertWidget(int index, QWidget* widget);
+        [[nodiscard]] virtual QWidget* getWidget(int index);
     };
 }
 

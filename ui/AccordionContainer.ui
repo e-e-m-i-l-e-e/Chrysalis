@@ -7,30 +7,51 @@
     <x>0</x>
     <y>0</y>
     <width>116</width>
-    <height>16</height>
+    <height>51</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Accordion</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="spacing">
-    <number>0</number>
-   </property>
-   <property name="leftMargin">
-    <number>0</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>0</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
+   <item>
+    <widget class="UI::AccordionTitleContainer" name="accordionTitleContainer">
+     <widget class="QWidget" name="tools">
+      <layout class="QHBoxLayout" name="layout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="content" native="true">
+     <layout class="QVBoxLayout" name="contentLayout"/>
+    </widget>
+   </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>UI::AccordionTitleContainer</class>
+   <extends>QWidget</extends>
+   <header>AccordionTitleContainer.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

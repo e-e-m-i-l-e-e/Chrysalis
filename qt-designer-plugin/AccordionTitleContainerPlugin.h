@@ -2,7 +2,6 @@
 #define CLOEXTENSIONS_ACCORDIONTITLECONTAINERPLUGIN_H
 
 #include "ContainerPlugin.h"
-#include "WidgetPlugin.h"
 
 class AccordionTitleContainerPlugin: public ContainerPlugin {
 

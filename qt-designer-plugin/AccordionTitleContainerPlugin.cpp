@@ -7,5 +7,5 @@ QWidget* AccordionTitleContainerPlugin::createWidget(QWidget *parent) {
 }
 
 QStringList AccordionTitleContainerPlugin::domXmlContent() const {
-    return {containerXml("QWidget", "customWidget", "QHBoxLayout")};
+    return {containerXml("QWidget", "tools", "QHBoxLayout")};
 }

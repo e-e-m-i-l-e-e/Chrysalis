@@ -30,6 +30,10 @@ bool ContainerPlugin::isContainer() const {
     return true;
 }
 
+QString ContainerPlugin::containerXml(const QString &objectName, const QString &layoutClassName) {
+    return containerXml("QWidget", objectName, layoutClassName);
+}
+
 QString ContainerPlugin::containerXml(const QString &className, const QString &objectName, const QString &layoutClassName) {
     return basicWidget.arg(className).arg(objectName).arg(basicLayout.arg(layoutClassName));
 }
