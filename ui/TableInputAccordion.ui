@@ -10,6 +10,12 @@
     <height>416</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>TableInputAccordion</string>
   </property>
@@ -31,6 +37,12 @@
    </property>
    <item>
     <widget class="UI::ClickableWidget" name="accordionTitle" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="styleSheet">
       <string notr="true">#accordionTitle {
     background-color: rgb(22, 22, 25);
@@ -77,12 +89,24 @@
    </item>
    <item>
     <widget class="QWidget" name="accordionContent" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="styleSheet">
       <string notr="true">background-color: rgb(30, 30, 33);</string>
      </property>
      <layout class="QVBoxLayout" name="contentLayout">
       <item>
        <widget class="QWidget" name="emptyTableWidgetWrapper" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
           <spacer name="horizontalSpacer_3">
@@ -154,6 +178,12 @@
       </item>
       <item>
        <widget class="QTableWidget" name="table">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="styleSheet">
          <string notr="true">background-color: rgb(22, 22, 25);</string>
         </property>
