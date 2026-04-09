@@ -11,7 +11,6 @@
 #include "MVDockingButton.h"
 #include "PatternBuilderDockWidget.h"
 #include "MVDockWidgetTitleBar.h"
-#include "Accordion.h"
 #include "clo-ui-common/IconButton.h"
 
 void PatternBuilder::configureStatusBar(QWidget *parent) {
@@ -52,7 +51,6 @@ void PatternBuilder::configure(QWidget *widget) {
         mainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, patternBuilderDockWidget);
         patternBuilderDockWidget->setTitleBarWidget(new MVDockWidgetTitleBar());
 
-        const auto w = new UI::Accordion(widget);
-        w->show();
+        patternBuilderDockWidget->setStyleSheet("background-color: rgb(37, 37, 40);");
     }
 }

@@ -1,7 +1,7 @@
 #ifndef CLOEXTENSIONS_CUSTOMWIDGETINTERFACE_H
 #define CLOEXTENSIONS_CUSTOMWIDGETINTERFACE_H
 
-#include "AccordionTitleContainerPlugin.h"
+#include <QDesignerCustomWidgetCollectionInterface>
 
 class DesignerPlugin: public QObject, public QDesignerCustomWidgetCollectionInterface {
 
@@ -10,11 +10,7 @@ class DesignerPlugin: public QObject, public QDesignerCustomWidgetCollectionInte
     Q_INTERFACES(QDesignerCustomWidgetCollectionInterface)
 
 public:
-    DesignerPlugin();
-
     QList<QDesignerCustomWidgetInterface*> customWidgets() const override; // NOLINT(*-use-nodiscard)
-
-    static inline AccordionTitleContainerPlugin* accordionTitleContainerPlugin;
 };
 
 #endif //CLOEXTENSIONS_CUSTOMWIDGETINTERFACE_H

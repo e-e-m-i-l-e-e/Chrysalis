@@ -1,18 +1,13 @@
 #include "ContainerExtension.h"
 
-#include <utility>
-
-ContainerExtension::ContainerExtension(UI::Container* container, QObject* parent, const int count)
-    : ContainerExtension(container, parent, QVector<int>(count)) {
-    std::iota(indexes_.begin(), indexes_.end(), 0);
-    it_ = QVectorIterator(indexes_);
-}
-
-ContainerExtension::ContainerExtension(UI::Container *container, QObject *parent, QVector<int> indexes)
+ContainerExtension::ContainerExtension(UI::BaseContainer *container, QObject *parent, const int count)
     : QObject(parent),
       container_(container),
-      indexes_(std::move(indexes)),
-      it_(indexes_) {}
+      indexes_(QVector<int>(count)),
+      it_([this] {
+          std::iota(indexes_.begin(), indexes_.end(), 0);
+          return QVectorIterator(indexes_);
+      }()){}
 
 int ContainerExtension::count() const {
     return indexes_.count();

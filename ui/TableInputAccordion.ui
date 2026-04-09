@@ -6,16 +6,40 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>280</width>
-    <height>251</height>
+    <width>353</width>
+    <height>416</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>TableInputAccordion</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>5</number>
+   </property>
+   <property name="topMargin">
+    <number>5</number>
+   </property>
+   <property name="rightMargin">
+    <number>5</number>
+   </property>
+   <property name="bottomMargin">
+    <number>5</number>
+   </property>
    <item>
-    <widget class="QWidget" name="accordionTitle" native="true">
+    <widget class="UI::ClickableWidget" name="accordionTitle" native="true">
+     <property name="styleSheet">
+      <string notr="true">#accordionTitle {
+    background-color: rgb(22, 22, 25);
+    border-radius: 5px;
+}
+#accordionTitle {
+    background-color: rgb(45, 52, 68);
+}</string>
+     </property>
      <layout class="QHBoxLayout" name="titleLayout">
       <item>
        <widget class="QLabel" name="title">
@@ -53,15 +77,101 @@
    </item>
    <item>
     <widget class="QWidget" name="accordionContent" native="true">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(30, 30, 33);</string>
+     </property>
      <layout class="QVBoxLayout" name="contentLayout">
       <item>
-       <widget class="QTableWidget" name="table"/>
+       <widget class="QWidget" name="emptyTableWidgetWrapper" native="true">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QWidget" name="emptyTableWidget" native="true">
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <item>
+             <widget class="QWidget" name="emptyTableMessageWidget" native="true">
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <item>
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>No %1 have been added yet</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QWidget" name="addFirstEntryWidget" native="true">
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
+               <item>
+                <widget class="QToolButton" name="addFirstEntryToolButton">
+                 <property name="text">
+                  <string>Add</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../resources/resources.qrc">
+                   <normaloff>:/add.png</normaloff>:/add.png</iconset>
+                 </property>
+                 <property name="toolButtonStyle">
+                  <enum>Qt::ToolButtonTextBesideIcon</enum>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTableWidget" name="table">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(22, 22, 25);</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>UI::ClickableWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">ClickableWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../resources/resources.qrc"/>
  </resources>

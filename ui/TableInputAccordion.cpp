@@ -1,10 +1,31 @@
 #include "TableInputAccordion.h"
 #include "ui_TableInputAccordion.h"
 
+#include <QPropertyAnimation>
+
+#include "Logger.h"
+#define LOGGER_NAME "TableInputAccordion"
+
 using namespace UI;
 
-TableInputAccordion::TableInputAccordion(QWidget *parent) : Container(parent), ui(new Ui::TableInputAccordion) {
+TableInputAccordion::TableInputAccordion(QWidget *parent): BaseContainer(parent), ui(new Ui::TableInputAccordion) {
     ui->setupUi(this);
+    ui->title->setProperty("widget-type", "Highlight");
+
+    auto* animation = new QPropertyAnimation(ui->accordionContent, "maximumHeight");
+    animation->setDuration(200);
+    animation->setEasingCurve(QEasingCurve::InOutQuad);
+    connect(ui->accordionTitle, &ClickableWidget::clicked, this, [this, animation] {
+        const int contentHeight = ui->accordionContent->layout()->sizeHint().height();
+        if (ui->accordionContent->maximumHeight() == 0) {
+            animation->setStartValue(0);
+            animation->setEndValue(contentHeight);
+        } else {
+            animation->setStartValue(contentHeight);
+            animation->setEndValue(0);
+        }
+        animation->start();
+    });
 }
 
 TableInputAccordion::~TableInputAccordion() {
@@ -21,10 +42,6 @@ QWidget* TableInputAccordion::getWidget(const int index) {
     if (index == 0) return ui->titleLayout->itemAt(2)->widget();
     if (index == 1) return ui->contentLayout->itemAt(0)->widget();
     return ui->contentLayout->itemAt(2)->widget();
-}
-
-QBoxLayout* TableInputAccordion::getLayout() {
-    return ui->verticalLayout;
 }
 
 QString TableInputAccordion::getTitle() const {

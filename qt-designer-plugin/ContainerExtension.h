@@ -3,14 +3,13 @@
 
 #include <QDesignerContainerExtension>
 
-#include "Container.h"
+#include "BaseContainer.h"
 
 #define LOGGER_NAME "Container Extension"
 
 class ContainerExtension: public QObject, public QDesignerContainerExtension {
 protected:
-    explicit ContainerExtension(UI::Container* container, QObject* parent, int count);
-    explicit ContainerExtension(UI::Container* container, QObject* parent, QVector<int> indexes);
+    explicit ContainerExtension(UI::BaseContainer* container, QObject* parent, int count);
 public:
     int count() const override; // NOLINT(*-use-nodiscard)
     QWidget* widget(int index) const override; // NOLINT(*-use-nodiscard)
@@ -22,7 +21,7 @@ public:
     bool canAddWidget() const override; // NOLINT(*-use-nodiscard)
     bool canRemove(int index) const override; // NOLINT(*-use-nodiscard)
 private:
-    UI::Container* container_;
+    UI::BaseContainer* container_;
 
     QVector<int> indexes_;
     QVectorIterator<int> it_;
