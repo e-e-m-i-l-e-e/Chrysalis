@@ -33,6 +33,7 @@ namespace UI {
 
     private:
         Ui::TableInputAccordion *ui;
+        void updateTableHeight() const;
     };
 } // UI
 

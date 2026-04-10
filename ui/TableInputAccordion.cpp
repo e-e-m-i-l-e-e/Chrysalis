@@ -15,6 +15,11 @@ TableInputAccordion::TableInputAccordion(QWidget *parent): BaseContainer(parent)
     auto* animation = new QPropertyAnimation(ui->accordionContent, "maximumHeight");
     animation->setDuration(200);
     animation->setEasingCurve(QEasingCurve::InOutQuad);
+    ui->table->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    connect(ui->table->model(), &QAbstractItemModel::rowsInserted, this, &TableInputAccordion::updateTableHeight);
+    connect(ui->table->model(), &QAbstractItemModel::rowsRemoved,  this, &TableInputAccordion::updateTableHeight);
+    updateTableHeight();
+
     connect(ui->accordionTitle, &ClickableWidget::clicked, this, [this, animation] {
         const int contentHeight = ui->accordionContent->layout()->sizeHint().height();
         if (ui->accordionContent->maximumHeight() == 0) {
@@ -64,4 +69,13 @@ void TableInputAccordion::setColumns(const QStringList &columns) const {
     ui->table->clear();
     ui->table->setColumnCount(columns.size());
     ui->table->setHorizontalHeaderLabels(columns);
+    updateTableHeight();
+}
+
+void TableInputAccordion::updateTableHeight() const {
+    int h = ui->table->horizontalHeader()->height() + ui->table->frameWidth() * 2;
+    for (int i = 0; i < ui->table->rowCount(); i++) {
+        h += ui->table->rowHeight(i);
+    }
+    ui->table->setFixedHeight(h);
 }

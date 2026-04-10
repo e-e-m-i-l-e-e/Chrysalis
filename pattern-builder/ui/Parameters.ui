@@ -23,7 +23,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-303</y>
         <width>301</width>
         <height>1062</height>
        </rect>
@@ -172,7 +172,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="comboBox"/>
+              <widget class="QComboBox" name="avatarComboBox"/>
              </item>
              <item>
               <spacer name="horizontalSpacer">

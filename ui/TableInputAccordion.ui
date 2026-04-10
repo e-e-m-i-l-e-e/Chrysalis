@@ -48,7 +48,7 @@
     background-color: rgb(22, 22, 25);
     border-radius: 5px;
 }
-#accordionTitle {
+#accordionTitle:hover {
     background-color: rgb(45, 52, 68);
 }</string>
      </property>

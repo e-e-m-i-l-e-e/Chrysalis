@@ -76,12 +76,12 @@ static QMetaObject::Connection hookQObjectConnectChar(
         if (!QString(sender->metaObject()->className()).startsWith("Q") ||
             !QString(receiver->metaObject()->className()).startsWith("Q")) {
             // Qt macros prepend "2" to signals and "1" to slots — skip it.
-            LOG_DEBUG("connect(SIGNAL/SLOT)  {}({})::{}  →  {}({})",
-                sender->metaObject()->className(),
-                sender->objectName().toStdString(),
-                signal + 1,
-                receiver->metaObject()->className(),
-                receiver->objectName().toStdString());
+            // LOG_DEBUG("connect(SIGNAL/SLOT)  {}({})::{}  →  {}({})",
+            //     sender->metaObject()->className(),
+            //     sender->objectName().toStdString(),
+            //     signal + 1,
+            //     receiver->metaObject()->className(),
+            //     receiver->objectName().toStdString());
         }
     }
     return reinterpret_cast<QObjectConnectCharFn>(s_qobjectConnectCharOriginal)(
@@ -97,12 +97,12 @@ static QMetaObject::Connection hookConnectImpl(
     if (sender) {
         if (!QString(sender->metaObject()->className()).startsWith("Q") || receiver && !QString(receiver->metaObject()->className()).startsWith("Q")) {
             const QMetaMethod signal = sender->metaObject()->method(signalIndex);
-            LOG_DEBUG("connectImpl  {}({}) ::{}  →  {}({})",
-                sender->metaObject()->className(),
-                sender->objectName().toStdString(),
-                signal.methodSignature().constData(),
-                receiver ? receiver->metaObject()->className() : "<nullptr>",
-                receiver ? receiver->objectName().toStdString() : "<nullptr>");
+            // LOG_DEBUG("connectImpl  {}({}) ::{}  →  {}({})",
+            //     sender->metaObject()->className(),
+            //     sender->objectName().toStdString(),
+            //     signal.methodSignature().constData(),
+            //     receiver ? receiver->metaObject()->className() : "<nullptr>",
+            //     receiver ? receiver->objectName().toStdString() : "<nullptr>");
         }
     }
     return reinterpret_cast<ConnectImplFn>(s_connectImplOriginal)(
@@ -171,12 +171,12 @@ static void hookAddConnection(void* priv, int signalIdx, void* c)
         for (int i = 0; i < mo->methodCount(); ++i) {
             if (mo->method(i).methodType() == QMetaMethod::Signal) {
                 if (sigCount == signalIdx) {
-                    LOG_DEBUG("addConnection  {}({})::{}  →  {}({})",
-                        mo->className(),
-                        sender->objectName().toStdString(),
-                        mo->method(i).methodSignature().constData(),
-                        receiver ? receiver->metaObject()->className() : "<null>",
-                        receiver ? receiver->objectName().toStdString() : "");
+                    // LOG_DEBUG("addConnection  {}({})::{}  →  {}({})",
+                    //     mo->className(),
+                    //     sender->objectName().toStdString(),
+                    //     mo->method(i).methodSignature().constData(),
+                    //     receiver ? receiver->metaObject()->className() : "<null>",
+                    //     receiver ? receiver->objectName().toStdString() : "");
                     break;
                 }
                 ++sigCount;
@@ -217,10 +217,10 @@ static void hookConnectNotify(void* priv, const QMetaMethod& signal)
     const auto sender = *reinterpret_cast<QObject**>(reinterpret_cast<char*>(priv) + 8);
 
     if (sender && !QString(sender->metaObject()->className()).startsWith("Q")) {
-        LOG_DEBUG("connectNotify  {}({})::{}",
-            sender->metaObject()->className(),
-            sender->objectName().toStdString(),
-            signal.methodSignature().constData());
+        // LOG_DEBUG("connectNotify  {}({})::{}",
+        //     sender->metaObject()->className(),
+        //     sender->objectName().toStdString(),
+        //     signal.methodSignature().constData());
     }
 
     reinterpret_cast<ConnectNotifyFn>(s_connectNotifyOriginal)(priv, signal);
@@ -257,12 +257,12 @@ static QMetaObject::Connection hookQObjectConnectMetaMethod(
     if (sender && receiver) {
         if (!QString(sender->metaObject()->className()).startsWith("Q") ||
             !QString(receiver->metaObject()->className()).startsWith("Q")) {
-            LOG_DEBUG("connect(QMetaMethod)  {}({})::{}  →  {}({})",
-                sender->metaObject()->className(),
-                sender->objectName().toStdString(),
-                signal.methodSignature().constData(),
-                receiver->metaObject()->className(),
-                receiver->objectName().toStdString());
+            // LOG_DEBUG("connect(QMetaMethod)  {}({})::{}  →  {}({})",
+            //     sender->metaObject()->className(),
+            //     sender->objectName().toStdString(),
+            //     signal.methodSignature().constData(),
+            //     receiver->metaObject()->className(),
+            //     receiver->objectName().toStdString());
         }
     }
     return reinterpret_cast<QObjectConnectMetaMethodFn>(s_qobjectConnectMetaMethodOriginal)(
@@ -300,10 +300,10 @@ static void hookConnectSlotsByName(QObject* obj)
             if (m.methodType() != QMetaMethod::Slot) continue;
             const QByteArray sig = m.methodSignature();
             if (!sig.startsWith("on_")) continue;
-            LOG_DEBUG("connectSlotsByName  {}({}) auto-wired slot: {}",
-                mo->className(),
-                obj->objectName().toStdString(),
-                sig.constData());
+            // LOG_DEBUG("connectSlotsByName  {}({}) auto-wired slot: {}",
+            //     mo->className(),
+            //     obj->objectName().toStdString(),
+            //     sig.constData());
         }
     }
 }
@@ -542,6 +542,19 @@ void ExtensionsManager::install() {
             }
         }
     }
+
+    HooksManager::addBefore<&CLOAPI::UtilityAPIInterface::CreateProgressBar>([&](const HookHandle &handle, CLOAPI::UtilityAPIInterface*&) {
+        LOG_INFO("CreateProgressBar hook!!!");
+    });
+
+    HooksManager::addBefore<&CLOAPI::ImportAPIInterface::ImportAVAC>(
+        [&](const HookHandle &handle, CLOAPI::ImportAPIInterface*&, const std::string& _filePath, const std::string& _apfFilePath) {
+            LOG_INFO("!!!Importing Avatar {}", _filePath);
+        });
+
+    HooksManager::addBefore<&CLOAPI::ImportAPIInterface::ImportAvatar>([&](const HookHandle &handle, CLOAPI::ImportAPIInterface*&, std::string &_avtPath, Marvelous::ImportExportOption &) {
+        LOG_INFO("!!!Importing Avatar {}", _avtPath);
+    });
 
     HooksManager::addBefore<&QApplication::exec>([&](const HookHandle &handle) {
 
