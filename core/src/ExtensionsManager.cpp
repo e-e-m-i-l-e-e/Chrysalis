@@ -331,6 +331,56 @@ public slots:
     }
 };
 
+// ── UtilityAPIInterface::CreateProgressBar vtable hook ────────────────────────
+// CLOAPIInterface.dll exports CreateProgressBar at RVA 0x00001860, a shared stub
+// address (189 other methods resolve to the same RVA).  The real implementation
+// lives in CLO's host binary and is reachable only through the live vtable of the
+// UTILITY_API object — hooking the DLL export is a no-op.
+//
+// Vtable slot counted from UtilityAPIInterface.h in declaration order.
+// MSVC x64 prepends 2 destructor slots before the first virtual method ONLY when
+// a virtual destructor exists. UtilityAPIInterface has none, so slot 0 is the
+// first declared virtual method:
+//   slot 0  GetCLOTemporaryFolderPath  slot 1  GetCLOTemporaryFolderPathW
+//   slot 2  DisplayMessageBox          slot 3  DisplayMessageBoxW
+//   slot 4  GetProjectName             slot 5  GetProjectNameW
+//   slot 6  GetProjectFilePath         slot 7  GetProjectFilePathW
+//   slot 8  GetMajorVersion            slot 9  GetMinorVersion
+//   slot 10 GetPatchVersion            slot 11 toUtf8
+//   slot 12 GetColorwayCount           slot 13 GetCurrentColorwayIndex
+//   slot 14 SetCurrentColorwayIndex    slot 15 SetColorwayName
+//   slot 16 SetColorwayNameW           slot 17 GetColorwayName
+//   slot 18 GetColorwayNameW           slot 19 CopyColorway
+//   slot 20 GetCustomViewInformation   slot 21 GetCustomViewInformationW
+//   slot 22 GetClothPositions          slot 23 ResetClothArrangement
+//   slot 24 GetThumbnailInCLOFile
+//   slot 25 SaveCLOFileThumbnail(string,string,uint)
+//   slot 26 SaveCLOFileThumbnail(string,wstring,uint)
+//   slot 27 GetAssetIconInCLOFile
+//   slot 28 GetMetaDataForCurrentGarment
+//   slot 29 GetMetaDataForCurrentGarmentW
+//   slot 30 SetMetaDataForCurrentGarment
+//   slot 31 ChangeMetaDataValueForCurrentGarment
+//   slot 32 CreateProgressBar   ← target
+//
+// NOTE: UtilityAPIInterface has NO virtual destructor (??1UtilityAPIInterface is
+// absent from CLOAPIInterface.dll exports, while constructors ARE exported — MSVC
+// exports all non-inline members when __declspec(dllexport) is on the class, so
+// the absence is conclusive). No destructor slots → first virtual method is slot 0.
+// ImportAPIInterface DOES have a virtual destructor (??1ImportAPIInterface exported)
+// so its vtable is offset by +2, but UtilityAPIInterface is not.
+constexpr int kCreateProgressBarVtableSlot = 32;
+
+using CreateProgressBarFn = void(*)(void*);
+static uint64_t        s_createProgressBarOriginal = 0;
+static PLH::x64Detour* s_createProgressBarDetour   = nullptr;
+
+static void hookCreateProgressBar(void* self)
+{
+    LOG_INFO("CreateProgressBar hook!!!");
+    reinterpret_cast<CreateProgressBarFn>(s_createProgressBarOriginal)(self);
+}
+
 // Primary MOC-generated path — resolves the signal name from m + local index.
 static void hookActivateMOC(QObject* sender, const QMetaObject* m, int localIdx, void** argv)
 {
@@ -543,14 +593,10 @@ void ExtensionsManager::install() {
         }
     }
 
-    HooksManager::addBefore<&CLOAPI::UtilityAPIInterface::CreateProgressBar>([&](const HookHandle &handle, CLOAPI::UtilityAPIInterface*&) {
-        LOG_INFO("CreateProgressBar hook!!!");
-    });
-
-    HooksManager::addBefore<&CLOAPI::ImportAPIInterface::ImportAVAC>(
-        [&](const HookHandle &handle, CLOAPI::ImportAPIInterface*&, const std::string& _filePath, const std::string& _apfFilePath) {
-            LOG_INFO("!!!Importing Avatar {}", _filePath);
-        });
+    // HooksManager::addBefore<&CLOAPI::ImportAPIInterface::ImportAVAC>(
+    //     [&](const HookHandle &handle, CLOAPI::ImportAPIInterface*&, const std::string& _filePath, const std::string& _apfFilePath) {
+    //         LOG_INFO("!!!Importing Avatar {}", _filePath);
+    //     });
 
     HooksManager::addBefore<&CLOAPI::ImportAPIInterface::ImportAvatar>([&](const HookHandle &handle, CLOAPI::ImportAPIInterface*&, std::string &_avtPath, Marvelous::ImportExportOption &) {
         LOG_INFO("!!!Importing Avatar {}", _avtPath);
@@ -610,6 +656,31 @@ void ExtensionsManager::install() {
         }
 
         LOG_INFO("Extensions menu has been added to myMenuBar");
+
+        // ── CreateProgressBar vtable hook ─────────────────────────────────────
+        // UTILITY_API is guaranteed live at this point (CLO initialises all API
+        // objects before entering QApplication::exec).  We read the real function
+        // address from the live vtable and install the detour on that address.
+        if (UTILITY_API) {
+            void** vtable = *reinterpret_cast<void***>(UTILITY_API);
+            void*  realFn =  vtable[kCreateProgressBarVtableSlot];
+            LOG_INFO("CreateProgressBar real address (vtable[{}]): {:p}",
+                     kCreateProgressBarVtableSlot, realFn);
+
+            s_createProgressBarDetour = new PLH::x64Detour(
+                reinterpret_cast<uint64_t>(realFn),
+                reinterpret_cast<uint64_t>(&hookCreateProgressBar),
+                &s_createProgressBarOriginal);
+
+            if (s_createProgressBarDetour->hook()) {
+                LOG_INFO("CreateProgressBar vtable hook installed");
+            } else {
+                LOG_CRITICAL("CreateProgressBar vtable hook FAILED");
+            }
+        } else {
+            LOG_CRITICAL("UTILITY_API is null — CreateProgressBar hook skipped");
+        }
+
         handle.remove();
     });
 }
