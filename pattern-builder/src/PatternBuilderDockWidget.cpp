@@ -19,7 +19,8 @@ PatternBuilderDockWidget::PatternBuilderDockWidget(QWidget *parent) : MVDockWidg
     LOG_INFO("Style sheet: {}", this->styleSheet().toStdString());
 
     connect(ui->tabWidget, &QTabWidget::tabBarClicked, [this](int index) {
-        UTILITY_API->CreateProgressBar();
+        // UTILITY_API->CreateProgressBar();
+        IMPORT_API->ImportAvatar("C:/Users/Public/Documents/CLO/CLO Assets/Avatar/Female/FV2.1_Mia.avt", {});
     });
     // ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     // ui->scrollArea->viewport()->setAutoFillBackground(false);

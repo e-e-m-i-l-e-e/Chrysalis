@@ -7,6 +7,8 @@
 #include <QMenuBar>
 #include <QMetaMethod>
 
+#include <QNetworkAccessManager>
+
 #include "ExtensionsSettings.h"
 
 #include "HooksManager.h"
@@ -171,12 +173,18 @@ static void hookAddConnection(void* priv, int signalIdx, void* c)
         for (int i = 0; i < mo->methodCount(); ++i) {
             if (mo->method(i).methodType() == QMetaMethod::Signal) {
                 if (sigCount == signalIdx) {
-                    // LOG_DEBUG("addConnection  {}({})::{}  →  {}({})",
-                    //     mo->className(),
-                    //     sender->objectName().toStdString(),
-                    //     mo->method(i).methodSignature().constData(),
-                    //     receiver ? receiver->metaObject()->className() : "<null>",
-                    //     receiver ? receiver->objectName().toStdString() : "");
+                    LOG_DEBUG("addConnection  {}({})::{}  →  {}({})",
+                        mo->className(),
+                        sender->objectName().toStdString(),
+                        mo->method(i).methodSignature().constData(),
+                        receiver ? receiver->metaObject()->className() : "<null>",
+                        receiver ? receiver->objectName().toStdString() : "");
+                    QString h = mo->className();
+                    do {
+                        mo = mo->superClass();
+                        h.append(" ").append(mo->className());
+                    } while (mo->superClass());
+                    LOG_DEBUG(" --- {}", h.toStdString());
                     break;
                 }
                 ++sigCount;
@@ -381,10 +389,56 @@ static void hookCreateProgressBar(void* self)
     reinterpret_cast<CreateProgressBarFn>(s_createProgressBarOriginal)(self);
 }
 
+// ── ImportAPIInterface::ImportAvatar vtable hook ──────────────────────────────
+// Same stub problem as CreateProgressBar: ImportAvatar (RVA 0x00002500) has a
+// unique address in the SDK DLL, but live calls still go through the vtable of
+// the real IMPORT_API object in CLO's host binary — HooksManager's vcall thunk
+// detour is bypassed by direct vtable dispatch.
+//
+// ImportAPIInterface HAS a virtual destructor (??1ImportAPIInterface exported)
+// → 2 destructor slots prefix the vtable → first declared method is slot 2.
+//
+//   slot 0  ~ImportAPIInterface (scalar dtor)
+//   slot 1  ~ImportAPIInterface (vector dtor)
+//   slot 2  ImportFile(string)              slot 3  ImportFileW
+//   slot 4  ImportZprj                      slot 5  ImportZprjW
+//   slot 6  ImportGarmentInformation        slot 7  ImportGarmentInformationW
+//   slot 8  ImportGarmentInformationConfigData  slot 9  ...ConfigDataW
+//   slot 10 ImportOBJ                       slot 11 ImportOBJW
+//   slot 12 ImportVMP                       slot 13 ImportVMPW
+//   slot 14 ImportCPT                       slot 15 ImportCPTW
+//   slot 16 ImportVLP                       slot 17 ImportVLPW
+//   slot 18 ImportVRP                       slot 19 ImportVRPW
+//   slot 20 ImportDXF                       slot 21 ImportDXFW
+//   slot 22 ImportGraphicStyleFromImage(string)  slot 23 ...(wstring)
+//   slot 24 ImportAVAC(wstring,wstring)     slot 25 ImportAVAC(string,string)
+//   slot 26 ImportFile(string,ImportExportOption)  slot 27 ImportFileW(...)
+//   slot 28 ImportFBX                       slot 29 ImportFBXW
+//   slot 30 ImportGLTF                      slot 31 ImportGLTFW
+//   slot 32 ImportSMP                       slot 33 ImportSMPW
+//   slot 34 ImportAsGraphic                 slot 35 ImportAsGraphicW
+//   slot 36 ImportTrim
+//   slot 37 ImportAvatar   ← target  (confirmed from real DLL vtable binary)
+//   NOTE: header-based count gives slot 38, but the real CLO binary has one
+//   additional hidden internal method inserted before ImportAvatar, shifting it down by 1.
+constexpr int kImportAvatarVtableSlot = 37;
+
+// Signature matches the header: bool ImportAvatar(std::string _avtPath, ImportExportOption _opt)
+// Both args are passed BY VALUE — must match exactly or the stack frame is wrong.
+using ImportAvatarFn = bool(*)(void*, std::string, Marvelous::ImportExportOption);
+static uint64_t        s_importAvatarOriginal = 0;
+static PLH::x64Detour* s_importAvatarDetour   = nullptr;
+
+static bool hookImportAvatar(void* self, std::string _avtPath, Marvelous::ImportExportOption _opt)
+{
+    LOG_INFO("!!!Importing Avatar {}", _avtPath);
+    return reinterpret_cast<ImportAvatarFn>(s_importAvatarOriginal)(self, std::move(_avtPath), _opt);
+}
+
 // Primary MOC-generated path — resolves the signal name from m + local index.
 static void hookActivateMOC(QObject* sender, const QMetaObject* m, int localIdx, void** argv)
 {
-    if (sender && m && !QString(sender->metaObject()->className()).startsWith("Q")) {
+    if (sender && m && !QString(sender->metaObject()->className()).startsWith("Q") || QString(sender->metaObject()->className()).contains("Network")) {
         const int absIdx = m->methodOffset() + localIdx;
         const QMetaMethod sig = sender->metaObject()->method(absIdx);
         const auto sigName = sig.methodSignature();
@@ -558,6 +612,10 @@ void ExtensionsManager::install() {
         }
     }
 
+    HooksManager::addBefore<&QNetworkAccessManager::get>([&](HookHandle, QNetworkAccessManager *&, const QNetworkRequest & request) {
+        LOG_INFO("Get request");
+    });
+
     // ── QMetaObject::activate hooks: intercept every signal emission ──────────
     // Symbols confirmed from Qt5Core.dll PE export table.
     struct { const char* sym; uint64_t* original; void* hook; PLH::x64Detour** detour; const char* label; } activateHooks[] = {
@@ -593,95 +651,94 @@ void ExtensionsManager::install() {
         }
     }
 
-    // HooksManager::addBefore<&CLOAPI::ImportAPIInterface::ImportAVAC>(
-    //     [&](const HookHandle &handle, CLOAPI::ImportAPIInterface*&, const std::string& _filePath, const std::string& _apfFilePath) {
-    //         LOG_INFO("!!!Importing Avatar {}", _filePath);
-    //     });
-
-    HooksManager::addBefore<&CLOAPI::ImportAPIInterface::ImportAvatar>([&](const HookHandle &handle, CLOAPI::ImportAPIInterface*&, std::string &_avtPath, Marvelous::ImportExportOption &) {
-        LOG_INFO("!!!Importing Avatar {}", _avtPath);
-    });
+    // ── CLO API vtable hooks ───────────────────────────────────────────────
+    // UTILITY_API and IMPORT_API are guaranteed live here — CLO initialises
+    // all API objects before entering QApplication::exec.
+    // if (UTILITY_API) {
+    //     void** vtable = *reinterpret_cast<void***>(UTILITY_API);
+    //     void*  realFn =  vtable[kCreateProgressBarVtableSlot];
+    //     LOG_INFO("CreateProgressBar real address (vtable[{}]): {:p}", kCreateProgressBarVtableSlot, realFn);
+    //     s_createProgressBarDetour = new PLH::x64Detour(
+    //         reinterpret_cast<uint64_t>(realFn),
+    //         reinterpret_cast<uint64_t>(&hookCreateProgressBar),
+    //         &s_createProgressBarOriginal);
+    //     s_createProgressBarDetour->hook()
+    //         ? LOG_INFO("CreateProgressBar vtable hook installed")
+    //         : LOG_CRITICAL("CreateProgressBar vtable hook FAILED");
+    // } else {
+    //     LOG_CRITICAL("UTILITY_API is null — CreateProgressBar hook skipped");
+    // }
+    //
+    // if (IMPORT_API) {
+    //     void** vtable = *reinterpret_cast<void***>(IMPORT_API);
+    //     void*  realFn =  vtable[kImportAvatarVtableSlot];
+    //     LOG_INFO("ImportAvatar real address (vtable[{}]): {:p}", kImportAvatarVtableSlot, realFn);
+    //     s_importAvatarDetour = new PLH::x64Detour(
+    //         reinterpret_cast<uint64_t>(realFn),
+    //         reinterpret_cast<uint64_t>(&hookImportAvatar),
+    //         &s_importAvatarOriginal);
+    //     s_importAvatarDetour->hook()
+    //         ? LOG_INFO("ImportAvatar vtable hook installed")
+    //         : LOG_CRITICAL("ImportAvatar vtable hook FAILED");
+    // } else {
+    //     LOG_CRITICAL("IMPORT_API is null — ImportAvatar hook skipped");
+    // }
 
     HooksManager::addBefore<&QApplication::exec>([&](const HookHandle &handle) {
 
-        QMenuBar* menu = nullptr;
-
-        for (const auto widget: QApplication::allWidgets()) {
-            // Configure main window
-            if (widget->objectName() == "TitleFrame") {
-                mainWindow = dynamic_cast<QFrame*>(widget);
-                LOG_INFO("Main window has been detected by Extensions Manager.");
-            }
-
-            // Getting menu bar for further configuration
-            else if (widget->objectName() == "myMenuBar") menu = qobject_cast<QMenuBar*>(widget);
-
-            // Inject QLabel for displaying messages from background processes into bottom status bar.
-            else if (QString(widget->metaObject()->className()) == "MVStatusBar") {
-                for (const auto statusBar = dynamic_cast<MVStatusBar*>(widget);
-                     const auto child: statusBar->children()) {
-                    if (child->metaObject() == &QWidget::staticMetaObject && !child->children().empty()) {
-                        const auto parent = qobject_cast<QWidget*>(child);
-                        backgroundMessage_ = new QLabel(parent);
-                        backgroundMessage_->setGeometry(statusBar->width() / 2, 2, 500, 20);
-                        UTILITY_API->UpdateCloStyleForPlugIn(backgroundMessage_);
-                        backgroundMessage_->show();
-
-                        for (const auto extension: extensions) {
-                            extension->configureStatusBar(parent);
-                        }
-                    }
-                }
-            }
-
-            for (const auto extension: extensions) {
-                extension->configure(widget);
-            }
-        }
-
-        if (!menu) {
-            LOG_CRITICAL("Menu was not found");
-            exit(1);
-        }
-
-        // Configuring menu
-        const auto extensionsMenu = menu->addMenu("Extensions");
-
-        extensionsSettings = new ExtensionsSettings(mainWindow);
-        const QAction *extensionsSettingsMenu = extensionsMenu->addAction("Extensions Settings");
-        QObject::connect(extensionsSettingsMenu, &QAction::triggered, extensionsSettings, &ExtensionsSettings::exec);
-
-        for (const auto extension: extensions) {
-            extension->configureMenu(extensionsMenu);
-        }
-
-        LOG_INFO("Extensions menu has been added to myMenuBar");
-
-        // ── CreateProgressBar vtable hook ─────────────────────────────────────
-        // UTILITY_API is guaranteed live at this point (CLO initialises all API
-        // objects before entering QApplication::exec).  We read the real function
-        // address from the live vtable and install the detour on that address.
-        if (UTILITY_API) {
-            void** vtable = *reinterpret_cast<void***>(UTILITY_API);
-            void*  realFn =  vtable[kCreateProgressBarVtableSlot];
-            LOG_INFO("CreateProgressBar real address (vtable[{}]): {:p}",
-                     kCreateProgressBarVtableSlot, realFn);
-
-            s_createProgressBarDetour = new PLH::x64Detour(
-                reinterpret_cast<uint64_t>(realFn),
-                reinterpret_cast<uint64_t>(&hookCreateProgressBar),
-                &s_createProgressBarOriginal);
-
-            if (s_createProgressBarDetour->hook()) {
-                LOG_INFO("CreateProgressBar vtable hook installed");
-            } else {
-                LOG_CRITICAL("CreateProgressBar vtable hook FAILED");
-            }
-        } else {
-            LOG_CRITICAL("UTILITY_API is null — CreateProgressBar hook skipped");
-        }
-
-        handle.remove();
+        // QMenuBar* menu = nullptr;
+        //
+        // for (const auto widget: QApplication::allWidgets()) {
+        //     // Configure main window
+        //     if (widget->objectName() == "TitleFrame") {
+        //         mainWindow = dynamic_cast<QFrame*>(widget);
+        //         LOG_INFO("Main window has been detected by Extensions Manager.");
+        //     }
+        //
+        //     // Getting menu bar for further configuration
+        //     else if (widget->objectName() == "myMenuBar") menu = qobject_cast<QMenuBar*>(widget);
+        //
+        //     // Inject QLabel for displaying messages from background processes into bottom status bar.
+        //     else if (QString(widget->metaObject()->className()) == "MVStatusBar") {
+        //         for (const auto statusBar = dynamic_cast<MVStatusBar*>(widget);
+        //              const auto child: statusBar->children()) {
+        //             if (child->metaObject() == &QWidget::staticMetaObject && !child->children().empty()) {
+        //                 const auto parent = qobject_cast<QWidget*>(child);
+        //                 backgroundMessage_ = new QLabel(parent);
+        //                 backgroundMessage_->setGeometry(statusBar->width() / 2, 2, 500, 20);
+        //                 UTILITY_API->UpdateCloStyleForPlugIn(backgroundMessage_);
+        //                 backgroundMessage_->show();
+        //
+        //                 for (const auto extension: extensions) {
+        //                     extension->configureStatusBar(parent);
+        //                 }
+        //             }
+        //         }
+        //     }
+        //
+        //     for (const auto extension: extensions) {
+        //         extension->configure(widget);
+        //     }
+        // }
+        //
+        // if (!menu) {
+        //     LOG_CRITICAL("Menu was not found");
+        //     exit(1);
+        // }
+        //
+        // // Configuring menu
+        // const auto extensionsMenu = menu->addMenu("Extensions");
+        //
+        // extensionsSettings = new ExtensionsSettings(mainWindow);
+        // const QAction *extensionsSettingsMenu = extensionsMenu->addAction("Extensions Settings");
+        // QObject::connect(extensionsSettingsMenu, &QAction::triggered, extensionsSettings, &ExtensionsSettings::exec);
+        //
+        // for (const auto extension: extensions) {
+        //     extension->configureMenu(extensionsMenu);
+        // }
+        //
+        // LOG_INFO("Extensions menu has been added to myMenuBar");
+        // handle.remove();
     });
 }
 
