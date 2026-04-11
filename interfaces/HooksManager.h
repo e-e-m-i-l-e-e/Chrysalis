@@ -4,6 +4,8 @@
 #include <unordered_map>
 #include <regex>
 #include <string>
+#include <tuple>
+#include <Windows.h>
 
 // ─── undef Qt's emit if it was defined before this header ────────────────────
 // Qt defines `#define emit` (empty). asmjit (pulled in by polyhook) uses
@@ -269,6 +271,31 @@ class HooksManager {
         // last callback was removed, the instance is gone, and we call through
         // to the original function without touching any instance state.
         static R hook(CallArgs... args) {
+            // ── Pointer safety guard ───────────────────────────────────────────
+            // When the first argument is a pointer (i.e., `this` for any hooked
+            // member function), verify it addresses committed readable memory
+            // before touching any callbacks or calling original().
+            // CLO3D has use-after-free patterns — the before-callbacks survive
+            // because they don't dereference self, but original(args...) would
+            // fault on the freed pointer.  Skipping is safe: CLO's caller
+            // receives R{} (empty QVariant, false, etc.) for the freed object,
+            // which it was going to discard anyway.
+            if constexpr (sizeof...(CallArgs) > 0) {
+                using FirstArg = std::tuple_element_t<0, std::tuple<CallArgs...>>;
+                if constexpr (std::is_pointer_v<FirstArg>) {
+                    const auto* ptr = std::get<0>(std::forward_as_tuple(args...));
+                    if (!HooksManager::isReadablePtr(static_cast<const void*>(ptr))) {
+#ifdef LOGS_DIR
+                        LOG_WARN_TO(HooksManager::LOGGER_NAME_,
+                            "hook(): unsafe ptr {:p} — skipping original()",
+                            static_cast<const void*>(ptr));
+#endif
+                        if constexpr (std::is_void_v<R>) return;
+                        else return R{};
+                    }
+                }
+            }
+
             // Swap pending removals onto the stack before running any of them.
             std::list<std::function<void()> > pending;
             std::swap(_instance->_executeLater, pending);
@@ -454,6 +481,26 @@ class HooksManager {
         if (std::regex_search(raw, match, re) && match.size() > 1)
             return match[1].str();
         return raw;
+    }
+
+    // ── isReadablePtr ─────────────────────────────────────────────────────────
+    // Returns true iff ptr is non-null and maps to committed, readable memory.
+    // Used by hook() to guard against CLO3D use-after-free patterns where an
+    // object is freed while a hooked member function call is still in flight.
+    // A VirtualQuery kernel round-trip is cheap enough for the rare QSettings
+    // paths that trigger this; do NOT use it on high-frequency hooks like
+    // activate() or connectImpl().
+    static bool isReadablePtr(const void* ptr) noexcept {
+#ifdef _WIN32
+        if (!ptr) return false;
+        MEMORY_BASIC_INFORMATION mbi{};
+        if (!VirtualQuery(ptr, &mbi, sizeof(mbi))) return false;
+        if (mbi.State != MEM_COMMIT) return false;
+        constexpr DWORD badProtect = PAGE_NOACCESS | PAGE_GUARD;
+        return !(mbi.Protect & badProtect);
+#else
+        return ptr != nullptr;
+#endif
     }
 
     // ── _hooks ────────────────────────────────────────────────────────────────
