@@ -158,6 +158,8 @@ using AddConnectionFn = void(*)(void*, int, void*);
 static uint64_t        s_addConnectionOriginal = 0;
 static PLH::x64Detour* s_addConnectionDetour   = nullptr;
 
+static QObject *test;
+
 static void hookAddConnection(void* priv, int signalIdx, void* c)
 {
     // sender is at q_ptr offset 8 inside QObjectData
@@ -179,12 +181,40 @@ static void hookAddConnection(void* priv, int signalIdx, void* c)
                         mo->method(i).methodSignature().constData(),
                         receiver ? receiver->metaObject()->className() : "<null>",
                         receiver ? receiver->objectName().toStdString() : "");
+
+                    for (const QMetaObject* m = mo; m != nullptr; m = m->superClass())
+                    {
+                        if (QString(m->className()).startsWith("Q")) continue;
+                        LOG_DEBUG("=== {} ===", m->className());
+
+                        for (int j = m->methodOffset(); j < m->methodOffset() + m->methodCount(); ++j)
+                        {
+                            const QMetaMethod method = m->method(j);
+
+                            const char* typeLabel = nullptr;
+                            switch (method.methodType())
+                            {
+                                case QMetaMethod::Signal: typeLabel = "SIGNAL"; break;
+                                case QMetaMethod::Slot:   typeLabel = "SLOT  "; break;
+                                default: continue; // skip QMetaMethod::Method and Constructor
+                            }
+
+                            LOG_DEBUG("  [{}] {}", typeLabel, method.methodSignature().constData());
+                        }
+                    }
+
+                    if (QString("CloUICommon::CVFSignOnWorker") == mo->className()) {
+                        LOG_INFO("FOUND CloUICommon::CVFSignOnWorker");
+                        test = sender;
+                    }
+
                     QString h = mo->className();
                     do {
                         mo = mo->superClass();
                         h.append(" ").append(mo->className());
                     } while (mo->superClass());
                     LOG_DEBUG(" --- {}", h.toStdString());
+
                     break;
                 }
                 ++sigCount;
@@ -686,6 +716,14 @@ void ExtensionsManager::install() {
 
     HooksManager::addBefore<&QApplication::exec>([&](const HookHandle &handle) {
 
+        LOG_INFO("QApplication::exec()");
+
+        QMetaObject::invokeMethod(test, "LoginSucceed", Q_ARG(QString, "hello"));
+
+        for (const auto& widget: QApplication::allWidgets()) {
+
+        }
+
         // QMenuBar* menu = nullptr;
         //
         // for (const auto widget: QApplication::allWidgets()) {
@@ -739,6 +777,20 @@ void ExtensionsManager::install() {
         //
         // LOG_INFO("Extensions menu has been added to myMenuBar");
         // handle.remove();
+    });
+
+    HooksManager::addBefore<&QSettings::beginGroup>(
+        [&](const HookHandle handle, QSettings *settings, const QString &prefix) {
+            LOG_DEBUG("Begin group {}", prefix.toStdString());
+        });
+    HooksManager::addBefore<&QSettings::endGroup>(
+        [](const HookHandle handle, QSettings *settings) {
+            LOG_DEBUG("End group");
+        });
+
+    HooksManager::addBefore<&QSettings::value>(
+    [](const HookHandle handle, QSettings *settings, const QString &key, const QVariant& value) {
+        LOG_DEBUG("End group");
     });
 }
 
