@@ -788,9 +788,14 @@ void ExtensionsManager::install() {
             LOG_DEBUG("End group");
         });
 
-    HooksManager::addBefore<&QSettings::value>(
-    [](const HookHandle handle, QSettings *settings, const QString &key, const QVariant& value) {
-        LOG_DEBUG("End group");
+    HooksManager::addAfter<&QSettings::value>(
+    [](const HookHandle& handle, QVariant& ret, const QSettings*& settings, const QString& key, const QVariant& defaultValue) {
+        LOG_DEBUG("QSettings::value: key={} value={}", key.toStdString(), ret.toString().toStdString());
+    });
+
+    HooksManager::addBefore<&QSettings::setValue>(
+    [](const HookHandle& handle, QSettings*& settings, const QString &key, const QVariant &value) {
+        LOG_DEBUG("QSettings::setValue: key={} value={}", key.toStdString(), value.toString().toStdString());
     });
 }
 

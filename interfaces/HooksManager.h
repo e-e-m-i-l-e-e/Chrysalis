@@ -358,9 +358,9 @@ class HooksManager {
     };
 
     // =========================================================================
-    //  HookTraits — member function specialization
+    //  HookTraits — non-const member function specialization
     //  @tparam R        Return type
-    //  @tparam Class that owns the member function
+    //  @tparam Class    Class that owns the member function
     //  @tparam Args     Argument types (excluding implicit this)
     //  @tparam Function Pointer to the member function to hook
     // =========================================================================
@@ -373,6 +373,28 @@ class HooksManager {
             // on MSVC/GCC/Clang for x64 single-inheritance vtable layouts.
             union {
                 R (Class::*mfp)(Args...);
+                uint64_t addr;
+            } u;
+            u.mfp = Function;
+            return u.addr;
+        }
+    };
+
+    // =========================================================================
+    //  HookTraits — const member function specialization
+    //  Mirrors the non-const variant above. The implicit `this` pointer becomes
+    //  `const Class*` throughout: in HookBase's CallArgs, in the trampoline
+    //  signature, and in the lambda parameter list seen by callers.
+    //
+    //  Without this specialization any addBefore<&Foo::constMethod> call
+    //  silently falls through to the undefined primary template and fails to
+    //  compile. Examples: QSettings::value, QSettings::contains, QVariant::toString.
+    // =========================================================================
+    template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) const>
+    struct HookTraits<Function> : HookBase<R, R(*)(const Class *, Args...), const Class *, Args...> {
+        static uint64_t address() {
+            union {
+                R (Class::*mfp)(Args...) const;
                 uint64_t addr;
             } u;
             u.mfp = Function;
