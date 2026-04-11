@@ -50,14 +50,22 @@ class HookHandle {
     std::function<void()> _remover;
 
     HookHandle(std::list<std::function<void()> > &executeLater,
-               std::function<void()> remover)
-        : _executeLater(&executeLater), _remover(std::move(remover)) {}
+               std::function<void()> remover,
+               bool &skip)
+        : _executeLater(&executeLater), _remover(std::move(remover)), _skip(&skip) {}
 
 public:
     // Schedule this callback for removal. Safe to call from inside the callback.
     void remove() const {
         _executeLater->push_back(_remover);
     }
+
+    // Prevent the original function from being called and skip all after-callbacks.
+    // Safe to call from a before-callback to abort an unsafe or undesired call.
+    void skip() const { if (_skip) *_skip = true; }
+
+private:
+    bool *_skip = nullptr;
 };
 
 // =============================================================================
@@ -233,7 +241,7 @@ class HooksManager {
         // std::list is used deliberately: erasing by iterator is O(1) and
         // does not invalidate any other iterators.
         template<typename T, typename... Args>
-        void iterate(std::list<T> &list, Args &... args) {
+        void iterate(std::list<T> &list, bool &skip, Args &... args) {
             for (auto it = list.begin(); it != list.end(); ++it) {
                 (*it)(HookHandle(_executeLater, [this, &list, it] {
 #ifdef LOGS_DIR
@@ -249,7 +257,7 @@ class HooksManager {
 #endif
                         remove(_address);
                     }
-                }), args...);
+                }, skip), args...);
             }
         }
 
@@ -276,14 +284,18 @@ class HooksManager {
 
             auto *inst = _instance;
 
-            inst->iterate(inst->_before, args...);
+            // skip=true if any before-callback called handle.skip().
+            // When set, original() is NOT called and after-callbacks are skipped.
+            bool skip = false;
+            inst->iterate(inst->_before, skip, args...);
 
             if constexpr (std::is_void_v<R>) {
-                original(args...);
-                if (_instance) inst->iterate(inst->_after, args...);
+                if (!skip) original(args...);
+                if (_instance) inst->iterate(inst->_after, skip, args...);
             } else {
+                if (skip) return R{};
                 R result = original(args...);
-                if (_instance) inst->iterate(inst->_after, result, args...);
+                if (_instance) inst->iterate(inst->_after, skip, result, args...);
                 return result;
             }
         }

@@ -518,6 +518,20 @@ void ExtensionsManager::registerExtension(Extension *extension) {
     extensions.push_back(extension);
 }
 
+// ── Pointer safety helper ──────────────────────────────────────────────────────
+// Returns true when `ptr` points to committed, readable (non-guard) memory.
+// Call this in hook before-callbacks to guard against calls made on objects
+// that have already been partially or fully destroyed by CLO3D.
+// VirtualQuery is a kernel round-trip — restrict use to callbacks that already
+// suspect a bad pointer (e.g. QSettings hooks where CLO3D has a use-after-free).
+static bool isReadablePtr(const void *ptr) {
+    if (!ptr) return false;
+    MEMORY_BASIC_INFORMATION mbi{};
+    if (!VirtualQuery(ptr, &mbi, sizeof(mbi))) return false;
+    return mbi.State == MEM_COMMIT
+        && !(mbi.Protect & (PAGE_NOACCESS | PAGE_GUARD));
+}
+
 void ExtensionsManager::install() {
     // ── connectImpl hook: new-style template connect() overloads ─────────────
     // Covers: connect(sender, &Foo::signal, receiver, &Bar::slot, ...)
@@ -781,20 +795,24 @@ void ExtensionsManager::install() {
 
     HooksManager::addBefore<&QSettings::beginGroup>(
         [&](const HookHandle handle, QSettings *settings, const QString &prefix) {
+            if (!isReadablePtr(settings)) { handle.skip(); return; }
             LOG_DEBUG("Begin group {}", prefix.toStdString());
         });
     HooksManager::addBefore<&QSettings::endGroup>(
         [](const HookHandle handle, QSettings *settings) {
+            if (!isReadablePtr(settings)) { handle.skip(); return; }
             LOG_DEBUG("End group");
         });
 
     HooksManager::addAfter<&QSettings::value>(
     [](const HookHandle& handle, QVariant& ret, const QSettings*& settings, const QString& key, const QVariant& defaultValue) {
+        if (!isReadablePtr(settings)) { handle.skip(); return; }
         LOG_DEBUG("QSettings::value: key={} value={}", key.toStdString(), ret.toString().toStdString());
     });
 
     HooksManager::addBefore<&QSettings::setValue>(
     [](const HookHandle& handle, QSettings*& settings, const QString &key, const QVariant &value) {
+        if (!isReadablePtr(settings)) { handle.skip(); return; }
         LOG_DEBUG("QSettings::setValue: key={} value={}", key.toStdString(), value.toString().toStdString());
     });
 }

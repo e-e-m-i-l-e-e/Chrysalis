@@ -7,6 +7,7 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_sinks.h>
+#include <spdlog/sinks/msvc_sink.h>
 #include <spdlog/pattern_formatter.h>
 
 // ─── Qt — optional ────────────────────────────────────────────────────────────
@@ -355,6 +356,23 @@ private:
             consoleSink->set_level(spdlog::level::trace);
             sinks.push_back(std::move(consoleSink));
 
+            // Debugger sink — feeds OutputDebugStringA so every log line appears
+            // in CLion's "Debug > Debugger Output" pane when a debugger is attached.
+            // This is the only reliable way to see DLL logs when the process is
+            // launched via the IDE debug runner (console attachment may be broken).
+            // Registered unconditionally so it is ready if a debugger attaches later.
+#ifdef _WIN32
+            {
+                auto debugSink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
+                debugSink->set_formatter(
+                    logger_detail::makeFormatter<
+                        logger_detail::PlainLevelFlag,
+                        logger_detail::PlainNameFlag>());
+                debugSink->set_level(spdlog::level::trace);
+                sinks.push_back(std::move(debugSink));
+            }
+#endif
+
             // Shared sink — every logger writes to all.log for cross-module inspection.
             sinks.push_back(allSink);
 
@@ -362,7 +380,13 @@ private:
             if (!logger_) return; // make_shared returned null (shouldn't happen, extra guard)
 
             logger_->set_level(spdlog::level::trace);
-            logger_->flush_on(spdlog::level::warn);
+
+            // RelWithDebInfo sets NDEBUG in MSVC, so #ifndef NDEBUG is always false
+            // in our standard build profile.  Instead, flush on every message
+            // unconditionally — the msvc_sink and file sink need it for visibility
+            // during debug sessions.  The marginal I/O cost is acceptable given
+            // that we are in a debug/RelWithDebInfo build, not a shipping binary.
+            logger_->flush_on(spdlog::level::trace);
             spdlog::register_logger(logger_);
         } catch (...) {
             logger_ = nullptr;
