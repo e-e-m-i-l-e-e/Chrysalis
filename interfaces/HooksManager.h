@@ -4,9 +4,8 @@
 #include <unordered_map>
 #include <regex>
 #include <string>
-#include <cstddef>
-#include <memory>
-#include <type_traits>
+#include <tuple>
+#include <Windows.h>
 
 // ─── undef Qt's emit if it was defined before this header ────────────────────
 // Qt defines `#define emit` (empty). asmjit (pulled in by polyhook) uses
@@ -176,14 +175,6 @@ class HooksManager {
             _detour.hook();
         }
 
-        // Temporarily remove the JMP patch, restoring the original function bytes.
-        // Used by HookBase::hook() to call the real function directly — bypassing
-        // the PolyHook trampoline, which may be broken for functions whose
-        // prologues contain instructions that cannot be safely relocated
-        // (RIP-relative loads, relative calls/jumps, hotpatch stubs, etc.).
-        void suspend() { _detour.unHook(); }
-        void resume()  { _detour.hook();   }
-
         virtual ~AbstractHook() {
             _detour.unHook();
         }
@@ -216,29 +207,20 @@ class HooksManager {
     template<typename R, typename Original, typename... CallArgs>
     struct HookBase {
         // ── Callback types ────────────────────────────────────────────────────
+        // Before callbacks receive all call arguments by reference so they can
+        // inspect or modify them before the original function runs.
         using Before = std::function<void(HookHandle, CallArgs &...)>;
-        using After = hook_detail::AfterType<R, CallArgs...>::type;
 
-        // True on MSVC x64: non-void, non-trivially-copyable R is returned via
-        // a caller-allocated hidden buffer whose pointer occupies RCX, shifting
-        // every explicit arg one register to the right.  We type Original as
-        // R*(*)(R*, CallArgs...) so our explicit call to original() puts the
-        // buffer pointer in RCX without MSVC inserting a second hidden pointer
-        // on top of the one the real caller (CLO) already supplied.
-        static constexpr bool kHiddenRet =
-            !std::is_void_v<R> && !std::is_trivially_copyable_v<R>;
+        // After callbacks additionally receive the return value (if non-void)
+        // so they can inspect or replace it. AfterType is used instead of
+        // std::conditional_t to avoid eagerly instantiating void& (ill-formed).
+        using After = hook_detail::AfterType<R, CallArgs...>::type;
 
         // ── Instance data — allocated on first use, freed on last removal ─────
         std::list<Before> _before;
         std::list<After> _after;
         std::list<std::function<void()> > _executeLater;
         void* _address = nullptr;
-
-        // Bridge to the AbstractHook that owns this instance's PLH detour.
-        // Set by Hook<Target> before install() and cleared in its destructor.
-        // Used by hook() to suspend/resume the detour when calling the real
-        // function directly, bypassing the potentially-broken trampoline.
-        static inline AbstractHook* _abstractHook = nullptr;
 
         void addBefore(Before cb) {
             _before.push_back(std::move(cb));
@@ -289,6 +271,31 @@ class HooksManager {
         // last callback was removed, the instance is gone, and we call through
         // to the original function without touching any instance state.
         static R hook(CallArgs... args) {
+            // ── Pointer safety guard ───────────────────────────────────────────
+            // When the first argument is a pointer (i.e., `this` for any hooked
+            // member function), verify it addresses committed readable memory
+            // before touching any callbacks or calling original().
+            // CLO3D has use-after-free patterns — the before-callbacks survive
+            // because they don't dereference self, but original(args...) would
+            // fault on the freed pointer.  Skipping is safe: CLO's caller
+            // receives R{} (empty QVariant, false, etc.) for the freed object,
+            // which it was going to discard anyway.
+            if constexpr (sizeof...(CallArgs) > 0) {
+                using FirstArg = std::tuple_element_t<0, std::tuple<CallArgs...>>;
+                if constexpr (std::is_pointer_v<FirstArg>) {
+                    const auto* ptr = std::get<0>(std::forward_as_tuple(args...));
+                    if (!HooksManager::isReadablePtr(static_cast<const void*>(ptr))) {
+#ifdef LOGS_DIR
+                        LOG_WARN_TO(HooksManager::LOGGER_NAME_,
+                            "hook(): unsafe ptr {:p} — skipping original()",
+                            static_cast<const void*>(ptr));
+#endif
+                        if constexpr (std::is_void_v<R>) return;
+                        else return R{};
+                    }
+                }
+            }
+
             // Swap pending removals onto the stack before running any of them.
             std::list<std::function<void()> > pending;
             std::swap(_instance->_executeLater, pending);
@@ -298,36 +305,11 @@ class HooksManager {
 
             inst->iterate(inst->_before, args...);
 
-            // Suspend the hook (restores original function bytes at _address) so
-            // that calling _address goes straight to the real implementation without
-            // hitting our JMP patch and without going through the PolyHook trampoline.
-            // The trampoline can be broken for functions whose prologues contain
-            // position-dependent instructions that PLH cannot safely relocate.
-            _abstractHook->suspend();
-
             if constexpr (std::is_void_v<R>) {
-                reinterpret_cast<void(*)(CallArgs...)>(
-                    reinterpret_cast<uint64_t>(_instance->_address))(args...);
-                _abstractHook->resume();
+                original(args...);
                 if (_instance) inst->iterate(inst->_after, args...);
-            } else if constexpr (kHiddenRet) {
-                // Non-trivially-copyable return: the real ABI puts the hidden
-                // return-buffer pointer in RCX.  Call via R*(*)(R*, CallArgs...)
-                // so the compiler does NOT generate a second hidden pointer —
-                // our explicit `ret` lands in RCX uncontested.
-                alignas(R) std::byte retBuf[sizeof(R)];
-                auto *ret = reinterpret_cast<R *>(retBuf);
-                reinterpret_cast<R*(*)(R*, CallArgs...)>(
-                    reinterpret_cast<uint64_t>(_instance->_address))(ret, args...);
-                _abstractHook->resume();
-                if (_instance) inst->iterate(inst->_after, *ret, args...);
-                R result = std::move(*ret);
-                std::destroy_at(ret);
-                return result;
             } else {
-                R result = reinterpret_cast<R(*)(CallArgs...)>(
-                    reinterpret_cast<uint64_t>(_instance->_address))(args...);
-                _abstractHook->resume();
+                R result = original(args...);
                 if (_instance) inst->iterate(inst->_after, result, args...);
                 return result;
             }
@@ -365,7 +347,6 @@ class HooksManager {
             auto *inst = new HookTraits<Target>();
             inst->_address = address;
             HookTraits<Target>::_instance = inst;
-            HookTraits<Target>::_abstractHook = this;
 
             install(); // detour goes live only now — _instance is guaranteed valid
         }
@@ -375,10 +356,8 @@ class HooksManager {
             // detour is removed before we free the instance. No in-flight hook()
             // call can be using _instance after unHook() returns.
             //
-            // Clear _abstractHook before deleting the instance so that any
-            // hook() call still in flight does not try to suspend/resume a
-            // dead detour.
-            HookTraits<Target>::_abstractHook = nullptr;
+            // Cast to the concrete type so the correct destructor is called
+            // without requiring a virtual destructor on HookBase.
             delete static_cast<HookTraits<Target> *>(HookTraits<Target>::_instance);
             HookTraits<Target>::_instance = nullptr;
         }
@@ -399,12 +378,7 @@ class HooksManager {
     //  @tparam Function Pointer to the free function to hook
     // =========================================================================
     template<typename R, typename... Args, R(*Function)(Args...)>
-    struct HookTraits<Function> : HookBase<R,
-        std::conditional_t<
-            !std::is_void_v<R> && !std::is_trivially_copyable_v<R>,
-            R*(*)(R*, Args...),
-            R(*)(Args...)>,
-        Args...> {
+    struct HookTraits<Function> : HookBase<R, R(*)(Args...), Args...> {
         static uint64_t address() {
             return reinterpret_cast<uint64_t>(Function);
         }
@@ -418,12 +392,7 @@ class HooksManager {
     //  @tparam Function Pointer to the member function to hook
     // =========================================================================
     template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...)>
-    struct HookTraits<Function> : HookBase<R,
-        std::conditional_t<
-            !std::is_void_v<R> && !std::is_trivially_copyable_v<R>,
-            R*(*)(R*, Class*, Args...),
-            R(*)(Class*, Args...)>,
-        Class*, Args...> {
+    struct HookTraits<Function> : HookBase<R, R(*)(Class *, Args...), Class *, Args...> {
         static uint64_t address() {
             // Reinterpret a member function pointer as a raw address.
             // A union is used because member pointers cannot be cast via
@@ -449,12 +418,7 @@ class HooksManager {
     //  compile. Examples: QSettings::value, QSettings::contains, QVariant::toString.
     // =========================================================================
     template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) const>
-    struct HookTraits<Function> : HookBase<R,
-        std::conditional_t<
-            !std::is_void_v<R> && !std::is_trivially_copyable_v<R>,
-            R*(*)(R*, const Class*, Args...),
-            R(*)(const Class*, Args...)>,
-        const Class*, Args...> {
+    struct HookTraits<Function> : HookBase<R, R(*)(const Class *, Args...), const Class *, Args...> {
         static uint64_t address() {
             union {
                 R (Class::*mfp)(Args...) const;
@@ -517,6 +481,26 @@ class HooksManager {
         if (std::regex_search(raw, match, re) && match.size() > 1)
             return match[1].str();
         return raw;
+    }
+
+    // ── isReadablePtr ─────────────────────────────────────────────────────────
+    // Returns true iff ptr is non-null and maps to committed, readable memory.
+    // Used by hook() to guard against CLO3D use-after-free patterns where an
+    // object is freed while a hooked member function call is still in flight.
+    // A VirtualQuery kernel round-trip is cheap enough for the rare QSettings
+    // paths that trigger this; do NOT use it on high-frequency hooks like
+    // activate() or connectImpl().
+    static bool isReadablePtr(const void* ptr) noexcept {
+#ifdef _WIN32
+        if (!ptr) return false;
+        MEMORY_BASIC_INFORMATION mbi{};
+        if (!VirtualQuery(ptr, &mbi, sizeof(mbi))) return false;
+        if (mbi.State != MEM_COMMIT) return false;
+        constexpr DWORD badProtect = PAGE_NOACCESS | PAGE_GUARD;
+        return !(mbi.Protect & badProtect);
+#else
+        return ptr != nullptr;
+#endif
     }
 
     // ── _hooks ────────────────────────────────────────────────────────────────
