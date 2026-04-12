@@ -233,26 +233,26 @@ void ExtensionsManager::install() {
     //     });
 
     HooksManager::addBefore<&QSettings::beginGroup>(
-        [&](const HookHandle handle, QSettings *settings, const QString &prefix) {
+        [&](const HookHandle& handle, QSettings*& settings, const QString &prefix) {
             LOG_DEBUG("Begin group {}", prefix.toStdString());
         });
     HooksManager::addBefore<&QSettings::endGroup>(
-        [](const HookHandle handle, QSettings *settings) {
+        [](const HookHandle& handle, QSettings*& settings) {
             LOG_DEBUG("End group");
         });
 
     HooksManager::addBefore<&QDesktopServices::openUrl>(
-        [](const HookHandle handle, const QUrl &url) {
+        [](const HookHandle& handle, const QUrl &url) {
             LOG_DEBUG("Redirecting to {}", url.toString().toStdString());
     });
 
-    HooksManager::addBefore<&QSettings::value>(
-    [](const HookHandle& handle, const QSettings* settings, const QString& key, const QVariant& defaultValue) {
+    HooksManager::addAfter<&QSettings::value>(
+    [](const HookHandle& handle, QVariant& value, const QSettings*& settings, const QString& key, const QVariant& defaultValue) {
         LOG_DEBUG("QSettings::value: key={} value={} default={}", key.toStdString(), "ret.toString().toStdString()", defaultValue.toString().toStdString());
     });
 
     HooksManager::addAfter<&QSettings::setValue>(
-    [](const HookHandle& handle, QSettings* settings, const QString &key, const QVariant &value) {
+    [](const HookHandle& handle, QSettings*& settings, const QString &key, const QVariant &value) {
         LOG_DEBUG("QSettings::setValue: key={} value={}", key.toStdString(), value.toString().toStdString());
         // if (key == "isLoginWithCVF" && value.toBool()) {
         //     settings->setValue("isLoginWithCVF", false);
@@ -355,5 +355,3 @@ void ExtensionsManager::setMessage(const QString &extensionName, const QString &
 void ExtensionsManager::clearMessage() {
     setMessage("");
 }
-
-#include "ExtensionsManager.moc"

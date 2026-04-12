@@ -46,5 +46,12 @@ add_custom_command(TARGET Extensions POST_BUILD
         COMMENT "Deploying Extensions.dll to CLO directory"
 )
 
+target_compile_options(Extensions PRIVATE
+        $<$<CONFIG:RelWithDebInfo>:/Od /Zi /Ob0>
+)
+target_compile_definitions(Extensions PRIVATE
+        $<$<CONFIG:RelWithDebInfo>:NDEBUG>
+)
+
 add_subdirectory(ui)
 add_subdirectory(qt-designer-plugin)
