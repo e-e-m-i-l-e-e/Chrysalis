@@ -10,8 +10,10 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QtCore/private/qobject_p.h>
+#include <QtCore/private/qhooks_p.h>
 #include <QtCore/qobjectdefs.h>
 #include <QDebug>
+#include <qthreadpool.h>
 
 #include "ExtensionsSettings.h"
 
@@ -125,7 +127,24 @@ void ExtensionsManager::registerExtension(Extension *extension) {
     extensions.push_back(extension);
 }
 
+static void firstAddHook(QObject *obj)
+{
+    QThreadPool::globalInstance()->start([=]() {
+        LOG_INFO("Class: {}. TypeID: {}. Object: {}", "obj->metaObject()->className()", typeid(*obj).name(), "obj->objectName().toStdString()");
+    });
+}
+
+static void startupHook()
+{
+    LOG_INFO("Startup Hook");
+    // std::cout << "HOOK!!!";
+    // LOG_INFO("HOOK!!!");
+    qtHookData[QHooks::AddQObject] = reinterpret_cast<quintptr>(&firstAddHook);
+}
+
 void ExtensionsManager::install() {
+
+    // qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(&startupHook);
 
     // ── CLO API vtable hooks ───────────────────────────────────────────────
     // UTILITY_API and IMPORT_API are guaranteed live here — CLO initialises
@@ -232,31 +251,33 @@ void ExtensionsManager::install() {
     //         // LOG_DEBUG("DEBUG: {}", m);
     //     });
 
+    HooksManager::addBefore<&QDesktopServices::openUrl>(
+        [](const HookHandle &handle, const QUrl &url) {
+            LOG_DEBUG("Redirecting to {}", url.toString().toStdString());
+        });
+
     HooksManager::addBefore<&QSettings::beginGroup>(
-        [&](const HookHandle& handle, QSettings*& settings, const QString &prefix) {
-            LOG_DEBUG("Begin group {}", prefix.toStdString());
+        [](const HookHandle& handle, QSettings*& settings, const QString &prefix) {
+            LOG_DEBUG(" --- Begin group {}. Settings: {}", prefix.toStdString(), reinterpret_cast<uintptr_t>(settings));
         });
     HooksManager::addBefore<&QSettings::endGroup>(
         [](const HookHandle& handle, QSettings*& settings) {
-            LOG_DEBUG("End group");
+            LOG_DEBUG("End group Settings: {}", reinterpret_cast<uintptr_t>(settings));
         });
 
-    HooksManager::addBefore<&QDesktopServices::openUrl>(
-        [](const HookHandle& handle, const QUrl &url) {
-            LOG_DEBUG("Redirecting to {}", url.toString().toStdString());
-    });
-
     HooksManager::addAfter<&QSettings::value>(
-    [](const HookHandle& handle, QVariant& value, const QSettings*& settings, const QString& key, const QVariant& defaultValue) {
-        LOG_DEBUG("QSettings::value: key={} value={} default={}", key.toStdString(), "ret.toString().toStdString()", defaultValue.toString().toStdString());
+    [](const HookHandle& handle, const QVariant& ret, const QSettings* settings, const QString& key, const QVariant& defaultValue) {
+        // LOG_DEBUG("QSettings::value: key={} value={} default={}. Group: {}. Settings: {}", key.toStdString(), ret.toString().toStdString(), defaultValue.toString().toStdString(), settings->group().toStdString(), reinterpret_cast<uintptr_t>(settings));
+            LOG_DEBUG("QSettings::value: key={} value={} default={}. Settings: {}", key.toStdString(), ret.toString().toStdString(), defaultValue.toString().toStdString(), reinterpret_cast<uintptr_t>(settings));
     });
 
     HooksManager::addAfter<&QSettings::setValue>(
     [](const HookHandle& handle, QSettings*& settings, const QString &key, const QVariant &value) {
-        LOG_DEBUG("QSettings::setValue: key={} value={}", key.toStdString(), value.toString().toStdString());
-        // if (key == "isLoginWithCVF" && value.toBool()) {
-        //     settings->setValue("isLoginWithCVF", false);
-        // }
+        LOG_DEBUG("QSettings::setValue: key={} value={} Settings: {}", key.toStdString(), value.toString().toStdString(), reinterpret_cast<uintptr_t>(settings));
+    });
+
+    HooksManager::addAfter<&QObjectPrivate::checkForIncompatibleLibraryVersion>([](const HookHandle& handle, const QObjectPrivate* objectPrivate, int&) {
+        // LOG_DEBUG("ObjectPrivate: {}", reinterpret_cast<uintptr_t>(objectPrivate));
     });
 
     HooksManager::addBefore<&QObjectPrivate::addConnection>([&](const HookHandle& handle, const QObjectPrivate* obj, const int signal, const QObjectPrivate::Connection *c) {
@@ -277,7 +298,7 @@ void ExtensionsManager::install() {
 
                         for (const QMetaObject *m = mo; m != nullptr; m = m->superClass()) {
                             if (QString(m->className()).startsWith("Q")) continue;
-                            LOG_DEBUG("=== {} ===", m->className());
+                            LOG_DEBUG("=== {} === Parent: {}", m->className(), obj->parent ? obj->parent->metaObject()->className() : "NULL");
 
                             for (int j = m->methodOffset(); j < m->methodOffset() + m->methodCount(); ++j) {
                                 const QMetaMethod method = m->method(j);
