@@ -6,292 +6,165 @@
 #include <string>
 
 // ─── undef Qt's emit if it was defined before this header ────────────────────
-// Qt defines `#define emit` (empty). asmjit (pulled in by polyhook) uses
-// `emit` as a member-function identifier. If the macro is still live when
-// asmjit is parsed, `Error emit(InstId instId)` becomes `Error (InstId instId)`
-// and MSVC fails with "missing ')' before identifier 'instId'".
-// We undef here defensively — this header does not depend on Qt and does not
-// restore the macro. TUs that need Qt signal/slot syntax should include Qt
-// headers after this file.
 #ifdef emit
 #  undef emit
 #endif
 #include <polyhook2/Detour/x64Detour.hpp>
 
-// ─── Logger — optional ────────────────────────────────────────────────────────
-// HooksManager emits log output only when the consuming target also links the
-// Logger INTERFACE target. Logger propagates the LOGS_DIR compile definition
-// via CMake transitive dependencies, so its presence is a reliable signal that
-// Logger.h is available and fully configured.
-//
-// When LOGS_DIR is not defined, HooksManager compiles with zero dependency on
-// spdlog or Logger. Each logging call is wrapped in #ifdef LOGS_DIR so the
-// lines are absent entirely from the translation unit — no stubs, no overhead.
 #ifdef LOGS_DIR
 #   include <Logger.h>
 #endif
 
-#include <Windows.h>
-
 // =============================================================================
 //  HookHandle
-//  Must be defined before hook_detail so the Before/After std::function
-//  signatures that reference it can be fully formed.
-//
-//  Returned to the caller when registering a before/after callback.
-//  Calling remove() schedules the callback for deletion on the next hook
-//  invocation — deletion is deferred so it is safe to call remove() from
-//  inside the callback itself without invalidating the iterator mid-loop.
 // =============================================================================
 class HookHandle {
     friend class HooksManager;
-
-    // Raw pointer is intentional: the list is an instance member of HookBase
-    // and outlives every HookHandle created during a single hook invocation.
     std::list<std::function<void()> > *_executeLater;
     std::function<void()> _remover;
-
     HookHandle(std::list<std::function<void()> > &executeLater,
                std::function<void()> remover)
         : _executeLater(&executeLater), _remover(std::move(remover)) {}
-
 public:
-    // Schedule this callback for removal. Safe to call from inside the callback.
-    void remove() const {
-        _executeLater->push_back(_remover);
-    }
+    void remove() const { _executeLater->push_back(_remover); }
 };
 
 // =============================================================================
-//  hook_detail — type-level traits for concepts
-//
-//  MSVC cannot deduce partial specializations of templates whose non-type
-//  template parameter is a member function pointer (e.g. Traits<&Foo::bar>).
-//  The workaround is to specialize on the pointer *type* via decltype(F),
-//  which uses ordinary type-level partial specialization that all compilers
-//  handle reliably.
-//
-//  These are kept in a detail namespace to avoid polluting global scope.
+//  hook_detail
 // =============================================================================
 namespace hook_detail {
-    // ── AfterType<R, ExtraArgs...> ────────────────────────────────────────────────
-    // Lazily builds the After std::function signature.
-    // std::conditional_t is NOT used here because it instantiates both branches
-    // eagerly — forming std::function<void(HookHandle, void&, ...)> is ill-formed.
-    // Partial specialization on void avoids that instantiation entirely.
+
     template<typename R, typename... ExtraArgs>
     struct AfterType {
-        // Non-void: callback receives the return value as a mutable ref first.
         using type = std::function<void(HookHandle, R &, ExtraArgs &...)>;
     };
-
     template<typename... ExtraArgs>
     struct AfterType<void, ExtraArgs...> {
-        // Void: no return value parameter.
         using type = std::function<void(HookHandle, ExtraArgs &...)>;
     };
 
-    // ── FuncTraits<T> — undefined base (SFINAE / concept failure for bad T) ──────
-    template<typename T>
-    struct FuncTraits;
+    template<typename T> struct FuncTraits;
 
-    // ── Free function: R(*)(Args...) ──────────────────────────────────────────────
     template<typename R, typename... Args>
     struct FuncTraits<R(*)(Args...)> {
         using Before = std::function<void(HookHandle, Args &...)>;
-        using After = AfterType<R, Args...>::type;
+        using After  = typename AfterType<R, Args...>::type;
     };
 
-    // ── Non-const member function: R(Class::*)(Args...) ──────────────────────────
     template<typename R, typename Class, typename... Args>
     struct FuncTraits<R(Class::*)(Args...)> {
         using Before = std::function<void(HookHandle, Class *&, Args &...)>;
-        using After = AfterType<R, Class *, Args...>::type;
+        using After  = typename AfterType<R, Class *, Args...>::type;
     };
 
-    // ── Const member function: R(Class::*)(Args...) const ────────────────────────
     template<typename R, typename Class, typename... Args>
     struct FuncTraits<R(Class::*)(Args...) const> {
         using Before = std::function<void(HookHandle, const Class *&, Args &...)>;
-        using After = AfterType<R, const Class *, Args...>::type;
+        using After  = typename AfterType<R, const Class *, Args...>::type;
     };
 
     // ── needs_retbuf_v<T> ─────────────────────────────────────────────────────
-    // MSVC x64 ABI: member functions returning a type that is not trivially
-    // copyable, or is larger than a pointer, use a hidden "return buffer"
-    // pointer inserted as the SECOND argument (after `this`). The function
-    // fills the buffer and returns void at the binary level.
+    // MSVC x64 ABI: a member function returning a non-trivially-copyable type
+    // (or one larger than a pointer) uses a hidden return-buffer pointer as the
+    // SECOND argument (after `this`).  The function is void at the binary level.
     //
-    // For example, QSettings::value returns QVariant (16 bytes, non-trivial):
-    //   C++  signature: QVariant  value(const QString&, const QVariant&) const
-    //   Binary layout:  void      value(QSettings* this, QVariant* retbuf,
-    //                                   const QString& key, const QVariant& def)
+    // Example — QSettings::value:
+    //   C++ declaration:   QVariant value(const QString&, const QVariant&) const
+    //   Binary layout:     void     value(QSettings* this,    // RCX
+    //                                     QVariant*  retbuf,  // RDX  ← hidden
+    //                                     const QString& key, // R8
+    //                                     const QVariant& def)// R9
     //
-    // Any hook function installed as the detour target must match this binary
-    // layout exactly — otherwise RCX/RDX are swapped and the hook receives
-    // the QVariant* retbuf where it expects `this`, causing RefCount::ref() to
-    // be called on the retbuf pointer → crash.
+    // A hook function must match this layout exactly or RCX/RDX are swapped,
+    // causing the hook to treat the retbuf pointer as `this` → crash.
     template<typename T>
     constexpr bool needs_retbuf_v =
         !std::is_void_v<T> &&
         (!std::is_trivially_copyable_v<T> || sizeof(T) > sizeof(void*));
+
 } // namespace hook_detail
 
 // =============================================================================
 //  Concepts
 // =============================================================================
-
-// ── HookableFunction<F> ───────────────────────────────────────────────────────
-// F must be a free function pointer or a (possibly const) member function
-// pointer. Implemented via standard type traits to avoid MSVC's partial
-// specialization deduction issues with member function pointer NTTPs.
 template<auto F>
 concept HookableFunction =
-        std::is_member_function_pointer_v<decltype(F)> ||
-        (std::is_pointer_v<decltype(F)> &&
-         std::is_function_v<std::remove_pointer_t<decltype(F)> >);
+    std::is_member_function_pointer_v<decltype(F)> ||
+    (std::is_pointer_v<decltype(F)> &&
+     std::is_function_v<std::remove_pointer_t<decltype(F)>>);
 
-// ── BeforeCallbackFor<Cb, F> ──────────────────────────────────────────────────
-// Cb must be implicitly convertible to the expected Before callback type for F.
-// Gives a readable error at the addBefore call site when the signature is wrong.
 template<typename Cb, auto F>
 concept BeforeCallbackFor =
-        HookableFunction<F> &&
-        std::convertible_to<Cb, typename hook_detail::FuncTraits<decltype(F)>::Before>;
+    HookableFunction<F> &&
+    std::convertible_to<Cb, typename hook_detail::FuncTraits<decltype(F)>::Before>;
 
-// ── AfterCallbackFor<Cb, F> ───────────────────────────────────────────────────
-// Same as above for After callbacks, which additionally carry the return value
-// (if non-void) as a first mutable reference before the call arguments.
 template<typename Cb, auto F>
 concept AfterCallbackFor =
-        HookableFunction<F> &&
-        std::convertible_to<Cb, typename hook_detail::FuncTraits<decltype(F)>::After>;
+    HookableFunction<F> &&
+    std::convertible_to<Cb, typename hook_detail::FuncTraits<decltype(F)>::After>;
 
 // =============================================================================
 //  HooksManager
-//  Manages x64 detour hooks on arbitrary free and member functions.
-//
-//  Usage:
-//    HooksManager::addBefore<&QWidget::show>([](HookHandle h, QWidget*& self) {
-//        LOG_INFO("QWidget::show called on {}", self->objectName());
-//    });
 // =============================================================================
 class HooksManager {
     inline static std::string LOGGER_NAME_ = "Hooks Manager";
+
     // ── AbstractHook ──────────────────────────────────────────────────────────
-    // Base class stored in the hooks map. Owns the PLH detour lifetime.
-    //
-    // IMPORTANT: hook() is NOT called in the constructor. Subclasses must call
-    // install() explicitly after all instance state (_instance, _address) is
-    // fully initialized. This prevents a race where the hooked function fires
-    // between _detour.hook() and the assignment of _instance.
     class AbstractHook {
     public:
         explicit AbstractHook(const uint64_t function, const uint64_t hook, uint64_t *original)
             : _detour(function, hook, original) {}
 
-        // Activate the detour. Must be called after _instance is set.
         void install() {
-            // CRITICAL: exclude INPLACE and INPLACE_SHORT schemes.
-            //
-            // Both schemes overwrite 16–24+ bytes of the function prologue to embed
-            // the trampoline callback address. For Qt functions that have RIP-relative
-            // instructions within those bytes (e.g. QSettings::value accessing
-            // QStringData::sharedNull via [RIP+offset]), PolyHook generates a
-            // "translation routine" that ends with:
-            //
-            //   push rax
-            //   mov  rax, <resume_address>   ; e.g. 0x9780000078
-            //   xchg [rsp], rax
-            //   ret  0x80                    ; cleans shadow space AND corrupts caller's stack
-            //
-            // The `ret 0x80` unwinds past the shadow space and overwrites CLO's own
-            // local variables — specifically the QSettings* that CLO holds on its frame.
-            // CLO then calls QSettings::endGroup(this = 0x9780000078) → AV at
-            //   d->groupStack.isEmpty()   (qsettings.cpp:3037)
-            //
-            // VALLOC2 and CODE_CAVE both insert only a 6-byte near-jump at the call
-            // site, so the trampoline copies at most 6 clean prologue bytes — no
-            // RIP-relative fixup, no translation routine, no stack corruption.
+            // Exclude INPLACE/INPLACE_SHORT: they overwrite 16-24+ prologue bytes,
+            // which can include RIP-relative instructions.  PolyHook then generates
+            // a translation routine with `ret 0x80` that corrupts the caller's stack.
+            // VALLOC2 and CODE_CAVE use a 6-byte near-jump — safe for all prologues.
             _detour.setDetourScheme(
                 static_cast<PLH::x64Detour::detour_scheme_t>(
                     PLH::x64Detour::VALLOC2 | PLH::x64Detour::CODE_CAVE));
             _detour.hook();
         }
 
-        virtual ~AbstractHook() {
-            _detour.unHook();
-        }
+        virtual ~AbstractHook() { _detour.unHook(); }
 
     protected:
         PLH::x64Detour _detour;
     };
 
-    // ── HookTraits forward declaration ────────────────────────────────────────
-    // Specialised below for free functions and member functions.
     template<auto Function>
     struct HookTraits;
 
     // =========================================================================
-    //  HookBase<R, Original, CallArgs...>
-    //
-    //  All callback data lives in a heap-allocated instance created when the
-    //  first callback is registered and destroyed when the last is removed.
-    //  This ensures no static storage lingers after a hook is torn down.
-    //
-    //  Only two members remain static:
-    //    original  — the trampoline pointer filled in by polyhook
-    //    _instance — the bridge between the static hook() entry point and the
-    //                live instance; set by Hook<> on creation, nulled on deletion
-    //
-    //  @tparam R         Return type of the hooked function
-    //  @tparam Original  Type of the trampoline (original function pointer)
-    //  @tparam CallArgs  Full argument list (first arg is Class* for members)
+    //  HookBase — for functions whose return value fits in a register
+    //  (void, bool, int, pointer, small trivially-copyable struct, etc.)
     // =========================================================================
     template<typename R, typename Original, typename... CallArgs>
     struct HookBase {
-        // ── Callback types ────────────────────────────────────────────────────
-        // Before callbacks receive all call arguments by reference so they can
-        // inspect or modify them before the original function runs.
         using Before = std::function<void(HookHandle, CallArgs &...)>;
+        using After  = typename hook_detail::AfterType<R, CallArgs...>::type;
 
-        // After callbacks additionally receive the return value (if non-void)
-        // so they can inspect or replace it. AfterType is used instead of
-        // std::conditional_t to avoid eagerly instantiating void& (ill-formed).
-        using After = hook_detail::AfterType<R, CallArgs...>::type;
-
-        // ── Instance data — allocated on first use, freed on last removal ─────
         std::list<Before> _before;
-        std::list<After> _after;
-        std::list<std::function<void()> > _executeLater;
+        std::list<After>  _after;
+        std::list<std::function<void()>> _executeLater;
         void* _address = nullptr;
 
-        void addBefore(Before cb) {
-            _before.push_back(std::move(cb));
-        }
-        void addAfter(After cb) {
-            _after.push_back(std::move(cb));
-        }
+        void addBefore(Before cb) { _before.push_back(std::move(cb)); }
+        void addAfter (After  cb) { _after .push_back(std::move(cb)); }
 
-        // ── iterate ───────────────────────────────────────────────────────────
-        // Walks `list` and invokes each callback with a HookHandle that, when
-        // remove() is called, schedules erasure via _executeLater.
-        // std::list is used deliberately: erasing by iterator is O(1) and
-        // does not invalidate any other iterators.
         template<typename T, typename... Args>
-        void iterate(std::list<T> &list, Args &... args) {
+        void iterate(std::list<T>& list, Args&... args) {
             for (auto it = list.begin(); it != list.end(); ++it) {
                 (*it)(HookHandle(_executeLater, [this, &list, it] {
 #ifdef LOGS_DIR
-                    LOG_DEBUG_TO(HooksManager::LOGGER_NAME_, "Removing callback for hook: {}", getName(_address));
+                    LOG_DEBUG_TO(HooksManager::LOGGER_NAME_,
+                        "Removing callback for hook: {}", getName(_address));
 #endif
                     list.erase(it);
-
-                    // If no callbacks remain, tear down the detour entirely
-                    // to avoid unnecessary overhead on every call.
                     if (_before.empty() && _after.empty()) {
 #ifdef LOGS_DIR
-                        LOG_DEBUG_TO(HooksManager::LOGGER_NAME_, "No callbacks left — detaching hook: {}", getName(_address));
+                        LOG_DEBUG_TO(HooksManager::LOGGER_NAME_,
+                            "No callbacks left — detaching hook: {}", getName(_address));
 #endif
                         remove(_address);
                     }
@@ -299,73 +172,12 @@ class HooksManager {
             }
         }
 
-        // ── hook ──────────────────────────────────────────────────────────────
-        // Static entry point installed as the detour target — polyhook requires
-        // a plain function pointer, so this cannot be a member function.
-        // It accesses all data through _instance, which is guaranteed non-null
-        // on entry (install() is only called after _instance is set).
-        //
-        // _executeLater is swapped into a local list before iteration.
-        // This is critical: a deferred removal may call remove(_address) which
-        // deletes the HookBase instance — destroying _executeLater while we
-        // would still be iterating it. Owning the list on the stack avoids
-        // the use-after-free entirely.
-        //
-        // After flushing deferred removals, _instance is re-checked: if the
-        // last callback was removed, the instance is gone, and we call through
-        // to the original function without touching any instance state.
         static R hook(CallArgs... args) {
-            // ── Stack guard ───────────────────────────────────────────────────
-            // Some Qt functions (e.g. QSettings::value) have a RIP-relative
-            // instruction (MSVC __security_cookie load) within the first 6-7
-            // bytes that PolyHook copies into the trampoline.  PolyHook then
-            // generates a translation routine that does:
-            //
-            //   lea rsp, [rsp - 0x80]   ← borrows 128 bytes BELOW trampoline RSP
-            //   push rXX / push rXX     ← writes into that borrowed space
-            //   ret 0x80                ← restores RSP (balanced), but the
-            //                              writes already happened at addresses
-            //                              inside CLO's own stack frame, clobbering
-            //                              CLO's local QSettings* / QVariant etc.
-            //
-            // Allocating 512 bytes here ensures the translation routine's writes
-            // land ~0x280+ bytes below CLO's RSP — past any CLO local variable.
-            // volatile + {} force MSVC to emit sub rsp,200h in the prologue.
-            volatile uint8_t _hookStackGuard[512]{};
-            (void)_hookStackGuard;
-            // ── end stack guard ───────────────────────────────────────────────
-
-            // ── Pointer sanity guard ──────────────────────────────────────────
-            // When the first argument is a pointer (i.e. the implicit `this` of
-            // a member-function hook), verify that it addresses readable memory
-            // before touching anything.  CLO sometimes calls Qt methods on objects
-            // it has already freed; without this guard the before-callbacks and
-            // original() both crash.  We return a default-constructed R{} (e.g.
-            // empty QVariant) so the CLO caller keeps running gracefully.
-            if constexpr (sizeof...(CallArgs) > 0) {
-                using FirstArg = std::tuple_element_t<0, std::tuple<CallArgs...>>;
-                if constexpr (std::is_pointer_v<FirstArg>) {
-                    const auto* ptr = static_cast<const void*>(
-                        std::get<0>(std::forward_as_tuple(args...)));
-                    if (!HooksManager::isReadablePtr(ptr)) {
-#ifdef LOGS_DIR
-                        LOG_WARN_TO(HooksManager::LOGGER_NAME_,
-                            "hook(): unreadable this-ptr {:p} — skipping",
-                            ptr);
-#endif
-                        if constexpr (std::is_void_v<R>) return;
-                        else return R{};
-                    }
-                }
-            }
-
-            // Swap pending removals onto the stack before running any of them.
-            std::list<std::function<void()> > pending;
+            std::list<std::function<void()>> pending;
             std::swap(_instance->_executeLater, pending);
-            for (auto &f: pending) f();
+            for (auto& f : pending) f();
 
-            auto *inst = _instance;
-
+            auto* inst = _instance;
             inst->iterate(inst->_before, args...);
 
             if constexpr (std::is_void_v<R>) {
@@ -378,42 +190,25 @@ class HooksManager {
             }
         }
 
-        // ── Static members ────────────────────────────────────────────────────
-        // Trampoline to the original function, filled in by polyhook.
         static inline Original original = nullptr;
-
-        // Bridge from the static hook() entry point to the live instance.
-        // Owning pointer: Hook<Target> creates and destroys it.
-        static inline HookBase *_instance = nullptr;
+        static inline HookBase* _instance = nullptr;
     };
 
     // =========================================================================
-    //  HookBaseRetbuf<R, ClassPtr, Args...>
-    //
-    //  Variant of HookBase for member functions whose return type requires a
+    //  HookBaseRetbuf — for member functions whose return type requires a
     //  hidden return-buffer pointer (needs_retbuf_v<R> == true).
     //
-    //  MSVC x64 binary layout for such functions:
-    //    void func(ClassPtr this, R* retbuf, Args... args)
+    //  MSVC x64 binary layout:  void func(ClassPtr this, R* retbuf, Args...)
+    //  RCX = this,  RDX = retbuf,  R8/R9 = explicit args.
     //
-    //  hook() mirrors this layout exactly so that PolyHook's detour redirects
-    //  the incoming call without any register swap. The Before/After callback
-    //  API is identical to HookBase — callers see (self, args...) and
-    //  (R&, self, args...) respectively, with retbuf fully transparent.
-    //
-    //  @tparam R        Logical return type (e.g. QVariant)
-    //  @tparam ClassPtr Pointer-to-class type (Class* or const Class*)
-    //  @tparam Args     Explicit argument types (e.g. const QString&, const QVariant&)
+    //  The user-facing Before/After callback API is identical to HookBase:
+    //    Before: (HookHandle, ClassPtr&, Args&...)      — retbuf not exposed
+    //    After:  (HookHandle, R&, ClassPtr&, Args&...)  — *retbuf passed as R&
     // =========================================================================
     template<typename R, typename ClassPtr, typename... Args>
     struct HookBaseRetbuf {
-        // Before callback: same user-facing signature as HookBase — retbuf is
-        // never exposed (it does not exist yet before original() runs).
-        using Before = std::function<void(HookHandle, ClassPtr &, Args &...)>;
-
-        // After callback: receives R& (dereffed retbuf) then self and args —
-        // identical interface to a non-retbuf hook returning R.
-        using After = hook_detail::AfterType<R, ClassPtr, Args...>::type;
+        using Before = std::function<void(HookHandle, ClassPtr&, Args&...)>;
+        using After  = typename hook_detail::AfterType<R, ClassPtr, Args...>::type;
 
         std::list<Before> _before;
         std::list<After>  _after;
@@ -443,208 +238,131 @@ class HooksManager {
             }
         }
 
-        // ── hook ──────────────────────────────────────────────────────────────
-        // Binary signature matches the MSVC x64 member-function retbuf ABI:
-        //   RCX = ClassPtr self   RDX = R* retbuf   R8/R9 = args
-        // PolyHook redirects the original call here without register shuffling.
+        // Binary signature matches MSVC x64 retbuf ABI: void(ClassPtr, R*, Args...)
         static void hook(ClassPtr self, R* retbuf, Args... args) {
-            volatile uint8_t _guard[512]{};
-            (void)_guard;
-
-            if (!HooksManager::isReadablePtr(static_cast<const void*>(self))) {
-#ifdef LOGS_DIR
-                LOG_WARN_TO(HooksManager::LOGGER_NAME_,
-                    "hook(): unreadable this-ptr {:p} — skipping", static_cast<const void*>(self));
-#endif
-                new (retbuf) R{};   // default-construct so caller gets a valid object
-                return;
-            }
-
             std::list<std::function<void()>> pending;
             std::swap(_instance->_executeLater, pending);
             for (auto& f : pending) f();
 
             auto* inst = _instance;
-
             if (inst) inst->iterate(inst->_before, self, args...);
 
-            // Call the trampoline with the same binary layout: (self, retbuf, args...)
-            original(self, retbuf, args...);   // fills *retbuf in place
+            original(self, retbuf, args...);  // fills *retbuf in-place
 
             if (_instance) inst->iterate(inst->_after, *retbuf, self, args...);
         }
 
-        // Trampoline type: void(*)(ClassPtr, R*, Args...) — matches binary ABI.
         using Original = void(*)(ClassPtr, R*, Args...);
-        static inline Original original  = nullptr;
+        static inline Original    original  = nullptr;
         static inline HookBaseRetbuf* _instance = nullptr;
     };
 
     // ── Hook<Target> ──────────────────────────────────────────────────────────
-    // Concrete hook stored in the map. Bridges the type-erased AbstractHook
-    // with the typed HookTraits so addBefore/addAfter remain type-safe.
-    //
-    // Owns the HookBase instance: creates it in the constructor, deletes it
-    // (and clears _instance) in the destructor. After destruction, all callback
-    // lists and associated memory are freed.
-    //
-    // Note: template constraint uses `requires` clause — MSVC C7600 rejects
-    // the shorthand `template<HookableFunction auto Target>` for non-type params.
     template<auto Target> requires HookableFunction<Target>
     struct Hook : AbstractHook {
-        explicit Hook(void *address)
+        explicit Hook(void* address)
             : AbstractHook(
                 HookTraits<Target>::address(),
                 reinterpret_cast<uint64_t>(&HookTraits<Target>::hook),
-                reinterpret_cast<uint64_t *>(&HookTraits<Target>::original)) {
-            // Allocate and wire up the instance BEFORE installing the detour.
-            // If install() came first, the hooked function could fire between
-            // _detour.hook() and the _instance assignment, hitting a null pointer.
-            auto *inst = new HookTraits<Target>();
+                reinterpret_cast<uint64_t*>(&HookTraits<Target>::original)) {
+            auto* inst = new HookTraits<Target>();
             inst->_address = address;
             HookTraits<Target>::_instance = inst;
-
-            install(); // detour goes live only now — _instance is guaranteed valid
+            install();
         }
 
         ~Hook() override {
-            // AbstractHook's destructor calls unHook() first, guaranteeing the
-            // detour is removed before we free the instance. No in-flight hook()
-            // call can be using _instance after unHook() returns.
-            //
-            // Cast to the concrete type so the correct destructor is called
-            // without requiring a virtual destructor on HookBase.
-            delete static_cast<HookTraits<Target> *>(HookTraits<Target>::_instance);
+            delete static_cast<HookTraits<Target>*>(HookTraits<Target>::_instance);
             HookTraits<Target>::_instance = nullptr;
         }
 
-        void addBefore(HookTraits<Target>::Before cb) {
+        void addBefore(typename HookTraits<Target>::Before cb) {
             HookTraits<Target>::_instance->addBefore(std::move(cb));
         }
-
-        void addAfter(HookTraits<Target>::After cb) {
+        void addAfter(typename HookTraits<Target>::After cb) {
             HookTraits<Target>::_instance->addAfter(std::move(cb));
         }
     };
 
-    // =========================================================================
-    //  HookTraits — free function specialization
-    //  @tparam R        Return type
-    //  @tparam Args     Argument types
-    //  @tparam Function Pointer to the free function to hook
-    // =========================================================================
+    // ── HookTraits: free function ─────────────────────────────────────────────
     template<typename R, typename... Args, R(*Function)(Args...)>
     struct HookTraits<Function> : HookBase<R, R(*)(Args...), Args...> {
-        static uint64_t address() {
-            return reinterpret_cast<uint64_t>(Function);
-        }
+        static uint64_t address() { return reinterpret_cast<uint64_t>(Function); }
     };
 
-    // =========================================================================
-    //  HookTraits — non-const member function, small/trivial return
-    //  Used when R fits in a register (bool, int, pointer, etc.).
-    // =========================================================================
+    // ── HookTraits: non-const member, small/trivial return ────────────────────
     template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...)>
         requires (!hook_detail::needs_retbuf_v<R>)
-    struct HookTraits<Function> : HookBase<R, R(*)(Class *, Args...), Class *, Args...> {
+    struct HookTraits<Function> : HookBase<R, R(*)(Class*, Args...), Class*, Args...> {
         static uint64_t address() {
-            union { R (Class::*mfp)(Args...); uint64_t addr; } u;
-            u.mfp = Function;
-            return u.addr;
+            union { R(Class::*mfp)(Args...); uint64_t addr; } u;
+            u.mfp = Function; return u.addr;
         }
     };
 
-    // =========================================================================
-    //  HookTraits — non-const member function, large/non-trivial return (retbuf)
-    //  MSVC x64 binary layout: void func(Class* this, R* retbuf, Args...)
-    // =========================================================================
+    // ── HookTraits: non-const member, large/non-trivial return (retbuf) ───────
+    // Binary layout: void func(Class* this, R* retbuf, Args...)
     template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...)>
         requires (hook_detail::needs_retbuf_v<R>)
     struct HookTraits<Function> : HookBaseRetbuf<R, Class*, Args...> {
         static uint64_t address() {
-            union { R (Class::*mfp)(Args...); uint64_t addr; } u;
-            u.mfp = Function;
-            return u.addr;
+            union { R(Class::*mfp)(Args...); uint64_t addr; } u;
+            u.mfp = Function; return u.addr;
         }
     };
 
-    // =========================================================================
-    //  HookTraits — const member function, small/trivial return
-    // =========================================================================
+    // ── HookTraits: const member, small/trivial return ────────────────────────
     template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) const>
         requires (!hook_detail::needs_retbuf_v<R>)
-    struct HookTraits<Function> : HookBase<R, R(*)(const Class *, Args...), const Class *, Args...> {
+    struct HookTraits<Function> : HookBase<R, R(*)(const Class*, Args...), const Class*, Args...> {
         static uint64_t address() {
-            union { R (Class::*mfp)(Args...) const; uint64_t addr; } u;
-            u.mfp = Function;
-            return u.addr;
+            union { R(Class::*mfp)(Args...) const; uint64_t addr; } u;
+            u.mfp = Function; return u.addr;
         }
     };
 
-    // =========================================================================
-    //  HookTraits — const member function, large/non-trivial return (retbuf)
-    //  MSVC x64 binary layout: void func(const Class* this, R* retbuf, Args...)
-    //  Confirmed by QSettings::value disassembly:
-    //    RCX = QSettings* this,  RDX = QVariant* retbuf,
-    //    R8  = const QString& key,  R9 = const QVariant& defaultValue
-    // =========================================================================
+    // ── HookTraits: const member, large/non-trivial return (retbuf) ──────────
+    // Confirmed by QSettings::value disassembly:
+    //   RCX = QSettings* this,  RDX = QVariant* retbuf,
+    //   R8  = const QString& key,  R9 = const QVariant& defaultValue
     template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) const>
         requires (hook_detail::needs_retbuf_v<R>)
     struct HookTraits<Function> : HookBaseRetbuf<R, const Class*, Args...> {
         static uint64_t address() {
-            union { R (Class::*mfp)(Args...) const; uint64_t addr; } u;
-            u.mfp = Function;
-            return u.addr;
+            union { R(Class::*mfp)(Args...) const; uint64_t addr; } u;
+            u.mfp = Function; return u.addr;
         }
     };
 
     // ── getHook ───────────────────────────────────────────────────────────────
-    // Returns the existing Hook for F, or creates and registers a new one.
     template<auto F> requires HookableFunction<F>
-    static Hook<F> *getHook() {
-        // Extract the opaque address from the function pointer.
-        union {
-            decltype(F) p;
-            void *addr;
-        } u;
+    static Hook<F>* getHook() {
+        union { decltype(F) p; void* addr; } u;
         u.p = F;
-
         const auto it = _hooks.find(u.addr);
         if (it == _hooks.end()) {
-            auto *hook = new Hook<F>(u.addr);
+            auto* hook = new Hook<F>(u.addr);
             _hooks[u.addr] = hook;
 #ifdef LOGS_DIR
             LOG_INFO_TO(HooksManager::LOGGER_NAME_, "Hook created: {}", getName(u.addr));
 #endif
             return hook;
         }
-
         return dynamic_cast<Hook<F>*>(it->second);
     }
 
-    // ── remove ────────────────────────────────────────────────────────────────
-    // Unregisters and destroys the Hook for `address`. The Hook destructor
-    // unregisters the detour and deletes the HookBase instance, freeing all
-    // callback lists. Called automatically when the last callback is removed.
     static void remove(void* address) {
         const auto it = _hooks.find(address);
         if (it == _hooks.end()) return;
-        const auto *hook = it->second;
+        const auto* hook = it->second;
         _hooks.erase(it);
-        delete hook; // ~Hook() → unHook() then ~HookBase()
+        delete hook;
     }
 
-    // ── getName ───────────────────────────────────────────────────────────────
-    // Extracts a human-readable "Class::method" label from the RTTI type name
-    // of the hook stored at `address`.
     static std::string getName(void* address) {
         const auto it = _hooks.find(address);
         if (it == _hooks.end()) return "<unknown>";
-
         std::string raw = typeid(*it->second).name();
-
-        // The template instantiation string contains the original function
-        // signature — extract the last "Namespace::Method(" token from it.
         static const std::regex re(R"(<[^>]*?(\w+::\w+)\()");
         std::smatch match;
         if (std::regex_search(raw, match, re) && match.size() > 1)
@@ -652,51 +370,16 @@ class HooksManager {
         return raw;
     }
 
-    // ── isReadablePtr ─────────────────────────────────────────────────────────
-    // Returns true iff `ptr` addresses committed, non-guarded, readable memory.
-    // Used to guard hook() against CLO calling Qt methods on freed objects
-    // (e.g. QSettings::value invoked on an already-deleted QSettings instance).
-    // VirtualQuery is a single kernel call — cheap enough for per-call hooks.
-    static bool isReadablePtr(const void* ptr) noexcept {
-#ifdef _WIN32
-        if (!ptr) return false;
-        MEMORY_BASIC_INFORMATION mbi{};
-        if (!VirtualQuery(ptr, &mbi, sizeof(mbi))) return false;
-        if (mbi.State != MEM_COMMIT) return false;
-        constexpr DWORD badProtect = PAGE_NOACCESS | PAGE_GUARD;
-        return !(mbi.Protect & badProtect);
-#else
-        return ptr != nullptr; // non-Windows: trust the pointer
-#endif
-    }
-
-    // ── _hooks ────────────────────────────────────────────────────────────────
-    // Global map from opaque function address to its live AbstractHook.
-    // std::unordered_map gives O(1) average lookup.
     static inline std::unordered_map<void*, AbstractHook*> _hooks;
 
 public:
-    // ── addBefore ─────────────────────────────────────────────────────────────
-    // Register a callback to run before function F.
-    // Creates the hook automatically on first registration.
-    //
-    // Compile-time guarantees:
-    //   • F must be a free or member function pointer          (HookableFunction)
-    //   • Callback signature must match (HookHandle, Args&...) (BeforeCallbackFor)
     template<auto F, typename Callback> requires BeforeCallbackFor<Callback, F>
-    static void addBefore(Callback &&callback) {
+    static void addBefore(Callback&& callback) {
         getHook<F>()->addBefore(std::forward<Callback>(callback));
     }
 
-    // ── addAfter ──────────────────────────────────────────────────────────────
-    // Register a callback to run after function F.
-    // Creates the hook automatically on first registration.
-    //
-    // Compile-time guarantees:
-    //   • F must be a free or member function pointer                (HookableFunction)
-    //   • Callback signature must match (HookHandle[, R&], Args&...) (AfterCallbackFor)
     template<auto F, typename Callback> requires AfterCallbackFor<Callback, F>
-    static void addAfter(Callback &&callback) {
+    static void addAfter(Callback&& callback) {
         getHook<F>()->addAfter(std::forward<Callback>(callback));
     }
 };
