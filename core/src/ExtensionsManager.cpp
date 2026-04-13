@@ -194,18 +194,37 @@ void ExtensionsManager::registerExtension(Extension *extension) {
     extensions.push_back(extension);
 }
 
-static void firstAddHook(QObject *obj)
+#include <QMap>
+#include <QQueue>
+
+QMap<Qt::HANDLE, QQueue<QPointer<QObject>>> constructionQueue {};
+
+static void firstAddHook(QObject *object)
 {
-    QThreadPool::globalInstance()->start([=]() {
-        LOG_INFO("Class: {}. TypeID: {}. Object: {}", "obj->metaObject()->className()", typeid(*obj).name(), "obj->objectName().toStdString()");
-    });
+    if (constructionQueue.contains(QThread::currentThreadId())) {
+        QQueue<QPointer<QObject>>& currentQueue = constructionQueue[QThread::currentThreadId()];
+        while (!currentQueue.empty()) {
+            QPointer<QObject> p = currentQueue.dequeue();
+            if (p) {
+                if (QString("CloUICommon::CVFSignOnWorker") == p.data()->metaObject()->className()) {
+                    LOG_INFO("FOUND CloUICommon::CVFSignOnWorker");
+                    test = p.data();
+                } else if (QString("AuthenticationProcessor") == p.data()->metaObject()->className()) {
+                    LOG_INFO("FOUND AuthenticationProcessor");
+                    ap = p.data();
+                }
+                LOG_INFO("Thread: {}. Class: {}. TypeID: {}. Object: {}", QThread::currentThreadId(), p.data()->metaObject()->className(), typeid(*(p.data())).name(), p.data()->objectName().toStdString());
+            }
+        }
+    } else {
+        constructionQueue[QThread::currentThreadId()] = {};
+    }
+    constructionQueue[QThread::currentThreadId()].enqueue(object);
 }
 
 static void startupHook()
 {
     LOG_INFO("Startup Hook");
-    // std::cout << "HOOK!!!";
-    // LOG_INFO("HOOK!!!");
     qtHookData[QHooks::AddQObject] = reinterpret_cast<quintptr>(&firstAddHook);
 }
 
@@ -227,15 +246,10 @@ void __fastcall hkQSettings_value(
     const QString* key,
     const QVariant* def)
 {
-    LOG_INFO("[QSettings::value] group={}", _this->group().toStdString());
-
-    if (key) {
-        LOG_INFO("key ptr={}", key->toStdString());
-    }
-
-    // NOW SAFE: _this is real QSettings
-    // (but still be careful with Qt calls)
-    // LOG_INFO("group: {}", _this->group().toStdString());
+    LOG_DEBUG("QSettings::value: key={} value={} default={}. Settings: {}",
+                  key->toStdString(), ret->toString().toStdString(),
+                  def->toString().toStdString(),
+                  reinterpret_cast<uintptr_t>(_this));
 
     oQSettings_value(_this, ret, key, def);
 }
@@ -261,17 +275,17 @@ void ExtensionsManager::install() {
         return;
     }
 
-    g_detour = std::make_unique<PLH::x64Detour>(
-        (uint64_t) fnAddr,
-        (uint64_t) &hkQSettings_value,
-        (uint64_t *) &oQSettings_value
-    );
+    // g_detour = std::make_unique<PLH::x64Detour>(
+    //     (uint64_t) fnAddr,
+    //     (uint64_t) &hkQSettings_value,
+    //     (uint64_t *) &oQSettings_value
+    // );
+    //
+    // if (!g_detour->hook()) {
+    //     LOG_INFO("Hook failed!");
+    // }
 
-    if (!g_detour->hook()) {
-        LOG_INFO("Hook failed!");
-    }
-
-    // qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(&startupHook);
+    qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(&startupHook);
 
     // ── CLO API vtable hooks ───────────────────────────────────────────────
     // UTILITY_API and IMPORT_API are guaranteed live here — CLO initialises
@@ -392,46 +406,6 @@ void ExtensionsManager::install() {
     //         LOG_DEBUG("End group Settings: {}", reinterpret_cast<uintptr_t>(settings));
     //     });
 
-    // ── QSettings::value — address diagnostic + raw PLH hook ─────────────────
-    // Step 1: compare the two ways of resolving QSettings::value's address.
-    //   • member-ptr  — what HooksManager uses (may hit our own Qt5Core.dll if
-    //                   the linker resolved it to a different image than CLO's)
-    //   • GetProcAddress — always hits the single loaded Qt5Core.dll in the process
-    // If the addresses differ, HooksManager is patching the wrong image.
-    {
-        constexpr const char* kValueSym =
-            "?value@QSettings@@QEBA?AVQVariant@@AEBVQString@@AEBV2@@Z";
-
-        const HMODULE hQt = GetModuleHandleA("Qt5Core.dll");
-        const auto procAddr = reinterpret_cast<uint64_t>(
-            GetProcAddress(hQt, kValueSym));
-
-        union { QVariant (QSettings::*mfp)(const QString&, const QVariant&) const; uint64_t addr; } u;
-        u.mfp = &QSettings::value;
-        const uint64_t mfpAddr = u.addr;
-
-        LOG_INFO("QSettings::value  GetProcAddress={:016x}  member-ptr={:016x}  match={}",
-                 procAddr, mfpAddr, procAddr == mfpAddr ? "YES" : "NO ← MISMATCH");
-
-        // Step 2: install the raw PLH detour (VALLOC2|CODE_CAVE — same scheme as
-        // HooksManager after our AbstractHook::install() fix).
-        if (procAddr) {
-            // s_qSettingsValueDetour = new PLH::x64Detour(
-            //     procAddr,
-            //     reinterpret_cast<uint64_t>(&hookQSettingsValueRaw),
-            //     &s_qSettingsValueOriginal);
-            // s_qSettingsValueDetour->setDetourScheme(
-            //     static_cast<PLH::x64Detour::detour_scheme_t>(
-            //         PLH::x64Detour::VALLOC2 | PLH::x64Detour::CODE_CAVE));
-            // s_qSettingsValueDetour->hook()
-            //     ? LOG_INFO("QSettings::value raw PLH hook installed OK")
-            //     : LOG_ERROR("QSettings::value raw PLH hook FAILED — "
-            //                 "both VALLOC2 and CODE_CAVE refused");
-        } else {
-            LOG_ERROR("GetProcAddress returned null for QSettings::value — symbol not found");
-        }
-    }
-
     // NOTE: HooksManager::addAfter<&QSettings::value> is intentionally commented
     // out while we validate the raw PLH approach above.  Once the raw hook proves
     // stable we will re-enable it through HooksManager and compare behaviour.
@@ -450,9 +424,9 @@ void ExtensionsManager::install() {
     //     LOG_DEBUG("QSettings::setValue: key={} value={} Settings: {}", key.toStdString(), value.toString().toStdString(), reinterpret_cast<uintptr_t>(settings));
     // });
 
-    HooksManager::addAfter<&QObjectPrivate::checkForIncompatibleLibraryVersion>([](const HookHandle& handle, const QObjectPrivate* objectPrivate, int&) {
-        // LOG_DEBUG("ObjectPrivate: {}", reinterpret_cast<uintptr_t>(objectPrivate));
-    });
+    // HooksManager::addAfter<&QObjectPrivate::checkForIncompatibleLibraryVersion>([](const HookHandle& handle, const QObjectPrivate* objectPrivate, int&) {
+    //     // LOG_DEBUG("ObjectPrivate: {}", reinterpret_cast<uintptr_t>(objectPrivate));
+    // });
 
     // HooksManager::addBefore<&QObjectPrivate::addConnection>([&](const HookHandle& handle, const QObjectPrivate* obj, const int signal, const QObjectPrivate::Connection *c) {
     //     if (c->sender && !QString(c->sender->metaObject()->className()).startsWith("Q")) {
@@ -514,7 +488,7 @@ void ExtensionsManager::install() {
     // });
 
     HooksManager::addBefore<static_cast<void(*)(QObject*, const QMetaObject*, int, void**)>(&QMetaObject::activate)>([&](const HookHandle& handle, QObject *sender, const QMetaObject *m, int local_signal_index, void **argv) {
-        if (sender && m && !QString(sender->metaObject()->className()).startsWith("Q") || QString(
+        if (sender && m && (!QString(sender->metaObject()->className()).startsWith("Q") || QString(sender->metaObject()->className()) == "QAction") || QString(
                 sender->metaObject()->className()).contains("Network")) {
             const int absIdx = m->methodOffset() + local_signal_index;
             const QMetaMethod sig = sender->metaObject()->method(absIdx);

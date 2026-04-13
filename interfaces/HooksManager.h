@@ -115,6 +115,26 @@ namespace hook_detail {
         using Before = std::function<void(HookHandle, const Class *&, Args &...)>;
         using After = AfterType<R, const Class *, Args...>::type;
     };
+
+    // ── needs_retbuf_v<T> ─────────────────────────────────────────────────────
+    // MSVC x64 ABI: member functions returning a type that is not trivially
+    // copyable, or is larger than a pointer, use a hidden "return buffer"
+    // pointer inserted as the SECOND argument (after `this`). The function
+    // fills the buffer and returns void at the binary level.
+    //
+    // For example, QSettings::value returns QVariant (16 bytes, non-trivial):
+    //   C++  signature: QVariant  value(const QString&, const QVariant&) const
+    //   Binary layout:  void      value(QSettings* this, QVariant* retbuf,
+    //                                   const QString& key, const QVariant& def)
+    //
+    // Any hook function installed as the detour target must match this binary
+    // layout exactly — otherwise RCX/RDX are swapped and the hook receives
+    // the QVariant* retbuf where it expects `this`, causing RefCount::ref() to
+    // be called on the retbuf pointer → crash.
+    template<typename T>
+    constexpr bool needs_retbuf_v =
+        !std::is_void_v<T> &&
+        (!std::is_trivially_copyable_v<T> || sizeof(T) > sizeof(void*));
 } // namespace hook_detail
 
 // =============================================================================
@@ -367,6 +387,99 @@ class HooksManager {
         static inline HookBase *_instance = nullptr;
     };
 
+    // =========================================================================
+    //  HookBaseRetbuf<R, ClassPtr, Args...>
+    //
+    //  Variant of HookBase for member functions whose return type requires a
+    //  hidden return-buffer pointer (needs_retbuf_v<R> == true).
+    //
+    //  MSVC x64 binary layout for such functions:
+    //    void func(ClassPtr this, R* retbuf, Args... args)
+    //
+    //  hook() mirrors this layout exactly so that PolyHook's detour redirects
+    //  the incoming call without any register swap. The Before/After callback
+    //  API is identical to HookBase — callers see (self, args...) and
+    //  (R&, self, args...) respectively, with retbuf fully transparent.
+    //
+    //  @tparam R        Logical return type (e.g. QVariant)
+    //  @tparam ClassPtr Pointer-to-class type (Class* or const Class*)
+    //  @tparam Args     Explicit argument types (e.g. const QString&, const QVariant&)
+    // =========================================================================
+    template<typename R, typename ClassPtr, typename... Args>
+    struct HookBaseRetbuf {
+        // Before callback: same user-facing signature as HookBase — retbuf is
+        // never exposed (it does not exist yet before original() runs).
+        using Before = std::function<void(HookHandle, ClassPtr &, Args &...)>;
+
+        // After callback: receives R& (dereffed retbuf) then self and args —
+        // identical interface to a non-retbuf hook returning R.
+        using After = hook_detail::AfterType<R, ClassPtr, Args...>::type;
+
+        std::list<Before> _before;
+        std::list<After>  _after;
+        std::list<std::function<void()>> _executeLater;
+        void* _address = nullptr;
+
+        void addBefore(Before cb) { _before.push_back(std::move(cb)); }
+        void addAfter (After  cb) { _after .push_back(std::move(cb)); }
+
+        template<typename T, typename... Ts>
+        void iterate(std::list<T>& list, Ts&... ts) {
+            for (auto it = list.begin(); it != list.end(); ++it) {
+                (*it)(HookHandle(_executeLater, [this, &list, it] {
+#ifdef LOGS_DIR
+                    LOG_DEBUG_TO(HooksManager::LOGGER_NAME_,
+                        "Removing callback for hook: {}", getName(_address));
+#endif
+                    list.erase(it);
+                    if (_before.empty() && _after.empty()) {
+#ifdef LOGS_DIR
+                        LOG_DEBUG_TO(HooksManager::LOGGER_NAME_,
+                            "No callbacks left — detaching hook: {}", getName(_address));
+#endif
+                        remove(_address);
+                    }
+                }), ts...);
+            }
+        }
+
+        // ── hook ──────────────────────────────────────────────────────────────
+        // Binary signature matches the MSVC x64 member-function retbuf ABI:
+        //   RCX = ClassPtr self   RDX = R* retbuf   R8/R9 = args
+        // PolyHook redirects the original call here without register shuffling.
+        static void hook(ClassPtr self, R* retbuf, Args... args) {
+            volatile uint8_t _guard[512]{};
+            (void)_guard;
+
+            if (!HooksManager::isReadablePtr(static_cast<const void*>(self))) {
+#ifdef LOGS_DIR
+                LOG_WARN_TO(HooksManager::LOGGER_NAME_,
+                    "hook(): unreadable this-ptr {:p} — skipping", static_cast<const void*>(self));
+#endif
+                new (retbuf) R{};   // default-construct so caller gets a valid object
+                return;
+            }
+
+            std::list<std::function<void()>> pending;
+            std::swap(_instance->_executeLater, pending);
+            for (auto& f : pending) f();
+
+            auto* inst = _instance;
+
+            if (inst) inst->iterate(inst->_before, self, args...);
+
+            // Call the trampoline with the same binary layout: (self, retbuf, args...)
+            original(self, retbuf, args...);   // fills *retbuf in place
+
+            if (_instance) inst->iterate(inst->_after, *retbuf, self, args...);
+        }
+
+        // Trampoline type: void(*)(ClassPtr, R*, Args...) — matches binary ABI.
+        using Original = void(*)(ClassPtr, R*, Args...);
+        static inline Original original  = nullptr;
+        static inline HookBaseRetbuf* _instance = nullptr;
+    };
+
     // ── Hook<Target> ──────────────────────────────────────────────────────────
     // Concrete hook stored in the map. Bridges the type-erased AbstractHook
     // with the typed HookTraits so addBefore/addAfter remain type-safe.
@@ -428,45 +541,58 @@ class HooksManager {
     };
 
     // =========================================================================
-    //  HookTraits — non-const member function specialization
-    //  @tparam R        Return type
-    //  @tparam Class    Class that owns the member function
-    //  @tparam Args     Argument types (excluding implicit this)
-    //  @tparam Function Pointer to the member function to hook
+    //  HookTraits — non-const member function, small/trivial return
+    //  Used when R fits in a register (bool, int, pointer, etc.).
     // =========================================================================
     template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...)>
+        requires (!hook_detail::needs_retbuf_v<R>)
     struct HookTraits<Function> : HookBase<R, R(*)(Class *, Args...), Class *, Args...> {
         static uint64_t address() {
-            // Reinterpret a member function pointer as a raw address.
-            // A union is used because member pointers cannot be cast via
-            // reinterpret_cast directly — this is the standard workaround
-            // on MSVC/GCC/Clang for x64 single-inheritance vtable layouts.
-            union {
-                R (Class::*mfp)(Args...);
-                uint64_t addr;
-            } u;
+            union { R (Class::*mfp)(Args...); uint64_t addr; } u;
             u.mfp = Function;
             return u.addr;
         }
     };
 
     // =========================================================================
-    //  HookTraits — const member function specialization
-    //  Mirrors the non-const variant above. The implicit `this` pointer becomes
-    //  `const Class*` throughout: in HookBase's CallArgs, in the trampoline
-    //  signature, and in the lambda parameter list seen by callers.
-    //
-    //  Without this specialization any addBefore<&Foo::constMethod> call
-    //  silently falls through to the undefined primary template and fails to
-    //  compile. Examples: QSettings::value, QSettings::contains, QVariant::toString.
+    //  HookTraits — non-const member function, large/non-trivial return (retbuf)
+    //  MSVC x64 binary layout: void func(Class* this, R* retbuf, Args...)
+    // =========================================================================
+    template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...)>
+        requires (hook_detail::needs_retbuf_v<R>)
+    struct HookTraits<Function> : HookBaseRetbuf<R, Class*, Args...> {
+        static uint64_t address() {
+            union { R (Class::*mfp)(Args...); uint64_t addr; } u;
+            u.mfp = Function;
+            return u.addr;
+        }
+    };
+
+    // =========================================================================
+    //  HookTraits — const member function, small/trivial return
     // =========================================================================
     template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) const>
+        requires (!hook_detail::needs_retbuf_v<R>)
     struct HookTraits<Function> : HookBase<R, R(*)(const Class *, Args...), const Class *, Args...> {
         static uint64_t address() {
-            union {
-                R (Class::*mfp)(Args...) const;
-                uint64_t addr;
-            } u;
+            union { R (Class::*mfp)(Args...) const; uint64_t addr; } u;
+            u.mfp = Function;
+            return u.addr;
+        }
+    };
+
+    // =========================================================================
+    //  HookTraits — const member function, large/non-trivial return (retbuf)
+    //  MSVC x64 binary layout: void func(const Class* this, R* retbuf, Args...)
+    //  Confirmed by QSettings::value disassembly:
+    //    RCX = QSettings* this,  RDX = QVariant* retbuf,
+    //    R8  = const QString& key,  R9 = const QVariant& defaultValue
+    // =========================================================================
+    template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) const>
+        requires (hook_detail::needs_retbuf_v<R>)
+    struct HookTraits<Function> : HookBaseRetbuf<R, const Class*, Args...> {
+        static uint64_t address() {
+            union { R (Class::*mfp)(Args...) const; uint64_t addr; } u;
             u.mfp = Function;
             return u.addr;
         }

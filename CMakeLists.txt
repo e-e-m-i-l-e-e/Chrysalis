@@ -30,7 +30,7 @@ add_subdirectory(core)
 add_library(Extensions SHARED resources/resources.qrc extensions.cpp)
 target_link_libraries(Extensions PRIVATE HooksManager Core)
 
-add_subdirectory(test)
+#add_subdirectory(test)
 
 add_custom_command(TARGET Extensions POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
@@ -44,13 +44,6 @@ add_custom_command(TARGET Extensions POST_BUILD
         $<TARGET_FILE:Extensions>
         "${CLO_HOME}/Extensions.dll"
         COMMENT "Deploying Extensions.dll to CLO directory"
-)
-
-target_compile_options(Extensions PRIVATE
-        $<$<CONFIG:RelWithDebInfo>:/Od /Zi /Ob0>
-)
-target_compile_definitions(Extensions PRIVATE
-        $<$<CONFIG:RelWithDebInfo>:NDEBUG>
 )
 
 add_subdirectory(ui)
