@@ -31,6 +31,8 @@
 #   include <Logger.h>
 #endif
 
+#include <Windows.h>
+
 // =============================================================================
 //  HookHandle
 //  Must be defined before hook_detail so the Before/After std::function
@@ -170,6 +172,30 @@ class HooksManager {
 
         // Activate the detour. Must be called after _instance is set.
         void install() {
+            // CRITICAL: exclude INPLACE and INPLACE_SHORT schemes.
+            //
+            // Both schemes overwrite 16–24+ bytes of the function prologue to embed
+            // the trampoline callback address. For Qt functions that have RIP-relative
+            // instructions within those bytes (e.g. QSettings::value accessing
+            // QStringData::sharedNull via [RIP+offset]), PolyHook generates a
+            // "translation routine" that ends with:
+            //
+            //   push rax
+            //   mov  rax, <resume_address>   ; e.g. 0x9780000078
+            //   xchg [rsp], rax
+            //   ret  0x80                    ; cleans shadow space AND corrupts caller's stack
+            //
+            // The `ret 0x80` unwinds past the shadow space and overwrites CLO's own
+            // local variables — specifically the QSettings* that CLO holds on its frame.
+            // CLO then calls QSettings::endGroup(this = 0x9780000078) → AV at
+            //   d->groupStack.isEmpty()   (qsettings.cpp:3037)
+            //
+            // VALLOC2 and CODE_CAVE both insert only a 6-byte near-jump at the call
+            // site, so the trampoline copies at most 6 clean prologue bytes — no
+            // RIP-relative fixup, no translation routine, no stack corruption.
+            _detour.setDetourScheme(
+                static_cast<PLH::x64Detour::detour_scheme_t>(
+                    PLH::x64Detour::VALLOC2 | PLH::x64Detour::CODE_CAVE));
             _detour.hook();
         }
 
@@ -269,6 +295,50 @@ class HooksManager {
         // last callback was removed, the instance is gone, and we call through
         // to the original function without touching any instance state.
         static R hook(CallArgs... args) {
+            // ── Stack guard ───────────────────────────────────────────────────
+            // Some Qt functions (e.g. QSettings::value) have a RIP-relative
+            // instruction (MSVC __security_cookie load) within the first 6-7
+            // bytes that PolyHook copies into the trampoline.  PolyHook then
+            // generates a translation routine that does:
+            //
+            //   lea rsp, [rsp - 0x80]   ← borrows 128 bytes BELOW trampoline RSP
+            //   push rXX / push rXX     ← writes into that borrowed space
+            //   ret 0x80                ← restores RSP (balanced), but the
+            //                              writes already happened at addresses
+            //                              inside CLO's own stack frame, clobbering
+            //                              CLO's local QSettings* / QVariant etc.
+            //
+            // Allocating 512 bytes here ensures the translation routine's writes
+            // land ~0x280+ bytes below CLO's RSP — past any CLO local variable.
+            // volatile + {} force MSVC to emit sub rsp,200h in the prologue.
+            volatile uint8_t _hookStackGuard[512]{};
+            (void)_hookStackGuard;
+            // ── end stack guard ───────────────────────────────────────────────
+
+            // ── Pointer sanity guard ──────────────────────────────────────────
+            // When the first argument is a pointer (i.e. the implicit `this` of
+            // a member-function hook), verify that it addresses readable memory
+            // before touching anything.  CLO sometimes calls Qt methods on objects
+            // it has already freed; without this guard the before-callbacks and
+            // original() both crash.  We return a default-constructed R{} (e.g.
+            // empty QVariant) so the CLO caller keeps running gracefully.
+            if constexpr (sizeof...(CallArgs) > 0) {
+                using FirstArg = std::tuple_element_t<0, std::tuple<CallArgs...>>;
+                if constexpr (std::is_pointer_v<FirstArg>) {
+                    const auto* ptr = static_cast<const void*>(
+                        std::get<0>(std::forward_as_tuple(args...)));
+                    if (!HooksManager::isReadablePtr(ptr)) {
+#ifdef LOGS_DIR
+                        LOG_WARN_TO(HooksManager::LOGGER_NAME_,
+                            "hook(): unreadable this-ptr {:p} — skipping",
+                            ptr);
+#endif
+                        if constexpr (std::is_void_v<R>) return;
+                        else return R{};
+                    }
+                }
+            }
+
             // Swap pending removals onto the stack before running any of them.
             std::list<std::function<void()> > pending;
             std::swap(_instance->_executeLater, pending);
@@ -454,6 +524,24 @@ class HooksManager {
         if (std::regex_search(raw, match, re) && match.size() > 1)
             return match[1].str();
         return raw;
+    }
+
+    // ── isReadablePtr ─────────────────────────────────────────────────────────
+    // Returns true iff `ptr` addresses committed, non-guarded, readable memory.
+    // Used to guard hook() against CLO calling Qt methods on freed objects
+    // (e.g. QSettings::value invoked on an already-deleted QSettings instance).
+    // VirtualQuery is a single kernel call — cheap enough for per-call hooks.
+    static bool isReadablePtr(const void* ptr) noexcept {
+#ifdef _WIN32
+        if (!ptr) return false;
+        MEMORY_BASIC_INFORMATION mbi{};
+        if (!VirtualQuery(ptr, &mbi, sizeof(mbi))) return false;
+        if (mbi.State != MEM_COMMIT) return false;
+        constexpr DWORD badProtect = PAGE_NOACCESS | PAGE_GUARD;
+        return !(mbi.Protect & badProtect);
+#else
+        return ptr != nullptr; // non-Windows: trust the pointer
+#endif
     }
 
     // ── _hooks ────────────────────────────────────────────────────────────────
