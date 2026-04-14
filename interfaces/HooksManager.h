@@ -89,6 +89,16 @@ namespace hook_detail {
         using type = std::function<void(HookHandle, ExtraArgs &...)>;
     };
 
+    template<typename R, typename... ExtraArgs>
+    struct IgnoreType {
+        using type = std::function<void(HookHandle, bool&, R &, ExtraArgs &...)>;
+    };
+
+    template<typename... ExtraArgs>
+    struct IgnoreType<void, ExtraArgs...> {
+        using type = std::function<void(HookHandle, bool&, ExtraArgs &...)>;
+    };
+
     // ── FuncTraits<T> — undefined base (SFINAE / concept failure for bad T) ──────
     template<typename T>
     struct FuncTraits;
@@ -98,6 +108,7 @@ namespace hook_detail {
     struct FuncTraits<R(*)(Args...)> {
         using Before = std::function<void(HookHandle, Args &...)>;
         using After = AfterType<R, Args...>::type;
+        using Ignore = IgnoreType<R, Args...>::type;
     };
 
     // ── Non-const member function: R(Class::*)(Args...) ──────────────────────────
@@ -105,6 +116,7 @@ namespace hook_detail {
     struct FuncTraits<R(Class::*)(Args...)> {
         using Before = std::function<void(HookHandle, Class *&, Args &...)>;
         using After = AfterType<R, Class *, Args...>::type;
+        using Ignore = IgnoreType<R, Class *, Args...>::type;
     };
 
     // ── Const member function: R(Class::*)(Args...) const ────────────────────────
@@ -112,6 +124,7 @@ namespace hook_detail {
     struct FuncTraits<R(Class::*)(Args...) const> {
         using Before = std::function<void(HookHandle, const Class *&, Args &...)>;
         using After = AfterType<R, const Class *, Args...>::type;
+        using Ignore = IgnoreType<R, const Class *, Args...>::type;
     };
 } // namespace hook_detail
 
@@ -144,6 +157,12 @@ template<typename Cb, auto F>
 concept AfterCallbackFor =
         HookableFunction<F> &&
         std::convertible_to<Cb, typename hook_detail::FuncTraits<decltype(F)>::After>;
+
+// ── IgnoreCallbackFor<Cb, F> ───────────────────────────────────────────────────
+template<typename Cb, auto F>
+concept IgnoreCallbackFor =
+        HookableFunction<F> &&
+        std::convertible_to<Cb, typename hook_detail::FuncTraits<decltype(F)>::Ignore>;
 
 // =============================================================================
 //  HooksManager
@@ -214,9 +233,12 @@ class HooksManager {
         // std::conditional_t to avoid eagerly instantiating void& (ill-formed).
         using After = hook_detail::AfterType<R, CallArgs...>::type;
 
+        using Ignore = hook_detail::IgnoreType<R, CallArgs...>::type;
+
         // ── Instance data — allocated on first use, freed on last removal ─────
         std::list<Before> _before;
         std::list<After> _after;
+        std::list<Ignore> _ignore;
         std::list<std::function<void()> > _executeLater;
         void* _address = nullptr;
 
@@ -225,6 +247,9 @@ class HooksManager {
         }
         void addAfter(After cb) {
             _after.push_back(std::move(cb));
+        }
+        void addIgnore(Ignore cb) {
+            _ignore.push_back(std::move(cb));
         }
 
         // ── iterate ───────────────────────────────────────────────────────────
@@ -243,7 +268,7 @@ class HooksManager {
 
                     // If no callbacks remain, tear down the detour entirely
                     // to avoid unnecessary overhead on every call.
-                    if (_before.empty() && _after.empty()) {
+                    if (_before.empty() && _after.empty() && _ignore.empty()) {
 #ifdef LOGS_DIR
                         LOG_DEBUG_TO(HooksManager::LOGGER_NAME_, "No callbacks left — detaching hook: {}", getName(_address));
 #endif
@@ -275,14 +300,17 @@ class HooksManager {
             for (auto &f: pending) f();
 
             auto *inst = _instance;
-
             inst->iterate(inst->_before, args...);
 
+            bool ignore = false;
             if constexpr (std::is_void_v<R>) {
-                original(args...);
+                inst->iterate(inst->_ignore, ignore, args...);
+                if (!ignore) original(args...);
                 if (_instance) inst->iterate(inst->_after, args...);
             } else {
-                R result = original(args...);
+                R result;
+                inst->iterate(inst->_ignore, ignore, result, args...);
+                if (!ignore) result = original(args...);
                 if (_instance) inst->iterate(inst->_after, result, args...);
                 return result;
             }
@@ -341,6 +369,10 @@ class HooksManager {
 
         void addAfter(HookTraits<Target>::After cb) {
             HookTraits<Target>::_instance->addAfter(std::move(cb));
+        }
+
+        void addIgnore(HookTraits<Target>::Ignore cb) {
+            HookTraits<Target>::_instance->addIgnore(std::move(cb));
         }
     };
 
@@ -484,6 +516,11 @@ public:
     template<auto F, typename Callback> requires AfterCallbackFor<Callback, F>
     static void addAfter(Callback &&callback) {
         getHook<F>()->addAfter(std::forward<Callback>(callback));
+    }
+
+    template<auto F, typename Callback> requires IgnoreCallbackFor<Callback, F>
+    static void addIgnore(Callback &&callback) {
+        getHook<F>()->addIgnore(std::forward<Callback>(callback));
     }
 };
 

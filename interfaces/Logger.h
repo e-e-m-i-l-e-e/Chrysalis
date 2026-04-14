@@ -9,16 +9,6 @@
 #include <spdlog/sinks/stdout_sinks.h>
 #include <spdlog/pattern_formatter.h>
 
-// ─── Qt — optional ────────────────────────────────────────────────────────────
-// The only Qt-specific code is the Qt message handler (installQtMessageHandler).
-// All singleton/mutex/path logic uses std types unconditionally.
-#ifdef QT_CORE_LIB
-#   include <QDebug>
-#   include <QFile>
-#   include <QTextStream>
-#   include <QDateTime>
-#endif
-
 // ─── Windows console attachment ───────────────────────────────────────────────
 #ifdef _WIN32
 #   include <Windows.h>
@@ -27,6 +17,15 @@
 // LOGS_DIR must be defined via CMake
 #ifndef LOGS_DIR
 #   error "LOGS_DIR is not defined."
+#endif
+
+
+// ─── Qt — optional ────────────────────────────────────────────────────────────
+// The only Qt-specific code is the Qt message handler (installQtMessageHandler).
+// All singleton/mutex/path logic uses std types unconditionally.
+#ifdef QT_CORE_LIB
+#   include <QDebug>
+static void installQtMessageHandler();
 #endif
 
 // =============================================================================
@@ -236,6 +235,13 @@ public:
 
     // ── Logging methods ───────────────────────────────────────────────────────
     template<typename... Args>
+    void log(spdlog::level::level_enum lvl,
+             spdlog::format_string_t<Args...> fmt,
+             Args &&... args) const {
+        if (logger_) logger_->log(lvl, fmt, std::forward<Args>(args)...);
+    }
+
+    template<typename... Args>
     void trace(spdlog::format_string_t<Args...> fmt, Args &&... args) const {
         log(spdlog::level::trace, fmt, std::forward<Args>(args)...);
     }
@@ -369,13 +375,6 @@ private:
         }
     }
 
-    template<typename... Args>
-    void log(spdlog::level::level_enum lvl,
-             spdlog::format_string_t<Args...> fmt,
-             Args &&... args) const {
-        if (logger_) logger_->log(lvl, fmt, std::forward<Args>(args)...);
-    }
-
     // ── Windows: attach/allocate a visible console window ────────────────────
     static void openWindowsConsole() {
 #ifdef _WIN32
@@ -412,60 +411,32 @@ private:
 #endif
     }
 
+    std::shared_ptr<spdlog::logger> logger_;
+    std::string name_;
+    std::string filePath_;
+};
+
     // ── Qt message handler ────────────────────────────────────────────────────
     // Compiled only when Qt is present. Mirrors the spdlog line format so Qt
     // messages look identical to spdlog ones in both file and console.
     // Output: 2026-03-06 11:33:11.766 [WARN ] [QT] file:42 message
 #ifdef QT_CORE_LIB
-    static void installQtMessageHandler() {
-        static QFile s_qtLogFile(QStringLiteral(LOGS_DIR) + "/QT.log");
-        if (!s_qtLogFile.open(QIODevice::WriteOnly | QIODevice::Truncate))
-            return;
-
-        qInstallMessageHandler([](QtMsgType type,
-                                  const QMessageLogContext &ctx,
-                                  const QString &msg) {
-            struct LevelInfo {
-                const char *label;
-                const char *ansi;
-            };
-            // Mirror the exact level colors used in levelAnsi()
-            static constexpr LevelInfo levels[] = {
-                {"DEBUG", "\033[36m"}, // cyan
-                {"INFO ", "\033[32m"}, // green
-                {"WARN ", "\033[33m"}, // yellow
-                {"CRIT ", "\033[31m"}, // red
-                {"FATAL", "\033[1;35m"}, // bold magenta
-            };
-            const int idx = (type >= 0 && type <= 4) ? static_cast<int>(type) : 1;
-            const auto &lvl = levels[idx];
-            const char *nameClr = logger_detail::nameAnsi("QT");
-
-            const QString ts = QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss.zzz");
-            const QString location = QString("%1:%2").arg(ctx.file ? ctx.file : "").arg(ctx.line);
-
-            // Plain line → file
-            static QTextStream s_fileStream(&s_qtLogFile);
-            s_fileStream << ts << " [" << lvl.label << "] [QT] (" << location << ") " << msg << "\n";
-            s_fileStream.flush();
-
-            // Colored line → console (only level + name tokens get color)
-            QTextStream s_consoleStream(stdout);
-            s_consoleStream << ts
-                    << " [" << lvl.ansi << lvl.label << logger_detail::RESET << "]"
-                    << " [" << nameClr << "QT" << logger_detail::RESET << "]"
-                    << " (" << location << ") " << msg << "\n";
-            s_consoleStream.flush();
-
-            if (type == QtFatalMsg) abort();
-        });
-    }
+static void installQtMessageHandler() {
+    qInstallMessageHandler([](QtMsgType type,
+                              const QMessageLogContext &ctx,
+                              const QString &msg) {
+        static constexpr spdlog::level::level_enum levels[] = {
+            spdlog::level::debug,
+            spdlog::level::warn,
+            spdlog::level::critical,
+            spdlog::level::critical,
+            spdlog::level::info
+        };
+        const auto &lvl = levels[static_cast<int>(type)];
+        Logger::getInstance("Qt").log(lvl, "{}", msg.toStdString());
+    });
+}
 #endif // QT_CORE_LIB
-
-    std::shared_ptr<spdlog::logger> logger_;
-    std::string name_;
-    std::string filePath_;
-};
 
 // =============================================================================
 //  Convenience macros
