@@ -325,6 +325,109 @@ class HooksManager {
         static inline HookBase *_instance = nullptr;
     };
 
+    // =========================================================================
+    //  HookBaseOutPtr<R, Original, Class, Args...>
+    //
+    //  Variant of HookBase used when R is NOT trivially copyable.
+    //  Under the MSVC x64 ABI the compiler inserts a hidden second argument
+    //  after `this` that points to the caller-allocated return buffer:
+    //
+    //    void hook(const Class* self, R* ret, Args... args)
+    //
+    //  This means `original` has type void(*)(const Class*, R*, Args...) and
+    //  the detour entry point must match that exact signature.
+    //
+    //  User-facing Before/After/Ignore signatures are identical to HookBase —
+    //  the hidden R* buffer is transparent to callers. Before receives (self,
+    //  args...), After receives (R&, self, args...) where R& is dereferenced
+    //  from *ret after the original (or ignore path) has populated it.
+    //
+    //  Ignore note: when a callback sets ignore=true it must also populate the
+    //  R& it receives. R is default-constructed before Ignore iteration; for
+    //  all non-trivially-copyable Qt types (QVariant, QString, …) this is safe.
+    //
+    //  @tparam R        Return type (must satisfy !std::is_trivially_copyable_v<R>)
+    //  @tparam Original Trampoline type: void(*)(const Class*, R*, Args...)
+    //  @tparam Class    Class that owns the hooked function (without const/ptr)
+    //  @tparam Args     Argument types (excluding this and the hidden R* buffer)
+    // =========================================================================
+    template<typename R, typename Original, typename Class, typename... Args>
+    struct HookBaseOutPtr {
+        // ── Callback types ────────────────────────────────────────────────────
+        // Identical to HookBase equivalents for a const member — the hidden R*
+        // buffer never surfaces in the user-facing signatures.
+        using Before = std::function<void(HookHandle, const Class *&, Args &...)>;
+        using After  = hook_detail::AfterType<R, const Class *, Args...>::type;
+        using Ignore = hook_detail::IgnoreType<R, const Class *, Args...>::type;
+
+        // ── Instance data ─────────────────────────────────────────────────────
+        std::list<Before> _before;
+        std::list<After>  _after;
+        std::list<Ignore> _ignore;
+        std::list<std::function<void()>> _executeLater;
+        void *_address = nullptr;
+
+        void addBefore(Before cb) { _before.push_back(std::move(cb)); }
+        void addAfter (After  cb) { _after .push_back(std::move(cb)); }
+        void addIgnore(Ignore cb) { _ignore.push_back(std::move(cb)); }
+
+        template<typename T, typename... A>
+        void iterate(std::list<T> &list, A &... args) {
+            for (auto it = list.begin(); it != list.end(); ++it) {
+                (*it)(HookHandle(_executeLater, [this, &list, it] {
+#ifdef LOGS_DIR
+                    LOG_DEBUG_TO(HooksManager::LOGGER_NAME_, "Removing callback for hook: {}", getName(_address));
+#endif
+                    list.erase(it);
+                    if (_before.empty() && _after.empty() && _ignore.empty()) {
+#ifdef LOGS_DIR
+                        LOG_DEBUG_TO(HooksManager::LOGGER_NAME_, "No callbacks left — detaching hook: {}", getName(_address));
+#endif
+                        remove(_address);
+                    }
+                }), args...);
+            }
+        }
+
+        // ── hook ──────────────────────────────────────────────────────────────
+        // ABI-matching detour entry point. Returns void; `ret` is the
+        // caller-allocated return buffer that MSVC passes as the second
+        // argument for non-trivially-copyable return types.
+        //
+        // _executeLater safety and _instance null-check mirror HookBase::hook
+        // exactly — see comments there for the rationale.
+        static void hook(const Class *self, R *ret, Args... args) {
+            std::list<std::function<void()>> pending;
+            std::swap(_instance->_executeLater, pending);
+            for (auto &f : pending) f();
+
+            auto *inst = _instance;
+
+            // Before — self is a local copy; callbacks can redirect the pointer.
+            inst->iterate(inst->_before, self, args...);
+
+            // Ignore — R is default-constructed so the callback can populate it
+            // when choosing to skip the original call.
+            bool ignore = false;
+            R result{};
+            inst->iterate(inst->_ignore, ignore, result, self, args...);
+
+            if (!ignore) {
+                original(self, ret, args...);   // original writes into *ret
+            } else if (ret) {
+                *ret = std::move(result);        // user-supplied value → caller's buffer
+            }
+
+            // After — expose the final committed value through *ret by reference.
+            if (_instance && ret)
+                inst->iterate(inst->_after, *ret, self, args...);
+        }
+
+        // ── Static members ────────────────────────────────────────────────────
+        static inline Original      original  = nullptr;
+        static inline HookBaseOutPtr *_instance = nullptr;
+    };
+
     // ── Hook<Target> ──────────────────────────────────────────────────────────
     // Concrete hook stored in the map. Bridges the type-erased AbstractHook
     // with the typed HookTraits so addBefore/addAfter remain type-safe.
@@ -413,17 +516,42 @@ class HooksManager {
     };
 
     // =========================================================================
+    //  ConstMemberHookBase — ABI-aware base selector for const member hooks
+    //
+    //  Trivially-copyable R (int, float, small POD…):
+    //    MSVC returns the value in a register → normal HookBase with R return.
+    //
+    //  Non-trivially-copyable R (QVariant, QString, QColor…):
+    //    MSVC inserts a hidden R* as the second argument and the function
+    //    returns void → HookBaseOutPtr with void(*)(const Class*, R*, Args...).
+    //
+    //  Both branches expose identical Before/After/Ignore callback signatures
+    //  to callers, so the ABI difference is completely transparent at the
+    //  addBefore / addAfter / addIgnore call sites.
+    // =========================================================================
+    template<typename R, typename Class, typename... Args>
+    using ConstMemberHookBase = std::conditional_t<
+        std::is_trivially_copyable_v<R>,
+        HookBase    <R, R(*)(const Class *, Args...),           const Class *, Args...>,
+        HookBaseOutPtr<R, void(*)(const Class *, R *, Args...), Class,         Args...>
+    >;
+
+    // =========================================================================
     //  HookTraits — const member function specialization
     //  Mirrors the non-const variant above. The implicit `this` pointer becomes
-    //  `const Class*` throughout: in HookBase's CallArgs, in the trampoline
-    //  signature, and in the lambda parameter list seen by callers.
+    //  `const Class*` throughout: in the trampoline signature, and in the
+    //  lambda parameter list seen by callers.
+    //
+    //  The base class is selected by ConstMemberHookBase:
+    //    • trivially-copyable R  → HookBase       (register return)
+    //    • non-trivially-copyable R → HookBaseOutPtr (hidden out-ptr ABI)
     //
     //  Without this specialization any addBefore<&Foo::constMethod> call
     //  silently falls through to the undefined primary template and fails to
     //  compile. Examples: QSettings::value, QSettings::contains, QVariant::toString.
     // =========================================================================
     template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) const>
-    struct HookTraits<Function> : HookBase<R, R(*)(const Class *, Args...), const Class *, Args...> {
+    struct HookTraits<Function> : ConstMemberHookBase<R, Class, Args...> {
         static uint64_t address() {
             union {
                 R (Class::*mfp)(Args...) const;
