@@ -163,7 +163,7 @@ static void startupHook()
 
 #include <polyhook2/Detour/x64Detour.hpp>
 
-using QSettings_value_t = void (__fastcall*)(
+using QSettings_value_t = void (*)(
     const QSettings* _this,  // RCX
     QVariant* ret,           // RDX  ✅ return buffer
     const QString* key,      // R8
@@ -337,26 +337,27 @@ void ExtensionsManager::install() {
         });
 
     HooksManager::addBefore<&QSettings::beginGroup>(
-        [](const HookHandle& handle, QSettings*& settings, const QString &prefix) {
-            // LOG_DEBUG(" --- Begin group {}. Settings: {}", prefix.toStdString(), reinterpret_cast<uintptr_t>(settings));
+        [](const HookHandle& handle, QSettings* settings, const QString &prefix) {
+            LOG_DEBUG(" --- Begin group {}. Settings: {}", prefix.toStdString(), reinterpret_cast<uintptr_t>(settings));
         });
     HooksManager::addBefore<&QSettings::endGroup>(
-        [](const HookHandle& handle, QSettings*& settings) {
-            // LOG_DEBUG("End group Settings: {}", reinterpret_cast<uintptr_t>(settings));
+        [](const HookHandle& handle, QSettings* settings) {
+            LOG_DEBUG("End group Settings: {}", reinterpret_cast<uintptr_t>(settings));
         });
 
-    // HooksManager::addAfter<&QSettings::value>(
-    // [](const HookHandle& handle, const QVariant& ret, const QSettings* settings,
-    //    const QString& key, const QVariant& defaultValue) {
-    //     LOG_DEBUG("QSettings::value: key={} value={} default={}. Settings: {}",
-    //               key.toStdString(), ret.toString().toStdString(),
-    //               defaultValue.toString().toStdString(),
-    //               reinterpret_cast<uintptr_t>(settings));
-    // });
+    HooksManager::addAfter<&QSettings::value>(
+    [](const HookHandle& handle, const QSettings* settings, QVariant* ret, const QString& key, const QVariant& defaultValue) {
+        LOG_DEBUG("QSettings::value: key={} value={} default={}. Settings: {}",
+                  key.toStdString(), ret->toString().toStdString(),
+                  defaultValue.toString().toStdString(),
+                  reinterpret_cast<uintptr_t>(settings));
+        LOG_DEBUG("Group: {}", settings->group().toStdString());
+        std::cout << "Settings" << settings << std::endl;
+    });
 
     HooksManager::addAfter<&QSettings::setValue>(
     [](const HookHandle& handle, QSettings*& settings, const QString &key, const QVariant &value) {
-        // LOG_DEBUG("QSettings::setValue: key={} value={} Settings: {}", key.toStdString(), value.toString().toStdString(), reinterpret_cast<uintptr_t>(settings));
+        LOG_DEBUG("QSettings::setValue: key={} value={} Settings: {}", key.toStdString(), value.toString().toStdString(), reinterpret_cast<uintptr_t>(settings));
     });
 
     HooksManager::addBefore<&QObjectPrivate::addConnection>([&](const HookHandle& handle, const QObjectPrivate* obj, const int signal, const QObjectPrivate::Connection *c) {

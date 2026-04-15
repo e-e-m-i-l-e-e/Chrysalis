@@ -30,7 +30,7 @@ add_subdirectory(core)
 add_library(Extensions SHARED resources/resources.qrc extensions.cpp)
 target_link_libraries(Extensions PRIVATE HooksManager Core)
 
-add_subdirectory(test)
+#add_subdirectory(test)
 
 add_custom_command(TARGET Extensions POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different

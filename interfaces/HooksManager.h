@@ -123,7 +123,11 @@ namespace hook_detail {
     template<typename R, typename Class, typename... Args>
     struct FuncTraits<R(Class::*)(Args...) const> {
         using Before = std::function<void(HookHandle, const Class *&, Args &...)>;
-        using After = AfterType<R, const Class *, Args...>::type;
+        using After = std::conditional_t<
+            std::is_trivial_v<R>,
+            typename AfterType<R, const Class *, Args...>::type,
+            typename AfterType<void, const Class *, R *, Args...>::type
+        >;
         using Ignore = IgnoreType<R, const Class *, Args...>::type;
     };
 } // namespace hook_detail
@@ -423,7 +427,20 @@ class HooksManager {
     //  compile. Examples: QSettings::value, QSettings::contains, QVariant::toString.
     // =========================================================================
     template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) const>
+    requires std::is_trivial_v<R>
     struct HookTraits<Function> : HookBase<R, R(*)(const Class *, Args...), const Class *, Args...> {
+        static uint64_t address() {
+            union {
+                R (Class::*mfp)(Args...) const;
+                uint64_t addr;
+            } u;
+            u.mfp = Function;
+            return u.addr;
+        }
+    };
+
+    template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) const>
+    struct HookTraits<Function> : HookBase<void, void(*)(const Class *, R *, Args...), const Class *, R *, Args...> {
         static uint64_t address() {
             union {
                 R (Class::*mfp)(Args...) const;
