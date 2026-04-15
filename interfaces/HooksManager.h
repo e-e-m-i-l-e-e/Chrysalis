@@ -441,6 +441,8 @@ class HooksManager {
 
     template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) const>
     struct HookTraits<Function> : HookBase<void, void(*)(const Class *, R *, Args...), const Class *, R *, Args...> {
+        using Base = HookBase<void, void(*)(const Class *, R *, Args...), const Class *, R *, Args...>;
+
         static uint64_t address() {
             union {
                 R (Class::*mfp)(Args...) const;
@@ -448,6 +450,37 @@ class HooksManager {
             } u;
             u.mfp = Function;
             return u.addr;
+        }
+
+        // ── MSVC x64 ABI: hidden-pointer return convention ────────────────────
+        // For non-trivial return types the compiler inserts a hidden buffer
+        // pointer as the 2nd argument (RDX, right after `this` in RCX).
+        // The CALLEE must write the result into that buffer AND return the
+        // same pointer in RAX.
+        //
+        // HookBase<void,...>::hook() returns void, so RAX after the detour is
+        // whatever the last internal call left there — garbage — and the
+        // caller's copy-initialisation of its local QVariant reads from a bad
+        // address → access violation.
+        //
+        // Fix: shadow HookBase::hook here with the identical void-path logic
+        // but return `ret` so that RAX is correct when the detour exits.
+        // Hook<Target> passes &HookTraits<Target>::hook to polyhook, so name
+        // lookup picks up this definition first (shadowing Base::hook).
+        static R* hook(const Class* thiz, R* ret, Args... args) {
+            std::list<std::function<void()>> pending;
+            std::swap(Base::_instance->_executeLater, pending);
+            for (auto& f : pending) f();
+
+            auto* inst = Base::_instance;
+            inst->iterate(inst->_before, thiz, ret, args...);
+
+            bool ignore = false;
+            inst->iterate(inst->_ignore, ignore, thiz, ret, args...);
+            if (!ignore) Base::original(thiz, ret, args...);
+            if (Base::_instance) inst->iterate(inst->_after, thiz, ret, args...);
+
+            return ret; // satisfy MSVC ABI: hidden return pointer must be in RAX
         }
     };
 
