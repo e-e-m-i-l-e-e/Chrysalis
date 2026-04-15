@@ -155,102 +155,17 @@ static void firstAddHook(QObject *object)
     constructionQueue[QThread::currentThreadId()].enqueue(object);
 }
 
-static void startupHook()
-{
-    LOG_INFO("Startup Hook");
-    qtHookData[QHooks::AddQObject] = reinterpret_cast<quintptr>(&firstAddHook);
-}
-
-#include <polyhook2/Detour/x64Detour.hpp>
-
-using QSettings_value_t = void (*)(
-    const QSettings* _this,  // RCX
-    QVariant* ret,           // RDX  ✅ return buffer
-    const QString* key,      // R8
-    const QVariant* def      // R9
-);
-
-QSettings_value_t oQSettings_value = nullptr;
-
-void __fastcall hkQSettings_value(
-    const QSettings* _this,
-    QVariant* ret,
-    const QString* key,
-    const QVariant* def)
-{
-    LOG_DEBUG("QSettings::value: key={} value={} default={}. Settings: {}",
-                  key->toStdString(), ret->toString().toStdString(),
-                  def->toString().toStdString(),
-                  reinterpret_cast<uintptr_t>(_this));
-
-    oQSettings_value(_this, ret, key, def);
-}
-
-std::unique_ptr<PLH::x64Detour> g_detour;
-
 void ExtensionsManager::install() {
+    qtHookData[QHooks::AddQObject] = reinterpret_cast<quintptr>(&firstAddHook);
 
-    HMODULE hQtCore = GetModuleHandleA("Qt5Core.dll"); // or Qt5Core.dll
-
-    auto fnAddr = GetProcAddress(
-        hQtCore,
-        "?value@QSettings@@QEBA?AVQVariant@@AEBVQString@@AEBV2@@Z"
-    );
-
-    if (!hQtCore) {
-        LOG_INFO("QtCore not loaded!");
-        return;
-    }
-
-    if (!fnAddr) {
-        LOG_INFO("Function not found!");
-        return;
-    }
-
-    // g_detour = std::make_unique<PLH::x64Detour>(
-    //     (uint64_t) fnAddr,
-    //     (uint64_t) &hkQSettings_value,
-    //     (uint64_t *) &oQSettings_value
-    // );
-    //
-    // if (!g_detour->hook()) {
-    //     LOG_INFO("Hook failed!");
-    // }
-
-    qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(&startupHook);
-
-    // ── CLO API vtable hooks ───────────────────────────────────────────────
-    // UTILITY_API and IMPORT_API are guaranteed live here — CLO initialises
-    // all API objects before entering QApplication::exec.
-    // if (UTILITY_API) {
-    //     void** vtable = *reinterpret_cast<void***>(UTILITY_API);
-    //     void*  realFn =  vtable[kCreateProgressBarVtableSlot];
-    //     LOG_INFO("CreateProgressBar real address (vtable[{}]): {:p}", kCreateProgressBarVtableSlot, realFn);
-    //     s_createProgressBarDetour = new PLH::x64Detour(
-    //         reinterpret_cast<uint64_t>(realFn),
-    //         reinterpret_cast<uint64_t>(&hookCreateProgressBar),
-    //         &s_createProgressBarOriginal);
-    //     s_createProgressBarDetour->hook()
-    //         ? LOG_INFO("CreateProgressBar vtable hook installed")
-    //         : LOG_CRITICAL("CreateProgressBar vtable hook FAILED");
-    // } else {
-    //     LOG_CRITICAL("UTILITY_API is null — CreateProgressBar hook skipped");
-    // }
-    //
-    // if (IMPORT_API) {
-    //     void** vtable = *reinterpret_cast<void***>(IMPORT_API);
-    //     void*  realFn =  vtable[kImportAvatarVtableSlot];
-    //     LOG_INFO("ImportAvatar real address (vtable[{}]): {:p}", kImportAvatarVtableSlot, realFn);
-    //     s_importAvatarDetour = new PLH::x64Detour(
-    //         reinterpret_cast<uint64_t>(realFn),
-    //         reinterpret_cast<uint64_t>(&hookImportAvatar),
-    //         &s_importAvatarOriginal);
-    //     s_importAvatarDetour->hook()
-    //         ? LOG_INFO("ImportAvatar vtable hook installed")
-    //         : LOG_CRITICAL("ImportAvatar vtable hook FAILED");
-    // } else {
-    //     LOG_CRITICAL("IMPORT_API is null — ImportAvatar hook skipped");
-    // }
+    HooksManager::addBefore<&QWidget::show>([](const HookHandle& handle, QWidget* this_) {
+        // Configure main window
+        if (this_->objectName() == " TitleFrame") {
+            mainWindow = dynamic_cast<QFrame*>(this_);
+            LOG_INFO("Main window has been detected by Extensions Manager. Setting up UI.");
+            handle.remove();
+        }
+    });
 
     HooksManager::addBefore<&QApplication::exec>([&](const HookHandle &handle) {
 
@@ -260,7 +175,6 @@ void ExtensionsManager::install() {
             if (QString(widget->metaObject()->className()) == "CloUICommon::LoginDialog") {
                 QMetaObject::invokeMethod(ap, "SucceedAuthentication");
                 QMetaObject::invokeMethod(widget, "SignInWithCloset");
-                // QMetaObject::invokeMethod(test, "LoginSucceed", Q_ARG(QString, "hello"));
             }
         }
 
@@ -323,9 +237,6 @@ void ExtensionsManager::install() {
         ignore = true;
     });
 
-    LOG_INFO("QVariant triviality: {}", std::is_trivial_v<QVariant>);
-    LOG_INFO("QtMessageHandler triviality: {}", std::is_trivial_v<QtMessageHandler>);
-
     HooksManager::addIgnore<&QDesktopServices::openUrl>(
         [](const HookHandle &handle, bool& ignore, bool& ret, const QUrl &url) {
             if (url.toString().startsWith("https://style.clo-set.com/en/account/signin?productId=40")) {
@@ -336,108 +247,117 @@ void ExtensionsManager::install() {
             }
         });
 
-    HooksManager::addBefore<&QSettings::beginGroup>(
-        [](const HookHandle& handle, QSettings* settings, const QString &prefix) {
-            LOG_DEBUG(" --- Begin group {}. Settings: {}", prefix.toStdString(), reinterpret_cast<uintptr_t>(settings));
-        });
-    HooksManager::addBefore<&QSettings::endGroup>(
-        [](const HookHandle& handle, QSettings* settings) {
-            LOG_DEBUG("End group Settings: {}", reinterpret_cast<uintptr_t>(settings));
-        });
+    // HooksManager::addBefore<&QSettings::beginGroup>(
+    //     [](const HookHandle& handle, QSettings* settings, const QString &prefix) {
+    //         LOG_DEBUG(" --- Begin group {}. Settings: {}", prefix.toStdString(), reinterpret_cast<uintptr_t>(settings));
+    //     });
+    // HooksManager::addBefore<&QSettings::endGroup>(
+    //     [](const HookHandle& handle, QSettings* settings) {
+    //         LOG_DEBUG("End group Settings: {}", reinterpret_cast<uintptr_t>(settings));
+    //     });
+    //
+    // HooksManager::addAfter<&QSettings::value>(
+    // [](const HookHandle& handle, const QSettings* settings, QVariant* ret, const QString& key, const QVariant& defaultValue) {
+    //     LOG_DEBUG("QSettings::value: key={} value={} default={}. Settings: {}",
+    //               key.toStdString(), ret->toString().toStdString(),
+    //               defaultValue.toString().toStdString(),
+    //               reinterpret_cast<uintptr_t>(settings));
+    //     LOG_DEBUG("Group: {}", settings->group().toStdString());
+    //     std::cout << "Settings" << settings << std::endl;
+    // });
+    //
+    // HooksManager::addAfter<&QSettings::setValue>(
+    // [](const HookHandle& handle, QSettings*& settings, const QString &key, const QVariant &value) {
+    //     LOG_DEBUG("QSettings::setValue: key={} value={} Settings: {}", key.toStdString(), value.toString().toStdString(), reinterpret_cast<uintptr_t>(settings));
+    // });
 
-    HooksManager::addAfter<&QSettings::value>(
-    [](const HookHandle& handle, const QSettings* settings, QVariant* ret, const QString& key, const QVariant& defaultValue) {
-        LOG_DEBUG("QSettings::value: key={} value={} default={}. Settings: {}",
-                  key.toStdString(), ret->toString().toStdString(),
-                  defaultValue.toString().toStdString(),
-                  reinterpret_cast<uintptr_t>(settings));
-        LOG_DEBUG("Group: {}", settings->group().toStdString());
-        std::cout << "Settings" << settings << std::endl;
-    });
-
-    HooksManager::addAfter<&QSettings::setValue>(
-    [](const HookHandle& handle, QSettings*& settings, const QString &key, const QVariant &value) {
-        LOG_DEBUG("QSettings::setValue: key={} value={} Settings: {}", key.toStdString(), value.toString().toStdString(), reinterpret_cast<uintptr_t>(settings));
-    });
-
-    HooksManager::addBefore<&QObjectPrivate::addConnection>([&](const HookHandle& handle, const QObjectPrivate* obj, const int signal, const QObjectPrivate::Connection *c) {
-        // if (c->sender && !QString(c->sender->metaObject()->className()).startsWith("Q")) {
-        //     const QMetaObject *mo = c->sender->metaObject();
-        //     // Resolve signal name: signalIdx is 0-based counting only Signal methods
-        //     // across the full metaobject hierarchy (including inherited).
-        //     int sigCount = 0;
-        //     for (int i = 0; i < mo->methodCount(); ++i) {
-        //         if (mo->method(i).methodType() == QMetaMethod::Signal) {
-        //             if (sigCount == signal) {
-        //                 LOG_DEBUG("addConnection  {}({})::{}  →  {}({})",
-        //                           mo->className(),
-        //                           c->sender->objectName().toStdString(),
-        //                           mo->method(i).methodSignature().constData(),
-        //                           c->receiver ? c->receiver.loadAcquire()->metaObject()->className() : "<null>",
-        //                           c->receiver ? c->receiver.loadAcquire()->objectName().toStdString() : "");
-        //
-        //                 for (const QMetaObject *m = mo; m != nullptr; m = m->superClass()) {
-        //                     if (QString(m->className()).startsWith("Q")) continue;
-        //                     LOG_DEBUG("=== {} === Parent: {}", m->className(), obj->parent ? obj->parent->metaObject()->className() : "NULL");
-        //
-        //                     for (int j = m->methodOffset(); j < m->methodOffset() + m->methodCount(); ++j) {
-        //                         const QMetaMethod method = m->method(j);
-        //
-        //                         const char *typeLabel = nullptr;
-        //                         switch (method.methodType()) {
-        //                             case QMetaMethod::Signal: typeLabel = "SIGNAL";
-        //                                 break;
-        //                             case QMetaMethod::Slot: typeLabel = "SLOT  ";
-        //                                 break;
-        //                             default: continue; // skip QMetaMethod::Method and Constructor
-        //                         }
-        //
-        //                         LOG_DEBUG("  [{}] {}", typeLabel, method.methodSignature().constData());
-        //                     }
-        //                 }
-        //
-        //                 if (QString("CloUICommon::CVFSignOnWorker") == mo->className()) {
-        //                     LOG_INFO("FOUND CloUICommon::CVFSignOnWorker");
-        //                     test = c->sender;
-        //                 } else if (QString("AuthenticationProcessor") == mo->className()) {
-        //                     LOG_INFO("FOUND AuthenticationProcessor");
-        //                     ap = c->sender;
-        //                 }
-        //
-        //                 QString h = mo->className();
-        //                 do {
-        //                     mo = mo->superClass();
-        //                     h.append(" ").append(mo->className());
-        //                 } while (mo->superClass());
-        //                 LOG_DEBUG(" --- {}", h.toStdString());
-        //
-        //                 break;
-        //             }
-        //             ++sigCount;
-        //         }
-        //     }
-        // }
-    });
-
-    HooksManager::addBefore<static_cast<void(*)(QObject*, const QMetaObject*, int, void**)>(&QMetaObject::activate)>([&](const HookHandle& handle, QObject *sender, const QMetaObject *m, int local_signal_index, void **argv) {
-        // if (sender && m && (!QString(sender->metaObject()->className()).startsWith("Q") || QString(sender->metaObject()->className()) == "QAction") || QString(
-        //         sender->metaObject()->className()).contains("Network")) {
-        //     const int absIdx = m->methodOffset() + local_signal_index;
-        //     const QMetaMethod sig = sender->metaObject()->method(absIdx);
-        //     const auto sigName = sig.methodSignature();
-        //
-        //     const QByteArray macroSig = QByteArray("2") + sigName;
-        //     const auto modifiedSender = static_cast<Hack *>(sender);
-        //     const auto numOfReceivers = modifiedSender->receivers(macroSig.constData());
-        //
-        //     if (numOfReceivers > 0) {
-        //         LOG_DEBUG("emit  {}({})::{} receivers: {}",
-        //                   sender->metaObject()->className(),
-        //                   sender->objectName().toStdString(),
-        //                   sigName.constData(), numOfReceivers);
-        //     }
-        // }
-    });
+    // HooksManager::addBefore<&QObjectPrivate::addConnection>([&](const HookHandle& handle, const QObjectPrivate* obj, const int signal, const QObjectPrivate::Connection *c) {
+    //     if (c->sender &&
+    //         (!QString(c->sender->metaObject()->className()).startsWith("Q")
+    //         || QString(c->sender->metaObject()->className()) == "QAction"
+    //         || QString(c->sender->metaObject()->className()) == "QMenu")
+    //         ) {
+    //         const QMetaObject *mo = c->sender->metaObject();
+    //         // Resolve signal name: signalIdx is 0-based counting only Signal methods
+    //         // across the full metaobject hierarchy (including inherited).
+    //         int sigCount = 0;
+    //         for (int i = 0; i < mo->methodCount(); ++i) {
+    //             if (mo->method(i).methodType() == QMetaMethod::Signal) {
+    //                 if (sigCount == signal) {
+    //                     LOG_DEBUG("addConnection  {}({})::{}  →  {}({})",
+    //                               mo->className(),
+    //                               c->sender->objectName().toStdString(),
+    //                               mo->method(i).methodSignature().constData(),
+    //                               c->receiver ? c->receiver.loadAcquire()->metaObject()->className() : "<null>",
+    //                               c->receiver ? c->receiver.loadAcquire()->objectName().toStdString() : "");
+    //
+    //                     for (const QMetaObject *m = mo; m != nullptr; m = m->superClass()) {
+    //                         if (QString(m->className()).startsWith("Q")) continue;
+    //                         LOG_DEBUG("=== {} === Parent: {}", m->className(), obj->parent ? obj->parent->metaObject()->className() : "NULL");
+    //
+    //                         for (int j = m->methodOffset(); j < m->methodOffset() + m->methodCount(); ++j) {
+    //                             const QMetaMethod method = m->method(j);
+    //
+    //                             const char *typeLabel = nullptr;
+    //                             switch (method.methodType()) {
+    //                                 case QMetaMethod::Signal: typeLabel = "SIGNAL";
+    //                                     break;
+    //                                 case QMetaMethod::Slot: typeLabel = "SLOT  ";
+    //                                     break;
+    //                                 default: continue; // skip QMetaMethod::Method and Constructor
+    //                             }
+    //
+    //                             LOG_DEBUG("  [{}] {}", typeLabel, method.methodSignature().constData());
+    //                         }
+    //                     }
+    //
+    //                     if (QString("CloUICommon::CVFSignOnWorker") == mo->className()) {
+    //                         LOG_INFO("FOUND CloUICommon::CVFSignOnWorker");
+    //                         test = c->sender;
+    //                     } else if (QString("AuthenticationProcessor") == mo->className()) {
+    //                         LOG_INFO("FOUND AuthenticationProcessor");
+    //                         ap = c->sender;
+    //                     }
+    //
+    //                     QString h = mo->className();
+    //                     do {
+    //                         mo = mo->superClass();
+    //                         h.append(" ").append(mo->className());
+    //                     } while (mo->superClass());
+    //                     LOG_DEBUG(" --- {}", h.toStdString());
+    //
+    //                     break;
+    //                 }
+    //                 ++sigCount;
+    //             }
+    //         }
+    //     }
+    // });
+    //
+    // HooksManager::addBefore<static_cast<void(*)(QObject*, const QMetaObject*, int, void**)>(&QMetaObject::activate)>([&](const HookHandle& handle, QObject *sender, const QMetaObject *m, int local_signal_index, void **argv) {
+    //     if (sender && m &&
+    //         (!QString(sender->metaObject()->className()).startsWith("Q")
+    //         || QString(sender->metaObject()->className()) == "QAction"
+    //         || QString(sender->metaObject()->className()) == "QMenu")
+    //         || QString(
+    //             sender->metaObject()->className()).contains("Network")
+    //             ) {
+    //         const int absIdx = m->methodOffset() + local_signal_index;
+    //         const QMetaMethod sig = sender->metaObject()->method(absIdx);
+    //         const auto sigName = sig.methodSignature();
+    //
+    //         const QByteArray macroSig = QByteArray("2") + sigName;
+    //         const auto modifiedSender = static_cast<Hack *>(sender);
+    //         const auto numOfReceivers = modifiedSender->receivers(macroSig.constData());
+    //
+    //         if (numOfReceivers > 0) {
+    //             LOG_DEBUG("emit  {}({})::{} receivers: {}",
+    //                       sender->metaObject()->className(),
+    //                       sender->objectName().toStdString(),
+    //                       sigName.constData(), numOfReceivers);
+    //         }
+    //     }
+    // });
 }
 
 void ExtensionsManager::setMessage(const QString &message) {
