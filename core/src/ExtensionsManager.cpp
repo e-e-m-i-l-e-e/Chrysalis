@@ -306,12 +306,12 @@ void ExtensionsManager::install() {
     // .text:00007FFB1D6BB4B0 msvcp140.dll:$B4B0 #A8B0 <public: class std::basic_streambuf<wchar_t, struct std::char_traits<wchar_t>> * __cdecl std::basic_ios<wchar_t, struct std::char_traits<wchar_t>>::rdbuf(void) const>
     HooksManager::addBefore<static_cast<std::basic_ostream<char, struct std::char_traits<char>>& (std::basic_ostream<char, struct std::char_traits<char>>::*)(float)>(&std::basic_ostream<char, struct std::char_traits<char>>::operator<<)>(
         [](const HookHandle &, std::basic_ostream<char, struct std::char_traits<char>>*, float _Val) {
-        qDebug() << _Val;
+        // qDebug() << _Val;
     });
 
-    HooksManager::addBefore<static_cast<std::basic_streambuf<wchar_t>* (std::basic_ios<wchar_t>::*)() const>(&std::basic_ios<wchar_t>::rdbuf)>(
-        [](const HookHandle &, const std::basic_ios<wchar_t>* this_) {
-        // qDebug() << buffer;
+    HooksManager::addAfter<static_cast<std::basic_streambuf<wchar_t>* (std::basic_ios<wchar_t>::*)() const>(&std::basic_ios<wchar_t>::rdbuf)>(
+        [](const HookHandle &, std::basic_streambuf<wchar_t>* ret, const std::basic_ios<wchar_t>* this_) {
+        qDebug() << "RD BUFFER" << ret;
     });
 
     // HooksManager::addBefore<&vfprintf>([](const HookHandle &,
