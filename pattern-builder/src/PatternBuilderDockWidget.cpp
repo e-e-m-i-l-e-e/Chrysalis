@@ -15,13 +15,10 @@ PatternBuilderDockWidget::PatternBuilderDockWidget(QWidget *parent) : MVDockWidg
     UTILITY_API->UpdateCloStyleForPlugIn(this);
     ui->tabWidget->tabBar()->setExpanding(true);
     ui->tabWidget->tabBar()->setDocumentMode(true);
-
-    LOG_INFO("Style sheet: {}", this->styleSheet().toStdString());
-
-    connect(ui->tabWidget, &QTabWidget::tabBarClicked, [this](int index) {
-        // UTILITY_API->CreateProgressBar();
-        IMPORT_API->ImportAvatar("C:/Users/Public/Documents/CLO/CLO Assets/Avatar/Female/FV2.1_Mia.avt", {});
-    });
+    // connect(ui->tabWidget, &QTabWidget::tabBarClicked, [this](int index) {
+    //     // UTILITY_API->CreateProgressBar();
+    //     IMPORT_API->ImportAvatar("C:/Users/Public/Documents/CLO/CLO Assets/Avatar/Female/FV2.1_Mia.avt", {});
+    // });
     // ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     // ui->scrollArea->viewport()->setAutoFillBackground(false);
     // ui->scrollArea->viewport()->setStyleSheet("background: transparent;");

@@ -31,6 +31,8 @@ void PatternBuilder::configureStatusBar(QWidget *parent) {
 
             patternBuilderIcon->setToolTip("Pattern Builder");
 
+            LOG_INFO("Position: {}, {}", childIcon->pos().x() - childIcon->width(), childIcon->pos().y());
+
             patternBuilderIcon->move(childIcon->pos().x() - childIcon->width(), childIcon->pos().y());
             patternBuilderIcon->show();
             return;

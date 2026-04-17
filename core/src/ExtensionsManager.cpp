@@ -5,19 +5,25 @@
 #include <windows.h>
 #include <QApplication>
 #include <QMenuBar>
+#include <QMenu>
 #include <QMetaMethod>
 
 #include <QDesktopServices>
 #include <QUrl>
+#include <QDebug>
+#include <QFile>
+#include <QFileDevice>
+#include <qthreadpool.h>
+
 #include <QtCore/private/qobject_p.h>
 #include <QtCore/private/qhooks_p.h>
+#include <QtCore/private/qfiledevice_p.h>
 #include <QtCore/qobjectdefs.h>
-#include <QDebug>
-#include <qthreadpool.h>
 
 #include "ExtensionsSettings.h"
 
 #include "HooksManager.h"
+#include "MVCustomDoubleSpinBox.h"
 #include "MVStatusBar.h"
 
 static QObject *test;
@@ -139,12 +145,19 @@ static void firstAddHook(QObject *object)
         while (!currentQueue.empty()) {
             QPointer<QObject> p = currentQueue.dequeue();
             if (p) {
-                if (QString("CloUICommon::CVFSignOnWorker") == p.data()->metaObject()->className()) {
-                    LOG_INFO("FOUND CloUICommon::CVFSignOnWorker");
-                    test = p.data();
-                } else if (QString("AuthenticationProcessor") == p.data()->metaObject()->className()) {
-                    LOG_INFO("FOUND AuthenticationProcessor");
-                    ap = p.data();
+                if (QString("AuthenticationProcessor") == p.data()->metaObject()->className()) {
+                    auto authenticationProcessor = p.data();
+                    HooksManager::addBefore<&QApplication::exec>([authenticationProcessor](const HookHandle& handle) {
+                        for (const auto widget: QApplication::allWidgets()) {
+                            if (QString("CloUICommon::LoginDialog") == widget->metaObject()->className()) {
+                                LOG_INFO("CloUICommon::LoginDialog");
+                                QMetaObject::invokeMethod(authenticationProcessor, "SucceedAuthentication");
+                                QMetaObject::invokeMethod(widget, "SignInWithCloset");
+                                LOG_INFO("EXIT");
+                                handle.remove();
+                            }
+                        }
+                    });
                 }
                 // LOG_INFO("Thread: {}. Class: {}. TypeID: {}. Object: {}", QThread::currentThreadId(), p.data()->metaObject()->className(), typeid(*(p.data())).name(), p.data()->objectName().toStdString());
             }
@@ -155,82 +168,52 @@ static void firstAddHook(QObject *object)
     constructionQueue[QThread::currentThreadId()].enqueue(object);
 }
 
+#include <QTextStream>
+
 void ExtensionsManager::install() {
     qtHookData[QHooks::AddQObject] = reinterpret_cast<quintptr>(&firstAddHook);
 
-    HooksManager::addBefore<&QWidget::show>([](const HookHandle& handle, QWidget* this_) {
-        // Configure main window
+    HooksManager::addAfter<&QWidget::show>([](const HookHandle& handle, QWidget* this_) {
         if (this_->objectName() == " TitleFrame") {
-            mainWindow = dynamic_cast<QFrame*>(this_);
             LOG_INFO("Main window has been detected by Extensions Manager. Setting up UI.");
-            handle.remove();
-        }
-    });
-
-    HooksManager::addBefore<&QApplication::exec>([&](const HookHandle &handle) {
-
-        LOG_INFO("QApplication::exec()");
-
-        for (const auto& widget: QApplication::allWidgets()) {
-            if (QString(widget->metaObject()->className()) == "CloUICommon::LoginDialog") {
-                QMetaObject::invokeMethod(ap, "SucceedAuthentication");
-                QMetaObject::invokeMethod(widget, "SignInWithCloset");
+            mainWindow = dynamic_cast<QFrame*>(this_);
+            for (const auto widget: QApplication::allWidgets()) {
+                for (const auto extension: extensions) {
+                    extension->configure(widget);
+                }
             }
-        }
+        } else if (this_->objectName() == "myMenuBar") {
+            LOG_INFO("Configuring \"Extensions\" menu.");
+            const auto menuBar = qobject_cast<QMenuBar *>(this_);
+            const auto extensionsMenu = menuBar->addMenu("Extensions");
 
-        // QMenuBar* menu = nullptr;
-        //
-        // for (const auto widget: QApplication::allWidgets()) {
-        //     // Configure main window
-        //     if (widget->objectName() == "TitleFrame") {
-        //         mainWindow = dynamic_cast<QFrame*>(widget);
-        //         LOG_INFO("Main window has been detected by Extensions Manager.");
-        //     }
-        //
-        //     // Getting menu bar for further configuration
-        //     else if (widget->objectName() == "myMenuBar") menu = qobject_cast<QMenuBar*>(widget);
-        //
-        //     // Inject QLabel for displaying messages from background processes into bottom status bar.
-        //     else if (QString(widget->metaObject()->className()) == "MVStatusBar") {
-        //         for (const auto statusBar = dynamic_cast<MVStatusBar*>(widget);
-        //              const auto child: statusBar->children()) {
-        //             if (child->metaObject() == &QWidget::staticMetaObject && !child->children().empty()) {
-        //                 const auto parent = qobject_cast<QWidget*>(child);
-        //                 backgroundMessage_ = new QLabel(parent);
-        //                 backgroundMessage_->setGeometry(statusBar->width() / 2, 2, 500, 20);
-        //                 UTILITY_API->UpdateCloStyleForPlugIn(backgroundMessage_);
-        //                 backgroundMessage_->show();
-        //
-        //                 for (const auto extension: extensions) {
-        //                     extension->configureStatusBar(parent);
-        //                 }
-        //             }
-        //         }
-        //     }
-        //
-        //     for (const auto extension: extensions) {
-        //         extension->configure(widget);
-        //     }
-        // }
-        //
-        // if (!menu) {
-        //     LOG_CRITICAL("Menu was not found");
-        //     exit(1);
-        // }
-        //
-        // // Configuring menu
-        // const auto extensionsMenu = menu->addMenu("Extensions");
-        //
-        // extensionsSettings = new ExtensionsSettings(mainWindow);
-        // const QAction *extensionsSettingsMenu = extensionsMenu->addAction("Extensions Settings");
-        // QObject::connect(extensionsSettingsMenu, &QAction::triggered, extensionsSettings, &ExtensionsSettings::exec);
-        //
-        // for (const auto extension: extensions) {
-        //     extension->configureMenu(extensionsMenu);
-        // }
-        //
-        // LOG_INFO("Extensions menu has been added to myMenuBar");
-        // handle.remove();
+            extensionsSettings = new ExtensionsSettings(mainWindow);
+            const QAction *extensionsSettingsMenu = extensionsMenu->addAction("Extensions Settings");
+            QObject::connect(extensionsSettingsMenu, &QAction::triggered, extensionsSettings, &ExtensionsSettings::exec);
+
+            for (const auto extension: extensions) {
+                extension->configureMenu(extensionsMenu);
+            }
+        } else if (QString(this_->metaObject()->className()) == "MVStatusBar") {
+            LOG_INFO("Configuring status bar.");
+            for (const auto statusBar = dynamic_cast<MVStatusBar*>(this_);
+                 const auto child: statusBar->children()) {
+                if (child->metaObject() == &QWidget::staticMetaObject && !child->children().empty()) {
+                    const auto parent = qobject_cast<QWidget *>(child);
+                    backgroundMessage_ = new QLabel(parent);
+                    backgroundMessage_->setGeometry(statusBar->width() / 2, 2, 500, 20);
+                    UTILITY_API->UpdateCloStyleForPlugIn(backgroundMessage_);
+                    backgroundMessage_->show();
+
+                    for (const auto extension: extensions) {
+                        extension->configureStatusBar(parent);
+                    }
+                }
+            }
+            LOG_INFO("EXIT2");
+            // handle.remove();
+        }
+        // LOG_INFO("Class: {}. Object: {}", this_->metaObject()->className(), this_->objectName().toStdString());
     });
 
     HooksManager::addIgnore<&qInstallMessageHandler>([](const HookHandle&, bool& ignore, QtMessageHandler&, QtMessageHandler&) {
@@ -247,6 +230,49 @@ void ExtensionsManager::install() {
             }
         });
 
+    HooksManager::addAfter<&QObject::setObjectName>([](const HookHandle&, QObject* this_, const QString& name) {
+        if (name.contains("MeasureID")) {
+            LOG_INFO("Measure: {}. Class: {}", name.toStdString(), this_->metaObject()->className());
+            if (const auto spinBox = qobject_cast<QDoubleSpinBox*>(this_)) {
+                spinBox->connect(spinBox, qOverload<double>(&QDoubleSpinBox::valueChanged), [](double value) {
+                    LOG_INFO("new value: {}", value);
+                });
+            }
+        }
+    });
+
+    // HooksManager::addBefore<&QFileDevicePrivate::read>([](const HookHandle&, QIODevicePrivate* this_, char *data, qint64 maxSize, bool peeking) {
+    //     std::cout << data << std::endl;
+    // });
+
+    HooksManager::addBefore<qOverload<const char*, qint64>(&QIODevice::write)>([](const HookHandle&, QIODevice* this_, const char *data, qint64 len) {
+        std::cout << data << std::endl;
+    });
+
+    HooksManager::addBefore<qOverload<const char*>(&QTextStream::operator<<)>([](
+        const HookHandle&, QTextStream* this_, const char* text) {
+        // qDebug() << text;
+    });
+
+    // HooksManager::addBefore<&fwrite>([](const HookHandle&, void const* _Buffer, size_t _ElementSize, size_t _ElementCount, FILE *) {
+    //     size_t total = _ElementSize * _ElementCount;
+    //
+    //     if (!_Buffer || total == 0)
+    //         return;
+    //
+    //     const char *data = static_cast<const char *>(_Buffer);
+    //
+    //     QByteArray arr(data, static_cast<int>(total));
+    //
+    //     // Try as text
+    //     qDebug() << "fwrite text:" << arr;
+    //
+    //     // Always safe: hex dump
+    //     qDebug() << "fwrite hex:" << arr.toHex();
+    // });
+    // HooksManager::addBefore<&vfprintf>([](const HookHandle&, FILE* const _Stream, char const* const _Format, ...) {
+    //     qDebug() << "fprintf format:" << _Format;
+    // });
     // HooksManager::addBefore<&QSettings::beginGroup>(
     //     [](const HookHandle& handle, QSettings* settings, const QString &prefix) {
     //         LOG_DEBUG(" --- Begin group {}. Settings: {}", prefix.toStdString(), reinterpret_cast<uintptr_t>(settings));

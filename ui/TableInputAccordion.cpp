@@ -72,6 +72,10 @@ void TableInputAccordion::setColumns(const QStringList &columns) const {
     updateTableHeight();
 }
 
+ClickableWidget* TableInputAccordion::getAccordionTitle() const {
+    return ui->accordionTitle;
+}
+
 void TableInputAccordion::updateTableHeight() const {
     int h = ui->table->horizontalHeader()->height() + ui->table->frameWidth() * 2;
     for (int i = 0; i < ui->table->rowCount(); i++) {

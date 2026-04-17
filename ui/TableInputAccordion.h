@@ -2,6 +2,7 @@
 #define CLOEXTENSIONS_TABLEINPUTACCORDION_H
 
 #include "BaseContainer.h"
+#include "ClickableWidget.h"
 
 namespace UI {
     QT_BEGIN_NAMESPACE
@@ -30,6 +31,8 @@ namespace UI {
 
         QStringList getColumns() const;
         void setColumns(const QStringList &columns) const;
+
+        ClickableWidget* getAccordionTitle() const;
 
     private:
         Ui::TableInputAccordion *ui;
