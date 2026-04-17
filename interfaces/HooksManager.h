@@ -91,7 +91,15 @@ namespace hook_detail {
 
     template<typename R, typename... ExtraArgs>
     struct IgnoreType {
-        using type = std::function<void(HookHandle, bool&, R &, ExtraArgs &...)>;
+        // For reference return types a reference variable cannot be
+        // default-initialized before the original call, so the Ignore callback
+        // receives a raw pointer to the referent instead of R& itself.
+        // The callback may redirect the pointer to an alternative object;
+        // leaving it as nullptr while setting ignore=true is UB on dereference.
+        using ResultArg = std::conditional_t<std::is_reference_v<R>,
+                                             std::remove_reference_t<R>*,
+                                             R>;
+        using type = std::function<void(HookHandle, bool&, ResultArg&, ExtraArgs &...)>;
     };
 
     template<typename... ExtraArgs>
@@ -311,8 +319,18 @@ class HooksManager {
                 inst->iterate(inst->_ignore, ignore, args...);
                 if (!ignore) original(args...);
                 if (_instance) inst->iterate(inst->_after, args...);
+            } else if constexpr (std::is_reference_v<R>) {
+                // Reference return: a reference variable cannot be
+                // default-initialized, so use a pointer for result storage.
+                // Ignore callbacks receive this pointer (may redirect it);
+                // After callbacks receive the dereferenced value as expected.
+                std::remove_reference_t<R>* result_ptr = nullptr;
+                inst->iterate(inst->_ignore, ignore, result_ptr, args...);
+                if (!ignore) result_ptr = &original(args...);
+                if (_instance && result_ptr) inst->iterate(inst->_after, *result_ptr, args...);
+                return *result_ptr; // NOLINT: caller must ensure result_ptr is non-null when ignore=true
             } else {
-                R result;
+                R result{};
                 inst->iterate(inst->_ignore, ignore, result, args...);
                 if (!ignore) result = original(args...);
                 if (_instance) inst->iterate(inst->_after, result, args...);

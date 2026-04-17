@@ -170,6 +170,11 @@ static void firstAddHook(QObject *object)
 
 #include <QTextStream>
 
+class filebuf : public std::basic_streambuf<char> {
+public:
+    std::streamsize xsputn(const char*, std::streamsize);
+};
+
 void ExtensionsManager::install() {
     qtHookData[QHooks::AddQObject] = reinterpret_cast<quintptr>(&firstAddHook);
 
@@ -249,10 +254,30 @@ void ExtensionsManager::install() {
         std::cout << data << std::endl;
     });
 
-    HooksManager::addBefore<qOverload<const char*>(&QTextStream::operator<<)>([](
-        const HookHandle&, QTextStream* this_, const char* text) {
-        // qDebug() << text;
-    });
+    //msvcp140.public: class std::basic_ostream<unsigned short, struct std::char_traits<unsigned short>> & __cdecl std::basic_ostream<unsigned short, struct std::char_traits<unsigned short>>::operator<<(class std::basic_ostream<unsigned short, struct std::char_traits<un
+    //.text:00007FFB19333180 msvcp140.dll:$43180 #42580 <public: class std::basic_ostream<char, struct std::char_traits<char>> & __cdecl std::basic_ostream<char, struct std::char_traits<char>>::operator<<(float)>
+
+    //Address=00007FF67A3C8170
+    // Type=Import
+    // Symbol=msvcp140.?sputn@?$basic_streambuf@DU?$char_traits@D@std@@@std@@QEAA_JPEBD_J@Z
+    // Symbol (undecorated)=public: __int64 __cdecl std::basic_streambuf<char, struct std::char_traits<char>>::sputn(char const *, __int64)
+
+    //msvcp140.??6?$basic_ostream@DU?$char_traits@D@std@@@std@@QEAAAEAV01@P6AAEAV01@AEAV01@@Z@Z
+
+    // HooksManager::addBefore<qOverload<const char*>(&QTextStream::operator<<)>([](
+    //     const HookHandle&, QTextStream* this_, const char* text) {
+    //     qDebug() << text;
+    // });
+    //
+    // HooksManager::addBefore<qOverload<const QString &>(&QTextStream::operator<<)>([](
+    //     const HookHandle&, QTextStream* this_, const QString &s) {
+    //     qDebug() << s;
+    // });
+
+    // HooksManager::addBefore<qOverload<signed int>(&QTextStream::operator<<)>([](
+    //     const HookHandle&, QTextStream* this_, signed int i) {
+    //     qDebug() << text;
+    // });
 
     // HooksManager::addBefore<&fwrite>([](const HookHandle&, void const* _Buffer, size_t _ElementSize, size_t _ElementCount, FILE *) {
     //     size_t total = _ElementSize * _ElementCount;
@@ -270,6 +295,32 @@ void ExtensionsManager::install() {
     //     // Always safe: hex dump
     //     qDebug() << "fwrite hex:" << arr.toHex();
     // });
+
+    // using Fn = std::basic_ostream<char>& (std::basic_ostream<char>::*)(char);
+    // Fn fn = [](std::basic_ostream<char>& os, char c) -> std::basic_ostream<char>& {
+    //     return os.operator<<(c);
+    //
+
+    //.text:00007FFB1D6BB4B0 msvcp140.dll:$B4B0 #A8B0 <public: class std::basic_streambuf<wchar_t, struct std::char_traits<wchar_t>> * __cdecl std::basic_ios<wchar_t, struct std::char_traits<wchar_t>>::rdbuf(void) const>
+
+    // .text:00007FFB1D6BB4B0 msvcp140.dll:$B4B0 #A8B0 <public: class std::basic_streambuf<wchar_t, struct std::char_traits<wchar_t>> * __cdecl std::basic_ios<wchar_t, struct std::char_traits<wchar_t>>::rdbuf(void) const>
+    HooksManager::addBefore<static_cast<std::basic_ostream<char, struct std::char_traits<char>>& (std::basic_ostream<char, struct std::char_traits<char>>::*)(float)>(&std::basic_ostream<char, struct std::char_traits<char>>::operator<<)>(
+        [](const HookHandle &, std::basic_ostream<char, struct std::char_traits<char>>*, float _Val) {
+        qDebug() << _Val;
+    });
+
+    HooksManager::addBefore<static_cast<std::basic_streambuf<wchar_t>* (std::basic_ios<wchar_t>::*)() const>(&std::basic_ios<wchar_t>::rdbuf)>(
+        [](const HookHandle &, const std::basic_ios<wchar_t>* this_) {
+        // qDebug() << buffer;
+    });
+
+    // HooksManager::addBefore<&vfprintf>([](const HookHandle &,
+    //     FILE*       const _Stream,
+    //     char const* const _Format,
+    //     va_list           _ArgList) {
+    //     qDebug() << "vprintf:" << _Format;
+    // });
+
     // HooksManager::addBefore<&vfprintf>([](const HookHandle&, FILE* const _Stream, char const* const _Format, ...) {
     //     qDebug() << "fprintf format:" << _Format;
     // });
