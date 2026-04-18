@@ -28,6 +28,8 @@ public:
     inline static ExtensionsSettings* extensionsSettings;
 
     inline static QFrame* mainWindow;
+
+    inline static QToolButton* action;
 };
 
 #define UI_MESSAGE(message) ExtensionsManager::setMessage(LOGGER_NAME, message, false);

@@ -4,6 +4,7 @@
 
 #include <windows.h>
 #include <QApplication>
+#include <QCheckBox>
 #include <QMenuBar>
 #include <QMenu>
 #include <QMetaMethod>
@@ -13,6 +14,7 @@
 #include <QDebug>
 #include <QFile>
 #include <QFileDevice>
+#include <QLayout>
 #include <qthreadpool.h>
 
 #include <QtCore/private/qobject_p.h>
@@ -81,34 +83,6 @@ static void hookCreateProgressBar(void* self)
 {
     LOG_INFO("CreateProgressBar hook!!!");
     reinterpret_cast<CreateProgressBarFn>(s_createProgressBarOriginal)(self);
-}
-
-// ── std::basic_ios<wchar_t>::rdbuf() const — msvcp140 raw hook ───────────────
-// rdbuf() is defined INLINE in MSVC's <ios> header.  Taking
-// &std::basic_ios<wchar_t>::rdbuf in C++ code yields the address of a local
-// COMDAT copy inside Extensions.dll — NOT the copy CLO actually calls, which
-// lives in msvcp140.dll.  HooksManager::addAfter<...> therefore hooks the wrong
-// address and the callback never fires.
-//
-// Fix: resolve the real address from msvcp140.dll via GetProcAddress, then
-// install a raw PLH::x64Detour on it — exactly the same pattern used above for
-// CreateProgressBar and ImportAvatar.
-//
-// Mangled name confirmed from msvcp140.dll export table (#A8B0 in the comments
-// in ExtensionsManager):
-//   ?rdbuf@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEBAPEAV?$basic_streambuf@_WU?$char_traits@_W@std@@@2@XZ
-//
-// Signature: std::basic_streambuf<wchar_t>* __cdecl (const std::basic_ios<wchar_t>*)
-// MSVC x64 ABI passes implicit 'this' as first argument (RCX).
-using RdbufWFn = std::basic_streambuf<wchar_t>*(*)(const std::basic_ios<wchar_t>*);
-static uint64_t        s_rdbufWOriginal = 0;
-static PLH::x64Detour* s_rdbufWDetour   = nullptr;
-
-static std::basic_streambuf<wchar_t>* hookRdbufW(const std::basic_ios<wchar_t>* self)
-{
-    auto* result = reinterpret_cast<RdbufWFn>(s_rdbufWOriginal)(self);
-    qDebug() << "RD BUFFER" << result;
-    return result;
 }
 
 // ── ImportAPIInterface::ImportAvatar vtable hook ──────────────────────────────
@@ -197,36 +171,10 @@ static void firstAddHook(QObject *object)
 }
 
 #include <QTextStream>
-
-class filebuf : public std::basic_streambuf<char> {
-public:
-    std::streamsize xsputn(const char*, std::streamsize);
-};
+#include <QToolButton>
 
 void ExtensionsManager::install() {
     qtHookData[QHooks::AddQObject] = reinterpret_cast<quintptr>(&firstAddHook);
-
-    // ── std::basic_ios<wchar_t>::rdbuf — raw hook (see header comment above) ──
-    {
-        constexpr const char* kSym =
-            "?rdbuf@?$basic_ios@_WU?$char_traits@_W@std@@@std@@"
-            "QEBAPEAV?$basic_streambuf@_WU?$char_traits@_W@std@@@2@XZ";
-        const HMODULE hMsvcp = GetModuleHandleA("msvcp140.dll");
-        if (hMsvcp) {
-            const auto addr = reinterpret_cast<uint64_t>(GetProcAddress(hMsvcp, kSym));
-            if (addr) {
-                s_rdbufWDetour = new PLH::x64Detour(addr,
-                    reinterpret_cast<uint64_t>(&hookRdbufW),
-                    &s_rdbufWOriginal);
-                s_rdbufWDetour->hook();
-                LOG_INFO("rdbuf<wchar_t> hook installed at {:x}", addr);
-            } else {
-                LOG_WARN("rdbuf<wchar_t>: symbol not found in msvcp140.dll — hook skipped");
-            }
-        } else {
-            LOG_WARN("msvcp140.dll not loaded — rdbuf hook skipped");
-        }
-    }
 
     HooksManager::addAfter<&QWidget::show>([](const HookHandle& handle, QWidget* this_) {
         if (this_->objectName() == " TitleFrame") {
@@ -289,9 +237,28 @@ void ExtensionsManager::install() {
         if (name.contains("MeasureID")) {
             LOG_INFO("Measure: {}. Class: {}", name.toStdString(), this_->metaObject()->className());
             if (const auto spinBox = qobject_cast<QDoubleSpinBox*>(this_)) {
-                spinBox->connect(spinBox, qOverload<double>(&QDoubleSpinBox::valueChanged), [](double value) {
+                const auto parent = qobject_cast<QWidget*>(spinBox->parent());
+                parent->layout()->addWidget(new QCheckBox(parent));
+                spinBox->connect(spinBox, qOverload<double>(&QDoubleSpinBox::valueChanged), [spinBox](double value) {
                     LOG_INFO("new value: {}", value);
+                    // qDebug() << "Layout: " << spinBox->layout()->count();
                 });
+            }
+        }
+        if (auto a = qobject_cast<QAction*>(this_)) {
+            LOG_INFO("Action: {}", name.toStdString());
+            if (name == "action_AvatarStyle") {
+                // action = a;
+            }
+        }
+        if (auto a = qobject_cast<QToolButton*>(this_)) {
+            if (name == "btnSave") {
+                LOG_INFO("BTN: {}", name.toStdString());
+                action = a;
+                for (auto action: a->actions()) {
+                    LOG_INFO("Action: {}", action->objectName().toStdString());
+                }
+                LOG_INFO("---------------");
             }
         }
     });
@@ -300,9 +267,9 @@ void ExtensionsManager::install() {
     //     std::cout << data << std::endl;
     // });
 
-    HooksManager::addBefore<qOverload<const char*, qint64>(&QIODevice::write)>([](const HookHandle&, QIODevice* this_, const char *data, qint64 len) {
-        std::cout << data << std::endl;
-    });
+    // HooksManager::addBefore<qOverload<const char*, qint64>(&QIODevice::write)>([](const HookHandle&, QIODevice* this_, const char *data, qint64 len) {
+    //     std::cout << data << std::endl;
+    // });
 
     //msvcp140.public: class std::basic_ostream<unsigned short, struct std::char_traits<unsigned short>> & __cdecl std::basic_ostream<unsigned short, struct std::char_traits<unsigned short>>::operator<<(class std::basic_ostream<unsigned short, struct std::char_traits<un
     //.text:00007FFB19333180 msvcp140.dll:$43180 #42580 <public: class std::basic_ostream<char, struct std::char_traits<char>> & __cdecl std::basic_ostream<char, struct std::char_traits<char>>::operator<<(float)>
@@ -356,7 +323,7 @@ void ExtensionsManager::install() {
     // .text:00007FFB1D6BB4B0 msvcp140.dll:$B4B0 #A8B0 <public: class std::basic_streambuf<wchar_t, struct std::char_traits<wchar_t>> * __cdecl std::basic_ios<wchar_t, struct std::char_traits<wchar_t>>::rdbuf(void) const>
     // HooksManager::addBefore<static_cast<std::basic_ostream<char, struct std::char_traits<char>>& (std::basic_ostream<char, struct std::char_traits<char>>::*)(float)>(&std::basic_ostream<char, struct std::char_traits<char>>::operator<<)>(
     //     [](const HookHandle &, std::basic_ostream<char, struct std::char_traits<char>>*, float _Val) {
-    //     // qDebug() << _Val;
+    //     qDebug() << _Val;
     // });
 
     // HooksManager::addBefore<&std::basic_ostream<char>::put>(
@@ -378,6 +345,16 @@ void ExtensionsManager::install() {
     // });
 
     //public: char __cdecl std::basic_ios<char, struct std::char_traits<char>>::widen(char) const
+
+    // HooksManager::addBefore<&std::basic_ios<char>::widen>(
+    //     [](const HookHandle &, const std::basic_ios<char>*, char c) {
+    //         qDebug() << "WIDEN " << c;
+    // });
+
+    // HooksManager::addBefore<&QString::~QString>(
+    //     [](const HookHandle &, QString* this_) {
+    //         qDebug() << "WIDEN " << c;
+    // });
 
     // HooksManager::addBefore<&std::basic_ostream<char, struct std::char_traits<char>>::init>(
     //     [](const HookHandle &, std::basic_streambuf<char>*, char const * text, std::streamsize size) {
@@ -517,7 +494,7 @@ void ExtensionsManager::install() {
     //         const auto modifiedSender = static_cast<Hack *>(sender);
     //         const auto numOfReceivers = modifiedSender->receivers(macroSig.constData());
     //
-    //         if (numOfReceivers > 0) {
+    //         if (numOfReceivers > 0 && sender->objectName() != "actionMove_Pattern") {
     //             LOG_DEBUG("emit  {}({})::{} receivers: {}",
     //                       sender->metaObject()->className(),
     //                       sender->objectName().toStdString(),

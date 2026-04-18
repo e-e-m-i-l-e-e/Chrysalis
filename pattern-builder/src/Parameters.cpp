@@ -1,7 +1,9 @@
 #include "Parameters.h"
 
 #include <CLOAPIInterface.h>
+#include <QToolButton>
 
+#include "ExtensionsManager.h"
 #include "Logger.h"
 #include "ui_Parameters.h"
 
@@ -23,6 +25,11 @@ namespace UI::PatternBuilder {
                     LOG_INFO("Avatar property. Name: {} value: {}", property.first, property.second);
                 }
             }
+            for (auto action: ExtensionsManager::action->actions()) {
+                // LOG_INFO("Action: {}", action->objectName().toStdString());)
+            }
+            LOG_INFO("Is enabled: {}", ExtensionsManager::action->isEnabled());
+            ExtensionsManager::action->click();
         });
     }
 
