@@ -138,6 +138,42 @@ namespace hook_detail {
         >;
         using Ignore = IgnoreType<R, const Class *, Args...>::type;
     };
+
+    // ── Noexcept free function: R(*)(Args...) noexcept ───────────────────────────
+    template<typename R, typename... Args>
+    struct FuncTraits<R(*)(Args...) noexcept> {
+        using Before = std::function<void(HookHandle, Args &...)>;
+        using After = AfterType<R, Args...>::type;
+        using Ignore = IgnoreType<R, Args...>::type;
+    };
+
+    // ── Noexcept non-const member function: R(Class::*)(Args...) noexcept ────────
+    template<typename R, typename Class, typename... Args>
+    struct FuncTraits<R(Class::*)(Args...) noexcept> {
+        using Before = std::function<void(HookHandle, Class *&, Args &...)>;
+        using After = AfterType<R, Class *, Args...>::type;
+        using Ignore = IgnoreType<R, Class *, Args...>::type;
+    };
+
+    // ── Noexcept const member function: R(Class::*)(Args...) const noexcept ──────
+    // Before uses the same hidden-pointer convention as the non-noexcept const
+    // specialization: for non-trivial R the MSVC x64 ABI passes a hidden R*
+    // buffer pointer as the 2nd argument, so Before must expose it so callers
+    // can see (and optionally redirect) the write-back destination.
+    template<typename R, typename Class, typename... Args>
+    struct FuncTraits<R(Class::*)(Args...) const noexcept> {
+        using Before = std::conditional_t<
+            std::is_trivial_v<R>,
+            std::function<void(HookHandle, const Class *&, Args &...)>,
+            std::function<void(HookHandle, const Class *&, R *&, Args &...)>
+        >;
+        using After = std::conditional_t<
+            std::is_trivial_v<R>,
+            typename AfterType<R, const Class *, Args...>::type,
+            typename AfterType<void, const Class *, R *, Args...>::type
+        >;
+        using Ignore = IgnoreType<R, const Class *, Args...>::type;
+    };
 } // namespace hook_detail
 
 // =============================================================================
@@ -485,6 +521,83 @@ class HooksManager {
         // but return `ret` so that RAX is correct when the detour exits.
         // Hook<Target> passes &HookTraits<Target>::hook to polyhook, so name
         // lookup picks up this definition first (shadowing Base::hook).
+        static R* hook(const Class* thiz, R* ret, Args... args) {
+            std::list<std::function<void()>> pending;
+            std::swap(Base::_instance->_executeLater, pending);
+            for (auto& f : pending) f();
+
+            auto* inst = Base::_instance;
+            inst->iterate(inst->_before, thiz, ret, args...);
+
+            bool ignore = false;
+            inst->iterate(inst->_ignore, ignore, thiz, ret, args...);
+            if (!ignore) Base::original(thiz, ret, args...);
+            if (Base::_instance) inst->iterate(inst->_after, thiz, ret, args...);
+
+            return ret; // satisfy MSVC ABI: hidden return pointer must be in RAX
+        }
+    };
+
+    // =========================================================================
+    //  HookTraits — noexcept free function specialization
+    // =========================================================================
+    template<typename R, typename... Args, R(*Function)(Args...) noexcept>
+    struct HookTraits<Function> : HookBase<R, R(*)(Args...), Args...> {
+        static uint64_t address() {
+            return reinterpret_cast<uint64_t>(Function);
+        }
+    };
+
+    // =========================================================================
+    //  HookTraits — noexcept non-const member function specialization
+    // =========================================================================
+    template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) noexcept>
+    struct HookTraits<Function> : HookBase<R, R(*)(Class *, Args...), Class *, Args...> {
+        static uint64_t address() {
+            union {
+                R (Class::*mfp)(Args...) noexcept;
+                uint64_t addr;
+            } u;
+            u.mfp = Function;
+            return u.addr;
+        }
+    };
+
+    // =========================================================================
+    //  HookTraits — noexcept const member function, trivial return type
+    //  (R is returned in a register; no hidden pointer convention needed)
+    // =========================================================================
+    template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) const noexcept>
+    requires std::is_trivial_v<R>
+    struct HookTraits<Function> : HookBase<R, R(*)(const Class *, Args...), const Class *, Args...> {
+        static uint64_t address() {
+            union {
+                R (Class::*mfp)(Args...) const noexcept;
+                uint64_t addr;
+            } u;
+            u.mfp = Function;
+            return u.addr;
+        }
+    };
+
+    // =========================================================================
+    //  HookTraits — noexcept const member function, non-trivial return type
+    //  (MSVC x64 ABI: hidden buffer pointer in RDX; same shadow-hook technique
+    //   as the non-noexcept variant above)
+    // =========================================================================
+    template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) const noexcept>
+    struct HookTraits<Function> : HookBase<void, void(*)(const Class *, R *, Args...), const Class *, R *, Args...> {
+        using Base = HookBase<void, void(*)(const Class *, R *, Args...), const Class *, R *, Args...>;
+
+        static uint64_t address() {
+            union {
+                R (Class::*mfp)(Args...) const noexcept;
+                uint64_t addr;
+            } u;
+            u.mfp = Function;
+            return u.addr;
+        }
+
         static R* hook(const Class* thiz, R* ret, Args... args) {
             std::list<std::function<void()>> pending;
             std::swap(Base::_instance->_executeLater, pending);
