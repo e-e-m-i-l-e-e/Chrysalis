@@ -354,28 +354,30 @@ void ExtensionsManager::install() {
     //.text:00007FFB1D6BB4B0 msvcp140.dll:$B4B0 #A8B0 <public: class std::basic_streambuf<wchar_t, struct std::char_traits<wchar_t>> * __cdecl std::basic_ios<wchar_t, struct std::char_traits<wchar_t>>::rdbuf(void) const>
 
     // .text:00007FFB1D6BB4B0 msvcp140.dll:$B4B0 #A8B0 <public: class std::basic_streambuf<wchar_t, struct std::char_traits<wchar_t>> * __cdecl std::basic_ios<wchar_t, struct std::char_traits<wchar_t>>::rdbuf(void) const>
-    HooksManager::addBefore<static_cast<std::basic_ostream<char, struct std::char_traits<char>>& (std::basic_ostream<char, struct std::char_traits<char>>::*)(float)>(&std::basic_ostream<char, struct std::char_traits<char>>::operator<<)>(
-        [](const HookHandle &, std::basic_ostream<char, struct std::char_traits<char>>*, float _Val) {
-        // qDebug() << _Val;
-    });
+    // HooksManager::addBefore<static_cast<std::basic_ostream<char, struct std::char_traits<char>>& (std::basic_ostream<char, struct std::char_traits<char>>::*)(float)>(&std::basic_ostream<char, struct std::char_traits<char>>::operator<<)>(
+    //     [](const HookHandle &, std::basic_ostream<char, struct std::char_traits<char>>*, float _Val) {
+    //     // qDebug() << _Val;
+    // });
 
-    HooksManager::addBefore<&std::basic_ostream<char>::put>(
-        [](const HookHandle &, std::basic_ostream<char>* this_, char c) {
-            qDebug() << "Char" << static_cast<int>(c);
-    });
+    // HooksManager::addBefore<&std::basic_ostream<char>::put>(
+    //     [](const HookHandle &, std::basic_ostream<char>* this_, char c) {
+    //         qDebug() << "Char" << static_cast<int>(c);
+    // });
 
-    HooksManager::addBefore<&std::basic_streambuf<unsigned short>::getloc>(
-       [](const HookHandle &, const std::basic_streambuf<unsigned short>* this_) {
-           qDebug() << "Get LOCALE";
-   });
+   //  HooksManager::addBefore<&std::basic_streambuf<unsigned short>::getloc>(
+   //     [](const HookHandle &, const std::basic_streambuf<unsigned short>*) {
+   //         qDebug() << "Get LOCALE";
+   // });
 
     // public: __cdecl std::basic_ostream<char, struct std::char_traits<char>>::basic_ostream<char, struct std::char_traits<char>>(class std::basic_streambuf<char, struct std::char_traits<char>> *, bool)
     // public: class std::locale __cdecl std::basic_streambuf<unsigned short, struct std::char_traits<unsigned short>>::getloc(void) const
     // public: __int64 __cdecl std::basic_streambuf<char, struct std::char_traits<char>>::sputn(char const *, __int64)
     // HooksManager::addBefore<&std::basic_streambuf<char>::sputn>(
     //     [](const HookHandle &, std::basic_streambuf<char>*, char const * text, std::streamsize size) {
-    //         // qDebug() << "TEXT" << text;
+    //         // if (text) qDebug() << "TEXT" << ret;
     // });
+
+    //public: char __cdecl std::basic_ios<char, struct std::char_traits<char>>::widen(char) const
 
     // HooksManager::addBefore<&std::basic_ostream<char, struct std::char_traits<char>>::init>(
     //     [](const HookHandle &, std::basic_streambuf<char>*, char const * text, std::streamsize size) {
@@ -384,17 +386,17 @@ void ExtensionsManager::install() {
 
     // public: class std::basic_ostream<unsigned short, struct std::char_traits<unsigned short>> & __cdecl std::basic_ostream<unsigned short, struct std::char_traits<unsigned short>>::operator<<(class std::basic_ostream<unsigned short, struct std::char_traits<un
 
-    HooksManager::addBefore<&std::basic_ostream<wchar_t>::flush>(
-        [](const HookHandle &, std::basic_ostream<wchar_t>* this_) {
-            const auto _Rdbuf = this_->rdbuf();
-            if (_Rdbuf) {
-                wchar_t ch;
-                while ((ch = _Rdbuf->sbumpc()) != WEOF) {
-                    std::wcout << ch;
-                }
-                qDebug() << "RD BUFFER" << _Rdbuf;
-            }
-    });
+    // HooksManager::addBefore<&std::basic_ostream<wchar_t>::flush>(
+    //     [](const HookHandle &, std::basic_ostream<wchar_t>* this_) {
+    //         const auto buf = this_->rdbuf();
+    //         if (buf) {
+    //             std::wstring data;
+    //             for (auto ch = buf->sgetc(); ch != WEOF; ch = buf->snextc()) {
+    //                 data += static_cast<wchar_t>(ch);
+    //             }
+    //             std::wcout << data;
+    //         }
+    // });
 
     //public: class std::basic_ostream<wchar_t, struct std::char_traits<wchar_t>> & __cdecl std::basic_ostream<wchar_t, struct std::char_traits<wchar_t>>::flush(void)
     //public: class std::basic_ostream<char, struct std::char_traits<char>> & __cdecl std::basic_ostream<char, struct std::char_traits<char>>::put(char)
