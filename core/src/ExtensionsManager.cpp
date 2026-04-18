@@ -83,6 +83,34 @@ static void hookCreateProgressBar(void* self)
     reinterpret_cast<CreateProgressBarFn>(s_createProgressBarOriginal)(self);
 }
 
+// ── std::basic_ios<wchar_t>::rdbuf() const — msvcp140 raw hook ───────────────
+// rdbuf() is defined INLINE in MSVC's <ios> header.  Taking
+// &std::basic_ios<wchar_t>::rdbuf in C++ code yields the address of a local
+// COMDAT copy inside Extensions.dll — NOT the copy CLO actually calls, which
+// lives in msvcp140.dll.  HooksManager::addAfter<...> therefore hooks the wrong
+// address and the callback never fires.
+//
+// Fix: resolve the real address from msvcp140.dll via GetProcAddress, then
+// install a raw PLH::x64Detour on it — exactly the same pattern used above for
+// CreateProgressBar and ImportAvatar.
+//
+// Mangled name confirmed from msvcp140.dll export table (#A8B0 in the comments
+// in ExtensionsManager):
+//   ?rdbuf@?$basic_ios@_WU?$char_traits@_W@std@@@std@@QEBAPEAV?$basic_streambuf@_WU?$char_traits@_W@std@@@2@XZ
+//
+// Signature: std::basic_streambuf<wchar_t>* __cdecl (const std::basic_ios<wchar_t>*)
+// MSVC x64 ABI passes implicit 'this' as first argument (RCX).
+using RdbufWFn = std::basic_streambuf<wchar_t>*(*)(const std::basic_ios<wchar_t>*);
+static uint64_t        s_rdbufWOriginal = 0;
+static PLH::x64Detour* s_rdbufWDetour   = nullptr;
+
+static std::basic_streambuf<wchar_t>* hookRdbufW(const std::basic_ios<wchar_t>* self)
+{
+    auto* result = reinterpret_cast<RdbufWFn>(s_rdbufWOriginal)(self);
+    qDebug() << "RD BUFFER" << result;
+    return result;
+}
+
 // ── ImportAPIInterface::ImportAvatar vtable hook ──────────────────────────────
 // Same stub problem as CreateProgressBar: ImportAvatar (RVA 0x00002500) has a
 // unique address in the SDK DLL, but live calls still go through the vtable of
@@ -177,6 +205,28 @@ public:
 
 void ExtensionsManager::install() {
     qtHookData[QHooks::AddQObject] = reinterpret_cast<quintptr>(&firstAddHook);
+
+    // ── std::basic_ios<wchar_t>::rdbuf — raw hook (see header comment above) ──
+    {
+        constexpr const char* kSym =
+            "?rdbuf@?$basic_ios@_WU?$char_traits@_W@std@@@std@@"
+            "QEBAPEAV?$basic_streambuf@_WU?$char_traits@_W@std@@@2@XZ";
+        const HMODULE hMsvcp = GetModuleHandleA("msvcp140.dll");
+        if (hMsvcp) {
+            const auto addr = reinterpret_cast<uint64_t>(GetProcAddress(hMsvcp, kSym));
+            if (addr) {
+                s_rdbufWDetour = new PLH::x64Detour(addr,
+                    reinterpret_cast<uint64_t>(&hookRdbufW),
+                    &s_rdbufWOriginal);
+                s_rdbufWDetour->hook();
+                LOG_INFO("rdbuf<wchar_t> hook installed at {:x}", addr);
+            } else {
+                LOG_WARN("rdbuf<wchar_t>: symbol not found in msvcp140.dll — hook skipped");
+            }
+        } else {
+            LOG_WARN("msvcp140.dll not loaded — rdbuf hook skipped");
+        }
+    }
 
     HooksManager::addAfter<&QWidget::show>([](const HookHandle& handle, QWidget* this_) {
         if (this_->objectName() == " TitleFrame") {
@@ -309,10 +359,48 @@ void ExtensionsManager::install() {
         // qDebug() << _Val;
     });
 
-    HooksManager::addAfter<static_cast<std::basic_streambuf<wchar_t>* (std::basic_ios<wchar_t>::*)() const>(&std::basic_ios<wchar_t>::rdbuf)>(
-        [](const HookHandle &, std::basic_streambuf<wchar_t>* ret, const std::basic_ios<wchar_t>* this_) {
-        qDebug() << "RD BUFFER" << ret;
+    HooksManager::addBefore<&std::basic_ostream<char>::put>(
+        [](const HookHandle &, std::basic_ostream<char>* this_, char c) {
+            qDebug() << "Char" << static_cast<int>(c);
     });
+
+    HooksManager::addBefore<&std::basic_streambuf<unsigned short>::getloc>(
+       [](const HookHandle &, const std::basic_streambuf<unsigned short>* this_) {
+           qDebug() << "Get LOCALE";
+   });
+
+    // public: __cdecl std::basic_ostream<char, struct std::char_traits<char>>::basic_ostream<char, struct std::char_traits<char>>(class std::basic_streambuf<char, struct std::char_traits<char>> *, bool)
+    // public: class std::locale __cdecl std::basic_streambuf<unsigned short, struct std::char_traits<unsigned short>>::getloc(void) const
+    // public: __int64 __cdecl std::basic_streambuf<char, struct std::char_traits<char>>::sputn(char const *, __int64)
+    // HooksManager::addBefore<&std::basic_streambuf<char>::sputn>(
+    //     [](const HookHandle &, std::basic_streambuf<char>*, char const * text, std::streamsize size) {
+    //         // qDebug() << "TEXT" << text;
+    // });
+
+    // HooksManager::addBefore<&std::basic_ostream<char, struct std::char_traits<char>>::init>(
+    //     [](const HookHandle &, std::basic_streambuf<char>*, char const * text, std::streamsize size) {
+    //         // qDebug() << "TEXT" << text;
+    // });
+
+    // public: class std::basic_ostream<unsigned short, struct std::char_traits<unsigned short>> & __cdecl std::basic_ostream<unsigned short, struct std::char_traits<unsigned short>>::operator<<(class std::basic_ostream<unsigned short, struct std::char_traits<un
+
+    HooksManager::addBefore<&std::basic_ostream<wchar_t>::flush>(
+        [](const HookHandle &, std::basic_ostream<wchar_t>* this_) {
+            const auto _Rdbuf = this_->rdbuf();
+            if (_Rdbuf) {
+                wchar_t ch;
+                while ((ch = _Rdbuf->sbumpc()) != WEOF) {
+                    std::wcout << ch;
+                }
+                qDebug() << "RD BUFFER" << _Rdbuf;
+            }
+    });
+
+    //public: class std::basic_ostream<wchar_t, struct std::char_traits<wchar_t>> & __cdecl std::basic_ostream<wchar_t, struct std::char_traits<wchar_t>>::flush(void)
+    //public: class std::basic_ostream<char, struct std::char_traits<char>> & __cdecl std::basic_ostream<char, struct std::char_traits<char>>::put(char)
+    // public: class std::basic_ostream<char, struct std::char_traits<char>> & __cdecl std::basic_ostream<char, struct std::char_traits<char>>::operator<<(class std::basic_ostream<char, struct std::char_traits<char>> & (__cdecl *)(class std::basic_ostream<char,
+    // public: class std::basic_streambuf<wchar_t, struct std::char_traits<wchar_t>> * __cdecl std::basic_ios<wchar_t, struct std::char_traits<wchar_t>>::rdbuf(void) const
+    // (rdbuf<wchar_t> hook installed above via raw PLH::x64Detour — see s_rdbufWDetour)
 
     // HooksManager::addBefore<&vfprintf>([](const HookHandle &,
     //     FILE*       const _Stream,
