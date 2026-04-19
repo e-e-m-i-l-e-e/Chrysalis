@@ -1,8 +1,8 @@
 from conan import ConanFile
 from conan.tools.cmake import cmake_layout
 
-class CLOExtensionsConan(ConanFile):
-    name = "CLOExtensions"
+class FashionDesignAppsConan(ConanFile):
+    name = "FashionDesignApps"
     version = "1.0.0"
 
     settings = "os", "arch", "compiler", "build_type"
@@ -16,7 +16,7 @@ class CLOExtensionsConan(ConanFile):
         "gtest/1.17.0"
     ]
 
-    generators = "CMakeConfigDeps", "CMakeToolchain"
+    generators = "CMakeDeps", "CMakeToolchain"
 
     def layout(self):
         cmake_layout(self)
