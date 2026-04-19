@@ -541,7 +541,7 @@
                             <number>0</number>
                         </property>
                         <item>
-                            <widget class="CloUICommon::IconButton">
+                            <widget class="QToolButton">
                                 <property name="palette">
                                     <palette>
                                         <active/>
@@ -707,7 +707,7 @@
                             </widget>
                         </item>
                         <item>
-                            <widget class="CloUICommon::IconButton">
+                            <widget class="QToolButton">
                                 <property name="palette">
                                     <palette>
                                         <active>
@@ -1560,7 +1560,7 @@
                             </widget>
                         </item>
                         <item>
-                            <widget class="CloUICommon::IconButton">
+                            <widget class="QToolButton">
                                 <property name="palette">
                                     <palette>
                                         <active>
@@ -1994,7 +1994,7 @@
                             </widget>
                         </item>
                     </layout>
-                    <widget class="CloUICommon::IconButton">
+                    <widget class="QToolButton">
                         <property name="palette">
                             <palette>
                                 <active/>
@@ -2158,7 +2158,7 @@
                             </size>
                         </property>
                     </widget>
-                    <widget class="CloUICommon::IconButton">
+                    <widget class="QToolButton">
                         <property name="palette">
                             <palette>
                                 <active/>
@@ -2329,11 +2329,6 @@
     <pixmapfunction/>
     <connections/>
     <customwidgets>
-        <customwidget>
-            <class>CloUICommon::IconButton</class>
-            <extends>QToolButton</extends>
-            <header>clo-ui-common/IconButton.h</header>
-        </customwidget>
         <customwidget>
             <class>MVDockWidgetTitleBar</class>
             <extends>MVDockWidgetTitleBarBase</extends>

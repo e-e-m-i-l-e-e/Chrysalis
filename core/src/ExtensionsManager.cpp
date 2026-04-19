@@ -8,6 +8,7 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QMetaMethod>
+#include <QDoubleSpinBox>
 
 #include <QDesktopServices>
 #include <QUrl>
@@ -22,11 +23,12 @@
 #include <QtCore/private/qfiledevice_p.h>
 #include <QtCore/qobjectdefs.h>
 
+#include <CLOAPIInterface.h>
+#include <QDockWidget>
+
 #include "ExtensionsSettings.h"
 
 #include "HooksManager.h"
-#include "MVCustomDoubleSpinBox.h"
-#include "MVStatusBar.h"
 
 static QObject *test;
 static QObject *ap;
@@ -199,7 +201,7 @@ void ExtensionsManager::install() {
             }
         } else if (QString(this_->metaObject()->className()) == "MVStatusBar") {
             LOG_INFO("Configuring status bar.");
-            for (const auto statusBar = dynamic_cast<MVStatusBar*>(this_);
+            for (const auto statusBar = dynamic_cast<QDockWidget*>(this_);
                  const auto child: statusBar->children()) {
                 if (child->metaObject() == &QWidget::staticMetaObject && !child->children().empty()) {
                     const auto parent = qobject_cast<QWidget *>(child);

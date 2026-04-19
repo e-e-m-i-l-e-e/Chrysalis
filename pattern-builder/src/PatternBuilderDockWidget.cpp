@@ -4,12 +4,13 @@
 
 #include "Logger.h"
 #include "ui_PatternBuilderDockWidget.h"
-#include "clo-ui-common/TabBar.h"
+
+#include <QTabBar>
 
 #define LOGGER_NAME "PatternBuilderDockWidget"
 
 
-PatternBuilderDockWidget::PatternBuilderDockWidget(QWidget *parent) : MVDockWidget(parent),
+PatternBuilderDockWidget::PatternBuilderDockWidget(QWidget *parent) : QDockWidget(parent),
                                                                       ui(new Ui::PatternBuilderDockWidget) {
     ui->setupUi(this);
     UTILITY_API->UpdateCloStyleForPlugIn(this);

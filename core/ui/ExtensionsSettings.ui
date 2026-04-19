@@ -1094,14 +1094,8 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MVDialog</class>
-   <extends>QDialog</extends>
-   <header>MVDialog.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>ExtensionsSettings</class>
-   <extends>MVDialog</extends>
+   <extends>QDialog</extends>
    <header>ExtensionsSettings.h</header>
    <container>1</container>
   </customwidget>

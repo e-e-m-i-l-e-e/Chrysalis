@@ -1,7 +1,7 @@
 #ifndef CLOEXTENSIONS_PATTERNBUILDERDOCKWIDGET_H
 #define CLOEXTENSIONS_PATTERNBUILDERDOCKWIDGET_H
 
-#include "MVDockWidget.h"
+#include <QDockWidget>
 
 QT_BEGIN_NAMESPACE
 
@@ -11,7 +11,7 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-class PatternBuilderDockWidget : public MVDockWidget {
+class PatternBuilderDockWidget : public QDockWidget {
     Q_OBJECT
 
 public:

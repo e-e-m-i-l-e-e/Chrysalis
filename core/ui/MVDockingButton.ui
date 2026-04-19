@@ -291,7 +291,10 @@
                 <number>7</number>
             </property>
             <item>
-                <widget class="CloUICommon::Accordion">
+                <widget class="QWidget">
+                    <property name="objectName">
+                        <string notr="true">accordion</string>
+                    </property>
                     <property name="sizePolicy">
                         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                             <horstretch>0</horstretch>
@@ -1565,7 +1568,7 @@
                 </widget>
             </item>
         </layout>
-        <widget class="CloUICommon::ImageLabel">
+        <widget class="QLabel">
             <property name="mouseTracking">
                 <bool>false</bool>
             </property>
@@ -1731,16 +1734,6 @@
     </widget>
     <connections/>
     <customwidgets>
-        <customwidget>
-            <class>CloUICommon::Accordion</class>
-            <extends>QWidget</extends>
-            <header>clo-ui-common/Accordion.h</header>
-        </customwidget>
-        <customwidget>
-            <class>CloUICommon::ImageLabel</class>
-            <extends>QLabel</extends>
-            <header>clo-ui-common/ImageLabel.h</header>
-        </customwidget>
         <customwidget>
             <class>MVDockingButton</class>
             <extends>QWidget</extends>

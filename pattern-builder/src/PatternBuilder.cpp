@@ -6,12 +6,12 @@
 #include <QLayout>
 #include <QMainWindow>
 #include <QMainWindow>
+#include <QToolButton>
 
 #include "Logger.h"
 #include "MVDockingButton.h"
 #include "PatternBuilderDockWidget.h"
 #include "MVDockWidgetTitleBar.h"
-#include "clo-ui-common/IconButton.h"
 
 void PatternBuilder::configureStatusBar(QWidget *parent) {
     for (const auto childIcon: parent->findChildren<QToolButton*>()) {

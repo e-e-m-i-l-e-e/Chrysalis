@@ -11,8 +11,6 @@ set(CMAKE_AUTORCC ON)
 set(CLO_HOME "C:/Program Files/CLO Standalone OnlineAuth" CACHE STRING "Folder where CLO3D is installed")
 set(LOGS_DIR "${CMAKE_SOURCE_DIR}/.logs" CACHE PATH "Directory for log files")
 
-option(SAMPLES_EXTENSION "Samples Extension" OFF)
-
 add_compile_definitions(CLO_HOME="${CLO_HOME}")
 message("CLO_HOME is set to ${CLO_HOME}")
 
@@ -23,7 +21,6 @@ target_link_libraries(Main PRIVATE Logger)
 
 find_package(Qt5 REQUIRED)
 
-add_subdirectory(clo)
 add_subdirectory(pattern-builder)
 add_subdirectory(core)
 

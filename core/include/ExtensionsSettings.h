@@ -5,8 +5,7 @@
 
 #include <QLineEdit>
 #include <QSettings>
-
-#include "MVDialog.h"
+#include <QDialog>
 
 QT_BEGIN_NAMESPACE
 
@@ -16,7 +15,7 @@ namespace Ui {
 
 QT_END_NAMESPACE
 
-class ExtensionsSettings : public MVDialog {
+class ExtensionsSettings : public QDialog {
     Q_OBJECT
 public:
 

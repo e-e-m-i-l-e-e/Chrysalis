@@ -10,6 +10,8 @@
 #include <QFormBuilder>
 #include <QtConcurrent>
 
+#include <CLOAPIInterface.h>
+
 #include "Logger.h"
 #include "ExtensionsManager.h"
 
@@ -92,7 +94,7 @@ LRESULT ExtensionsSettings::Shortcut::trigger(const int nCode, const WPARAM wPar
 // ---------------------------------------------------------------------------------------------------------------------
 
 // Extensions Settings -------------------------------------------------------------------------------------------------
-ExtensionsSettings::ExtensionsSettings(QWidget *parent) : MVDialog(parent),
+ExtensionsSettings::ExtensionsSettings(QWidget *parent) : QDialog(parent),
                                                           ui(new Ui::ExtensionsSettings),
                                                           settings("eemilee.me", "CLO Extensions"),
                                                           shortcut(this) {
@@ -109,6 +111,8 @@ ExtensionsSettings::ExtensionsSettings(QWidget *parent) : MVDialog(parent),
     }
 
     UTILITY_API->UpdateCloStyleForPlugIn(ui->tableWidget);
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
+    setWindowModality(Qt::WindowModal);
 
     // Fill settings ---------------------------------------------------------------------------------------------------
 
