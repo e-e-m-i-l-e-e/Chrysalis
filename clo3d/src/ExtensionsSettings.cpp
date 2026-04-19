@@ -13,7 +13,7 @@
 #include <CLOAPIInterface.h>
 
 #include "Logger.h"
-#include "ExtensionsManager.h"
+#include "../include/ExtensionsManager.h"
 
 // Declarations of helpers ---------------------------------------------------------------------------------------------
 QStringList logLevels;

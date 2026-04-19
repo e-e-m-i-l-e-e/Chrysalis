@@ -28,7 +28,7 @@
 // spdlog or Logger. Each logging call is wrapped in #ifdef LOGS_DIR so the
 // lines are absent entirely from the translation unit — no stubs, no overhead.
 #ifdef LOGS_DIR
-#   include <Logger.h>
+#include <C:/Life/Design/Apps/FashionDesignApps/common/Logger.h>
 #endif
 
 // =============================================================================

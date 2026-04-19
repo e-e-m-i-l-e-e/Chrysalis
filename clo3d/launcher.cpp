@@ -1,4 +1,4 @@
-#define LOGGER_NAME "Main"
+#define LOGGER_NAME "Launcher"
 
 #include <Windows.h>
 #include <Logger.h>

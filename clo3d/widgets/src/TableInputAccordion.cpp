@@ -3,9 +3,6 @@
 
 #include <QPropertyAnimation>
 
-#include "Logger.h"
-#define LOGGER_NAME "TableInputAccordion"
-
 using namespace UI;
 
 TableInputAccordion::TableInputAccordion(QWidget *parent): BaseContainer(parent), ui(new Ui::TableInputAccordion) {

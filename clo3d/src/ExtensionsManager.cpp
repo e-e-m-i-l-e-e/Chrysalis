@@ -1,4 +1,4 @@
-#include "ExtensionsManager.h"
+#include "../include/ExtensionsManager.h"
 
 #define LOGGER_NAME "Extensions Manager"
 
@@ -26,9 +26,9 @@
 #include <CLOAPIInterface.h>
 #include <QDockWidget>
 
-#include "ExtensionsSettings.h"
+#include "../include/ExtensionsSettings.h"
 
-#include "HooksManager.h"
+#include "../include/HooksManager.h"
 
 static QObject *test;
 static QObject *ap;

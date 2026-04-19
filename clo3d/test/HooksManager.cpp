@@ -18,7 +18,7 @@
 //   11.  Independent hooks       — two different functions don't interfere
 // ============================================================================
 
-#include "HooksManager.h"
+#include "../include/HooksManager.h"
 #include <gtest/gtest.h>
 #include <optional>
 #include <vector>
