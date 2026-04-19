@@ -27,8 +27,6 @@ add_subdirectory(core)
 add_library(Extensions SHARED resources/resources.qrc extensions.cpp)
 target_link_libraries(Extensions PRIVATE HooksManager Core)
 
-add_subdirectory(test)
-
 add_custom_command(TARGET Extensions POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
         $<TARGET_RUNTIME_DLLS:Extensions>
@@ -44,5 +42,6 @@ add_custom_command(TARGET Extensions POST_BUILD
 )
 
 add_subdirectory(ui)
-add_subdirectory(qt-designer-plugin)
+add_subdirectory(qt-designer)
+add_subdirectory(clo3d)
 add_subdirectory(mobile)

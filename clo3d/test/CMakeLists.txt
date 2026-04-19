@@ -1,8 +1,6 @@
 find_package(GTest REQUIRED)
 
-add_executable(Test HooksManager_test.cpp
-#        HooksManager.cpp
-)
+add_executable(Test HooksManager.cpp)
 target_link_libraries(Test PRIVATE GTest::gtest_main HooksManager)
 
 add_custom_command(TARGET Test POST_BUILD
