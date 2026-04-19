@@ -28,6 +28,8 @@ class FashionDesignAppsConan(ConanFile):
         "qt/5.15.16:with_mysql": False,
 
         "qt/5.15.16:qttools": True,
+        "qt/5.15.16:qtdeclarative": True,
+        "qt/5.15.16:qtquickcontrols2": True,
 
         "polyhook2/2.0:shared": True
     }

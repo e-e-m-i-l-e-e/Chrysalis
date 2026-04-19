@@ -48,3 +48,4 @@ add_custom_command(TARGET Extensions POST_BUILD
 
 add_subdirectory(ui)
 add_subdirectory(qt-designer-plugin)
+add_subdirectory(mobile)
