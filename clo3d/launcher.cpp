@@ -54,7 +54,7 @@ static bool injectDll(HANDLE process, const std::string& dllPath);
 static WinHandle createKillOnCloseJob();
 
 int main() {
-    const std::string dllPath = std::string(CLO_HOME) + "/Extensions.dll";
+    const std::string dllPath = std::string(CLO_HOME) + "/CLO3DExtensions.dll";
     const std::string targetExe = std::string(CLO_HOME) + "/CLO_Standalone_OnlineAuth_x64.exe";
 
     LOG_INFO("Launcher starting");

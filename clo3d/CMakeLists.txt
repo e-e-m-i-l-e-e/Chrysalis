@@ -1,3 +1,5 @@
+set(CLO3D_OUTPUT_DIR "${OUTPUT_DIR}/CLO3D")
+
 option(BYPASS_AUTH "Skip authentication with \"CLOSET\"" ON)
 option(EXTEND_WITH_PATTERN_BUILDER "Add \"Pattern Builder Extension\"" ON)
 
@@ -13,6 +15,7 @@ add_compile_definitions(CLO_HOME="${CLO_HOME}")
 message("CLO_HOME is set to ${CLO_HOME}")
 
 add_executable(Launcher launcher.cpp)
+set_target_properties(Launcher PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CLO3D_OUTPUT_DIR})
 target_link_libraries(Launcher PRIVATE Logger)
 
 # ----- Build "Extensions.dll" -----------------------------------------------------------------------------------------
@@ -24,48 +27,33 @@ add_subdirectory(widgets)
 find_package(clo-sdk REQUIRED)
 find_package(polyhook2 REQUIRED)
 
+set(CLO3D_UI_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/ui)
+set(CLO3D_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include)
+file(GLOB_RECURSE CLO3D_SOURCES CONFIGURE_DEPENDS
+        ${CMAKE_CURRENT_SOURCE_DIR}/include/*
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/*
+)
 add_subdirectory(extensions)
 
-file(GLOB_RECURSE CLO3D_HEADERS CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/*)
-file(GLOB_RECURSE CLO3D_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*)
-
-add_library(CLO3DExtensions SHARED resources/resources.qrc extensions.cpp)
-set_target_properties(CLO3DExtensions PROPERTIES AUTOUIC_SEARCH_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/ui")
-target_include_directories(CLO3DExtensions PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_sources(CLO3DExtensions PRIVATE ${CLO3D_SOURCES})
+# Step 3: Build CLO3DExtensions.dll
+add_library(CLO3DExtensions SHARED resources/resources.qrc extensions.cpp ${CLO3D_SOURCES})
+set_target_properties(CLO3DExtensions PROPERTIES AUTOUIC_SEARCH_PATHS "${CLO3D_UI_DIRS}")
+set_target_properties(CLO3DExtensions PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CLO3D_OUTPUT_DIR})
+target_include_directories(CLO3DExtensions PRIVATE ${CLO3D_INCLUDE_DIRS})
 target_link_libraries(CLO3DExtensions PRIVATE
-        Logger Widgets polyhook2::polyhook2 clo-sdk::clo-sdk
+        Logger Widgets
+        polyhook2::polyhook2 clo-sdk::clo-sdk
         Qt5::Core Qt5::CorePrivate Qt5::Concurrent Qt5::Xml Qt5::Designer)
 
-#set(CORE_SOURCES ${SRC} ${PATTERN_BUILDER_SRC} ${PATTERN_BUILDER_H}
-#        include/ExtensionsSettings.h
-#        include/MVDockingButton.h include/MVDockWidgetTitleBar.h include/MVDockWidgetTitleBarBase.h)
-#
-#find_package(clo-sdk REQUIRED)
-#
-#add_library(Core STATIC)
-#target_sources(Core PRIVATE ${CORE_SOURCES})
-#set_target_properties(Core PROPERTIES AUTOUIC_SEARCH_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/ui;${PATTERN_BUILDER_UI}")
-#target_include_directories(Core PUBLIC include ${PATTERN_BUILDER_INCLUDE})
-#target_link_libraries(Core PUBLIC Logger HooksManager clo-sdk::clo-sdk Qt5::Designer Qt5::Xml Qt5::Concurrent Qt5::Network Qt5::CorePrivate UI)
-#
-#add_library(Extensions SHARED resources/resources.qrc extensions.cpp)
-#target_link_libraries(Extensions PRIVATE HooksManager Core)
-#
-#add_custom_command(TARGET Extensions POST_BUILD
-#        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-#        $<TARGET_RUNTIME_DLLS:Extensions>
-#        $<TARGET_FILE_DIR:Extensions>
-#        COMMAND_EXPAND_LISTS
-#)
-#
-#add_custom_command(TARGET Extensions POST_BUILD
-#        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-#        $<TARGET_FILE:Extensions>
-#        "${CLO_HOME}/Extensions.dll"
-#        COMMENT "Deploying Extensions.dll to CLO directory"
-#)
+add_custom_command(TARGET CLO3DExtensions POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:CLO3DExtensions> $<TARGET_FILE_DIR:CLO3DExtensions>
+        COMMAND_EXPAND_LISTS
+)
 
+add_custom_command(TARGET CLO3DExtensions POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:CLO3DExtensions> "${CLO_HOME}/CLO3DExtensions.dll"
+        COMMENT "Deploying CLO3DExtensions.dll to CLO directory"
+)
 
 # ----- Build development tools ----------------------------------------------------------------------------------------
 

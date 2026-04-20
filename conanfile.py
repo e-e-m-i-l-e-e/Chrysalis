@@ -8,28 +8,21 @@ class FashionDesignAppsConan(ConanFile):
     settings = "os", "arch", "compiler", "build_type"
 
     requires = [
-        "qt/5.15.16",
         "spdlog/1.17.0",
-        "polyhook2/2.0",
-        "clo-sdk/9.1.0",
-
         "gtest/1.17.0"
     ]
-
+    default_options = {
+        "qt/5.15.16:qttools": True
+    }
     generators = "CMakeDeps", "CMakeToolchain"
+
+    def requirements(self):
+        if self.settings.build_type != "Debug":
+            self.requires("qt/5.15.16")
+            self.requires("polyhook2/2.0")
+            self.requires("clo-sdk/9.1.0")
+        if self.settings.build_type != "RelWithDebInfo":
+            self.requires("qt/6.10.1")
 
     def layout(self):
         cmake_layout(self)
-
-    default_options = {
-        "qt/5.15.16:shared": True,
-
-        "qt/5.15.16:openssl": False,
-        "qt/5.15.16:with_mysql": False,
-
-        "qt/5.15.16:qttools": True,
-        "qt/5.15.16:qtdeclarative": True,
-        "qt/5.15.16:qtquickcontrols2": True,
-
-        "polyhook2/2.0:shared": True
-    }

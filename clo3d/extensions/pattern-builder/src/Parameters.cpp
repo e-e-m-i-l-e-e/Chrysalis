@@ -3,7 +3,7 @@
 #include <CLOAPIInterface.h>
 #include <QToolButton>
 
-#include "../../../include/ExtensionsManager.h"
+#include "ExtensionsManager.h"
 #include "Logger.h"
 #include "ui_Parameters.h"
 

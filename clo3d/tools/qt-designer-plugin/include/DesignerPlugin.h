@@ -1,7 +1,7 @@
 #ifndef CLOEXTENSIONS_CUSTOMWIDGETINTERFACE_H
 #define CLOEXTENSIONS_CUSTOMWIDGETINTERFACE_H
 
-#include <QDesignerCustomWidgetCollectionInterface>
+#include <QtUiPlugin/QDesignerCustomWidgetCollectionInterface>
 
 class DesignerPlugin: public QObject, public QDesignerCustomWidgetCollectionInterface {
 

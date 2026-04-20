@@ -9,7 +9,7 @@
 #include <QToolButton>
 
 #include "Logger.h"
-#include "../../../include/MVDockingButton.h"
+#include "MVDockingButton.h"
 #include "PatternBuilderDockWidget.h"
 #include "MVDockWidgetTitleBar.h"
 
