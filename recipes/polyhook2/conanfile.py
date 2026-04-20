@@ -34,7 +34,7 @@ class PolyHook2Conan(ConanFile):
     def build(self):
         cmake = CMake(self)
         cmake.configure(variables={
-            "POLYHOOK_BUILD_SHARED_LIB": self.options.shared,
+            "POLYHOOK_BUILD_SHARED_LIB": "ON" if self.options.shared else "OFF",
             "POLYHOOK_BUILD_STATIC_RUNTIME": self.settings.compiler.runtime != "dynamic"
         })
         cmake.build()
