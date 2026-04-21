@@ -1,6 +1,6 @@
 set(CLO3D_OUTPUT_DIR "${OUTPUT_DIR}/CLO3D")
 
-option(BYPASS_AUTH "Skip authentication with \"CLOSET\"" ON)
+option(EXTEND_WITH_AUTHENTICATOR "Skip authentication with \"CLOSET\"" ON)
 option(EXTEND_WITH_PATTERN_BUILDER "Add \"Pattern Builder Extension\"" ON)
 
 set(CMAKE_AUTOMOC ON)
@@ -14,7 +14,7 @@ set(CLO_HOME "C:/Program Files/CLO Standalone OnlineAuth" CACHE STRING "Folder w
 add_compile_definitions(CLO_HOME="${CLO_HOME}")
 message("CLO_HOME is set to ${CLO_HOME}")
 
-add_executable(Launcher launcher.cpp)
+add_executable(Launcher CLO3DLauncher.cpp)
 set_target_properties(Launcher PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CLO3D_OUTPUT_DIR})
 target_link_libraries(Launcher PRIVATE Logger)
 
@@ -36,10 +36,14 @@ file(GLOB_RECURSE CLO3D_SOURCES CONFIGURE_DEPENDS
 add_subdirectory(extensions)
 
 # Step 3: Build CLO3DExtensions.dll
-add_library(CLO3DExtensions SHARED resources/resources.qrc extensions.cpp ${CLO3D_SOURCES})
+add_library(CLO3DExtensions SHARED resources/resources.qrc CLO3DExtensions.cpp ${CLO3D_SOURCES})
 set_target_properties(CLO3DExtensions PROPERTIES AUTOUIC_SEARCH_PATHS "${CLO3D_UI_DIRS}")
 set_target_properties(CLO3DExtensions PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CLO3D_OUTPUT_DIR})
 target_include_directories(CLO3DExtensions PRIVATE ${CLO3D_INCLUDE_DIRS})
+target_compile_definitions(CLO3DExtensions PRIVATE
+        EXTEND_WITH_AUTHENTICATOR=$<BOOL:${EXTEND_WITH_AUTHENTICATOR}>
+        EXTEND_WITH_PATTERN_BUILDER=$<BOOL:${EXTEND_WITH_PATTERN_BUILDER}>
+)
 target_link_libraries(CLO3DExtensions PRIVATE
         Logger Widgets
         polyhook2::polyhook2 clo-sdk::clo-sdk

@@ -1,4 +1,4 @@
-#define LOGGER_NAME "Launcher"
+#define LOGGER_NAME "CLO3DLauncher"
 
 #include <Windows.h>
 #include <Logger.h>

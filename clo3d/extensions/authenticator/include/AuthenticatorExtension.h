@@ -1,0 +1,9 @@
+#ifndef FASHIONDESIGNAPPS_AUTHENTICATOREXTENSION_H
+#define FASHIONDESIGNAPPS_AUTHENTICATOREXTENSION_H
+
+#include "Extension.h"
+
+class AuthenticatorExtension: public Extension {
+};
+
+#endif //FASHIONDESIGNAPPS_AUTHENTICATOREXTENSION_H

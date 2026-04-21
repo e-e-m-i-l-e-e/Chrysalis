@@ -3,7 +3,6 @@
 
 #include "Extension.h"
 
-
 class PatternBuilder: public Extension {
 protected:
     ~PatternBuilder() override = default;
