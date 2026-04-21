@@ -44,7 +44,7 @@ namespace logger_detail {
     // regardless of how long the logger name is.
     // Override before including this header if your names are longer.
 #ifndef LOGGER_NAME_WIDTH
-#   define LOGGER_NAME_WIDTH 19
+#   define LOGGER_NAME_WIDTH 23
 #endif
     static constexpr std::size_t NAME_WIDTH = LOGGER_NAME_WIDTH;
 
@@ -90,20 +90,20 @@ namespace logger_detail {
         return palette[std::hash<std::string>{}(name) % N];
     }
 
-    // ── Uppercase level string, padded to 5 chars ─────────────────────────────────
+    // ── Uppercase level string, padded to 7 chars ─────────────────────────────────
     inline std::string levelUpper(const spdlog::level::level_enum lvl) {
         const auto sv = spdlog::level::to_string_view(lvl);
         std::string s(sv.begin(), sv.end());
         std::ranges::transform(s, s.begin(),
                                [](const unsigned char c) { return std::toupper(c); });
-        if (s.size() < 5) s.append(5 - s.size(), ' ');
+        if (s.size() < 7) s.append(7 - s.size(), ' ');
         return s;
     }
 
     // =============================================================================
     //  Custom spdlog flags registered under %* and %&
     //
-    //  %*  →  LEVEL (uppercase, 5-chars)   — colored on console, plain in file
+    //  %*  →  LEVEL (uppercase, 7-chars)   — colored on console, plain in file
     //  %&  →  logger name                  — colored on console, plain in file
     // =============================================================================
 

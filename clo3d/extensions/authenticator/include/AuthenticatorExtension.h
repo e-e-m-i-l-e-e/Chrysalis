@@ -4,6 +4,8 @@
 #include "Extension.h"
 
 class AuthenticatorExtension: public Extension {
+public:
+    void install() override;
 };
 
 #endif //FASHIONDESIGNAPPS_AUTHENTICATOREXTENSION_H

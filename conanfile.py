@@ -17,6 +17,9 @@ class FashionDesignAppsConan(ConanFile):
         "clo-sdk/9.1.0",
         "polyhook2/2.0"
     ]
+    options = {
+        "app": [None, "clo3d", "mobile"]
+    }
     default_options = {
         "qt/5.15.16:shared": True,
 
@@ -36,6 +39,8 @@ class FashionDesignAppsConan(ConanFile):
     generators = "CMakeDeps", "CMakeToolchain"
 
     def requirements(self):
+        if self.options.app == "clo3d":
+
         if self.settings.build_type != "RelWithDebInfo":
             self.requires("qt/6.10.1")
 
