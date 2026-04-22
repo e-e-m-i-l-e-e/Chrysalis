@@ -1,4 +1,4 @@
-find_package(Qt5 REQUIRED)
+find_package(Qt6 REQUIRED)
 
 add_executable(QmlApp
         main.cpp
@@ -6,11 +6,11 @@ add_executable(QmlApp
 )
 
 target_link_libraries(QmlApp
-        Qt5::Core
-        Qt5::Gui
-        Qt5::Qml
-        Qt5::Quick
-        Qt5::QuickControls2
+        Qt6::Core
+        Qt6::Gui
+        Qt6::Qml
+        Qt6::Quick
+        Qt6::QuickControls2
 )
 
 add_custom_command(TARGET QmlApp POST_BUILD

@@ -13,7 +13,7 @@ class PolyHook2Conan(ConanFile):
         "fPIC": [True, False]
     }
     default_options = {
-        "shared": True,
+        "shared": True, # TODO: fix static build
         "fPIC": True
     }
 

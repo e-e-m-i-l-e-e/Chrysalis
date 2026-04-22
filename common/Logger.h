@@ -1,6 +1,8 @@
 #ifndef CLOEXTENSIONS_LOGGER_H
 #define CLOEXTENSIONS_LOGGER_H
 
+// TODO: Center - justify LOG_LEVEL
+
 #include <ranges>
 #include <filesystem>
 

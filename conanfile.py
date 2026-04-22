@@ -1,5 +1,7 @@
 from conan import ConanFile
 from conan.tools.cmake import cmake_layout
+from conan.tools.cmake import CMakeToolchain, CMakeDeps
+from conan.errors import ConanInvalidConfiguration
 
 class FashionDesignAppsConan(ConanFile):
     name = "FashionDesignApps"
@@ -7,42 +9,73 @@ class FashionDesignAppsConan(ConanFile):
 
     settings = "os", "arch", "compiler", "build_type"
 
+    # Common
     requires = [
-        # Common
         "spdlog/1.17.0",
-        "gtest/1.17.0",
-        
-        # CLO3D
-        "qt/5.15.16",
-        "clo-sdk/9.1.0",
-        "polyhook2/2.0"
+        "gtest/1.17.0"
     ]
     options = {
-        "app": [None, "clo3d", "mobile"]
+        "app": ["none", "CLO3D", "mobile"]
     }
     default_options = {
-        "qt/5.15.16:shared": True,
-
-        "qt/5.15.16:qttools": True,
-
-        "qt/5.15.16:opengl": None,
-        "qt/5.15.16:openssl": False,
-        "qt/5.15.16:with_pq": False,
-        "qt/5.15.16:with_odbc": False,
-        "qt/5.15.16:with_zstd": False,
-        "qt/5.15.16:with_pcre2": False,
-        "qt/5.15.16:with_mysql": False,
-        "qt/5.15.16:with_libjpeg": False,
-        "qt/5.15.16:with_sqlite3": False,
-        "qt/5.15.16:with_freetype": False
+        "app": "none"
     }
-    generators = "CMakeDeps", "CMakeToolchain"
 
     def requirements(self):
-        if self.options.app == "clo3d":
+        if self.options.app == "CLO3D":
 
-        if self.settings.build_type != "RelWithDebInfo":
+            self.requires("qt/5.15.16")
+            self.requires("clo-sdk/9.1.0")
+            self.requires("polyhook2/2.0")
+
+        elif self.options.app == "mobile":
+
             self.requires("qt/6.10.1")
+
+    def configure(self):
+        if self.options.app == "CLO3D":
+
+            if self.settings.build_type == "Debug":
+                raise ConanInvalidConfiguration("CLO3D Extensions does not support Debug builds. Use RelWithDebInfo instead.")
+
+            self.options["qt/5.15.16"].shared = True
+            self.options["qt/5.15.16"].qttools = True
+
+            self.options["qt/5.15.16"].openssl = False
+            self.options["qt/5.15.16"].with_pq = False
+            self.options["qt/5.15.16"].with_odbc = False
+            self.options["qt/5.15.16"].with_zstd = False
+            self.options["qt/5.15.16"].with_pcre2 = False
+            self.options["qt/5.15.16"].with_mysql = False
+            self.options["qt/5.15.16"].with_libjpeg = False
+            self.options["qt/5.15.16"].with_sqlite3 = False
+            self.options["qt/5.15.16"].with_freetype = False
+
+        elif self.options.app == "mobile":
+
+            if self.settings.build_type == "RelWithDebInfo":
+                raise ConanInvalidConfiguration("Use Debug instead.")
+
+            self.options["qt/6.10.1"].gui = False
+            self.options["qt/6.10.1"].opengl = "no"
+            self.options["qt/6.10.1"].openssl = False
+            self.options["qt/6.10.1"].widgets = False
+            self.options["qt/6.10.1"].with_pq = False
+            self.options["qt/6.10.1"].with_md4c = False
+            self.options["qt/6.10.1"].with_odbc = False
+            self.options["qt/6.10.1"].with_brotli = False
+            self.options["qt/6.10.1"].with_libpng = False
+            self.options["qt/6.10.1"].with_sqlite3 = False
+            self.options["qt/6.10.1"].with_freetype = False
+            self.options["qt/6.10.1"].with_harfbuzz = False
+            self.options["qt/6.10.1"].with_doubleconversion = False
+
+    def generate(self):
+        toolchain = CMakeToolchain(self)
+        toolchain.variables["APP"] = str(self.options.app)
+        toolchain.generate()
+        deps = CMakeDeps(self)
+        deps.generate()
 
     def layout(self):
         cmake_layout(self)

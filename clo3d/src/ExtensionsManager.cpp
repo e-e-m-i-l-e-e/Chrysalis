@@ -12,9 +12,9 @@
 #include <QLayout>
 #include <qthreadpool.h>
 
-#include <QtCore/private/qobject_p.h>
-#include <QtCore/private/qfiledevice_p.h>
-#include <QtCore/qobjectdefs.h>
+// #include <QtCore/private/qobject_p.h>
+// #include <QtCore/private/qfiledevice_p.h>
+// #include <QtCore/qobjectdefs.h>
 
 #include <CLOAPIInterface.h>
 #include <QDockWidget>
@@ -27,6 +27,7 @@ void ExtensionsManager::registerExtension(Extension *extension) {
     extensions.push_back(extension);
 }
 #include <QToolButton>
+#include <QOpenGLWidget>
 
 void ExtensionsManager::install() {
     // Forward all CLO3D logging into Extension's logger
@@ -70,6 +71,8 @@ void ExtensionsManager::install() {
                     }
                 }
             }
+        } else if (const auto openGL = qobject_cast<QOpenGLWidget*>(this_)) {
+            LOG_DEBUG("OpenGL widget: {}", openGL->objectName().toStdString());
         }
     });
 
