@@ -4,7 +4,7 @@ project(FashionDesignApps)
 
 set(CMAKE_CXX_STANDARD 20)
 
-set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/output/${CMAKE_BUILD_TYPE}")
+set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/output")
 set(LOGS_DIR "${CMAKE_SOURCE_DIR}/.logs" CACHE PATH "Directory for log files")
 
 add_subdirectory(common)
