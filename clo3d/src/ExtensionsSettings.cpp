@@ -86,7 +86,7 @@ bool ExtensionsSettings::Shortcut::eventFilter(QObject *watched, QEvent *event) 
 LRESULT ExtensionsSettings::Shortcut::trigger(const int nCode, const WPARAM wParam, const LPARAM lParam) {
     if (nCode == HC_ACTION) {
         if (const auto msg = reinterpret_cast<MSG*>(lParam); msg->message == WM_HOTKEY && msg->wParam == 1) {
-            ExtensionsManager::extensionsSettings->exportUI();
+            // ExtensionsManager::extensionsSettings->exportUI();
         }
     }
     return CallNextHookEx(nullptr, nCode, wParam, lParam);

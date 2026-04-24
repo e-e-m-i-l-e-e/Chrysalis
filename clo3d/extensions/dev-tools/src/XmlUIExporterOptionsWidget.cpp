@@ -1,10 +1,4 @@
-//
-// Created by emily on 24/04/2026.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_XmlUIExporterOptionsWidget.h" resolved
-
-#include "../ui/XmlUIExporterOptionsWidget.h"
+#include "XmlUIExporterOptionsWidget.h"
 #include "ui_XmlUIExporterOptionsWidget.h"
 
 namespace UI {

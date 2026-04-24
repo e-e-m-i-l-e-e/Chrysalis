@@ -1,7 +1,7 @@
 #ifndef FASHIONDESIGNAPPS_LISTNAVIGATIONWIDGET_H
 #define FASHIONDESIGNAPPS_LISTNAVIGATIONWIDGET_H
 
-#include "BaseInsertableContainer.h"
+#include <QWidget>
 
 namespace UI {
     QT_BEGIN_NAMESPACE
@@ -12,16 +12,13 @@ namespace Ui {
 
     QT_END_NAMESPACE
 
-    class ListNavigationWidget: public BaseInsertableContainer {
+    class ListNavigationWidget: public QWidget {
         Q_OBJECT
     public:
         explicit ListNavigationWidget(QWidget *parent = nullptr);
         ~ListNavigationWidget() override;
 
-        int count() const override;
-        void remove(int index) override;
-        void insertWidget(int index, QWidget *widget) override;
-        [[nodiscard]] QWidget* getWidget(int index) override;
+        void addPage(QWidget* page) const;
     private:
         Ui::ListNavigationWidget *ui;
     };

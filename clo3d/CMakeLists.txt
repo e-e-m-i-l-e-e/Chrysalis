@@ -1,5 +1,6 @@
 set(CLO3D_OUTPUT_DIR "${OUTPUT_DIR}/CLO3D")
 
+option(EXTEND_WITH_DEV_TOOLS "Add options and settings useful for debugging and investigation" ON)
 option(EXTEND_WITH_AUTHENTICATOR "Skip authentication with \"CLOSET\"" ON)
 option(EXTEND_WITH_PATTERN_BUILDER "Add \"Pattern Builder Extension\"" ON)
 

@@ -1,17 +1,15 @@
 #ifndef CLOEXTENSIONS_LISTNAVIGATIONPLUGIN_H
 #define CLOEXTENSIONS_LISTNAVIGATIONPLUGIN_H
 
-#include "ContainerPlugin.h"
+#include "WidgetPlugin.h"
 
-class ListNavigationWidgetPlugin: public ContainerPlugin {
+class ListNavigationWidgetPlugin: public WidgetPlugin {
 
     Q_OBJECT
     Q_INTERFACES(QDesignerCustomWidgetInterface)
 
 public:
     QWidget* createWidget(QWidget *parent) override;
-protected:
-    [[nodiscard]] QStringList domXmlContent() const override;
 };
 
 

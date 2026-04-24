@@ -8,6 +8,7 @@
 
 #include "Extension.h"
 #include "ExtensionsSettings.h"
+#include "ExtensionsSettingsDialog.h"
 
 class ExtensionsManager {
     friend Extension;
@@ -25,7 +26,8 @@ public:
     static void clearMessage();
 
     inline static std::vector<Extension*> extensions;
-    inline static ExtensionsSettings* extensionsSettings;
+    inline static UI::ExtensionsSettingsDialog* extensionsSettings;
+    // inline static ExtensionsSettings* extensionsSettings;
 
     inline static QFrame* mainWindow;
 

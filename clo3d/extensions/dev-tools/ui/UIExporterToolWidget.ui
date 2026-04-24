@@ -14,9 +14,6 @@
    <string>UIExporterToolWidget</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="spacing">
-    <number>0</number>
-   </property>
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -43,35 +40,29 @@
         <height>85</height>
        </rect>
       </property>
-      <widget class="UI::GeneralUIExporterOptionsWidget" name="generalUIExporterOptionsWidget" native="true">
-       <property name="geometry">
-        <rect>
-         <x>130</x>
-         <y>60</y>
-         <width>120</width>
-         <height>80</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="UI::JsonUIExporterOptionsWidget" name="jsonUIExporterOptionsWidget" native="true">
+      <widget class="QWidget" name="">
        <property name="geometry">
         <rect>
          <x>120</x>
-         <y>180</y>
-         <width>120</width>
-         <height>80</height>
+         <y>60</y>
+         <width>2</width>
+         <height>46</height>
         </rect>
        </property>
-      </widget>
-      <widget class="UI::XmlUIExporterOptionsWidget" name="xmlUIExporterOptionsWidget" native="true">
-       <property name="geometry">
-        <rect>
-         <x>330</x>
-         <y>150</y>
-         <width>120</width>
-         <height>80</height>
-        </rect>
-       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="UI::GeneralUIExporterOptionsWidget" name="generalUIExporterOptionsWidget" native="true"/>
+        </item>
+        <item>
+         <widget class="UI::XmlUIExporterOptionsWidget" name="xmlUIExporterOptionsWidget" native="true"/>
+        </item>
+        <item>
+         <widget class="UI::JsonUIExporterOptionsWidget" name="jsonUIExporterOptionsWidget" native="true"/>
+        </item>
+       </layout>
       </widget>
      </widget>
     </widget>

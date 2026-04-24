@@ -20,8 +20,10 @@
 #include <QDockWidget>
 
 #include "ExtensionsSettings.h"
+#include "ExtensionsSettingsDialog.h"
 
 #include "HooksManager.h"
+#include "../extensions/dev-tools/include/UIExporterToolWidget.h"
 
 void ExtensionsManager::registerExtension(Extension *extension) {
     extensions.push_back(extension);
@@ -48,9 +50,17 @@ void ExtensionsManager::install() {
             const auto menuBar = qobject_cast<QMenuBar *>(this_);
             const auto extensionsMenu = menuBar->addMenu("Extensions");
 
-            extensionsSettings = new ExtensionsSettings(mainWindow);
+            extensionsSettings = new UI::ExtensionsSettingsDialog(mainWindow);
+            // extensionsSettings = new ExtensionsSettings(mainWindow);
             const QAction *extensionsSettingsMenu = extensionsMenu->addAction("Extensions Settings");
-            QObject::connect(extensionsSettingsMenu, &QAction::triggered, extensionsSettings, &ExtensionsSettings::exec);
+            // QObject::connect(extensionsSettingsMenu, &QAction::triggered, extensionsSettings, &ExtensionsSettings::exec);
+            QObject::connect(extensionsSettingsMenu, &QAction::triggered, []() {
+                auto d = new UI::ExtensionsSettingsDialog();
+                auto t = new UI::UIExporterToolWidget();
+                d->addPage(t);
+                d->exec();
+                t->show();
+            });
 
             for (const auto extension: extensions) {
                 extension->configureMenu(extensionsMenu);
