@@ -1,11 +1,14 @@
 #include "TableInputAccordion.h"
+
+#include <iostream>
+
 #include "ui_TableInputAccordion.h"
 
 #include <QPropertyAnimation>
 
 using namespace UI;
 
-TableInputAccordion::TableInputAccordion(QWidget *parent): BaseContainer(parent), ui(new Ui::TableInputAccordion) {
+TableInputAccordion::TableInputAccordion(QWidget *parent): QWidget(parent), BaseContainer(), ui(new Ui::TableInputAccordion) {
     ui->setupUi(this);
     ui->title->setProperty("widget-type", "Highlight");
 
@@ -32,6 +35,10 @@ TableInputAccordion::TableInputAccordion(QWidget *parent): BaseContainer(parent)
 
 TableInputAccordion::~TableInputAccordion() {
     delete ui;
+}
+
+int TableInputAccordion::count() const {
+    return 3;
 }
 
 void TableInputAccordion::insertWidget(const int index, QWidget *widget) {

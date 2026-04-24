@@ -3,6 +3,8 @@
 
 #include <QtUiPlugin/QDesignerCustomWidgetCollectionInterface>
 
+#include "ExtensionFactory.h"
+
 class DesignerPlugin: public QObject, public QDesignerCustomWidgetCollectionInterface {
 
     Q_OBJECT

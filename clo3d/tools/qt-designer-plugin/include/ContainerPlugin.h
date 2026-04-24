@@ -13,8 +13,6 @@ protected:
     [[nodiscard]] virtual QStringList domXmlContent() const = 0;
     static QString containerXml(const QString& objectName, const QString& layoutClassName);
     static QString containerXml(const QString& className, const QString& objectName, const QString& layoutClassName);
-private:
-    QStringList customContent_;
 };
 
 

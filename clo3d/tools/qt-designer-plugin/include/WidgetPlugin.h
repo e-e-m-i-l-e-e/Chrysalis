@@ -4,8 +4,6 @@
 #include <QtUiPlugin/QDesignerCustomWidgetInterface>
 
 class WidgetPlugin: public QObject, public QDesignerCustomWidgetInterface {
-protected:
-    WidgetPlugin() = default;
 public:
     QString name() const override; // NOLINT(*-use-nodiscard)
     QString group() const override; // NOLINT(*-use-nodiscard)
@@ -13,6 +11,7 @@ public:
     QString whatsThis() const override; // NOLINT(*-use-nodiscard)
     QString includeFile() const override; // NOLINT(*-use-nodiscard)
     QIcon icon() const override; // NOLINT(*-use-nodiscard)
+    bool isContainer() const override;
     void initialize(QDesignerFormEditorInterface *core) override;
 };
 

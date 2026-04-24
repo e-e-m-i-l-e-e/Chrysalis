@@ -8,8 +8,8 @@ class TableInputAccordionExtension: public ContainerExtension {
     Q_OBJECT
     Q_INTERFACES(QDesignerContainerExtension)
 public:
-    explicit TableInputAccordionExtension(UI::TableInputAccordion* container, QObject* parent, int count);
+    explicit TableInputAccordionExtension(UI::TableInputAccordion* container, QObject* parent)
+    : ContainerExtension(container, parent) {}
 };
-
 
 #endif //CLOEXTENSIONS_TABLEINPUTACCORDIONEXTENSION_H

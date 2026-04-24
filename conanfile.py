@@ -23,24 +23,16 @@ class FashionDesignAppsConan(ConanFile):
 
     def requirements(self):
         if self.options.app == "CLO3D":
-
             self.requires("qt/5.15.16")
             self.requires("clo-sdk/9.1.0")
             self.requires("polyhook2/2.0")
-
         elif self.options.app == "mobile":
-
             self.requires("qt/6.10.1")
 
     def configure(self):
         if self.options.app == "CLO3D":
-
-            if self.settings.build_type == "Debug":
-                raise ConanInvalidConfiguration("CLO3D Extensions does not support Debug builds. Use RelWithDebInfo instead.")
-
             self.options["qt/5.15.16"].shared = True
             self.options["qt/5.15.16"].qttools = True
-
             self.options["qt/5.15.16"].openssl = False
             self.options["qt/5.15.16"].with_pq = False
             self.options["qt/5.15.16"].with_odbc = False
@@ -52,10 +44,6 @@ class FashionDesignAppsConan(ConanFile):
             self.options["qt/5.15.16"].with_freetype = False
 
         elif self.options.app == "mobile":
-
-            if self.settings.build_type == "RelWithDebInfo":
-                raise ConanInvalidConfiguration("Use Debug instead.")
-
             self.options["qt/6.10.1"].gui = False
             self.options["qt/6.10.1"].opengl = "no"
             self.options["qt/6.10.1"].openssl = False

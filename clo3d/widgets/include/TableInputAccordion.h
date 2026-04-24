@@ -13,7 +13,7 @@ namespace UI {
 
     QT_END_NAMESPACE
 
-    class TableInputAccordion : public BaseContainer {
+    class TableInputAccordion: public QWidget, public BaseContainer {
         Q_OBJECT
         Q_PROPERTY(QString title READ getTitle WRITE setTitle)
         Q_PROPERTY(QStringList columns READ getColumns WRITE setColumns)
@@ -23,6 +23,7 @@ namespace UI {
 
         ~TableInputAccordion() override;
 
+        int count() const override;
         void insertWidget(int index, QWidget* widget) override;
         [[nodiscard]] QWidget* getWidget(int index) override;
 

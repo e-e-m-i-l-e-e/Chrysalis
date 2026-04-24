@@ -4,13 +4,21 @@
 #include <QWidget>
 
 namespace UI {
-    class BaseContainer: public QWidget {
+    class BaseContainer {
     protected:
-        explicit BaseContainer(QWidget* parent);
+        BaseContainer() = default;
+        virtual ~BaseContainer() = default;
+
     public:
-        void install(const QList<QWidget*>& widgets);
+        [[nodiscard]] virtual int count() const = 0;
         virtual void insertWidget(int index, QWidget* widget) = 0;
         [[nodiscard]] virtual QWidget* getWidget(int index) = 0;
+
+        void install(const QList<QWidget*>& widgets) {
+            for (int i = 0; i < widgets.length(); i++) {
+                insertWidget(i, widgets.at(i));
+            }
+        }
     };
 }
 

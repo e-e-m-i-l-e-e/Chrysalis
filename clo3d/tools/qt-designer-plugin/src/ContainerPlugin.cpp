@@ -6,6 +6,8 @@
 
 #include "ExtensionFactory.h"
 
+#include <iostream>
+
 static const QString basicWidget = R"(
 <widget class="%1" name="%2">
     %3
@@ -43,12 +45,11 @@ QString ContainerPlugin::domXml() const {
     auto objectName = className;
     objectName.remove(0, 4); // remove namespace
     objectName[0] = objectName[0].toLower(); // start objectName in lower case
-    return basicWidget.arg(className).arg(objectName).arg(customContent_.join("\n"));
+    return basicWidget.arg(className).arg(objectName).arg(domXmlContent().join("\n"));
 }
 
 void ContainerPlugin::initialize(QDesignerFormEditorInterface *core) {
     WidgetPlugin::initialize(core);
-    customContent_ = domXmlContent();
     const auto manager = core->extensionManager();
-    manager->registerExtensions(new ExtensionFactory(manager, customContent_.count()), Q_TYPEID(QDesignerContainerExtension));
+    manager->registerExtensions(new ExtensionFactory(manager), Q_TYPEID(QDesignerContainerExtension));
 }

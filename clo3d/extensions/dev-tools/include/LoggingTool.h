@@ -1,0 +1,13 @@
+//
+// Created by emily on 24/04/2026.
+//
+
+#ifndef FASHIONDESIGNAPPS_LOGGINGTOOL_H
+#define FASHIONDESIGNAPPS_LOGGINGTOOL_H
+
+
+class LoggingTool {
+};
+
+
+#endif //FASHIONDESIGNAPPS_LOGGINGTOOL_H

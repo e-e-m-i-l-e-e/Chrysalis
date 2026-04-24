@@ -1,20 +1,14 @@
 #include "ContainerExtension.h"
 
-ContainerExtension::ContainerExtension(UI::BaseContainer *container, QObject *parent, const int count)
-    : QObject(parent),
-      container_(container),
-      indexes_(QVector<int>(count)),
-      it_([this] {
-          std::iota(indexes_.begin(), indexes_.end(), 0);
-          return QVectorIterator(indexes_);
-      }()){}
+ContainerExtension::ContainerExtension(UI::BaseContainer *container, QObject *parent)
+    : QObject(parent), container_(container) {}
 
 int ContainerExtension::count() const {
-    return indexes_.count();
+    return container_->count();
 }
 
 QWidget* ContainerExtension::widget(int index) const {
-    return container_->getWidget(indexes_[index]);
+    return container_->getWidget(index);
 }
 
 int ContainerExtension::currentIndex() const {
@@ -24,7 +18,7 @@ int ContainerExtension::currentIndex() const {
 void ContainerExtension::setCurrentIndex(int index) {}
 
 void ContainerExtension::addWidget(QWidget *widget) {
-    container_->insertWidget(it_.next(), widget);
+    container_->insertWidget(index_++, widget);
 }
 
 void ContainerExtension::insertWidget(int index, QWidget *widget) {}

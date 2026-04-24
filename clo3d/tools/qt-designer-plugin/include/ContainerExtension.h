@@ -9,7 +9,7 @@
 
 class ContainerExtension: public QObject, public QDesignerContainerExtension {
 protected:
-    explicit ContainerExtension(UI::BaseContainer* container, QObject* parent, int count);
+    explicit ContainerExtension(UI::BaseContainer* container, QObject* parent);
 public:
     int count() const override; // NOLINT(*-use-nodiscard)
     QWidget* widget(int index) const override; // NOLINT(*-use-nodiscard)
@@ -21,10 +21,8 @@ public:
     bool canAddWidget() const override; // NOLINT(*-use-nodiscard)
     bool canRemove(int index) const override; // NOLINT(*-use-nodiscard)
 private:
+    int index_ {};
     UI::BaseContainer* container_;
-
-    QVector<int> indexes_;
-    QVectorIterator<int> it_;
 };
 
 #endif //CLOEXTENSIONS_CONTAINEREXTENSION_H
