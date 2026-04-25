@@ -19,10 +19,11 @@
     border: none;
     color: rgba(225, 225, 228, 255);
     outline: none;
-    spacing: 6px;
 }
 
-QCheckBox:hover, QCheckBox:checked, QCheckBox:focus {
+QCheckBox:hover,
+QCheckBox:checked,
+QCheckBox:focus {
     color: rgba(225, 225, 228, 255);
 }
 
@@ -30,29 +31,13 @@ QCheckBox:disabled {
     color: rgba(70, 70, 73, 255);
 }
 
-QCheckBox::indicator {
-    width: 12px;
-    height: 12px;
-}
-
-QCheckBox::indicator:unchecked {
-    image: url(:/Resources/CommonIcon/Checkbox Off Normal.svg);
-}
-
-QCheckBox::indicator:unchecked:hover, QCheckBox::indicator:unchecked:focus {
+QCheckBox::indicator:unchecked:hover,
+QCheckBox::indicator:unchecked:focus {
     image: url(:/Resources/CommonIcon/Checkbox Off Selected.svg);
 }
 
 QCheckBox::indicator:unchecked:disabled {
     image: url(:/Resources/CommonIcon/Checkbox Off Disabled.svg);
-}
-
-QCheckBox::indicator:checked, QCheckBox::indicator:checked:hover, QCheckBox::indicator:checked:focus {
-    image: url(:/Resources/CommonIcon/Checkbox On Selected.svg);
-}
-
-QCheckBox::indicator:checked:disabled {
-    image: url(:/Resources/CommonIcon/Checkbox On Disabled.svg);
 }
 
 QCheckBox[widget-type=&quot;Warning&quot;] {
@@ -63,8 +48,42 @@ QCheckBox[widget-type=&quot;Warning&quot;]::indicator:unchecked {
     image: url(:/Resources/CommonIcon/Checkbox Off Warning.svg);
 }
 
-QCheckBox[widget-type=&quot;Warning&quot;]::indicator:checked {
-    image: url(:/Resources/CommonIcon/Checkbox On Warning.svg);
+QLineEdit {
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 77);
+    color: rgba(225, 225, 228, 255);
+    font-family: Inter;
+    font-size: 12px;
+    letter-spacing: 0px;
+    min-height: 22px;
+    max-height: 22px;
+    padding: 0px 6px;
+}
+
+QLineEdit:hover {
+    background: rgba(0, 0, 0, 77);
+    color: rgba(110, 185, 255, 255);
+}
+
+QLineEdit:focus {
+    background: rgba(45, 52, 68, 255);
+    color: rgba(110, 185, 255, 255);
+}
+
+QLineEdit[widget-type=&quot;Warning&quot;] {
+    background: rgba(40, 32, 35, 255);
+    color: rgba(255, 97, 125, 255);
+}
+
+QLineEdit[readOnly=&quot;true&quot;],
+QLineEdit[widget-type=&quot;ReadOnly&quot;] {
+    background: transparent;
+    color: rgba(153, 153, 156, 255);
+}
+
+QLineEdit:disabled {
+    background: rgba(0, 0, 0, 77);
+    color: rgba(70, 70, 73, 255);
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
