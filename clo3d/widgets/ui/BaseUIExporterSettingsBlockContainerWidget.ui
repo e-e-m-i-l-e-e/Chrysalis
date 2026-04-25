@@ -72,6 +72,45 @@
       </layout>
      </widget>
      <widget class="QWidget" name="settingsBlockContent">
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+    border-radius: 4px;
+    background: rgba(37, 37, 40, 255);
+    color: rgba(225, 225, 228, 255);
+    font-family: Inter;
+    font-size: 12px;
+    letter-spacing: 0px;
+    min-height: 22px;
+    max-height: 22px;
+    padding: 0px 6px;
+}
+
+QLineEdit:hover {
+    background: rgba(37, 37, 40, 255);
+    color: rgba(110, 185, 255, 255);
+}
+
+QLineEdit:focus {
+    background: rgba(45, 52, 68, 255);
+    color: rgba(110, 185, 255, 255);
+}
+
+QLineEdit[widget-type=&quot;Warning&quot;] {
+    background: rgba(40, 32, 35, 255);
+    color: rgba(255, 97, 125, 255);
+}
+
+QLineEdit[readOnly=&quot;true&quot;],
+QLineEdit[widget-type=&quot;ReadOnly&quot;] {
+    background: transparent;
+    color: rgba(153, 153, 156, 255);
+}
+
+QLineEdit:disabled {
+    background: rgba(0, 0, 0, 77);
+    color: rgba(70, 70, 73, 255);
+}</string>
+      </property>
       <layout class="QVBoxLayout" name="layout_2">
        <property name="spacing">
         <number>0</number>
