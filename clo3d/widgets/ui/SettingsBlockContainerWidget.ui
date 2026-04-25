@@ -7,15 +7,69 @@
     <x>0</x>
     <y>0</y>
     <width>536</width>
-    <height>20</height>
+    <height>27</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>SettingsBlockContainerWidget</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QCheckBox {
+    background: transparent;
+    border: none;
+    color: rgba(225, 225, 228, 255);
+    outline: none;
+    spacing: 6px;
+}
+
+QCheckBox:hover, QCheckBox:checked, QCheckBox:focus {
+    color: rgba(225, 225, 228, 255);
+}
+
+QCheckBox:disabled {
+    color: rgba(70, 70, 73, 255);
+}
+
+QCheckBox::indicator {
+    width: 12px;
+    height: 12px;
+}
+
+QCheckBox::indicator:unchecked {
+    image: url(:/Resources/CommonIcon/Checkbox Off Normal.svg);
+}
+
+QCheckBox::indicator:unchecked:hover, QCheckBox::indicator:unchecked:focus {
+    image: url(:/Resources/CommonIcon/Checkbox Off Selected.svg);
+}
+
+QCheckBox::indicator:unchecked:disabled {
+    image: url(:/Resources/CommonIcon/Checkbox Off Disabled.svg);
+}
+
+QCheckBox::indicator:checked, QCheckBox::indicator:checked:hover, QCheckBox::indicator:checked:focus {
+    image: url(:/Resources/CommonIcon/Checkbox On Selected.svg);
+}
+
+QCheckBox::indicator:checked:disabled {
+    image: url(:/Resources/CommonIcon/Checkbox On Disabled.svg);
+}
+
+QCheckBox[widget-type=&quot;Warning&quot;] {
+    color: rgba(255, 97, 125, 255);
+}
+
+QCheckBox[widget-type=&quot;Warning&quot;]::indicator:unchecked {
+    image: url(:/Resources/CommonIcon/Checkbox Off Warning.svg);
+}
+
+QCheckBox[widget-type=&quot;Warning&quot;]::indicator:checked {
+    image: url(:/Resources/CommonIcon/Checkbox On Warning.svg);
+}</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
-    <number>0</number>
+    <number>7</number>
    </property>
    <property name="leftMargin">
     <number>0</number>
@@ -118,8 +172,10 @@
       </sizepolicy>
      </property>
      <property name="styleSheet">
-      <string notr="true">background: rgba(47, 47, 50, 255);
-border-radius: 8px;</string>
+      <string notr="true">#settingsBlockContentWrapper {
+    background: rgba(47, 47, 50, 255);
+    border-radius: 8px;
+}</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <property name="leftMargin">

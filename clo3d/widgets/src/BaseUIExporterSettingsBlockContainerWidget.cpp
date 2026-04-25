@@ -20,7 +20,10 @@ int BaseUIExporterSettingsBlockContainerWidget::count() const {
 void BaseUIExporterSettingsBlockContainerWidget::insertWidget(int index, QWidget *widget) {
     if (index == 0) ui->customToolsWrapper->layout()->addWidget(widget);
     else if (index == 1) ui->settingsWrapper->addWidget(widget, 1, 0);
-    else if (index == 2) ui->settingsWrapper->addWidget(widget, 1, 1);
+    else if (index == 2) {
+        ui->settingsWrapper->addWidget(widget, 1, 1);
+        setLabelWidth(labelWidth_);
+    }
 }
 
 QWidget* BaseUIExporterSettingsBlockContainerWidget::getWidget(int index) {
@@ -44,4 +47,8 @@ void BaseUIExporterSettingsBlockContainerWidget::setLabelWidth(const int labelWi
     for (const auto label: ui->settingsBlockContent->findChildren<QLabel*>()) {
         label->setFixedWidth(std::max(labelWidth, label->sizeHint().width()));
     }
+}
+
+void BaseUIExporterSettingsBlockContainerWidget::enableContent(const bool isEnabled) const {
+    ui->settingsBlockContent->setEnabled(isEnabled);
 }

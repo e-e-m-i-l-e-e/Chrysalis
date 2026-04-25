@@ -35,7 +35,7 @@
       <string>General</string>
      </property>
      <property name="labelWidth">
-      <number>66</number>
+      <number>75</number>
      </property>
      <widget class="QWidget" name="customTools">
       <layout class="QHBoxLayout" name="layout">

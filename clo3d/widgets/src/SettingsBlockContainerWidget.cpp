@@ -19,6 +19,7 @@ int SettingsBlockContainerWidget::count() const {
 void SettingsBlockContainerWidget::insertWidget(int index, QWidget *widget) {
     if (index == 0) ui->customToolsWrapper->layout()->addWidget(widget);
     else if (index == 1) ui->settingsBlockContentWrapper->layout()->addWidget(widget);
+    widget->repaint();
 }
 
 QWidget* SettingsBlockContainerWidget::getWidget(int index) {

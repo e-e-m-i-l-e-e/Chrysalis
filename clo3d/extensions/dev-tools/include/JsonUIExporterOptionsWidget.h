@@ -17,9 +17,7 @@ namespace UI {
 
     public:
         explicit JsonUIExporterOptionsWidget(QWidget *parent = nullptr);
-
         ~JsonUIExporterOptionsWidget() override;
-
     private:
         Ui::JsonUIExporterOptionsWidget *ui;
     };

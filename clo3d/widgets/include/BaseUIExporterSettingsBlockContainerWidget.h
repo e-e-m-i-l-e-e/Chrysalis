@@ -28,6 +28,8 @@ namespace UI {
 
         int getLabelWidth() const;
         void setLabelWidth(int labelWidth);
+    public slots:
+        void enableContent(bool isEnabled) const;
     private:
         Ui::BaseUIExporterSettingsBlockContainerWidget *ui;
         int labelWidth_ = 20;

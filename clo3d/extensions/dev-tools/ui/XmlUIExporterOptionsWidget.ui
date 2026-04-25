@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>576</width>
-    <height>84</height>
+    <height>119</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,6 +34,9 @@
      <property name="title">
       <string>XML</string>
      </property>
+     <property name="labelWidth">
+      <number>75</number>
+     </property>
      <widget class="QWidget" name="customTools">
       <layout class="QHBoxLayout" name="layout">
        <property name="spacing">
@@ -55,6 +58,9 @@
         <widget class="QCheckBox" name="checkBox">
          <property name="text">
           <string/>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -156,5 +162,22 @@
   </customwidget>
  </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>checkBox</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>baseUIExporterSettingsBlockContainerWidget</receiver>
+   <slot>enableContent(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>50</x>
+     <y>9</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>287</x>
+     <y>59</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

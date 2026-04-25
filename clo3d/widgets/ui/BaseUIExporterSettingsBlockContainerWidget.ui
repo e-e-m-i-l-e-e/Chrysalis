@@ -7,11 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>552</width>
-    <height>74</height>
+    <height>101</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>BaseUIExporterSettingsBlockContainerWidget</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QLineEdit {
+	background: rgba(33, 33, 35, 255);
+	color: rgba(225, 225, 228, 255);
+}
+QLineEdit:focus {
+	color: rgba(110, 185, 255, 255);
+}</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
@@ -37,7 +46,7 @@
         <number>0</number>
        </property>
        <property name="leftMargin">
-        <number>0</number>
+        <number>7</number>
        </property>
        <property name="topMargin">
         <number>0</number>
@@ -77,24 +86,36 @@
         <number>0</number>
        </property>
        <property name="leftMargin">
-        <number>0</number>
+        <number>7</number>
        </property>
        <property name="topMargin">
         <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>0</number>
+        <number>7</number>
        </property>
        <property name="bottomMargin">
-        <number>0</number>
+        <number>7</number>
        </property>
        <item>
         <layout class="QGridLayout" name="settingsWrapper">
+         <property name="leftMargin">
+          <number>7</number>
+         </property>
+         <property name="topMargin">
+          <number>7</number>
+         </property>
+         <property name="rightMargin">
+          <number>7</number>
+         </property>
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         <property name="spacing">
-          <number>0</number>
+         <property name="horizontalSpacing">
+          <number>11</number>
+         </property>
+         <property name="verticalSpacing">
+          <number>7</number>
          </property>
          <item row="0" column="0">
           <layout class="QFormLayout" name="formLayout_2">
@@ -102,7 +123,7 @@
             <number>0</number>
            </property>
            <property name="verticalSpacing">
-            <number>0</number>
+            <number>5</number>
            </property>
            <item row="0" column="0">
             <widget class="QLabel" name="label">
@@ -114,7 +135,7 @@
            <item row="0" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <property name="spacing">
-              <number>0</number>
+              <number>3</number>
              </property>
              <item>
               <widget class="QLineEdit" name="lineEdit"/>
@@ -123,6 +144,10 @@
               <widget class="QToolButton" name="toolButton">
                <property name="text">
                 <string>...</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../../resources/resources.qrc">
+                 <normaloff>:/folder.png</normaloff>:/folder.png</iconset>
                </property>
               </widget>
              </item>
@@ -146,7 +171,7 @@
             <number>0</number>
            </property>
            <property name="verticalSpacing">
-            <number>0</number>
+            <number>5</number>
            </property>
            <item row="0" column="0">
             <widget class="QLabel" name="label_2">
@@ -191,6 +216,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../../resources/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
