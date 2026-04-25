@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>UI::UIExporterToolWidget</class>
- <widget class="QWidget" name="UI::UIExporterToolWidget">
+ <widget class="UI::NamedWidget" name="UI::UIExporterToolWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -12,6 +12,9 @@
   </property>
   <property name="windowTitle">
    <string>UIExporterToolWidget</string>
+  </property>
+  <property name="title">
+   <string>UI Exporter</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -97,6 +100,12 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>UI::NamedWidget</class>
+   <extends>QWidget</extends>
+   <header>NamedWidget.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>UI::GeneralUIExporterOptionsWidget</class>
    <extends>QWidget</extends>

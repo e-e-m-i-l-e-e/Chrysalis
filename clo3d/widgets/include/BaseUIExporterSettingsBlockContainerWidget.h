@@ -28,6 +28,16 @@ namespace UI {
 
         int getLabelWidth() const;
         void setLabelWidth(int labelWidth);
+
+        void setRootFolder(const QString &rootFolder) const;
+        void setFileName(const QString &fileName) const;
+        void setObjectName(const QString &objectName) const;
+        void setClassName(const QString &className) const;
+    signals:
+        void rootFolderChanged(const QString& rootFolder);
+        void fileNameChanged(const QString& fileName);
+        void objectNameChanged(const QString& objectName);
+        void classNameChanged(const QString& className);
     public slots:
         void enableContent(bool isEnabled) const;
     private:

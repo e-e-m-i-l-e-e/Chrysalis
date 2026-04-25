@@ -18,6 +18,6 @@ ExtensionsSettingsDialog::~ExtensionsSettingsDialog() {
     delete ui;
 }
 
-void ExtensionsSettingsDialog::addPage(QWidget* page) const {
+void ExtensionsSettingsDialog::addPage(NamedWidget* page) const {
     ui->navigation->addPage(page);
 }

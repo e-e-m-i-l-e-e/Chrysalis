@@ -12,3 +12,19 @@ JsonUIExporterOptionsWidget::JsonUIExporterOptionsWidget(QWidget *parent) : QWid
 JsonUIExporterOptionsWidget::~JsonUIExporterOptionsWidget() {
     delete ui;
 }
+
+void JsonUIExporterOptionsWidget::rootFolderChanged(const QString &rootFolder) const {
+    ui->baseUIExporterSettingsBlockContainerWidget->setRootFolder(rootFolder);
+}
+
+void JsonUIExporterOptionsWidget::fileNameChanged(const QString &fileName) const {
+    ui->baseUIExporterSettingsBlockContainerWidget->setFileName(fileName);
+}
+
+void JsonUIExporterOptionsWidget::objectNameChanged(const QString &objectName) const {
+    ui->baseUIExporterSettingsBlockContainerWidget->setObjectName(objectName);
+}
+
+void JsonUIExporterOptionsWidget::classNameChanged(const QString &className) const {
+    ui->baseUIExporterSettingsBlockContainerWidget->setClassName(className);
+}

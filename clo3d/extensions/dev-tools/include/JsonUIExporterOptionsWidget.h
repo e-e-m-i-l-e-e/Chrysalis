@@ -18,6 +18,11 @@ namespace UI {
     public:
         explicit JsonUIExporterOptionsWidget(QWidget *parent = nullptr);
         ~JsonUIExporterOptionsWidget() override;
+    public slots:
+        void rootFolderChanged(const QString& rootFolder) const;
+        void fileNameChanged(const QString& fileName) const;
+        void objectNameChanged(const QString& objectName) const;
+        void classNameChanged(const QString& className) const;
     private:
         Ui::JsonUIExporterOptionsWidget *ui;
     };

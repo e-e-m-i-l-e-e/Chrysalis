@@ -1,23 +1,19 @@
-//
-// Created by emily on 24/04/2026.
-//
-
-// You may need to build the project (run Qt uic code generator) to get "ui_GeneralUIExporterOptionsWidget.h" resolved
-
 #include "GeneralUIExporterOptionsWidget.h"
-
-#include <CLOAPIInterface.h>
 
 #include "ui_GeneralUIExporterOptionsWidget.h"
 
-namespace UI {
-    GeneralUIExporterOptionsWidget::GeneralUIExporterOptionsWidget(QWidget *parent) : QWidget(parent),
-        ui(new Ui::GeneralUIExporterOptionsWidget) {
-        ui->setupUi(this);
-        ui->baseUIExporterSettingsBlockContainerWidget->install({ui->customTools, ui->settingsLeftBlockContent, ui->settingsRightBlockContent});
-    }
+using namespace UI;
 
-    GeneralUIExporterOptionsWidget::~GeneralUIExporterOptionsWidget() {
-        delete ui;
-    }
-} // UI
+GeneralUIExporterOptionsWidget::GeneralUIExporterOptionsWidget(QWidget *parent) : QWidget(parent),
+        ui(new Ui::GeneralUIExporterOptionsWidget) {
+    ui->setupUi(this);
+    ui->baseUIExporterSettingsBlockContainerWidget->install({ui->customTools, ui->settingsLeftBlockContent, ui->settingsRightBlockContent});
+    connect(ui->baseUIExporterSettingsBlockContainerWidget, &BaseUIExporterSettingsBlockContainerWidget::rootFolderChanged, this, &GeneralUIExporterOptionsWidget::rootFolderChanged);
+    connect(ui->baseUIExporterSettingsBlockContainerWidget, &BaseUIExporterSettingsBlockContainerWidget::fileNameChanged, this, &GeneralUIExporterOptionsWidget::fileNameChanged);
+    connect(ui->baseUIExporterSettingsBlockContainerWidget, &BaseUIExporterSettingsBlockContainerWidget::objectNameChanged, this, &GeneralUIExporterOptionsWidget::objectNameChanged);
+    connect(ui->baseUIExporterSettingsBlockContainerWidget, &BaseUIExporterSettingsBlockContainerWidget::classNameChanged, this, &GeneralUIExporterOptionsWidget::classNameChanged);
+}
+
+GeneralUIExporterOptionsWidget::~GeneralUIExporterOptionsWidget() {
+    delete ui;
+}

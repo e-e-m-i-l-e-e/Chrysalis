@@ -73,9 +73,12 @@ QCheckBox {
     spacing: 6px;
 }
 
-QCheckBox:hover,
-QCheckBox:checked,
 QCheckBox:focus {
+    color: rgba(225, 225, 228, 255);
+}
+
+QCheckBox:hover,
+QCheckBox:checked {
     color: rgba(225, 225, 228, 255);
 }
 
@@ -109,19 +112,6 @@ QCheckBox::indicator:checked:focus {
 
 QCheckBox::indicator:checked:disabled {
     image: url(:/Resources/CommonIcon/Checkbox On Disabled.svg);
-}
-
-/* custom property */
-QCheckBox[widget-type=&quot;Warning&quot;] {
-    color: rgba(255, 97, 125, 255);
-}
-
-QCheckBox[widget-type=&quot;Warning&quot;]::indicator:unchecked {
-    image: url(:/Resources/CommonIcon/Checkbox Off Warning.svg);
-}
-
-QCheckBox[widget-type=&quot;Warning&quot;]::indicator:checked {
-    image: url(:/Resources/CommonIcon/Checkbox On Warning.svg);
 }
          </string>
         </property>

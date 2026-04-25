@@ -1,12 +1,18 @@
 #include "BaseUIExporterSettingsBlockContainerWidget.h"
 #include "ui_BaseUIExporterSettingsBlockContainerWidget.h"
 
+#include <QGraphicsOpacityEffect>
+
 using namespace UI;
 
 BaseUIExporterSettingsBlockContainerWidget::BaseUIExporterSettingsBlockContainerWidget(QWidget *parent)
     : NamedWidget(parent), ui(new Ui::BaseUIExporterSettingsBlockContainerWidget) {
     ui->setupUi(this);
     ui->settingsBlockContainerWidget->install({ui->customTools, ui->settingsBlockContent});
+    connect(ui->rootFolder, &QLineEdit::textChanged, this, &BaseUIExporterSettingsBlockContainerWidget::rootFolderChanged);
+    connect(ui->fileName, &QLineEdit::textChanged, this, &BaseUIExporterSettingsBlockContainerWidget::fileNameChanged);
+    connect(ui->objectName, &QLineEdit::textChanged, this, &BaseUIExporterSettingsBlockContainerWidget::objectNameChanged);
+    connect(ui->className, &QLineEdit::textChanged, this, &BaseUIExporterSettingsBlockContainerWidget::classNameChanged);
 }
 
 BaseUIExporterSettingsBlockContainerWidget::~BaseUIExporterSettingsBlockContainerWidget() {
@@ -23,6 +29,11 @@ void BaseUIExporterSettingsBlockContainerWidget::insertWidget(int index, QWidget
     else if (index == 2) {
         ui->settingsWrapper->addWidget(widget, 1, 1);
         setLabelWidth(labelWidth_);
+        for (const auto toolButton: this->findChildren<QToolButton*>()) {
+            const auto effect = new QGraphicsOpacityEffect(this);
+            effect->setOpacity(1);
+            toolButton->setGraphicsEffect(effect);
+        }
     }
 }
 
@@ -51,4 +62,26 @@ void BaseUIExporterSettingsBlockContainerWidget::setLabelWidth(const int labelWi
 
 void BaseUIExporterSettingsBlockContainerWidget::enableContent(const bool isEnabled) const {
     ui->settingsBlockContent->setEnabled(isEnabled);
+    const float opacity = isEnabled ? 1 : 0.5;
+    for (const auto toolButton: this->findChildren<QToolButton*>()) {
+        if (const auto effect = qobject_cast<QGraphicsOpacityEffect*>(toolButton->graphicsEffect())) {
+            effect->setOpacity(opacity);
+        }
+    }
+}
+
+void BaseUIExporterSettingsBlockContainerWidget::setRootFolder(const QString &rootFolder) const {
+    ui->rootFolder->setText(rootFolder);
+}
+
+void BaseUIExporterSettingsBlockContainerWidget::setFileName(const QString &fileName) const {
+    ui->fileName->setText(fileName);
+}
+
+void BaseUIExporterSettingsBlockContainerWidget::setObjectName(const QString &objectName) const {
+    ui->objectName->setText(objectName);
+}
+
+void BaseUIExporterSettingsBlockContainerWidget::setClassName(const QString &className) const {
+    ui->className->setText(className);
 }

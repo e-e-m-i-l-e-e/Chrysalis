@@ -21,9 +21,12 @@ namespace UI {
 
     public:
         explicit XmlUIExporterOptionsWidget(QWidget *parent = nullptr);
-
         ~XmlUIExporterOptionsWidget() override;
-
+    public slots:
+        void rootFolderChanged(const QString& rootFolder) const;
+        void fileNameChanged(const QString& fileName) const;
+        void objectNameChanged(const QString& objectName) const;
+        void classNameChanged(const QString& className) const;
     private:
         Ui::XmlUIExporterOptionsWidget *ui;
     };

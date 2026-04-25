@@ -1,11 +1,9 @@
-//
-// Created by emily on 24/04/2026.
-//
-
 #ifndef FASHIONDESIGNAPPS_EXTENSIONSSETTINGSDIALOG_H
 #define FASHIONDESIGNAPPS_EXTENSIONSSETTINGSDIALOG_H
 
 #include <QDialog>
+
+#include "NamedWidget.h"
 
 namespace UI {
     QT_BEGIN_NAMESPACE
@@ -23,7 +21,7 @@ namespace UI {
         explicit ExtensionsSettingsDialog(QWidget *parent = nullptr);
         ~ExtensionsSettingsDialog() override;
 
-        void addPage(QWidget* page) const;
+        void addPage(NamedWidget* page) const;
     private:
         Ui::ExtensionsSettingsDialog *ui;
     };

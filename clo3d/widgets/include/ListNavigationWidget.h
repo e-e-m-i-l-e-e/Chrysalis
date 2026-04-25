@@ -1,7 +1,7 @@
 #ifndef FASHIONDESIGNAPPS_LISTNAVIGATIONWIDGET_H
 #define FASHIONDESIGNAPPS_LISTNAVIGATIONWIDGET_H
 
-#include <QWidget>
+#include "NamedWidget.h"
 
 namespace UI {
     QT_BEGIN_NAMESPACE
@@ -18,7 +18,7 @@ namespace Ui {
         explicit ListNavigationWidget(QWidget *parent = nullptr);
         ~ListNavigationWidget() override;
 
-        void addPage(QWidget* page) const;
+        void addPage(NamedWidget* page) const;
     private:
         Ui::ListNavigationWidget *ui;
     };

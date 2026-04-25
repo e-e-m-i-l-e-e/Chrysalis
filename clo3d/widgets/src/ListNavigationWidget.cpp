@@ -15,8 +15,8 @@ ListNavigationWidget::~ListNavigationWidget() {
     delete ui;
 }
 
-void ListNavigationWidget::addPage(QWidget* page) const {
-    ui->listWidget->addItem(page->objectName());
+void ListNavigationWidget::addPage(NamedWidget* page) const {
+    ui->listWidget->addItem(page->getTitle());
     ui->listWidget->setFixedWidth(std::max(ui->listWidget->width(), ui->listWidget->sizeHintForColumn(ui->listWidget->count() - 1) + 4));
     ui->stackedWidget->addWidget(page);
     ui->listWidget->setCurrentRow(0);
