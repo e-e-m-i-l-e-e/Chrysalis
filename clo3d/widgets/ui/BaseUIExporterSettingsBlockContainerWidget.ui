@@ -13,15 +13,6 @@
   <property name="windowTitle">
    <string>BaseUIExporterSettingsBlockContainerWidget</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">QLineEdit {
-	background: rgba(33, 33, 35, 255);
-	color: rgba(225, 225, 228, 255);
-}
-QLineEdit:focus {
-	color: rgba(110, 185, 255, 255);
-}</string>
-  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
     <number>0</number>
