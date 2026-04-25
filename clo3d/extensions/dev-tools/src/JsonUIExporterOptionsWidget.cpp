@@ -14,17 +14,17 @@ JsonUIExporterOptionsWidget::~JsonUIExporterOptionsWidget() {
 }
 
 void JsonUIExporterOptionsWidget::rootFolderChanged(const QString &rootFolder) const {
-    ui->baseUIExporterSettingsBlockContainerWidget->setRootFolder(rootFolder);
+    ui->baseUIExporterSettingsBlockContainerWidget->setRootFolderText(rootFolder);
 }
 
 void JsonUIExporterOptionsWidget::fileNameChanged(const QString &fileName) const {
-    ui->baseUIExporterSettingsBlockContainerWidget->setFileName(fileName);
+    ui->baseUIExporterSettingsBlockContainerWidget->setFileNameText(fileName);
 }
 
 void JsonUIExporterOptionsWidget::objectNameChanged(const QString &objectName) const {
-    ui->baseUIExporterSettingsBlockContainerWidget->setObjectName(objectName);
+    ui->baseUIExporterSettingsBlockContainerWidget->setObjectNameText(objectName);
 }
 
 void JsonUIExporterOptionsWidget::classNameChanged(const QString &className) const {
-    ui->baseUIExporterSettingsBlockContainerWidget->setClassName(className);
+    ui->baseUIExporterSettingsBlockContainerWidget->setClassNameText(className);
 }

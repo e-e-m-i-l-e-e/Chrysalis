@@ -14,17 +14,17 @@ XmlUIExporterOptionsWidget::~XmlUIExporterOptionsWidget() {
 }
 
 void XmlUIExporterOptionsWidget::rootFolderChanged(const QString &rootFolder) const {
-    ui->baseUIExporterSettingsBlockContainerWidget->setRootFolder(rootFolder);
+    ui->baseUIExporterSettingsBlockContainerWidget->setRootFolderText(rootFolder);
 }
 
 void XmlUIExporterOptionsWidget::fileNameChanged(const QString &fileName) const {
-    ui->baseUIExporterSettingsBlockContainerWidget->setFileName(fileName);
+    ui->baseUIExporterSettingsBlockContainerWidget->setFileNameText(fileName);
 }
 
 void XmlUIExporterOptionsWidget::objectNameChanged(const QString &objectName) const {
-    ui->baseUIExporterSettingsBlockContainerWidget->setObjectName(objectName);
+    ui->baseUIExporterSettingsBlockContainerWidget->setObjectNameText(objectName);
 }
 
 void XmlUIExporterOptionsWidget::classNameChanged(const QString &className) const {
-    ui->baseUIExporterSettingsBlockContainerWidget->setClassName(className);
+    ui->baseUIExporterSettingsBlockContainerWidget->setClassNameText(className);
 }

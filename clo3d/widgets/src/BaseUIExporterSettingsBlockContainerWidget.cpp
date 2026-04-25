@@ -70,18 +70,18 @@ void BaseUIExporterSettingsBlockContainerWidget::enableContent(const bool isEnab
     }
 }
 
-void BaseUIExporterSettingsBlockContainerWidget::setRootFolder(const QString &rootFolder) const {
+void BaseUIExporterSettingsBlockContainerWidget::setRootFolderText(const QString &rootFolder) const {
     ui->rootFolder->setText(rootFolder);
 }
 
-void BaseUIExporterSettingsBlockContainerWidget::setFileName(const QString &fileName) const {
+void BaseUIExporterSettingsBlockContainerWidget::setFileNameText(const QString &fileName) const {
     ui->fileName->setText(fileName);
 }
 
-void BaseUIExporterSettingsBlockContainerWidget::setObjectName(const QString &objectName) const {
+void BaseUIExporterSettingsBlockContainerWidget::setObjectNameText(const QString &objectName) const {
     ui->objectName->setText(objectName);
 }
 
-void BaseUIExporterSettingsBlockContainerWidget::setClassName(const QString &className) const {
+void BaseUIExporterSettingsBlockContainerWidget::setClassNameText(const QString &className) const {
     ui->className->setText(className);
 }

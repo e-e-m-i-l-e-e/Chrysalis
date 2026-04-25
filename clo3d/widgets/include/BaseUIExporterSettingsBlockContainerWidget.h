@@ -29,10 +29,10 @@ namespace UI {
         int getLabelWidth() const;
         void setLabelWidth(int labelWidth);
 
-        void setRootFolder(const QString &rootFolder) const;
-        void setFileName(const QString &fileName) const;
-        void setObjectName(const QString &objectName) const;
-        void setClassName(const QString &className) const;
+        void setRootFolderText(const QString &rootFolder) const;
+        void setFileNameText(const QString &fileName) const;
+        void setObjectNameText(const QString &objectName) const;
+        void setClassNameText(const QString &className) const;
     signals:
         void rootFolderChanged(const QString& rootFolder);
         void fileNameChanged(const QString& fileName);
