@@ -11,6 +11,7 @@ namespace UI {
     GeneralUIExporterOptionsWidget::GeneralUIExporterOptionsWidget(QWidget *parent) : QWidget(parent),
         ui(new Ui::GeneralUIExporterOptionsWidget) {
         ui->setupUi(this);
+        ui->baseUIExporterSettingsBlockContainerWidget->install({ui->customTools, ui->settingsLeftBlockContent, ui->settingsRightBlockContent});
     }
 
     GeneralUIExporterOptionsWidget::~GeneralUIExporterOptionsWidget() {

@@ -56,7 +56,7 @@
        </property>
       </layout>
      </widget>
-     <widget class="QWidget" name="settingsRightBlockContent">
+     <widget class="QWidget" name="settingsLeftBlockContent">
       <layout class="QFormLayout" name="layout_2">
        <property name="horizontalSpacing">
         <number>0</number>
@@ -95,7 +95,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="settingsLeftBlockContent">
+     <widget class="QWidget" name="settingsRightBlockContent">
       <layout class="QFormLayout" name="layout_3">
        <property name="horizontalSpacing">
         <number>0</number>

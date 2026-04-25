@@ -9,8 +9,6 @@ using namespace UI;
 
 ListNavigationWidget::ListNavigationWidget(QWidget *parent): QWidget(parent), ui(new Ui::ListNavigationWidget) {
     ui->setupUi(this);
-    // ui->stackedWidget->setStyleSheet("background: red;");
-    connect(ui->listWidget, &QListWidget::currentRowChanged, ui->stackedWidget, &QStackedWidget::setCurrentIndex);
 }
 
 ListNavigationWidget::~ListNavigationWidget() {
@@ -19,8 +17,7 @@ ListNavigationWidget::~ListNavigationWidget() {
 
 void ListNavigationWidget::addPage(QWidget* page) const {
     ui->listWidget->addItem(page->objectName());
+    ui->listWidget->setFixedWidth(std::max(ui->listWidget->width(), ui->listWidget->sizeHintForColumn(ui->listWidget->count() - 1) + 4));
     ui->stackedWidget->addWidget(page);
-    ui->stackedWidget->repaint();
-
     ui->listWidget->setCurrentRow(0);
 }

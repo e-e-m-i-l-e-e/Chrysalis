@@ -5,6 +5,7 @@ namespace UI {
     JsonUIExporterOptionsWidget::JsonUIExporterOptionsWidget(QWidget *parent) : QWidget(parent),
         ui(new Ui::JsonUIExporterOptionsWidget) {
         ui->setupUi(this);
+        ui->baseUIExporterSettingsBlockContainerWidget->install({ui->customTools, ui->settingsLeftBlockContent, ui->settingsRightBlockContent});
     }
 
     JsonUIExporterOptionsWidget::~JsonUIExporterOptionsWidget() {

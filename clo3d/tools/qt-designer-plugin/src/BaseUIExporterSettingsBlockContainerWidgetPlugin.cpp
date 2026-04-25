@@ -9,7 +9,7 @@ QWidget* BaseUIExporterSettingsBlockContainerWidgetPlugin::createWidget(QWidget 
 QStringList BaseUIExporterSettingsBlockContainerWidgetPlugin::domXmlContent() const {
     return {
         containerXml("customTools", "QHBoxLayout"),
-        containerXml("settingsRightBlockContent", "QFormLayout"),
-        containerXml("settingsLeftBlockContent", "QFormLayout")
+        containerXml("settingsLeftBlockContent", "QFormLayout"),
+        containerXml("settingsRightBlockContent", "QFormLayout")
     };
 }

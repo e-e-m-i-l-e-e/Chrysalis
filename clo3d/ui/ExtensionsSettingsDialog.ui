@@ -82,6 +82,15 @@
            <property name="spacing">
             <number>0</number>
            </property>
+           <property name="leftMargin">
+            <number>3</number>
+           </property>
+           <property name="topMargin">
+            <number>3</number>
+           </property>
+           <property name="bottomMargin">
+            <number>3</number>
+           </property>
            <item>
             <spacer name="horizontalSpacer">
              <property name="orientation">
@@ -114,6 +123,15 @@
           <layout class="QHBoxLayout" name="horizontalLayout">
            <property name="spacing">
             <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>3</number>
+           </property>
+           <property name="rightMargin">
+            <number>3</number>
+           </property>
+           <property name="bottomMargin">
+            <number>3</number>
            </property>
            <item>
             <spacer name="horizontalSpacer_2">
@@ -163,6 +181,12 @@
        <layout class="QHBoxLayout" name="footerLayout">
         <property name="spacing">
          <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>11</number>
         </property>
         <item>
          <spacer name="horizontalSpacer_3">
