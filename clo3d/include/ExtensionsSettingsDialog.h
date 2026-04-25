@@ -21,6 +21,9 @@ namespace UI {
         explicit ExtensionsSettingsDialog(QWidget *parent = nullptr);
         ~ExtensionsSettingsDialog() override;
 
+        void accept() override;
+        void reject() override;
+
         void addPage(NamedWidget* page) const;
     private:
         Ui::ExtensionsSettingsDialog *ui;

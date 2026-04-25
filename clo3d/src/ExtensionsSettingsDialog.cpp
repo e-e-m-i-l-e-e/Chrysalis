@@ -21,3 +21,11 @@ ExtensionsSettingsDialog::~ExtensionsSettingsDialog() {
 void ExtensionsSettingsDialog::addPage(NamedWidget* page) const {
     ui->navigation->addPage(page);
 }
+
+void ExtensionsSettingsDialog::accept() {
+    QDialog::accept();
+}
+
+void ExtensionsSettingsDialog::reject() {
+    // QDialog::reject();
+}

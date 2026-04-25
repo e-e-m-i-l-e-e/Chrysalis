@@ -178,33 +178,9 @@
        <widget class="UI::ListNavigationWidget" name="navigation"/>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="footerLayout">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>11</number>
-        </property>
-        <item>
-         <spacer name="horizontalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QPushButton" name="pushButton">
-          <property name="styleSheet">
-           <string notr="true">QPushButton {
+       <widget class="QWidget" name="footerWidget" native="true">
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
     color: rgba(225, 225, 228, 255);
     background: rgba(0, 0, 0, 77);
     border: 1px solid transparent;
@@ -254,26 +230,61 @@ QPushButton[widget-type=&quot;Active&quot;] {
     background: rgba(45, 52, 68, 255);
     border-color: transparent;
 }</string>
-          </property>
-          <property name="text">
-           <string>Close</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
+        </property>
+        <layout class="QHBoxLayout" name="footerLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>11</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>11</number>
+         </property>
+         <property name="bottomMargin">
+          <number>11</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="reset">
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="text">
+            <string>Reset</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="close">
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true"/>
+           </property>
+           <property name="text">
+            <string>Close</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -292,30 +303,14 @@ QPushButton[widget-type=&quot;Active&quot;] {
  </resources>
  <connections>
   <connection>
-   <sender>toolButton</sender>
+   <sender>close</sender>
    <signal>clicked()</signal>
    <receiver>UI::ExtensionsSettingsDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>239</x>
-     <y>15</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>127</x>
-     <y>126</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>UI::ExtensionsSettingsDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>128</x>
-     <y>238</y>
+     <x>866</x>
+     <y>725</y>
     </hint>
     <hint type="destinationlabel">
      <x>127</x>
@@ -336,6 +331,22 @@ QPushButton[widget-type=&quot;Active&quot;] {
     <hint type="destinationlabel">
      <x>127</x>
      <y>126</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>reset</sender>
+   <signal>clicked()</signal>
+   <receiver>UI::ExtensionsSettingsDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>33</x>
+     <y>725</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>449</x>
+     <y>374</y>
     </hint>
    </hints>
   </connection>
