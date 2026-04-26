@@ -12,7 +12,7 @@ namespace UI {
         explicit BaseUIExporterOptionsWidget(QWidget* parent = nullptr): QWidget(parent) {}
     public:
         virtual void read() = 0;
-        virtual void setOptions(BaseUIExporterOptions& options) = 0;
+        virtual void setOptions(std::shared_ptr<BaseUIExporterOptions> options) = 0;
     };
 } // UI
 

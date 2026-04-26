@@ -2,17 +2,22 @@
 #define FASHIONDESIGNAPPS_UIEXPORTERTOOL_H
 
 #include <forward_list>
+#include <memory>
 
 #include "BaseExtensionsSettingsPage.h"
 
-class BaseUIExporter;
+class BaseUIExporterOptions;
 
 class UIExporterToolSettings: public BaseExtensionsSettingsPage {
 public:
     void save() override;
     void reset() override;
+
+    void addOptions(const std::shared_ptr<BaseUIExporterOptions> &options);
+    std::forward_list<std::shared_ptr<BaseUIExporterOptions>>::const_iterator begin() const;
+    std::forward_list<std::shared_ptr<BaseUIExporterOptions>>::const_iterator end() const;
 private:
-    std::forward_list<BaseUIExporter*> exporters;
+    std::forward_list<std::shared_ptr<BaseUIExporterOptions>> options_;
 };
 
 #endif //FASHIONDESIGNAPPS_UIEXPORTERTOOL_H

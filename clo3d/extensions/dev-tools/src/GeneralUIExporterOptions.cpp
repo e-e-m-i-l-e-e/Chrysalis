@@ -1,5 +1,7 @@
-//
-// Created by emily on 24/04/2026.
-//
+#include "GeneralUIExporterOptions.h"
 
-#include "../include/GeneralUIExporterOptions.h"
+#include <QKeySequence>
+
+QKeySequence GeneralUIExporterOptions::getKeySequence() {
+    return QKeySequence("Ctrl+Shift+E");
+}

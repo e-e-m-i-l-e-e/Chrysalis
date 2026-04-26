@@ -20,7 +20,7 @@ namespace UI {
         ~JsonUIExporterOptionsWidget() override;
 
         void read() override;
-        void setOptions(BaseUIExporterOptions& options) override;
+        void setOptions(std::shared_ptr<BaseUIExporterOptions> options) override;
     public slots:
         void rootFolderChanged(const QString& rootFolder) const;
         void fileNameChanged(const QString& fileName) const;
@@ -28,7 +28,7 @@ namespace UI {
         void classNameChanged(const QString& className) const;
     private:
         Ui::JsonUIExporterOptionsWidget *ui;
-        JsonUIExporterOptions& options_;
+        std::shared_ptr<JsonUIExporterOptions> options_;
     };
 } // UI
 

@@ -20,9 +20,12 @@
 #include <QDockWidget>
 
 #include "ExtensionsSettingsDialog.h"
+#include "GeneralUIExporterOptions.h"
 
 #include "HooksManager.h"
+#include "JsonUIExporterOptions.h"
 #include "UIExporterToolSettingsWidget.h"
+#include "XmlUIExporterOptions.h"
 
 void ExtensionsManager::registerExtension(Extension *extension) {
     extensions.push_back(extension);
@@ -54,11 +57,18 @@ void ExtensionsManager::install() {
             const QAction *extensionsSettingsMenu = extensionsMenu->addAction("Extensions Settings");
             // QObject::connect(extensionsSettingsMenu, &QAction::triggered, extensionsSettings, &ExtensionsSettings::exec);
             QObject::connect(extensionsSettingsMenu, &QAction::triggered, []() {
-                auto d = new UI::ExtensionsSettingsDialog();
-                auto t = new UI::UIExporterToolSettingsWidget(*(new UIExporterToolSettings()));
-                d->addPage(t);
-                d->exec();
-                t->show();
+
+                auto generalUIExporterOptions = std::make_shared<GeneralUIExporterOptions>();
+                auto jsonUIExporterOptions = std::make_shared<JsonUIExporterOptions>();
+                auto xmlUIExporterOptions = std::make_shared<XmlUIExporterOptions>();
+                auto uiExporterSettings = new UIExporterToolSettings();
+                uiExporterSettings->addOptions(xmlUIExporterOptions);
+                uiExporterSettings->addOptions(jsonUIExporterOptions);
+                uiExporterSettings->addOptions(generalUIExporterOptions);
+
+                auto uiExporterSettingsWidget = new UI::UIExporterToolSettingsWidget(*uiExporterSettings);
+                extensionsSettings->addPage(uiExporterSettingsWidget);
+                extensionsSettings->exec();
             });
 
             for (const auto extension: extensions) {

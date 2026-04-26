@@ -3,6 +3,8 @@
 #include "Logger.h"
 #include "ui_UIExporterToolSettingsWidget.h"
 
+#define LOGGER_NAME "UI Exporter Settings"
+
 using namespace UI;
 
 UIExporterToolSettingsWidget::UIExporterToolSettingsWidget(UIExporterToolSettings &settings, QWidget *parent)
@@ -10,6 +12,15 @@ UIExporterToolSettingsWidget::UIExporterToolSettingsWidget(UIExporterToolSetting
       ui(new Ui::UIExporterToolSettingsWidget),
       settings(settings) {
     ui->setupUi(this);
+
+    auto it = settings.begin();
+    for (const auto uiExporterOptionsWidget: this->findChildren<BaseUIExporterOptionsWidget*>()) {
+            if (it == settings.end()) {
+                    LOG_WARN("Not all options are provided for UI Exporter Settings");
+                    break;
+            }
+            uiExporterOptionsWidget->setOptions(*it++);
+    }
 
     connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::rootFolderChanged,
             ui->jsonUIExporterOptionsWidget, &JsonUIExporterOptionsWidget::rootFolderChanged);

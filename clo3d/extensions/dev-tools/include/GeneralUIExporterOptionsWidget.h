@@ -20,7 +20,7 @@ namespace UI {
         ~GeneralUIExporterOptionsWidget() override;
 
         void read() override;
-        void setOptions(BaseUIExporterOptions& options) override;
+        void setOptions(std::shared_ptr<BaseUIExporterOptions> options) override;
     signals:
         void rootFolderChanged(const QString& rootFolder);
         void fileNameChanged(const QString& fileName);
@@ -28,7 +28,7 @@ namespace UI {
         void classNameChanged(const QString& className);
     private:
         Ui::GeneralUIExporterOptionsWidget *ui;
-        GeneralUIExporterOptions& options_;
+        std::shared_ptr<GeneralUIExporterOptions> options_;
     };
 } // UI
 
