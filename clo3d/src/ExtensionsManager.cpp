@@ -56,7 +56,7 @@ void ExtensionsManager::install() {
             // QObject::connect(extensionsSettingsMenu, &QAction::triggered, extensionsSettings, &ExtensionsSettings::exec);
             QObject::connect(extensionsSettingsMenu, &QAction::triggered, []() {
                 auto d = new UI::ExtensionsSettingsDialog();
-                auto t = new UI::UIExporterToolWidget();
+                auto t = new UI::UIExporterToolWidget(*(new UIExporterTool()));
                 d->addPage(t);
                 d->exec();
                 t->show();

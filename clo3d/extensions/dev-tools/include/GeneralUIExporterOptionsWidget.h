@@ -1,7 +1,7 @@
 #ifndef FASHIONDESIGNAPPS_GENERALUIEXPORTEROPTIONSWIDGET_H
 #define FASHIONDESIGNAPPS_GENERALUIEXPORTEROPTIONSWIDGET_H
 
-#include <QWidget>
+#include "BaseUIExporterOptionsWidget.h"
 
 namespace UI {
     QT_BEGIN_NAMESPACE
@@ -12,11 +12,13 @@ namespace UI {
 
     QT_END_NAMESPACE
 
-    class GeneralUIExporterOptionsWidget : public QWidget {
+    class GeneralUIExporterOptionsWidget: public BaseUIExporterOptionsWidget {
         Q_OBJECT
     public:
         explicit GeneralUIExporterOptionsWidget(QWidget *parent = nullptr);
         ~GeneralUIExporterOptionsWidget() override;
+
+        void read() override;
     signals:
         void rootFolderChanged(const QString& rootFolder);
         void fileNameChanged(const QString& fileName);

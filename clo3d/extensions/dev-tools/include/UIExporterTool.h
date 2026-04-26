@@ -3,11 +3,14 @@
 
 #include <forward_list>
 
-#include "BaseUIExporter.h"
+#include "BaseExtensionsSettingsPage.h"
 
-class UIExporterTool {
+class BaseUIExporter;
+
+class UIExporterTool: public BaseExtensionsSettingsPage {
 public:
-
+    void save() override;
+    void reset() override;
 private:
     std::forward_list<BaseUIExporter*> exporters;
 };

@@ -21,6 +21,7 @@ namespace UI {
 
         void accept() override;
         void reject() override;
+        int exec() override;
 
         void addPage(BaseExtensionsSettingsPageWidget* page) const;
     private:

@@ -1,31 +1,33 @@
 #include "UIExporterToolWidget.h"
+
+#include "Logger.h"
 #include "ui_UIExporterToolWidget.h"
 
 using namespace UI;
 
-UIExporterToolWidget::UIExporterToolWidget(UIExporterTool& tool, QWidget *parent)
-        : BaseExtensionsSettingsPageWidget(parent),
-          ui(new Ui::UIExporterToolWidget),
-          tool(tool) {
-        ui->setupUi(this);
+UIExporterToolWidget::UIExporterToolWidget(UIExporterTool &tool, QWidget *parent)
+    : BaseExtensionsSettingsPageWidget(parent),
+      ui(new Ui::UIExporterToolWidget),
+      tool(tool) {
+    ui->setupUi(this);
 
-        connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::rootFolderChanged,
-                ui->jsonUIExporterOptionsWidget, &JsonUIExporterOptionsWidget::rootFolderChanged);
-        connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::fileNameChanged,
-                ui->jsonUIExporterOptionsWidget, &JsonUIExporterOptionsWidget::fileNameChanged);
-        connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::objectNameChanged,
-                ui->jsonUIExporterOptionsWidget, &JsonUIExporterOptionsWidget::objectNameChanged);
-        connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::classNameChanged,
-                ui->jsonUIExporterOptionsWidget, &JsonUIExporterOptionsWidget::classNameChanged);
+    connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::rootFolderChanged,
+            ui->jsonUIExporterOptionsWidget, &JsonUIExporterOptionsWidget::rootFolderChanged);
+    connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::fileNameChanged,
+            ui->jsonUIExporterOptionsWidget, &JsonUIExporterOptionsWidget::fileNameChanged);
+    connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::objectNameChanged,
+            ui->jsonUIExporterOptionsWidget, &JsonUIExporterOptionsWidget::objectNameChanged);
+    connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::classNameChanged,
+            ui->jsonUIExporterOptionsWidget, &JsonUIExporterOptionsWidget::classNameChanged);
 
-        connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::rootFolderChanged,
-                ui->xmlUIExporterOptionsWidget, &XmlUIExporterOptionsWidget::rootFolderChanged);
-        connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::fileNameChanged,
-                ui->xmlUIExporterOptionsWidget, &XmlUIExporterOptionsWidget::fileNameChanged);
-        connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::objectNameChanged,
-                ui->xmlUIExporterOptionsWidget, &XmlUIExporterOptionsWidget::objectNameChanged);
-        connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::classNameChanged,
-                ui->xmlUIExporterOptionsWidget, &XmlUIExporterOptionsWidget::classNameChanged);
+    connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::rootFolderChanged,
+            ui->xmlUIExporterOptionsWidget, &XmlUIExporterOptionsWidget::rootFolderChanged);
+    connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::fileNameChanged,
+            ui->xmlUIExporterOptionsWidget, &XmlUIExporterOptionsWidget::fileNameChanged);
+    connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::objectNameChanged,
+            ui->xmlUIExporterOptionsWidget, &XmlUIExporterOptionsWidget::objectNameChanged);
+    connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::classNameChanged,
+            ui->xmlUIExporterOptionsWidget, &XmlUIExporterOptionsWidget::classNameChanged);
 }
 
 UIExporterToolWidget::~UIExporterToolWidget() {
@@ -33,7 +35,15 @@ UIExporterToolWidget::~UIExporterToolWidget() {
 }
 
 void UIExporterToolWidget::save() {
+    tool.save();
 }
 
 void UIExporterToolWidget::reset() {
+    tool.reset();
+}
+
+void UIExporterToolWidget::read() {
+    ui->generalUIExporterOptionsWidget->read();
+    ui->jsonUIExporterOptionsWidget->read();
+    ui->xmlUIExporterOptionsWidget->read();
 }

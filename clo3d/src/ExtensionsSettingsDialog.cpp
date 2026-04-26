@@ -35,6 +35,13 @@ void ExtensionsSettingsDialog::reject() {
     });
 }
 
+int ExtensionsSettingsDialog::exec() {
+    processPages([](BaseExtensionsSettingsPageWidget* extensionsSettingsPageWidget) {
+        extensionsSettingsPageWidget->read();
+    });
+    return QDialog::exec();
+}
+
 void ExtensionsSettingsDialog::processPages(void(*processor)(BaseExtensionsSettingsPageWidget*)) const {
     for (int i = 0; i < ui->navigation->count(); i++) {
         processor(qobject_cast<BaseExtensionsSettingsPageWidget*>(ui->navigation->getPage(i)));

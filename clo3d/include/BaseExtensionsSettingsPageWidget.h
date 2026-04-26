@@ -11,6 +11,7 @@ namespace UI {
     public slots:
         virtual void save() = 0;
         virtual void reset() = 0;
+        virtual void read() = 0;
     };
 }
 

@@ -21,6 +21,7 @@ namespace UI {
 
         void save() override;
         void reset() override;
+        void read() override;
     private:
         Ui::UIExporterToolWidget *ui;
         UIExporterTool& tool;

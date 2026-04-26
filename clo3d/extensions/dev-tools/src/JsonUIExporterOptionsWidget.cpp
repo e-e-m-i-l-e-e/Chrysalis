@@ -3,8 +3,9 @@
 
 using namespace UI;
 
-JsonUIExporterOptionsWidget::JsonUIExporterOptionsWidget(QWidget *parent) : QWidget(parent),
-        ui(new Ui::JsonUIExporterOptionsWidget) {
+JsonUIExporterOptionsWidget::JsonUIExporterOptionsWidget(QWidget *parent)
+    : BaseUIExporterOptionsWidget(parent),
+      ui(new Ui::JsonUIExporterOptionsWidget) {
     ui->setupUi(this);
     ui->baseUIExporterSettingsBlockContainerWidget->install({ui->customTools, ui->settingsLeftBlockContent, ui->settingsRightBlockContent});
 }
@@ -27,4 +28,7 @@ void JsonUIExporterOptionsWidget::objectNameChanged(const QString &objectName) c
 
 void JsonUIExporterOptionsWidget::classNameChanged(const QString &className) const {
     ui->baseUIExporterSettingsBlockContainerWidget->setClassNameText(className);
+}
+
+void JsonUIExporterOptionsWidget::read() {
 }

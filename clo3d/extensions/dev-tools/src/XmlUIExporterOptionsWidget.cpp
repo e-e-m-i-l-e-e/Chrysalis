@@ -3,8 +3,9 @@
 
 using namespace UI;
 
-XmlUIExporterOptionsWidget::XmlUIExporterOptionsWidget(QWidget *parent) : QWidget(parent),
-                                                                             ui(new Ui::XmlUIExporterOptionsWidget) {
+XmlUIExporterOptionsWidget::XmlUIExporterOptionsWidget(QWidget *parent)
+    : BaseUIExporterOptionsWidget(parent),
+      ui(new Ui::XmlUIExporterOptionsWidget) {
     ui->setupUi(this);
     ui->baseUIExporterSettingsBlockContainerWidget->install({ui->customTools, ui->settingsLeftBlockContent, ui->settingsRightBlockContent});
 }
@@ -27,4 +28,7 @@ void XmlUIExporterOptionsWidget::objectNameChanged(const QString &objectName) co
 
 void XmlUIExporterOptionsWidget::classNameChanged(const QString &className) const {
     ui->baseUIExporterSettingsBlockContainerWidget->setClassNameText(className);
+}
+
+void XmlUIExporterOptionsWidget::read() {
 }
