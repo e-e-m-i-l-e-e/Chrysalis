@@ -4,7 +4,8 @@
 #include "BaseUIExporterOptions.h"
 
 class GeneralUIExporterOptions: public BaseUIExporterOptions {
+public:
+    QKeySequence getKeySequence();
 };
-
 
 #endif //FASHIONDESIGNAPPS_GENERALUIEXPORTEROPTIONS_H

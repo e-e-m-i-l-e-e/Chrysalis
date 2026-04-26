@@ -1,9 +1,8 @@
 #ifndef FASHIONDESIGNAPPS_XMLUIEXPORTEROPTIONSWIDGET_H
 #define FASHIONDESIGNAPPS_XMLUIEXPORTEROPTIONSWIDGET_H
 
-#include <QWidget>
-
 #include "BaseUIExporterOptionsWidget.h"
+#include "XmlUIExporterOptions.h"
 
 namespace UI {
     QT_BEGIN_NAMESPACE
@@ -21,6 +20,7 @@ namespace UI {
         ~XmlUIExporterOptionsWidget() override;
 
         void read() override;
+        void setOptions(BaseUIExporterOptions& options) override;
     public slots:
         void rootFolderChanged(const QString& rootFolder) const;
         void fileNameChanged(const QString& fileName) const;
@@ -28,6 +28,7 @@ namespace UI {
         void classNameChanged(const QString& className) const;
     private:
         Ui::XmlUIExporterOptionsWidget *ui;
+        XmlUIExporterOptions& options_;
     };
 } // UI
 

@@ -4,6 +4,8 @@
 #include <QDir>
 
 class BaseUIExporterOptions {
+protected:
+    virtual ~BaseUIExporterOptions() = default;
 private:
     QDir rootDir;
     QString fileName;

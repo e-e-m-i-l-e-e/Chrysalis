@@ -1,14 +1,14 @@
-#include "UIExporterToolWidget.h"
+#include "UIExporterToolSettingsWidget.h"
 
 #include "Logger.h"
-#include "ui_UIExporterToolWidget.h"
+#include "ui_UIExporterToolSettingsWidget.h"
 
 using namespace UI;
 
-UIExporterToolWidget::UIExporterToolWidget(UIExporterTool &tool, QWidget *parent)
+UIExporterToolSettingsWidget::UIExporterToolSettingsWidget(UIExporterToolSettings &settings, QWidget *parent)
     : BaseExtensionsSettingsPageWidget(parent),
-      ui(new Ui::UIExporterToolWidget),
-      tool(tool) {
+      ui(new Ui::UIExporterToolSettingsWidget),
+      settings(settings) {
     ui->setupUi(this);
 
     connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::rootFolderChanged,
@@ -30,19 +30,19 @@ UIExporterToolWidget::UIExporterToolWidget(UIExporterTool &tool, QWidget *parent
             ui->xmlUIExporterOptionsWidget, &XmlUIExporterOptionsWidget::classNameChanged);
 }
 
-UIExporterToolWidget::~UIExporterToolWidget() {
+UIExporterToolSettingsWidget::~UIExporterToolSettingsWidget() {
     delete ui;
 }
 
-void UIExporterToolWidget::save() {
-    tool.save();
+void UIExporterToolSettingsWidget::save() {
+    settings.save();
 }
 
-void UIExporterToolWidget::reset() {
-    tool.reset();
+void UIExporterToolSettingsWidget::reset() {
+    settings.reset();
 }
 
-void UIExporterToolWidget::read() {
+void UIExporterToolSettingsWidget::read() {
     ui->generalUIExporterOptionsWidget->read();
     ui->jsonUIExporterOptionsWidget->read();
     ui->xmlUIExporterOptionsWidget->read();

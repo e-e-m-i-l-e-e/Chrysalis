@@ -32,3 +32,7 @@ void JsonUIExporterOptionsWidget::classNameChanged(const QString &className) con
 
 void JsonUIExporterOptionsWidget::read() {
 }
+
+void JsonUIExporterOptionsWidget::setOptions(BaseUIExporterOptions &options) {
+    options_ = dynamic_cast<JsonUIExporterOptions&>(options);
+}

@@ -2,6 +2,7 @@
 #define FASHIONDESIGNAPPS_JSONUIEXPORTEROPTIONSWIDGET_H
 
 #include "BaseUIExporterOptionsWidget.h"
+#include "JsonUIExporterOptions.h"
 
 namespace UI {
     QT_BEGIN_NAMESPACE
@@ -19,6 +20,7 @@ namespace UI {
         ~JsonUIExporterOptionsWidget() override;
 
         void read() override;
+        void setOptions(BaseUIExporterOptions& options) override;
     public slots:
         void rootFolderChanged(const QString& rootFolder) const;
         void fileNameChanged(const QString& fileName) const;
@@ -26,6 +28,7 @@ namespace UI {
         void classNameChanged(const QString& className) const;
     private:
         Ui::JsonUIExporterOptionsWidget *ui;
+        JsonUIExporterOptions& options_;
     };
 } // UI
 

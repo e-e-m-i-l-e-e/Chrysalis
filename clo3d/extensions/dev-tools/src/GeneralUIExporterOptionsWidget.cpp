@@ -9,7 +9,8 @@ using namespace UI;
 
 GeneralUIExporterOptionsWidget::GeneralUIExporterOptionsWidget(QWidget *parent)
     : BaseUIExporterOptionsWidget(parent),
-      ui(new Ui::GeneralUIExporterOptionsWidget) {
+      ui(new Ui::GeneralUIExporterOptionsWidget),
+      options(options) {
     ui->setupUi(this);
     ui->baseUIExporterSettingsBlockContainerWidget->install({ui->customTools, ui->settingsLeftBlockContent, ui->settingsRightBlockContent});
     connect(ui->baseUIExporterSettingsBlockContainerWidget, &BaseUIExporterSettingsBlockContainerWidget::rootFolderChanged,
@@ -28,4 +29,8 @@ GeneralUIExporterOptionsWidget::~GeneralUIExporterOptionsWidget() {
 
 void GeneralUIExporterOptionsWidget::read() {
     ui->keySequenceEdit->setKeySequence(QKeySequence("Ctrl+Shift+E"));
+}
+
+void GeneralUIExporterOptionsWidget::setOptions(BaseUIExporterOptions& options) {
+    options_ = dynamic_cast<GeneralUIExporterOptions&>(options);
 }

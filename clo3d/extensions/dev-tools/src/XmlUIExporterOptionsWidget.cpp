@@ -32,3 +32,7 @@ void XmlUIExporterOptionsWidget::classNameChanged(const QString &className) cons
 
 void XmlUIExporterOptionsWidget::read() {
 }
+
+void XmlUIExporterOptionsWidget::setOptions(BaseUIExporterOptions &options) {
+    options_ = dynamic_cast<XmlUIExporterOptions&>(options);
+}

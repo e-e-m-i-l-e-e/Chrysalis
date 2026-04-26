@@ -19,11 +19,10 @@
 #include <CLOAPIInterface.h>
 #include <QDockWidget>
 
-#include "ExtensionsSettings.h"
 #include "ExtensionsSettingsDialog.h"
 
 #include "HooksManager.h"
-#include "../extensions/dev-tools/include/UIExporterToolWidget.h"
+#include "UIExporterToolSettingsWidget.h"
 
 void ExtensionsManager::registerExtension(Extension *extension) {
     extensions.push_back(extension);
@@ -56,7 +55,7 @@ void ExtensionsManager::install() {
             // QObject::connect(extensionsSettingsMenu, &QAction::triggered, extensionsSettings, &ExtensionsSettings::exec);
             QObject::connect(extensionsSettingsMenu, &QAction::triggered, []() {
                 auto d = new UI::ExtensionsSettingsDialog();
-                auto t = new UI::UIExporterToolWidget(*(new UIExporterTool()));
+                auto t = new UI::UIExporterToolSettingsWidget(*(new UIExporterToolSettings()));
                 d->addPage(t);
                 d->exec();
                 t->show();

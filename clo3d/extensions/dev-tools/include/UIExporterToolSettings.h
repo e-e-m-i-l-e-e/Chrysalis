@@ -7,7 +7,7 @@
 
 class BaseUIExporter;
 
-class UIExporterTool: public BaseExtensionsSettingsPage {
+class UIExporterToolSettings: public BaseExtensionsSettingsPage {
 public:
     void save() override;
     void reset() override;

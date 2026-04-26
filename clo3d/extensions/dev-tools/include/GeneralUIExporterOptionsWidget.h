@@ -2,6 +2,7 @@
 #define FASHIONDESIGNAPPS_GENERALUIEXPORTEROPTIONSWIDGET_H
 
 #include "BaseUIExporterOptionsWidget.h"
+#include "GeneralUIExporterOptions.h"
 
 namespace UI {
     QT_BEGIN_NAMESPACE
@@ -19,6 +20,7 @@ namespace UI {
         ~GeneralUIExporterOptionsWidget() override;
 
         void read() override;
+        void setOptions(BaseUIExporterOptions& options) override;
     signals:
         void rootFolderChanged(const QString& rootFolder);
         void fileNameChanged(const QString& fileName);
@@ -26,6 +28,7 @@ namespace UI {
         void classNameChanged(const QString& className);
     private:
         Ui::GeneralUIExporterOptionsWidget *ui;
+        GeneralUIExporterOptions& options_;
     };
 } // UI
 

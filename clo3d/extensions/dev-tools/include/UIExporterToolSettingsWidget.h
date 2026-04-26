@@ -2,29 +2,29 @@
 #define FASHIONDESIGNAPPS_UIEXPORTERTOOLWIDGET_H
 
 #include "BaseExtensionsSettingsPageWidget.h"
-#include "UIExporterTool.h"
+#include "UIExporterToolSettings.h"
 
 namespace UI {
     QT_BEGIN_NAMESPACE
 
     namespace Ui {
-        class UIExporterToolWidget;
+        class UIExporterToolSettingsWidget;
     }
 
     QT_END_NAMESPACE
 
-    class UIExporterToolWidget: public BaseExtensionsSettingsPageWidget {
+    class UIExporterToolSettingsWidget: public BaseExtensionsSettingsPageWidget {
         Q_OBJECT
     public:
-        explicit UIExporterToolWidget(UIExporterTool& tool, QWidget *parent = nullptr);
-        ~UIExporterToolWidget() override;
+        explicit UIExporterToolSettingsWidget(UIExporterToolSettings& tool, QWidget *parent = nullptr);
+        ~UIExporterToolSettingsWidget() override;
 
         void save() override;
         void reset() override;
         void read() override;
     private:
-        Ui::UIExporterToolWidget *ui;
-        UIExporterTool& tool;
+        Ui::UIExporterToolSettingsWidget *ui;
+        UIExporterToolSettings& settings;
     };
 } // UI
 
