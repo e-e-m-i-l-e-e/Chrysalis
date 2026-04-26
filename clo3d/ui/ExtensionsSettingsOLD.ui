@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ExtensionsSettings</class>
- <widget class="ExtensionsSettings" name="ExtensionsSettings">
+ <class>ExtensionsSettingsOLD</class>
+ <widget class="ExtensionsSettingsOLD" name="ExtensionsSettingsOLD">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -1094,9 +1094,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>ExtensionsSettings</class>
+   <class>ExtensionsSettingsOLD</class>
    <extends>QDialog</extends>
-   <header>ExtensionsSettings.h</header>
+   <header>ExtensionsSettingsOLD.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -1283,7 +1283,7 @@
   <connection>
    <sender>closeButton</sender>
    <signal>clicked()</signal>
-   <receiver>ExtensionsSettings</receiver>
+   <receiver>ExtensionsSettingsOLD</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">

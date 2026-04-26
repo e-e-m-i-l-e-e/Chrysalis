@@ -1,7 +1,8 @@
 #ifndef FASHIONDESIGNAPPS_UIEXPORTERTOOLWIDGET_H
 #define FASHIONDESIGNAPPS_UIEXPORTERTOOLWIDGET_H
 
-#include "NamedWidget.h"
+#include "BaseExtensionsSettingsPageWidget.h"
+#include "UIExporterTool.h"
 
 namespace UI {
     QT_BEGIN_NAMESPACE
@@ -12,13 +13,17 @@ namespace UI {
 
     QT_END_NAMESPACE
 
-    class UIExporterToolWidget : public NamedWidget {
+    class UIExporterToolWidget: public BaseExtensionsSettingsPageWidget {
         Q_OBJECT
     public:
-        explicit UIExporterToolWidget(QWidget *parent = nullptr);
+        explicit UIExporterToolWidget(UIExporterTool& tool, QWidget *parent = nullptr);
         ~UIExporterToolWidget() override;
+
+        void save() override;
+        void reset() override;
     private:
         Ui::UIExporterToolWidget *ui;
+        UIExporterTool& tool;
     };
 } // UI
 

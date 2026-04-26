@@ -18,14 +18,25 @@ ExtensionsSettingsDialog::~ExtensionsSettingsDialog() {
     delete ui;
 }
 
-void ExtensionsSettingsDialog::addPage(NamedWidget* page) const {
+void ExtensionsSettingsDialog::addPage(BaseExtensionsSettingsPageWidget* page) const {
     ui->navigation->addPage(page);
 }
 
 void ExtensionsSettingsDialog::accept() {
+    processPages([](BaseExtensionsSettingsPageWidget* extensionsSettingsPageWidget) {
+        extensionsSettingsPageWidget->save();
+    });
     QDialog::accept();
 }
 
 void ExtensionsSettingsDialog::reject() {
-    // QDialog::reject();
+    processPages([](BaseExtensionsSettingsPageWidget* extensionsSettingsPageWidget) {
+        extensionsSettingsPageWidget->reset();
+    });
+}
+
+void ExtensionsSettingsDialog::processPages(void(*processor)(BaseExtensionsSettingsPageWidget*)) const {
+    for (int i = 0; i < ui->navigation->count(); i++) {
+        processor(qobject_cast<BaseExtensionsSettingsPageWidget*>(ui->navigation->getPage(i)));
+    }
 }

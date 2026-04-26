@@ -18,7 +18,9 @@ namespace Ui {
         explicit ListNavigationWidget(QWidget *parent = nullptr);
         ~ListNavigationWidget() override;
 
+        int count() const;
         void addPage(NamedWidget* page) const;
+        NamedWidget* getPage(int index) const;
     private:
         Ui::ListNavigationWidget *ui;
     };

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>UI::UIExporterToolWidget</class>
- <widget class="UI::NamedWidget" name="UI::UIExporterToolWidget">
+ <widget class="UI::BaseExtensionsSettingsPageWidget" name="UI::UIExporterToolWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -104,6 +104,12 @@
    <class>UI::NamedWidget</class>
    <extends>QWidget</extends>
    <header>NamedWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UI::BaseExtensionsSettingsPageWidget</class>
+   <extends>UI::NamedWidget</extends>
+   <header>BaseExtensionsSettingsPageWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
