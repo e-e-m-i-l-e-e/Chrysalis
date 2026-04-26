@@ -1,5 +1,12 @@
-//
-// Created by emily on 24/04/2026.
-//
+#include "XmlUIExporterOptions.h"
 
-#include "../include/XmlUIExporterOptions.h"
+XmlUIExporterOptions::XmlUIExporterOptions(const QSettings* settings)
+    : BaseUIExporterOptions(settings) {}
+
+bool XmlUIExporterOptions::getExportIcons() const {
+    return true;
+}
+
+bool XmlUIExporterOptions::getUICompatible() const {
+    return true;
+}

@@ -4,6 +4,11 @@
 #include "BaseUIExporterOptions.h"
 
 class XmlUIExporterOptions: public BaseUIExporterOptions {
+public:
+    explicit XmlUIExporterOptions(const QSettings* settings);
+
+    bool getExportIcons() const;
+    bool getUICompatible() const;
 private:
     bool exportIcons;
     bool uiCompatible;

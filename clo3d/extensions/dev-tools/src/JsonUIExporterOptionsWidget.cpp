@@ -40,8 +40,19 @@ void JsonUIExporterOptionsWidget::read() {
         this->setEnabled(false);
         return;
     }
+    BaseUIExporterOptionsWidget::read();
+    ui->visibleOnly->setChecked(options_->getVisibleOnly());
+    ui->ignoreCSS->setChecked(options_->getIgnoreCSS());
+}
+
+std::shared_ptr<BaseUIExporterOptions> JsonUIExporterOptionsWidget::getOptions() {
+    return options_;
 }
 
 void JsonUIExporterOptionsWidget::setOptions(const std::shared_ptr<BaseUIExporterOptions> options) {
     options_ = std::dynamic_pointer_cast<JsonUIExporterOptions>(options);
+}
+
+BaseUIExporterSettingsBlockContainerWidget* JsonUIExporterOptionsWidget::getBaseUIExporterSettings() {
+    return ui->baseUIExporterSettingsBlockContainerWidget;
 }

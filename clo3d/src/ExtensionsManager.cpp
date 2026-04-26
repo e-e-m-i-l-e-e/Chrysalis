@@ -58,10 +58,13 @@ void ExtensionsManager::install() {
             // QObject::connect(extensionsSettingsMenu, &QAction::triggered, extensionsSettings, &ExtensionsSettings::exec);
             QObject::connect(extensionsSettingsMenu, &QAction::triggered, []() {
 
-                auto generalUIExporterOptions = std::make_shared<GeneralUIExporterOptions>();
-                auto jsonUIExporterOptions = std::make_shared<JsonUIExporterOptions>();
-                auto xmlUIExporterOptions = std::make_shared<XmlUIExporterOptions>();
+                const auto settings = new QSettings("eemilee.me", "CLO3D Extensions");
                 auto uiExporterSettings = new UIExporterToolSettings();
+
+                auto generalUIExporterOptions = std::make_shared<GeneralUIExporterOptions>(settings);
+                auto jsonUIExporterOptions = std::make_shared<JsonUIExporterOptions>(settings);
+                auto xmlUIExporterOptions = std::make_shared<XmlUIExporterOptions>(settings);
+
                 uiExporterSettings->addOptions(xmlUIExporterOptions);
                 uiExporterSettings->addOptions(jsonUIExporterOptions);
                 uiExporterSettings->addOptions(generalUIExporterOptions);

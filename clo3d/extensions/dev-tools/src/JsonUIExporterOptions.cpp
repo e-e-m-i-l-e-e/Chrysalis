@@ -1,5 +1,12 @@
-//
-// Created by emily on 24/04/2026.
-//
+#include "JsonUIExporterOptions.h"
 
-#include "../include/JsonUIExporterOptions.h"
+JsonUIExporterOptions::JsonUIExporterOptions(const QSettings* settings)
+    : BaseUIExporterOptions(settings) {}
+
+bool JsonUIExporterOptions::getVisibleOnly() const {
+    return true;
+}
+
+bool JsonUIExporterOptions::getIgnoreCSS() const {
+    return true;
+}

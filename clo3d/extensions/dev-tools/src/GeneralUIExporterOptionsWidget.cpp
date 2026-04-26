@@ -32,9 +32,19 @@ void GeneralUIExporterOptionsWidget::read() {
         this->setEnabled(false);
         return;
     }
-    ui->keySequenceEdit->setKeySequence(options_->getKeySequence());
+    BaseUIExporterOptionsWidget::read();
+    ui->shortcut->setKeySequence(options_->getShortcut());
+    ui->pickMyMouse->setChecked(options_->getPickMyMouse());
+}
+
+std::shared_ptr<BaseUIExporterOptions> GeneralUIExporterOptionsWidget::getOptions() {
+    return options_;
 }
 
 void GeneralUIExporterOptionsWidget::setOptions(const std::shared_ptr<BaseUIExporterOptions> options) {
     options_ = std::dynamic_pointer_cast<GeneralUIExporterOptions>(options);
+}
+
+BaseUIExporterSettingsBlockContainerWidget* GeneralUIExporterOptionsWidget::getBaseUIExporterSettings() {
+    return ui->baseUIExporterSettingsBlockContainerWidget;
 }

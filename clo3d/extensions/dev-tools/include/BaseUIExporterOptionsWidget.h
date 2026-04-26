@@ -1,9 +1,8 @@
 #ifndef FASHIONDESIGNAPPS_BASEUIEXPORTEROPTIONSWIDGET_H
 #define FASHIONDESIGNAPPS_BASEUIEXPORTEROPTIONSWIDGET_H
 
-#include <QWidget>
-
 #include "BaseUIExporterOptions.h"
+#include "BaseUIExporterSettingsBlockContainerWidget.h"
 
 namespace UI {
     class BaseUIExporterOptionsWidget: public QWidget {
@@ -11,8 +10,10 @@ namespace UI {
     protected:
         explicit BaseUIExporterOptionsWidget(QWidget* parent = nullptr): QWidget(parent) {}
     public:
-        virtual void read() = 0;
+        virtual void read();
+        virtual std::shared_ptr<BaseUIExporterOptions> getOptions() = 0;
         virtual void setOptions(std::shared_ptr<BaseUIExporterOptions> options) = 0;
+        virtual BaseUIExporterSettingsBlockContainerWidget* getBaseUIExporterSettings() = 0;
     };
 } // UI
 
