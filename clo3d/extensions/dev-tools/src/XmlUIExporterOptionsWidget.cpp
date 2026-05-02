@@ -34,15 +34,15 @@ void XmlUIExporterOptionsWidget::classNameChanged(const QString &className) cons
     ui->baseUIExporterSettingsBlockContainerWidget->setClassNameText(className);
 }
 
-void XmlUIExporterOptionsWidget::read() {
+void XmlUIExporterOptionsWidget::read(QSettings* settings) {
     if (!options_) {
         LOG_WARN("XML UI Exporter options weren't set");
         this->setEnabled(false);
         return;
     }
-    BaseUIExporterOptionsWidget::read();
-    ui->exportIcons->setChecked(options_->getExportIcons());
-    ui->uiCompatible->setChecked(options_->getUICompatible());
+    BaseUIExporterOptionsWidget::read(settings);
+    ui->exportIcons->setChecked(options_->getExportIcons(settings));
+    ui->uiCompatible->setChecked(options_->getUICompatible(settings));
 }
 
 std::shared_ptr<BaseUIExporterOptions> XmlUIExporterOptionsWidget::getOptions() {

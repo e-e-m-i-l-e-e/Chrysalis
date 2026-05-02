@@ -1,8 +1,8 @@
 #ifndef FASHIONDESIGNAPPS_UIEXPORTERTOOL_H
 #define FASHIONDESIGNAPPS_UIEXPORTERTOOL_H
 
-#include <forward_list>
 #include <memory>
+#include <forward_list>
 
 #include "BaseExtensionsSettingsPage.h"
 

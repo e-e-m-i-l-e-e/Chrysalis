@@ -1,8 +1,11 @@
 #ifndef FASHIONDESIGNAPPS_UIEXPORTERTOOLWIDGET_H
 #define FASHIONDESIGNAPPS_UIEXPORTERTOOLWIDGET_H
 
-#include "BaseExtensionsSettingsPageWidget.h"
+#include <functional>
+
 #include "UIExporterToolSettings.h"
+#include "BaseUIExporterOptionsWidget.h"
+#include "BaseExtensionsSettingsPageWidget.h"
 
 namespace UI {
     QT_BEGIN_NAMESPACE
@@ -23,6 +26,8 @@ namespace UI {
         void reset() override;
         void read() override;
     private:
+        void processOptions(const std::function<void(BaseUIExporterOptionsWidget*)> &processor) const;
+
         Ui::UIExporterToolSettingsWidget *ui;
         UIExporterToolSettings& settings;
     };

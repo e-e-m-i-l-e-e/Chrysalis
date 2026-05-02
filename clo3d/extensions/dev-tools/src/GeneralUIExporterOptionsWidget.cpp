@@ -26,15 +26,15 @@ GeneralUIExporterOptionsWidget::~GeneralUIExporterOptionsWidget() {
     delete ui;
 }
 
-void GeneralUIExporterOptionsWidget::read() {
+void GeneralUIExporterOptionsWidget::read(QSettings* settings) {
     if (!options_) {
         LOG_WARN("General UI Exporter options weren't set");
         this->setEnabled(false);
         return;
     }
-    BaseUIExporterOptionsWidget::read();
-    ui->shortcut->setKeySequence(options_->getShortcut());
-    ui->pickMyMouse->setChecked(options_->getPickMyMouse());
+    BaseUIExporterOptionsWidget::read(settings);
+    ui->shortcut->setKeySequence(options_->getShortcut(settings));
+    ui->pickMyMouse->setChecked(options_->getPickMyMouse(settings));
 }
 
 std::shared_ptr<BaseUIExporterOptions> GeneralUIExporterOptionsWidget::getOptions() {

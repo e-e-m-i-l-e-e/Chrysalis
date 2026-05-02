@@ -33,6 +33,11 @@ namespace UI {
         void setFileNameText(const QString &fileName) const;
         void setObjectNameText(const QString &objectName) const;
         void setClassNameText(const QString &className) const;
+
+        QString getRootFolderText() const;
+        QString getFileNameText() const;
+        QString getObjectNameText() const;
+        QString getClassNameText() const;
     signals:
         void rootFolderChanged(const QString& rootFolder);
         void fileNameChanged(const QString& fileName);

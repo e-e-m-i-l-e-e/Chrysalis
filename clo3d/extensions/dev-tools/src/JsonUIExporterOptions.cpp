@@ -1,12 +1,11 @@
 #include "JsonUIExporterOptions.h"
 
-JsonUIExporterOptions::JsonUIExporterOptions(const QSettings* settings)
-    : BaseUIExporterOptions(settings) {}
+JsonUIExporterOptions::JsonUIExporterOptions(): BaseUIExporterOptions() {}
 
-bool JsonUIExporterOptions::getVisibleOnly() const {
+bool JsonUIExporterOptions::getVisibleOnly(QSettings* settings) const {
     return true;
 }
 
-bool JsonUIExporterOptions::getIgnoreCSS() const {
+bool JsonUIExporterOptions::getIgnoreCSS(QSettings* settings) const {
     return true;
 }

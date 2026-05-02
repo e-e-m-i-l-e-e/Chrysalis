@@ -1,10 +1,10 @@
 #ifndef FASHIONDESIGNAPPS_BASEEXTENSIONSSETTINGSPAGE_H
 #define FASHIONDESIGNAPPS_BASEEXTENSIONSSETTINGSPAGE_H
 
-class BaseExtensionsSettingsPage {
-public:
-    virtual ~BaseExtensionsSettingsPage() = default;
+#include "BaseExtensionsSettingsEditor.h"
 
+class BaseExtensionsSettingsPage: public BaseExtensionsSettingsEditor {
+public:
     virtual void save() = 0;
     virtual void reset() = 0;
 };

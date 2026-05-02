@@ -1,8 +1,11 @@
 #ifndef FASHIONDESIGNAPPS_EXTENSIONSSETTINGSDIALOG_H
 #define FASHIONDESIGNAPPS_EXTENSIONSSETTINGSDIALOG_H
 
+#include <functional>
+
 #include <QDialog>
 
+#include "ExtensionsSettings.h"
 #include "BaseExtensionsSettingsPageWidget.h"
 
 namespace UI {
@@ -16,7 +19,7 @@ namespace UI {
     class ExtensionsSettingsDialog : public QDialog {
         Q_OBJECT
     public:
-        explicit ExtensionsSettingsDialog(QWidget *parent = nullptr);
+        explicit ExtensionsSettingsDialog(const std::shared_ptr<ExtensionsSettings> &settings, QWidget *parent = nullptr);
         ~ExtensionsSettingsDialog() override;
 
         void accept() override;
@@ -25,9 +28,10 @@ namespace UI {
 
         void addPage(BaseExtensionsSettingsPageWidget* page) const;
     private:
-        void processPages(void(*processor)(BaseExtensionsSettingsPageWidget*)) const;
+        void processPages(const std::function<void(BaseExtensionsSettingsPageWidget*)> &) const;
 
         Ui::ExtensionsSettingsDialog *ui;
+        std::shared_ptr<ExtensionsSettings> extensionsSettings;
     };
 } // UI
 

@@ -34,15 +34,15 @@ void JsonUIExporterOptionsWidget::classNameChanged(const QString &className) con
     ui->baseUIExporterSettingsBlockContainerWidget->setClassNameText(className);
 }
 
-void JsonUIExporterOptionsWidget::read() {
+void JsonUIExporterOptionsWidget::read(QSettings* settings) {
     if (!options_) {
         LOG_WARN("Json UI Exporter options weren't set");
         this->setEnabled(false);
         return;
     }
-    BaseUIExporterOptionsWidget::read();
-    ui->visibleOnly->setChecked(options_->getVisibleOnly());
-    ui->ignoreCSS->setChecked(options_->getIgnoreCSS());
+    BaseUIExporterOptionsWidget::read(settings);
+    ui->visibleOnly->setChecked(options_->getVisibleOnly(settings));
+    ui->ignoreCSS->setChecked(options_->getIgnoreCSS(settings));
 }
 
 std::shared_ptr<BaseUIExporterOptions> JsonUIExporterOptionsWidget::getOptions() {

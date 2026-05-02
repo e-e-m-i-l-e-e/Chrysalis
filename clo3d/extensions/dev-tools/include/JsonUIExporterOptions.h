@@ -5,10 +5,10 @@
 
 class JsonUIExporterOptions: public BaseUIExporterOptions {
 public:
-    explicit JsonUIExporterOptions(const QSettings* settings);
+    explicit JsonUIExporterOptions();
 
-    bool getVisibleOnly() const;
-    bool getIgnoreCSS() const;
+    bool getVisibleOnly(QSettings* settings) const;
+    bool getIgnoreCSS(QSettings* settings) const;
 private:
     bool ignoreCSS;
     bool visibleOnly;

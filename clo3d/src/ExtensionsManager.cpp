@@ -52,18 +52,18 @@ void ExtensionsManager::install() {
             const auto menuBar = qobject_cast<QMenuBar *>(this_);
             const auto extensionsMenu = menuBar->addMenu("Extensions");
 
-            extensionsSettings = new UI::ExtensionsSettingsDialog(mainWindow);
+            // const auto settings = new QSettings("eemilee.me", "CLO3D Extensions");
+            const auto extSettings = std::make_shared<ExtensionsSettings>("eemilee.me", "CLO3D Extensions");
+            extensionsSettings = new UI::ExtensionsSettingsDialog(extSettings, mainWindow);
             // extensionsSettings = new ExtensionsSettings(mainWindow);
             const QAction *extensionsSettingsMenu = extensionsMenu->addAction("Extensions Settings");
             // QObject::connect(extensionsSettingsMenu, &QAction::triggered, extensionsSettings, &ExtensionsSettings::exec);
-            QObject::connect(extensionsSettingsMenu, &QAction::triggered, []() {
-
-                const auto settings = new QSettings("eemilee.me", "CLO3D Extensions");
+            QObject::connect(extensionsSettingsMenu, &QAction::triggered, [&]() {
                 auto uiExporterSettings = new UIExporterToolSettings();
 
-                auto generalUIExporterOptions = std::make_shared<GeneralUIExporterOptions>(settings);
-                auto jsonUIExporterOptions = std::make_shared<JsonUIExporterOptions>(settings);
-                auto xmlUIExporterOptions = std::make_shared<XmlUIExporterOptions>(settings);
+                auto generalUIExporterOptions = std::make_shared<GeneralUIExporterOptions>();
+                auto jsonUIExporterOptions = std::make_shared<JsonUIExporterOptions>();
+                auto xmlUIExporterOptions = std::make_shared<XmlUIExporterOptions>();
 
                 uiExporterSettings->addOptions(xmlUIExporterOptions);
                 uiExporterSettings->addOptions(jsonUIExporterOptions);

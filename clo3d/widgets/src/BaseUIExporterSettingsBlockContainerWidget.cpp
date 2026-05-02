@@ -85,3 +85,19 @@ void BaseUIExporterSettingsBlockContainerWidget::setObjectNameText(const QString
 void BaseUIExporterSettingsBlockContainerWidget::setClassNameText(const QString &className) const {
     ui->className->setText(className);
 }
+
+QString BaseUIExporterSettingsBlockContainerWidget::getRootFolderText() const {
+    return ui->rootFolder->text();
+}
+
+QString BaseUIExporterSettingsBlockContainerWidget::getFileNameText() const {
+    return ui->fileName->text();
+}
+
+QString BaseUIExporterSettingsBlockContainerWidget::getObjectNameText() const {
+    return ui->objectName->text();
+}
+
+QString BaseUIExporterSettingsBlockContainerWidget::getClassNameText() const {
+    return ui->className->text();
+}

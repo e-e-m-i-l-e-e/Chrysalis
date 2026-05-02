@@ -1,12 +1,11 @@
 #include "XmlUIExporterOptions.h"
 
-XmlUIExporterOptions::XmlUIExporterOptions(const QSettings* settings)
-    : BaseUIExporterOptions(settings) {}
+XmlUIExporterOptions::XmlUIExporterOptions(): BaseUIExporterOptions() {}
 
-bool XmlUIExporterOptions::getExportIcons() const {
+bool XmlUIExporterOptions::getExportIcons(QSettings* settings) const {
     return true;
 }
 
-bool XmlUIExporterOptions::getUICompatible() const {
+bool XmlUIExporterOptions::getUICompatible(QSettings* settings) const {
     return true;
 }

@@ -2,13 +2,12 @@
 
 #include <QKeySequence>
 
-GeneralUIExporterOptions::GeneralUIExporterOptions(const QSettings* settings)
-    : BaseUIExporterOptions(settings) {}
+GeneralUIExporterOptions::GeneralUIExporterOptions(): BaseUIExporterOptions() {}
 
-QKeySequence GeneralUIExporterOptions::getShortcut() const {
+QKeySequence GeneralUIExporterOptions::getShortcut(QSettings* settings) const {
     return QKeySequence("Ctrl+Shift+E");
 }
 
-bool GeneralUIExporterOptions::getPickMyMouse() const {
+bool GeneralUIExporterOptions::getPickMyMouse(QSettings* settings) const {
     return true;
 }

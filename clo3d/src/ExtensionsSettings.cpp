@@ -1,5 +1,6 @@
-//
-// Created by emily on 25/04/2026.
-//
+#include "ExtensionsSettings.h"
 
-#include "../include/ExtensionsSettings.h"
+ExtensionsSettings::ExtensionsSettings(const QString &organization, const QString &application)
+    : BaseExtensionsSettingsEditor() {
+    this->setSettings(new QSettings(organization, application));
+}

@@ -1,24 +1,33 @@
 #include "BaseUIExporterOptions.h"
 
-BaseUIExporterOptions::BaseUIExporterOptions(const QSettings* settings)
-    : settings_(settings) {}
-
-BaseUIExporterOptions::~BaseUIExporterOptions() {
-    delete settings_;
+QDir BaseUIExporterOptions::getRootFolder(const QSettings* settings) {
+    return QDir(settings->value("rootFolder", QString(CLO_HOME) + "/extensions").toString());
 }
 
-QDir BaseUIExporterOptions::getRootFolder() {
-    return QDir::current();
+QString BaseUIExporterOptions::getFileName(QSettings* settings) {
+    return settings->value("fileName", "ui").toString();
 }
 
-QString BaseUIExporterOptions::getFileName() {
-    return "test";
+QString BaseUIExporterOptions::getObjectName(QSettings* settings) {
+    return settings->value("objectName", "").toString();
 }
 
-QString BaseUIExporterOptions::getObjectName() {
-    return "BaseUIExporterOptions";
+QString BaseUIExporterOptions::getClassName(QSettings* settings) {
+    return settings->value("className", "").toString();
 }
 
-QString BaseUIExporterOptions::getClassName() {
-    return "BaseUIExporterOptions";
+void BaseUIExporterOptions::setRootFolder(QSettings *settings, const QDir &rootFolder) {
+    settings->setValue("rootFolder", rootFolder.path());
+}
+
+void BaseUIExporterOptions::setFileName(QSettings *settings, const QString &fileName) {
+    settings->setValue("fileName", fileName);
+}
+
+void BaseUIExporterOptions::setObjectName(QSettings *settings, const QString &objectName) {
+    settings->setValue("objectName", objectName);
+}
+
+void BaseUIExporterOptions::setClassName(QSettings *settings, const QString &className) {
+    settings->setValue("className", className);
 }
