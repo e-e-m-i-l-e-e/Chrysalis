@@ -34,7 +34,7 @@ void JsonUIExporterOptionsWidget::classNameChanged(const QString &className) con
     ui->baseUIExporterSettingsBlockContainerWidget->setClassNameText(className);
 }
 
-void JsonUIExporterOptionsWidget::read(QSettings* settings) {
+void JsonUIExporterOptionsWidget::read(Settings& settings) {
     if (!options_) {
         LOG_WARN("Json UI Exporter options weren't set");
         this->setEnabled(false);

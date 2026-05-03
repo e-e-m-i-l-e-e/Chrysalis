@@ -4,7 +4,7 @@ QString UI::BaseUIExporterOptionsWidget::getTitle() {
     return getBaseUIExporterSettings()->getTitle();
 }
 
-void UI::BaseUIExporterOptionsWidget::write(QSettings *settings) {
+void UI::BaseUIExporterOptionsWidget::write(Settings& settings) {
     const auto& baseUIExporterSettings = getBaseUIExporterSettings();
     const auto& options = getOptions();
     options->setRootFolder(settings, baseUIExporterSettings->getRootFolderText());
@@ -13,7 +13,7 @@ void UI::BaseUIExporterOptionsWidget::write(QSettings *settings) {
     options->setClassName(settings, baseUIExporterSettings->getClassNameText());
 }
 
-void UI::BaseUIExporterOptionsWidget::read(QSettings* settings) {
+void UI::BaseUIExporterOptionsWidget::read(Settings& settings) {
     const auto& baseUIExporterSettings = getBaseUIExporterSettings();
     const auto& options = getOptions();
     baseUIExporterSettings->setRootFolderText(options->getRootFolder(settings).path());

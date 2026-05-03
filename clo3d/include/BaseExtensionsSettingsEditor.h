@@ -1,7 +1,7 @@
 #ifndef FASHIONDESIGNAPPS_BASEEXTENSIONSSETTINGSEDITOR_H
 #define FASHIONDESIGNAPPS_BASEEXTENSIONSSETTINGSEDITOR_H
 
-#include <QSettings>
+#include "Settings.h"
 
 class BaseExtensionsSettingsEditor {
 public:
@@ -9,7 +9,7 @@ public:
 
     void setSettings(QSettings* settings);
     void setSettings(std::shared_ptr<BaseExtensionsSettingsEditor> settingsEditor);
-    void editSettings(const QString& groupName, const std::function<void(QSettings*)>& editor) const;
+    [[nodiscard]] Settings editSettings(const QString& groupName) const;
 private:
     QSettings* settings_ = nullptr;
 };

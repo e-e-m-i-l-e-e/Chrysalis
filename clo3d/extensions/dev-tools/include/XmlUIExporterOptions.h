@@ -7,8 +7,8 @@ class XmlUIExporterOptions: public BaseUIExporterOptions {
 public:
     explicit XmlUIExporterOptions();
 
-    bool getExportIcons(QSettings* settings) const;
-    bool getUICompatible(QSettings* settings) const;
+    bool getExportIcons(Settings& settings) const;
+    bool getUICompatible(Settings& settings) const;
 private:
     bool exportIcons;
     bool uiCompatible;

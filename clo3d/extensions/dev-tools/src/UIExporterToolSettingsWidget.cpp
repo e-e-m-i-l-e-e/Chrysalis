@@ -10,17 +10,17 @@ using namespace UI;
 UIExporterToolSettingsWidget::UIExporterToolSettingsWidget(UIExporterToolSettings &settings, QWidget *parent)
     : BaseExtensionsSettingsPageWidget(settings, parent),
       ui(new Ui::UIExporterToolSettingsWidget),
-      settings(settings) {
+      settings_(settings) {
     ui->setupUi(this);
 
     auto it = settings.begin();
-    processOptions([&it, &settings](BaseUIExporterOptionsWidget* uiExporterOptionsWidget) {
-            if (it == settings.end()) {
-                LOG_WARN("Not all options are provided for UI Exporter Settings ({} will be disabled)", typeid(*uiExporterOptionsWidget).name());
-                return;
-            }
-            uiExporterOptionsWidget->setOptions(*it++);
-    });
+        for (const auto uiExporterOptionsWidget: this->findChildren<BaseUIExporterOptionsWidget *>()) {
+                if (it == settings.end()) {
+                        LOG_WARN("Not all options are provided for UI Exporter Settings ({} will be disabled)", typeid(*uiExporterOptionsWidget).name());
+                        break;
+                }
+                uiExporterOptionsWidget->setOptions(*it++);
+        }
 
     connect(ui->generalUIExporterOptionsWidget, &GeneralUIExporterOptionsWidget::rootFolderChanged,
             ui->jsonUIExporterOptionsWidget, &JsonUIExporterOptionsWidget::rootFolderChanged);
@@ -46,11 +46,7 @@ UIExporterToolSettingsWidget::~UIExporterToolSettingsWidget() {
 }
 
 void UIExporterToolSettingsWidget::save() {
-        processOptions([this](BaseUIExporterOptionsWidget* optionsWidget) {
-                settings.editSettings(optionsWidget->getTitle(), [optionsWidget](QSettings* settings) {
-                        optionsWidget->write(settings);
-                });
-        });
+        processOptions(&BaseUIExporterOptionsWidget::write);
 }
 
 void UIExporterToolSettingsWidget::reset() {
@@ -58,15 +54,12 @@ void UIExporterToolSettingsWidget::reset() {
 }
 
 void UIExporterToolSettingsWidget::read() {
-    processOptions([this](BaseUIExporterOptionsWidget* optionsWidget) {
-            settings.editSettings(optionsWidget->getTitle(), [optionsWidget](QSettings* settings) {
-                    optionsWidget->read(settings);
-            });
-    });
+    processOptions(&BaseUIExporterOptionsWidget::read);
 }
 
-void UIExporterToolSettingsWidget::processOptions(const std::function<void(BaseUIExporterOptionsWidget*)>& processor) const {
-        for (const auto uiExporterOptionsWidget: this->findChildren<BaseUIExporterOptionsWidget*>()) {
-          processor(uiExporterOptionsWidget);
+void UIExporterToolSettingsWidget::processOptions(void (BaseUIExporterOptionsWidget::*processor)(Settings &)) const {
+        for (const auto uiExporterOptionsWidget: this->findChildren<BaseUIExporterOptionsWidget *>()) {
+                auto settings = settings_.editSettings(uiExporterOptionsWidget->getTitle());
+                (uiExporterOptionsWidget->*processor)(settings);
         }
 }

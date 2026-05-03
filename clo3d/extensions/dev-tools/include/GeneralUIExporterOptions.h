@@ -7,8 +7,8 @@ class GeneralUIExporterOptions: public BaseUIExporterOptions {
 public:
     explicit GeneralUIExporterOptions();
 
-    QKeySequence getShortcut(QSettings* settings) const;
-    bool getPickMyMouse(QSettings* settings) const;
+    QKeySequence getShortcut(Settings& settings) const;
+    bool getPickMyMouse(Settings& settings) const;
 };
 
 #endif //FASHIONDESIGNAPPS_GENERALUIEXPORTEROPTIONS_H

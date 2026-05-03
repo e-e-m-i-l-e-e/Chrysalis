@@ -29,7 +29,7 @@ namespace UI {
 
         void addPage(BaseExtensionsSettingsPageWidget* page) const;
     private:
-        void processPages(const std::function<void(BaseExtensionsSettingsPageWidget*)> &) const;
+        void processPages(void(BaseExtensionsSettingsPageWidget::*processor)()) const;
 
         Ui::ExtensionsSettingsDialog *ui;
         std::shared_ptr<ExtensionsSettings> extensionsSettings;

@@ -19,7 +19,7 @@ namespace UI {
         explicit XmlUIExporterOptionsWidget(QWidget *parent = nullptr);
         ~XmlUIExporterOptionsWidget() override;
 
-        void read(QSettings* settings) override;
+        void read(Settings& settings) override;
         std::shared_ptr<BaseUIExporterOptions> getOptions() override;
         void setOptions(std::shared_ptr<BaseUIExporterOptions> options) override;
         BaseUIExporterSettingsBlockContainerWidget* getBaseUIExporterSettings() override;

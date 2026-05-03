@@ -4,10 +4,10 @@
 
 GeneralUIExporterOptions::GeneralUIExporterOptions(): BaseUIExporterOptions() {}
 
-QKeySequence GeneralUIExporterOptions::getShortcut(QSettings* settings) const {
+QKeySequence GeneralUIExporterOptions::getShortcut(Settings& settings) const {
     return QKeySequence("Ctrl+Shift+E");
 }
 
-bool GeneralUIExporterOptions::getPickMyMouse(QSettings* settings) const {
+bool GeneralUIExporterOptions::getPickMyMouse(Settings& settings) const {
     return true;
 }

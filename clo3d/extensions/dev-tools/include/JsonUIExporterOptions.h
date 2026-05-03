@@ -7,8 +7,8 @@ class JsonUIExporterOptions: public BaseUIExporterOptions {
 public:
     explicit JsonUIExporterOptions();
 
-    bool getVisibleOnly(QSettings* settings) const;
-    bool getIgnoreCSS(QSettings* settings) const;
+    bool getVisibleOnly(Settings& settings) const;
+    bool getIgnoreCSS(Settings& settings) const;
 private:
     bool ignoreCSS;
     bool visibleOnly;

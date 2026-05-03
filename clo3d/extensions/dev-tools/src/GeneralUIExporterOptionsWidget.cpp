@@ -26,7 +26,7 @@ GeneralUIExporterOptionsWidget::~GeneralUIExporterOptionsWidget() {
     delete ui;
 }
 
-void GeneralUIExporterOptionsWidget::read(QSettings* settings) {
+void GeneralUIExporterOptionsWidget::read(Settings& settings) {
     if (!options_) {
         LOG_WARN("General UI Exporter options weren't set");
         this->setEnabled(false);

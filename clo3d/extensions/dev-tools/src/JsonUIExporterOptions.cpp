@@ -2,10 +2,10 @@
 
 JsonUIExporterOptions::JsonUIExporterOptions(): BaseUIExporterOptions() {}
 
-bool JsonUIExporterOptions::getVisibleOnly(QSettings* settings) const {
+bool JsonUIExporterOptions::getVisibleOnly(Settings& settings) const {
     return true;
 }
 
-bool JsonUIExporterOptions::getIgnoreCSS(QSettings* settings) const {
+bool JsonUIExporterOptions::getIgnoreCSS(Settings& settings) const {
     return true;
 }

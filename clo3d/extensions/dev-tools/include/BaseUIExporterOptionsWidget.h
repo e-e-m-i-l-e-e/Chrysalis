@@ -1,6 +1,7 @@
 #ifndef FASHIONDESIGNAPPS_BASEUIEXPORTEROPTIONSWIDGET_H
 #define FASHIONDESIGNAPPS_BASEUIEXPORTEROPTIONSWIDGET_H
 
+#include "Settings.h"
 #include "BaseUIExporterOptions.h"
 #include "BaseUIExporterSettingsBlockContainerWidget.h"
 
@@ -11,8 +12,8 @@ namespace UI {
         explicit BaseUIExporterOptionsWidget(QWidget* parent = nullptr): QWidget(parent) {}
     public:
         QString getTitle();
-        virtual void read(QSettings* settings);
-        virtual void write(QSettings* settings);
+        virtual void read(Settings& settings);
+        virtual void write(Settings& settings);
         virtual std::shared_ptr<BaseUIExporterOptions> getOptions() = 0;
         virtual void setOptions(std::shared_ptr<BaseUIExporterOptions> options) = 0;
         virtual BaseUIExporterSettingsBlockContainerWidget* getBaseUIExporterSettings() = 0;

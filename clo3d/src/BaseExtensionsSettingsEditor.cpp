@@ -12,8 +12,6 @@ void BaseExtensionsSettingsEditor::setSettings(std::shared_ptr<BaseExtensionsSet
     settings_ = settingsEditor->settings_;
 }
 
-void BaseExtensionsSettingsEditor::editSettings(const QString &groupName, const std::function<void(QSettings*)>& editor) const {
-    settings_->beginGroup(groupName);
-    editor(settings_);
-    settings_->endGroup();
+Settings BaseExtensionsSettingsEditor::editSettings(const QString &groupName) const {
+    return Settings(groupName, settings_);
 }

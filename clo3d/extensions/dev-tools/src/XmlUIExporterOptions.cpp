@@ -2,10 +2,10 @@
 
 XmlUIExporterOptions::XmlUIExporterOptions(): BaseUIExporterOptions() {}
 
-bool XmlUIExporterOptions::getExportIcons(QSettings* settings) const {
+bool XmlUIExporterOptions::getExportIcons(Settings& settings) const {
     return true;
 }
 
-bool XmlUIExporterOptions::getUICompatible(QSettings* settings) const {
+bool XmlUIExporterOptions::getUICompatible(Settings& settings) const {
     return true;
 }

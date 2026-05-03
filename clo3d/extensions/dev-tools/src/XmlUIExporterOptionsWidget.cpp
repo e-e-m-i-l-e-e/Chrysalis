@@ -34,7 +34,7 @@ void XmlUIExporterOptionsWidget::classNameChanged(const QString &className) cons
     ui->baseUIExporterSettingsBlockContainerWidget->setClassNameText(className);
 }
 
-void XmlUIExporterOptionsWidget::read(QSettings* settings) {
+void XmlUIExporterOptionsWidget::read(Settings& settings) {
     if (!options_) {
         LOG_WARN("XML UI Exporter options weren't set");
         this->setEnabled(false);

@@ -2,21 +2,22 @@
 #define FASHIONDESIGNAPPS_BASEUIEXPORTEROPTIONS_H
 
 #include <QDir>
-#include <QSettings>
+
+#include "Settings.h"
 
 class BaseUIExporterOptions {
 protected:
     virtual ~BaseUIExporterOptions() = default;
 public:
-    QDir getRootFolder(const QSettings* settings);
-    QString getFileName(QSettings* settings);
-    QString getObjectName(QSettings* settings);
-    QString getClassName(QSettings* settings);
+    QDir getRootFolder(const Settings& settings);
+    QString getFileName(Settings& settings);
+    QString getObjectName(Settings& settings);
+    QString getClassName(Settings& settings);
 
-    void setRootFolder(QSettings* settings, const QDir& rootFolder);
-    void setFileName(QSettings* settings, const QString& fileName);
-    void setObjectName(QSettings* settings, const QString& objectName);
-    void setClassName(QSettings* settings, const QString& className);
+    void setRootFolder(Settings& settings, const QDir& rootFolder);
+    void setFileName(Settings& settings, const QString& fileName);
+    void setObjectName(Settings& settings, const QString& objectName);
+    void setClassName(Settings& settings, const QString& className);
 };
 
 #endif //FASHIONDESIGNAPPS_BASEUIEXPORTEROPTIONS_H

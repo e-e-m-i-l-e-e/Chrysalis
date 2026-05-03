@@ -26,10 +26,10 @@ namespace UI {
         void reset() override;
         void read() override;
     private:
-        void processOptions(const std::function<void(BaseUIExporterOptionsWidget*)> &processor) const;
+        void processOptions(void(BaseUIExporterOptionsWidget::*processor)(Settings&)) const;
 
         Ui::UIExporterToolSettingsWidget *ui;
-        UIExporterToolSettings& settings;
+        UIExporterToolSettings& settings_;
     };
 } // UI
 
