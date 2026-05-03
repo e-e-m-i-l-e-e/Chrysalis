@@ -25,7 +25,7 @@ void ExtensionsSettingsDialog::addPage(BaseExtensionsSettingsPageWidget* page) c
 }
 
 void ExtensionsSettingsDialog::accept() {
-    processPages(&BaseExtensionsSettingsPageWidget::save);
+    processPages([](auto* w) { w->save(); });
     QDialog::accept();
 }
 
@@ -34,15 +34,6 @@ void ExtensionsSettingsDialog::reject() {
 }
 
 int ExtensionsSettingsDialog::exec() {
-    processPages(&BaseExtensionsSettingsPageWidget::read);
+    processPages([](auto* w) { w->read(); });
     return QDialog::exec();
-}
-
-void ExtensionsSettingsDialog::processPages(void (BaseExtensionsSettingsPageWidget::*processor)()) const {
-    for (int i = 0; i < ui->navigation->count(); i++) {
-        if (const auto extensionsSettingsPageWidget = qobject_cast<BaseExtensionsSettingsPageWidget*>(ui->navigation->getPage(i))) {
-            const auto _ = extensionsSettings->editSettings(extensionsSettingsPageWidget->getTitle());
-            (extensionsSettingsPageWidget->*processor)();
-        }
-    }
 }

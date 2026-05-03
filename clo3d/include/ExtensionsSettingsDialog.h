@@ -4,6 +4,7 @@
 #include <functional>
 
 #include <QDialog>
+#include <ui_ExtensionsSettingsDialog.h>
 
 #include "ExtensionsSettings.h"
 #include "BaseExtensionsSettingsPageWidget.h"
@@ -29,7 +30,15 @@ namespace UI {
 
         void addPage(BaseExtensionsSettingsPageWidget* page) const;
     private:
-        void processPages(void(BaseExtensionsSettingsPageWidget::*processor)()) const;
+        template<typename Processor>
+        void ExtensionsSettingsDialog::processPages(Processor processor) const {
+            for (int i = 0; i < ui->navigation->count(); i++) {
+                if (const auto w = qobject_cast<BaseExtensionsSettingsPageWidget *>(ui->navigation->getPage(i))) {
+                    const auto _ = extensionsSettings->editSettings(w->getTitle());
+                    processor(w);
+                }
+            }
+        }
 
         Ui::ExtensionsSettingsDialog *ui;
         std::shared_ptr<ExtensionsSettings> extensionsSettings;
