@@ -10,9 +10,6 @@ class BaseUIExporterOptions;
 
 class UIExporterToolSettings: public BaseExtensionsSettingsPage {
 public:
-    void save() override;
-    void reset() override;
-
     void addOptions(const std::shared_ptr<BaseUIExporterOptions> &options);
     std::forward_list<std::shared_ptr<BaseUIExporterOptions>>::const_iterator begin() const;
     std::forward_list<std::shared_ptr<BaseUIExporterOptions>>::const_iterator end() const;

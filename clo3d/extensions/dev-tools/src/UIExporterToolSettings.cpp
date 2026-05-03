@@ -1,11 +1,5 @@
 #include "UIExporterToolSettings.h"
 
-void UIExporterToolSettings::save() {
-}
-
-void UIExporterToolSettings::reset() {
-}
-
 void UIExporterToolSettings::addOptions(const std::shared_ptr<BaseUIExporterOptions> &options) {
     options_.push_front(options);
 }

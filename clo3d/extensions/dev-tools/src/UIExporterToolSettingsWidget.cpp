@@ -54,7 +54,7 @@ void UIExporterToolSettingsWidget::save() {
 }
 
 void UIExporterToolSettingsWidget::reset() {
-    settings.reset();
+    // settings.reset();
 }
 
 void UIExporterToolSettingsWidget::read() {

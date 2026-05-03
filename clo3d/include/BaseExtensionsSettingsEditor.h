@@ -5,7 +5,7 @@
 
 class BaseExtensionsSettingsEditor {
 public:
-    virtual ~BaseExtensionsSettingsEditor();
+    virtual ~BaseExtensionsSettingsEditor() = 0;
 
     void setSettings(QSettings* settings);
     void setSettings(std::shared_ptr<BaseExtensionsSettingsEditor> settingsEditor);
