@@ -12,6 +12,7 @@ void BaseExtensionsSettingsEditor::setSettings(std::shared_ptr<BaseExtensionsSet
     settings_ = settingsEditor->settings_;
 }
 
+// Edit settings
 Settings BaseExtensionsSettingsEditor::editSettings(const QString &groupName) const {
     return Settings(groupName, settings_);
 }

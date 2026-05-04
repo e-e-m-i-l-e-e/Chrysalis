@@ -58,6 +58,7 @@ void UIExporterToolSettingsWidget::read() {
 }
 
 void UIExporterToolSettingsWidget::processOptions(void (BaseUIExporterOptionsWidget::*processor)(Settings &)) const {
+        // TEST COMMENT
         for (const auto uiExporterOptionsWidget: this->findChildren<BaseUIExporterOptionsWidget *>()) {
                 auto settings = settings_.editSettings(uiExporterOptionsWidget->getTitle());
                 (uiExporterOptionsWidget->*processor)(settings);

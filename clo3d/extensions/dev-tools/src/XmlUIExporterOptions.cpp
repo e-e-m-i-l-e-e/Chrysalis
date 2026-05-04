@@ -3,6 +3,7 @@
 XmlUIExporterOptions::XmlUIExporterOptions(): BaseUIExporterOptions() {}
 
 bool XmlUIExporterOptions::getExportIcons(Settings& settings) const {
+
     return true;
 }
 

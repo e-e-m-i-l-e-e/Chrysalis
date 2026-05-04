@@ -1,5 +1,7 @@
 compilation_database_dir: ../.build/RelWithDebInfo/compile_commands.json
 output_directory: diagrams
+add_compile_flags:
+  - -fparse-all-comments
 diagrams:
   CLO3DExtensionsDevToolsClassDiagram:
     type: class
@@ -75,13 +77,10 @@ diagrams:
           {% endfor %}
   CLO3DExtensionsDevToolsSequenceDiagram:
     type: sequence
-    inline_lambda_messages: true
+    generate_message_comments: true
     glob:
       include:
-        - ../clo3d/include/*.h
         - ../clo3d/src/*.cpp
-        - ../clo3d/extensions/dev-tools/include/*.h
         - ../clo3d/extensions/dev-tools/src/*.cpp
-    from_to:
-        - [function: "UI::ExtensionsSettingsDialog::exec()",
-           function: "UI::BaseUIExporterOptionsWidget::read(Settings &)"]
+    from:
+      - function: "UI::ExtensionsSettingsDialog::exec()"

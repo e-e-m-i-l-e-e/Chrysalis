@@ -34,14 +34,18 @@ void ExtensionsSettingsDialog::reject() {
 }
 
 int ExtensionsSettingsDialog::exec() {
+    // Test Comment
     processPages(&BaseExtensionsSettingsPageWidget::read);
     return QDialog::exec();
 }
 
 void ExtensionsSettingsDialog::processPages(void (BaseExtensionsSettingsPageWidget::*processor)()) const {
+    // Test Comment
     for (int i = 0; i < ui->navigation->count(); i++) {
         if (const auto extensionsSettingsPageWidget = qobject_cast<BaseExtensionsSettingsPageWidget*>(ui->navigation->getPage(i))) {
+            // Test Comment
             const auto _ = extensionsSettings->editSettings(extensionsSettingsPageWidget->getTitle());
+            // \uml{call UI::UIExporterToolSettingsWidget::read()}
             (extensionsSettingsPageWidget->*processor)();
         }
     }
