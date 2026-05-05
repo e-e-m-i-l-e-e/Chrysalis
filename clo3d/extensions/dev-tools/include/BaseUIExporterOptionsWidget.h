@@ -14,8 +14,8 @@ namespace UI {
         QString getTitle();
         virtual void read(Settings& settings);
         virtual void write(Settings& settings);
-        virtual std::shared_ptr<BaseUIExporterOptions> getOptions() = 0;
-        virtual void setOptions(std::shared_ptr<BaseUIExporterOptions> options) = 0;
+        virtual BaseUIExporterOptions* getOptions() = 0;
+        virtual void setOptions(BaseUIExporterOptions* options) = 0;
         virtual BaseUIExporterSettingsBlockContainerWidget* getBaseUIExporterSettings() = 0;
     };
 } // UI

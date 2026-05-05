@@ -45,12 +45,12 @@ void XmlUIExporterOptionsWidget::read(Settings& settings) {
     ui->uiCompatible->setChecked(options_->getUICompatible());
 }
 
-std::shared_ptr<BaseUIExporterOptions> XmlUIExporterOptionsWidget::getOptions() {
+BaseUIExporterOptions* XmlUIExporterOptionsWidget::getOptions() {
     return options_;
 }
 
-void XmlUIExporterOptionsWidget::setOptions(const std::shared_ptr<BaseUIExporterOptions> options) {
-    options_ = std::dynamic_pointer_cast<XmlUIExporterOptions>(options);
+void XmlUIExporterOptionsWidget::setOptions(BaseUIExporterOptions* options) {
+    options_ = dynamic_cast<XmlUIExporterOptions*>(options);
 }
 
 BaseUIExporterSettingsBlockContainerWidget* XmlUIExporterOptionsWidget::getBaseUIExporterSettings() {

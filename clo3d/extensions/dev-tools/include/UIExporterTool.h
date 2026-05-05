@@ -8,21 +8,21 @@
 #include "GeneralUIExporterOptions.h"
 #include "UIExporterToolSettings.h"
 
-class UIExporterTool: public BaseDevTool, public BaseExtensionsSettingsPage {
+class UIExporterTool: public BaseDevTool {
 public:
-    explicit UIExporterTool(GeneralUIExporterOptions* options);
+    explicit UIExporterTool(UIExporterToolSettings* uiExporterToolSettings, GeneralUIExporterOptions* options);
     ~UIExporterTool() override;
 
     void configureSettings(ExtensionsSettings *extensionsSettings) override;
     void configureSettingsUI(UI::ExtensionsSettingsDialog *extensionsSettingsDialog) override;
 
     void addExporter(BaseUIExporter* exporter);
-    void readSettings() override;
-    void setSettings(const BaseExtensionsSettingsEditor* settingsEditor) override;
+    // void readSettings() override;
+    // void setSettings(const BaseExtensionsSettingsEditor* settingsEditor) override;
 private:
     std::forward_list<BaseUIExporter*> exporters_;
     GeneralUIExporterOptions* options_;
-    UIExporterToolSettings uiExporterToolSettings_ = UIExporterToolSettings();
+    UIExporterToolSettings* uiExporterToolSettings_;
 };
 
 

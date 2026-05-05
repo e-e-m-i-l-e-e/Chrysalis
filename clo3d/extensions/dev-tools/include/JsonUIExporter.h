@@ -10,6 +10,7 @@ public:
     ~JsonUIExporter() override;
 
     void exportUI() override;
+    BaseUIExporterOptions* getOptions() override;
 private:
     JsonUIExporterOptions* options_;
 };

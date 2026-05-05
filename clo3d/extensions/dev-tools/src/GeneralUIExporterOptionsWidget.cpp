@@ -37,12 +37,12 @@ void GeneralUIExporterOptionsWidget::read(Settings& settings) {
     ui->pickMyMouse->setChecked(options_->getPickMyMouse());
 }
 
-std::shared_ptr<BaseUIExporterOptions> GeneralUIExporterOptionsWidget::getOptions() {
+BaseUIExporterOptions* GeneralUIExporterOptionsWidget::getOptions() {
     return options_;
 }
 
-void GeneralUIExporterOptionsWidget::setOptions(const std::shared_ptr<BaseUIExporterOptions> options) {
-    options_ = std::dynamic_pointer_cast<GeneralUIExporterOptions>(options);
+void GeneralUIExporterOptionsWidget::setOptions(BaseUIExporterOptions* options) {
+    options_ = dynamic_cast<GeneralUIExporterOptions*>(options);
 }
 
 BaseUIExporterSettingsBlockContainerWidget* GeneralUIExporterOptionsWidget::getBaseUIExporterSettings() {

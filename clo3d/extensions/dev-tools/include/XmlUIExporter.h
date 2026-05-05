@@ -10,6 +10,7 @@ public:
     ~XmlUIExporter() override;
 
     void exportUI() override;
+    BaseUIExporterOptions* getOptions() override;
 private:
     XmlUIExporterOptions* options_;
 };

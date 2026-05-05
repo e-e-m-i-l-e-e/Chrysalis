@@ -21,8 +21,10 @@ BOOL WINAPI DllMain(HINSTANCE hInst, const DWORD reason, LPVOID) {
 #endif
 #ifdef EXTEND_WITH_DEV_TOOLS
         const auto devToolsExtension = new DevToolsExtension();
+
+        const auto uiExporterToolSettings = new UIExporterToolSettings();
         const auto generalUIExporterOptions = new GeneralUIExporterOptions();
-        const auto uiExporterTool = new UIExporterTool(generalUIExporterOptions);
+        const auto uiExporterTool = new UIExporterTool(uiExporterToolSettings, generalUIExporterOptions);
 
         const auto jsonUIExporterOptions = new JsonUIExporterOptions();
         const auto jsonUIExporter = new JsonUIExporter(jsonUIExporterOptions);
@@ -31,6 +33,9 @@ BOOL WINAPI DllMain(HINSTANCE hInst, const DWORD reason, LPVOID) {
         const auto xmlUIExporterOptions = new XmlUIExporterOptions();
         const auto xmlUIExporter = new XmlUIExporter(xmlUIExporterOptions);
         uiExporterTool->addExporter(xmlUIExporter);
+
+        devToolsExtension->addDevTool(uiExporterTool);
+
         ExtensionsManager::addExtension(devToolsExtension);
 #endif
         ExtensionsManager::install();

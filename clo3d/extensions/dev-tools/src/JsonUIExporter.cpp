@@ -8,3 +8,7 @@ JsonUIExporter::~JsonUIExporter() {
 
 void JsonUIExporter::exportUI() {
 }
+
+BaseUIExporterOptions* JsonUIExporter::getOptions() {
+    return options_;
+}

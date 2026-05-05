@@ -8,3 +8,7 @@ XmlUIExporter::~XmlUIExporter() {
 
 void XmlUIExporter::exportUI() {
 }
+
+BaseUIExporterOptions* XmlUIExporter::getOptions() {
+    return options_;
+}

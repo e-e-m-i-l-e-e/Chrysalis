@@ -1,13 +1,13 @@
 #include "UIExporterToolSettings.h"
 
-void UIExporterToolSettings::addOptions(const std::shared_ptr<BaseUIExporterOptions> &options) {
-    options_.push_front(options);
+void UIExporterToolSettings::addOptions(BaseUIExporterOptions* options) {
+    options_.push_back(options);
 }
 
-std::forward_list<std::shared_ptr<BaseUIExporterOptions>>::const_iterator UIExporterToolSettings::begin() const {
+std::list<BaseUIExporterOptions*>::const_iterator UIExporterToolSettings::begin() const {
     return options_.begin();
 }
 
-std::forward_list<std::shared_ptr<BaseUIExporterOptions>>::const_iterator UIExporterToolSettings::end() const {
+std::list<BaseUIExporterOptions*>::const_iterator UIExporterToolSettings::end() const {
     return options_.end();
 }
