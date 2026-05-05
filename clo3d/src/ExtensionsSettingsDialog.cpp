@@ -44,7 +44,6 @@ int ExtensionsSettingsDialog::exec() {
 void ExtensionsSettingsDialog::processPages(void (BaseExtensionsSettingsPageWidget::*processor)()) const {
     for (int i = 0; i < ui->navigation->count(); i++) {
         if (const auto extensionsSettingsPageWidget = qobject_cast<BaseExtensionsSettingsPageWidget*>(ui->navigation->getPage(i))) {
-            const auto _ = extensionsSettings->editSettings(extensionsSettingsPageWidget->getTitle());
             (extensionsSettingsPageWidget->*processor)();
         }
     }

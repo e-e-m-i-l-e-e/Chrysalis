@@ -16,14 +16,15 @@ class XmlUIExporterOptions: public BaseUIExporterOptions {
     };
 public:
     void read(const Settings &settings) override;
+    void write(const Settings &settings) override;
 
     [[nodiscard]] bool getIsEnabled() const;
     [[nodiscard]] bool getExportIcons() const;
     [[nodiscard]] bool getUICompatible() const;
 
-    void setIsEnabled(const Settings& settings, bool isEnabled);
-    void setExportIcons(const Settings& settings, bool exportIcons);
-    void setUICompatible(const Settings& settings, bool uiCompatible);
+    void setIsEnabled(bool isEnabled);
+    void setExportIcons(bool exportIcons);
+    void setUICompatible(bool uiCompatible);
 private:
     bool isEnabled_ = Defaults::IS_ENABLED;
     bool exportIcons_ = Defaults::EXPORT_ICONS;

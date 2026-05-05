@@ -12,8 +12,8 @@ namespace UI {
         explicit BaseUIExporterOptionsWidget(QWidget* parent = nullptr): QWidget(parent) {}
     public:
         QString getTitle();
-        virtual void read(Settings& settings);
-        virtual void write(Settings& settings);
+        virtual void read();
+        virtual void write();
         virtual BaseUIExporterOptions* getOptions() = 0;
         virtual void setOptions(BaseUIExporterOptions* options) = 0;
         virtual BaseUIExporterSettingsBlockContainerWidget* getBaseUIExporterSettings() = 0;

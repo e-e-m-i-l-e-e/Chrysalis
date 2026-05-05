@@ -7,6 +7,13 @@ void XmlUIExporterOptions::read(const Settings &settings) {
     uiCompatible_ = settings.value(Keys::UI_COMPATIBLE, Defaults::UI_COMPATIBLE).toBool();
 }
 
+void XmlUIExporterOptions::write(const Settings &settings) {
+    BaseUIExporterOptions::write(settings);
+    settings.setValue(Keys::IS_ENABLED, isEnabled_);
+    settings.setValue(Keys::EXPORT_ICONS, exportIcons_);
+    settings.setValue(Keys::UI_COMPATIBLE, uiCompatible_);
+}
+
 bool XmlUIExporterOptions::getIsEnabled() const {
     return isEnabled_;
 }
@@ -19,17 +26,14 @@ bool XmlUIExporterOptions::getUICompatible() const {
     return uiCompatible_;
 }
 
-void XmlUIExporterOptions::setIsEnabled(const Settings &settings, const bool isEnabled) {
-    settings.setValue(Keys::IS_ENABLED, isEnabled);
+void XmlUIExporterOptions::setIsEnabled(const bool isEnabled) {
     isEnabled_ = isEnabled;
 }
 
-void XmlUIExporterOptions::setExportIcons(const Settings &settings, const bool exportIcons) {
-    settings.setValue(Keys::EXPORT_ICONS, exportIcons);
+void XmlUIExporterOptions::setExportIcons(const bool exportIcons) {
     exportIcons_ = exportIcons;
 }
 
-void XmlUIExporterOptions::setUICompatible(const Settings &settings, const bool uiCompatible) {
-    settings.setValue(Keys::UI_COMPATIBLE, uiCompatible);
+void XmlUIExporterOptions::setUICompatible(const bool uiCompatible) {
     uiCompatible_ = uiCompatible;
 }

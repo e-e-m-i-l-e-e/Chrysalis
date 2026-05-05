@@ -7,6 +7,13 @@ void JsonUIExporterOptions::read(const Settings &settings) {
     visibleOnly_ = settings.value(Keys::VISIBLE_ONLY, Defaults::VISIBLE_ONLY).toBool();
 }
 
+void JsonUIExporterOptions::write(const Settings &settings) {
+    BaseUIExporterOptions::write(settings);
+    settings.setValue(Keys::IS_ENABLED, isEnabled_);
+    settings.setValue(Keys::IGNORE_CSS, ignoreCSS_);
+    settings.setValue(Keys::VISIBLE_ONLY, visibleOnly_);
+}
+
 bool JsonUIExporterOptions::getIsEnabled() const {
     return isEnabled_;
 }
@@ -19,17 +26,14 @@ bool JsonUIExporterOptions::getVisibleOnly() const {
     return visibleOnly_;
 }
 
-void JsonUIExporterOptions::setIsEnabled(const Settings &settings, const bool isEnabled) {
-    settings.setValue(Keys::IS_ENABLED, isEnabled_);
+void JsonUIExporterOptions::setIsEnabled(const bool isEnabled) {
     isEnabled_ = isEnabled;
 }
 
-void JsonUIExporterOptions::setIgnoreCSS(const Settings &settings, const bool ignoreCSS) {
-    settings.setValue(Keys::IGNORE_CSS, ignoreCSS_);
+void JsonUIExporterOptions::setIgnoreCSS(const bool ignoreCSS) {
     ignoreCSS_ = ignoreCSS;
 }
 
-void JsonUIExporterOptions::setVisibleOnly(const Settings &settings, const bool visibleOnly) {
-    settings.setValue(Keys::VISIBLE_ONLY, visibleOnly_);
+void JsonUIExporterOptions::setVisibleOnly(const bool visibleOnly) {
     visibleOnly_ = visibleOnly;
 }

@@ -8,7 +8,9 @@
 
 class UIExporterToolSettings: public BaseExtensionsSettingsPage {
 public:
-    void readSettings() override {};
+    void readSettings() override;
+    void writeSettings() override;
+
     void addOptions(BaseUIExporterOptions* options);
 
     std::list<BaseUIExporterOptions*>::const_iterator begin() const;

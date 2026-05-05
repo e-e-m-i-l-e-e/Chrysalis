@@ -16,12 +16,13 @@ class GeneralUIExporterOptions: public BaseUIExporterOptions {
     };
 public:
     void read(const Settings &settings) override;
+    void write(const Settings &settings) override;
 
     [[nodiscard]] QKeySequence getShortcut() const;
     [[nodiscard]] bool getPickMyMouse() const;
 
-    void setShortcut(const Settings& settings, const QKeySequence& shortcut);
-    void setPickMyMouse(const Settings& settings, bool pickByMouse);
+    void setShortcut(const QKeySequence& shortcut);
+    void setPickMyMouse(bool pickByMouse);
 private:
     QKeySequence shortcut_ = Defaults::SHORTCUT;
     bool pickByMouse_ = Defaults::PICK_BY_MOUSE;

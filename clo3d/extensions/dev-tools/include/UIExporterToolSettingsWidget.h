@@ -26,7 +26,7 @@ namespace UI {
         void reset() override;
         void read() override;
     private:
-        void processOptions(void(BaseUIExporterOptionsWidget::*processor)(Settings&)) const;
+        void processOptions(void(BaseUIExporterOptionsWidget::*processor)()) const;
 
         Ui::UIExporterToolSettingsWidget *ui;
         UIExporterToolSettings& settings_;

@@ -23,16 +23,17 @@ protected:
     virtual ~BaseUIExporterOptions() = default;
 public:
     virtual void read(const Settings& settings);
+    virtual void write(const Settings& settings);
 
     [[nodiscard]] QDir getRootFolder() const;
     [[nodiscard]] QString getFileName() const;
     [[nodiscard]] QString getObjectName() const;
     [[nodiscard]] QString getClassName() const;
 
-    void setRootFolder(const Settings& settings, const QDir& rootFolder);
-    void setFileName(const Settings& settings, const QString& fileName);
-    void setObjectName(const Settings& settings, const QString& objectName);
-    void setClassName(const Settings& settings, const QString& className);
+    void setRootFolder(const QDir& rootFolder);
+    void setFileName(const QString& fileName);
+    void setObjectName(const QString& objectName);
+    void setClassName(const QString& className);
 private:
     QDir rootFolder_ = Defaults::ROOT_FOLDER;
     QString fileName_ = Defaults::FILE_NAME;

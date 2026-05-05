@@ -19,7 +19,7 @@ namespace UI {
         explicit JsonUIExporterOptionsWidget(QWidget *parent = nullptr);
         ~JsonUIExporterOptionsWidget() override;
 
-        void read(Settings& settings) override;
+        void read() override;
         BaseUIExporterOptions* getOptions() override;
         void setOptions(BaseUIExporterOptions* options) override;
         BaseUIExporterSettingsBlockContainerWidget* getBaseUIExporterSettings() override;

@@ -26,13 +26,13 @@ GeneralUIExporterOptionsWidget::~GeneralUIExporterOptionsWidget() {
     delete ui;
 }
 
-void GeneralUIExporterOptionsWidget::read(Settings& settings) {
+void GeneralUIExporterOptionsWidget::read() {
     if (!options_) {
         LOG_WARN("General UI Exporter options weren't set");
         this->setEnabled(false);
         return;
     }
-    BaseUIExporterOptionsWidget::read(settings);
+    BaseUIExporterOptionsWidget::read();
     ui->shortcut->setKeySequence(options_->getShortcut());
     ui->pickMyMouse->setChecked(options_->getPickMyMouse());
 }

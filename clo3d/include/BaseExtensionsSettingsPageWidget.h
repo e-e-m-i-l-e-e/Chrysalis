@@ -17,9 +17,13 @@ namespace UI {
             return page_;
         }
     public slots:
-        virtual void save() = 0;
+        virtual void save() {
+            page_.writeSettings();
+        };
         virtual void reset() = 0;
-        virtual void read() = 0;
+        virtual void read() {
+            page_.readSettings();
+        };
     private:
         BaseExtensionsSettingsPage& page_;
     };

@@ -34,13 +34,13 @@ void JsonUIExporterOptionsWidget::classNameChanged(const QString &className) con
     ui->baseUIExporterSettingsBlockContainerWidget->setClassNameText(className);
 }
 
-void JsonUIExporterOptionsWidget::read(Settings& settings) {
+void JsonUIExporterOptionsWidget::read() {
     if (!options_) {
         LOG_WARN("Json UI Exporter options weren't set");
         this->setEnabled(false);
         return;
     }
-    BaseUIExporterOptionsWidget::read(settings);
+    BaseUIExporterOptionsWidget::read();
     ui->visibleOnly->setChecked(options_->getVisibleOnly());
     ui->ignoreCSS->setChecked(options_->getIgnoreCSS());
 }

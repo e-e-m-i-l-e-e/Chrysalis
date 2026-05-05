@@ -46,7 +46,8 @@ UIExporterToolSettingsWidget::~UIExporterToolSettingsWidget() {
 }
 
 void UIExporterToolSettingsWidget::save() {
-        processOptions(&BaseUIExporterOptionsWidget::write);
+   processOptions(&BaseUIExporterOptionsWidget::write);
+   BaseExtensionsSettingsPageWidget::save();
 }
 
 void UIExporterToolSettingsWidget::reset() {
@@ -54,13 +55,12 @@ void UIExporterToolSettingsWidget::reset() {
 }
 
 void UIExporterToolSettingsWidget::read() {
+    BaseExtensionsSettingsPageWidget::read();
     processOptions(&BaseUIExporterOptionsWidget::read);
 }
 
-void UIExporterToolSettingsWidget::processOptions(void (BaseUIExporterOptionsWidget::*processor)(Settings &)) const {
-        // TEST COMMENT
+void UIExporterToolSettingsWidget::processOptions(void (BaseUIExporterOptionsWidget::*processor)()) const {
         for (const auto uiExporterOptionsWidget: this->findChildren<BaseUIExporterOptionsWidget *>()) {
-                auto settings = settings_.editSettings(uiExporterOptionsWidget->getTitle());
-                (uiExporterOptionsWidget->*processor)(settings);
+                (uiExporterOptionsWidget->*processor)();
         }
 }

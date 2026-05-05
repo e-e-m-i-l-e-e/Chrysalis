@@ -16,14 +16,15 @@ class JsonUIExporterOptions: public BaseUIExporterOptions {
     };
 public:
     void read(const Settings &settings) override;
+    void write(const Settings &settings) override;
 
     [[nodiscard]] bool getIsEnabled() const;
     [[nodiscard]] bool getIgnoreCSS() const;
     [[nodiscard]] bool getVisibleOnly() const;
 
-    void setIsEnabled(const Settings& settings, bool isEnabled);
-    void setIgnoreCSS(const Settings& settings, bool ignoreCSS);
-    void setVisibleOnly(const Settings& settings, bool visibleOnly);
+    void setIsEnabled(bool isEnabled);
+    void setIgnoreCSS(bool ignoreCSS);
+    void setVisibleOnly(bool visibleOnly);
 private:
     bool isEnabled_ = Defaults::IS_ENABLED;
     bool ignoreCSS_ = Defaults::IGNORE_CSS;

@@ -4,16 +4,16 @@ QString UI::BaseUIExporterOptionsWidget::getTitle() {
     return getBaseUIExporterSettings()->getTitle();
 }
 
-void UI::BaseUIExporterOptionsWidget::write(Settings& settings) {
+void UI::BaseUIExporterOptionsWidget::write() {
     const auto& baseUIExporterSettings = getBaseUIExporterSettings();
     const auto& options = getOptions();
-    options->setRootFolder(settings, baseUIExporterSettings->getRootFolderText());
-    options->setFileName(settings, baseUIExporterSettings->getFileNameText());
-    options->setObjectName(settings, baseUIExporterSettings->getObjectNameText());
-    options->setClassName(settings, baseUIExporterSettings->getClassNameText());
+    options->setRootFolder(baseUIExporterSettings->getRootFolderText());
+    options->setFileName(baseUIExporterSettings->getFileNameText());
+    options->setObjectName(baseUIExporterSettings->getObjectNameText());
+    options->setClassName(baseUIExporterSettings->getClassNameText());
 }
 
-void UI::BaseUIExporterOptionsWidget::read(Settings& settings) {
+void UI::BaseUIExporterOptionsWidget::read() {
     const auto& baseUIExporterSettings = getBaseUIExporterSettings();
     const auto& options = getOptions();
     baseUIExporterSettings->setRootFolderText(options->getRootFolder().path());
