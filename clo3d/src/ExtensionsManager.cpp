@@ -26,15 +26,17 @@
 #include "JsonUIExporterOptions.h"
 #include "UIExporterToolSettingsWidget.h"
 #include "XmlUIExporterOptions.h"
+#include "UIExporterTool.h"
 
-void ExtensionsManager::registerExtension(Extension *extension) {
-    extensions.push_back(extension);
-}
 #include <QToolButton>
 #include <QOpenGLWidget>
 
+void ExtensionsManager::addExtension(BaseExtension* extension) {
+    extensions.push_front(extension);
+}
+
 void ExtensionsManager::install() {
-    const auto extSettings = new ExtensionsSettings("eemilee.me", "CLO3D Extensions");
+    extensionsSettings = new ExtensionsSettings("eemilee.me", "CLO3D Extensions");
     // Forward all CLO3D logging into Extension's logger
     HooksManager::addIgnore<&qInstallMessageHandler>([](const HookHandle&, bool& ignore, QtMessageHandler&, QtMessageHandler&) {
         ignore = true;
@@ -54,24 +56,16 @@ void ExtensionsManager::install() {
             const auto extensionsMenu = menuBar->addMenu("Extensions");
 
             // const auto settings = new QSettings("eemilee.me", "CLO3D Extensions");
-            extensionsSettings = new UI::ExtensionsSettingsDialog(extSettings, mainWindow);
+            // extensionsSettings = new UI::ExtensionsSettingsDialog(extensionsSettings, mainWindow);
             // extensionsSettings = new ExtensionsSettings(mainWindow);
             const QAction *extensionsSettingsMenu = extensionsMenu->addAction("Extensions Settings");
             // QObject::connect(extensionsSettingsMenu, &QAction::triggered, extensionsSettings, &ExtensionsSettings::exec);
             QObject::connect(extensionsSettingsMenu, &QAction::triggered, [&]() {
-                auto uiExporterSettings = new UIExporterToolSettings();
-
-                auto generalUIExporterOptions = std::make_shared<GeneralUIExporterOptions>();
-                auto jsonUIExporterOptions = std::make_shared<JsonUIExporterOptions>();
-                auto xmlUIExporterOptions = std::make_shared<XmlUIExporterOptions>();
-
-                uiExporterSettings->addOptions(xmlUIExporterOptions);
-                uiExporterSettings->addOptions(jsonUIExporterOptions);
-                uiExporterSettings->addOptions(generalUIExporterOptions);
-
-                auto uiExporterSettingsWidget = new UI::UIExporterToolSettingsWidget(*uiExporterSettings);
-                extensionsSettings->addPage(uiExporterSettingsWidget);
-                extensionsSettings->exec();
+                const auto extensionsSettingsDialog = new UI::ExtensionsSettingsDialog(extensionsSettings, mainWindow);
+                for (const auto extension: extensions) {
+                    extension->configureSettingsUI(extensionsSettingsDialog);
+                }
+                extensionsSettingsDialog->exec();
             });
 
             for (const auto extension: extensions) {
@@ -297,9 +291,9 @@ void ExtensionsManager::install() {
     // });
     for (const auto extension: extensions) {
         extension->install();
-        extension->configureSettings(extSettings);
+        extension->configureSettings(extensionsSettings);
     }
-    extSettings->readSettings();
+    extensionsSettings->readSettings();
 }
 
 void ExtensionsManager::setMessage(const QString &message) {

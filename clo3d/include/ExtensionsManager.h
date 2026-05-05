@@ -6,12 +6,11 @@
 #include <vector>
 #include <Windows.h>
 
-#include "Extension.h"
+#include "BaseExtension.h"
 #include "ExtensionsSettings.h"
-#include "ExtensionsSettingsDialog.h"
 
 class ExtensionsManager {
-    friend Extension;
+    friend BaseExtension;
     friend BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved);
 
     static void setMessage(const QString& message);
@@ -20,14 +19,13 @@ class ExtensionsManager {
     inline static QLabel* backgroundMessage_;
 public:
 
-    static void registerExtension(Extension* extension);
+    static void addExtension(BaseExtension* extension);
 
     static void setMessage(const QString& extensionName, const QString& message, bool logMessage = false);
     static void clearMessage();
 
-    inline static std::vector<Extension*> extensions;
-    inline static UI::ExtensionsSettingsDialog* extensionsSettings;
-    // inline static ExtensionsSettings* extensionsSettings;
+    inline static std::forward_list<BaseExtension*> extensions;
+    inline static ExtensionsSettings* extensionsSettings;
 
     inline static QFrame* mainWindow;
 

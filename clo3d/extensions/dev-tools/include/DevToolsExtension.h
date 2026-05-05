@@ -1,15 +1,19 @@
 #ifndef FASHIONDESIGNAPPS_DEVTOOLSEXTENSION_H
 #define FASHIONDESIGNAPPS_DEVTOOLSEXTENSION_H
 
-#include "Extension.h"
+#include "BaseExtension.h"
+#include "BaseDevTool.h"
 #include "UIExporterTool.h"
 
-class DevToolsExtension: public Extension {
+class DevToolsExtension: public BaseExtension {
 public:
-    void install() override;
+    ~DevToolsExtension() override;
+
+    void addDevTool(BaseDevTool* tool);
     void configureSettings(ExtensionsSettings* extensionsSettings) override;
+    void configureSettingsUI(UI::ExtensionsSettingsDialog *extensionsSettingsDialog) override;
 private:
-    UIExporterTool* uiExporterTool = nullptr;
+    std::forward_list<BaseDevTool*> devTools_;
 };
 
 #endif //FASHIONDESIGNAPPS_DEVTOOLSEXTENSION_H

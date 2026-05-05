@@ -1,20 +1,21 @@
-#ifndef CLOEXTENSIONS_EXTENSION_H
-#define CLOEXTENSIONS_EXTENSION_H
+#ifndef FASHIONDESIGNAPPS_BASEEXTENSION_H
+#define FASHIONDESIGNAPPS_BASEEXTENSION_H
 
 #include <QMenu>
 
 #include "ExtensionsSettingsDialog.h"
 
-class Extension {
+class BaseExtension {
 protected:
-    explicit Extension() = default;
-    virtual ~Extension() = default;
+    explicit BaseExtension() = default;
+    virtual ~BaseExtension() = default;
 public:
     virtual void install() {}
     virtual void configure(QWidget* widget) {}
     virtual void configureMenu(QMenu* extensionMenu) {}
     virtual void configureSettings(ExtensionsSettings* extensionsSettings) {}
+    virtual void configureSettingsUI(UI::ExtensionsSettingsDialog* extensionsSettingsDialog) {}
     virtual void configureStatusBar(QWidget* parent) {}
 };
 
-#endif //CLOEXTENSIONS_EXTENSION_H
+#endif //FASHIONDESIGNAPPS_BASEEXTENSION_H

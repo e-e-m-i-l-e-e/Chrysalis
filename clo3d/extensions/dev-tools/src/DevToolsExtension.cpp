@@ -1,26 +1,26 @@
 #include "DevToolsExtension.h"
 
 #include "UIExporterTool.h"
+#include "UIExporterToolSettingsWidget.h"
 
-#include "XmlUIExporter.h"
-#include "JsonUIExporter.h"
+DevToolsExtension::~DevToolsExtension() {
+    for (const auto devTool: devTools_) {
+        delete devTool;
+    }
+}
 
-#include "JsonUIExporterOptions.h"
-#include "XmlUIExporterOptions.h"
-
-void DevToolsExtension::install() {
-    const auto generalUIExporterOptions = new GeneralUIExporterOptions();
-    uiExporterTool = new UIExporterTool(generalUIExporterOptions);
-
-    const auto jsonUIExporterOptions = new JsonUIExporterOptions();
-    const auto jsonUIExporter = new JsonUIExporter(jsonUIExporterOptions);
-    uiExporterTool->addExporter(jsonUIExporter);
-
-    const auto xmlUIExporterOptions = new XmlUIExporterOptions();
-    const auto xmlUIExporter = new XmlUIExporter(xmlUIExporterOptions);
-    uiExporterTool->addExporter(xmlUIExporter);
+void DevToolsExtension::addDevTool(BaseDevTool* tool) {
+    devTools_.push_front(tool);
 }
 
 void DevToolsExtension::configureSettings(ExtensionsSettings* extensionsSettings) {
-    extensionsSettings->addSettings(uiExporterTool);
+    for (const auto devTool: devTools_) {
+        devTool->configureSettings(extensionsSettings);
+    }
+}
+
+void DevToolsExtension::configureSettingsUI(UI::ExtensionsSettingsDialog* extensionsSettingsDialog) {
+    for (const auto devTool: devTools_) {
+        devTool->configureSettingsUI(extensionsSettingsDialog);
+    }
 }

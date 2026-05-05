@@ -1,9 +1,9 @@
 #ifndef FASHIONDESIGNAPPS_AUTHENTICATOREXTENSION_H
 #define FASHIONDESIGNAPPS_AUTHENTICATOREXTENSION_H
 
-#include "Extension.h"
+#include "BaseExtension.h"
 
-class AuthenticatorExtension: public Extension {
+class AuthenticatorExtension: public BaseExtension {
 public:
     void install() override;
 };

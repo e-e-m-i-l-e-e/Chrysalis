@@ -1,9 +1,9 @@
 #ifndef CLOEXTENSIONS_PATTERNBUILDER_H
 #define CLOEXTENSIONS_PATTERNBUILDER_H
 
-#include "Extension.h"
+#include "BaseExtension.h"
 
-class PatternBuilder: public Extension {
+class PatternBuilder: public BaseExtension {
 protected:
     ~PatternBuilder() override = default;
 

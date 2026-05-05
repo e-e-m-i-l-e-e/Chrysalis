@@ -3,14 +3,18 @@
 
 #include <forward_list>
 
+#include "BaseDevTool.h"
 #include "BaseUIExporter.h"
 #include "GeneralUIExporterOptions.h"
-#include "BaseExtensionsSettingsPage.h"
+#include "UIExporterToolSettings.h"
 
-class UIExporterTool: public BaseExtensionsSettingsPage {
+class UIExporterTool: public BaseDevTool, public BaseExtensionsSettingsPage {
 public:
     explicit UIExporterTool(GeneralUIExporterOptions* options);
     ~UIExporterTool() override;
+
+    void configureSettings(ExtensionsSettings *extensionsSettings) override;
+    void configureSettingsUI(UI::ExtensionsSettingsDialog *extensionsSettingsDialog) override;
 
     void addExporter(BaseUIExporter* exporter);
     void readSettings() override;
@@ -18,6 +22,7 @@ public:
 private:
     std::forward_list<BaseUIExporter*> exporters_;
     GeneralUIExporterOptions* options_;
+    UIExporterToolSettings uiExporterToolSettings_ = UIExporterToolSettings();
 };
 
 

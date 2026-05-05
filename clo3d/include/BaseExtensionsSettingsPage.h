@@ -6,8 +6,6 @@
 class BaseExtensionsSettingsPage: public BaseExtensionsSettingsEditor {
 public:
     virtual void readSettings() = 0;
-    // virtual void save() = 0;
-    // virtual void reset() = 0;
 };
 
 #endif //FASHIONDESIGNAPPS_BASEEXTENSIONSSETTINGSPAGE_H
