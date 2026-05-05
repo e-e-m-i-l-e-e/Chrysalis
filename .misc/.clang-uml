@@ -1,7 +1,7 @@
-compilation_database_dir: ../.build/RelWithDebInfo/compile_commands.json
+compilation_database_dir: ../.build/RelWithDebInfo
 output_directory: diagrams
 add_compile_flags:
-  - -fparse-all-comments
+  - /clang:-fparse-all-comments
 diagrams:
   CLO3DExtensionsDevToolsClassDiagram:
     type: class
@@ -75,7 +75,7 @@ diagrams:
           {% endif %}
 
           {% endfor %}
-  CLO3DExtensionsDevToolsSequenceDiagram:
+  CLO3DExtensionsSettingsSequenceDiagram:
     type: sequence
     generate_message_comments: true
     glob:
@@ -84,3 +84,5 @@ diagrams:
         - ../clo3d/extensions/dev-tools/src/*.cpp
     from:
       - function: "UI::ExtensionsSettingsDialog::exec()"
+      - function: "UI::ExtensionsSettingsDialog::accept()"
+      - function: "UI::ExtensionsSettingsDialog::reject()"

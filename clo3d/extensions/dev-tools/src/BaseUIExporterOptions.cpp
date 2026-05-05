@@ -1,33 +1,44 @@
 #include "BaseUIExporterOptions.h"
 
-QDir BaseUIExporterOptions::getRootFolder(const Settings& settings) {
-    return QDir(settings.value("rootFolder", QString(CLO_HOME) + "/extensions").toString());
+void BaseUIExporterOptions::read(const Settings &settings) {
+    rootFolder_ = QDir(settings.value(Keys::ROOT_FOLDER, Defaults::ROOT_FOLDER.path()).toString());
+    fileName_ = settings.value(Keys::FILE_NAME, Defaults::FILE_NAME).toString();
+    objectName_ = settings.value(Keys::OBJECT_NAME, Defaults::OBJECT_NAME).toString();
+    className_ = settings.value(Keys::CLASS_NAME, Defaults::CLASS_NAME).toString();
 }
 
-QString BaseUIExporterOptions::getFileName(Settings& settings) {
-    return settings.value("fileName", "ui").toString();
+QDir BaseUIExporterOptions::getRootFolder() const {
+    return rootFolder_;
 }
 
-QString BaseUIExporterOptions::getObjectName(Settings& settings) {
-    return settings.value("objectName", "").toString();
+QString BaseUIExporterOptions::getFileName() const {
+    return fileName_;
 }
 
-QString BaseUIExporterOptions::getClassName(Settings& settings) {
-    return settings.value("className", "").toString();
+QString BaseUIExporterOptions::getObjectName() const {
+    return objectName_;
 }
 
-void BaseUIExporterOptions::setRootFolder(Settings& settings, const QDir &rootFolder) {
-    settings.setValue("rootFolder", rootFolder.path());
+QString BaseUIExporterOptions::getClassName() const {
+    return className_;
 }
 
-void BaseUIExporterOptions::setFileName(Settings& settings, const QString &fileName) {
-    settings.setValue("fileName", fileName);
+void BaseUIExporterOptions::setRootFolder(const Settings& settings, const QDir &rootFolder) {
+    settings.setValue(Keys::ROOT_FOLDER, rootFolder.path());
+    rootFolder_ = rootFolder;
 }
 
-void BaseUIExporterOptions::setObjectName(Settings& settings, const QString &objectName) {
-    settings.setValue("objectName", objectName);
+void BaseUIExporterOptions::setFileName(const Settings& settings, const QString &fileName) {
+    settings.setValue(Keys::FILE_NAME, fileName);
+    fileName_ = fileName;
 }
 
-void BaseUIExporterOptions::setClassName(Settings& settings, const QString &className) {
-    settings.setValue("className", className);
+void BaseUIExporterOptions::setObjectName(const Settings& settings, const QString &objectName) {
+    settings.setValue(Keys::OBJECT_NAME, objectName);
+    objectName_ = objectName;
+}
+
+void BaseUIExporterOptions::setClassName(const Settings& settings, const QString &className) {
+    settings.setValue(Keys::CLASS_NAME, className);
+    className_ = className;
 }

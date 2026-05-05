@@ -34,11 +34,12 @@ void ExtensionsManager::registerExtension(Extension *extension) {
 #include <QOpenGLWidget>
 
 void ExtensionsManager::install() {
+    const auto extSettings = new ExtensionsSettings("eemilee.me", "CLO3D Extensions");
     // Forward all CLO3D logging into Extension's logger
     HooksManager::addIgnore<&qInstallMessageHandler>([](const HookHandle&, bool& ignore, QtMessageHandler&, QtMessageHandler&) {
         ignore = true;
     });
-    HooksManager::addAfter<&QWidget::show>([](const HookHandle& handle, QWidget* this_) {
+    HooksManager::addAfter<&QWidget::show>([&](const HookHandle& handle, QWidget* this_) {
         if (this_->objectName() == " TitleFrame") {
             LOG_INFO("Main window has been detected by Extensions Manager. Setting up UI.");
             mainWindow = dynamic_cast<QFrame*>(this_);
@@ -53,7 +54,6 @@ void ExtensionsManager::install() {
             const auto extensionsMenu = menuBar->addMenu("Extensions");
 
             // const auto settings = new QSettings("eemilee.me", "CLO3D Extensions");
-            const auto extSettings = std::make_shared<ExtensionsSettings>("eemilee.me", "CLO3D Extensions");
             extensionsSettings = new UI::ExtensionsSettingsDialog(extSettings, mainWindow);
             // extensionsSettings = new ExtensionsSettings(mainWindow);
             const QAction *extensionsSettingsMenu = extensionsMenu->addAction("Extensions Settings");
@@ -297,7 +297,9 @@ void ExtensionsManager::install() {
     // });
     for (const auto extension: extensions) {
         extension->install();
+        extension->configureSettings(extSettings);
     }
+    extSettings->readSettings();
 }
 
 void ExtensionsManager::setMessage(const QString &message) {

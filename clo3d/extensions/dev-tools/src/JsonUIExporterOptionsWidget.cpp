@@ -41,8 +41,8 @@ void JsonUIExporterOptionsWidget::read(Settings& settings) {
         return;
     }
     BaseUIExporterOptionsWidget::read(settings);
-    ui->visibleOnly->setChecked(options_->getVisibleOnly(settings));
-    ui->ignoreCSS->setChecked(options_->getIgnoreCSS(settings));
+    ui->visibleOnly->setChecked(options_->getVisibleOnly());
+    ui->ignoreCSS->setChecked(options_->getIgnoreCSS());
 }
 
 std::shared_ptr<BaseUIExporterOptions> JsonUIExporterOptionsWidget::getOptions() {

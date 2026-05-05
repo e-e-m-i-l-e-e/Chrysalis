@@ -41,8 +41,8 @@ void XmlUIExporterOptionsWidget::read(Settings& settings) {
         return;
     }
     BaseUIExporterOptionsWidget::read(settings);
-    ui->exportIcons->setChecked(options_->getExportIcons(settings));
-    ui->uiCompatible->setChecked(options_->getUICompatible(settings));
+    ui->exportIcons->setChecked(options_->getExportIcons());
+    ui->uiCompatible->setChecked(options_->getUICompatible());
 }
 
 std::shared_ptr<BaseUIExporterOptions> XmlUIExporterOptionsWidget::getOptions() {

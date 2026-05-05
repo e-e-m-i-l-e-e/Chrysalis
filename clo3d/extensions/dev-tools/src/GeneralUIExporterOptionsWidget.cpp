@@ -33,8 +33,8 @@ void GeneralUIExporterOptionsWidget::read(Settings& settings) {
         return;
     }
     BaseUIExporterOptionsWidget::read(settings);
-    ui->shortcut->setKeySequence(options_->getShortcut(settings));
-    ui->pickMyMouse->setChecked(options_->getPickMyMouse(settings));
+    ui->shortcut->setKeySequence(options_->getShortcut());
+    ui->pickMyMouse->setChecked(options_->getPickMyMouse());
 }
 
 std::shared_ptr<BaseUIExporterOptions> GeneralUIExporterOptionsWidget::getOptions() {

@@ -7,7 +7,7 @@
 
 using namespace UI;
 
-ExtensionsSettingsDialog::ExtensionsSettingsDialog(const std::shared_ptr<ExtensionsSettings> &settings, QWidget *parent)
+ExtensionsSettingsDialog::ExtensionsSettingsDialog(ExtensionsSettings* settings, QWidget *parent)
     : QDialog(parent), ui(new Ui::ExtensionsSettingsDialog), extensionsSettings(settings) {
     ui->setupUi(this);
     UTILITY_API->UpdateCloStyleForPlugIn(this);
@@ -25,27 +25,26 @@ void ExtensionsSettingsDialog::addPage(BaseExtensionsSettingsPageWidget* page) c
 }
 
 void ExtensionsSettingsDialog::accept() {
+    // Calls BaseExtensionsSettingsPageWidget::save
     processPages(&BaseExtensionsSettingsPageWidget::save);
     QDialog::accept();
 }
 
 void ExtensionsSettingsDialog::reject() {
+    // Calls BaseExtensionsSettingsPageWidget::reset
     processPages(&BaseExtensionsSettingsPageWidget::reset);
 }
 
 int ExtensionsSettingsDialog::exec() {
-    // Test Comment
+    // Calls BaseExtensionsSettingsPageWidget::read
     processPages(&BaseExtensionsSettingsPageWidget::read);
     return QDialog::exec();
 }
 
 void ExtensionsSettingsDialog::processPages(void (BaseExtensionsSettingsPageWidget::*processor)()) const {
-    // Test Comment
     for (int i = 0; i < ui->navigation->count(); i++) {
         if (const auto extensionsSettingsPageWidget = qobject_cast<BaseExtensionsSettingsPageWidget*>(ui->navigation->getPage(i))) {
-            // Test Comment
             const auto _ = extensionsSettings->editSettings(extensionsSettingsPageWidget->getTitle());
-            // \uml{call UI::UIExporterToolSettingsWidget::read()}
             (extensionsSettingsPageWidget->*processor)();
         }
     }

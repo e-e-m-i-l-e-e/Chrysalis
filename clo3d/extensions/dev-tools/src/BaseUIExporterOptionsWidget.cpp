@@ -16,8 +16,8 @@ void UI::BaseUIExporterOptionsWidget::write(Settings& settings) {
 void UI::BaseUIExporterOptionsWidget::read(Settings& settings) {
     const auto& baseUIExporterSettings = getBaseUIExporterSettings();
     const auto& options = getOptions();
-    baseUIExporterSettings->setRootFolderText(options->getRootFolder(settings).path());
-    baseUIExporterSettings->setFileNameText(options->getFileName(settings));
-    baseUIExporterSettings->setObjectNameText(options->getObjectName(settings));
-    baseUIExporterSettings->setClassNameText(options->getClassName(settings));
+    baseUIExporterSettings->setRootFolderText(options->getRootFolder().path());
+    baseUIExporterSettings->setFileNameText(options->getFileName());
+    baseUIExporterSettings->setObjectNameText(options->getObjectName());
+    baseUIExporterSettings->setClassNameText(options->getClassName());
 }

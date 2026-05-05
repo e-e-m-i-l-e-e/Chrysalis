@@ -1,18 +1,13 @@
 #include "BaseExtensionsSettingsEditor.h"
 
-BaseExtensionsSettingsEditor::~BaseExtensionsSettingsEditor() {
-    delete settings_;
+BaseExtensionsSettingsEditor::BaseExtensionsSettingsEditor(const QString &organization, const QString &application) {
+    settings_ = std::make_shared<QSettings>(organization, application);
 }
 
-void BaseExtensionsSettingsEditor::setSettings(QSettings* settings) {
-    settings_ = settings;
-}
-
-void BaseExtensionsSettingsEditor::setSettings(std::shared_ptr<BaseExtensionsSettingsEditor> settingsEditor) {
+void BaseExtensionsSettingsEditor::setSettings(const BaseExtensionsSettingsEditor* settingsEditor) {
     settings_ = settingsEditor->settings_;
 }
 
-// Edit settings
 Settings BaseExtensionsSettingsEditor::editSettings(const QString &groupName) const {
     return Settings(groupName, settings_);
 }

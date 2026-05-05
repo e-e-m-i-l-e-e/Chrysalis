@@ -20,7 +20,7 @@ namespace UI {
     class ExtensionsSettingsDialog : public QDialog {
         Q_OBJECT
     public:
-        explicit ExtensionsSettingsDialog(const std::shared_ptr<ExtensionsSettings> &settings, QWidget *parent = nullptr);
+        explicit ExtensionsSettingsDialog(ExtensionsSettings* settings, QWidget *parent = nullptr);
         ~ExtensionsSettingsDialog() override;
 
         void accept() override;
@@ -32,7 +32,7 @@ namespace UI {
         void processPages(void(BaseExtensionsSettingsPageWidget::*processor)()) const;
 
         Ui::ExtensionsSettingsDialog *ui;
-        std::shared_ptr<ExtensionsSettings> extensionsSettings;
+        ExtensionsSettings* extensionsSettings;
     };
 } // UI
 
