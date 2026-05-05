@@ -15,8 +15,8 @@ class JsonUIExporterOptions: public BaseUIExporterOptions {
         static constexpr bool VISIBLE_ONLY = false;
     };
 public:
-    void read(const Settings &settings) override;
-    void write(const Settings &settings) override;
+    void read(const QSettings* settings) override;
+    void write(QSettings* settings) override;
 
     [[nodiscard]] bool getIsEnabled() const;
     [[nodiscard]] bool getIgnoreCSS() const;

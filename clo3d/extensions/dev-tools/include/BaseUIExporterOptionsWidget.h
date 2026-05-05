@@ -1,7 +1,6 @@
 #ifndef FASHIONDESIGNAPPS_BASEUIEXPORTEROPTIONSWIDGET_H
 #define FASHIONDESIGNAPPS_BASEUIEXPORTEROPTIONSWIDGET_H
 
-#include "Settings.h"
 #include "BaseUIExporterOptions.h"
 #include "BaseUIExporterSettingsBlockContainerWidget.h"
 

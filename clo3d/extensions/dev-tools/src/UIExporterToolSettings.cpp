@@ -1,17 +1,23 @@
 #include "UIExporterToolSettings.h"
 
 void UIExporterToolSettings::readSettings() {
-    const auto settings = editSettings(typeid(*this).name());
+    settings_->beginGroup(typeid(*this).name());
     for (const auto& options : options_) {
-        options->read(editSettings(typeid(*options).name()));
+        settings_->beginGroup(typeid(*options).name());
+        options->read(settings_);
+        settings_->endGroup();
     }
+    settings_->endGroup();
 }
 
 void UIExporterToolSettings::writeSettings() {
-    const auto settings = editSettings(typeid(*this).name());
+    settings_->beginGroup(typeid(*this).name());
     for (const auto& options : options_) {
-        options->write(editSettings(typeid(*options).name()));
+        settings_->beginGroup(typeid(*options).name());
+        options->write(settings_);
+        settings_->endGroup();
     }
+    settings_->endGroup();
 }
 
 void UIExporterToolSettings::addOptions(BaseUIExporterOptions* options) {

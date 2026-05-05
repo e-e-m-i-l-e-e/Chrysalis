@@ -2,8 +2,7 @@
 #define FASHIONDESIGNAPPS_BASEUIEXPORTEROPTIONS_H
 
 #include <QDir>
-
-#include "Settings.h"
+#include <QSettings>
 
 class BaseUIExporterOptions {
     struct Keys {
@@ -22,8 +21,8 @@ protected:
     BaseUIExporterOptions() = default;
     virtual ~BaseUIExporterOptions() = default;
 public:
-    virtual void read(const Settings& settings);
-    virtual void write(const Settings& settings);
+    virtual void read(const QSettings* settings);
+    virtual void write(QSettings* settings);
 
     [[nodiscard]] QDir getRootFolder() const;
     [[nodiscard]] QString getFileName() const;

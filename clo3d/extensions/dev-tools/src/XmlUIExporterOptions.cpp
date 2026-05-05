@@ -1,17 +1,17 @@
 #include "XmlUIExporterOptions.h"
 
-void XmlUIExporterOptions::read(const Settings &settings) {
+void XmlUIExporterOptions::read(const QSettings* settings) {
     BaseUIExporterOptions::read(settings);
-    isEnabled_ = settings.value(Keys::IS_ENABLED, Defaults::IS_ENABLED).toBool();
-    exportIcons_ = settings.value(Keys::EXPORT_ICONS, Defaults::EXPORT_ICONS).toBool();
-    uiCompatible_ = settings.value(Keys::UI_COMPATIBLE, Defaults::UI_COMPATIBLE).toBool();
+    isEnabled_ = settings->value(Keys::IS_ENABLED, Defaults::IS_ENABLED).toBool();
+    exportIcons_ = settings->value(Keys::EXPORT_ICONS, Defaults::EXPORT_ICONS).toBool();
+    uiCompatible_ = settings->value(Keys::UI_COMPATIBLE, Defaults::UI_COMPATIBLE).toBool();
 }
 
-void XmlUIExporterOptions::write(const Settings &settings) {
+void XmlUIExporterOptions::write(QSettings* settings) {
     BaseUIExporterOptions::write(settings);
-    settings.setValue(Keys::IS_ENABLED, isEnabled_);
-    settings.setValue(Keys::EXPORT_ICONS, exportIcons_);
-    settings.setValue(Keys::UI_COMPATIBLE, uiCompatible_);
+    settings->setValue(Keys::IS_ENABLED, isEnabled_);
+    settings->setValue(Keys::EXPORT_ICONS, exportIcons_);
+    settings->setValue(Keys::UI_COMPATIBLE, uiCompatible_);
 }
 
 bool XmlUIExporterOptions::getIsEnabled() const {

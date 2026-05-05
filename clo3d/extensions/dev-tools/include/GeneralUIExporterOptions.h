@@ -15,8 +15,8 @@ class GeneralUIExporterOptions: public BaseUIExporterOptions {
         static constexpr bool PICK_BY_MOUSE = false;
     };
 public:
-    void read(const Settings &settings) override;
-    void write(const Settings &settings) override;
+    void read(const QSettings* settings) override;
+    void write(QSettings* settings) override;
 
     [[nodiscard]] QKeySequence getShortcut() const;
     [[nodiscard]] bool getPickMyMouse() const;

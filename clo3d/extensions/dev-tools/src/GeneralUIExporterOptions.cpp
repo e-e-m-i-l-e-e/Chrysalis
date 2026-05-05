@@ -2,16 +2,16 @@
 
 #include <QKeySequence>
 
-void GeneralUIExporterOptions::read(const Settings &settings) {
+void GeneralUIExporterOptions::read(const QSettings* settings) {
     BaseUIExporterOptions::read(settings);
-    shortcut_ = settings.value(Keys::SHORTCUT, Defaults::SHORTCUT).value<QKeySequence>();
-    pickByMouse_ = settings.value(Keys::PICK_BY_MOUSE, Defaults::PICK_BY_MOUSE).toBool();
+    shortcut_ = settings->value(Keys::SHORTCUT, Defaults::SHORTCUT).value<QKeySequence>();
+    pickByMouse_ = settings->value(Keys::PICK_BY_MOUSE, Defaults::PICK_BY_MOUSE).toBool();
 }
 
-void GeneralUIExporterOptions::write(const Settings &settings) {
+void GeneralUIExporterOptions::write(QSettings* settings) {
     BaseUIExporterOptions::write(settings);
-    settings.setValue(Keys::SHORTCUT, shortcut_);
-    settings.setValue(Keys::PICK_BY_MOUSE, pickByMouse_);
+    settings->setValue(Keys::SHORTCUT, shortcut_);
+    settings->setValue(Keys::PICK_BY_MOUSE, pickByMouse_);
 }
 
 QKeySequence GeneralUIExporterOptions::getShortcut() const {

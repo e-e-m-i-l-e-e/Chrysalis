@@ -1,17 +1,17 @@
 #include "BaseUIExporterOptions.h"
 
-void BaseUIExporterOptions::read(const Settings &settings) {
-    rootFolder_ = QDir(settings.value(Keys::ROOT_FOLDER, Defaults::ROOT_FOLDER.path()).toString());
-    fileName_ = settings.value(Keys::FILE_NAME, Defaults::FILE_NAME).toString();
-    objectName_ = settings.value(Keys::OBJECT_NAME, Defaults::OBJECT_NAME).toString();
-    className_ = settings.value(Keys::CLASS_NAME, Defaults::CLASS_NAME).toString();
+void BaseUIExporterOptions::read(const QSettings* settings) {
+    rootFolder_ = QDir(settings->value(Keys::ROOT_FOLDER, Defaults::ROOT_FOLDER.path()).toString());
+    fileName_ = settings->value(Keys::FILE_NAME, Defaults::FILE_NAME).toString();
+    objectName_ = settings->value(Keys::OBJECT_NAME, Defaults::OBJECT_NAME).toString();
+    className_ = settings->value(Keys::CLASS_NAME, Defaults::CLASS_NAME).toString();
 }
 
-void BaseUIExporterOptions::write(const Settings &settings) {
-    settings.setValue(Keys::ROOT_FOLDER, rootFolder_.path());
-    settings.setValue(Keys::FILE_NAME, fileName_);
-    settings.setValue(Keys::OBJECT_NAME, objectName_);
-    settings.setValue(Keys::CLASS_NAME, className_);
+void BaseUIExporterOptions::write(QSettings* settings) {
+    settings->setValue(Keys::ROOT_FOLDER, rootFolder_.path());
+    settings->setValue(Keys::FILE_NAME, fileName_);
+    settings->setValue(Keys::OBJECT_NAME, objectName_);
+    settings->setValue(Keys::CLASS_NAME, className_);
 }
 
 QDir BaseUIExporterOptions::getRootFolder() const {

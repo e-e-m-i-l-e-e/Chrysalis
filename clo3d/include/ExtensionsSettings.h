@@ -2,7 +2,6 @@
 #define FASHIONDESIGNAPPS_EXTENSIONSSETTINGS_H
 
 #include "BaseExtensionSettings.h"
-#include "BaseExtensionsSettingsEditor.h"
 
 class ExtensionsSettings {
 public:
