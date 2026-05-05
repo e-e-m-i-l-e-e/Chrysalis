@@ -5,7 +5,7 @@
 
 #include "UIExporterToolSettings.h"
 #include "BaseUIExporterOptionsWidget.h"
-#include "BaseExtensionsSettingsPageWidget.h"
+#include "BaseExtensionSettingsWidget.h"
 
 namespace UI {
     QT_BEGIN_NAMESPACE
@@ -16,7 +16,7 @@ namespace UI {
 
     QT_END_NAMESPACE
 
-    class UIExporterToolSettingsWidget: public BaseExtensionsSettingsPageWidget {
+    class UIExporterToolSettingsWidget: public BaseExtensionSettingsWidget {
         Q_OBJECT
     public:
         explicit UIExporterToolSettingsWidget(UIExporterToolSettings& tool, QWidget *parent = nullptr);

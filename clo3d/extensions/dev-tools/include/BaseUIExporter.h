@@ -1,13 +1,14 @@
-#ifndef FASHIONDESIGNAPPS_UIEXPORTER_H
-#define FASHIONDESIGNAPPS_UIEXPORTER_H
+#ifndef FASHIONDESIGNAPPS_BASEUIEXPORTER_H
+#define FASHIONDESIGNAPPS_BASEUIEXPORTER_H
 
 #include "BaseUIExporterOptions.h"
-#include "BaseExtensionsSettingsEditor.h"
 
-class BaseUIExporter: public BaseExtensionsSettingsEditor {
+class BaseUIExporter {
 public:
+    virtual ~BaseUIExporter() = default;
+
     virtual void exportUI() = 0;
     virtual BaseUIExporterOptions* getOptions() = 0;
 };
 
-#endif //FASHIONDESIGNAPPS_UIEXPORTER_H
+#endif //FASHIONDESIGNAPPS_BASEUIEXPORTER_H

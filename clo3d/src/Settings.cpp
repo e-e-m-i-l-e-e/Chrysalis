@@ -1,6 +1,6 @@
 #include "Settings.h"
 
-Settings::Settings(const QString &groupName, std::shared_ptr<QSettings> settings): settings_(settings) {
+Settings::Settings(const QString &groupName, QSettings* settings): settings_(settings) {
     settings_->beginGroup(groupName);
 }
 

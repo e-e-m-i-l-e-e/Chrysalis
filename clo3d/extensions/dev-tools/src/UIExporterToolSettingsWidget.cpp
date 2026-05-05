@@ -8,7 +8,7 @@
 using namespace UI;
 
 UIExporterToolSettingsWidget::UIExporterToolSettingsWidget(UIExporterToolSettings &settings, QWidget *parent)
-    : BaseExtensionsSettingsPageWidget(settings, parent),
+    : BaseExtensionSettingsWidget(settings, parent),
       ui(new Ui::UIExporterToolSettingsWidget),
       settings_(settings) {
     ui->setupUi(this);
@@ -47,7 +47,7 @@ UIExporterToolSettingsWidget::~UIExporterToolSettingsWidget() {
 
 void UIExporterToolSettingsWidget::save() {
    processOptions(&BaseUIExporterOptionsWidget::write);
-   BaseExtensionsSettingsPageWidget::save();
+   BaseExtensionSettingsWidget::save();
 }
 
 void UIExporterToolSettingsWidget::reset() {
@@ -55,7 +55,7 @@ void UIExporterToolSettingsWidget::reset() {
 }
 
 void UIExporterToolSettingsWidget::read() {
-    BaseExtensionsSettingsPageWidget::read();
+    BaseExtensionSettingsWidget::read();
     processOptions(&BaseUIExporterOptionsWidget::read);
 }
 

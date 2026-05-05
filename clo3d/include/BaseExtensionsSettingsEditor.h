@@ -5,14 +5,12 @@
 
 class BaseExtensionsSettingsEditor {
 public:
-    BaseExtensionsSettingsEditor() = default;
-    BaseExtensionsSettingsEditor(const QString &organization, const QString &application);
     virtual ~BaseExtensionsSettingsEditor() = default;
 
-    virtual void setSettings(const BaseExtensionsSettingsEditor* settingsEditor);
+    virtual void setSettings(QSettings* settings);
     [[nodiscard]] Settings editSettings(const QString& groupName) const;
 private:
-    std::shared_ptr<QSettings> settings_;
+    QSettings* settings_ = nullptr;
 };
 
 #endif //FASHIONDESIGNAPPS_BASEEXTENSIONSSETTINGSEDITOR_H

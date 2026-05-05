@@ -1,18 +1,19 @@
 #ifndef FASHIONDESIGNAPPS_EXTENSIONSSETTINGS_H
 #define FASHIONDESIGNAPPS_EXTENSIONSSETTINGS_H
 
-#include "BaseExtensionsSettingsPage.h"
+#include "BaseExtensionSettings.h"
 #include "BaseExtensionsSettingsEditor.h"
 
-class ExtensionsSettings: public BaseExtensionsSettingsEditor {
+class ExtensionsSettings {
 public:
     ExtensionsSettings(const QString &organization, const QString &application);
-    ~ExtensionsSettings() override;
+    ~ExtensionsSettings();
 
-    void addSettings(BaseExtensionsSettingsPage* settings);
+    void addSettings(BaseExtensionSettings* settings);
     void readSettings() const;
 private:
-    std::forward_list<BaseExtensionsSettingsPage*> settings_;
+    QSettings* settings_;
+    std::forward_list<BaseExtensionSettings*> extensionsSettings_;
 };
 
 #endif //FASHIONDESIGNAPPS_EXTENSIONSSETTINGS_H

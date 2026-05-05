@@ -4,9 +4,9 @@
 #include <list>
 
 #include "BaseUIExporterOptions.h"
-#include "BaseExtensionsSettingsPage.h"
+#include "BaseExtensionSettings.h"
 
-class UIExporterToolSettings: public BaseExtensionsSettingsPage {
+class UIExporterToolSettings: public BaseExtensionSettings {
 public:
     void readSettings() override;
     void writeSettings() override;

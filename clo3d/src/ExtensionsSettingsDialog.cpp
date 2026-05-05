@@ -19,31 +19,30 @@ ExtensionsSettingsDialog::~ExtensionsSettingsDialog() {
     delete ui;
 }
 
-void ExtensionsSettingsDialog::addPage(BaseExtensionsSettingsPageWidget* page) const {
+void ExtensionsSettingsDialog::addPage(BaseExtensionSettingsWidget* page) const {
     ui->navigation->addPage(page);
-    page->getBaseExtensionsSettingsPage().setSettings(extensionsSettings);
 }
 
 void ExtensionsSettingsDialog::accept() {
-    // Calls BaseExtensionsSettingsPageWidget::save
-    processPages(&BaseExtensionsSettingsPageWidget::save);
+    // Calls BaseExtensionSettingsWidget::save
+    processPages(&BaseExtensionSettingsWidget::save);
     QDialog::accept();
 }
 
 void ExtensionsSettingsDialog::reject() {
-    // Calls BaseExtensionsSettingsPageWidget::reset
-    processPages(&BaseExtensionsSettingsPageWidget::reset);
+    // Calls BaseExtensionSettingsWidget::reset
+    processPages(&BaseExtensionSettingsWidget::reset);
 }
 
 int ExtensionsSettingsDialog::exec() {
-    // Calls BaseExtensionsSettingsPageWidget::read
-    processPages(&BaseExtensionsSettingsPageWidget::read);
+    // Calls BaseExtensionSettingsWidget::read
+    processPages(&BaseExtensionSettingsWidget::read);
     return QDialog::exec();
 }
 
-void ExtensionsSettingsDialog::processPages(void (BaseExtensionsSettingsPageWidget::*processor)()) const {
+void ExtensionsSettingsDialog::processPages(void (BaseExtensionSettingsWidget::*processor)()) const {
     for (int i = 0; i < ui->navigation->count(); i++) {
-        if (const auto extensionsSettingsPageWidget = qobject_cast<BaseExtensionsSettingsPageWidget*>(ui->navigation->getPage(i))) {
+        if (const auto extensionsSettingsPageWidget = qobject_cast<BaseExtensionSettingsWidget*>(ui->navigation->getPage(i))) {
             (extensionsSettingsPageWidget->*processor)();
         }
     }

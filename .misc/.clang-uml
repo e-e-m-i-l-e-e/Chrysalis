@@ -7,7 +7,6 @@ diagrams:
     type: class
     glob:
       include:
-        - ../clo3d/src/ExtensionsSettingsDialog.cpp
         - ../clo3d/extensions/dev-tools/src/*.cpp
     exclude:
       namespaces:
@@ -26,14 +25,22 @@ diagrams:
       paths:
         - ../.conan
         - ../common
+        - ../clo3d/widgets
+      relationships:
+        - dependency
     layout:
-      ExtensionsSettings:
-        - left: UI::ExtensionsSettingsDialog
-        - down: BaseExtensionsSettingsEditor
-      BaseExtensionsSettingsEditor:
-        - down: BaseExtensionsSettingsPage
-      UI::BaseExtensionsSettingsPageWidget:
-        - right: BaseExtensionsSettingsPage
+      BaseUIExporterOptions:
+        - down: BaseUIExporterOptions::Keys
+        - down: BaseUIExporterOptions::Defaults
+      GeneralUIExporterOptions:
+        - down: GeneralUIExporterOptions::Keys
+        - down: GeneralUIExporterOptions::Defaults
+      JsonUIExporterOptions:
+        - down: JsonUIExporterOptions::Keys
+        - down: JsonUIExporterOptions::Defaults
+      XmlUIExporterOptions:
+        - down: XmlUIExporterOptions::Keys
+        - down: XmlUIExporterOptions::Defaults
     plantuml:
       after:
         - >
