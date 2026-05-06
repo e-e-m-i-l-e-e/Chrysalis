@@ -10,6 +10,7 @@ public:
     ~DevToolsExtension() override;
 
     void addDevTool(BaseDevTool* tool);
+
     void configureSettings(ExtensionsSettings* extensionsSettings) override;
     void configureSettingsUI(UI::ExtensionsSettingsDialog *extensionsSettingsDialog) override;
 private:

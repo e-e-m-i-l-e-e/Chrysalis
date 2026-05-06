@@ -30,13 +30,33 @@
 
 #include <QToolButton>
 #include <QOpenGLWidget>
+#include <QAbstractNativeEventFilter>
+#include <private/qhooks_p.h>
+
+#include "BaseNativeShortcutHandler.h"
 
 void ExtensionsManager::addExtension(BaseExtension* extension) {
     extensions.push_front(extension);
 }
 
+LRESULT nativeEventHandler(const int nCode, const WPARAM wParam, const LPARAM lParam) {
+    if (nCode == HC_ACTION) {
+        const MSG* msg = reinterpret_cast<MSG*>(lParam);
+        if (msg->message == WM_HOTKEY) {
+            BaseNativeShortcutHandler::getEventHandler(msg->wParam)->handle();
+        }
+    }
+    return CallNextHookEx(nullptr, nCode, wParam, lParam);
+}
+
 void ExtensionsManager::install() {
     extensionsSettings = new ExtensionsSettings("eemilee.me", "CLO3D Extensions");
+
+    qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(+[] {
+        SetWindowsHookEx(WH_GETMESSAGE, &nativeEventHandler, nullptr, GetCurrentThreadId());
+        BaseNativeShortcutHandler::registerShortcuts();
+    });
+
     // Forward all CLO3D logging into Extension's logger
     HooksManager::addIgnore<&qInstallMessageHandler>([](const HookHandle&, bool& ignore, QtMessageHandler&, QtMessageHandler&) {
         ignore = true;

@@ -4,11 +4,12 @@
 #include <forward_list>
 
 #include "BaseDevTool.h"
+#include "BaseNativeShortcutHandler.h"
 #include "BaseUIExporter.h"
 #include "GeneralUIExporterOptions.h"
 #include "UIExporterToolSettings.h"
 
-class UIExporterTool: public BaseDevTool {
+class UIExporterTool: public BaseDevTool, public BaseNativeShortcutHandler {
 public:
     explicit UIExporterTool(UIExporterToolSettings* uiExporterToolSettings, GeneralUIExporterOptions* options);
     ~UIExporterTool() override;
@@ -16,9 +17,8 @@ public:
     void configureSettings(ExtensionsSettings *extensionsSettings) override;
     void configureSettingsUI(UI::ExtensionsSettingsDialog *extensionsSettingsDialog) override;
 
+    void handle() override;
     void addExporter(BaseUIExporter* exporter);
-    // void readSettings() override;
-    // void setSettings(const BaseExtensionsSettingsEditor* settingsEditor) override;
 private:
     std::forward_list<BaseUIExporter*> exporters_;
     GeneralUIExporterOptions* options_;
