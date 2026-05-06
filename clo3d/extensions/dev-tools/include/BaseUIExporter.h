@@ -4,9 +4,9 @@
 #include "BaseUIExporterOptions.h"
 
 class BaseUIExporter {
-public:
+protected:
     virtual ~BaseUIExporter() = default;
-
+public:
     virtual void exportUI() = 0;
     virtual BaseUIExporterOptions* getOptions() = 0;
 };

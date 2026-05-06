@@ -4,10 +4,12 @@
 #include <QSettings>
 
 class BaseExtensionSettings {
-public:
+    friend class ExtensionsSettings;
+protected:
     virtual ~BaseExtensionSettings() = default;
-
+private:
     void setSettings(QSettings* settings);
+public:
     virtual void readSettings() = 0;
     virtual void writeSettings() = 0;
 protected:

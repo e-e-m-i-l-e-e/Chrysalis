@@ -37,6 +37,12 @@ void GeneralUIExporterOptionsWidget::read() {
     ui->pickMyMouse->setChecked(options_->getPickMyMouse());
 }
 
+void GeneralUIExporterOptionsWidget::write() {
+    BaseUIExporterOptionsWidget::write();
+    options_->setShortcut(ui->shortcut->keySequence());
+    options_->setPickMyMouse(ui->pickMyMouse->isChecked());
+}
+
 BaseUIExporterOptions* GeneralUIExporterOptionsWidget::getOptions() {
     return options_;
 }

@@ -7,15 +7,15 @@
 
 using namespace UI;
 
-UIExporterToolSettingsWidget::UIExporterToolSettingsWidget(UIExporterToolSettings &settings, QWidget *parent)
+UIExporterToolSettingsWidget::UIExporterToolSettingsWidget(UIExporterToolSettings* settings, QWidget *parent)
     : BaseExtensionSettingsWidget(settings, parent),
       ui(new Ui::UIExporterToolSettingsWidget),
       settings_(settings) {
     ui->setupUi(this);
 
-    auto it = settings.begin();
+    auto it = settings->begin();
         for (const auto uiExporterOptionsWidget: this->findChildren<BaseUIExporterOptionsWidget *>()) {
-                if (it == settings.end()) {
+                if (it == settings->end()) {
                         LOG_WARN("Not all options are provided for UI Exporter Settings ({} will be disabled)", typeid(*uiExporterOptionsWidget).name());
                         break;
                 }

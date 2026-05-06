@@ -41,8 +41,16 @@ void JsonUIExporterOptionsWidget::read() {
         return;
     }
     BaseUIExporterOptionsWidget::read();
+    ui->isEnabled->setChecked(options_->getIsEnabled());
     ui->visibleOnly->setChecked(options_->getVisibleOnly());
     ui->ignoreCSS->setChecked(options_->getIgnoreCSS());
+}
+
+void JsonUIExporterOptionsWidget::write() {
+    BaseUIExporterOptionsWidget::write();
+    options_->setIsEnabled(ui->isEnabled->isChecked());
+    options_->setVisibleOnly(ui->visibleOnly->isChecked());
+    options_->setIgnoreCSS(ui->ignoreCSS->isChecked());
 }
 
 BaseUIExporterOptions* JsonUIExporterOptionsWidget::getOptions() {
@@ -50,7 +58,7 @@ BaseUIExporterOptions* JsonUIExporterOptionsWidget::getOptions() {
 }
 
 void JsonUIExporterOptionsWidget::setOptions(BaseUIExporterOptions* options) {
-    options_ =  dynamic_cast<JsonUIExporterOptions*>(options);
+    options_ = dynamic_cast<JsonUIExporterOptions*>(options);
 }
 
 BaseUIExporterSettingsBlockContainerWidget* JsonUIExporterOptionsWidget::getBaseUIExporterSettings() {

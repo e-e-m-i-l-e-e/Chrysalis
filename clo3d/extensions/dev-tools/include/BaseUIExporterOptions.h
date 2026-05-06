@@ -18,7 +18,6 @@ class BaseUIExporterOptions {
         inline static const QString CLASS_NAME = "";
     };
 protected:
-    BaseUIExporterOptions() = default;
     virtual ~BaseUIExporterOptions() = default;
 public:
     virtual void read(const QSettings* settings);

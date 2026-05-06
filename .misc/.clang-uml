@@ -12,13 +12,11 @@ diagrams:
       namespaces:
         - std
         - UI::Ui
-      access:
-        - private
       elements:
         - r: "QList.*"
         - type: method
           name:
-            r: '.*::(qt_metacall|qt_metacast|metaObject|tr|trUtf8|staticMetaObject)$'
+            r: '.*::(qt_metacall|qt_static_metacall|qt_metacast|metaObject|tr|trUtf8|staticMetaObject)$'
         - type: member
           name:
             r: '.*::staticMetaObject$'

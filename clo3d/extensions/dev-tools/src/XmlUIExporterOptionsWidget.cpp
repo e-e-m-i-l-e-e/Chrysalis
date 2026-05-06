@@ -41,8 +41,16 @@ void XmlUIExporterOptionsWidget::read() {
         return;
     }
     BaseUIExporterOptionsWidget::read();
+    ui->isEnabled->setChecked(options_->getIsEnabled());
     ui->exportIcons->setChecked(options_->getExportIcons());
     ui->uiCompatible->setChecked(options_->getUICompatible());
+}
+
+void XmlUIExporterOptionsWidget::write() {
+    BaseUIExporterOptionsWidget::write();
+    options_->setIsEnabled(ui->isEnabled->isChecked());
+    options_->setExportIcons(ui->exportIcons->isChecked());
+    options_->setUICompatible(ui->uiCompatible->isChecked());
 }
 
 BaseUIExporterOptions* XmlUIExporterOptionsWidget::getOptions() {

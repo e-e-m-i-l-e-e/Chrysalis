@@ -8,24 +8,14 @@ namespace UI {
     class BaseExtensionSettingsWidget: public NamedWidget {
         Q_OBJECT
     public:
-        explicit BaseExtensionSettingsWidget(BaseExtensionSettings& page, QWidget *parent)
-            : NamedWidget(parent), page_(page) {}
-        ~BaseExtensionSettingsWidget() override {
-            // delete page_;
-        }
-        [[nodiscard]] BaseExtensionSettings& getBaseExtensionSettings() const {
-            return page_;
-        }
+        explicit BaseExtensionSettingsWidget(BaseExtensionSettings* extensionSettings, QWidget *parent);
+        [[nodiscard]] BaseExtensionSettings* getBaseExtensionSettings() const;
     public slots:
-        virtual void save() {
-            page_.writeSettings();
-        };
+        virtual void save();
         virtual void reset() = 0;
-        virtual void read() {
-            page_.readSettings();
-        };
+        virtual void read();
     private:
-        BaseExtensionSettings& page_;
+        BaseExtensionSettings* extensionSettings_;
     };
 }
 

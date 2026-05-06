@@ -19,7 +19,7 @@ namespace UI {
     class UIExporterToolSettingsWidget: public BaseExtensionSettingsWidget {
         Q_OBJECT
     public:
-        explicit UIExporterToolSettingsWidget(UIExporterToolSettings& tool, QWidget *parent = nullptr);
+        explicit UIExporterToolSettingsWidget(UIExporterToolSettings* tool, QWidget *parent = nullptr);
         ~UIExporterToolSettingsWidget() override;
 
         void save() override;
@@ -29,7 +29,7 @@ namespace UI {
         void processOptions(void(BaseUIExporterOptionsWidget::*processor)()) const;
 
         Ui::UIExporterToolSettingsWidget *ui;
-        UIExporterToolSettings& settings_;
+        UIExporterToolSettings* settings_;
     };
 } // UI
 

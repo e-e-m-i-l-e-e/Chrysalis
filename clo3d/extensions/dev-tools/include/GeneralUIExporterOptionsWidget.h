@@ -20,6 +20,8 @@ namespace UI {
         ~GeneralUIExporterOptionsWidget() override;
 
         void read() override;
+        void write() override;
+
         BaseUIExporterOptions* getOptions() override;
         void setOptions(BaseUIExporterOptions* options) override;
         BaseUIExporterSettingsBlockContainerWidget* getBaseUIExporterSettings() override;
@@ -30,7 +32,7 @@ namespace UI {
         void classNameChanged(const QString& className);
     private:
         Ui::GeneralUIExporterOptionsWidget *ui;
-        GeneralUIExporterOptions* options_;
+        GeneralUIExporterOptions* options_ = nullptr;
     };
 } // UI
 

@@ -7,7 +7,6 @@
 
 class BaseExtension {
 protected:
-    explicit BaseExtension() = default;
     virtual ~BaseExtension() = default;
 public:
     virtual void install() {}

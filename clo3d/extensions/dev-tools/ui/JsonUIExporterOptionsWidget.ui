@@ -55,7 +55,7 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QCheckBox" name="checkBox">
+        <widget class="QCheckBox" name="isEnabled">
          <property name="focusPolicy">
           <enum>Qt::NoFocus</enum>
          </property>
@@ -173,8 +173,8 @@
  <resources/>
  <connections>
   <connection>
-   <sender>checkBox</sender>
-   <signal>clicked(bool)</signal>
+   <sender>isEnabled</sender>
+   <signal>toggled(bool)</signal>
    <receiver>baseUIExporterSettingsBlockContainerWidget</receiver>
    <slot>enableContent(bool)</slot>
    <hints>

@@ -20,7 +20,7 @@ void UIExporterTool::configureSettings(ExtensionsSettings *extensionsSettings) {
 }
 
 void UIExporterTool::configureSettingsUI(UI::ExtensionsSettingsDialog* extensionsSettingsDialog) {
-    extensionsSettingsDialog->addPage(new UI::UIExporterToolSettingsWidget(*uiExporterToolSettings_, extensionsSettingsDialog));
+    extensionsSettingsDialog->addPage(new UI::UIExporterToolSettingsWidget(uiExporterToolSettings_, extensionsSettingsDialog));
 }
 
 void UIExporterTool::addExporter(BaseUIExporter* exporter) {
