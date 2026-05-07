@@ -1,5 +1,9 @@
 #include "XmlUIExporterOptions.h"
 
+bool XmlUIExporterOptions::isEnabled() {
+    return isEnabled_;
+}
+
 void XmlUIExporterOptions::read(const QSettings* settings) {
     BaseUIExporterOptions::read(settings);
     isEnabled_ = settings->value(Keys::IS_ENABLED, Defaults::IS_ENABLED).toBool();
@@ -12,10 +16,6 @@ void XmlUIExporterOptions::write(QSettings* settings) {
     settings->setValue(Keys::IS_ENABLED, isEnabled_);
     settings->setValue(Keys::EXPORT_ICONS, exportIcons_);
     settings->setValue(Keys::UI_COMPATIBLE, uiCompatible_);
-}
-
-bool XmlUIExporterOptions::getIsEnabled() const {
-    return isEnabled_;
 }
 
 bool XmlUIExporterOptions::getExportIcons() const {

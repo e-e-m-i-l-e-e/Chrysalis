@@ -20,6 +20,8 @@ class BaseUIExporterOptions {
 protected:
     virtual ~BaseUIExporterOptions() = default;
 public:
+    virtual bool isEnabled();
+
     virtual void read(const QSettings* settings);
     virtual void write(QSettings* settings);
 

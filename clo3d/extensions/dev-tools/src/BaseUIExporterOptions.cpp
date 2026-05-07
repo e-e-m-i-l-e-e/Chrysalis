@@ -1,5 +1,9 @@
 #include "BaseUIExporterOptions.h"
 
+bool BaseUIExporterOptions::isEnabled() {
+    return true;
+}
+
 void BaseUIExporterOptions::read(const QSettings* settings) {
     rootFolder_ = QDir(settings->value(Keys::ROOT_FOLDER, Defaults::ROOT_FOLDER.path()).toString());
     fileName_ = settings->value(Keys::FILE_NAME, Defaults::FILE_NAME).toString();

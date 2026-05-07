@@ -1,5 +1,9 @@
 #include "JsonUIExporterOptions.h"
 
+bool JsonUIExporterOptions::isEnabled() {
+    return isEnabled_;
+}
+
 void JsonUIExporterOptions::read(const QSettings* settings) {
     BaseUIExporterOptions::read(settings);
     isEnabled_ = settings->value(Keys::IS_ENABLED, Defaults::IS_ENABLED).toBool();
@@ -12,10 +16,6 @@ void JsonUIExporterOptions::write(QSettings* settings) {
     settings->setValue(Keys::IS_ENABLED, isEnabled_);
     settings->setValue(Keys::IGNORE_CSS, ignoreCSS_);
     settings->setValue(Keys::VISIBLE_ONLY, visibleOnly_);
-}
-
-bool JsonUIExporterOptions::getIsEnabled() const {
-    return isEnabled_;
 }
 
 bool JsonUIExporterOptions::getIgnoreCSS() const {

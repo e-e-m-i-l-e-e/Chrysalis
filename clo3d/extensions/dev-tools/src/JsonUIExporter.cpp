@@ -9,6 +9,12 @@ JsonUIExporter::~JsonUIExporter() {
 void JsonUIExporter::exportUI() {
 }
 
+void JsonUIExporter::exportUI(QWidget *widget) {
+}
+
+void JsonUIExporter::exportUI(std::forward_list<QWidget *> widgets) {
+}
+
 BaseUIExporterOptions* JsonUIExporter::getOptions() {
     return options_;
 }

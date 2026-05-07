@@ -10,6 +10,9 @@ public:
     ~XmlUIExporter() override;
 
     void exportUI() override;
+    void exportUI(QWidget* widget) override;
+    void exportUI(std::forward_list<QWidget*> widgets) override;
+
     BaseUIExporterOptions* getOptions() override;
 private:
     XmlUIExporterOptions* options_;

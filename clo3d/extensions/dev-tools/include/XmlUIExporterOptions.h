@@ -15,10 +15,11 @@ class XmlUIExporterOptions: public BaseUIExporterOptions {
         static constexpr bool UI_COMPATIBLE = false;
     };
 public:
+    bool isEnabled() override;
+
     void read(const QSettings* settings) override;
     void write(QSettings* settings) override;
 
-    [[nodiscard]] bool getIsEnabled() const;
     [[nodiscard]] bool getExportIcons() const;
     [[nodiscard]] bool getUICompatible() const;
 

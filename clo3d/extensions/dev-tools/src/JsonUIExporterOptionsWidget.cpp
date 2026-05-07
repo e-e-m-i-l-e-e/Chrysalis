@@ -41,7 +41,7 @@ void JsonUIExporterOptionsWidget::read() {
         return;
     }
     BaseUIExporterOptionsWidget::read();
-    ui->isEnabled->setChecked(options_->getIsEnabled());
+    ui->isEnabled->setChecked(options_->isEnabled());
     ui->visibleOnly->setChecked(options_->getVisibleOnly());
     ui->ignoreCSS->setChecked(options_->getIgnoreCSS());
 }
