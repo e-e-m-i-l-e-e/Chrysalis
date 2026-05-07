@@ -1,7 +1,6 @@
 #ifndef FASHIONDESIGNAPPS_BASEDEVTOOL_H
 #define FASHIONDESIGNAPPS_BASEDEVTOOL_H
 
-#include "ExtensionsSettings.h"
 #include "ExtensionsSettingsDialog.h"
 
 class BaseDevTool {

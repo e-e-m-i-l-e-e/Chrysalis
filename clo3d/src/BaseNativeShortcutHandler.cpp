@@ -1,13 +1,25 @@
 #include "BaseNativeShortcutHandler.h"
 
+#include <Windows.h>
 #include <unordered_map>
 
 #include "Logger.h"
-
 #define LOGGER_NAME "Shortcut Handler"
 
+// TODO: class for statics
 static int nextId = 1;
-static inline std::unordered_map<int, BaseNativeShortcutHandler*> registry;
+static std::unordered_map<int, BaseNativeShortcutHandler*> registry;
+HHOOK listenerHook = nullptr;
+
+LRESULT nativeEventHandler(const int nCode, const WPARAM wParam, const LPARAM lParam) {
+    if (nCode == HC_ACTION) {
+        const MSG* msg = reinterpret_cast<MSG*>(lParam);
+        if (msg->message == WM_HOTKEY) {
+            BaseNativeShortcutHandler::getEventHandler(msg->wParam)->handle();
+        }
+    }
+    return CallNextHookEx(nullptr, nCode, wParam, lParam);
+}
 
 BaseNativeShortcutHandler::BaseNativeShortcutHandler(const QKeySequence &shortcut): id_(nextId++), shortcut_(shortcut) {
     registry[id_] = this;
@@ -20,6 +32,14 @@ BaseNativeShortcutHandler::~BaseNativeShortcutHandler() {
 
 BaseNativeShortcutHandler* BaseNativeShortcutHandler::getEventHandler(const int id) {
     return registry[id];
+}
+
+void BaseNativeShortcutHandler::stopListening() {
+    UnhookWindowsHookEx(listenerHook);
+}
+
+void BaseNativeShortcutHandler::startListening() {
+    listenerHook = SetWindowsHookEx(WH_GETMESSAGE, &nativeEventHandler, nullptr, GetCurrentThreadId());
 }
 
 void BaseNativeShortcutHandler::registerShortcuts() {

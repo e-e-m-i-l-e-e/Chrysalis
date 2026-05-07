@@ -1,8 +1,7 @@
 #ifndef FASHIONDESIGNAPPS_GENERALUIEXPORTEROPTIONS_H
 #define FASHIONDESIGNAPPS_GENERALUIEXPORTEROPTIONS_H
 
-#include <QKeySequence>
-
+#include "BaseNativeShortcutHandler.h"
 #include "BaseUIExporterOptions.h"
 
 class GeneralUIExporterOptions: public BaseUIExporterOptions {
@@ -23,9 +22,12 @@ public:
 
     void setShortcut(const QKeySequence& shortcut);
     void setPickMyMouse(bool pickByMouse);
+    void setShortcutHandler(BaseNativeShortcutHandler* shortcutHandler);
 private:
     QKeySequence shortcut_ = Defaults::SHORTCUT;
     bool pickByMouse_ = Defaults::PICK_BY_MOUSE;
+
+    BaseNativeShortcutHandler* shortcutHandler_ = nullptr;
 };
 
 #endif //FASHIONDESIGNAPPS_GENERALUIEXPORTEROPTIONS_H

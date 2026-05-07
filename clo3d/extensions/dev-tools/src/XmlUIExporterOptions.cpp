@@ -6,9 +6,9 @@ bool XmlUIExporterOptions::isEnabled() {
 
 void XmlUIExporterOptions::read(const QSettings* settings) {
     BaseUIExporterOptions::read(settings);
-    isEnabled_ = settings->value(Keys::IS_ENABLED, Defaults::IS_ENABLED).toBool();
-    exportIcons_ = settings->value(Keys::EXPORT_ICONS, Defaults::EXPORT_ICONS).toBool();
-    uiCompatible_ = settings->value(Keys::UI_COMPATIBLE, Defaults::UI_COMPATIBLE).toBool();
+    setIsEnabled(settings->value(Keys::IS_ENABLED, Defaults::IS_ENABLED).toBool());
+    setExportIcons(settings->value(Keys::EXPORT_ICONS, Defaults::EXPORT_ICONS).toBool());
+    setUICompatible(settings->value(Keys::UI_COMPATIBLE, Defaults::UI_COMPATIBLE).toBool());
 }
 
 void XmlUIExporterOptions::write(QSettings* settings) {

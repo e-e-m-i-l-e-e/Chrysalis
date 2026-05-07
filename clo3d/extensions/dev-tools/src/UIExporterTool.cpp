@@ -14,6 +14,7 @@
 UIExporterTool::UIExporterTool(UIExporterToolSettings *uiExporterToolSettings, GeneralUIExporterOptions *options)
     : BaseNativeShortcutHandler(options->getShortcut()), options_(options), uiExporterToolSettings_(uiExporterToolSettings) {
     uiExporterToolSettings_->addOptions(options);
+    options_->setShortcutHandler(this);
 }
 
 UIExporterTool::~UIExporterTool() {

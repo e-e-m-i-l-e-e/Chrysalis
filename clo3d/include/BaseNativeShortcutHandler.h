@@ -7,12 +7,14 @@ class BaseNativeShortcutHandler {
 protected:
     explicit BaseNativeShortcutHandler(const QKeySequence& shortcut);
     virtual ~BaseNativeShortcutHandler();
-
-    void setShortcut(const QKeySequence &shortcut);
 public:
     virtual void handle() = 0;
+    void setShortcut(const QKeySequence &shortcut);
 
     static BaseNativeShortcutHandler* getEventHandler(int id);
+
+    static void stopListening();
+    static void startListening();
     static void registerShortcuts();
 private:
     void registerShortcut() const;

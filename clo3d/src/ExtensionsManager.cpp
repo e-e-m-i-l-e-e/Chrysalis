@@ -39,22 +39,12 @@ void ExtensionsManager::addExtension(BaseExtension* extension) {
     extensions.push_front(extension);
 }
 
-LRESULT nativeEventHandler(const int nCode, const WPARAM wParam, const LPARAM lParam) {
-    if (nCode == HC_ACTION) {
-        const MSG* msg = reinterpret_cast<MSG*>(lParam);
-        if (msg->message == WM_HOTKEY) {
-            BaseNativeShortcutHandler::getEventHandler(msg->wParam)->handle();
-        }
-    }
-    return CallNextHookEx(nullptr, nCode, wParam, lParam);
-}
-
 void ExtensionsManager::install() {
     extensionsSettings = new ExtensionsSettings("eemilee.me", "CLO3D Extensions");
 
     qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(+[] {
-        SetWindowsHookEx(WH_GETMESSAGE, &nativeEventHandler, nullptr, GetCurrentThreadId());
         BaseNativeShortcutHandler::registerShortcuts();
+        BaseNativeShortcutHandler::startListening();
     });
 
     // Forward all CLO3D logging into Extension's logger
@@ -325,6 +315,7 @@ void ExtensionsManager::setMessage(const QString &message) {
 
 void ExtensionsManager::setMessage(const QString &extensionName, const QString &message,
                                    const bool logMessage) {
+    // TODO: limit message length
     if (logMessage) LOG_INFO_TO(extensionName.toStdString(), "{}", message.toStdString());
     setMessage(QString("<img src=':/Resources/CommonIcon/Title Bullet Secondary.svg' width='11' height='11'><b>%1:</b> %2").arg(extensionName).arg(message));
 }

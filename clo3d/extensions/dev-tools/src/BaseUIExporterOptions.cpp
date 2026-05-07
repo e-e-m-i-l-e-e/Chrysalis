@@ -5,10 +5,10 @@ bool BaseUIExporterOptions::isEnabled() {
 }
 
 void BaseUIExporterOptions::read(const QSettings* settings) {
-    rootFolder_ = QDir(settings->value(Keys::ROOT_FOLDER, Defaults::ROOT_FOLDER.path()).toString());
-    fileName_ = settings->value(Keys::FILE_NAME, Defaults::FILE_NAME).toString();
-    objectName_ = settings->value(Keys::OBJECT_NAME, Defaults::OBJECT_NAME).toString();
-    className_ = settings->value(Keys::CLASS_NAME, Defaults::CLASS_NAME).toString();
+    setRootFolder(QDir(settings->value(Keys::ROOT_FOLDER, Defaults::ROOT_FOLDER.path()).toString()));
+    setFileName(settings->value(Keys::FILE_NAME, Defaults::FILE_NAME).toString());
+    setObjectName(settings->value(Keys::OBJECT_NAME, Defaults::OBJECT_NAME).toString());
+    setClassName(settings->value(Keys::CLASS_NAME, Defaults::CLASS_NAME).toString());
 }
 
 void BaseUIExporterOptions::write(QSettings* settings) {

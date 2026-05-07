@@ -6,9 +6,9 @@ bool JsonUIExporterOptions::isEnabled() {
 
 void JsonUIExporterOptions::read(const QSettings* settings) {
     BaseUIExporterOptions::read(settings);
-    isEnabled_ = settings->value(Keys::IS_ENABLED, Defaults::IS_ENABLED).toBool();
-    ignoreCSS_ = settings->value(Keys::IGNORE_CSS, Defaults::IGNORE_CSS).toBool();
-    visibleOnly_ = settings->value(Keys::VISIBLE_ONLY, Defaults::VISIBLE_ONLY).toBool();
+    setIsEnabled(settings->value(Keys::IS_ENABLED, Defaults::IS_ENABLED).toBool());
+    setIgnoreCSS(settings->value(Keys::IGNORE_CSS, Defaults::IGNORE_CSS).toBool());
+    setVisibleOnly(settings->value(Keys::VISIBLE_ONLY, Defaults::VISIBLE_ONLY).toBool());
 }
 
 void JsonUIExporterOptions::write(QSettings* settings) {
