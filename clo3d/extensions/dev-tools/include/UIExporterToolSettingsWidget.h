@@ -22,9 +22,8 @@ namespace UI {
         explicit UIExporterToolSettingsWidget(UIExporterToolSettings* tool, QWidget *parent = nullptr);
         ~UIExporterToolSettingsWidget() override;
 
-        void save() override;
-        void reset() override;
         void read() override;
+        void write() override;
     private:
         void processOptions(void(BaseUIExporterOptionsWidget::*processor)()) const;
 

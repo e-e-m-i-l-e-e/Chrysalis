@@ -15,8 +15,8 @@ void ExtensionsSettings::addSettings(BaseExtensionSettings* settings) {
     settings->setSettings(settings_);
 }
 
-void ExtensionsSettings::readSettings() const {
+void ExtensionsSettings::read() const {
     for (const auto settings: extensionsSettings_) {
-        settings->readSettings();
+        settings->read();
     }
 }

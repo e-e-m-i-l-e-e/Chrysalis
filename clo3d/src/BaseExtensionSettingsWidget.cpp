@@ -7,10 +7,10 @@ BaseExtensionSettings* UI::BaseExtensionSettingsWidget::getBaseExtensionSettings
     return extensionSettings_;
 }
 
-void UI::BaseExtensionSettingsWidget::save() {
-    extensionSettings_->writeSettings();
+void UI::BaseExtensionSettingsWidget::write() {
+    extensionSettings_->write();
 }
 
 void UI::BaseExtensionSettingsWidget::read() {
-    extensionSettings_->readSettings();
+    extensionSettings_->read();
 }

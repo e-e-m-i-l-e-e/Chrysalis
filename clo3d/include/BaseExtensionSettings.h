@@ -10,8 +10,8 @@ protected:
 private:
     void setSettings(QSettings* settings);
 public:
-    virtual void readSettings() = 0;
-    virtual void writeSettings() = 0;
+    virtual void read() = 0;
+    virtual void write() = 0;
 protected:
     QSettings* settings_ = nullptr;
 };

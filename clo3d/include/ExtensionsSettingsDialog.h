@@ -27,6 +27,8 @@ namespace UI {
         int exec() override;
 
         void addPage(BaseExtensionSettingsWidget* page) const;
+    public slots:
+        void reset();
     private:
         void processPages(void(BaseExtensionSettingsWidget::*processor)()) const;
 

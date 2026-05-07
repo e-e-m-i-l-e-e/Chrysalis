@@ -8,8 +8,8 @@ public:
     ExtensionsSettings(const QString &organization, const QString &application);
     ~ExtensionsSettings();
 
+    void read() const;
     void addSettings(BaseExtensionSettings* settings);
-    void readSettings() const;
 private:
     QSettings* settings_;
     std::forward_list<BaseExtensionSettings*> extensionsSettings_;

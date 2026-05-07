@@ -147,7 +147,7 @@
             </spacer>
            </item>
            <item>
-            <widget class="QToolButton" name="toolButton">
+            <widget class="QToolButton" name="close">
              <property name="enabled">
               <bool>true</bool>
              </property>
@@ -271,7 +271,7 @@ QPushButton[widget-type=&quot;Active&quot;] {
           </spacer>
          </item>
          <item>
-          <widget class="QPushButton" name="close">
+          <widget class="QPushButton" name="save">
            <property name="focusPolicy">
             <enum>Qt::NoFocus</enum>
            </property>
@@ -279,7 +279,7 @@ QPushButton[widget-type=&quot;Active&quot;] {
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>Close</string>
+            <string>Save</string>
            </property>
           </widget>
          </item>
@@ -303,7 +303,7 @@ QPushButton[widget-type=&quot;Active&quot;] {
  </resources>
  <connections>
   <connection>
-   <sender>close</sender>
+   <sender>save</sender>
    <signal>clicked()</signal>
    <receiver>UI::ExtensionsSettingsDialog</receiver>
    <slot>accept()</slot>
@@ -335,14 +335,30 @@ QPushButton[widget-type=&quot;Active&quot;] {
    </hints>
   </connection>
   <connection>
-   <sender>reset</sender>
+   <sender>close</sender>
    <signal>clicked()</signal>
    <receiver>UI::ExtensionsSettingsDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>33</x>
-     <y>725</y>
+     <x>881</x>
+     <y>17</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>449</x>
+     <y>374</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>UI::ExtensionsSettingsDialog</sender>
+   <signal>rejected()</signal>
+   <receiver>UI::ExtensionsSettingsDialog</receiver>
+   <slot>deleteLater()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>449</x>
+     <y>374</y>
     </hint>
     <hint type="destinationlabel">
      <x>449</x>

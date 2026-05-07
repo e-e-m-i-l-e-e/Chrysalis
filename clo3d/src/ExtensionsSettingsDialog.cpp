@@ -2,7 +2,6 @@
 
 #include <CLOAPIInterface.h>
 
-#include "ExtensionsSettings.h"
 #include "ui_ExtensionsSettingsDialog.h"
 
 using namespace UI;
@@ -13,6 +12,7 @@ ExtensionsSettingsDialog::ExtensionsSettingsDialog(ExtensionsSettings* settings,
     UTILITY_API->UpdateCloStyleForPlugIn(this);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
     setWindowModality(Qt::WindowModal);
+    connect(ui->reset, &QPushButton::clicked, this, &ExtensionsSettingsDialog::reset);
 }
 
 ExtensionsSettingsDialog::~ExtensionsSettingsDialog() {
@@ -24,18 +24,20 @@ void ExtensionsSettingsDialog::addPage(BaseExtensionSettingsWidget* page) const 
 }
 
 void ExtensionsSettingsDialog::accept() {
-    // Calls BaseExtensionSettingsWidget::save
-    processPages(&BaseExtensionSettingsWidget::save);
+    processPages(&BaseExtensionSettingsWidget::write);
     QDialog::accept();
 }
 
 void ExtensionsSettingsDialog::reject() {
-    // Calls BaseExtensionSettingsWidget::reset
-    processPages(&BaseExtensionSettingsWidget::reset);
+    processPages(&BaseExtensionSettingsWidget::read);
+    QDialog::reject();
+}
+
+void ExtensionsSettingsDialog::reset() {
+    processPages(&BaseExtensionSettingsWidget::read);
 }
 
 int ExtensionsSettingsDialog::exec() {
-    // Calls BaseExtensionSettingsWidget::read
     processPages(&BaseExtensionSettingsWidget::read);
     return QDialog::exec();
 }

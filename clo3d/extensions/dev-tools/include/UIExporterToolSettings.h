@@ -8,13 +8,13 @@
 
 class UIExporterToolSettings: public BaseExtensionSettings {
 public:
-    void readSettings() override;
-    void writeSettings() override;
+    void read() override;
+    void write() override;
 
     void addOptions(BaseUIExporterOptions* options);
 
-    std::list<BaseUIExporterOptions*>::const_iterator begin() const;
-    std::list<BaseUIExporterOptions*>::const_iterator end() const;
+    [[nodiscard]] std::list<BaseUIExporterOptions*>::const_iterator begin() const;
+    [[nodiscard]] std::list<BaseUIExporterOptions*>::const_iterator end() const;
 private:
     std::list<BaseUIExporterOptions*> options_;
 };

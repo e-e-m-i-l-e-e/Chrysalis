@@ -12,6 +12,7 @@
 /*
  *  TODO:
  *      - add ability to stop export
+ *      - add overall progress tracker
  */
 
 class UIExporterTool: public BaseDevTool, public BaseNativeShortcutHandler {

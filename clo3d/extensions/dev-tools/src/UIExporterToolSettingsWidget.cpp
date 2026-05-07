@@ -45,18 +45,14 @@ UIExporterToolSettingsWidget::~UIExporterToolSettingsWidget() {
     delete ui;
 }
 
-void UIExporterToolSettingsWidget::save() {
-   processOptions(&BaseUIExporterOptionsWidget::write);
-   BaseExtensionSettingsWidget::save();
-}
-
-void UIExporterToolSettingsWidget::reset() {
-    // settings.reset();
-}
-
 void UIExporterToolSettingsWidget::read() {
-    BaseExtensionSettingsWidget::read();
-    processOptions(&BaseUIExporterOptionsWidget::read);
+        BaseExtensionSettingsWidget::read();
+        processOptions(&BaseUIExporterOptionsWidget::read);
+}
+
+void UIExporterToolSettingsWidget::write() {
+   processOptions(&BaseUIExporterOptionsWidget::write);
+   BaseExtensionSettingsWidget::write();
 }
 
 void UIExporterToolSettingsWidget::processOptions(void (BaseUIExporterOptionsWidget::*processor)()) const {

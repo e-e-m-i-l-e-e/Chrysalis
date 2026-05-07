@@ -313,7 +313,7 @@ void ExtensionsManager::install() {
         extension->install();
         extension->configureSettings(extensionsSettings);
     }
-    extensionsSettings->readSettings();
+    extensionsSettings->read();
 }
 
 void ExtensionsManager::setMessage(const QString &message) {
