@@ -44,6 +44,7 @@ namespace UI {
         void objectNameChanged(const QString& objectName);
         void classNameChanged(const QString& className);
     public slots:
+        void chooseRootFolder();
         void enableContent(bool isEnabled) const;
     private:
         Ui::BaseUIExporterSettingsBlockContainerWidget *ui;

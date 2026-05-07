@@ -173,7 +173,7 @@
               <widget class="QLineEdit" name="rootFolder"/>
              </item>
              <item>
-              <widget class="QToolButton" name="toolButton">
+              <widget class="QToolButton" name="folderButton">
                <property name="text">
                 <string>...</string>
                </property>

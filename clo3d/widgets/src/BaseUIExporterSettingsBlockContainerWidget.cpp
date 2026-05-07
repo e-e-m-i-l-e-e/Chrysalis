@@ -1,6 +1,7 @@
 #include "BaseUIExporterSettingsBlockContainerWidget.h"
 #include "ui_BaseUIExporterSettingsBlockContainerWidget.h"
 
+#include <QFileDialog>
 #include <QGraphicsOpacityEffect>
 
 using namespace UI;
@@ -13,6 +14,7 @@ BaseUIExporterSettingsBlockContainerWidget::BaseUIExporterSettingsBlockContainer
     connect(ui->fileName, &QLineEdit::textChanged, this, &BaseUIExporterSettingsBlockContainerWidget::fileNameChanged);
     connect(ui->objectName, &QLineEdit::textChanged, this, &BaseUIExporterSettingsBlockContainerWidget::objectNameChanged);
     connect(ui->className, &QLineEdit::textChanged, this, &BaseUIExporterSettingsBlockContainerWidget::classNameChanged);
+    connect(ui->folderButton, &QToolButton::clicked, this, &BaseUIExporterSettingsBlockContainerWidget::chooseRootFolder);
 }
 
 BaseUIExporterSettingsBlockContainerWidget::~BaseUIExporterSettingsBlockContainerWidget() {
@@ -57,6 +59,19 @@ void BaseUIExporterSettingsBlockContainerWidget::setLabelWidth(const int labelWi
     labelWidth_ = labelWidth;
     for (const auto label: ui->settingsBlockContent->findChildren<QLabel*>()) {
         label->setFixedWidth(std::max(labelWidth, label->sizeHint().width()));
+    }
+}
+
+void BaseUIExporterSettingsBlockContainerWidget::chooseRootFolder() {
+    const auto dir = QFileDialog::getExistingDirectory(
+        this,
+        "Select Folder",
+        ui->rootFolder->text(),
+        QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks
+    );
+
+    if (!dir.isEmpty()) {
+        setRootFolderText(dir);
     }
 }
 
