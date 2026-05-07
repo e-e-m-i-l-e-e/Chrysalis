@@ -9,12 +9,12 @@ public:
     explicit JsonUIExporter(JsonUIExporterOptions* options);
     ~JsonUIExporter() override;
 
-    void exportUI() override;
-    void exportUI(QWidget* widget) override;
     void exportUI(std::forward_list<QWidget*> widgets) override;
-
     BaseUIExporterOptions* getOptions() override;
 private:
+    QJsonObject getWidgetJson(const QWidget* widget);
+    static QJsonObject getObjectJson(const QObject* object);
+
     JsonUIExporterOptions* options_;
 };
 

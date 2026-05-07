@@ -9,8 +9,8 @@ class BaseUIExporter {
 protected:
     virtual ~BaseUIExporter() = default;
 public:
-    virtual void exportUI() = 0;
-    virtual void exportUI(QWidget* widget) = 0;
+    void exportUI();
+    void exportUI(QWidget* widget);
     virtual void exportUI(std::forward_list<QWidget*> widgets) = 0;
     virtual BaseUIExporterOptions* getOptions() = 0;
 };

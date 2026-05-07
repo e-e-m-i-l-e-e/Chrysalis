@@ -4,6 +4,7 @@
 
 #include <QApplication>
 
+#include "ExtensionsManager.h"
 #include "UIExporterToolSettings.h"
 #include "UIExporterToolSettingsWidget.h"
 
@@ -72,4 +73,5 @@ void UIExporterTool::handle() {
             exporter->exportUI(foundWidgets[className][objectName]);
         }
     }
+    ExtensionsManager::clearMessage();
 }

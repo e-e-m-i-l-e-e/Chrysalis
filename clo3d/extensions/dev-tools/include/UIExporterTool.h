@@ -9,6 +9,11 @@
 #include "GeneralUIExporterOptions.h"
 #include "UIExporterToolSettings.h"
 
+/*
+ *  TODO:
+ *      - add ability to stop export
+ */
+
 class UIExporterTool: public BaseDevTool, public BaseNativeShortcutHandler {
 public:
     explicit UIExporterTool(UIExporterToolSettings* uiExporterToolSettings, GeneralUIExporterOptions* options);
