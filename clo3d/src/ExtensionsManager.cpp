@@ -15,6 +15,7 @@
 // #include <QtCore/private/qobject_p.h>
 // #include <QtCore/private/qfiledevice_p.h>
 // #include <QtCore/qobjectdefs.h>
+// #include <QtWidgets/QOpe>
 
 #include <CLOAPIInterface.h>
 #include <QDockWidget>
@@ -30,10 +31,17 @@
 
 #include <QToolButton>
 #include <QOpenGLWidget>
+#include <QOpenGLContext>
+#include <QWindow>
 #include <QAbstractNativeEventFilter>
 #include <private/qhooks_p.h>
 
 #include "BaseNativeShortcutHandler.h"
+
+class OpenGLWidget: public QOpenGLWidget {
+public:
+    using QOpenGLWidget::paintGL;
+};
 
 void ExtensionsManager::addExtension(BaseExtension* extension) {
     extensions.push_front(extension);
@@ -98,6 +106,10 @@ void ExtensionsManager::install() {
                 }
             }
         } else if (const auto openGL = qobject_cast<QOpenGLWidget*>(this_)) {
+            HooksManager::addAfter<&QOpenGLWidget::paintGL>([](const HookHandle& handle, QOpenGLWidget* this_) {
+                glClearColor(1, 0, 0, 1);
+                glClear(GL_COLOR_BUFFER_BIT);
+            });
             LOG_DEBUG("OpenGL widget: {}", openGL->objectName().toStdString());
         }
     });

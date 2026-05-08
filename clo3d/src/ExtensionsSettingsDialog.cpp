@@ -1,8 +1,9 @@
 #include "ExtensionsSettingsDialog.h"
+#include "ui_ExtensionsSettingsDialog.h"
 
 #include <CLOAPIInterface.h>
 
-#include "ui_ExtensionsSettingsDialog.h"
+#include "ExtensionsSettings.h"
 
 using namespace UI;
 
@@ -34,6 +35,7 @@ void ExtensionsSettingsDialog::reject() {
 }
 
 void ExtensionsSettingsDialog::reset() {
+    extensionsSettings->clear();
     processPages(&BaseExtensionSettingsWidget::read);
 }
 

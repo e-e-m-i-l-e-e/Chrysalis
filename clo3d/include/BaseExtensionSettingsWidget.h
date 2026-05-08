@@ -11,8 +11,8 @@ namespace UI {
         explicit BaseExtensionSettingsWidget(BaseExtensionSettings* extensionSettings, QWidget *parent);
         [[nodiscard]] BaseExtensionSettings* getBaseExtensionSettings() const;
     public slots:
-        virtual void write();
         virtual void read();
+        virtual void write();
     private:
         BaseExtensionSettings* extensionSettings_;
     };

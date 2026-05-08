@@ -1,9 +1,9 @@
 #include "UIExporterToolSettings.h"
 
 void UIExporterToolSettings::read() {
-    settings_->beginGroup(typeid(*this).name());
+    settings_->beginGroup(typeid(*this).name() + 6);
     for (const auto& options : options_) {
-        settings_->beginGroup(typeid(*options).name());
+        settings_->beginGroup(typeid(*options).name() + 6);
         options->read(settings_);
         settings_->endGroup();
     }
@@ -11,9 +11,9 @@ void UIExporterToolSettings::read() {
 }
 
 void UIExporterToolSettings::write() {
-    settings_->beginGroup(typeid(*this).name());
+    settings_->beginGroup(typeid(*this).name() + 6);
     for (const auto& options : options_) {
-        settings_->beginGroup(typeid(*options).name());
+        settings_->beginGroup(typeid(*options).name() + 6);
         options->write(settings_);
         settings_->endGroup();
     }

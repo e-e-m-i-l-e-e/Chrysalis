@@ -20,3 +20,8 @@ void ExtensionsSettings::read() const {
         settings->read();
     }
 }
+
+void ExtensionsSettings::clear() const {
+    settings_->clear();
+    read();
+}

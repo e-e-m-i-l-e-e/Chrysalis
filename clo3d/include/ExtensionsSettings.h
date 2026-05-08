@@ -9,6 +9,7 @@ public:
     ~ExtensionsSettings();
 
     void read() const;
+    void clear() const;
     void addSettings(BaseExtensionSettings* settings);
 private:
     QSettings* settings_;

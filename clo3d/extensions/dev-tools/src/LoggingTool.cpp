@@ -1,5 +1,6 @@
 #include "LoggingTool.h"
 
+#include "ExtensionsSettings.h"
 #include "LoggingToolSettingsWidget.h"
 
 LoggingTool::LoggingTool(LoggingToolSettings *settings): settings_(settings) {}

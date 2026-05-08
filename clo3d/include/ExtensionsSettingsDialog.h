@@ -5,7 +5,6 @@
 
 #include <QDialog>
 
-#include "ExtensionsSettings.h"
 #include "BaseExtensionSettingsWidget.h"
 
 namespace UI {
