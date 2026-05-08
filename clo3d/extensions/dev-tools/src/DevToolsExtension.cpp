@@ -10,7 +10,7 @@ DevToolsExtension::~DevToolsExtension() {
 }
 
 void DevToolsExtension::addDevTool(BaseDevTool* tool) {
-    devTools_.push_front(tool);
+    devTools_.push_back(tool);
 }
 
 void DevToolsExtension::configureSettings(ExtensionsSettings* extensionsSettings) {

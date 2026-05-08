@@ -14,7 +14,7 @@ public:
     void configureSettings(ExtensionsSettings* extensionsSettings) override;
     void configureSettingsUI(UI::ExtensionsSettingsDialog *extensionsSettingsDialog) override;
 private:
-    std::forward_list<BaseDevTool*> devTools_;
+    std::list<BaseDevTool*> devTools_;
 };
 
 #endif //FASHIONDESIGNAPPS_DEVTOOLSEXTENSION_H

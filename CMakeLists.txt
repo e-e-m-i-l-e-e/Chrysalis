@@ -8,6 +8,7 @@ set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/output")
 set(LOGS_DIR "${CMAKE_SOURCE_DIR}/.logs" CACHE PATH "Directory for log files")
 
 add_subdirectory(common)
+add_subdirectory(pattern-builder)
 
 if(APP STREQUAL "CLO3D")
     # CLO3D extensions cannot be build in Debug mode. RelWithDebInfo is used instead.

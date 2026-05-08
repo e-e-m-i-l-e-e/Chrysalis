@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UI::LoggingToolSettingsWidget</class>
+ <widget class="UI::BaseExtensionSettingsWidget" name="UI::LoggingToolSettingsWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>270</width>
+    <height>266</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>LoggingToolSettingsWidget</string>
+  </property>
+  <property name="title">
+   <string>Logger</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>11</number>
+   </property>
+   <property name="leftMargin">
+    <number>7</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>7</number>
+   </property>
+   <property name="bottomMargin">
+    <number>7</number>
+   </property>
+   <item>
+    <widget class="QWidget" name="logsDirectoryWidget" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#logsDirectoryWidget {
+	border-radius: 8px;
+}
+
+QWidget {
+	background: rgba(47, 47, 50, 255);
+}
+
+QLineEdit {
+        border-radius: 4px;
+        background: rgba(0, 0, 0, 77);
+        color: rgba(225, 225, 228, 255);
+        font-family: Inter;
+        font-size: 12px;
+        letter-spacing: 0px;
+        min-height: 22px;
+        max-height: 22px;
+        padding: 0px 6px;
+}
+
+QLineEdit:hover {
+        background: rgba(0, 0, 0, 77);
+        color: rgba(110, 185, 255, 255);
+}
+
+QLineEdit:focus {
+        background: rgba(37, 37, 40, 255);
+        color: rgba(110, 185, 255, 255);
+}
+
+QLineEdit[widget-type=&quot;Warning&quot;] {
+        background: rgba(40, 32, 35, 255);
+        color: rgba(255, 97, 125, 255);
+}
+
+QLineEdit[readOnly=&quot;true&quot;], QLineEdit[widget-type=&quot;ReadOnly&quot;] {
+        background: transparent;
+        color: rgba(153, 153, 156, 255);
+}
+
+QLineEdit:disabled {
+        background: rgba(37, 37, 40, 255);
+        color: rgba(70, 70, 73, 255);
+}</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="topMargin">
+       <number>7</number>
+      </property>
+      <property name="bottomMargin">
+       <number>7</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Directory</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="logsDirectoryEditWrapper">
+        <property name="spacing">
+         <number>7</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLineEdit" name="lineEdit">
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButton">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../../resources/resources.qrc">
+            <normaloff>:/folder.png</normaloff>:/folder.png</iconset>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="tableWrapperWidget" native="true">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <layout class="QVBoxLayout" name="tableWrapper">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QTableWidget" name="table">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <column>
+         <property name="text">
+          <string>Logger Name</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Log Level</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>UI::NamedWidget</class>
+   <extends>QWidget</extends>
+   <header>NamedWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UI::BaseExtensionSettingsWidget</class>
+   <extends>UI::NamedWidget</extends>
+   <header>BaseExtensionSettingsWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../../../resources/resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>

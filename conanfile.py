@@ -1,7 +1,6 @@
 from conan import ConanFile
 from conan.tools.cmake import cmake_layout
 from conan.tools.cmake import CMakeToolchain, CMakeDeps
-from conan.errors import ConanInvalidConfiguration
 
 class FashionDesignAppsConan(ConanFile):
     name = "FashionDesignApps"
@@ -12,7 +11,8 @@ class FashionDesignAppsConan(ConanFile):
     # Common
     requires = [
         "spdlog/1.17.0",
-        "gtest/1.17.0"
+        "gtest/1.17.0",
+        "cgal/6.1.1"
     ]
     options = {
         "app": ["none", "CLO3D", "mobile"]
