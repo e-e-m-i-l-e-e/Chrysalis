@@ -1,5 +1,6 @@
 ## Build
 ```
+mklink /J C:\FDA "C:\Life\Design\Apps\FashionDesignApps"
 python -m venv .venv
 .venv\Scripts\activate
 pip install --upgrade pip
@@ -9,7 +10,6 @@ conan export recipes/clo-sdk
 conan download "qt/5.15.16" -r conancenter --only-recipe
 conan download "qt/6.8.3" -r conancenter --only-recipe
 git restore .conan/p
-mklink /J C:\FDA "C:\Life\Design\Apps\FashionDesignApps"
 cd C:\FDA
 conan install . --build=missing --output-folder=.conan -o app=CLO3D -s build_type=Release
 conan install . --build=missing --output-folder=.conan -o app=mobile -s build_type=Release
