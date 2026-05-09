@@ -21,12 +21,12 @@ required_conan_version = ">=1.60.0 <2 || >=2.0.5"
 
 class QtConan(ConanFile):
     _submodules = ["qtsvg", "qtdeclarative", "qtactiveqt", "qtscript", "qtmultimedia", "qttools", "qtxmlpatterns",
-                   "qttranslations", "qtdoc", "qtlocation", "qtsensors", "qtconnectivity", "qtwayland",
-                   "qt3d", "qtimageformats", "qtgraphicaleffects", "qtquickcontrols", "qtserialbus", "qtserialport", "qtx11extras",
-                   "qtmacextras", "qtwinextras", "qtandroidextras", "qtwebsockets", "qtwebchannel", "qtwebengine", "qtwebview",
-                   "qtquickcontrols2", "qtpurchasing", "qtcharts", "qtdatavis3d", "qtvirtualkeyboard", "qtgamepad", "qtscxml",
-                   "qtspeech", "qtnetworkauth", "qtremoteobjects", "qtwebglplugin", "qtlottie", "qtquicktimeline", "qtquick3d",
-                   "qtknx", "qtmqtt", "qtcoap", "qtopcua"]
+    "qttranslations", "qtdoc", "qtlocation", "qtsensors", "qtconnectivity", "qtwayland",
+    "qt3d", "qtimageformats", "qtgraphicaleffects", "qtquickcontrols", "qtserialbus", "qtserialport", "qtx11extras",
+    "qtmacextras", "qtwinextras", "qtandroidextras", "qtwebsockets", "qtwebchannel", "qtwebengine", "qtwebview",
+    "qtquickcontrols2", "qtpurchasing", "qtcharts", "qtdatavis3d", "qtvirtualkeyboard", "qtgamepad", "qtscxml",
+    "qtspeech", "qtnetworkauth", "qtremoteobjects", "qtwebglplugin", "qtlottie", "qtquicktimeline", "qtquick3d",
+    "qtknx", "qtmqtt", "qtcoap", "qtopcua"]
 
     _module_statuses = ["essential", "addon", "deprecated", "preview"]
 
@@ -246,7 +246,7 @@ class QtConan(ConanFile):
                 if status not in self._module_statuses:
                     raise ConanException(f"module {modulename} has status {status} which is not in self._module_statuses {self._module_statuses}")
                 submodules_tree[modulename] = {"status": status,
-                                               "path": str(config.get(section, "path")), "depends": []}
+                                "path": str(config.get(section, "path")), "depends": []}
                 if config.has_option(section, "depends"):
                     submodules_tree[modulename]["depends"] = [str(i) for i in config.get(section, "depends").split()]
 
@@ -290,7 +290,7 @@ class QtConan(ConanFile):
             for m in required_but_disabled:
                 required_by.update(required_modules[m])
                 raise ConanInvalidConfiguration(f"Modules {required_but_disabled} are explicitly disabled, "
-                                                f"but are required by {list(required_by)}, enabled by other options")
+                                    f"but are required by {list(required_by)}, enabled by other options")
 
         enabled_modules = requested_modules.union(set(required_modules.keys()))
         enabled_modules.discard("qtbase")
@@ -316,7 +316,7 @@ class QtConan(ConanFile):
             # These are convenience only, should not affect package_id
             option_name = f"{status}_modules"
             self._debug_output(f"qt5 removing convenience option: {option_name},"
-                               f" see individual module options")
+                              f" see individual module options")
             self.options.rm_safe(option_name)
 
         for option in self.options.items():
@@ -502,13 +502,13 @@ class QtConan(ConanFile):
         apply_conandata_patches(self)
         for f in ["renderer", os.path.join("renderer", "core"), os.path.join("renderer", "platform")]:
             replace_in_file(self, os.path.join(self.source_folder, "qt5", "qtwebengine", "src", "3rdparty", "chromium", "third_party", "blink", f, "BUILD.gn"),
-                            "  if (enable_precompiled_headers) {\n    if (is_win) {",
-                            "  if (enable_precompiled_headers) {\n    if (false) {"
-                            )
+                "  if (enable_precompiled_headers) {\n    if (is_win) {",
+                "  if (enable_precompiled_headers) {\n    if (false) {"
+            )
         replace_in_file(self, os.path.join(self.source_folder, "qt5", "qtbase", "configure.json"),
-                        "-ldbus-1d",
-                        "-ldbus-1"
-                        )
+            "-ldbus-1d",
+            "-ldbus-1"
+        )
         save(self, os.path.join(self.source_folder, "qt5", "qtbase", "mkspecs", "features", "uikit", "bitcode.prf"), "")
 
         # shorten the path to ANGLE to avoid the following error:
@@ -725,13 +725,13 @@ class QtConan(ConanFile):
         args.append("-feature-gssapi" if self.options.get_safe("with_gssapi", False) else "-no-feature-gssapi")
 
         for opt, conf_arg in [
-            ("with_doubleconversion", "doubleconversion"),
-            ("with_freetype", "freetype"),
-            ("with_harfbuzz", "harfbuzz"),
-            ("with_libjpeg", "libjpeg"),
-            ("with_libpng", "libpng"),
-            ("with_sqlite3", "sqlite"),
-            ("with_md4c", "libmd4c")]:
+                              ("with_doubleconversion", "doubleconversion"),
+                              ("with_freetype", "freetype"),
+                              ("with_harfbuzz", "harfbuzz"),
+                              ("with_libjpeg", "libjpeg"),
+                              ("with_libpng", "libpng"),
+                              ("with_sqlite3", "sqlite"),
+                              ("with_md4c", "libmd4c")]:
             if self.options.get_safe(opt, False):
                 if self.options.multiconfiguration:
                     args += ["-qt-" + conf_arg]
@@ -1205,7 +1205,7 @@ Prefix = ..""")
                 _create_plugin("QWindowsIntegrationPlugin", "qwindows", "platforms", windows_reqs)
                 _create_plugin("QWindowsVistaStylePlugin", "qwindowsvistastyle", "styles", windows_reqs)
                 self.cpp_info.components["qtQWindowsIntegrationPlugin"].system_libs = ["advapi32", "dwmapi", "gdi32", "imm32",
-                                                                                       "ole32", "oleaut32", "shell32", "shlwapi", "user32", "winmm", "winspool", "wtsapi32"]
+                    "ole32", "oleaut32", "shell32", "shlwapi", "user32", "winmm", "winspool", "wtsapi32"]
             elif self.settings.os == "Android":
                 android_reqs = ["Core", "Gui", "EventDispatcherSupport", "AccessibilitySupport", "FontDatabaseSupport", "EglSupport"]
                 if self.options.get_safe("with_vulkan"):
@@ -1221,11 +1221,11 @@ Prefix = ..""")
                 _create_plugin("QCocoaIntegrationPlugin", "qcocoa", "platforms", cocoa_reqs)
                 _create_plugin("QMacStylePlugin", "qmacstyle", "styles", cocoa_reqs)
                 self.cpp_info.components["QCocoaIntegrationPlugin"].frameworks = ["AppKit", "Carbon", "CoreServices", "CoreVideo",
-                                                                                  "IOKit", "IOSurface", "Metal", "QuartzCore"]
+                    "IOKit", "IOSurface", "Metal", "QuartzCore"]
             elif self.settings.os in ["iOS", "tvOS"]:
                 _create_plugin("QIOSIntegrationPlugin", "qios", "platforms", ["ClipboardSupport", "FontDatabaseSupport", "GraphicsSupport"])
                 self.cpp_info.components["QIOSIntegrationPlugin"].frameworks = ["AudioToolbox", "Foundation", "Metal",
-                                                                                "MobileCoreServices", "OpenGLES", "QuartzCore", "UIKit"]
+                    "MobileCoreServices", "OpenGLES", "QuartzCore", "UIKit"]
             elif self.settings.os == "watchOS":
                 _create_plugin("QMinimalIntegrationPlugin", "qminimal", "platforms", ["EventDispatcherSupport", "FontDatabaseSupport"])
             elif self.settings.os == "Emscripten":
@@ -1549,7 +1549,7 @@ Prefix = ..""")
             self.cpp_info.components[component_name].builddirs.append(os.path.join("lib", "cmake", m))
 
         qt5core_config_extras_mkspec_dir_cmake = load(self,
-                                                      os.path.join("lib", "cmake", "Qt5Core", "Qt5CoreConfigExtrasMkspecDir.cmake"))
+            os.path.join("lib", "cmake", "Qt5Core", "Qt5CoreConfigExtrasMkspecDir.cmake"))
         mkspecs_dir_begin = qt5core_config_extras_mkspec_dir_cmake.find("mkspecs/")
         mkspecs_dir_end = qt5core_config_extras_mkspec_dir_cmake.find("\"", mkspecs_dir_begin)
         mkspecs_path = qt5core_config_extras_mkspec_dir_cmake[mkspecs_dir_begin:mkspecs_dir_end]
