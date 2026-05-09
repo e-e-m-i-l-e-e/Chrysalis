@@ -44,7 +44,7 @@ class FashionDesignAppsConan(ConanFile):
             self.options["qt/5.15.16"].with_freetype = False
 
         elif self.options.app == "mobile":
-            self.options["qt/6.8.3"].qttools = True
+            self.options["qt/6.8.3"].shared = True
             self.options["qt/6.8.3"].openssl = False
             self.options["qt/6.8.3"].with_pq = False
             self.options["qt/6.8.3"].with_md4c = False
@@ -53,6 +53,7 @@ class FashionDesignAppsConan(ConanFile):
             self.options["qt/6.8.3"].with_libpng = False
             self.options["qt/6.8.3"].with_sqlite3 = False
             self.options["qt/6.8.3"].qtdeclarative = True
+            self.options["qt/6.8.3"].qtshadertools = True
             self.options["qt/6.8.3"].with_freetype = False
             self.options["qt/6.8.3"].with_harfbuzz = False
 

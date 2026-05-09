@@ -1,25 +1,19 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QQmlContext>
+#include <QtPlugin>
 
-class Backend : public QObject {
-    Q_OBJECT
-public slots:
-    void sayHello() {
-        qDebug() << "Hello from C++";
-    }
-};
+Q_IMPORT_PLUGIN(QtQuick2Plugin)
+Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin)
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     QGuiApplication app(argc, argv);
 
-    Backend backend;
-
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("backend", &backend);
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.loadFromModule("QmlApp", "Main");
+
+    if (engine.rootObjects().isEmpty())
+        return -1;
 
     return app.exec();
 }
-
-#include "main.moc"

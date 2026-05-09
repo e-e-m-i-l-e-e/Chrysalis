@@ -1,22 +1,28 @@
 set(CMAKE_AUTOMOC ON)
-find_package(Qt6 REQUIRED)
+set(QT_QML_GENERATE_AOTSTATS OFF)
 
-add_executable(QmlApp
+find_package(Qt6 REQUIRED)
+qt_standard_project_setup()
+
+qt_add_executable(QmlApp
         main.cpp
-        qml.qrc
 )
 
-target_link_libraries(QmlApp
+qt_add_qml_module(QmlApp
+        URI QmlApp
+        VERSION 1.0
+        QML_FILES
+            Main.qml
+)
+
+target_link_libraries(QmlApp PRIVATE
         Qt6::Core
         Qt6::Gui
         Qt6::Qml
-#        Qt6::Quick
-#        Qt6::QuickControls2
+        Qt6::Quick
+        Qt6::Quick2Plugin
+        Qt6::QWindowsIntegrationPlugin
 )
 
-add_custom_command(TARGET QmlApp POST_BUILD
-        COMMAND "${CMAKE_CURRENT_SOURCE_DIR}/../.conan/p/b/qt5f42820c94477/p/bin/windeployqt.exe"
-        --no-translations
-        --qmldir ${CMAKE_CURRENT_SOURCE_DIR}
-        $<TARGET_FILE:QmlApp>
-)
+qt_import_qml_plugins(QmlApp)
+qt_finalize_executable(QmlApp)
