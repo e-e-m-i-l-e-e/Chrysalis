@@ -27,7 +27,7 @@ class FashionDesignAppsConan(ConanFile):
             self.requires("clo-sdk/9.1.0")
             self.requires("polyhook2/2.0")
         elif self.options.app == "mobile":
-            self.requires("qt/6.10.1")
+            self.requires("qt/6.8.3")
 
     def configure(self):
         if self.options.app == "CLO3D":
@@ -44,19 +44,17 @@ class FashionDesignAppsConan(ConanFile):
             self.options["qt/5.15.16"].with_freetype = False
 
         elif self.options.app == "mobile":
-            self.options["qt/6.10.1"].gui = False
-            self.options["qt/6.10.1"].opengl = "no"
-            self.options["qt/6.10.1"].openssl = False
-            self.options["qt/6.10.1"].widgets = False
-            self.options["qt/6.10.1"].with_pq = False
-            self.options["qt/6.10.1"].with_md4c = False
-            self.options["qt/6.10.1"].with_odbc = False
-            self.options["qt/6.10.1"].with_brotli = False
-            self.options["qt/6.10.1"].with_libpng = False
-            self.options["qt/6.10.1"].with_sqlite3 = False
-            self.options["qt/6.10.1"].with_freetype = False
-            self.options["qt/6.10.1"].with_harfbuzz = False
-            self.options["qt/6.10.1"].with_doubleconversion = False
+            self.options["qt/6.8.3"].qttools = True
+            self.options["qt/6.8.3"].openssl = False
+            self.options["qt/6.8.3"].with_pq = False
+            self.options["qt/6.8.3"].with_md4c = False
+            self.options["qt/6.8.3"].with_odbc = False
+            self.options["qt/6.8.3"].with_brotli = False
+            self.options["qt/6.8.3"].with_libpng = False
+            self.options["qt/6.8.3"].with_sqlite3 = False
+            self.options["qt/6.8.3"].qtdeclarative = True
+            self.options["qt/6.8.3"].with_freetype = False
+            self.options["qt/6.8.3"].with_harfbuzz = False
 
     def generate(self):
         toolchain = CMakeToolchain(self)

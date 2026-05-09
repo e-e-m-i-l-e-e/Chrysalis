@@ -14,7 +14,6 @@ public:
 
     void addPoint(const std::string& name, double x, double y);
     void addPoint(const std::string& from, const std::string& to, double radians, double distance);
-    void addPoint(const std::string& from, const std::string& to, const Direction& direction, double distance);
 private:
     std::string name_;
     std::unordered_map<std::string, Point> points_;

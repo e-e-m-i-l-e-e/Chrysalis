@@ -14,7 +14,3 @@ void Pattern::addPoint(const std::string &from, const std::string &to, double ra
     }
     points_[to] = points_[from] + Vector(std::cos(radians), std::sin(radians)) * distance;
 }
-
-void Pattern::addPoint(const std::string &from, const std::string &to, const Direction &direction, double distance) {
-    addPoint(from, to, direction., distance);
-}

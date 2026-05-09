@@ -18,6 +18,7 @@
 // #include <QtWidgets/QOpe>
 
 #include <CLOAPIInterface.h>
+#include <iso646.h>
 #include <QDockWidget>
 
 #include "ExtensionsSettingsDialog.h"
@@ -31,6 +32,7 @@
 
 #include <QToolButton>
 #include <QOpenGLWidget>
+#include <QGraphicsView>
 #include <QOpenGLContext>
 #include <QWindow>
 #include <QAbstractNativeEventFilter>
@@ -47,6 +49,72 @@ void ExtensionsManager::addExtension(BaseExtension* extension) {
     extensions.push_front(extension);
 }
 
+using PaintGLFn = void(__fastcall*)(QOpenGLWidget* self);
+
+PaintGLFn g_originalPaintGL = nullptr;
+
+void __fastcall hkPaintGL(QOpenGLWidget* self)
+{
+    // BEFORE original rendering
+    LOG_INFO("BEFORE ORIGINAL");
+
+    // call original
+    g_originalPaintGL(self);
+
+    LOG_INFO("AFTER ORIGINAL");
+
+    // AFTER rendering
+    // custom OpenGL rendering here
+}
+
+class PaintFilter : public QObject
+{
+public:
+    explicit PaintFilter(QObject* original, QObject* parent = nullptr) : QObject(parent), original(original) {};
+    bool eventFilter(QObject* watched, QEvent* event) override
+    {
+        original->eventFilter(watched, event);
+        if (event->type() == QEvent::Paint && watched->objectName().contains("widget2d"))
+        {
+            LOG_INFO("Custom receiver");
+            glPushAttrib(GL_ALL_ATTRIB_BITS);
+
+            glDisable(GL_DEPTH_TEST);
+
+            glMatrixMode(GL_PROJECTION);
+            glPushMatrix();
+            glLoadIdentity();
+
+            glMatrixMode(GL_MODELVIEW);
+            glPushMatrix();
+            glLoadIdentity();
+
+            glBegin(GL_TRIANGLES);
+
+            glColor3f(1.0f, 0.0f, 0.0f);
+
+            glVertex2f(0.0f, 0.1f);
+            glVertex2f(-0.1f, -0.1f);
+            glVertex2f(0.1f, -0.1f);
+
+            glEnd();
+
+            glPopMatrix();
+
+            glMatrixMode(GL_PROJECTION);
+            glPopMatrix();
+
+            glPopAttrib();
+
+            glFlush();
+        }
+        return QObject::eventFilter(watched, event);
+    }
+private:
+    QObject* original;
+};
+
+static QGraphicsView* view = nullptr;
 void ExtensionsManager::install() {
     extensionsSettings = new ExtensionsSettings("eemilee.me", "CLO3D Extensions");
 
@@ -106,13 +174,58 @@ void ExtensionsManager::install() {
                 }
             }
         } else if (const auto openGL = qobject_cast<QOpenGLWidget*>(this_)) {
-            HooksManager::addAfter<&QOpenGLWidget::paintGL>([](const HookHandle& handle, QOpenGLWidget* this_) {
-                glClearColor(1, 0, 0, 1);
-                glClear(GL_COLOR_BUFFER_BIT);
-            });
             LOG_DEBUG("OpenGL widget: {}", openGL->objectName().toStdString());
+            // openGL->connect(openGL, &QOpenGLWidget::aboutToCompose, [&]() {
+            //     LOG_INFO("ABOUT TO COMPOSE");
+            //     glClearColor(1, 0, 0, 1);
+            //     glClear(GL_COLOR_BUFFER_BIT);
+            //     // openGL.
+            // });
+            // openGL->connect(openGL, &QOpenGLWidget::frameSwapped, [&]() {
+            //     LOG_INFO("FRAME SWAPPED");
+            //     glClearColor(1, 0, 0, 1);
+            //     glClear(GL_COLOR_BUFFER_BIT);
+            // });
+            // QMetaObject::connect(openGL, &QOpenGLWidget::frameSwapped, openGL, );
+            // auto vtable = *reinterpret_cast<void ***>(openGL);
+            // for (int i = 0; i < 100; i++)
+            // {
+            //     std::cout << i << " -> " << vtable[i] << std::endl;
+            // }
+            // while (true) {};
+
+            // constexpr uint16_t paintGLIndex = 0;
+            //
+            // static PLH::VFuncSwapHook hook(
+            //     vtable,
+            //     paintGLIndex,
+            //     reinterpret_cast<uint64_t>(&hkPaintGL),
+            //     (uint64_t *) &g_originalPaintGL
+            // );
+
+            // hook.hook();
+        } else if (this_->objectName() == "dummyWidget2d") {
+            for (const auto child: this_->findChildren<QGraphicsView*>()) {
+                // child->removeEventFilter();
+                LOG_INFO("QGraphicsView: {}", child->objectName().toStdString());
+                // view = child;
+                // child->installEventFilter(new PaintFilter());
+            }
         }
     });
+
+    HooksManager::addIgnore<&QObject::installEventFilter>([](const HookHandle& handle, bool& ignore, QObject* object, QObject*& receiver) {
+        if (const auto openGL = qobject_cast<QOpenGLWidget*>(object)) {
+            if (openGL->parent()->parent()) LOG_DEBUG("Installing event filter on QOpenGLWidget: {}. Parent: {}.", openGL->objectName().toStdString(), object->parent()->parent()->metaObject()->className());
+            // ignore = true;
+            QObject* original = receiver;
+            receiver = new PaintFilter(original);
+        }
+    });
+
+    // HooksManager::addAfter<&QGraphicsView::installEventFilter>([](const HookHandle& handle, QObject* this_, QObject* filter) {
+    //     LOG_DEBUG("Installing event on class: {} object name: {}", this_->metaObject()->className(), this_->objectName().toStdString());
+    // });
 
     HooksManager::addAfter<&QObject::setObjectName>([](const HookHandle&, QObject* this_, const QString& name) {
         if (name.contains("MeasureID")) {
