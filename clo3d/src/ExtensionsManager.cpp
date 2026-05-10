@@ -175,41 +175,9 @@ void ExtensionsManager::install() {
             }
         } else if (const auto openGL = qobject_cast<QOpenGLWidget*>(this_)) {
             LOG_DEBUG("OpenGL widget: {}", openGL->objectName().toStdString());
-            // openGL->connect(openGL, &QOpenGLWidget::aboutToCompose, [&]() {
-            //     LOG_INFO("ABOUT TO COMPOSE");
-            //     glClearColor(1, 0, 0, 1);
-            //     glClear(GL_COLOR_BUFFER_BIT);
-            //     // openGL.
-            // });
-            // openGL->connect(openGL, &QOpenGLWidget::frameSwapped, [&]() {
-            //     LOG_INFO("FRAME SWAPPED");
-            //     glClearColor(1, 0, 0, 1);
-            //     glClear(GL_COLOR_BUFFER_BIT);
-            // });
-            // QMetaObject::connect(openGL, &QOpenGLWidget::frameSwapped, openGL, );
-            // auto vtable = *reinterpret_cast<void ***>(openGL);
-            // for (int i = 0; i < 100; i++)
-            // {
-            //     std::cout << i << " -> " << vtable[i] << std::endl;
-            // }
-            // while (true) {};
-
-            // constexpr uint16_t paintGLIndex = 0;
-            //
-            // static PLH::VFuncSwapHook hook(
-            //     vtable,
-            //     paintGLIndex,
-            //     reinterpret_cast<uint64_t>(&hkPaintGL),
-            //     (uint64_t *) &g_originalPaintGL
-            // );
-
-            // hook.hook();
         } else if (this_->objectName() == "dummyWidget2d") {
             for (const auto child: this_->findChildren<QGraphicsView*>()) {
-                // child->removeEventFilter();
                 LOG_INFO("QGraphicsView: {}", child->objectName().toStdString());
-                // view = child;
-                // child->installEventFilter(new PaintFilter());
             }
         }
     });
@@ -217,9 +185,8 @@ void ExtensionsManager::install() {
     HooksManager::addIgnore<&QObject::installEventFilter>([](const HookHandle& handle, bool& ignore, QObject* object, QObject*& receiver) {
         if (const auto openGL = qobject_cast<QOpenGLWidget*>(object)) {
             if (openGL->parent()->parent()) LOG_DEBUG("Installing event filter on QOpenGLWidget: {}. Parent: {}.", openGL->objectName().toStdString(), object->parent()->parent()->metaObject()->className());
-            // ignore = true;
-            QObject* original = receiver;
-            receiver = new PaintFilter(original);
+            // QObject* original = receiver;
+            // receiver = new PaintFilter(original);
         }
     });
 

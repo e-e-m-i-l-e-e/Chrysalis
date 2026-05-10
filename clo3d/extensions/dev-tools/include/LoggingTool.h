@@ -7,7 +7,7 @@
 class LoggingTool: public BaseDevTool {
 public:
     explicit LoggingTool(LoggingToolSettings* settings);
-    virtual ~LoggingTool();
+    ~LoggingTool() override;
 
     void configureSettings(ExtensionsSettings *extensionsSettings) override;
     void configureSettingsUI(UI::ExtensionsSettingsDialog *extensionsSettingsDialog) override;
