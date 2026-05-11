@@ -1,27 +1,24 @@
 #ifndef FASHIONDESIGNAPPS_PATTERN_H
 #define FASHIONDESIGNAPPS_PATTERN_H
 
-#include <unordered_map>
-
-#include <CGAL/Simple_cartesian.h>
-#include <CGAL/Polygon_with_holes_2.h>
+#include "Space.h"
+#include "DartBuilder.h"
+#include "OutlineBuilder.h"
 
 class Pattern {
-    using Kernel = CGAL::Simple_cartesian<double>;
-    using Point = Kernel::Point_2;
-    using Vector = Kernel::Vector_2;
-    using Polygon = CGAL::Polygon_2<Kernel>;
-    using Polygon_with_holes = CGAL::Polygon_with_holes_2<Kernel>;
 public:
-    explicit Pattern(const std::string& name);
+    explicit Pattern(const std::string& name, Space* space, Outline* outline);
+    void addPoint(const std::string& name, double x, double y) const;
 
-    void addPoint(const std::string& name, double x, double y);
-    void addPoint(const std::string& from, const std::string& to, double radians, double distance);
+    DartBuilder startDart() const;
+    OutlineBuilder startOutline() const;
 
-    void test();
+    std::vector<float> getPoints() const;
+    std::vector<float> getOutline() const;
 private:
     std::string name_;
-    std::unordered_map<std::string, Point> points_;
+    Space* space_;
+    Outline* outline_;
 };
 
 #endif //FASHIONDESIGNAPPS_PATTERN_H

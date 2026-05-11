@@ -34,6 +34,7 @@ target_link_libraries(QtOpenGLApp PRIVATE
         Qt6::Qml
         Qt6::Quick
         Qt6::OpenGL
+        PatternBuilder
 )
 
 qt_import_qml_plugins(QtOpenGLApp)

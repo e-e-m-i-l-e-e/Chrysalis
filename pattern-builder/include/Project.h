@@ -8,7 +8,7 @@
 class Project {
 public:
     ~Project();
-    Pattern* createPattern(const std::string& name);
+    Pattern* addPattern(const std::string& name);
 private:
     std::forward_list<Pattern*> patterns_;
 };
