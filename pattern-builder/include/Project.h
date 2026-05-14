@@ -1,14 +1,15 @@
 #ifndef FASHIONDESIGNAPPS_PROJECT_H
 #define FASHIONDESIGNAPPS_PROJECT_H
 
+#include <string>
 #include <forward_list>
 
-#include "Pattern.h"
+#include "PatternBuilder.h"
 
 class Project {
 public:
     ~Project();
-    Pattern* addPattern(const std::string& name);
+    PatternBuilder addPattern(const std::string& name);
 private:
     std::forward_list<Pattern*> patterns_;
 };

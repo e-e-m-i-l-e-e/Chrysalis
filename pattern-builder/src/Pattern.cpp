@@ -8,10 +8,10 @@ void Pattern::addPoint(const std::string& name, const double x, const double y) 
 }
 
 DartBuilder Pattern::startDart() const {
-    return DartBuilder(new Dart(space_));
+    return DartBuilder(outline_, new Dart(space_));
 }
 
-OutlineBuilder Pattern::startOutline() const {
+OutlineBuilder Pattern::editOutline() const {
     return OutlineBuilder(outline_);
 }
 
@@ -19,6 +19,10 @@ std::vector<float> Pattern::getPoints() const {
     return space_->getPoints();
 }
 
-std::vector<float> Pattern::getOutline() const {
+std::vector<std::vector<float>> Pattern::getOutline() const {
     return outline_->getPoints();
+}
+
+std::vector<float> Pattern::getShape() const {
+    return outline_->getShape();
 }

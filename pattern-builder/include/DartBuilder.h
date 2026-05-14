@@ -2,14 +2,17 @@
 #define FASHIONDESIGNAPPS_DARTBUILDER_H
 
 #include "Dart.h"
+#include "Outline.h"
 
 class DartBuilder {
 public:
-    explicit DartBuilder(Dart* dart);
+    explicit DartBuilder(Outline* outline, Dart* dart);
 
     DartBuilder& addPoint(const std::string& pointName);
+    void complete() const;
 private:
     Dart* dart_;
+    Outline* outline_;
 };
 
 #endif //FASHIONDESIGNAPPS_DARTBUILDER_H

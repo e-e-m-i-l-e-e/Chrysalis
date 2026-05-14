@@ -11,10 +11,11 @@ public:
     void addPoint(const std::string& name, double x, double y) const;
 
     DartBuilder startDart() const;
-    OutlineBuilder startOutline() const;
+    OutlineBuilder editOutline() const;
 
     std::vector<float> getPoints() const;
-    std::vector<float> getOutline() const;
+    std::vector<std::vector<float>> getOutline() const;
+    std::vector<float> getShape() const;
 private:
     std::string name_;
     Space* space_;

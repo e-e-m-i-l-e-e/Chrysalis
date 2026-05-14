@@ -1,6 +1,11 @@
 compilation_database_dir: ../.build/RelWithDebInfo
 output_directory: diagrams
+remove_compile_flags:
+  - /fp:strict
+  - /fp:except-
 add_compile_flags:
+  - -IC:\FDA\.misc\cgal-stubs    # ← regular -I beats -external:I, so stub wins
+  - /fp:fast
   - /clang:-fparse-all-comments
 diagrams:
   CLO3DExtensionsDevToolsClassDiagram:
@@ -99,6 +104,7 @@ diagrams:
       exclude:
         namespaces:
           - std
+          - CGAL
         paths:
           - ../.conan
           - ../common

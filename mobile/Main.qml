@@ -18,11 +18,9 @@ ApplicationWindow {
             bottomMargin: 12
         }
 
-        points: [
-            Qt.point(0,  0),  Qt.point(10, 0),
-            Qt.point(10, 10), Qt.point(0,  10)
-        ]
-        lineColor: "#00d4ff"
+        fillColor: Qt.rgba(0, 0.83, 1, 0.18)
+        edgeColor: "#00d4ff"
+        dotColor:  "#ffffff"
         lineWidth: 2.0
         pointSize: 14.0
     }

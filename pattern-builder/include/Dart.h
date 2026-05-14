@@ -14,6 +14,8 @@ public:
 
     void addPoint(const std::string& pointName);
     Polygon& getPolygon();
+
+    std::vector<float> getPoints();
 private:
     Space* space_;
     Polygon polygon_;
