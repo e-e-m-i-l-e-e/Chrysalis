@@ -13,7 +13,7 @@ public:
     DartBuilder startDart() const;
     OutlineBuilder editOutline() const;
 
-    std::vector<float> getPoints() const;
+    std::vector<Vertex> getPoints() const;
     std::vector<std::vector<float>> getOutline() const;
     std::vector<float> getShape() const;
 private:

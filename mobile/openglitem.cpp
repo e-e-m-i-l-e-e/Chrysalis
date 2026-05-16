@@ -6,6 +6,7 @@
 #include <algorithm>
 
 #include "Project.h"
+#include "Space.h"
 
 // ─────────────────────────────────────────────────────────────────────────────
 //  Shaders  (GLSL ES 300)
@@ -13,8 +14,14 @@
 static const char *vertSrc = R"(
 #version 300 es
 layout(location = 0) in vec2 aPosition;
+layout(location = 1) in float aDistance;
+
 uniform float uPointSize;
+
+out float vDistance;
+
 void main() {
+    vDistance    = aDistance;
     gl_PointSize = uPointSize;
     gl_Position  = vec4(aPosition, 0.0, 1.0);
 }
@@ -22,29 +29,42 @@ void main() {
 
 static const char *fragSrc = R"(
 #version 300 es
-uniform vec4 uColor;
-uniform bool uRound;
+
+uniform vec4  uColor;
+uniform bool  uRound;
+uniform bool  uDashed;
+uniform float uDashSize;   // world-units of solid part
+uniform float uGapSize;    // world-units of gap part
+
+in float vDistance;
 out vec4 fragColor;
+
 void main() {
     if (uRound) {
         vec2 c = gl_PointCoord - 0.5;
         if (dot(c, c) > 0.25) discard;
     }
+
+    if (uDashed) {
+        float period = uDashSize + uGapSize;
+        if (mod(vDistance, period) > uDashSize) discard;
+    }
+
     fragColor = uColor;
 }
 )";
 
 // ═════════════════════════════════════════════════════════════════════════════
-//  OpenGLRenderer
+//  OpenGLRendererOLD
 // ═════════════════════════════════════════════════════════════════════════════
 
-OpenGLRenderer::OpenGLRenderer()
+OpenGLRendererOLD::OpenGLRendererOLD()
     : m_vbo(QOpenGLBuffer::VertexBuffer)
 {}
 
-OpenGLRenderer::~OpenGLRenderer() {}
+OpenGLRendererOLD::~OpenGLRendererOLD() {}
 
-void OpenGLRenderer::initialize()
+void OpenGLRendererOLD::initialize()
 {
     initializeOpenGLFunctions();
 
@@ -58,11 +78,16 @@ void OpenGLRenderer::initialize()
     m_uColor     = m_program.uniformLocation("uColor");
     m_uRound     = m_program.uniformLocation("uRound");
     m_uPointSize = m_program.uniformLocation("uPointSize");
+    m_uDashed    = m_program.uniformLocation("uDashed");
+    m_uDashSize  = m_program.uniformLocation("uDashSize");
+    m_uGapSize   = m_program.uniformLocation("uGapSize");
 
     glEnable(GL_PROGRAM_POINT_SIZE);
 
     m_vao.create();
     m_vao.bind();
+    m_ebo.create();
+    m_ebo.bind();
 
     m_vbo.create();
     m_vbo.bind();
@@ -71,7 +96,12 @@ void OpenGLRenderer::initialize()
 
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,
-                          2 * sizeof(GLfloat), nullptr);
+                          sizeof(DistancedVertex), nullptr);
+
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE,
+                          sizeof(DistancedVertex),
+                          (void*)(2 * sizeof(float)));   // skip x, y
 
     m_vao.release();
     m_vbo.release();
@@ -81,7 +111,7 @@ void OpenGLRenderer::initialize()
 
 // Upload all three sets into ONE contiguous VBO region:
 //   [ shape verts | edge verts | dot verts ]
-void OpenGLRenderer::uploadVertices()
+void OpenGLRendererOLD::uploadVertices()
 {
     // Build one flat buffer: [shape | loop0 | loop1 | ... | dots]
     QVector<GLfloat> data;
@@ -109,14 +139,18 @@ void OpenGLRenderer::uploadVertices()
     for (const auto &p : m_dotVerts) {
         data.append((GLfloat)p.x());
         data.append((GLfloat)p.y());
+        data.append(p.distance());
     }
 
     m_vbo.bind();
+    m_ebo.bind();
+    m_ebo.allocate(m_indices.data(), (int)(m_indices.size() * sizeof(int)));
+    m_ebo.release();
     m_vbo.allocate(data.constData(), data.size() * sizeof(GLfloat));
     m_vbo.release();
 }
 
-void OpenGLRenderer::render()
+void OpenGLRendererOLD::render()
 {
     if (!m_initialized)
         initialize();
@@ -170,13 +204,23 @@ void OpenGLRenderer::render()
         glDrawArrays(GL_POINTS, m_dotBatch.first, m_dotBatch.count);
     }
 
+    if (!m_indices.empty()) {
+        setColor(m_edgeColor);
+        m_program.setUniformValue(m_uRound,     false);
+        m_program.setUniformValue(m_uPointSize, 1.0f);
+        m_program.setUniformValue(m_uDashed,   true);
+        m_program.setUniformValue(m_uDashSize, 1.f);   // tune to taste
+        m_program.setUniformValue(m_uGapSize,  1.f);
+        glDrawElements(GL_LINE_LOOP, m_indices.size(), GL_UNSIGNED_INT, 0);
+    }
+
     m_vao.release();
     m_program.release();
     glDisable(GL_LINE_SMOOTH);
     glDisable(GL_BLEND);
 }
 
-QOpenGLFramebufferObject *OpenGLRenderer::createFramebufferObject(const QSize &size)
+QOpenGLFramebufferObject *OpenGLRendererOLD::createFramebufferObject(const QSize &size)
 {
     QOpenGLFramebufferObjectFormat fmt;
     fmt.setAttachment(QOpenGLFramebufferObject::CombinedDepthStencil);
@@ -184,21 +228,23 @@ QOpenGLFramebufferObject *OpenGLRenderer::createFramebufferObject(const QSize &s
     return new QOpenGLFramebufferObject(size, fmt);
 }
 
-void OpenGLRenderer::synchronize(QQuickFramebufferObject *baseItem)
+void OpenGLRendererOLD::synchronize(QQuickFramebufferObject *baseItem)
 {
-    auto *item = static_cast<OpenGLItem *>(baseItem);
+    auto *item = static_cast<OpenGLItemOLD *>(baseItem);
 
     m_fillColor  = item->m_fillColor;
+    m_edgeColor  = item->m_edgeColor;
     m_edgeColor  = item->m_edgeColor;
     m_dotColor   = item->m_dotColor;
     m_lineWidth  = item->m_lineWidth;
     m_pointSize  = item->m_pointSize;
+    m_indices = item->m_indices;
 
     // Compute a single world rect covering all point sets
     const QRectF rect = item->autoWorldRect();
 
     const QVector<QPointF> freshShape = item->toNdc(item->m_shapePoints, rect);
-    const QVector<QPointF> freshDots  = item->toNdc(item->m_dotPoints,   rect);
+    QList<DistancedVertex> freshDots  = item->toNdc2(item->m_dotPoints,   rect);
 
     // Convert each loop independently
     QVector<QVector<QPointF>> freshLoops;
@@ -209,25 +255,33 @@ void OpenGLRenderer::synchronize(QQuickFramebufferObject *baseItem)
         freshLoops.append(item->toNdc(tmp, rect));
     }
 
-    if (freshShape != m_shapeVerts || freshLoops != m_edgeLoops || freshDots != m_dotVerts) {
+    // if (freshShape != m_shapeVerts || freshLoops != m_edgeLoops) {
         m_shapeVerts = freshShape;
         m_edgeLoops  = freshLoops;
         m_dotVerts   = freshDots;
         m_dirty      = true;
-    }
+    // }
 }
 
 // ═════════════════════════════════════════════════════════════════════════════
-//  OpenGLItem
+//  OpenGLItemOLD
 // ═════════════════════════════════════════════════════════════════════════════
 
-OpenGLItem::OpenGLItem(QQuickItem *parent)
+OpenGLItemOLD::OpenGLItemOLD(QQuickItem *parent)
     : QQuickFramebufferObject(parent)
 {
     setMirrorVertically(true);
     // ── Hardcoded pattern ─────────────────────────────────────────────────────
-    // const auto pattern = (new Project())->addPattern("Test");
-    //
+    const auto project = new Project();
+    const auto patternBuilder = project->addPattern("Test")
+        .addPoint("A",  0,  0)
+        .nextPoint("B", Space::Direction::UP, 10)
+        .nextPoint("C", Space::Direction::RIGHT, 10)
+        .nextPoint("D", Space::Direction::DOWN, 10);
+    // const auto dotFlat = patternBuilder.getVBO();
+    const auto dotFlat = patternBuilder.getDistancedVBO();
+    m_indices = patternBuilder.getEBO();
+
     // pattern->addPoint("A",  0,  0);
     // pattern->addPoint("B",  0, 10);
     // pattern->addPoint("C", 10, 10);
@@ -251,19 +305,27 @@ OpenGLItem::OpenGLItem(QQuickItem *parent)
     // const auto shapeFlat = pattern->getShape();    // x,y,x,y,... triangles
     // const auto edgeFlat  = pattern->getOutline();  // x,y,x,y,... outline
     // const auto dotFlat   = pattern->getPoints();   // x,y,x,y,... named points
-    //
-    // // ── Convert flat float vectors → QVariantList<QPointF> ───────────────────
-    // auto toVariantList = [](const auto &flat) {
-    //     QVariantList out;
-    //     out.reserve(flat.size() / 2);
-    //     for (int i = 0; i + 1 < flat.size(); i += 2)
-    //         out.append(QPointF(flat[i], flat[i + 1]));
-    //     return out;
-    // };
-    //
+
+    // ── Convert flat float vectors → QVariantList<QPointF> ───────────────────
+    auto toVariantList = [](const auto &flat) {
+        QVariantList out;
+        out.reserve(flat.size() / 2);
+        for (int i = 0; i + 1 < flat.size(); i += 2)
+            out.append(QPointF(flat[i], flat[i + 1]));
+        return out;
+    };
+
+    auto toVariantList2 = [](const auto &flat) {
+        QList<DistancedVertex> out;
+        out.reserve(flat.size());
+        for (int i = 0; i < flat.size(); i++)
+            out.append(flat[i]);
+        return out;
+    };
+
     // m_shapePoints = toVariantList(shapeFlat);
-    // m_dotPoints   = toVariantList(dotFlat);
-    //
+    m_dotPoints   = toVariantList2(dotFlat);
+
     // const std::vector<std::vector<float>> edgeLoopsFlat = pattern->getOutline();
     //
     // m_edgeLoops.clear();
@@ -276,16 +338,16 @@ OpenGLItem::OpenGLItem(QQuickItem *parent)
     // }
 }
 
-QQuickFramebufferObject::Renderer *OpenGLItem::createRenderer() const
+QQuickFramebufferObject::Renderer *OpenGLItemOLD::createRenderer() const
 {
-    return new OpenGLRenderer();
+    return new OpenGLRendererOLD();
 }
 
 // ── NDC helpers ───────────────────────────────────────────────────────────────
 
 // Returns the world-space bounding rect of ALL three point lists combined,
 // or the explicit m_worldRect if one was set.
-QRectF OpenGLItem::autoWorldRect() const
+QRectF OpenGLItemOLD::autoWorldRect() const
 {
     if (m_worldRect.isValid())
         return m_worldRect;
@@ -301,7 +363,7 @@ QRectF OpenGLItem::autoWorldRect() const
     };
 
     for (const auto &v : m_shapePoints) { auto p = v.toPointF(); growPt(p.x(), p.y()); }
-    for (const auto &v : m_dotPoints)   { auto p = v.toPointF(); growPt(p.x(), p.y()); }
+    for (const auto &v : m_dotPoints)   { auto p = QPointF(v.x(), v.y()); growPt(p.x(), p.y()); }
     for (const auto &loop : m_edgeLoops)
         for (const auto &p : loop) growPt(p.x(), p.y());   // ← was grow(m_edgePoints)
 
@@ -314,7 +376,7 @@ QRectF OpenGLItem::autoWorldRect() const
                   (maxY - minY) + 2 * padY);
 }
 
-QVector<QPointF> OpenGLItem::toNdc(const QVariantList &src, const QRectF &rect) const
+QVector<QPointF> OpenGLItemOLD::toNdc(const QVariantList &src, const QRectF &rect) const
 {
     if (src.isEmpty() || !rect.isValid()) return {};
 
@@ -329,18 +391,32 @@ QVector<QPointF> OpenGLItem::toNdc(const QVariantList &src, const QRectF &rect) 
     return out;
 }
 
+QList<DistancedVertex> OpenGLItemOLD::toNdc2(const QList<DistancedVertex> &src, const QRectF &rect) const
+{
+    if (src.isEmpty() || !rect.isValid()) return {};
+
+    QList<DistancedVertex> out;
+    out.reserve(src.size());
+    for (const auto &v : src) {
+        float nx =  2.0f * (v.x() - rect.left()) / rect.width()  - 1.0f;
+        float ny =  2.0f * (v.y() - rect.top())  / rect.height() - 1.0f;
+        out.emplace_back(nx, ny, v.distance());
+    }
+    return out;
+}
+
 // ── Setters ───────────────────────────────────────────────────────────────────
 
 // Helper macro to reduce boilerplate
 #define SETTER_IMPL(member, signal, type) \
-    void OpenGLItem::set##signal(const type &v) { \
+    void OpenGLItemOLD::set##signal(const type &v) { \
         if (member == v) return; \
         member = v; \
         emit signal##Changed(); \
         update(); \
     }
 
-void OpenGLItem::setShapePoints(const QVariantList &v)
+void OpenGLItemOLD::setShapePoints(const QVariantList &v)
 {
     if (m_shapePoints == v) return;
     m_shapePoints = v;
@@ -348,15 +424,15 @@ void OpenGLItem::setShapePoints(const QVariantList &v)
     update();
 }
 
-void OpenGLItem::setDotPoints(const QVariantList &v)
+void OpenGLItemOLD::setDotPoints(const QVariantList &v)
 {
-    if (m_dotPoints == v) return;
-    m_dotPoints = v;
-    emit dotPointsChanged();
-    update();
+    // if (m_dotPoints == v) return;
+    // m_dotPoints = v;
+    // emit dotPointsChanged();
+    // update();
 }
 
-void OpenGLItem::setWorldRect(const QRectF &v)
+void OpenGLItemOLD::setWorldRect(const QRectF &v)
 {
     if (m_worldRect == v) return;
     m_worldRect = v;
@@ -364,7 +440,7 @@ void OpenGLItem::setWorldRect(const QRectF &v)
     update();
 }
 
-void OpenGLItem::setFillColor(const QColor &v)
+void OpenGLItemOLD::setFillColor(const QColor &v)
 {
     if (m_fillColor == v) return;
     m_fillColor = v;
@@ -372,7 +448,7 @@ void OpenGLItem::setFillColor(const QColor &v)
     update();
 }
 
-void OpenGLItem::setEdgeColor(const QColor &v)
+void OpenGLItemOLD::setEdgeColor(const QColor &v)
 {
     if (m_edgeColor == v) return;
     m_edgeColor = v;
@@ -380,7 +456,7 @@ void OpenGLItem::setEdgeColor(const QColor &v)
     update();
 }
 
-void OpenGLItem::setDotColor(const QColor &v)
+void OpenGLItemOLD::setDotColor(const QColor &v)
 {
     if (m_dotColor == v) return;
     m_dotColor = v;
@@ -388,7 +464,7 @@ void OpenGLItem::setDotColor(const QColor &v)
     update();
 }
 
-void OpenGLItem::setLineWidth(float v)
+void OpenGLItemOLD::setLineWidth(float v)
 {
     if (qFuzzyCompare(m_lineWidth, v)) return;
     m_lineWidth = v;
@@ -396,7 +472,7 @@ void OpenGLItem::setLineWidth(float v)
     update();
 }
 
-void OpenGLItem::setPointSize(float v)
+void OpenGLItemOLD::setPointSize(float v)
 {
     if (qFuzzyCompare(m_pointSize, v)) return;
     m_pointSize = v;

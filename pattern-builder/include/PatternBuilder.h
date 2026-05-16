@@ -2,26 +2,26 @@
 #define FASHIONDESIGNAPPS_PATTERNBUILDER_H
 
 #include "Pattern.h"
+#include "Vertex.h"
 
 class PatternBuilder {
 public:
-    enum Direction {
-        RIGHT,
-        LEFT,
-        UP,
-        DOWN
-    };
-    explicit PatternBuilder(Pattern* pattern);
+    explicit PatternBuilder(Space* space, Pattern* pattern);
 
     PatternBuilder& addPoint(const std::string& name, double x, double y);
     PatternBuilder& addPoint(const std::string& fromPointName, const std::string& name, double angle, double length);
-    PatternBuilder& addPoint(const std::string& fromPointName, const std::string& name, Direction direction, double length);
+    PatternBuilder& addPoint(const std::string& fromPointName, const std::string& name, Space::Direction direction, double length);
     // Start from last added point
     PatternBuilder& nextPoint(const std::string& name, double angle, double length);
-    PatternBuilder& nextPoint(const std::string& name, Direction direction, double length);
+    PatternBuilder& nextPoint(const std::string& name, Space::Direction direction, double length);
 
     OutlineBuilder editOutline() const;
+    // TEMP
+    std::vector<int> getEBO() const;
+    std::vector<Vertex> getVBO() const;
+    std::vector<DistancedVertex> getDistancedVBO() const;
 private:
+    Space* space_;
     Pattern* pattern_;
 };
 

@@ -15,8 +15,8 @@ OutlineBuilder Pattern::editOutline() const {
     return OutlineBuilder(outline_);
 }
 
-std::vector<float> Pattern::getPoints() const {
-    return space_->getPoints();
+std::vector<Vertex> Pattern::getPoints() const {
+    return space_->getVBO();
 }
 
 std::vector<std::vector<float>> Pattern::getOutline() const {

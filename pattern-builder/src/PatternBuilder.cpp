@@ -1,30 +1,46 @@
 #include "PatternBuilder.h"
 
-PatternBuilder::PatternBuilder(Pattern* pattern): pattern_(pattern) {}
+PatternBuilder::PatternBuilder(Space* space, Pattern* pattern): space_(space), pattern_(pattern) {}
 
-PatternBuilder& PatternBuilder::addPoint(const std::string& name, double x, double y) {
-    pattern_->addPoint(name, x, y);
+PatternBuilder& PatternBuilder::addPoint(const std::string& name, const double x, const double y) {
+    space_->addPoint(name, x, y);
     return *this;
 }
 
 PatternBuilder& PatternBuilder::addPoint(const std::string& fromPointName, const std::string& name,
-                                         double angle, double length) {
+                                         const double angle, const double length) {
+    space_->addPoint(fromPointName, name, angle, length);
     return *this;
 }
 
 PatternBuilder& PatternBuilder::addPoint(const std::string& fromPointName, const std::string& name,
-                                         Direction direction, double length) {
+                                         const Space::Direction direction, const double length) {
+    space_->addPoint(fromPointName, name, direction, length);
     return *this;
 }
 
-PatternBuilder& PatternBuilder::nextPoint(const std::string& name, double angle, double length) {
+PatternBuilder& PatternBuilder::nextPoint(const std::string& name, const double angle, const double length) {
+    space_->addPoint(name, angle, length);
     return *this;
 }
 
-PatternBuilder& PatternBuilder::nextPoint(const std::string& name, Direction direction, double length) {
+PatternBuilder& PatternBuilder::nextPoint(const std::string& name, const Space::Direction direction, const double length) {
+    space_->nextPoint(name, direction, length);
     return *this;
 }
 
 OutlineBuilder PatternBuilder::editOutline() const {
     return OutlineBuilder(pattern_->editOutline());
+}
+
+std::vector<int> PatternBuilder::getEBO() const {
+    return {0, 1, 1, 2, 2, 3, 3, 0};
+}
+
+std::vector<Vertex> PatternBuilder::getVBO() const {
+    return space_->getVBO();
+}
+
+std::vector<DistancedVertex> PatternBuilder::getDistancedVBO() const {
+    return space_->getDistancedVBO();
 }

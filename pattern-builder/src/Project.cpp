@@ -11,5 +11,5 @@ PatternBuilder Project::addPattern(const std::string &name) {
     const auto outline = new Outline(space);
     const auto pattern = new Pattern(name, space, outline);
     patterns_.push_front(pattern);
-    return PatternBuilder(pattern);
+    return PatternBuilder(space, pattern);
 }

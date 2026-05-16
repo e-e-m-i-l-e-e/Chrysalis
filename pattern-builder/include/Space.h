@@ -5,17 +5,36 @@
 
 #include <CGAL/Simple_cartesian.h>
 
+#include "DistancedVertex.h"
+
 using Kernel = CGAL::Simple_cartesian<double>;
 using Point = Kernel::Point_2;
 
 class Space {
 public:
+    enum Direction {
+        RIGHT,
+        LEFT,
+        UP,
+        DOWN
+    };
     void addPoint(const std::string& name, double x, double y);
+    void addPoint(const std::string& fromPointName, const std::string& name, double angle, double length);
+    void addPoint(const std::string& fromPointName, const std::string& name, Direction direction, double length);
+    // Start from last added point
+    void nextPoint(const std::string& name, double angle, double length);
+    void nextPoint(const std::string& name, Direction direction, double length);
+
+    double distance(const std::string& from, const std::string& to) const;
     Point& getPoint(const std::string& name);
 
-    std::vector<float> getPoints() const;
+    std::vector<Vertex> getVBO() const;
+    std::vector<DistancedVertex> getDistancedVBO() const;
 private:
+    std::vector<Vertex> vboPoints_;
+    std::list<std::string> insertionOrder_;
     std::unordered_map<std::string, Point> points_;
+    std::unordered_map<std::string, std::string> parentPoints_;
 };
 
 #endif //FASHIONDESIGNAPPS_SPACE_H

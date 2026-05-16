@@ -17,9 +17,9 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
 
-    // Load the root QML file.  qrc:/qt/qml/QtOpenGLApp/Main.qml is the path
+    // Load the root QML file.  qrc:/qt/qml/QtOpenGLApp/MainOLD.qml is the path
     // that qt_add_qml_module() generates for us automatically.
-    const QUrl url(u"qrc:/qt/qml/QtOpenGLApp/Main.qml"_qs);
+    const QUrl url(u"qrc:/qt/qml/QtOpenGLApp/MainOLD.qml"_qs);
 
     QObject::connect(
         &engine,
