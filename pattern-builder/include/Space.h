@@ -5,7 +5,7 @@
 
 #include <CGAL/Simple_cartesian.h>
 
-#include "DistancedVertex.h"
+#include "SpaceVertex.h"
 
 using Kernel = CGAL::Simple_cartesian<double>;
 using Point = Kernel::Point_2;
@@ -28,10 +28,10 @@ public:
     double distance(const std::string& from, const std::string& to) const;
     Point& getPoint(const std::string& name);
 
-    std::vector<Vertex> getVBO() const;
-    std::vector<DistancedVertex> getDistancedVBO() const;
+    std::vector<SpaceVertex> getVBO() const;
+    // std::vector<DistancedVertex> getDistancedVBO() const;
 private:
-    std::vector<Vertex> vboPoints_;
+    // std::vector<Vertex> vboPoints_;
     std::list<std::string> insertionOrder_;
     std::unordered_map<std::string, Point> points_;
     std::unordered_map<std::string, std::string> parentPoints_;

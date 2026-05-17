@@ -3,13 +3,15 @@
 
 #include "Outline.h"
 
-class OutlineBuilder {
-public:
-    explicit OutlineBuilder(Outline* outline);
+namespace PB {
+    class OutlineBuilder {
+    public:
+        explicit OutlineBuilder(Outline* outline);
 
-    OutlineBuilder& addPoint(const std::string& pointName);
-private:
-    Outline* outline_;
-};
+        OutlineBuilder& addPoint(const std::string& pointName);
+    private:
+        Outline* outline_;
+    };
+}
 
 #endif //FASHIONDESIGNAPPS_OUTLINEBUILDER_H

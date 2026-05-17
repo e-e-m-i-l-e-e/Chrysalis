@@ -6,20 +6,21 @@
 
 #include "Space.h"
 
-using Polygon = CGAL::Polygon_2<Kernel>;
+namespace PB {
+    using Polygon = CGAL::Polygon_2<Kernel>;
 
-class Dart {
-public:
-    explicit Dart(Space* space);
+    class Dart {
+    public:
+        explicit Dart(Space* space);
 
-    void addPoint(const std::string& pointName);
-    Polygon& getPolygon();
+        void addPoint(const std::string& pointName);
+        Polygon& getPolygon();
 
-    std::vector<float> getPoints();
-private:
-    Space* space_;
-    Polygon polygon_;
-};
-
+        std::vector<float> getPoints();
+    private:
+        Space* space_;
+        Polygon polygon_;
+    };
+}
 
 #endif //FASHIONDESIGNAPPS_DART_H

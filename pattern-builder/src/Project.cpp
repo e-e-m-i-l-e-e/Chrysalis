@@ -1,5 +1,7 @@
 #include "Project.h"
 
+using namespace PB;
+
 Project::~Project() {
     for (const auto pattern: patterns_) {
         delete pattern;

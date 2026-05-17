@@ -1,5 +1,7 @@
 #include "Dart.h"
 
+using namespace PB;
+
 Dart::Dart(Space* space): space_(space) {}
 
 void Dart::addPoint(const std::string& pointName) {

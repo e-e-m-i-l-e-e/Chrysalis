@@ -2,6 +2,8 @@
 
 #include <queue>
 
+using namespace PB;
+
 Outline::Outline(Space* space): space_(space) {}
 
 Outline::~Outline() {

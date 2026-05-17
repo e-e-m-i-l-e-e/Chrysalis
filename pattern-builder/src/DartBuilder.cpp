@@ -1,5 +1,7 @@
 #include "DartBuilder.h"
 
+using namespace PB;
+
 DartBuilder::DartBuilder(Outline* outline, Dart* dart): outline_(outline), dart_(dart) {}
 
 DartBuilder& DartBuilder::addPoint(const std::string& pointName) {

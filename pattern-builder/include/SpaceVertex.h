@@ -3,9 +3,9 @@
 
 #include "Vertex.h"
 
-class DistancedVertex: public Vertex {
+class SpaceVertex: public Vertex {
 public:
-    explicit DistancedVertex(float x, float y, float distance);
+    explicit SpaceVertex(float x, float y, float distance);
 
     float distance() const;
 private:

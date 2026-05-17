@@ -1,5 +1,7 @@
 #include "Pattern.h"
 
+using namespace PB;
+
 Pattern::Pattern(const std::string& name, Space* space, Outline* outline)
     : name_(name), space_(space), outline_(outline) {}
 
@@ -15,9 +17,9 @@ OutlineBuilder Pattern::editOutline() const {
     return OutlineBuilder(outline_);
 }
 
-std::vector<Vertex> Pattern::getPoints() const {
-    return space_->getVBO();
-}
+// std::vector<Vertex> Pattern::getPoints() const {
+//     return space_->getVBO();
+// }
 
 std::vector<std::vector<float>> Pattern::getOutline() const {
     return outline_->getPoints();

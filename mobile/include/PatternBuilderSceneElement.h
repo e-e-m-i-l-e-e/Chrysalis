@@ -1,0 +1,30 @@
+#ifndef FASHIONDESIGNAPPS_PATTERNBUILDERSCENE_H
+#define FASHIONDESIGNAPPS_PATTERNBUILDERSCENE_H
+
+#include <QQuickFramebufferObject>
+
+#include "PatternBuilderRenderer.h"
+
+class PatternBuilderSceneElement: public QQuickFramebufferObject {
+    Q_OBJECT
+    QML_NAMED_ELEMENT(PatternBuilderScene)
+public:
+    explicit PatternBuilderSceneElement(QQuickItem *parent = nullptr);
+
+    [[nodiscard]] Renderer* createRenderer() const override;
+
+protected:
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    void wheelEvent(QWheelEvent* event) override;
+    void geometryChange(const QRectF& newGeometry, const QRectF& oldGeometry) override;
+    void itemChange(ItemChange change, const ItemChangeData& data) override;
+private:
+    PatternBuilderRenderer* renderer_ = nullptr;
+    bool isMousePressed_ = false;
+    QPointF mousePosition_;
+    QPointF windowPosition_;
+};
+
+#endif //FASHIONDESIGNAPPS_PATTERNBUILDERSCENE_H

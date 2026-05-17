@@ -1,5 +1,7 @@
 #include "PatternBuilder.h"
 
+using namespace PB;
+
 PatternBuilder::PatternBuilder(Space* space, Pattern* pattern): space_(space), pattern_(pattern) {}
 
 PatternBuilder& PatternBuilder::addPoint(const std::string& name, const double x, const double y) {
@@ -33,14 +35,14 @@ OutlineBuilder PatternBuilder::editOutline() const {
     return OutlineBuilder(pattern_->editOutline());
 }
 
-std::vector<int> PatternBuilder::getEBO() const {
-    return {0, 1, 1, 2, 2, 3, 3, 0};
-}
+// std::vector<int> PatternBuilder::getEBO() const {
+//     return {0, 1, 1, 2, 2, 3, 3, 0};
+// }
 
-std::vector<Vertex> PatternBuilder::getVBO() const {
+std::vector<SpaceVertex> PatternBuilder::getVBO() const {
     return space_->getVBO();
 }
 
-std::vector<DistancedVertex> PatternBuilder::getDistancedVBO() const {
-    return space_->getDistancedVBO();
-}
+// std::vector<DistancedVertex> PatternBuilder::getDistancedVBO() const {
+//     return space_->getDistancedVBO();
+// }
