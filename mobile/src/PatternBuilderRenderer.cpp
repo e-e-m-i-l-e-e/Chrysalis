@@ -9,7 +9,9 @@
 #define LOGGER_NAME "PB Renderer"
 
 #include <QOpenGLFramebufferObject>
+#include <QQuickWindow>
 
+#include "PatternBuilderSceneElement.h"
 #include "Project.h"
 
 auto project = PB::Project();
@@ -114,6 +116,7 @@ void PatternBuilderRenderer::render() {
     glClearColor(0.08f, 0.08f, 0.12f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
+    std::cout << "Framebuffer " << framebufferObject()->width() << " " << framebufferObject()->height() << std::endl;
     QMatrix4x4 projection;
     projection.ortho(
         offset_.x(), geometry_.width() / scale_ + offset_.x(),
@@ -146,12 +149,6 @@ void PatternBuilderRenderer::changeOffset(const float offsetX, const float offse
     offset_ -= {offsetX / scale_, -offsetY / scale_};
 }
 
-void PatternBuilderRenderer::changeGeometry(const QRectF& geometry) {
-    if (geometry.x() != geometry_.x()) offset_.setX(offset_.x() - (geometry.width() - geometry_.width()) / scale_);
-    if (geometry.y() == geometry_.y()) offset_.setY(offset_.y() - (geometry.height() - geometry_.height()) / scale_);
-    geometry_ = geometry;
-}
-
 void PatternBuilderRenderer::changeScale(const float scale, const QPointF& scalePoint) {
     const float x = offset_.x() + scalePoint.x() / scale_;
     const float y = offset_.y() + (geometry_.height() - scalePoint.y()) / scale_;
@@ -160,4 +157,11 @@ void PatternBuilderRenderer::changeScale(const float scale, const QPointF& scale
 
     offset_.setX(x - scalePoint.x() / scale_);
     offset_.setY(y - (geometry_.height() - scalePoint.y()) / scale_);
+}
+
+void PatternBuilderRenderer::changeGeometry(const QRectF& geometry) {
+    std::cout << "Change geometry " << geometry.width() << " " << geometry.height() << std::endl;
+    if (geometry.x() != geometry_.x()) offset_.setX(offset_.x() - (geometry.width() - geometry_.width()) / scale_);
+    if (geometry.y() == geometry_.y()) offset_.setY(offset_.y() - (geometry.height() - geometry_.height()) / scale_);
+    geometry_ = geometry;
 }

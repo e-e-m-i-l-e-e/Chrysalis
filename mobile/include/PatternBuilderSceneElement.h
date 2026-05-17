@@ -19,12 +19,10 @@ protected:
     void mouseReleaseEvent(QMouseEvent* event) override;
     void wheelEvent(QWheelEvent* event) override;
     void geometryChange(const QRectF& newGeometry, const QRectF& oldGeometry) override;
-    void itemChange(ItemChange change, const ItemChangeData& data) override;
 private:
     PatternBuilderRenderer* renderer_ = nullptr;
     bool isMousePressed_ = false;
     QPointF mousePosition_;
-    QPointF windowPosition_;
 };
 
 #endif //FASHIONDESIGNAPPS_PATTERNBUILDERSCENE_H

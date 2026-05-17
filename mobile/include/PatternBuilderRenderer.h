@@ -9,15 +9,15 @@ class PatternBuilderRenderer: public QQuickFramebufferObject::Renderer, protecte
 public:
     void initialize();
     void changeOffset(float offsetX, float offsetY);
-    void changeGeometry(const QRectF& geometry);
     void changeScale(float scale, const QPointF& scalePoint);
+    void changeGeometry(const QRectF& geometry);
 protected:
     void render() override;
 private:
     QOpenGLShaderProgram program_;
     QVector2D offset_ = {0, 0};
-    QRectF geometry_;
     float scale_ = 10;
+    QRectF geometry_;
 };
 
 #endif //FASHIONDESIGNAPPS_OPENGLRENDERER_H

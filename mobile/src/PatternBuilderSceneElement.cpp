@@ -44,22 +44,8 @@ void PatternBuilderSceneElement::wheelEvent(QWheelEvent* event) {
 
 void PatternBuilderSceneElement::geometryChange(const QRectF& newGeometry, const QRectF& oldGeometry) {
     renderer_->changeGeometry({
-        windowPosition_.x(), windowPosition_.y(),
+        static_cast<qreal>(window()->position().x()), static_cast<qreal>(window()->position().y()),
         newGeometry.width(), newGeometry.height()
     });
     update();
-}
-
-void PatternBuilderSceneElement::itemChange(const ItemChange change, const ItemChangeData& data) {
-    if (change == ItemSceneChange && data.window) {
-        windowPosition_.setX(data.window->x());
-        windowPosition_.setY(data.window->y());
-        connect(data.window, &QWindow::xChanged, this, [this] {
-            windowPosition_.setX(window()->x());
-        });
-        connect(data.window, &QWindow::yChanged, this, [this] {
-            windowPosition_.setY(window()->y());
-        });
-    }
-    return QQuickFramebufferObject::itemChange(change, data);
 }
