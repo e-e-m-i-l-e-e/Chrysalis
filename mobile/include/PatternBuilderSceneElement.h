@@ -18,7 +18,6 @@ protected:
     void mouseMoveEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
     void wheelEvent(QWheelEvent* event) override;
-    void geometryChange(const QRectF& newGeometry, const QRectF& oldGeometry) override;
 private:
     PatternBuilderRenderer* renderer_ = nullptr;
     bool isMousePressed_ = false;

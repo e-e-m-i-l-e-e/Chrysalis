@@ -89,19 +89,9 @@ void PatternBuilderRenderer::initialize() {
     vaoSpace2.release();
     vboSpace2.release();
 
-    for (int i = -100; i <= 100; i += 10) {
-        cartesian.push_back(i);
-        cartesian.push_back(-100);
-        cartesian.push_back(i);
-        cartesian.push_back(100);
-        cartesian.push_back(-100);
-        cartesian.push_back(i);
-        cartesian.push_back(100);
-        cartesian.push_back(i);
-    }
     vboCartesian.create();
     vboCartesian.bind();
-    vboCartesian.allocate(cartesian.data(), cartesian.size() * sizeof(float));
+    vboCartesian.setUsagePattern(QOpenGLBuffer::DynamicDraw);
     vaoCartesian.create();
     vaoCartesian.bind();
     glEnableVertexAttribArray(0);
@@ -116,20 +106,62 @@ void PatternBuilderRenderer::render() {
     glClearColor(0.08f, 0.08f, 0.12f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    std::cout << "Framebuffer " << framebufferObject()->width() << " " << framebufferObject()->height() << std::endl;
+    if (position_.first.x() != position_.second.x()) offset_.setX(offset_.x() + (framebufferObject()->width() - size_.width()) / scale_);
+    if (position_.first.y() == position_.second.y()) offset_.setY(offset_.y() - (framebufferObject()->height() - size_.height()) / scale_);
+
     QMatrix4x4 projection;
-    projection.ortho(
-        offset_.x(), geometry_.width() / scale_ + offset_.x(),
-        geometry_.height() / scale_ + offset_.y(), offset_.y(),
-        -1.0f, 1.0f
-    );
+
+    projection.ortho(0, framebufferObject()->width(), framebufferObject()->height(), 0, -1, 1);
+    projection.scale(scale_);
+    std::cout
+        << "\n\nx = " << offset_.x() << " y = " << offset_.y()
+        << " count x = " << framebufferObject()->width() / scale_
+        << " count y = " << framebufferObject()->height() / scale_ << std::endl;
+    projection.translate(offset_.x(), -offset_.y(), 0);
+
+    cartesian.clear();
+    const int xFrom = -static_cast<int>(offset_.x() / 10) * 10 - 20;
+    const int xRange = framebufferObject()->width() / scale_ + 20;
+    const int yFrom = static_cast<int>(offset_.y() / 10) * 10 - 20;
+    const int yRange = framebufferObject()->height() / scale_ + 20;
+    cartesian.push_back(0);
+    cartesian.push_back(yFrom);
+    cartesian.push_back(0);
+    cartesian.push_back(yFrom + yRange);
+    cartesian.push_back(xFrom);
+    cartesian.push_back(0);
+    cartesian.push_back(xFrom + xRange);
+    cartesian.push_back(0);
+    std::cout << "Cartesian x = ";
+    for (int i = 0; i <= xRange; i += 10) {
+        cartesian.push_back(xFrom + i);
+        cartesian.push_back(yFrom);
+        cartesian.push_back(xFrom + i);
+        cartesian.push_back(yFrom + yRange);
+        std::cout << i << " ";
+    }
+    std::cout << "\nCartesian y = ";
+    for (int i = 0; i <= yRange; i += 10) {
+        cartesian.push_back(xFrom);
+        cartesian.push_back(yFrom + i);
+        cartesian.push_back(xFrom + xRange);
+        cartesian.push_back(yFrom + i);
+        std::cout << i << " ";
+    }
+
+    vboCartesian.bind();
+    vboCartesian.allocate(cartesian.data(), cartesian.size() * sizeof(float));
+    vaoCartesian.release();
 
     program_.bind();
     program_.setUniformValue("uProjection", projection);
-    program_.setUniformValue("uColor", 1.f, 1.f, 1.f, 0.1f);
+
 
     vaoCartesian.bind();
-    glDrawArrays(GL_LINES, 0, cartesian.size() / 2);
+    program_.setUniformValue("uColor", 1.f, 1.f, 1.f, 1.f);
+    glDrawArrays(GL_LINES, 0, 4);
+    program_.setUniformValue("uColor", 1.f, 1.f, 1.f, 0.1f);
+    glDrawArrays(GL_LINES, 4, cartesian.size() / 2 - 4);
     vaoCartesian.release();
 
     program_.setUniformValue("uColor", 1.f, 0.f, 0.f, 1.f);
@@ -143,25 +175,24 @@ void PatternBuilderRenderer::render() {
     vaoSpace2.release();
 
     program_.release();
+    size_ = framebufferObject()->size();
+}
+
+void PatternBuilderRenderer::synchronize(QQuickFramebufferObject* object) {
+    position_.first = position_.second;
+    position_.second = object->window()->position();
 }
 
 void PatternBuilderRenderer::changeOffset(const float offsetX, const float offsetY) {
-    offset_ -= {offsetX / scale_, -offsetY / scale_};
+    offset_ += {offsetX / scale_, offsetY / scale_};
 }
 
 void PatternBuilderRenderer::changeScale(const float scale, const QPointF& scalePoint) {
-    const float x = offset_.x() + scalePoint.x() / scale_;
-    const float y = offset_.y() + (geometry_.height() - scalePoint.y()) / scale_;
+    const float x = scalePoint.x() / scale_ - offset_.x();
+    const float y = (framebufferObject()->height() - scalePoint.y()) / scale_ + offset_.y();
 
     scale_ *= scale;
 
-    offset_.setX(x - scalePoint.x() / scale_);
-    offset_.setY(y - (geometry_.height() - scalePoint.y()) / scale_);
-}
-
-void PatternBuilderRenderer::changeGeometry(const QRectF& geometry) {
-    std::cout << "Change geometry " << geometry.width() << " " << geometry.height() << std::endl;
-    if (geometry.x() != geometry_.x()) offset_.setX(offset_.x() - (geometry.width() - geometry_.width()) / scale_);
-    if (geometry.y() == geometry_.y()) offset_.setY(offset_.y() - (geometry.height() - geometry_.height()) / scale_);
-    geometry_ = geometry;
+    offset_.setX(scalePoint.x() / scale_ - x);
+    offset_.setY(y - (framebufferObject()->height() - scalePoint.y()) / scale_);
 }

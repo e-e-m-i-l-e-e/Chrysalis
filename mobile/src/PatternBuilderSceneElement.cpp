@@ -29,7 +29,7 @@ void PatternBuilderSceneElement::mouseMoveEvent(QMouseEvent* event) {
     const QPointF delta = event->position() - mousePosition_;
     mousePosition_ = event->position();
 
-    renderer_->changeOffset(delta.x(), delta.y());
+    renderer_->changeOffset(delta.x() * window()->devicePixelRatio(), delta.y() * window()->devicePixelRatio());
     update();
 }
 
@@ -38,14 +38,7 @@ void PatternBuilderSceneElement::mouseReleaseEvent(QMouseEvent* event) {
 }
 
 void PatternBuilderSceneElement::wheelEvent(QWheelEvent* event) {
-    renderer_->changeScale(1.f + event->angleDelta().y() / 1000.f, event->position());
-    update();
-}
-
-void PatternBuilderSceneElement::geometryChange(const QRectF& newGeometry, const QRectF& oldGeometry) {
-    renderer_->changeGeometry({
-        static_cast<qreal>(window()->position().x()), static_cast<qreal>(window()->position().y()),
-        newGeometry.width(), newGeometry.height()
-    });
+    const QPointF position = event->position() * window()->devicePixelRatio();
+    renderer_->changeScale(1.f + event->angleDelta().y() / 1000.f, position);
     update();
 }
