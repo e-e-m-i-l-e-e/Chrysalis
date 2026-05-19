@@ -9,7 +9,8 @@ Project::~Project() {
 }
 
 PatternBuilder Project::addPattern(const std::string &name) {
-    const auto space = new Space();
+    const auto spaceRendererData = new SpaceRendererData();
+    const auto space = new Space(spaceRendererData);
     const auto outline = new Outline(space);
     const auto pattern = new Pattern(name, space, outline);
     patterns_.push_front(pattern);

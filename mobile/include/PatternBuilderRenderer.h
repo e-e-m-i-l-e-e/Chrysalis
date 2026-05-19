@@ -15,8 +15,8 @@ protected:
     void synchronize(QQuickFramebufferObject*) override;
 private:
     QOpenGLShaderProgram program_;
-    QVector2D offset_ = {-99, -1};
-    float scale_ = 10;
+    QVector2D offset_ = {-33, -1};
+    float scale_ = 20;
 
     QSize size_;
     std::pair<QPointF, QPointF> position_; // <prev, current>

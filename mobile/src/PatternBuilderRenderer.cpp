@@ -76,15 +76,16 @@ void PatternBuilderRenderer::initialize() {
         .nextPoint("E", Space::Direction::RIGHT, 10)
         .nextPoint("F", Space::Direction::DOWN, 10);
 
+    const auto layout = SpaceVertex::getLayout();
     vboSpace1.create();
     vboSpace1.bind();
     vboSpace1.allocate(pattern1.getVBO().data(), pattern1.getVBO().size() * sizeof(SpaceVertex));
     vaoSpace1.create();
     vaoSpace1.bind();
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(SpaceVertex), nullptr);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(SpaceVertex), reinterpret_cast<void*>(2 * sizeof(float)));   // skip x, y
+    for (int i = 0; i < layout.size(); i++) {
+        glEnableVertexAttribArray(i);
+        glVertexAttribPointer(i, layout[i].size, GL_FLOAT, GL_FALSE, sizeof(SpaceVertex), layout[i].offset);
+    }
     vaoSpace1.release();
     vboSpace1.release();
 
@@ -93,10 +94,10 @@ void PatternBuilderRenderer::initialize() {
     vboSpace2.allocate(pattern2.getVBO().data(), pattern2.getVBO().size() * sizeof(SpaceVertex));
     vaoSpace2.create();
     vaoSpace2.bind();
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(SpaceVertex), nullptr);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(SpaceVertex), reinterpret_cast<void*>(2 * sizeof(float)));   // skip x, y
+    for (int i = 0; i < layout.size(); i++) {
+        glEnableVertexAttribArray(i);
+        glVertexAttribPointer(i, layout[i].size, GL_FLOAT, GL_FALSE, sizeof(SpaceVertex), layout[i].offset);
+    }
     vaoSpace2.release();
     vboSpace2.release();
 
@@ -126,7 +127,6 @@ void PatternBuilderRenderer::initialize() {
 }
 
 void PatternBuilderRenderer::render() {
-    std::cout << "Render" << std::endl;
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glClearColor(0.08f, 0.08f, 0.12f, 1.0f);
@@ -136,15 +136,22 @@ void PatternBuilderRenderer::render() {
     if (position_.first.y() == position_.second.y()) offset_.setY(offset_.y() - (framebufferObject()->height() - size_.height()) / scale_);
 
     QMatrix4x4 projection;
-
     projection.ortho(0, framebufferObject()->width(), framebufferObject()->height(), 0, -1, 1);
     projection.scale(scale_);
-    // std::cout
-    //     << "\n\nx = " << offset_.x() << " y = " << offset_.y()
-    //     << " count x = " << framebufferObject()->width() / scale_
-    //     << " count y = " << framebufferObject()->height() / scale_ << std::endl;
     projection.translate(offset_.x(), -offset_.y(), 0);
 
+    // --- Delta time (always, not inside cursor block) ---
+    const qint64 now = timer_.elapsed();
+    const float dt = (now - lastFrameTime_) / 1000.0f;
+    lastFrameTime_ = now;
+
+    const float duration = 0.3f;
+    if (displayCursor)
+        cursorAlpha_ = std::min(1.0f, cursorAlpha_ + dt / duration);
+    else
+        cursorAlpha_ = std::max(0.0f, cursorAlpha_ - dt / duration);
+
+    // --- Cartesian grid ---
     cartesian.clear();
     const int xFrom = static_cast<int>(std::floor(-offset_.x() / 10) * 10);
     const int xRange = static_cast<int>(std::ceil(static_cast<float>(framebufferObject()->width()) / scale_ / 10.0) * 10) + 10;
@@ -158,63 +165,32 @@ void PatternBuilderRenderer::render() {
     cartesian.push_back(0);
     cartesian.push_back(xFrom + xRange);
     cartesian.push_back(0);
-    // std::cout << "Cartesian x = ";
     for (int i = 0; i <= xRange; i += 10) {
         cartesian.push_back(xFrom + i);
         cartesian.push_back(yFrom);
         cartesian.push_back(xFrom + i);
         cartesian.push_back(yFrom + yRange);
-        // std::cout << i << " ";
     }
-    // std::cout << "\nCartesian y = ";
     for (int i = 0; i <= yRange; i += 10) {
         cartesian.push_back(xFrom);
         cartesian.push_back(yFrom + i);
         cartesian.push_back(xFrom + xRange);
         cartesian.push_back(yFrom + i);
-        // std::cout << i << " ";
     }
 
     vboCartesian.bind();
     vboCartesian.allocate(cartesian.data(), cartesian.size() * sizeof(float));
     vaoCartesian.release();
 
-    program_.bind();
-    program_.setUniformValue("uProjection", projection);
-
-
-    vaoCartesian.bind();
-    program_.setUniformValue("uColor", 1.f, 1.f, 1.f, 1.f);
-    glDrawArrays(GL_LINES, 0, 4);
-    program_.setUniformValue("uColor", 1.f, 1.f, 1.f, 0.1f);
-    glDrawArrays(GL_LINES, 4, cartesian.size() / 2 - 4);
-    vaoCartesian.release();
-
-    program_.setUniformValue("uColor", 1.f, 0.f, 0.f, 1.f);
-
-    glPointSize(0.5f * scale_);
-    vaoSpace1.bind();
-    glDrawArrays(GL_LINES, pattern1.getSpace().getNumberOfPoints(), pattern1.getVBO().size());
-    program_.setUniformValue("uIsPoint", true);
-    glDrawArrays(GL_POINTS, 0, pattern1.getSpace().getNumberOfPoints());
-    program_.setUniformValue("uIsPoint", false);
-    vaoSpace1.release();
-
-    vaoSpace2.bind();
-    glDrawArrays(GL_LINES, pattern2.getSpace().getNumberOfPoints(), pattern2.getVBO().size());
-    program_.setUniformValue("uIsPoint", true);
-    glDrawArrays(GL_POINTS, 0, pattern2.getSpace().getNumberOfPoints());
-    program_.setUniformValue("uIsPoint", false);
-    vaoSpace2.release();
-
+    // --- Update cursor buffer only when a point is snapped ---
     if (displayCursor) {
         cursorData.clear();
         cursorData.push_back(cursor.x());
-        cursorData.push_back(cursor.y());
+        cursorData.push_back(0);
         cursorData.push_back(0);
 
         cursorData.push_back(cursor.x());
-        cursorData.push_back(0);
+        cursorData.push_back(cursor.y());
         cursorData.push_back(cursor.y());
 
         cursorData.push_back(0);
@@ -228,25 +204,44 @@ void PatternBuilderRenderer::render() {
         vboCursor.bind();
         vboCursor.allocate(cursorData.data(), cursorData.size() * sizeof(float));
         vboCursor.release();
+    }
 
-        // Delta time
-        qint64 now = timer_.elapsed();
-        float dt = (now - lastFrameTime_) / 1000.0f;
-        lastFrameTime_ = now;
+    // --- Draw ---
+    program_.bind();
+    program_.setUniformValue("uProjection", projection);
 
-        const float duration = 0.1f; // 100ms fade — tweak to taste
+    vaoCartesian.bind();
+    program_.setUniformValue("uColor", 1.f, 1.f, 1.f, 1.f);
+    glDrawArrays(GL_LINES, 0, 4);
+    program_.setUniformValue("uColor", 1.f, 1.f, 1.f, 0.1f);
+    glDrawArrays(GL_LINES, 4, cartesian.size() / 2 - 4);
+    vaoCartesian.release();
 
-        if (displayCursor)
-            cursorAlpha_ = std::min(1.0f, cursorAlpha_ + dt / duration);
-        else
-            cursorAlpha_ = std::max(0.0f, cursorAlpha_ - dt / duration);
+    program_.setUniformValue("uColor", 1.f, 0.f, 0.f, 1.f);
+    glPointSize(0.5f * scale_);
 
-        if (cursorAlpha_ > 0.0f) {
-            vaoCursor.bind();
-            program_.setUniformValue("uColor", 0.f, 1.f, 0.f, cursorAlpha_);
-            glDrawArrays(GL_LINES, 0, static_cast<int>(cursorData.size() / 3));
-            vaoCursor.release();
-        }
+    vaoSpace1.bind();
+    glDrawArrays(GL_LINES, pattern1.getSpace().getNumberOfPoints(), pattern1.getVBO().size() - pattern1.getSpace().getNumberOfPoints() - 8);
+    glDrawArrays(GL_TRIANGLE_STRIP, pattern1.getVBO().size() - 8, 8);
+    program_.setUniformValue("uIsPoint", true);
+    glDrawArrays(GL_POINTS, 0, pattern1.getSpace().getNumberOfPoints());
+    program_.setUniformValue("uIsPoint", false);
+    vaoSpace1.release();
+
+    vaoSpace2.bind();
+    glDrawArrays(GL_LINES, pattern2.getSpace().getNumberOfPoints(), pattern2.getVBO().size() - pattern2.getSpace().getNumberOfPoints() - 20);
+    glDrawArrays(GL_TRIANGLE_STRIP, pattern2.getVBO().size() - 20, 20);
+    program_.setUniformValue("uIsPoint", true);
+    glDrawArrays(GL_POINTS, 0, pattern2.getSpace().getNumberOfPoints());
+    program_.setUniformValue("uIsPoint", false);
+    vaoSpace2.release();
+
+    // Draw cursor whenever alpha > 0 (covers both fade-in and fade-out)
+    if (cursorAlpha_ > 0.0f) {
+        vaoCursor.bind();
+        program_.setUniformValue("uColor", 0.f, 1.f, 0.f, cursorAlpha_);
+        glDrawArrays(GL_LINES, 0, static_cast<int>(cursorData.size() / 3));
+        vaoCursor.release();
     }
 
     program_.release();
@@ -254,7 +249,6 @@ void PatternBuilderRenderer::render() {
 }
 
 void PatternBuilderRenderer::synchronize(QQuickFramebufferObject* object) {
-    std::cout << "Synchronize" << std::endl;
     position_.first = position_.second;
     position_.second = object->window()->position();
 
@@ -265,16 +259,20 @@ void PatternBuilderRenderer::synchronize(QQuickFramebufferObject* object) {
 
     std::vector<SpaceVertex> vertices = pattern1.getVBO();
     std::vector<SpaceVertex> pattern2Vbo = pattern2.getVBO();
-
     vertices.insert(vertices.end(), pattern2Vbo.begin(), pattern2Vbo.end());
-    for (auto& vertex: vertices) {
+
+    for (auto& vertex : vertices) {
         float distance = sqrt(pow(vertex.x() - cursor1.x(), 2) + pow(vertex.y() - cursor1.y(), 2));
-        if (distance <= 0.25) {
+        if (distance <= 0.25f) {
             cursor = {vertex.x(), vertex.y()};
             displayCursor = true;
-            return;
+            break; // use break instead of return so update() below always runs
         }
     }
+
+    // Keep rendering while fading in or out
+    if (displayCursor || cursorAlpha_ > 0.0f)
+        object->update();
 }
 
 void PatternBuilderRenderer::changeOffset(const float offsetX, const float offsetY) {

@@ -9,3 +9,7 @@ float Vertex::x() const {
 float Vertex::y() const {
     return y_;
 }
+
+std::vector<Vertex::Layout> Vertex::getLayout() {
+    return {{2, nullptr}};
+}
