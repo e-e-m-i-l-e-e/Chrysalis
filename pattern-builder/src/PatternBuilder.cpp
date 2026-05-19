@@ -43,6 +43,11 @@ std::vector<SpaceVertex> PatternBuilder::getVBO() const {
     return space_->getVBO();
 }
 
+Space& PatternBuilder::getSpace() const
+{
+    return *space_;
+}
+
 // std::vector<DistancedVertex> PatternBuilder::getDistancedVBO() const {
 //     return space_->getDistancedVBO();
 // }

@@ -20,6 +20,7 @@ namespace PB {
         // TEMP
         // std::vector<int> getEBO() const;
         std::vector<SpaceVertex> getVBO() const;
+        Space& getSpace() const;
         // std::vector<DistancedVertex> getDistancedVBO() const;
     private:
         Space* space_;

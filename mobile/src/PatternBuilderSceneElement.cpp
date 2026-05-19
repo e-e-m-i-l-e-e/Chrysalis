@@ -9,11 +9,16 @@
 PatternBuilderSceneElement::PatternBuilderSceneElement(QQuickItem* parent)
     : QQuickFramebufferObject(parent), renderer_(new PatternBuilderRenderer()) {
     setAcceptedMouseButtons(Qt::AllButtons);
+    setAcceptHoverEvents(true);
 }
 
 QQuickFramebufferObject::Renderer* PatternBuilderSceneElement::createRenderer() const {
     renderer_->initialize();
     return renderer_;
+}
+
+QPointF& PatternBuilderSceneElement::getMousePosition() {
+    return mousePosition_;
 }
 
 void PatternBuilderSceneElement::mousePressEvent(QMouseEvent* event) {
@@ -35,6 +40,11 @@ void PatternBuilderSceneElement::mouseMoveEvent(QMouseEvent* event) {
 
 void PatternBuilderSceneElement::mouseReleaseEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton) isMousePressed_ = false;
+}
+
+void PatternBuilderSceneElement::hoverMoveEvent(QHoverEvent* event) {
+    mousePosition_ = event->position();
+    update();
 }
 
 void PatternBuilderSceneElement::wheelEvent(QWheelEvent* event) {

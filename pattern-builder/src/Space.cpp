@@ -43,21 +43,30 @@ Point& Space::getPoint(const std::string& name) {
 
 std::vector<SpaceVertex> Space::getVBO() const {
     std::vector<SpaceVertex> vbo;
-    std::unordered_map<std::string, double> distances;
+    for (const auto& point : points_ | std::views::values) {
+        vbo.emplace_back(point.x(), point.y(), 0);
+    }
     for (const auto& name: insertionOrder_) {
         if (parentPoints_.contains(name)) {
-            distances[name] = distances[parentPoints_.at(name)] + distance(name, parentPoints_.at(name));
-        } else {
-            distances[name] = 0;
+            auto point = points_.at(name);
+            vbo.emplace_back(
+                static_cast<float>(point.x()),
+                static_cast<float>(point.y()),
+                static_cast<float>(0)
+            );
+            point = points_.at(parentPoints_.at(name));
+            vbo.emplace_back(
+                static_cast<float>(point.x()),
+                static_cast<float>(point.y()),
+                static_cast<float>(distance(name, parentPoints_.at(name)))
+            );
         }
-        const auto point = points_.at(name);
-        vbo.emplace_back(
-            static_cast<float>(point.x()),
-            static_cast<float>(point.y()),
-            static_cast<float>(distances[name])
-        );
     }
     return vbo;
+}
+
+int Space::getNumberOfPoints() const {
+    return points_.size();
 }
 
 // std::vector<DistancedVertex> Space::getDistancedVBO() const {

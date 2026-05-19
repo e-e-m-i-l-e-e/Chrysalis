@@ -29,6 +29,7 @@ public:
     Point& getPoint(const std::string& name);
 
     std::vector<SpaceVertex> getVBO() const;
+    int getNumberOfPoints() const;
     // std::vector<DistancedVertex> getDistancedVBO() const;
 private:
     // std::vector<Vertex> vboPoints_;

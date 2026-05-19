@@ -13,11 +13,14 @@ public:
 
     [[nodiscard]] Renderer* createRenderer() const override;
 
+    QPointF& getMousePosition();
 protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseMoveEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
+    void hoverMoveEvent(QHoverEvent* event) override;
     void wheelEvent(QWheelEvent* event) override;
+
 private:
     PatternBuilderRenderer* renderer_ = nullptr;
     bool isMousePressed_ = false;
