@@ -3,18 +3,11 @@
 
 #include <unordered_map>
 
-#include <CGAL/Simple_cartesian.h>
-
 #include "SpaceRendererData.h"
-#include "SpaceVertex.h"
-
-using Kernel = CGAL::Simple_cartesian<double>;
-using Point = Kernel::Point_2;
-using Vector = Kernel::Vector_2;
 
 class Space {
 public:
-    explicit Space(const SpaceRendererData* rendererData);
+    explicit Space(SpaceRendererData* rendererData);
     ~Space();
 
     enum Direction {
@@ -35,9 +28,12 @@ public:
 
     std::vector<SpaceVertex> getVBO() const;
     int getNumberOfPoints() const;
+    const SpaceRendererData* getRendererData() const;
     // std::vector<DistancedVertex> getDistancedVBO() const;
 private:
-    const SpaceRendererData* rendererData_;
+    void addPoint(const std::string& name, const Point& point);
+
+    SpaceRendererData* rendererData_;
     std::list<std::string> insertionOrder_;
     std::unordered_map<std::string, Point> points_;
     std::unordered_map<std::string, std::string> parentPoints_;

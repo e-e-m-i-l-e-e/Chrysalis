@@ -48,6 +48,10 @@ Space& PatternBuilder::getSpace() const
     return *space_;
 }
 
+const SpaceRendererData* PatternBuilder::getSpaceRendererData() const {
+    return space_->getRendererData();
+}
+
 // std::vector<DistancedVertex> PatternBuilder::getDistancedVBO() const {
 //     return space_->getDistancedVBO();
 // }

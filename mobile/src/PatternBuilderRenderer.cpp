@@ -17,7 +17,10 @@
 
 auto project = PB::Project();
 auto pattern1 = project.addPattern("Pattern 1");
+auto spaceRendererData1 = pattern1.getSpaceRendererData();
+
 auto pattern2 = project.addPattern("Pattern 2");
+auto spaceRendererData2 = pattern2.getSpaceRendererData();
 
 QOpenGLBuffer vboSpace1 {};
 QOpenGLBuffer vboSpace2 {};
@@ -79,7 +82,7 @@ void PatternBuilderRenderer::initialize() {
     const auto layout = SpaceVertex::getLayout();
     vboSpace1.create();
     vboSpace1.bind();
-    vboSpace1.allocate(pattern1.getVBO().data(), pattern1.getVBO().size() * sizeof(SpaceVertex));
+    vboSpace1.allocate(spaceRendererData1->getVBO().data(), spaceRendererData1->size());
     vaoSpace1.create();
     vaoSpace1.bind();
     for (int i = 0; i < layout.size(); i++) {
@@ -91,7 +94,7 @@ void PatternBuilderRenderer::initialize() {
 
     vboSpace2.create();
     vboSpace2.bind();
-    vboSpace2.allocate(pattern2.getVBO().data(), pattern2.getVBO().size() * sizeof(SpaceVertex));
+    vboSpace2.allocate(spaceRendererData2->getVBO().data(), spaceRendererData2->size());
     vaoSpace2.create();
     vaoSpace2.bind();
     for (int i = 0; i < layout.size(); i++) {
@@ -146,10 +149,8 @@ void PatternBuilderRenderer::render() {
     lastFrameTime_ = now;
 
     const float duration = 0.3f;
-    if (displayCursor)
-        cursorAlpha_ = std::min(1.0f, cursorAlpha_ + dt / duration);
-    else
-        cursorAlpha_ = std::max(0.0f, cursorAlpha_ - dt / duration);
+    if (displayCursor) cursorAlpha_ = std::min(1.0f, cursorAlpha_ + dt / duration);
+    else cursorAlpha_ = std::max(0.0f, cursorAlpha_ - dt / duration);
 
     // --- Cartesian grid ---
     cartesian.clear();
@@ -221,18 +222,22 @@ void PatternBuilderRenderer::render() {
     glPointSize(0.5f * scale_);
 
     vaoSpace1.bind();
-    glDrawArrays(GL_LINES, pattern1.getSpace().getNumberOfPoints(), pattern1.getVBO().size() - pattern1.getSpace().getNumberOfPoints() - 8);
-    glDrawArrays(GL_TRIANGLE_STRIP, pattern1.getVBO().size() - 8, 8);
+    glDrawArrays(GL_LINES, spaceRendererData1->linesRange().from, spaceRendererData1->linesRange().count);
+    for (size_t i = spaceRendererData1->arrowsRange().from; i <= spaceRendererData1->arrowsRange().from + spaceRendererData1->arrowsRange().count; i += 4) {
+        glDrawArrays(GL_TRIANGLE_STRIP, i, 4);
+    }
     program_.setUniformValue("uIsPoint", true);
-    glDrawArrays(GL_POINTS, 0, pattern1.getSpace().getNumberOfPoints());
+    glDrawArrays(GL_POINTS, spaceRendererData1->pointsRange().from, spaceRendererData1->pointsRange().count);
     program_.setUniformValue("uIsPoint", false);
     vaoSpace1.release();
 
     vaoSpace2.bind();
-    glDrawArrays(GL_LINES, pattern2.getSpace().getNumberOfPoints(), pattern2.getVBO().size() - pattern2.getSpace().getNumberOfPoints() - 20);
-    glDrawArrays(GL_TRIANGLE_STRIP, pattern2.getVBO().size() - 20, 20);
+    glDrawArrays(GL_LINES, spaceRendererData2->linesRange().from, spaceRendererData2->linesRange().count);
+    for (size_t i = spaceRendererData2->arrowsRange().from; i <= spaceRendererData2->arrowsRange().from + spaceRendererData2->arrowsRange().count; i += 4) {
+        glDrawArrays(GL_TRIANGLE_STRIP, i, 4);
+    }
     program_.setUniformValue("uIsPoint", true);
-    glDrawArrays(GL_POINTS, 0, pattern2.getSpace().getNumberOfPoints());
+    glDrawArrays(GL_POINTS, spaceRendererData2->pointsRange().from, spaceRendererData2->pointsRange().count);
     program_.setUniformValue("uIsPoint", false);
     vaoSpace2.release();
 
@@ -257,8 +262,8 @@ void PatternBuilderRenderer::synchronize(QQuickFramebufferObject* object) {
     cursor1.setX(cursor1.x() / scale_ - offset_.x());
     cursor1.setY(object->height() * object->window()->devicePixelRatio() / scale_ - cursor1.y() / scale_ + offset_.y());
 
-    std::vector<SpaceVertex> vertices = pattern1.getVBO();
-    std::vector<SpaceVertex> pattern2Vbo = pattern2.getVBO();
+    std::vector<SpaceVertex> vertices = spaceRendererData1->getVBO();
+    std::vector<SpaceVertex> pattern2Vbo = spaceRendererData2->getVBO();
     vertices.insert(vertices.end(), pattern2Vbo.begin(), pattern2Vbo.end());
 
     for (auto& vertex : vertices) {

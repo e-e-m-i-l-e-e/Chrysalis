@@ -21,6 +21,8 @@ namespace PB {
         // std::vector<int> getEBO() const;
         std::vector<SpaceVertex> getVBO() const;
         Space& getSpace() const;
+
+        const SpaceRendererData* getSpaceRendererData() const;
         // std::vector<DistancedVertex> getDistancedVBO() const;
     private:
         Space* space_;

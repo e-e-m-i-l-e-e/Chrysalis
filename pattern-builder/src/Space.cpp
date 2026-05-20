@@ -3,22 +3,28 @@
 #include <ranges>
 #include <numbers>
 
-Space::Space(const SpaceRendererData* rendererData): rendererData_(rendererData) {}
+Space::Space(SpaceRendererData* rendererData): rendererData_(rendererData) {}
 
 Space::~Space() {
     delete rendererData_;
 }
 
-void Space::addPoint(const std::string& name, double x, double y) {
-    points_[name] = Point(x, y);
+void Space::addPoint(const std::string& name, const Point& point) {
+    points_[name] = point;
     insertionOrder_.push_back(name);
-    // vboPoints_.emplace_back(static_cast<float>(x), static_cast<float>(y));
+    rendererData_->addPoint(point);
+}
+
+void Space::addPoint(const std::string& name, double x, double y) {
+    addPoint(name, Point(x, y));
 }
 
 void Space::addPoint(const std::string& fromPointName, const std::string& name, const double angle, const double length) {
     const auto& fromPoint = points_[fromPointName];
-    addPoint(name, fromPoint.x() + length * std::cos(angle), fromPoint.y() + length * std::sin(angle));
+    const auto& toPoint = Point(fromPoint.x() + length * std::cos(angle), fromPoint.y() + length * std::sin(angle));
+    addPoint(name, toPoint);
     parentPoints_[name] = fromPointName;
+    rendererData_->addLine(fromPoint, toPoint, length);
 }
 
 void Space::addPoint(const std::string& fromPointName, const std::string& name, const Direction direction, const double length) {
@@ -108,6 +114,10 @@ std::vector<SpaceVertex> Space::getVBO() const {
 
 int Space::getNumberOfPoints() const {
     return points_.size();
+}
+
+const SpaceRendererData* Space::getRendererData() const {
+    return rendererData_;
 }
 
 // std::vector<DistancedVertex> Space::getDistancedVBO() const {
