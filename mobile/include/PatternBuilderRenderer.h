@@ -5,6 +5,8 @@
 #include <QOpenGLShaderProgram>
 #include <QQuickFramebufferObject>
 
+#include "CartesianRenderer.h"
+
 class PatternBuilderRenderer: public QQuickFramebufferObject::Renderer, protected QOpenGLFunctions {
 public:
     void initialize();
@@ -20,6 +22,9 @@ private:
 
     QSize size_;
     std::pair<QPointF, QPointF> position_; // <prev, current>
+
+    QRectF area_;
+    CartesianRenderer cartesianRenderer_;
 };
 
 #endif //FASHIONDESIGNAPPS_OPENGLRENDERER_H

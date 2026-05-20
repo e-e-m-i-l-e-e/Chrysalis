@@ -282,14 +282,16 @@ void PatternBuilderRenderer::synchronize(QQuickFramebufferObject* object) {
 
 void PatternBuilderRenderer::changeOffset(const float offsetX, const float offsetY) {
     offset_ += {offsetX / scale_, offsetY / scale_};
+    std::cout << "Offset x = " << offset_.x() << " offset y = " << offset_.y() << " width = " << framebufferObject()->width() / scale_ << " height = " << framebufferObject()->height() / scale_ << std::endl;
 }
 
 void PatternBuilderRenderer::changeScale(const float scale, const QPointF& scalePoint) {
-    const float x = scalePoint.x() / scale_ - offset_.x();
-    const float y = (framebufferObject()->height() - scalePoint.y()) / scale_ + offset_.y();
+    const double x = scalePoint.x() / scale_ - offset_.x();
+    const double y = (framebufferObject()->height() - scalePoint.y()) / scale_ + offset_.y();
 
     scale_ *= scale;
 
     offset_.setX(scalePoint.x() / scale_ - x);
     offset_.setY(y - (framebufferObject()->height() - scalePoint.y()) / scale_);
+    std::cout << "Offset x = " << offset_.x() << " offset y = " << offset_.y() << " width = " << framebufferObject()->width() / scale_ << " height = " << framebufferObject()->height() / scale_ << std::endl;
 }
