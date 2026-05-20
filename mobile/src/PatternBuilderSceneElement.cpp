@@ -4,10 +4,11 @@
 
 #include <iostream>
 
+#include "ChrysalisRenderer.h"
 #include "PatternBuilderRenderer.h"
 
 PatternBuilderSceneElement::PatternBuilderSceneElement(QQuickItem* parent)
-    : QQuickFramebufferObject(parent), renderer_(new PatternBuilderRenderer()) {
+    : QQuickFramebufferObject(parent), renderer_(new ChrysalisRenderer()) {
     setAcceptedMouseButtons(Qt::AllButtons);
     setAcceptHoverEvents(true);
 }
@@ -21,25 +22,10 @@ QPointF& PatternBuilderSceneElement::getMousePosition() {
     return mousePosition_;
 }
 
-void PatternBuilderSceneElement::mousePressEvent(QMouseEvent* event) {
-    if (event->button() == Qt::LeftButton) {
-        isMousePressed_ = true;
-        mousePosition_ = event->position();
-    }
-}
-
-void PatternBuilderSceneElement::mouseMoveEvent(QMouseEvent* event) {
-    if (!isMousePressed_) return;
-
-    const QPointF delta = event->position() - mousePosition_;
-    mousePosition_ = event->position();
-
-    renderer_->changeOffset(delta.x() * window()->devicePixelRatio(), delta.y() * window()->devicePixelRatio());
+void PatternBuilderSceneElement::wheelEvent(QWheelEvent* event) {
+    QPointF position = event->position() * window()->devicePixelRatio();
+    renderer_->changeScale(1.f + event->angleDelta().y() / 1000.f, position);
     update();
-}
-
-void PatternBuilderSceneElement::mouseReleaseEvent(QMouseEvent* event) {
-    if (event->button() == Qt::LeftButton) isMousePressed_ = false;
 }
 
 void PatternBuilderSceneElement::hoverMoveEvent(QHoverEvent* event) {
@@ -47,8 +33,20 @@ void PatternBuilderSceneElement::hoverMoveEvent(QHoverEvent* event) {
     update();
 }
 
-void PatternBuilderSceneElement::wheelEvent(QWheelEvent* event) {
-    const QPointF position = event->position() * window()->devicePixelRatio();
-    renderer_->changeScale(1.f + event->angleDelta().y() / 1000.f, position);
+void PatternBuilderSceneElement::mousePressEvent(QMouseEvent* event) {
+    if (event->button() == Qt::LeftButton) {
+        isLeftMouseButtonPressed_ = true;
+        mousePosition_ = event->position();
+    }
+}
+
+void PatternBuilderSceneElement::mouseMoveEvent(QMouseEvent* event) {
+    if (!isLeftMouseButtonPressed_) return;
+    renderer_->changeOffset((event->position() - mousePosition_) * window()->devicePixelRatio());
+    mousePosition_ = event->position();
     update();
+}
+
+void PatternBuilderSceneElement::mouseReleaseEvent(QMouseEvent* event) {
+    if (event->button() == Qt::LeftButton) isLeftMouseButtonPressed_ = false;
 }

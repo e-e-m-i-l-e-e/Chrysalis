@@ -4,15 +4,16 @@
 #include <QRectF>
 
 #include "BaseRenderer.h"
+#include "Vertex.h"
 
-class CartesianRenderer: public BaseRenderer {
+class CartesianRenderer: public BaseRenderer<Vertex> {
 public:
+    void render() override;
+    void initialize() override;
     void changeArea(const QRectF& area);
-    void draw() override;
 private:
-    QRectF area_;
-    std::vector<float> xGrid;
-    std::vector<float> yGrid;
+    float gridSize_ = 100;
+    std::vector<float> grid;
 };
 
 #endif //FASHIONDESIGNAPPS_CARTESIANRENDERER_H

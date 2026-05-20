@@ -3,6 +3,7 @@
 
 #include <QQuickFramebufferObject>
 
+#include "ChrysalisRenderer.h"
 #include "PatternBuilderRenderer.h"
 
 class PatternBuilderSceneElement: public QQuickFramebufferObject {
@@ -15,16 +16,16 @@ public:
 
     QPointF& getMousePosition();
 protected:
-    void mousePressEvent(QMouseEvent* event) override;
-    void mouseMoveEvent(QMouseEvent* event) override;
-    void mouseReleaseEvent(QMouseEvent* event) override;
-    void hoverMoveEvent(QHoverEvent* event) override;
     void wheelEvent(QWheelEvent* event) override;
-
+    void hoverMoveEvent(QHoverEvent* event) override;
+    void mouseMoveEvent(QMouseEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
 private:
-    PatternBuilderRenderer* renderer_ = nullptr;
-    bool isMousePressed_ = false;
+    ChrysalisRenderer* renderer_ = nullptr;
+    bool isLeftMouseButtonPressed_ = false;
     QPointF mousePosition_;
+    QPointF windowPosition_;
 };
 
 #endif //FASHIONDESIGNAPPS_PATTERNBUILDERSCENE_H
