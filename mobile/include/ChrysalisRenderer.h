@@ -16,9 +16,9 @@ public:
     ~ChrysalisRenderer() override;
 
     void initialize();
-    void changeOffset(const QPointF& delta);
-    void changeScale(double scalar, QPointF& center);
-    void changeCursor(const QPointF& position);
+    void changeCursor(QPointF&& cursor) const;
+    void changeOffset(QPointF&& delta);
+    void changeScale(double scalar, QPointF&& center);
 protected:
     void render() override;
     void synchronize(QQuickFramebufferObject*) override;

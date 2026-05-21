@@ -254,30 +254,30 @@ void PatternBuilderRenderer::render() {
 }
 
 void PatternBuilderRenderer::synchronize(QQuickFramebufferObject* object) {
-    position_.first = position_.second;
-    position_.second = object->window()->position();
-
-    displayCursor = false;
-    auto cursor1 = dynamic_cast<PatternBuilderSceneElement*>(object)->getMousePosition() * object->window()->devicePixelRatio();
-    cursor1.setX(cursor1.x() / scale_ - offset_.x());
-    cursor1.setY(object->height() * object->window()->devicePixelRatio() / scale_ - cursor1.y() / scale_ + offset_.y());
-
-    std::vector<SpaceVertex> vertices = spaceRendererData1->getVBO();
-    std::vector<SpaceVertex> pattern2Vbo = spaceRendererData2->getVBO();
-    vertices.insert(vertices.end(), pattern2Vbo.begin(), pattern2Vbo.end());
-
-    for (auto& vertex : vertices) {
-        float distance = sqrt(pow(vertex.x() - cursor1.x(), 2) + pow(vertex.y() - cursor1.y(), 2));
-        if (distance <= 0.25f) {
-            cursor = {vertex.x(), vertex.y()};
-            displayCursor = true;
-            break; // use break instead of return so update() below always runs
-        }
-    }
-
-    // Keep rendering while fading in or out
-    if (displayCursor || cursorAlpha_ > 0.0f)
-        object->update();
+    // position_.first = position_.second;
+    // position_.second = object->window()->position();
+    //
+    // displayCursor = false;
+    // auto cursor1 = dynamic_cast<PatternBuilderSceneElement*>(object)->getMousePosition() * object->window()->devicePixelRatio();
+    // cursor1.setX(cursor1.x() / scale_ - offset_.x());
+    // cursor1.setY(object->height() * object->window()->devicePixelRatio() / scale_ - cursor1.y() / scale_ + offset_.y());
+    //
+    // std::vector<SpaceVertex> vertices = spaceRendererData1->getVBO();
+    // std::vector<SpaceVertex> pattern2Vbo = spaceRendererData2->getVBO();
+    // vertices.insert(vertices.end(), pattern2Vbo.begin(), pattern2Vbo.end());
+    //
+    // for (auto& vertex : vertices) {
+    //     float distance = sqrt(pow(vertex.x() - cursor1.x(), 2) + pow(vertex.y() - cursor1.y(), 2));
+    //     if (distance <= 0.25f) {
+    //         cursor = {vertex.x(), vertex.y()};
+    //         displayCursor = true;
+    //         break; // use break instead of return so update() below always runs
+    //     }
+    // }
+    //
+    // // Keep rendering while fading in or out
+    // if (displayCursor || cursorAlpha_ > 0.0f)
+    //     object->update();
 }
 
 void PatternBuilderRenderer::changeOffset(const float offsetX, const float offsetY) {

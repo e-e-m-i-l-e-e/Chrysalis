@@ -9,7 +9,7 @@
 PatternBuilderSceneElement::PatternBuilderSceneElement(QQuickItem* parent)
     : QQuickFramebufferObject(parent), renderer_([] {
         const auto program = new ChrysalisOpenGLProgram();
-        const auto cursor = new CursorRenderer();
+        const auto cursor = new CursorRenderer(program);
         const auto cartesian = new CartesianRenderer(program);
         return new ChrysalisRenderer(program, cursor, cartesian);
     }()) {
@@ -22,35 +22,33 @@ QQuickFramebufferObject::Renderer* PatternBuilderSceneElement::createRenderer() 
     return renderer_;
 }
 
-QPointF& PatternBuilderSceneElement::getMousePosition() {
-    return mousePosition_;
+QPointF PatternBuilderSceneElement::normalize(QPointF&& point) const {
+    point.setX(point.x() / window()->width());
+    point.setY(1 - point.y() / window()->height());
+    return point;
 }
 
 void PatternBuilderSceneElement::wheelEvent(QWheelEvent* event) {
-    QPointF position = event->position() * window()->devicePixelRatio();
-    renderer_->changeScale(1.f + event->angleDelta().y() / 1000.f, position);
+    renderer_->changeScale(1.f + event->angleDelta().y() / 1000.f, normalize(event->position()));
     update();
 }
 
 void PatternBuilderSceneElement::hoverMoveEvent(QHoverEvent* event) {
-    QPointF position = event->position();
-    position.setX(position.x() / window()->width());
-    position.setY(position.y() / window()->height());
-    renderer_->changeCursor(position);
+    renderer_->changeCursor(normalize(event->position()));
     update();
 }
 
 void PatternBuilderSceneElement::mousePressEvent(QMouseEvent* event) {
     if (event->button() == Qt::LeftButton) {
         isLeftMouseButtonPressed_ = true;
-        mousePosition_ = event->position();
+        mousePosition_ = normalize(event->position());
     }
 }
 
 void PatternBuilderSceneElement::mouseMoveEvent(QMouseEvent* event) {
     if (!isLeftMouseButtonPressed_) return;
-    renderer_->changeOffset((event->position() - mousePosition_) * window()->devicePixelRatio());
-    mousePosition_ = event->position();
+    renderer_->changeOffset(normalize(event->position()) - mousePosition_);
+    mousePosition_ = normalize(event->position());
     update();
 }
 

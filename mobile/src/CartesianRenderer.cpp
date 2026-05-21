@@ -14,7 +14,6 @@ void CartesianRenderer::render() {
 }
 
 void CartesianRenderer::changeArea(const QRectF& area) {
-    std::cout << "New area. x = " << area.x() << " y = " << area.y() << " width = " << area.width() << " height = " << area.height() << std::endl;
     const float xFrom = std::floor(area.x() / gridSize_) * gridSize_;
     const float xRange = std::ceil(static_cast<float>(area.width()) / gridSize_ + 1) * gridSize_;
 

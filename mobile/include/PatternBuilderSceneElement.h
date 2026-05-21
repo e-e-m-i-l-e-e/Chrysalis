@@ -13,8 +13,6 @@ public:
     explicit PatternBuilderSceneElement(QQuickItem *parent = nullptr);
 
     [[nodiscard]] Renderer* createRenderer() const override;
-
-    QPointF& getMousePosition();
 protected:
     void wheelEvent(QWheelEvent* event) override;
     void hoverMoveEvent(QHoverEvent* event) override;
@@ -22,6 +20,8 @@ protected:
     void mousePressEvent(QMouseEvent* event) override;
     void mouseReleaseEvent(QMouseEvent* event) override;
 private:
+    QPointF normalize(QPointF&& point) const;
+
     ChrysalisRenderer* renderer_ = nullptr;
     bool isLeftMouseButtonPressed_ = false;
     QPointF mousePosition_;

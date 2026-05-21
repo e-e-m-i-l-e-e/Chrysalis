@@ -8,6 +8,43 @@
 #include "Logger.h"
 #define LOGGER_NAME "Chrysalis Renderer"
 
+// --- Operators "*" and "/" use width and height of QRectF (scaling operations) ---------------------------------------
+
+QPointF& operator*=(QPointF& point, const QRectF& rect) {
+    point.setX(point.x() * rect.width());
+    point.setY(point.y() * rect.height());
+    return point;
+}
+
+QPointF operator*(QPointF point, const QRectF& rect) {
+    return point *= rect;
+}
+
+QRectF& operator/=(QRectF& rect, const double denominator) {
+    rect.setSize(rect.size() / denominator);
+    return rect;
+}
+
+// --- Operators "+" and "-" use x and y of QRectF (translating operations) --------------------------------------------
+
+QPointF& operator+=(QPointF& point, const QRectF& rect) {
+    point.setX(point.x() + rect.x());
+    point.setY(point.y() + rect.y());
+    return point;
+}
+
+QRectF& operator-=(QRectF& rect, const QPointF& point) {
+    rect.moveLeft(rect.x() - point.x());
+    rect.moveTop(rect.y() - point.y());
+    return rect;
+}
+
+QPointF operator+(QPointF point, const QRectF& rect) {
+    return point += rect;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+
 ChrysalisRenderer::ChrysalisRenderer(ChrysalisOpenGLProgram* program,
                                      CursorRenderer* cursorRenderer,
                                      CartesianRenderer* cartesianRenderer)
@@ -52,6 +89,7 @@ void ChrysalisRenderer::initialize() {
     for (const auto patternRenderer: patternRenderers_) {
         patternRenderer->initialize();
     }
+    cursorRenderer_->initialize();
 }
 
 QOpenGLFramebufferObject* ChrysalisRenderer::createFramebufferObject(const QSize& size) {
@@ -61,27 +99,26 @@ QOpenGLFramebufferObject* ChrysalisRenderer::createFramebufferObject(const QSize
     return Renderer::createFramebufferObject(size);
 }
 
-void ChrysalisRenderer::changeOffset(const QPointF& delta) {
-    area_.moveLeft(area_.x() - delta.x() / scale_);
-    area_.moveTop(area_.y() + delta.y() / scale_);
+void ChrysalisRenderer::changeOffset(QPointF&& delta) {
+    area_ -= delta * area_;
     cartesianRenderer_->changeArea(area_);
 }
 
-void ChrysalisRenderer::changeScale(const double scalar, QPointF& center) {
+void ChrysalisRenderer::changeScale(const double scalar, QPointF&& center) {
     if (!framebufferObject()) return;
-    center.setY(center.y() - area_.height() * scale_);
-    const QPointF centerBefore = center / scale_;
+    area_ /= scalar;
+
+    center *= 1 - scalar;
+    changeOffset(std::move(center));
+
     scale_ *= scalar;
-    area_.setSize({framebufferObject()->width() / scale_, framebufferObject()->height() / scale_});
-    changeOffset(center - centerBefore * scale_);
     for (const auto patternRenderer: patternRenderers_) {
         patternRenderer->scaleChanged(scale_);
     }
 }
 
-void ChrysalisRenderer::changeCursor(const QPointF& position) {
-    QPointF p = position;
-    std::cout << "Change cursor position: " << p.x() * area_.width() + area_.x() << " " << (1 - p.y()) * area_.height() + area_.y() << std::endl;
+void ChrysalisRenderer::changeCursor(QPointF&& cursor) const {
+    cursorRenderer_->changeCursor(cursor * area_ + area_);
 }
 
 void ChrysalisRenderer::render() {
@@ -107,9 +144,11 @@ void ChrysalisRenderer::render() {
     for (const auto patternRenderer: patternRenderers_) {
         patternRenderer->render();
     }
+    cursorRenderer_->render();
     program_->release();
 }
 
 void ChrysalisRenderer::synchronize(QQuickFramebufferObject* object) {
+    cursorRenderer_->upload();
     cartesianRenderer_->upload();
 }
