@@ -82,7 +82,7 @@ void PatternBuilderRenderer::initialize() {
     const auto layout = SpaceVertex::getLayout();
     vboSpace1.create();
     vboSpace1.bind();
-    vboSpace1.allocate(spaceRendererData1->getVBO().data(), spaceRendererData1->size());
+    // vboSpace1.allocate(spaceRendererData1->getVBO().data(), spaceRendererData1->size());
     vaoSpace1.create();
     vaoSpace1.bind();
     for (int i = 0; i < layout.size(); i++) {
@@ -94,7 +94,7 @@ void PatternBuilderRenderer::initialize() {
 
     vboSpace2.create();
     vboSpace2.bind();
-    vboSpace2.allocate(spaceRendererData2->getVBO().data(), spaceRendererData2->size());
+    // vboSpace2.allocate(spaceRendererData2->getVBO().data(), spaceRendererData2->size());
     vaoSpace2.create();
     vaoSpace2.bind();
     for (int i = 0; i < layout.size(); i++) {
@@ -222,7 +222,7 @@ void PatternBuilderRenderer::render() {
     glPointSize(0.5f * scale_);
 
     vaoSpace1.bind();
-    glDrawArrays(GL_LINES, spaceRendererData1->linesRange().from, spaceRendererData1->linesRange().count);
+    // glDrawArrays(GL_LINES, spaceRendererData1->linesRange().from, spaceRendererData1->linesRange().count);
     for (size_t i = spaceRendererData1->arrowsRange().from; i <= spaceRendererData1->arrowsRange().from + spaceRendererData1->arrowsRange().count; i += 4) {
         glDrawArrays(GL_TRIANGLE_STRIP, i, 4);
     }
@@ -232,7 +232,7 @@ void PatternBuilderRenderer::render() {
     vaoSpace1.release();
 
     vaoSpace2.bind();
-    glDrawArrays(GL_LINES, spaceRendererData2->linesRange().from, spaceRendererData2->linesRange().count);
+    // glDrawArrays(GL_LINES, spaceRendererData2->linesRange().from, spaceRendererData2->linesRange().count);
     for (size_t i = spaceRendererData2->arrowsRange().from; i <= spaceRendererData2->arrowsRange().from + spaceRendererData2->arrowsRange().count; i += 4) {
         glDrawArrays(GL_TRIANGLE_STRIP, i, 4);
     }

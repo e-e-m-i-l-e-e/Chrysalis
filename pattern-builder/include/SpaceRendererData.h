@@ -24,18 +24,19 @@ public:
     };
     std::vector<SpaceVertex> getVBO() const;
 
-    int size() const;
-    Range linesRange() const;
     Range pointsRange() const;
     Range arrowsRange() const;
+    std::vector<Range> linesRanges() const;
 private:
     void addPoint(const Point& point);
     void addArrow(const Point& from, const Point& to);
-    void addLine(const Point& from, const Point& to, double distance);
 
-    std::vector<SpaceVertex> lines_;
+    int addLine(const Point& from, const Point& to, double distance);
+    void extendLine(int lineIndex, const Point& point, double distance);
+
     std::vector<SpaceVertex> points_;
     std::vector<SpaceVertex> arrows_;
+    std::vector<std::vector<SpaceVertex>> lines_;
 };
 
 #endif //FASHIONDESIGNAPPS_SPACERENDERERDATA_H

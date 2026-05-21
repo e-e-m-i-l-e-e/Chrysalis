@@ -19,7 +19,6 @@ namespace PB {
         OutlineBuilder editOutline() const;
         // TEMP
         // std::vector<int> getEBO() const;
-        std::vector<SpaceVertex> getVBO() const;
         Space& getSpace() const;
 
         const SpaceRendererData* getSpaceRendererData() const;

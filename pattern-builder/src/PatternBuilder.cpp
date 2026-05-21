@@ -39,10 +39,6 @@ OutlineBuilder PatternBuilder::editOutline() const {
 //     return {0, 1, 1, 2, 2, 3, 3, 0};
 // }
 
-std::vector<SpaceVertex> PatternBuilder::getVBO() const {
-    return space_->getVBO();
-}
-
 Space& PatternBuilder::getSpace() const
 {
     return *space_;

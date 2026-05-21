@@ -77,7 +77,8 @@ void ChrysalisRenderer::initialize() {
         .nextPoint("C", Space::Direction::RIGHT, 5)
         .nextPoint("D", Space::Direction::DOWN, 7)
         .nextPoint("E", Space::Direction::RIGHT, 10)
-        .nextPoint("F", Space::Direction::DOWN, 10);
+        .nextPoint("F", Space::Direction::DOWN, 10)
+        .addPoint("D", "G", Space::Direction::DOWN, 3);
     PatternRenderer* patternRenderer2 = new PatternRenderer(
         new PatternSpaceRenderer(program_, pattern2.getSpaceRendererData()),
         new PatternShapeRenderer()

@@ -11,7 +11,9 @@ void PatternSpaceRenderer::initialize() {
 void PatternSpaceRenderer::render() {
     program_->setColor(1.f, 0.f, 0.f, 1.f);
     vao.bind();
-    glDrawArrays(GL_LINES, spaceRendererData_->linesRange().from, spaceRendererData_->linesRange().count);
+    for (const auto& [from, count]: spaceRendererData_->linesRanges()) {
+        glDrawArrays(GL_LINE_STRIP, from, count);
+    }
     for (size_t i = spaceRendererData_->arrowsRange().from; i <= spaceRendererData_->arrowsRange().from + spaceRendererData_->arrowsRange().count; i += 4) {
         glDrawArrays(GL_TRIANGLE_STRIP, i, 4);
     }

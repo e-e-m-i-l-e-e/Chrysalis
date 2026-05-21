@@ -5,17 +5,22 @@
 std::vector<SpaceVertex> SpaceRendererData::getVBO() const {
     std::vector<SpaceVertex> vbo;
     vbo.insert(vbo.end(), points_.begin(), points_.end());
-    vbo.insert(vbo.end(), lines_.begin(), lines_.end());
+    for (const auto& line: lines_) {
+        vbo.insert(vbo.end(), line.begin(), line.end());
+    }
     vbo.insert(vbo.end(), arrows_.begin(), arrows_.end());
     return vbo;
 }
 
-int SpaceRendererData::size() const {
-    return sizeof(SpaceVertex) * (points_.size() + lines_.size() + arrows_.size());
-}
-
-SpaceRendererData::Range SpaceRendererData::linesRange() const {
-    return pointsRange() + lines_;
+std::vector<SpaceRendererData::Range> SpaceRendererData::linesRanges() const {
+    auto [pointsFrom, pointsCount] = pointsRange();
+    size_t from = pointsFrom + pointsCount;
+    std::vector<Range> ranges(lines_.size());
+    for (int i = 0; i < lines_.size(); i++) {
+        ranges[i] = {from, lines_[i].size()};
+        from += lines_[i].size();
+    }
+    return ranges;
 }
 
 SpaceRendererData::Range SpaceRendererData::pointsRange() const {
@@ -23,7 +28,8 @@ SpaceRendererData::Range SpaceRendererData::pointsRange() const {
 }
 
 SpaceRendererData::Range SpaceRendererData::arrowsRange() const {
-    return linesRange() + arrows_;
+    const std::vector<Range> ranges = linesRanges();
+    return ranges[ranges.size() - 1] + arrows_;
 }
 
 void SpaceRendererData::addPoint(const Point& point) {
@@ -51,8 +57,15 @@ void SpaceRendererData::addArrow(const Point& from, const Point& to) {
     arrows_.emplace_back(static_cast<float>(to.x() + wing2.x()), static_cast<float>(to.y() + wing2.y()), 0.f);
 }
 
-void SpaceRendererData::addLine(const Point& from, const Point& to, const double distance) {
-    lines_.emplace_back(from.x(), from.y(), 0);
-    lines_.emplace_back(to.x(), to.y(), distance);
+int SpaceRendererData::addLine(const Point& from, const Point& to, const double distance) {
+    std::vector<SpaceVertex> line;
+    line.emplace_back(from.x(), from.y(), 0);
+    line.emplace_back(to.x(), to.y(), distance);
+    lines_.push_back(line);
     addArrow(from, to);
+    return lines_.size() - 1;
+}
+
+void SpaceRendererData::extendLine(const int lineIndex, const Point& point, const double distance) {
+    lines_[lineIndex].emplace_back(point.x(), point.y(), distance + lines_[lineIndex].back().distance());
 }
