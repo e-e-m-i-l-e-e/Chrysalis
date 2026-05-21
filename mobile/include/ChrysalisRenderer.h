@@ -1,27 +1,37 @@
 #ifndef FASHIONDESIGNAPPS_CHRYSALISRENDERER_H
 #define FASHIONDESIGNAPPS_CHRYSALISRENDERER_H
 
-#include <QOpenGLShaderProgram>
 #include <QQuickFramebufferObject>
 
 #include "CartesianRenderer.h"
+#include "ChrysalisOpenGLProgram.h"
+#include "CursorRenderer.h"
+#include "PatternRenderer.h"
 
 class ChrysalisRenderer: public QQuickFramebufferObject::Renderer {
 public:
-    void initialize();
+    explicit ChrysalisRenderer(ChrysalisOpenGLProgram* program,
+                               CursorRenderer* cursorRenderer,
+                               CartesianRenderer* cartesianRenderer);
+    ~ChrysalisRenderer() override;
 
+    void initialize();
     void changeOffset(const QPointF& delta);
     void changeScale(double scalar, QPointF& center);
+    void changeCursor(const QPointF& position);
 protected:
     void render() override;
+    void synchronize(QQuickFramebufferObject*) override;
     QOpenGLFramebufferObject* createFramebufferObject(const QSize& size) override;
 private:
-    QSize size_;
-    QOpenGLShaderProgram program_;
-
     QRectF area_;
-    double scale_ = 1.0;
-    CartesianRenderer cartesianRenderer_;
+    double scale_ = 10.0;
+
+    ChrysalisOpenGLProgram* program_;
+
+    CursorRenderer* cursorRenderer_;
+    CartesianRenderer* cartesianRenderer_;
+    std::vector<PatternRenderer*> patternRenderers_;
 };
 
 #endif //FASHIONDESIGNAPPS_CHRYSALISRENDERER_H

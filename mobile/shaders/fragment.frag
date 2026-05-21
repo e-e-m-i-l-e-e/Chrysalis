@@ -1,20 +1,14 @@
-#version 300 es
+#version 330 core
 
 in float distance;
 
 out vec4 fragColor;
 
 uniform vec4 uColor;
-uniform bool uIsPoint;
+uniform float uPointRadius;
 
 void main() {
-    float period = 1.f;
-    if (mod(distance, period) > 0.5f) discard;
-
-    if (uIsPoint) {
-        vec2 coord = gl_PointCoord - vec2(0.5);
-        if (length(coord) > 0.5) discard;
-    }
-
+    if (mod(distance, 1.f) > 0.5f) discard;
+    if (uPointRadius > 0. && length(gl_PointCoord - vec2(0.5)) > 0.5) discard;
     fragColor = uColor;
 }

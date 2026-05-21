@@ -5,10 +5,14 @@
 #include <iostream>
 
 #include "ChrysalisRenderer.h"
-#include "PatternBuilderRenderer.h"
 
 PatternBuilderSceneElement::PatternBuilderSceneElement(QQuickItem* parent)
-    : QQuickFramebufferObject(parent), renderer_(new ChrysalisRenderer()) {
+    : QQuickFramebufferObject(parent), renderer_([] {
+        const auto program = new ChrysalisOpenGLProgram();
+        const auto cursor = new CursorRenderer();
+        const auto cartesian = new CartesianRenderer(program);
+        return new ChrysalisRenderer(program, cursor, cartesian);
+    }()) {
     setAcceptedMouseButtons(Qt::AllButtons);
     setAcceptHoverEvents(true);
 }
@@ -29,7 +33,10 @@ void PatternBuilderSceneElement::wheelEvent(QWheelEvent* event) {
 }
 
 void PatternBuilderSceneElement::hoverMoveEvent(QHoverEvent* event) {
-    mousePosition_ = event->position();
+    QPointF position = event->position();
+    position.setX(position.x() / window()->width());
+    position.setY(position.y() / window()->height());
+    renderer_->changeCursor(position);
     update();
 }
 

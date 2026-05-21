@@ -12,6 +12,17 @@ class BaseRenderer: public QOpenGLFunctions {
 protected:
     virtual ~BaseRenderer() = default;
 public:
+    void upload() {
+        if (shouldUpload_) {
+            vbo.bind();
+            vbo.allocate(data_.data(), data_.size() * sizeof(V));
+            vbo.release();
+            shouldUpload_ = false;
+        }
+    }
+    void shouldUpload() {
+        shouldUpload_ = true;
+    }
     virtual void initialize() {
         initializeOpenGLFunctions();
 
@@ -28,11 +39,16 @@ public:
         }
         vao.release();
         vbo.release();
+        upload();
     }
     virtual void render() = 0;
 protected:
+    std::vector<V> data_;
+
     QOpenGLBuffer vbo;
     QOpenGLVertexArrayObject vao;
+private:
+    bool shouldUpload_ = true;
 };
 
 #endif //FASHIONDESIGNAPPS_BASERENDERER_H
