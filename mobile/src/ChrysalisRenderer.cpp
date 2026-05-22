@@ -106,7 +106,7 @@ void ChrysalisRenderer::initialize() {
     const auto frontSpaceRendererData = new SpaceRendererData();
     const auto frontSpace = new Space(frontSpaceRendererData);
     const auto frontOutline = new PB::Outline(frontSpace);
-    const auto front = new PB::Pattern("Frint", frontSpace, frontOutline);
+    const auto front = new PB::Pattern("Front", frontSpace, frontOutline);
     back->sharePoint("A", front);
     back->sharePoint("B", front);
     back->sharePoint("W", front);
