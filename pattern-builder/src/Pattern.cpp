@@ -9,6 +9,23 @@ void Pattern::addPoint(const std::string& name, const double x, const double y) 
     space_->addPoint(name, x, y);
 }
 
+void Pattern::addPoint(const std::string& from, const std::string& to, const BaseArgument* angle, const BaseArgument* length) const {
+    space_->addPoint(from, to, angle->getValue() * CGAL_PI / 180.0, length->getValue());
+}
+
+void Pattern::addPoint(const std::string& from, const std::string& to, const Space::Direction direction, const BaseArgument* length) const {
+    space_->addPoint(from, to, direction, length->getValue());
+}
+
+void Pattern::nextPoint(const std::string& to, Space::Direction direction, const BaseArgument* length) const {
+    space_->nextPoint(to, direction, length->getValue());
+}
+
+void Pattern::sharePoint(const std::string& point, const Pattern* pattern) const {
+    const Point& p = space_->getPoint(point);
+    pattern->addPoint(point, p.x(), p.y());
+}
+
 DartBuilder Pattern::startDart() const {
     return DartBuilder(outline_, new Dart(space_));
 }

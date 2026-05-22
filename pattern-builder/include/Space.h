@@ -23,7 +23,9 @@ public:
     void nextPoint(const std::string& name, double angle, double length);
     void nextPoint(const std::string& name, Direction direction, double length);
 
+    double angle(const std::string& from, const std::string& to) const;
     double distance(const std::string& from, const std::string& to) const;
+
     Point& getPoint(const std::string& name);
 
     const SpaceRendererData* getRendererData() const;
@@ -33,7 +35,6 @@ private:
     SpaceRendererData* rendererData_;
 
     std::string lastPointName_;
-    std::set<std::string> tailPoints_;
     std::unordered_map<std::string, Point> points_;
     std::unordered_map<std::string, int> linesIndices_;
     std::unordered_map<std::string, std::string> parentPoints_;

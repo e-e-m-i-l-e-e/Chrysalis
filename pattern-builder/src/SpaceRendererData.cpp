@@ -48,6 +48,7 @@ std::vector<SpaceRendererData::Range> SpaceRendererData::linesRanges() const {
 }
 
 std::vector<SpaceRendererData::Range> SpaceRendererData::arrowsRanges() const {
+    if (p->lines_.empty()) return {};
     auto [lastLineFrom, lastLineCount] = linesRanges()[p->lines_.size() - 1];
     size_t from = lastLineFrom + lastLineCount;
     std::vector<Range> ranges(p->arrows_.size());

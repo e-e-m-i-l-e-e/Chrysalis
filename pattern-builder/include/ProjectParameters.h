@@ -1,7 +1,7 @@
 #ifndef FASHIONDESIGNAPPS_PROJECTPARAMETERS_H
 #define FASHIONDESIGNAPPS_PROJECTPARAMETERS_H
 
-#include <vector>
+#include <unordered_map>
 
 #include "Parameter.h"
 
@@ -10,8 +10,9 @@ public:
     ~ProjectParameters();
 
     void addParameter(Parameter* parameter);
+    Parameter* getParameter(const std::string& name);
 private:
-    std::vector<Parameter*> parameters_;
+    std::unordered_map<std::string, Parameter*> parameters_;
 };
 
 #endif //FASHIONDESIGNAPPS_PROJECTPARAMETERS_H

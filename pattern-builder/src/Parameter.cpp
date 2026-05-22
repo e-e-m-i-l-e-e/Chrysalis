@@ -9,3 +9,7 @@ double Parameter::getValue() const {
 void Parameter::setValue(const double value) {
     value_ = value;
 }
+
+const std::string& Parameter::getName() const {
+    return name_;
+}

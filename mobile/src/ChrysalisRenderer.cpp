@@ -3,9 +3,12 @@
 #include <iostream>
 #include <QOpenGLFramebufferObject>
 
+#include "Argument.h"
+#include "BinaryFunction.h"
 #include "Project.h"
 
 #include "Logger.h"
+#include "VectorFunction.h"
 #define LOGGER_NAME "Chrysalis Renderer"
 
 // --- Operators "*" and "/" use width and height of QRectF (scaling operations) ---------------------------------------
@@ -68,7 +71,67 @@ void ChrysalisRenderer::initialize() {
     parameters->addParameter(new Parameter("Sleeve Length", 62));
 
     auto project = PB::Project(parameters);
-    auto back = project.addPattern("Back");
+
+    // Back
+    const auto backSpaceRendererData = new SpaceRendererData();
+    const auto backSpace = new Space(backSpaceRendererData);
+    const auto backOutline = new PB::Outline(backSpace);
+    const auto back = new PB::Pattern("Back", backSpace, backOutline);
+    back->addPoint("A", 0, 0);
+    back->nextPoint("L", Space::Direction::DOWN, parameters->getParameter("Length"));
+    back->addPoint("A", "B", Space::Direction::DOWN, new BinaryFunction(new BinaryFunction(new BinaryFunction(parameters->getParameter("Bust"), new Argument(2), BinaryFunction::DIVISION), new Argument(3), BinaryFunction::DIVISION), new Argument(5), BinaryFunction::ADDITION));
+    back->addPoint("A", "W", Space::Direction::DOWN, parameters->getParameter("Shoulder To Waist Back"));
+    back->addPoint("B", "B1", Space::Direction::LEFT, new BinaryFunction(new BinaryFunction(parameters->getParameter("Back Width"), new Argument(2), BinaryFunction::DIVISION), new Argument(1), BinaryFunction::ADDITION));
+    back->addPoint("B1", "B2", Space::Direction::LEFT, new BinaryFunction(new BinaryFunction(new BinaryFunction(parameters->getParameter("Bust"), new Argument(2), BinaryFunction::DIVISION), new Argument(4), BinaryFunction::DIVISION), new Argument(14), BinaryFunction::MIN));
+    back->addPoint("B1", "B3", Space::Direction::LEFT, new BinaryFunction(new BinaryFunction(new VectorFunction(backSpace, "B1", "B2", &VectorFunction::LENGTH), new Argument(2), BinaryFunction::DIVISION), new Argument(1), BinaryFunction::SUBTRACTION));
+    back->addPoint("B1", "S", Space::Direction::UP, new VectorFunction(backSpace, "A", "B", &VectorFunction::LENGTH));
+    back->addPoint("A", "A1", Space::Direction::LEFT, new BinaryFunction(new BinaryFunction(new BinaryFunction(parameters->getParameter("Neck"), new Argument(2), BinaryFunction::DIVISION), new Argument(3), BinaryFunction::DIVISION), new Argument(0.5), BinaryFunction::ADDITION));
+    back->nextPoint("A2", Space::Direction::UP, new Argument(2));
+    back->addPoint("S", "S1", Space::Direction::DOWN, new Argument(3));
+    back->addPoint("B1", "S2", Space::Direction::DOWN, new BinaryFunction(new BinaryFunction(new VectorFunction(backSpace, "A", "B", &VectorFunction::LENGTH), new Argument(3), BinaryFunction::DIVISION), new Argument(1), BinaryFunction::SUBTRACTION));
+    back->addPoint("B1", "S3", new Argument(135), new Argument(2.5));
+    back->addPoint("S1", "S4", new VectorFunction(backSpace, "A2", "S1", &VectorFunction::ANGLE), new Argument(1.5));
+    back->addPoint("A2", "D0", new VectorFunction(backSpace, "A2", "S1", &VectorFunction::ANGLE), new Argument(5));
+    back->addPoint("D0", "D01", Space::Direction::DOWN, new Argument(7));
+    back->addPoint("D0", "D02", new VectorFunction(backSpace, "A2", "S1", &VectorFunction::ANGLE), new Argument(1.75));
+    back->addPoint("L", "L1", Space::Direction::LEFT, new BinaryFunction(new VectorFunction(backSpace, "B", "B3", &VectorFunction::LENGTH), new Argument(1), BinaryFunction::ADDITION));
+
+    const auto patternRendererBack = new PatternRenderer(
+        new PatternSpaceRenderer(program_, backSpaceRendererData),
+        new PatternShapeRenderer()
+    );
+    patternRenderers_.push_back(patternRendererBack);
+
+    // Front
+    const auto frontSpaceRendererData = new SpaceRendererData();
+    const auto frontSpace = new Space(frontSpaceRendererData);
+    const auto frontOutline = new PB::Outline(frontSpace);
+    const auto front = new PB::Pattern("Frint", frontSpace, frontOutline);
+    back->sharePoint("A", front);
+    back->sharePoint("B", front);
+    back->sharePoint("W", front);
+    back->sharePoint("L", front);
+    back->sharePoint("A2", front);
+    back->sharePoint("D01", front);
+    back->sharePoint("D02", front);
+    front->addPoint("B", "B4", Space::Direction::LEFT, new BinaryFunction(new BinaryFunction(parameters->getParameter("Bust"), new Argument(2), BinaryFunction::DIVISION), new Argument(4), BinaryFunction::ADDITION));
+    front->nextPoint("W1", Space::Direction::DOWN, new VectorFunction(frontSpace, "B", "W", &VectorFunction::LENGTH));
+    front->addPoint("B4", "L2", Space::Direction::DOWN, new VectorFunction(frontSpace, "B", "L", &VectorFunction::LENGTH));
+    front->addPoint("B4", "A3", Space::Direction::UP, new BinaryFunction(new BinaryFunction(new BinaryFunction(parameters->getParameter("Bust"), new Argument(2), BinaryFunction::DIVISION), new Argument(2), BinaryFunction::DIVISION), new Argument(1), BinaryFunction::ADDITION));
+    front->nextPoint("A4", Space::Direction::RIGHT, new BinaryFunction(new BinaryFunction(new BinaryFunction(parameters->getParameter("Neck"), new Argument(2), BinaryFunction::DIVISION), new Argument(3), BinaryFunction::DIVISION), new Argument(0.5), BinaryFunction::ADDITION));
+    front->addPoint("A3", "A5", Space::Direction::DOWN, new BinaryFunction(new BinaryFunction(new BinaryFunction(parameters->getParameter("Neck"), new Argument(2), BinaryFunction::DIVISION), new Argument(3), BinaryFunction::DIVISION), new Argument(1), BinaryFunction::ADDITION));
+    front->addPoint("A4", "A6", Space::Direction::RIGHT, new Argument(5));
+    front->addPoint("B4", "B5", Space::Direction::RIGHT, new BinaryFunction(new VectorFunction(frontSpace, "A3", "A6", &VectorFunction::LENGTH), new Argument(2), BinaryFunction::SUBTRACTION));
+    front->addPoint("A6", "A7", new VectorFunction(frontSpace, "A6", "B5", VectorFunction::ANGLE), new Argument(1.5));
+    front->addPoint("A2", "A-2", new BinaryFunction(new VectorFunction(frontSpace, "D02", "D01", VectorFunction::ANGLE), new Argument(0.75), BinaryFunction::MULTIPLICATION), new Argument(0.25));
+    front->addPoint("A", "A0", Space::Direction::LEFT, new Argument(1));
+
+    const auto patternRendererFront = new PatternRenderer(
+        new PatternSpaceRenderer(program_, frontSpaceRendererData),
+        new PatternShapeRenderer()
+    );
+    patternRenderers_.push_back(patternRendererFront);
+
     // auto pattern1 = project.addPattern("Back");
     // pattern1
     //     .addPoint("A", 0, 0)
@@ -80,7 +143,7 @@ void ChrysalisRenderer::initialize() {
     //     new PatternShapeRenderer()
     // );
     // patternRenderers_.push_back(patternRenderer1);
-
+    //
     // auto pattern2 = project.addPattern("Front");
     // pattern2
     //     .addPoint("A", 7, 5)

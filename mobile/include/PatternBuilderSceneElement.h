@@ -4,7 +4,6 @@
 #include <QQuickFramebufferObject>
 
 #include "ChrysalisRenderer.h"
-#include "PatternBuilderRenderer.h"
 
 class PatternBuilderSceneElement: public QQuickFramebufferObject {
     Q_OBJECT
