@@ -56,46 +56,46 @@ ChrysalisRenderer::~ChrysalisRenderer() {
 }
 
 void ChrysalisRenderer::initialize() {
-    auto project = PB::Project();
+    const auto parameters = new ProjectParameters();
+    parameters->addParameter(new Parameter("Length", 66));
+    parameters->addParameter(new Parameter("Bust", 96));
+    parameters->addParameter(new Parameter("Bust Height", 36));
+    parameters->addParameter(new Parameter("Back Width", 31));
+    parameters->addParameter(new Parameter("Neck", 38));
+    parameters->addParameter(new Parameter("Shoulder Length", 11));
+    parameters->addParameter(new Parameter("Shoulder To Waist Back", 42));
+    parameters->addParameter(new Parameter("Shoulder To Waist Front", 54));
+    parameters->addParameter(new Parameter("Sleeve Length", 62));
 
+    auto project = PB::Project(parameters);
+    auto back = project.addPattern("Back");
+    // auto pattern1 = project.addPattern("Back");
+    // pattern1
+    //     .addPoint("A", 0, 0)
+    //     .nextPoint("B", Space::Direction::UP, 10)
+    //     .addPoint("C", 10, 10)
+    //     .nextPoint("D", Space::Direction::DOWN, 10);
+    // PatternRenderer* patternRenderer1 = new PatternRenderer(
+    //     new PatternSpaceRenderer(program_, pattern1.getSpaceRendererData()),
+    //     new PatternShapeRenderer()
+    // );
+    // patternRenderers_.push_back(patternRenderer1);
 
-    length = 66;
-    bust = 96;
-    bust_height = 36;
-    back_width = 31;
-    neck = 38;
-    shoulder_length = 11;
-    shoulder_to_waist_back = 42;
-    shoulder_to_waist_front = 54;
-
-    sleeve_length = 62;
-
-    auto pattern1 = project.addPattern("Back");
-    pattern1
-        .addPoint("A", 0, 0)
-        .nextPoint("B", Space::Direction::UP, 10)
-        .addPoint("C", 10, 10)
-        .nextPoint("D", Space::Direction::DOWN, 10);
-    PatternRenderer* patternRenderer1 = new PatternRenderer(
-        new PatternSpaceRenderer(program_, pattern1.getSpaceRendererData()),
-        new PatternShapeRenderer()
-    );
-    patternRenderers_.push_back(patternRenderer1);
-
-    auto pattern2 = project.addPattern("Front");
-    pattern2
-        .addPoint("A", 7, 5)
-        .nextPoint("B", Space::Direction::UP, 20)
-        .nextPoint("C", Space::Direction::RIGHT, 5)
-        .nextPoint("D", Space::Direction::DOWN, 7)
-        .nextPoint("E", Space::Direction::RIGHT, 10)
-        .nextPoint("F", Space::Direction::DOWN, 10)
-        .addPoint("D", "G", Space::Direction::DOWN, 3);
-    PatternRenderer* patternRenderer2 = new PatternRenderer(
-        new PatternSpaceRenderer(program_, pattern2.getSpaceRendererData()),
-        new PatternShapeRenderer()
-    );
-    patternRenderers_.push_back(patternRenderer2);
+    // auto pattern2 = project.addPattern("Front");
+    // pattern2
+    //     .addPoint("A", 7, 5)
+    //     .nextPoint("B", Space::Direction::UP, 20)
+    //     .nextPoint("C", Space::Direction::RIGHT, 5)
+    //     .nextPoint("D", Space::Direction::DOWN, 7)
+    //     .nextPoint("E", Space::Direction::RIGHT, 10)
+    //     .nextPoint("F", Space::Direction::DOWN, 10)
+    //     .addPoint("D", "G", Space::Direction::DOWN, 3);
+    //
+    // PatternRenderer* patternRenderer2 = new PatternRenderer(
+    //     new PatternSpaceRenderer(program_, pattern2.getSpaceRendererData()),
+    //     new PatternShapeRenderer()
+    // );
+    // patternRenderers_.push_back(patternRenderer2);
 
     program_->initialize();
     cartesianRenderer_->initialize();

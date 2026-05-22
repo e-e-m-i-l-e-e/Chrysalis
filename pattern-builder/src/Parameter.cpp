@@ -1,0 +1,11 @@
+#include "Parameter.h"
+
+Parameter::Parameter(const std::string& name, const double value): value_(value), name_(name) {}
+
+double Parameter::getValue() const {
+    return value_;
+}
+
+void Parameter::setValue(const double value) {
+    value_ = value;
+}

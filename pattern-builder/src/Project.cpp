@@ -2,7 +2,10 @@
 
 using namespace PB;
 
+Project::Project(ProjectParameters* parameters): parameters_(parameters) {}
+
 Project::~Project() {
+    delete parameters_;
     for (const auto pattern: patterns_) {
         delete pattern;
     }
