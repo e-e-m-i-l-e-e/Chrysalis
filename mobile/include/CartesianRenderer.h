@@ -9,7 +9,7 @@ class CartesianRenderer: public BaseRenderer<Vertex> {
 public:
     explicit CartesianRenderer(ChrysalisOpenGLProgram* program);
 
-    void render() override;
+    void draw() override;
     void changeArea(const QRectF& area);
 private:
     float gridSize_ = 10;

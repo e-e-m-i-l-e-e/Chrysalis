@@ -11,6 +11,8 @@ public:
     void render() const;
     void initialize() const;
     void scaleChanged(float scale) const;
+
+    std::vector<SpaceVertex> getPoints() const;
 private:
     PatternSpaceRenderer* spaceRenderer_;
     PatternShapeRenderer* shapeRenderer_;

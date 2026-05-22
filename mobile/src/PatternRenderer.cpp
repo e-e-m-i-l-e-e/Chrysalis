@@ -17,3 +17,7 @@ void PatternRenderer::scaleChanged(const float scale) const {
     spaceRenderer_->scaleChanged(scale);
     shapeRenderer_->scaleChanged(scale);
 }
+
+std::vector<SpaceVertex> PatternRenderer::getPoints() const {
+    return spaceRenderer_->getPoints();
+}

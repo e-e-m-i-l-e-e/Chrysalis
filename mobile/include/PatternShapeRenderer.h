@@ -5,7 +5,7 @@
 
 class PatternShapeRenderer: public BaseRenderer<Vertex> {
 public:
-    void render() override;
+    void draw() override;
     void scaleChanged(float scale);
 };
 

@@ -1,16 +1,11 @@
 #include "CartesianRenderer.h"
-
-#include <iostream>
-
 CartesianRenderer::CartesianRenderer(ChrysalisOpenGLProgram* program): program_(program) {}
 
-void CartesianRenderer::render() {
-    vao.bind();
+void CartesianRenderer::draw() {
     program_->setColor(1.f, 1.f, 1.f, 1.f);
     glDrawArrays(GL_LINES, 0, 4); // x and y axes
     program_->setColor(1.f, 1.f, 1.f, 0.1f);
     glDrawArrays(GL_LINES, 4, data_.size() - 4); // grid
-    vao.release();
 }
 
 void CartesianRenderer::changeArea(const QRectF& area) {

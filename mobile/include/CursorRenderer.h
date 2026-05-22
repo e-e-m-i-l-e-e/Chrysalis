@@ -11,7 +11,7 @@ class CursorRenderer: public BaseRenderer<SpaceVertex> {
 public:
     explicit CursorRenderer(ChrysalisOpenGLProgram* program);
 
-    void render() override;
+    void draw() override;
     void changeCursor(const QPointF& cursor);
 private:
     QPointF cursor_;

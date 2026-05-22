@@ -41,7 +41,12 @@ public:
         vbo.release();
         upload();
     }
-    virtual void render() = 0;
+    void render() {
+        vao.bind();
+        draw();
+        vao.release();
+    }
+    virtual void draw() = 0;
 protected:
     std::vector<V> data_;
 

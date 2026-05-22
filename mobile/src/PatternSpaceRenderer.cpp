@@ -8,21 +8,23 @@ void PatternSpaceRenderer::initialize() {
     BaseRenderer::initialize();
 }
 
-void PatternSpaceRenderer::render() {
+void PatternSpaceRenderer::draw() {
     program_->setColor(1.f, 0.f, 0.f, 1.f);
-    vao.bind();
     for (const auto& [from, count]: spaceRendererData_->linesRanges()) {
         glDrawArrays(GL_LINE_STRIP, from, count);
     }
-    for (size_t i = spaceRendererData_->arrowsRange().from; i <= spaceRendererData_->arrowsRange().from + spaceRendererData_->arrowsRange().count; i += 4) {
-        glDrawArrays(GL_TRIANGLE_STRIP, i, 4);
+    for (const auto& [from, count]: spaceRendererData_->arrowsRanges()) {
+        glDrawArrays(GL_TRIANGLE_STRIP, from, count);
     }
     program_->setPointRadius(0.25 * scale_);
     glDrawArrays(GL_POINTS, spaceRendererData_->pointsRange().from, spaceRendererData_->pointsRange().count);
     program_->setPointRadius(0);
-    vao.release();
 }
 
 void PatternSpaceRenderer::scaleChanged(const float scale) {
     scale_ = scale;
+}
+
+std::vector<SpaceVertex> PatternSpaceRenderer::getPoints() const {
+    return spaceRendererData_->getPoints();
 }

@@ -9,9 +9,12 @@
 class PatternSpaceRenderer: public BaseRenderer<SpaceVertex> {
 public:
     explicit PatternSpaceRenderer(ChrysalisOpenGLProgram* program, const SpaceRendererData* spaceRendererData);
-    void render() override;
+
+    void draw() override;
     void initialize() override;
     void scaleChanged(float scale);
+
+    std::vector<SpaceVertex> getPoints() const;
 private:
     float scale_ = 10.f;
 

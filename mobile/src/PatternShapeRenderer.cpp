@@ -1,6 +1,6 @@
 #include "PatternShapeRenderer.h"
 
-void PatternShapeRenderer::render() {
+void PatternShapeRenderer::draw() {
 }
 
 void PatternShapeRenderer::scaleChanged(float scale) {}

@@ -2,11 +2,9 @@
 
 CursorRenderer::CursorRenderer(ChrysalisOpenGLProgram* program): program_(program) {}
 
-void CursorRenderer::render() {
-    vao.bind();
+void CursorRenderer::draw() {
     program_->setColor(0.f, 1.f, 0.f, 1.f);
     glDrawArrays(GL_LINES, 0, data_.size());
-    vao.release();
 }
 
 void CursorRenderer::changeCursor(const QPointF& cursor) {

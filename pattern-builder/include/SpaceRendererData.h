@@ -14,6 +14,9 @@ using Vector = Kernel::Vector_2;
 class SpaceRendererData {
     friend class Space;
 public:
+    explicit SpaceRendererData();
+    ~SpaceRendererData();
+
     struct Range {
         size_t from;
         size_t count;
@@ -23,20 +26,18 @@ public:
         }
     };
     std::vector<SpaceVertex> getVBO() const;
+    std::vector<SpaceVertex> getPoints() const;
 
     Range pointsRange() const;
-    Range arrowsRange() const;
     std::vector<Range> linesRanges() const;
+    std::vector<Range> arrowsRanges() const;
 private:
-    void addPoint(const Point& point);
-    void addArrow(const Point& from, const Point& to);
+    void addPoint(const Point& point) const;
+    int addLine(const Point& from, const Point& to, double distance) const;
+    void extendLine(int lineIndex, const Point& point, double distance) const;
 
-    int addLine(const Point& from, const Point& to, double distance);
-    void extendLine(int lineIndex, const Point& point, double distance);
-
-    std::vector<SpaceVertex> points_;
-    std::vector<SpaceVertex> arrows_;
-    std::vector<std::vector<SpaceVertex>> lines_;
+    struct Private;
+    Private* p;
 };
 
 #endif //FASHIONDESIGNAPPS_SPACERENDERERDATA_H

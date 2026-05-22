@@ -223,9 +223,9 @@ void PatternBuilderRenderer::render() {
 
     vaoSpace1.bind();
     // glDrawArrays(GL_LINES, spaceRendererData1->linesRange().from, spaceRendererData1->linesRange().count);
-    for (size_t i = spaceRendererData1->arrowsRange().from; i <= spaceRendererData1->arrowsRange().from + spaceRendererData1->arrowsRange().count; i += 4) {
-        glDrawArrays(GL_TRIANGLE_STRIP, i, 4);
-    }
+    // for (size_t i = spaceRendererData1->arrowsRange().from; i <= spaceRendererData1->arrowsRange().from + spaceRendererData1->arrowsRange().count; i += 4) {
+    //     glDrawArrays(GL_TRIANGLE_STRIP, i, 4);
+    // }
     program_.setUniformValue("uIsPoint", true);
     glDrawArrays(GL_POINTS, spaceRendererData1->pointsRange().from, spaceRendererData1->pointsRange().count);
     program_.setUniformValue("uIsPoint", false);
@@ -233,9 +233,9 @@ void PatternBuilderRenderer::render() {
 
     vaoSpace2.bind();
     // glDrawArrays(GL_LINES, spaceRendererData2->linesRange().from, spaceRendererData2->linesRange().count);
-    for (size_t i = spaceRendererData2->arrowsRange().from; i <= spaceRendererData2->arrowsRange().from + spaceRendererData2->arrowsRange().count; i += 4) {
-        glDrawArrays(GL_TRIANGLE_STRIP, i, 4);
-    }
+    // for (size_t i = spaceRendererData2->arrowsRange().from; i <= spaceRendererData2->arrowsRange().from + spaceRendererData2->arrowsRange().count; i += 4) {
+    //     glDrawArrays(GL_TRIANGLE_STRIP, i, 4);
+    // }
     program_.setUniformValue("uIsPoint", true);
     glDrawArrays(GL_POINTS, spaceRendererData2->pointsRange().from, spaceRendererData2->pointsRange().count);
     program_.setUniformValue("uIsPoint", false);
