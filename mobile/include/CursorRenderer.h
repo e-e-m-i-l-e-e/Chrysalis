@@ -1,20 +1,22 @@
 #ifndef FASHIONDESIGNAPPS_CURSORRENDERER_H
 #define FASHIONDESIGNAPPS_CURSORRENDERER_H
 
-#include <QPointF>
-
 #include "SpaceVertex.h"
-#include "BaseRenderer.h"
+#include "BaseAnimatedRenderer.h"
 #include "ChrysalisOpenGLProgram.h"
 
-class CursorRenderer: public BaseRenderer<SpaceVertex> {
+class CursorRenderer: public BaseAnimatedRenderer<SpaceVertex> {
 public:
     explicit CursorRenderer(ChrysalisOpenGLProgram* program);
 
     void draw() override;
-    void changeCursor(const QPointF& cursor);
+    void hideCursor();
+    void displayCursor(const QPointF& cursor);
+protected:
+    void prepareNextFrame(qint64 startTime, qint64 previousFrameTime, qint64 currentFrameTime) override;
 private:
-    QPointF cursor_;
+    float opacity_ = 0.f;
+    bool displayCursor_ = false;
 
     ChrysalisOpenGLProgram* program_;
 };

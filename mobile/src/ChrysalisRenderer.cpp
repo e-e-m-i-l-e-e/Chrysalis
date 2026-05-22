@@ -58,7 +58,19 @@ ChrysalisRenderer::~ChrysalisRenderer() {
 void ChrysalisRenderer::initialize() {
     auto project = PB::Project();
 
-    auto pattern1 = project.addPattern("Pattern 1");
+
+    length = 66;
+    bust = 96;
+    bust_height = 36;
+    back_width = 31;
+    neck = 38;
+    shoulder_length = 11;
+    shoulder_to_waist_back = 42;
+    shoulder_to_waist_front = 54;
+
+    sleeve_length = 62;
+
+    auto pattern1 = project.addPattern("Back");
     pattern1
         .addPoint("A", 0, 0)
         .nextPoint("B", Space::Direction::UP, 10)
@@ -70,7 +82,7 @@ void ChrysalisRenderer::initialize() {
     );
     patternRenderers_.push_back(patternRenderer1);
 
-    auto pattern2 = project.addPattern("Pattern 2");
+    auto pattern2 = project.addPattern("Front");
     pattern2
         .addPoint("A", 7, 5)
         .nextPoint("B", Space::Direction::UP, 20)
@@ -119,11 +131,20 @@ void ChrysalisRenderer::changeScale(const double scalar, QPointF&& center) {
 }
 
 void ChrysalisRenderer::changeCursor(QPointF&& cursor) const {
-    cursorRenderer_->changeCursor(cursor * area_ + area_);
+    cursor *= area_;
+    cursor += area_;
     for (const auto& patternRenderer: patternRenderers_) {
-        const auto& points = patternRenderer->getPoints();
-
+        for (const auto& points = patternRenderer->getPoints();
+             const auto& point: points) {
+            constexpr double pointRadius = 0.25;
+            if (const double distance = sqrt(pow(point.x() - cursor.x(), 2) + pow(point.y() - cursor.y(), 2));
+                distance < pointRadius) {
+                cursorRenderer_->displayCursor({point.x(), point.y()});
+                return;
+            }
+        }
     }
+    cursorRenderer_->hideCursor();
 }
 
 void ChrysalisRenderer::render() {
@@ -154,6 +175,8 @@ void ChrysalisRenderer::render() {
 }
 
 void ChrysalisRenderer::synchronize(QQuickFramebufferObject* object) {
-    cursorRenderer_->upload();
+    bool shouldAnimate = false;
+    shouldAnimate |= cursorRenderer_->animate();
     cartesianRenderer_->upload();
+    if (shouldAnimate) object->update();
 }
