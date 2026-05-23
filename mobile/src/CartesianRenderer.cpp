@@ -2,9 +2,9 @@
 CartesianRenderer::CartesianRenderer(ChrysalisOpenGLProgram* program): program_(program) {}
 
 void CartesianRenderer::draw() {
-    program_->setColor(1.f, 1.f, 1.f, 1.f);
+    program_->setColor(22.0f / 255.0f, 26.0f / 255.0f, 29.0f / 255.0f, 0.05f);
     glDrawArrays(GL_LINES, 0, 4); // x and y axes
-    program_->setColor(1.f, 1.f, 1.f, 0.1f);
+    program_->setColor(22.0f / 255.0f, 26.0f / 255.0f, 29.0f / 255.0f, 0.05f);
     glDrawArrays(GL_LINES, 4, data_.size() - 4); // grid
 }
 

@@ -4,5 +4,6 @@
 .logs
 .build
 .conan
+.styles
 
 CMakeUserPresets.json

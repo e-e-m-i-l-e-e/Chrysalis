@@ -17,7 +17,11 @@ void Pattern::addPoint(const std::string& from, const std::string& to, const Spa
     space_->addPoint(from, to, direction, length->getValue());
 }
 
-void Pattern::nextPoint(const std::string& to, Space::Direction direction, const BaseArgument* length) const {
+void Pattern::nextPoint(const std::string& to, const BaseArgument* angle, const BaseArgument* length) const {
+    space_->nextPoint(to, angle->getValue(), length->getValue());
+}
+
+void Pattern::nextPoint(const std::string& to, const Space::Direction direction, const BaseArgument* length) const {
     space_->nextPoint(to, direction, length->getValue());
 }
 

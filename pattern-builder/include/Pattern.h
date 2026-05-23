@@ -15,6 +15,7 @@ namespace PB {
         void addPoint(const std::string& from, const std::string& to, const BaseArgument* angle, const BaseArgument* length) const;
         void addPoint(const std::string& from, const std::string& to, Space::Direction direction, const BaseArgument* length) const;
 
+        void nextPoint(const std::string& to, const BaseArgument* angle, const BaseArgument* length) const;
         void nextPoint(const std::string& to, Space::Direction direction, const BaseArgument* length) const;
 
         void sharePoint(const std::string& point, const Pattern* pattern) const;

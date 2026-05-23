@@ -1,6 +1,7 @@
 import QtQuick
 import PatternBuilder
-import QtQuick.Controls
+
+import style
 
 Window {
     width: 800
@@ -9,5 +10,9 @@ Window {
 
     PatternBuilderScene {
         anchors.fill: parent
+    }
+
+    Button {
+        text: "test"
     }
 }

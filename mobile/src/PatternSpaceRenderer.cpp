@@ -9,7 +9,7 @@ void PatternSpaceRenderer::initialize() {
 }
 
 void PatternSpaceRenderer::draw() {
-    program_->setColor(1.f, 0.f, 0.f, 1.f);
+    program_->setColor(50.f / 255.f, 59.f / 255.f, 66.f / 255.f, 1.f);
     for (const auto& [from, count]: spaceRendererData_->linesRanges()) {
         glDrawArrays(GL_LINE_STRIP, from, count);
     }

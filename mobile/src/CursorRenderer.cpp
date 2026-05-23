@@ -3,7 +3,7 @@
 CursorRenderer::CursorRenderer(ChrysalisOpenGLProgram* program): program_(program) {}
 
 void CursorRenderer::draw() {
-    program_->setColor(0.f, 1.f, 0.f, opacity_);
+    program_->setColor(1.f, 1.f, 1.f, opacity_);
     glDrawArrays(GL_LINES, 0, data_.size());
 }
 

@@ -1,4 +1,4 @@
-compilation_database_dir: ../.build/RelWithDebInfo
+compilation_database_dir: ../.build/Debug
 output_directory: diagrams
 remove_compile_flags:
   - /fp:strict
