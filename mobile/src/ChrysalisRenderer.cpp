@@ -59,6 +59,8 @@ ChrysalisRenderer::~ChrysalisRenderer() {
 }
 
 void ChrysalisRenderer::initialize() {
+    initializeOpenGLFunctions();
+
     using A = Argument;
     using BF = BinaryFunction;
     using VF = VectorFunction;

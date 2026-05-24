@@ -8,7 +8,7 @@
 #include "CursorRenderer.h"
 #include "PatternRenderer.h"
 
-class ChrysalisRenderer: public QQuickFramebufferObject::Renderer {
+class ChrysalisRenderer: public QQuickFramebufferObject::Renderer, QOpenGLFunctions {
 public:
     explicit ChrysalisRenderer(ChrysalisOpenGLProgram* program,
                                CursorRenderer* cursorRenderer,

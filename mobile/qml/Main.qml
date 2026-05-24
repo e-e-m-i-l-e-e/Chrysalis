@@ -1,6 +1,6 @@
 import QtQuick
+import FigmaStyle
 import PatternBuilder
-import style
 
 Window {
     width: 800

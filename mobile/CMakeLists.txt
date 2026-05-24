@@ -1,12 +1,13 @@
+find_package(Qt6 REQUIRED)
+
+qt_policy(SET QTP0001 NEW)
+qt_policy(SET QTP0004 NEW)
+
 set(QT_QML_GENERATE_AOTSTATS OFF)
 
-add_subdirectory(qml/style)
-
-find_package(Qt6 REQUIRED)
-find_package(OpenGL REQUIRED)
-
 qt_standard_project_setup()
-qt_policy(SET QTP0001 NEW)
+
+add_subdirectory(qml/FigmaStyle)
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/* ${CMAKE_CURRENT_SOURCE_DIR}/src/*)
 
@@ -14,9 +15,7 @@ qt_add_executable(PatternBuilderApp main.cpp ${SOURCES})
 qt_add_resources(PatternBuilderApp shaders PREFIX "/" FILES shaders/vertex.vert shaders/fragment.frag)
 qt_add_qml_module(PatternBuilderApp URI PatternBuilder VERSION 1.0 QML_FILES qml/Main.qml)
 target_include_directories(PatternBuilderApp PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(PatternBuilderApp PRIVATE Logger OpenGL::GL
-        Qt6::Core Qt6::Gui Qt6::Qml Qt6::Quick Qt6::OpenGL
-        Qt6::GuiPrivate Qt6::QuickControls2 PatternBuilder style)
+target_link_libraries(PatternBuilderApp PRIVATE Logger Qt6::Core Qt6::Gui Qt6::Qml Qt6::OpenGL PatternBuilder FigmaStyle)
 qt_import_qml_plugins(PatternBuilderApp)
 
 add_custom_command(TARGET PatternBuilderApp POST_BUILD

@@ -1,0 +1,112 @@
+import QtQuick
+import QtQuick.Controls.impl
+import QtQuick.Templates as T
+
+T.RangeSlider {
+    id: control
+
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                            first.implicitHandleWidth + leftPadding + rightPadding,
+                            second.implicitHandleWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
+                             first.implicitHandleHeight + topPadding + bottomPadding,
+                             second.implicitHandleHeight + topPadding + bottomPadding)
+
+    topPadding: horizontal ? __config.topPadding : __config.leftPadding || 0
+    leftPadding: horizontal ? __config.leftPadding : __config.bottomPadding || 0
+    rightPadding: horizontal ? __config.rightPadding : __config.topPadding || 0
+    bottomPadding: horizontal ? __config.bottomPadding : __config.rightPadding || 0
+
+    property string __controlState: [
+        !control.enabled && "disabled",
+        control.enabled && control.hovered && !(first.pressed || second.pressed) && "hovered",
+    ].filter(Boolean).join("_") || "normal"
+
+    readonly property var __config: Config.controls.rangeslider[__controlState] || {}
+
+    property string __firstHandleState: [
+        first.hovered && !first.pressed && "hovered",
+        first.pressed && "handle_pressed",
+    ].filter(Boolean).join("_") || "normal"
+    readonly property var __firstHandleConfig: Config.controls.rangeslider[__firstHandleState] || {}
+
+    property string __secondHandleState: [
+        second.hovered && !second.pressed && "hovered",
+        second.pressed && "handle_pressed",
+    ].filter(Boolean).join("_") || "normal"
+    readonly property var __secondHandleConfig: Config.controls.rangeslider[__secondHandleState] || {}
+
+    first.handle: StyleImage {
+        x: Math.round(control.leftPadding + (control.horizontal
+            ? control.first.visualPosition * (control.availableWidth - width)
+            : (control.availableWidth - width) / 2))
+        y: Math.round(control.topPadding + (control.horizontal
+            ? (control.availableHeight - height) / 2
+            : control.first.visualPosition * (control.availableHeight - height)))
+
+        imageConfig: control.__firstHandleConfig.first_handle
+    }
+
+    second.handle: StyleImage {
+        x: Math.round(control.leftPadding + (control.horizontal
+            ? control.second.visualPosition * (control.availableWidth - width)
+            : (control.availableWidth - width) / 2))
+        y: Math.round(control.topPadding + (control.horizontal
+            ? (control.availableHeight - height) / 2
+            : control.second.visualPosition * (control.availableHeight - height)))
+
+        imageConfig: control.__secondHandleConfig.second_handle
+    }
+
+    background: Item {
+        implicitWidth: control.horizontal
+            ? (_background.implicitWidth || _background.groove.implicitWidth)
+            : (_background.implicitHeight || _background.groove.implicitHeight)
+        implicitHeight: control.horizontal
+            ? (_background.implicitHeight || _background.groove.implicitHeight)
+            : (_background.implicitWidth || _background.groove.implicitWidth)
+
+        property Item _background: StyleImage {
+            parent: control.background
+            anchors.fill: parent
+            imageConfig: control.__config.background
+
+            property Item groove: StyleImage {
+                parent: control.background._background
+                x: control.leftPadding - control.leftInset + (control.horizontal
+                    ? control.first.handle.width / 2
+                    : (control.availableWidth - width) / 2)
+                y: control.topPadding - control.rightInset + (control.horizontal
+                    ? ((control.availableHeight - height) / 2)
+                    : control.first.handle.height / 2)
+
+                width: control.horizontal
+                    ? control.availableWidth
+                        - (control.first.handle.width / 2) - (control.second.handle.width / 2)
+                    : implicitWidth
+                height: control.horizontal
+                    ? implicitHeight
+                    : control.availableHeight
+                        - (control.first.handle.width / 2) - (control.second.handle.width / 2)
+                imageConfig: control.__config.groove
+                horizontal: control.horizontal
+
+                property Item track: StyleImage {
+                    parent: control.background._background.groove
+                    x: horizontal ? parent.width * control.first.position : 0
+                    y: horizontal ? 0 : parent.height - (parent.height * control.second.position)
+                    width: horizontal
+                        ? parent.width * (control.second.position - control.first.position)
+                        : parent.width
+                    height: horizontal
+                        ? parent.height
+                        : parent.height * (control.second.position - control.first.position)
+                    imageConfig: control.__config.track
+                    horizontal: control.horizontal
+                    minimumWidth: 0
+                    minimumHeight: 0
+                }
+            }
+        }
+    }
+}
