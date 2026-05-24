@@ -1,6 +1,5 @@
 import QtQuick
 import PatternBuilder
-
 import style
 
 Window {
@@ -13,6 +12,12 @@ Window {
     }
 
     Button {
+        id: button
         text: "test"
+    }
+
+    CheckBox {
+        checked: true
+        anchors.top: button.bottom
     }
 }

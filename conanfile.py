@@ -50,7 +50,7 @@ class FashionDesignAppsConan(ConanFile):
             self.options["qt/6.8.3"].with_md4c = False
             self.options["qt/6.8.3"].with_odbc = False
             self.options["qt/6.8.3"].with_brotli = False
-            self.options["qt/6.8.3"].with_libpng = False
+            # self.options["qt/6.8.3"].with_libpng = False
             self.options["qt/6.8.3"].with_sqlite3 = False
             self.options["qt/6.8.3"].qtdeclarative = True
             self.options["qt/6.8.3"].qtshadertools = True
