@@ -4,6 +4,7 @@
 		<file>BusyIndicator.qml</file>
 		<file>Button.qml</file>
 		<file>CheckBox.qml</file>
+		<file>CMakeLists.txt</file>
 		<file>ComboBox.qml</file>
 		<file>ComboBoxPopup.qml</file>
 		<file>Config.qml</file>

@@ -55,9 +55,18 @@ ApplicationWindow {
 
                         currentIndex: 0
 
-                        TabButton { text: "Construction" }
-                        TabButton { text: "Parameters" }
-                        TabButton { text: "Project" }
+                        TabButton {
+                            text: "Construction"
+                            width: implicitWidth
+                        }
+                        TabButton {
+                            text: "Parameters"
+                            width: implicitWidth
+                        }
+                        TabButton {
+                            text: "Project"
+                            width: implicitWidth
+                        }
                     }
 
                     StackLayout {
@@ -82,8 +91,14 @@ ApplicationWindow {
 
                                 currentIndex: 0
 
-                                TabButton { text: "Pattern 1" }
-                                TabButton { text: "Pattern 2" }
+                                TabButton {
+                                    text: "Pattern 1"
+                                    width: implicitWidth
+                                }
+                                TabButton {
+                                    text: "Pattern 2"
+                                    width: implicitWidth
+                                }
                             }
                             StackLayout {
                                 currentIndex: patternTab.currentIndex

@@ -171,8 +171,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17023;2356:10516;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label-checked"
@@ -241,8 +241,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17029;2356:10522;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label-checked-disabled"
@@ -311,8 +311,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17027;2356:10520;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label-checked-hovered"
@@ -381,8 +381,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17031;2356:10524;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label-checked-pressed"
@@ -451,8 +451,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17025;2356:10518;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label-disabled"
@@ -521,8 +521,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17019;2356:10512;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label-hovered"
@@ -591,8 +591,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17017;2356:10510;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label"
@@ -661,8 +661,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17021;2356:10514;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label-pressed"
@@ -699,8 +699,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4214
+                        readonly property real width: 81
+                        readonly property real x: 4214.5
                         readonly property real y: 2214
                     }
 
@@ -731,15 +731,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4224
+                        readonly property real x: 4224.5
                         readonly property real y: 2221
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17040;2829:5675;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-checked"
@@ -747,8 +747,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4250
+                        readonly property real width: 35
+                        readonly property real x: 4250.5
                         readonly property real y: 2219
                     }
 
@@ -773,8 +773,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4214
+                        readonly property real width: 81
+                        readonly property real x: 4214.5
                         readonly property real y: 2491
                     }
 
@@ -805,15 +805,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4224
+                        readonly property real x: 4224.5
                         readonly property real y: 2498
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17050;2427:12224;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-checked-disabled"
@@ -821,8 +821,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4250
+                        readonly property real width: 35
+                        readonly property real x: 4250.5
                         readonly property real y: 2496
                     }
 
@@ -847,8 +847,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4214
+                        readonly property real width: 81
+                        readonly property real x: 4214.5
                         readonly property real y: 2353
                     }
 
@@ -879,15 +879,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4224
+                        readonly property real x: 4224.5
                         readonly property real y: 2360
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17054;2829:5737;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-checked-hovered"
@@ -895,8 +895,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4250
+                        readonly property real width: 35
+                        readonly property real x: 4250.5
                         readonly property real y: 2358
                     }
 
@@ -921,8 +921,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4214
+                        readonly property real width: 81
+                        readonly property real x: 4214.5
                         readonly property real y: 2422
                     }
 
@@ -953,15 +953,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4224
+                        readonly property real x: 4224.5
                         readonly property real y: 2429
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17052;2425:12191;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-checked-pressed"
@@ -969,8 +969,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4250
+                        readonly property real width: 35
+                        readonly property real x: 4250.5
                         readonly property real y: 2427
                     }
 
@@ -995,8 +995,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4214
+                        readonly property real width: 81
+                        readonly property real x: 4214.5
                         readonly property real y: 2284
                     }
 
@@ -1027,15 +1027,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4224
+                        readonly property real x: 4224.5
                         readonly property real y: 2291
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17056;2829:5710;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-disabled"
@@ -1043,8 +1043,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4250
+                        readonly property real width: 35
+                        readonly property real x: 4250.5
                         readonly property real y: 2289
                     }
 
@@ -1069,8 +1069,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4214
+                        readonly property real width: 81
+                        readonly property real x: 4214.5
                         readonly property real y: 2766
                     }
 
@@ -1101,15 +1101,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4224
+                        readonly property real x: 4224.5
                         readonly property real y: 2773
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17048;2427:12263;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-disabled-partiallyChecked"
@@ -1117,8 +1117,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4250
+                        readonly property real width: 35
+                        readonly property real x: 4250.5
                         readonly property real y: 2771
                     }
 
@@ -1143,8 +1143,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4214
+                        readonly property real width: 81
+                        readonly property real x: 4214.5
                         readonly property real y: 2076
                     }
 
@@ -1175,15 +1175,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4224
+                        readonly property real x: 4224.5
                         readonly property real y: 2083
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17036;2829:5612;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-hovered"
@@ -1191,8 +1191,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4250
+                        readonly property real width: 35
+                        readonly property real x: 4250.5
                         readonly property real y: 2081
                     }
 
@@ -1217,8 +1217,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4214
+                        readonly property real width: 81
+                        readonly property real x: 4214.5
                         readonly property real y: 2629
                     }
 
@@ -1249,15 +1249,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4224
+                        readonly property real x: 4224.5
                         readonly property real y: 2636
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17044;2427:12244;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-hovered-partiallyChecked"
@@ -1265,8 +1265,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4250
+                        readonly property real width: 35
+                        readonly property real x: 4250.5
                         readonly property real y: 2634
                     }
 
@@ -1291,8 +1291,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4214
+                        readonly property real width: 81
+                        readonly property real x: 4214.5
                         readonly property real y: 2007
                     }
 
@@ -1323,15 +1323,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4224
+                        readonly property real x: 4224.5
                         readonly property real y: 2014
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17034;2829:5455;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label"
@@ -1339,8 +1339,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4250
+                        readonly property real width: 35
+                        readonly property real x: 4250.5
                         readonly property real y: 2012
                     }
 
@@ -1365,8 +1365,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4214
+                        readonly property real width: 81
+                        readonly property real x: 4214.5
                         readonly property real y: 2560
                     }
 
@@ -1397,15 +1397,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4224
+                        readonly property real x: 4224.5
                         readonly property real y: 2567
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17042;2427:12233;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-partiallyChecked"
@@ -1413,8 +1413,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4250
+                        readonly property real width: 35
+                        readonly property real x: 4250.5
                         readonly property real y: 2565
                     }
 
@@ -1439,8 +1439,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4214
+                        readonly property real width: 81
+                        readonly property real x: 4214.5
                         readonly property real y: 2698
                     }
 
@@ -1471,15 +1471,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4224
+                        readonly property real x: 4224.5
                         readonly property real y: 2705
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17046;2427:12254;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-partiallyChecked-pressed"
@@ -1487,8 +1487,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4250
+                        readonly property real width: 35
+                        readonly property real x: 4250.5
                         readonly property real y: 2703
                     }
 
@@ -1513,8 +1513,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4214
+                        readonly property real width: 81
+                        readonly property real x: 4214.5
                         readonly property real y: 2146
                     }
 
@@ -1545,15 +1545,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4224
+                        readonly property real x: 4224.5
                         readonly property real y: 2153
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17038;2829:5648;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-pressed"
@@ -1561,8 +1561,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4250
+                        readonly property real width: 35
+                        readonly property real x: 4250.5
                         readonly property real y: 2151
                     }
 
@@ -1591,8 +1591,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7751
+                        readonly property real width: 73
+                        readonly property real x: 7751.5
                         readonly property real y: 3145
                     }
 
@@ -1624,7 +1624,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7799
+                        readonly property real x: 7798.5
                         readonly property real y: 3152
                     }
 
@@ -1636,8 +1636,8 @@ QtObject {
                         readonly property string name: "combobox-label-disabled"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 3150
                     }
 
@@ -1655,8 +1655,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 3150
                     }
 
@@ -1673,8 +1673,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I2557:17071;2407:10440;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text-disabled"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -1702,8 +1702,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7751
+                        readonly property real width: 73
+                        readonly property real x: 7751.5
                         readonly property real y: 3212
                     }
 
@@ -1735,7 +1735,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7799
+                        readonly property real x: 7798.5
                         readonly property real y: 3219
                     }
 
@@ -1747,8 +1747,8 @@ QtObject {
                         readonly property string name: "combobox-label-focused"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 3217
                     }
 
@@ -1766,8 +1766,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 3217
                     }
 
@@ -1784,8 +1784,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4677:11470;4606:28948;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text-focused"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -1813,8 +1813,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7751
+                        readonly property real width: 73
+                        readonly property real x: 7751.5
                         readonly property real y: 2324
                     }
 
@@ -1846,7 +1846,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7799
+                        readonly property real x: 7798.5
                         readonly property real y: 2331
                     }
 
@@ -1858,8 +1858,8 @@ QtObject {
                         readonly property string name: "combobox-label-hovered"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 2329
                     }
 
@@ -1877,8 +1877,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 2329
                     }
 
@@ -1895,8 +1895,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I2557:17061;2397:10784;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text-hovered"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -1924,8 +1924,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7751
+                        readonly property real width: 73
+                        readonly property real x: 7751.5
                         readonly property real y: 2687
                     }
 
@@ -1957,7 +1957,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7799
+                        readonly property real x: 7798.5
                         readonly property real y: 2694
                     }
 
@@ -1969,8 +1969,8 @@ QtObject {
                         readonly property string name: "combobox-label-hovered-open"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 2692
                     }
 
@@ -1988,8 +1988,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 2692
                     }
 
@@ -2006,8 +2006,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I2557:17067;2407:10424;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text-hovered-open"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -2035,8 +2035,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7751
+                        readonly property real width: 73
+                        readonly property real x: 7751.5
                         readonly property real y: 2257
                     }
 
@@ -2068,7 +2068,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7799
+                        readonly property real x: 7798.5
                         readonly property real y: 2264
                     }
 
@@ -2080,8 +2080,8 @@ QtObject {
                         readonly property string name: "combobox-label"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 2262
                     }
 
@@ -2099,8 +2099,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 2262
                     }
 
@@ -2117,8 +2117,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I2557:17059;2397:10736;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -2146,8 +2146,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7751
+                        readonly property real width: 73
+                        readonly property real x: 7751.5
                         readonly property real y: 2458
                     }
 
@@ -2179,7 +2179,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7799
+                        readonly property real x: 7798.5
                         readonly property real y: 2465
                     }
 
@@ -2191,8 +2191,8 @@ QtObject {
                         readonly property string name: "combobox-label-open"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 2463
                     }
 
@@ -2210,8 +2210,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 2463
                     }
 
@@ -2228,8 +2228,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I2557:17065;2399:10706;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text-open"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -2257,8 +2257,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7751
+                        readonly property real width: 73
+                        readonly property real x: 7751.5
                         readonly property real y: 2913
                     }
 
@@ -2290,7 +2290,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7799
+                        readonly property real x: 7798.5
                         readonly property real y: 2920
                     }
 
@@ -2302,8 +2302,8 @@ QtObject {
                         readonly property string name: "combobox-label-open-pressed"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 2918
                     }
 
@@ -2321,8 +2321,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 2918
                     }
 
@@ -2339,8 +2339,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I2557:17069;2407:10432;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text-open-pressed"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -2368,8 +2368,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7751
+                        readonly property real width: 73
+                        readonly property real x: 7751.5
                         readonly property real y: 2391
                     }
 
@@ -2401,7 +2401,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7799
+                        readonly property real x: 7798.5
                         readonly property real y: 2398
                     }
 
@@ -2413,8 +2413,8 @@ QtObject {
                         readonly property string name: "combobox-label-pressed"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 2396
                     }
 
@@ -2432,8 +2432,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7761
+                        readonly property real width: 27
+                        readonly property real x: 7761.5
                         readonly property real y: 2396
                     }
 
@@ -2450,8 +2450,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I2557:17063;2397:10792;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text-pressed"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -2482,7 +2482,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 76
-                        readonly property real x: 7750
+                        readonly property real x: 7750.5
                         readonly property real y: 3183
                     }
 
@@ -2518,7 +2518,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 76
-                        readonly property real x: 7750
+                        readonly property real x: 7750.5
                         readonly property real y: 2362
                     }
 
@@ -2555,7 +2555,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
                         readonly property real width: 76
-                        readonly property real x: 7750
+                        readonly property real x: 7750.5
                         readonly property real y: 2725
                     }
 
@@ -2591,7 +2591,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 76
-                        readonly property real x: 7750
+                        readonly property real x: 7750.5
                         readonly property real y: 2295
                     }
 
@@ -2628,7 +2628,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
                         readonly property real width: 76
-                        readonly property real x: 7750
+                        readonly property real x: 7750.5
                         readonly property real y: 2496
                     }
 
@@ -2665,7 +2665,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
                         readonly property real width: 76
-                        readonly property real x: 7750
+                        readonly property real x: 7750.5
                         readonly property real y: 2951
                     }
 
@@ -2701,7 +2701,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 76
-                        readonly property real x: 7750
+                        readonly property real x: 7750.5
                         readonly property real y: 2429
                     }
 
@@ -2740,8 +2740,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8970
+                        readonly property real width: 73
+                        readonly property real x: 8970.5
                         readonly property real y: 2884
                     }
 
@@ -2773,7 +2773,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 9018
+                        readonly property real x: 9017.5
                         readonly property real y: 2891
                     }
 
@@ -2785,8 +2785,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label-disabled"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2889
                     }
 
@@ -2804,8 +2804,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2889
                     }
 
@@ -2822,8 +2822,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4435:9461;4610:29709;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text-disabled"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -2851,8 +2851,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8970
+                        readonly property real width: 73
+                        readonly property real x: 8970.5
                         readonly property real y: 2951
                     }
 
@@ -2884,7 +2884,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 9018
+                        readonly property real x: 9017.5
                         readonly property real y: 2958
                     }
 
@@ -2896,8 +2896,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label-focused"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2956
                     }
 
@@ -2915,8 +2915,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2956
                     }
 
@@ -2933,8 +2933,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4677:11669;4610:29759;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text-focused"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -2962,8 +2962,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8970
+                        readonly property real width: 73
+                        readonly property real x: 8970.5
                         readonly property real y: 2063
                     }
 
@@ -2995,7 +2995,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 9018
+                        readonly property real x: 9017.5
                         readonly property real y: 2070
                     }
 
@@ -3007,8 +3007,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label-hovered"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2068
                     }
 
@@ -3026,8 +3026,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2068
                     }
 
@@ -3044,8 +3044,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4435:9451;4610:29459;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text-hovered"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -3073,8 +3073,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8970
+                        readonly property real width: 73
+                        readonly property real x: 8970.5
                         readonly property real y: 2426
                     }
 
@@ -3106,7 +3106,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 9018
+                        readonly property real x: 9017.5
                         readonly property real y: 2433
                     }
 
@@ -3118,8 +3118,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label-hovered-open"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2431
                     }
 
@@ -3137,8 +3137,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2431
                     }
 
@@ -3155,8 +3155,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4435:9457;4610:29609;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text-hovered-open"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -3184,8 +3184,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8970
+                        readonly property real width: 73
+                        readonly property real x: 8970.5
                         readonly property real y: 1996
                     }
 
@@ -3217,7 +3217,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 9018
+                        readonly property real x: 9017.5
                         readonly property real y: 2003
                     }
 
@@ -3229,8 +3229,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2001
                     }
 
@@ -3248,8 +3248,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2001
                     }
 
@@ -3266,8 +3266,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4435:9449;4610:29409;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -3295,8 +3295,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8970
+                        readonly property real width: 73
+                        readonly property real x: 8970.5
                         readonly property real y: 2197
                     }
 
@@ -3328,7 +3328,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 9018
+                        readonly property real x: 9017.5
                         readonly property real y: 2204
                     }
 
@@ -3340,8 +3340,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label-open"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2202
                     }
 
@@ -3359,8 +3359,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2202
                     }
 
@@ -3377,8 +3377,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4435:9455;4610:29559;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text-open"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -3406,8 +3406,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8970
+                        readonly property real width: 73
+                        readonly property real x: 8970.5
                         readonly property real y: 2652
                     }
 
@@ -3439,7 +3439,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 9018
+                        readonly property real x: 9017.5
                         readonly property real y: 2659
                     }
 
@@ -3451,8 +3451,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label-open-pressed"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2657
                     }
 
@@ -3470,8 +3470,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2657
                     }
 
@@ -3488,8 +3488,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4435:9459;4610:29659;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text-open-pressed"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -3517,8 +3517,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8970
+                        readonly property real width: 73
+                        readonly property real x: 8970.5
                         readonly property real y: 2130
                     }
 
@@ -3550,7 +3550,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 9018
+                        readonly property real x: 9017.5
                         readonly property real y: 2137
                     }
 
@@ -3562,8 +3562,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label-pressed"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2135
                     }
 
@@ -3581,8 +3581,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8980
+                        readonly property real width: 27
+                        readonly property real x: 8980.5
                         readonly property real y: 2135
                     }
 
@@ -3599,8 +3599,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4435:9453;4610:29509;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text-pressed"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -3665,8 +3665,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9227;3987:9104;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label-checked"
@@ -3735,8 +3735,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9230;3987:9122;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label-checked-disabled"
@@ -3805,8 +3805,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9229;3987:9113;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label-checked-hovered"
@@ -3875,8 +3875,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9231;3987:9131;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label-checked-pressed"
@@ -3944,8 +3944,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9228;3987:9095;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label-disabled"
@@ -4014,8 +4014,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9225;3987:9077;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label-hovered"
@@ -4083,8 +4083,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9224;3987:9068;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label"
@@ -4153,8 +4153,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9226;3987:9086;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label-pressed"
@@ -4192,8 +4192,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 56
-                        readonly property real x: 11564
+                        readonly property real width: 55
+                        readonly property real x: 11564.5
                         readonly property real y: 2019
                     }
 
@@ -4213,8 +4213,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17105;2439:15806;2439:15788"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "frame-label-disabled"
@@ -4222,8 +4222,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 32
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 11574
+                        readonly property real width: 35
+                        readonly property real x: 11574.5
                         readonly property real y: 2024
                     }
 
@@ -4247,8 +4247,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 56
-                        readonly property real x: 11564
+                        readonly property real width: 55
+                        readonly property real x: 11564.5
                         readonly property real y: 1807
                     }
 
@@ -4268,8 +4268,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17103;2439:15801;2439:15788"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "frame-label"
@@ -4277,8 +4277,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 32
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 11574
+                        readonly property real width: 35
+                        readonly property real x: 11574.5
                         readonly property real y: 1812
                     }
 
@@ -4596,8 +4596,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17085;2319:9946;2411:10964"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "itemdelegate-label-disabled"
@@ -4651,8 +4651,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17087;2319:9952;2411:10964"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "itemdelegate-label-highlighted"
@@ -4706,8 +4706,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17089;2319:9958;2411:10964"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "itemdelegate-label-highlighted-hovered"
@@ -4761,8 +4761,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17091;2319:9970;2411:10964"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "itemdelegate-label-highlighted-pressed"
@@ -4816,8 +4816,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17081;2319:9922;2411:10964"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "itemdelegate-label-hovered"
@@ -4871,8 +4871,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17079;2319:9916;2411:10964"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "itemdelegate-label"
@@ -4926,8 +4926,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17083;2319:9934;2411:10964"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "itemdelegate-label-pressed"
@@ -5625,8 +5625,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16402
+                        readonly property real width: 81
+                        readonly property real x: 16402.5
                         readonly property real y: 1917.5
                     }
 
@@ -5657,15 +5657,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16412
+                        readonly property real x: 16412.5
                         readonly property real y: 1924.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17135;2483:15472;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label-checked"
@@ -5673,8 +5673,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16438
+                        readonly property real width: 35
+                        readonly property real x: 16438.5
                         readonly property real y: 1922.5
                     }
 
@@ -5699,8 +5699,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16402
+                        readonly property real width: 81
+                        readonly property real x: 16402.5
                         readonly property real y: 2195.5
                     }
 
@@ -5731,15 +5731,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16412
+                        readonly property real x: 16412.5
                         readonly property real y: 2202.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17141;2488:15512;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label-checked-disabled"
@@ -5747,8 +5747,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16438
+                        readonly property real width: 35
+                        readonly property real x: 16438.5
                         readonly property real y: 2200.5
                     }
 
@@ -5773,8 +5773,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16402
+                        readonly property real width: 81
+                        readonly property real x: 16402.5
                         readonly property real y: 2059.5
                     }
 
@@ -5805,15 +5805,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16412
+                        readonly property real x: 16412.5
                         readonly property real y: 2066.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17137;2483:15496;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label-checked-hovered"
@@ -5821,8 +5821,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16438
+                        readonly property real width: 35
+                        readonly property real x: 16438.5
                         readonly property real y: 2064.5
                     }
 
@@ -5847,8 +5847,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16402
+                        readonly property real width: 81
+                        readonly property real x: 16402.5
                         readonly property real y: 2126.5
                     }
 
@@ -5879,15 +5879,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16412
+                        readonly property real x: 16412.5
                         readonly property real y: 2133.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17139;2483:15504;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label-checked-pressed"
@@ -5895,8 +5895,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16438
+                        readonly property real width: 35
+                        readonly property real x: 16438.5
                         readonly property real y: 2131.5
                     }
 
@@ -5921,8 +5921,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16402
+                        readonly property real width: 81
+                        readonly property real x: 16402.5
                         readonly property real y: 1988.5
                     }
 
@@ -5953,15 +5953,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16412
+                        readonly property real x: 16412.5
                         readonly property real y: 1995.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17143;2483:15480;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label-disabled"
@@ -5969,8 +5969,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16438
+                        readonly property real width: 35
+                        readonly property real x: 16438.5
                         readonly property real y: 1993.5
                     }
 
@@ -5995,8 +5995,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16402
+                        readonly property real width: 81
+                        readonly property real x: 16402.5
                         readonly property real y: 1779.5
                     }
 
@@ -6027,15 +6027,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16412
+                        readonly property real x: 16412.5
                         readonly property real y: 1786.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17131;2473:12899;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label-hovered"
@@ -6043,8 +6043,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16438
+                        readonly property real width: 35
+                        readonly property real x: 16438.5
                         readonly property real y: 1784.5
                     }
 
@@ -6069,8 +6069,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16402
+                        readonly property real width: 81
+                        readonly property real x: 16402.5
                         readonly property real y: 1710.5
                     }
 
@@ -6101,15 +6101,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16412
+                        readonly property real x: 16412.5
                         readonly property real y: 1717.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17129;2473:12891;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label"
@@ -6117,8 +6117,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16438
+                        readonly property real width: 35
+                        readonly property real x: 16438.5
                         readonly property real y: 1715.5
                     }
 
@@ -6143,8 +6143,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16402
+                        readonly property real width: 81
+                        readonly property real x: 16402.5
                         readonly property real y: 1848.5
                     }
 
@@ -6175,15 +6175,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16412
+                        readonly property real x: 16412.5
                         readonly property real y: 1855.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17133;2474:12907;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label-pressed"
@@ -6191,8 +6191,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16438
+                        readonly property real width: 35
+                        readonly property real x: 16438.5
                         readonly property real y: 1853.5
                     }
 
@@ -6677,15 +6677,15 @@ QtObject {
                         readonly property string figmaId: "I2557:17167;2513:14093;2513:14075"
                         readonly property string filePath: "dark/images/roundbutton-background-checked.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background-checked"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18748
+                        readonly property real width: 89
+                        readonly property real x: 18748.5
                         readonly property real y: 2536.5
                     }
 
@@ -6711,15 +6711,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18758
+                        readonly property real x: 18758.5
                         readonly property real y: 2541.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17167;2513:14093;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label-checked"
@@ -6727,8 +6727,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18792
+                        readonly property real width: 35
+                        readonly property real x: 18792.5
                         readonly property real y: 2543.5
                     }
 
@@ -6747,15 +6747,15 @@ QtObject {
                         readonly property string figmaId: "I2557:17165;2513:14108;2513:14075"
                         readonly property string filePath: "dark/images/roundbutton-background-checked-disabled.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background-checked-disabled"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18748
+                        readonly property real width: 89
+                        readonly property real x: 18748.5
                         readonly property real y: 2737.5
                     }
 
@@ -6781,15 +6781,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18758
+                        readonly property real x: 18758.5
                         readonly property real y: 2742.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17165;2513:14108;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label-checked-disabled"
@@ -6797,8 +6797,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18792
+                        readonly property real width: 35
+                        readonly property real x: 18792.5
                         readonly property real y: 2744.5
                     }
 
@@ -6817,15 +6817,15 @@ QtObject {
                         readonly property string figmaId: "I2557:17161;2513:14103;2513:14075"
                         readonly property string filePath: "dark/images/roundbutton-background-checked-hovered.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background-checked-hovered"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18748
+                        readonly property real width: 89
+                        readonly property real x: 18748.5
                         readonly property real y: 2670.5
                     }
 
@@ -6851,15 +6851,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18758
+                        readonly property real x: 18758.5
                         readonly property real y: 2675.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17161;2513:14103;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label-checked-hovered"
@@ -6867,8 +6867,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18792
+                        readonly property real width: 35
+                        readonly property real x: 18792.5
                         readonly property real y: 2677.5
                     }
 
@@ -6887,15 +6887,15 @@ QtObject {
                         readonly property string figmaId: "I2557:17163;2513:14113;2513:14075"
                         readonly property string filePath: "dark/images/roundbutton-background-checked-pressed.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background-checked-pressed"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18748
+                        readonly property real width: 89
+                        readonly property real x: 18748.5
                         readonly property real y: 2804.5
                     }
 
@@ -6921,15 +6921,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18758
+                        readonly property real x: 18758.5
                         readonly property real y: 2809.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17163;2513:14113;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label-checked-pressed"
@@ -6937,8 +6937,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18792
+                        readonly property real width: 35
+                        readonly property real x: 18792.5
                         readonly property real y: 2811.5
                     }
 
@@ -6957,15 +6957,15 @@ QtObject {
                         readonly property string figmaId: "I2557:17169;2513:14098;2513:14075"
                         readonly property string filePath: "dark/images/roundbutton-background-disabled.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background-disabled"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18748
+                        readonly property real width: 89
+                        readonly property real x: 18748.5
                         readonly property real y: 2603.5
                     }
 
@@ -6991,15 +6991,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18758
+                        readonly property real x: 18758.5
                         readonly property real y: 2608.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17169;2513:14098;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label-disabled"
@@ -7007,8 +7007,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18792
+                        readonly property real width: 35
+                        readonly property real x: 18792.5
                         readonly property real y: 2610.5
                     }
 
@@ -7027,15 +7027,15 @@ QtObject {
                         readonly property string figmaId: "I2557:17157;2513:14083;2513:14075"
                         readonly property string filePath: "dark/images/roundbutton-background-hovered.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background-hovered"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18748
+                        readonly property real width: 89
+                        readonly property real x: 18748.5
                         readonly property real y: 2402.5
                     }
 
@@ -7061,15 +7061,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18758
+                        readonly property real x: 18758.5
                         readonly property real y: 2407.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17157;2513:14083;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label-hovered"
@@ -7077,8 +7077,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18792
+                        readonly property real width: 35
+                        readonly property real x: 18792.5
                         readonly property real y: 2409.5
                     }
 
@@ -7097,15 +7097,15 @@ QtObject {
                         readonly property string figmaId: "I2557:17155;2513:14078;2513:14075"
                         readonly property string filePath: "dark/images/roundbutton-background.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18748
+                        readonly property real width: 89
+                        readonly property real x: 18748.5
                         readonly property real y: 2335.5
                     }
 
@@ -7131,15 +7131,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18758
+                        readonly property real x: 18758.5
                         readonly property real y: 2340.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17155;2513:14078;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label"
@@ -7147,8 +7147,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18792
+                        readonly property real width: 35
+                        readonly property real x: 18792.5
                         readonly property real y: 2342.5
                     }
 
@@ -7167,15 +7167,15 @@ QtObject {
                         readonly property string figmaId: "I2557:17159;2513:14088;2513:14075"
                         readonly property string filePath: "dark/images/roundbutton-background-pressed.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background-pressed"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18748
+                        readonly property real width: 89
+                        readonly property real x: 18748.5
                         readonly property real y: 2469.5
                     }
 
@@ -7201,15 +7201,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18758
+                        readonly property real x: 18758.5
                         readonly property real y: 2474.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17159;2513:14088;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label-pressed"
@@ -7217,8 +7217,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18792
+                        readonly property real width: 35
+                        readonly property real x: 18792.5
                         readonly property real y: 2476.5
                     }
 
@@ -7924,8 +7924,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23886
+                        readonly property real width: 120
+                        readonly property real x: 23887
                         readonly property real y: 2810.5
                     }
 
@@ -7957,7 +7957,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23886
+                        readonly property real x: 23887
                         readonly property real y: 2810.5
                     }
 
@@ -7976,7 +7976,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23898
+                        readonly property real x: 23899
                         readonly property real y: 2817.5
                     }
 
@@ -7995,7 +7995,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23968
+                        readonly property real x: 23967
                         readonly property real y: 2810.5
                     }
 
@@ -8014,7 +8014,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23980
+                        readonly property real x: 23979
                         readonly property real y: 2817.5
                     }
 
@@ -8025,8 +8025,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17195;2766:9577;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput-atlimit"
@@ -8034,8 +8034,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23928
+                        readonly property real width: 36
+                        readonly property real x: 23929
                         readonly property real y: 2815.5
                     }
 
@@ -8057,8 +8057,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23886
+                        readonly property real width: 120
+                        readonly property real x: 23887
                         readonly property real y: 2475.5
                     }
 
@@ -8090,7 +8090,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23886
+                        readonly property real x: 23887
                         readonly property real y: 2475.5
                     }
 
@@ -8109,7 +8109,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23898
+                        readonly property real x: 23899
                         readonly property real y: 2482.5
                     }
 
@@ -8128,7 +8128,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23968
+                        readonly property real x: 23967
                         readonly property real y: 2475.5
                     }
 
@@ -8147,7 +8147,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23980
+                        readonly property real x: 23979
                         readonly property real y: 2482.5
                     }
 
@@ -8158,8 +8158,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17185;2766:9207;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput-disabled"
@@ -8167,8 +8167,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23928
+                        readonly property real width: 36
+                        readonly property real x: 23929
                         readonly property real y: 2480.5
                     }
 
@@ -8190,8 +8190,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23886
+                        readonly property real width: 120
+                        readonly property real x: 23887
                         readonly property real y: 2542.5
                     }
 
@@ -8223,7 +8223,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23886
+                        readonly property real x: 23887
                         readonly property real y: 2542.5
                     }
 
@@ -8242,7 +8242,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23898
+                        readonly property real x: 23899
                         readonly property real y: 2549.5
                     }
 
@@ -8261,7 +8261,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23968
+                        readonly property real x: 23967
                         readonly property real y: 2542.5
                     }
 
@@ -8280,7 +8280,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23980
+                        readonly property real x: 23979
                         readonly property real y: 2549.5
                     }
 
@@ -8291,8 +8291,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17187;2766:9281;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput-down-hovered"
@@ -8300,8 +8300,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23928
+                        readonly property real width: 36
+                        readonly property real x: 23929
                         readonly property real y: 2547.5
                     }
 
@@ -8323,8 +8323,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23886
+                        readonly property real width: 120
+                        readonly property real x: 23887
                         readonly property real y: 2609.5
                     }
 
@@ -8356,7 +8356,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23886
+                        readonly property real x: 23887
                         readonly property real y: 2609.5
                     }
 
@@ -8375,7 +8375,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23898
+                        readonly property real x: 23899
                         readonly property real y: 2616.5
                     }
 
@@ -8394,7 +8394,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23968
+                        readonly property real x: 23967
                         readonly property real y: 2609.5
                     }
 
@@ -8413,7 +8413,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23980
+                        readonly property real x: 23979
                         readonly property real y: 2616.5
                     }
 
@@ -8424,8 +8424,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17189;2766:9355;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput-down-pressed"
@@ -8433,8 +8433,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23928
+                        readonly property real width: 36
+                        readonly property real x: 23929
                         readonly property real y: 2614.5
                     }
 
@@ -8456,8 +8456,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23886
+                        readonly property real width: 120
+                        readonly property real x: 23887
                         readonly property real y: 2408.5
                     }
 
@@ -8489,7 +8489,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23886
+                        readonly property real x: 23887
                         readonly property real y: 2408.5
                     }
 
@@ -8508,7 +8508,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23898
+                        readonly property real x: 23899
                         readonly property real y: 2415.5
                     }
 
@@ -8527,7 +8527,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23968
+                        readonly property real x: 23967
                         readonly property real y: 2408.5
                     }
 
@@ -8546,7 +8546,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23980
+                        readonly property real x: 23979
                         readonly property real y: 2415.5
                     }
 
@@ -8557,8 +8557,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17183;2766:9133;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput-hovered"
@@ -8566,8 +8566,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23928
+                        readonly property real width: 36
+                        readonly property real x: 23929
                         readonly property real y: 2413.5
                     }
 
@@ -8589,8 +8589,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23886
+                        readonly property real width: 120
+                        readonly property real x: 23887
                         readonly property real y: 2341.5
                     }
 
@@ -8622,7 +8622,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23886
+                        readonly property real x: 23887
                         readonly property real y: 2341.5
                     }
 
@@ -8641,7 +8641,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23898
+                        readonly property real x: 23899
                         readonly property real y: 2348.5
                     }
 
@@ -8660,7 +8660,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23968
+                        readonly property real x: 23967
                         readonly property real y: 2341.5
                     }
 
@@ -8679,7 +8679,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23980
+                        readonly property real x: 23979
                         readonly property real y: 2348.5
                     }
 
@@ -8690,8 +8690,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17181;2766:9059;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput"
@@ -8699,8 +8699,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23928
+                        readonly property real width: 36
+                        readonly property real x: 23929
                         readonly property real y: 2346.5
                     }
 
@@ -8722,8 +8722,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23886
+                        readonly property real width: 120
+                        readonly property real x: 23887
                         readonly property real y: 2676.5
                     }
 
@@ -8755,7 +8755,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23886
+                        readonly property real x: 23887
                         readonly property real y: 2676.5
                     }
 
@@ -8774,7 +8774,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23898
+                        readonly property real x: 23899
                         readonly property real y: 2683.5
                     }
 
@@ -8793,7 +8793,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23968
+                        readonly property real x: 23967
                         readonly property real y: 2676.5
                     }
 
@@ -8812,7 +8812,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23980
+                        readonly property real x: 23979
                         readonly property real y: 2683.5
                     }
 
@@ -8823,8 +8823,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17191;2766:9429;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput-up-hovered"
@@ -8832,8 +8832,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23928
+                        readonly property real width: 36
+                        readonly property real x: 23929
                         readonly property real y: 2681.5
                     }
 
@@ -8855,8 +8855,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23886
+                        readonly property real width: 120
+                        readonly property real x: 23887
                         readonly property real y: 2743.5
                     }
 
@@ -8888,7 +8888,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23886
+                        readonly property real x: 23887
                         readonly property real y: 2743.5
                     }
 
@@ -8907,7 +8907,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23898
+                        readonly property real x: 23899
                         readonly property real y: 2750.5
                     }
 
@@ -8926,7 +8926,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23968
+                        readonly property real x: 23967
                         readonly property real y: 2743.5
                     }
 
@@ -8945,7 +8945,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23980
+                        readonly property real x: 23979
                         readonly property real y: 2750.5
                     }
 
@@ -8956,8 +8956,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17193;2766:9503;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput-up-pressed"
@@ -8965,8 +8965,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23928
+                        readonly property real width: 36
+                        readonly property real x: 23929
                         readonly property real y: 2748.5
                     }
 
@@ -9061,8 +9061,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17204;2531:14856;4350:34544"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "switch-label-checked"
@@ -9070,15 +9070,15 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 25175
+                        readonly property real width: 35
+                        readonly property real x: 25176
                         readonly property real y: 2457.5
                     }
 
                     readonly property real leftPadding: 10
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 10
-                    readonly property real spacing: 30
+                    readonly property real spacing: 31
                     readonly property real topPadding: 5
                 }
 
@@ -9167,8 +9167,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17208;2531:14878;4350:34544"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "switch-label-checked-hovered"
@@ -9176,15 +9176,15 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 25175
+                        readonly property real width: 35
+                        readonly property real x: 25176
                         readonly property real y: 2559.5
                     }
 
                     readonly property real leftPadding: 10
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 10
-                    readonly property real spacing: 30
+                    readonly property real spacing: 31
                     readonly property real topPadding: 5
                 }
 
@@ -9273,8 +9273,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17210;2531:14889;4350:34544"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "switch-label-checked-pressed"
@@ -9282,15 +9282,15 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 25175
+                        readonly property real width: 35
+                        readonly property real x: 25176
                         readonly property real y: 2610.5
                     }
 
                     readonly property real leftPadding: 10
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 10
-                    readonly property real spacing: 30
+                    readonly property real spacing: 31
                     readonly property real topPadding: 5
                 }
 
@@ -9377,8 +9377,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17206;2531:14867;2531:14800"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "switch-label-disabled"
@@ -9386,7 +9386,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
+                        readonly property real width: 35
                         readonly property real x: 25155
                         readonly property real y: 2508.5
                     }
@@ -9481,8 +9481,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17200;2531:14834;2531:14800"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "switch-label-hovered"
@@ -9490,7 +9490,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
+                        readonly property real width: 35
                         readonly property real x: 25155
                         readonly property real y: 2355.5
                     }
@@ -9585,8 +9585,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17198;2531:14823;2531:14800"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "switch-label"
@@ -9594,7 +9594,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
+                        readonly property real width: 35
                         readonly property real x: 25155
                         readonly property real y: 2298.5
                     }
@@ -9689,8 +9689,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17202;2531:14845;2531:14800"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "switch-label-pressed"
@@ -9698,7 +9698,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
+                        readonly property real width: 35
                         readonly property real x: 25155
                         readonly property real y: 2406.5
                     }
@@ -9728,8 +9728,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 294
-                        readonly property real x: 26516.5
+                        readonly property real width: 291
+                        readonly property real x: 26518
                         readonly property real y: 2101.5
                     }
 
@@ -9758,8 +9758,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton1-disabled"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26526.5
+                        readonly property real width: 89
+                        readonly property real x: 26528
                         readonly property real y: 2106.5
                     }
 
@@ -9771,8 +9771,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton2-disabled"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26618.5
+                        readonly property real width: 89
+                        readonly property real x: 26619
                         readonly property real y: 2106.5
                     }
 
@@ -9794,8 +9794,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 294
-                        readonly property real x: 26517
+                        readonly property real width: 291
+                        readonly property real x: 26518.5
                         readonly property real y: 2231.5
                     }
 
@@ -9824,8 +9824,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton1-disabled-footer"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26527
+                        readonly property real width: 89
+                        readonly property real x: 26528.5
                         readonly property real y: 2231.5
                     }
 
@@ -9837,8 +9837,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton2-disabled-footer"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26619
+                        readonly property real width: 89
+                        readonly property real x: 26619.5
                         readonly property real y: 2231.5
                     }
 
@@ -9860,8 +9860,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 294
-                        readonly property real x: 26517
+                        readonly property real width: 291
+                        readonly property real x: 26518.5
                         readonly property real y: 2030.5
                     }
 
@@ -9890,8 +9890,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton1"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26527
+                        readonly property real width: 89
+                        readonly property real x: 26528.5
                         readonly property real y: 2035.5
                     }
 
@@ -9903,8 +9903,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton2"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26619
+                        readonly property real width: 89
+                        readonly property real x: 26619.5
                         readonly property real y: 2035.5
                     }
 
@@ -9926,8 +9926,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 294
-                        readonly property real x: 26517
+                        readonly property real width: 291
+                        readonly property real x: 26518.5
                         readonly property real y: 2164.5
                     }
 
@@ -9956,8 +9956,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton1-normal-footer"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26527
+                        readonly property real width: 89
+                        readonly property real x: 26528.5
                         readonly property real y: 2164.5
                     }
 
@@ -9969,8 +9969,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton2-normal-footer"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26619
+                        readonly property real width: 89
+                        readonly property real x: 26619.5
                         readonly property real y: 2164.5
                     }
 
@@ -9995,8 +9995,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27564.5
+                        readonly property real width: 89
+                        readonly property real x: 27565
                         readonly property real y: 2284
                     }
 
@@ -10022,15 +10022,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27574.5
+                        readonly property real x: 27575
                         readonly property real y: 2289
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17257;2556:16919;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label-checked"
@@ -10038,8 +10038,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27608.5
+                        readonly property real width: 35
+                        readonly property real x: 27609
                         readonly property real y: 2291
                     }
 
@@ -10065,8 +10065,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27564.5
+                        readonly property real width: 89
+                        readonly property real x: 27565
                         readonly property real y: 2485
                     }
 
@@ -10092,15 +10092,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27574.5
+                        readonly property real x: 27575
                         readonly property real y: 2490
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17263;2556:16934;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label-checked-disabled"
@@ -10108,8 +10108,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27608.5
+                        readonly property real width: 35
+                        readonly property real x: 27609
                         readonly property real y: 2492
                     }
 
@@ -10135,8 +10135,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27564.5
+                        readonly property real width: 89
+                        readonly property real x: 27565
                         readonly property real y: 2418
                     }
 
@@ -10162,15 +10162,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27574.5
+                        readonly property real x: 27575
                         readonly property real y: 2423
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17261;2556:16929;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label-checked-hovered"
@@ -10178,8 +10178,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27608.5
+                        readonly property real width: 35
+                        readonly property real x: 27609
                         readonly property real y: 2425
                     }
 
@@ -10205,8 +10205,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27564.5
+                        readonly property real width: 89
+                        readonly property real x: 27565
                         readonly property real y: 2552
                     }
 
@@ -10232,15 +10232,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27574.5
+                        readonly property real x: 27575
                         readonly property real y: 2557
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17265;2556:16939;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label-checked-pressed"
@@ -10248,8 +10248,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27608.5
+                        readonly property real width: 35
+                        readonly property real x: 27609
                         readonly property real y: 2559
                     }
 
@@ -10275,8 +10275,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27564.5
+                        readonly property real width: 89
+                        readonly property real x: 27565
                         readonly property real y: 2355.24
                     }
 
@@ -10302,15 +10302,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27574.5
+                        readonly property real x: 27575
                         readonly property real y: 2360.24
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17259;2556:16924;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label-disabled"
@@ -10318,8 +10318,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27608.5
+                        readonly property real width: 35
+                        readonly property real x: 27609
                         readonly property real y: 2362.24
                     }
 
@@ -10345,8 +10345,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27564.5
+                        readonly property real width: 89
+                        readonly property real x: 27565
                         readonly property real y: 2142
                     }
 
@@ -10372,15 +10372,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27574.5
+                        readonly property real x: 27575
                         readonly property real y: 2147
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17253;2556:16909;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label-hovered"
@@ -10388,8 +10388,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27608.5
+                        readonly property real width: 35
+                        readonly property real x: 27609
                         readonly property real y: 2149
                     }
 
@@ -10415,8 +10415,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27564.5
+                        readonly property real width: 89
+                        readonly property real x: 27565
                         readonly property real y: 2083
                     }
 
@@ -10442,15 +10442,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27574.5
+                        readonly property real x: 27575
                         readonly property real y: 2088
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17251;2556:16904;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label"
@@ -10458,8 +10458,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27608.5
+                        readonly property real width: 35
+                        readonly property real x: 27609
                         readonly property real y: 2090
                     }
 
@@ -10485,8 +10485,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27564.5
+                        readonly property real width: 89
+                        readonly property real x: 27565
                         readonly property real y: 2217
                     }
 
@@ -10512,15 +10512,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27574.5
+                        readonly property real x: 27575
                         readonly property real y: 2222
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17255;2556:16914;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label-pressed"
@@ -10528,8 +10528,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27608.5
+                        readonly property real width: 35
+                        readonly property real x: 27609
                         readonly property real y: 2224
                     }
 
@@ -10557,8 +10557,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 30128
+                        readonly property real width: 179
+                        readonly property real x: 30134.5
                         readonly property real y: 2103
                     }
 
@@ -10578,8 +10578,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17226;2554:13608;2554:13582"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 40
                         readonly property real leftShadow: 0
                         readonly property string name: "textarea-label-disabled"
@@ -10587,8 +10587,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 32
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 30128
+                        readonly property real width: 179
+                        readonly property real x: 30134.5
                         readonly property real y: 2103
                     }
 
@@ -10611,8 +10611,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 30128
+                        readonly property real width: 179
+                        readonly property real x: 30134.5
                         readonly property real y: 2180
                     }
 
@@ -10632,8 +10632,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2654:6248;2654:5963;2554:13582"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 40
                         readonly property real leftShadow: 0
                         readonly property string name: "textarea-label-focused"
@@ -10641,8 +10641,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 32
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 30128
+                        readonly property real width: 179
+                        readonly property real x: 30134.5
                         readonly property real y: 2180
                     }
 
@@ -10665,8 +10665,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 30128
+                        readonly property real width: 179
+                        readonly property real x: 30134.5
                         readonly property real y: 2026
                     }
 
@@ -10686,8 +10686,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17224;2554:13603;2554:13582"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 40
                         readonly property real leftShadow: 0
                         readonly property string name: "textarea-label-hovered"
@@ -10695,8 +10695,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 32
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 30128
+                        readonly property real width: 179
+                        readonly property real x: 30134.5
                         readonly property real y: 2026
                     }
 
@@ -10719,8 +10719,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 30128
+                        readonly property real width: 179
+                        readonly property real x: 30134.5
                         readonly property real y: 1949
                     }
 
@@ -10740,8 +10740,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17222;2554:13588;2554:13582"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 40
                         readonly property real leftShadow: 0
                         readonly property string name: "textarea-label"
@@ -10749,8 +10749,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 32
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 30128
+                        readonly property real width: 179
+                        readonly property real x: 30134.5
                         readonly property real y: 1949
                     }
 
@@ -10798,8 +10798,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17219;2537:15922;2537:15892"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "textfield-label-disabled"
@@ -10807,7 +10807,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 28
+                        readonly property real width: 27
                         readonly property real x: 28843
                         readonly property real y: 2027.5
                     }
@@ -10853,8 +10853,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2644:5979;2644:5955;2537:15892"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "textfield-label-focused"
@@ -10862,7 +10862,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 28
+                        readonly property real width: 27
                         readonly property real x: 28843
                         readonly property real y: 2096.5
                     }
@@ -10908,8 +10908,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17217;2537:15917;2537:15892"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "textfield-label-hovered"
@@ -10917,7 +10917,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 28
+                        readonly property real width: 27
                         readonly property real x: 28843
                         readonly property real y: 1958.5
                     }
@@ -10963,8 +10963,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17215;2537:15912;2537:15892"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "textfield-label"
@@ -10972,7 +10972,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 28
+                        readonly property real width: 27
                         readonly property real x: 28843
                         readonly property real y: 1889.5
                     }
@@ -11301,8 +11301,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17283;2556:18709;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label-checked"
@@ -11310,15 +11310,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32556.5
+                        readonly property real width: 35
+                        readonly property real x: 32557.5
                         readonly property real y: 1776.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -11371,8 +11371,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17289;2556:18724;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label-checked-disabled"
@@ -11380,15 +11380,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32556.5
+                        readonly property real width: 35
+                        readonly property real x: 32557.5
                         readonly property real y: 1977.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -11441,8 +11441,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17287;2556:18719;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label-checked-hovered"
@@ -11450,15 +11450,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32556.5
+                        readonly property real width: 35
+                        readonly property real x: 32557.5
                         readonly property real y: 1910.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -11511,8 +11511,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17291;2556:18729;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label-checked-pressed"
@@ -11520,15 +11520,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32556.5
+                        readonly property real width: 35
+                        readonly property real x: 32557.5
                         readonly property real y: 2044.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -11581,8 +11581,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17285;2556:18714;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label-disabled"
@@ -11590,15 +11590,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32556.5
+                        readonly property real width: 35
+                        readonly property real x: 32557.5
                         readonly property real y: 1843.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -11651,8 +11651,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17279;2556:18699;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label-hovered"
@@ -11660,15 +11660,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32556.5
+                        readonly property real width: 35
+                        readonly property real x: 32557.5
                         readonly property real y: 1642.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -11721,8 +11721,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17277;2556:18694;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label"
@@ -11730,15 +11730,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32556.5
+                        readonly property real width: 35
+                        readonly property real x: 32557.5
                         readonly property real y: 1575.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -11791,8 +11791,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:17281;2556:18704;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label-pressed"
@@ -11800,15 +11800,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32556.5
+                        readonly property real width: 35
+                        readonly property real x: 32557.5
                         readonly property real y: 1709.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -11830,8 +11830,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 4
                         readonly property real topShadow: 3
-                        readonly property real width: 56
-                        readonly property real x: 34215
+                        readonly property real width: 55
+                        readonly property real x: 34215.5
                         readonly property real y: 1640
                     }
 
@@ -11851,8 +11851,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I4307:9765;3406:8836;3406:8827"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tooltip-label"
@@ -11860,8 +11860,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 34225
+                        readonly property real width: 35
+                        readonly property real x: 34225.5
                         readonly property real y: 1645
                     }
 
@@ -12041,8 +12041,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15399;2356:10516;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label-checked"
@@ -12111,8 +12111,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15405;2356:10522;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label-checked-disabled"
@@ -12181,8 +12181,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15403;2356:10520;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label-checked-hovered"
@@ -12251,8 +12251,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15407;2356:10524;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label-checked-pressed"
@@ -12321,8 +12321,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15401;2356:10518;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label-disabled"
@@ -12391,8 +12391,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15395;2356:10512;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label-hovered"
@@ -12461,8 +12461,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15393;2356:10510;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label"
@@ -12531,8 +12531,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15397;2356:10514;2248:10452"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "button-label-pressed"
@@ -12569,8 +12569,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4024
+                        readonly property real width: 81
+                        readonly property real x: 4024.5
                         readonly property real y: 2214
                     }
 
@@ -12601,15 +12601,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4034
+                        readonly property real x: 4034.5
                         readonly property real y: 2221
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15416;2829:5675;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-checked"
@@ -12617,8 +12617,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4060
+                        readonly property real width: 35
+                        readonly property real x: 4060.5
                         readonly property real y: 2219
                     }
 
@@ -12643,8 +12643,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4024
+                        readonly property real width: 81
+                        readonly property real x: 4024.5
                         readonly property real y: 2491
                     }
 
@@ -12675,15 +12675,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4034
+                        readonly property real x: 4034.5
                         readonly property real y: 2498
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15426;2427:12224;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-checked-disabled"
@@ -12691,8 +12691,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4060
+                        readonly property real width: 35
+                        readonly property real x: 4060.5
                         readonly property real y: 2496
                     }
 
@@ -12717,8 +12717,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4024
+                        readonly property real width: 81
+                        readonly property real x: 4024.5
                         readonly property real y: 2353
                     }
 
@@ -12749,15 +12749,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4034
+                        readonly property real x: 4034.5
                         readonly property real y: 2360
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15430;2829:5737;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-checked-hovered"
@@ -12765,8 +12765,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4060
+                        readonly property real width: 35
+                        readonly property real x: 4060.5
                         readonly property real y: 2358
                     }
 
@@ -12791,8 +12791,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4024
+                        readonly property real width: 81
+                        readonly property real x: 4024.5
                         readonly property real y: 2422
                     }
 
@@ -12823,15 +12823,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4034
+                        readonly property real x: 4034.5
                         readonly property real y: 2429
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15428;2425:12191;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-checked-pressed"
@@ -12839,8 +12839,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4060
+                        readonly property real width: 35
+                        readonly property real x: 4060.5
                         readonly property real y: 2427
                     }
 
@@ -12865,8 +12865,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4024
+                        readonly property real width: 81
+                        readonly property real x: 4024.5
                         readonly property real y: 2284
                     }
 
@@ -12897,15 +12897,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4034
+                        readonly property real x: 4034.5
                         readonly property real y: 2291
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15432;2829:5710;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-disabled"
@@ -12913,8 +12913,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4060
+                        readonly property real width: 35
+                        readonly property real x: 4060.5
                         readonly property real y: 2289
                     }
 
@@ -12939,8 +12939,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4024
+                        readonly property real width: 81
+                        readonly property real x: 4024.5
                         readonly property real y: 2766
                     }
 
@@ -12971,15 +12971,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4034
+                        readonly property real x: 4034.5
                         readonly property real y: 2773
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15424;2427:12263;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-disabled-partiallyChecked"
@@ -12987,8 +12987,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4060
+                        readonly property real width: 35
+                        readonly property real x: 4060.5
                         readonly property real y: 2771
                     }
 
@@ -13013,8 +13013,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4024
+                        readonly property real width: 81
+                        readonly property real x: 4024.5
                         readonly property real y: 2076
                     }
 
@@ -13045,15 +13045,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4034
+                        readonly property real x: 4034.5
                         readonly property real y: 2083
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15412;2829:5612;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-hovered"
@@ -13061,8 +13061,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4060
+                        readonly property real width: 35
+                        readonly property real x: 4060.5
                         readonly property real y: 2081
                     }
 
@@ -13087,8 +13087,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4024
+                        readonly property real width: 81
+                        readonly property real x: 4024.5
                         readonly property real y: 2629
                     }
 
@@ -13119,15 +13119,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4034
+                        readonly property real x: 4034.5
                         readonly property real y: 2636
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15420;2427:12244;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-hovered-partiallyChecked"
@@ -13135,8 +13135,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4060
+                        readonly property real width: 35
+                        readonly property real x: 4060.5
                         readonly property real y: 2634
                     }
 
@@ -13161,8 +13161,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4024
+                        readonly property real width: 81
+                        readonly property real x: 4024.5
                         readonly property real y: 2007
                     }
 
@@ -13193,15 +13193,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4034
+                        readonly property real x: 4034.5
                         readonly property real y: 2014
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15410;2829:5455;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label"
@@ -13209,8 +13209,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4060
+                        readonly property real width: 35
+                        readonly property real x: 4060.5
                         readonly property real y: 2012
                     }
 
@@ -13235,8 +13235,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4024
+                        readonly property real width: 81
+                        readonly property real x: 4024.5
                         readonly property real y: 2560
                     }
 
@@ -13267,15 +13267,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4034
+                        readonly property real x: 4034.5
                         readonly property real y: 2567
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15418;2427:12233;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-partiallyChecked"
@@ -13283,8 +13283,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4060
+                        readonly property real width: 35
+                        readonly property real x: 4060.5
                         readonly property real y: 2565
                     }
 
@@ -13309,8 +13309,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4024
+                        readonly property real width: 81
+                        readonly property real x: 4024.5
                         readonly property real y: 2698
                     }
 
@@ -13341,15 +13341,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4034
+                        readonly property real x: 4034.5
                         readonly property real y: 2705
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15422;2427:12254;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-partiallyChecked-pressed"
@@ -13357,8 +13357,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4060
+                        readonly property real width: 35
+                        readonly property real x: 4060.5
                         readonly property real y: 2703
                     }
 
@@ -13383,8 +13383,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 4024
+                        readonly property real width: 81
+                        readonly property real x: 4024.5
                         readonly property real y: 2146
                     }
 
@@ -13415,15 +13415,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 4034
+                        readonly property real x: 4034.5
                         readonly property real y: 2153
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15414;2829:5648;2425:10949"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "checkbox-label-pressed"
@@ -13431,8 +13431,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 4060
+                        readonly property real width: 35
+                        readonly property real x: 4060.5
                         readonly property real y: 2151
                     }
 
@@ -13461,8 +13461,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7531
+                        readonly property real width: 73
+                        readonly property real x: 7531.5
                         readonly property real y: 3145
                     }
 
@@ -13494,7 +13494,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7579
+                        readonly property real x: 7578.5
                         readonly property real y: 3152
                     }
 
@@ -13506,8 +13506,8 @@ QtObject {
                         readonly property string name: "combobox-label-disabled"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 3150
                     }
 
@@ -13525,8 +13525,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 3150
                     }
 
@@ -13543,8 +13543,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I2557:15447;2407:10440;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text-disabled"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -13572,8 +13572,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7531
+                        readonly property real width: 73
+                        readonly property real x: 7531.5
                         readonly property real y: 3212
                     }
 
@@ -13605,7 +13605,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7579
+                        readonly property real x: 7578.5
                         readonly property real y: 3219
                     }
 
@@ -13617,8 +13617,8 @@ QtObject {
                         readonly property string name: "combobox-label-focused"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 3217
                     }
 
@@ -13636,8 +13636,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 3217
                     }
 
@@ -13654,8 +13654,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4677:11371;4606:28948;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text-focused"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -13683,8 +13683,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7531
+                        readonly property real width: 73
+                        readonly property real x: 7531.5
                         readonly property real y: 2324
                     }
 
@@ -13716,7 +13716,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7579
+                        readonly property real x: 7578.5
                         readonly property real y: 2331
                     }
 
@@ -13728,8 +13728,8 @@ QtObject {
                         readonly property string name: "combobox-label-hovered"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 2329
                     }
 
@@ -13747,8 +13747,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 2329
                     }
 
@@ -13765,8 +13765,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I2557:15437;2397:10784;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text-hovered"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -13794,8 +13794,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7531
+                        readonly property real width: 73
+                        readonly property real x: 7531.5
                         readonly property real y: 2687
                     }
 
@@ -13827,7 +13827,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7579
+                        readonly property real x: 7578.5
                         readonly property real y: 2694
                     }
 
@@ -13839,8 +13839,8 @@ QtObject {
                         readonly property string name: "combobox-label-hovered-open"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 2692
                     }
 
@@ -13858,8 +13858,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 2692
                     }
 
@@ -13876,8 +13876,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I2557:15443;2407:10424;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text-hovered-open"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -13905,8 +13905,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7531
+                        readonly property real width: 73
+                        readonly property real x: 7531.5
                         readonly property real y: 2257
                     }
 
@@ -13938,7 +13938,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7579
+                        readonly property real x: 7578.5
                         readonly property real y: 2264
                     }
 
@@ -13950,8 +13950,8 @@ QtObject {
                         readonly property string name: "combobox-label"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 2262
                     }
 
@@ -13969,8 +13969,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 2262
                     }
 
@@ -13987,8 +13987,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I2557:15435;2397:10736;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -14016,8 +14016,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7531
+                        readonly property real width: 73
+                        readonly property real x: 7531.5
                         readonly property real y: 2458
                     }
 
@@ -14049,7 +14049,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7579
+                        readonly property real x: 7578.5
                         readonly property real y: 2465
                     }
 
@@ -14061,8 +14061,8 @@ QtObject {
                         readonly property string name: "combobox-label-open"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 2463
                     }
 
@@ -14080,8 +14080,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 2463
                     }
 
@@ -14098,8 +14098,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I2557:15441;2399:10706;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text-open"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -14127,8 +14127,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7531
+                        readonly property real width: 73
+                        readonly property real x: 7531.5
                         readonly property real y: 2913
                     }
 
@@ -14160,7 +14160,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7579
+                        readonly property real x: 7578.5
                         readonly property real y: 2920
                     }
 
@@ -14172,8 +14172,8 @@ QtObject {
                         readonly property string name: "combobox-label-open-pressed"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 2918
                     }
 
@@ -14191,8 +14191,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 2918
                     }
 
@@ -14209,8 +14209,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I2557:15445;2407:10432;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text-open-pressed"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -14238,8 +14238,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 7531
+                        readonly property real width: 73
+                        readonly property real x: 7531.5
                         readonly property real y: 2391
                     }
 
@@ -14271,7 +14271,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 7579
+                        readonly property real x: 7578.5
                         readonly property real y: 2398
                     }
 
@@ -14283,8 +14283,8 @@ QtObject {
                         readonly property string name: "combobox-label-pressed"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 2396
                     }
 
@@ -14302,8 +14302,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 7541
+                        readonly property real width: 27
+                        readonly property real x: 7541.5
                         readonly property real y: 2396
                     }
 
@@ -14320,8 +14320,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I2557:15439;2397:10792;4606:26776;4606:10837"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "combobox-label-text-pressed"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -14352,7 +14352,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 76
-                        readonly property real x: 7530
+                        readonly property real x: 7530.5
                         readonly property real y: 3183
                     }
 
@@ -14388,7 +14388,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 76
-                        readonly property real x: 7530
+                        readonly property real x: 7530.5
                         readonly property real y: 2362
                     }
 
@@ -14425,7 +14425,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
                         readonly property real width: 76
-                        readonly property real x: 7530
+                        readonly property real x: 7530.5
                         readonly property real y: 2725
                     }
 
@@ -14461,7 +14461,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 76
-                        readonly property real x: 7530
+                        readonly property real x: 7530.5
                         readonly property real y: 2295
                     }
 
@@ -14498,7 +14498,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
                         readonly property real width: 76
-                        readonly property real x: 7530
+                        readonly property real x: 7530.5
                         readonly property real y: 2496
                     }
 
@@ -14535,7 +14535,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
                         readonly property real width: 76
-                        readonly property real x: 7530
+                        readonly property real x: 7530.5
                         readonly property real y: 2951
                     }
 
@@ -14571,7 +14571,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 76
-                        readonly property real x: 7530
+                        readonly property real x: 7530.5
                         readonly property real y: 2429
                     }
 
@@ -14610,8 +14610,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8750
+                        readonly property real width: 73
+                        readonly property real x: 8750.5
                         readonly property real y: 2884
                     }
 
@@ -14643,7 +14643,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 8798
+                        readonly property real x: 8797.5
                         readonly property real y: 2891
                     }
 
@@ -14655,8 +14655,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label-disabled"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2889
                     }
 
@@ -14674,8 +14674,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2889
                     }
 
@@ -14692,8 +14692,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4435:9446;4610:29709;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text-disabled"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -14721,8 +14721,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8750
+                        readonly property real width: 73
+                        readonly property real x: 8750.5
                         readonly property real y: 2951
                     }
 
@@ -14754,7 +14754,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 8798
+                        readonly property real x: 8797.5
                         readonly property real y: 2958
                     }
 
@@ -14766,8 +14766,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label-focused"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2956
                     }
 
@@ -14785,8 +14785,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2956
                     }
 
@@ -14803,8 +14803,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4677:11569;4610:29759;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text-focused"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -14832,8 +14832,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8750
+                        readonly property real width: 73
+                        readonly property real x: 8750.5
                         readonly property real y: 2063
                     }
 
@@ -14865,7 +14865,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 8798
+                        readonly property real x: 8797.5
                         readonly property real y: 2070
                     }
 
@@ -14877,8 +14877,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label-hovered"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2068
                     }
 
@@ -14896,8 +14896,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2068
                     }
 
@@ -14914,8 +14914,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4435:9436;4610:29459;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text-hovered"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -14943,8 +14943,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8750
+                        readonly property real width: 73
+                        readonly property real x: 8750.5
                         readonly property real y: 2426
                     }
 
@@ -14976,7 +14976,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 8798
+                        readonly property real x: 8797.5
                         readonly property real y: 2433
                     }
 
@@ -14988,8 +14988,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label-hovered-open"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2431
                     }
 
@@ -15007,8 +15007,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2431
                     }
 
@@ -15025,8 +15025,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4435:9442;4610:29609;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text-hovered-open"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -15054,8 +15054,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8750
+                        readonly property real width: 73
+                        readonly property real x: 8750.5
                         readonly property real y: 1996
                     }
 
@@ -15087,7 +15087,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 8798
+                        readonly property real x: 8797.5
                         readonly property real y: 2003
                     }
 
@@ -15099,8 +15099,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2001
                     }
 
@@ -15118,8 +15118,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2001
                     }
 
@@ -15136,8 +15136,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4435:9434;4610:29409;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -15165,8 +15165,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8750
+                        readonly property real width: 73
+                        readonly property real x: 8750.5
                         readonly property real y: 2197
                     }
 
@@ -15198,7 +15198,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 8798
+                        readonly property real x: 8797.5
                         readonly property real y: 2204
                     }
 
@@ -15210,8 +15210,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label-open"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2202
                     }
 
@@ -15229,8 +15229,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2202
                     }
 
@@ -15247,8 +15247,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4435:9440;4610:29559;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text-open"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -15276,8 +15276,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8750
+                        readonly property real width: 73
+                        readonly property real x: 8750.5
                         readonly property real y: 2652
                     }
 
@@ -15309,7 +15309,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 8798
+                        readonly property real x: 8797.5
                         readonly property real y: 2659
                     }
 
@@ -15321,8 +15321,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label-open-pressed"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2657
                     }
 
@@ -15340,8 +15340,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2657
                     }
 
@@ -15358,8 +15358,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4435:9444;4610:29659;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text-open-pressed"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -15387,8 +15387,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 74
-                        readonly property real x: 8750
+                        readonly property real width: 73
+                        readonly property real x: 8750.5
                         readonly property real y: 2130
                     }
 
@@ -15420,7 +15420,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 8798
+                        readonly property real x: 8797.5
                         readonly property real y: 2137
                     }
 
@@ -15432,8 +15432,8 @@ QtObject {
                         readonly property string name: "editablecombobox-label-pressed"
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2135
                     }
 
@@ -15451,8 +15451,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 4
                         readonly property real topShadow: 0
-                        readonly property real width: 28
-                        readonly property real x: 8760
+                        readonly property real width: 27
+                        readonly property real x: 8760.5
                         readonly property real y: 2135
                     }
 
@@ -15469,8 +15469,8 @@ QtObject {
 
                     readonly property QtObject label_text: QtObject {
                         readonly property string figmaId: "I4435:9438;4610:29509;4435:10776;4435:10690"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property string name: "editablecombobox-label-text-pressed"
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
@@ -15535,8 +15535,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9165;3987:9104;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label-checked"
@@ -15605,8 +15605,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9168;3987:9122;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label-checked-disabled"
@@ -15675,8 +15675,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9167;3987:9113;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label-checked-hovered"
@@ -15745,8 +15745,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9169;3987:9131;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label-checked-pressed"
@@ -15814,8 +15814,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9166;3987:9095;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label-disabled"
@@ -15884,8 +15884,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9163;3987:9077;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label-hovered"
@@ -15953,8 +15953,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9162;3987:9068;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label"
@@ -16023,8 +16023,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3991:9164;3987:9086;3987:9039"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 24
                         readonly property real leftShadow: 0
                         readonly property string name: "flatbutton-label-pressed"
@@ -16062,8 +16062,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 56
-                        readonly property real x: 11284
+                        readonly property real width: 55
+                        readonly property real x: 11284.5
                         readonly property real y: 2019
                     }
 
@@ -16083,8 +16083,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15481;2439:15806;2439:15788"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "frame-label-disabled"
@@ -16092,8 +16092,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 32
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 11294
+                        readonly property real width: 35
+                        readonly property real x: 11294.5
                         readonly property real y: 2024
                     }
 
@@ -16117,8 +16117,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 1
                         readonly property real topShadow: 3
-                        readonly property real width: 56
-                        readonly property real x: 11284
+                        readonly property real width: 55
+                        readonly property real x: 11284.5
                         readonly property real y: 1807
                     }
 
@@ -16138,8 +16138,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15479;2439:15801;2439:15788"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "frame-label"
@@ -16147,8 +16147,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 32
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 11294
+                        readonly property real width: 35
+                        readonly property real x: 11294.5
                         readonly property real y: 1812
                     }
 
@@ -16466,8 +16466,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15461;2319:9946;2411:10964"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "itemdelegate-label-disabled"
@@ -16521,8 +16521,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15463;2319:9952;2411:10964"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "itemdelegate-label-highlighted"
@@ -16576,8 +16576,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15465;2319:9958;2411:10964"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "itemdelegate-label-highlighted-hovered"
@@ -16631,8 +16631,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15467;2319:9970;2411:10964"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "itemdelegate-label-highlighted-pressed"
@@ -16686,8 +16686,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15457;2319:9922;2411:10964"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "itemdelegate-label-hovered"
@@ -16741,8 +16741,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15455;2319:9916;2411:10964"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "itemdelegate-label"
@@ -16796,8 +16796,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15459;2319:9934;2411:10964"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "itemdelegate-label-pressed"
@@ -17495,8 +17495,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16212
+                        readonly property real width: 81
+                        readonly property real x: 16212.5
                         readonly property real y: 1917.5
                     }
 
@@ -17527,15 +17527,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16222
+                        readonly property real x: 16222.5
                         readonly property real y: 1924.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15511;2483:15472;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label-checked"
@@ -17543,8 +17543,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16248
+                        readonly property real width: 35
+                        readonly property real x: 16248.5
                         readonly property real y: 1922.5
                     }
 
@@ -17569,8 +17569,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16212
+                        readonly property real width: 81
+                        readonly property real x: 16212.5
                         readonly property real y: 2195.5
                     }
 
@@ -17601,15 +17601,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16222
+                        readonly property real x: 16222.5
                         readonly property real y: 2202.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15517;2488:15512;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label-checked-disabled"
@@ -17617,8 +17617,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16248
+                        readonly property real width: 35
+                        readonly property real x: 16248.5
                         readonly property real y: 2200.5
                     }
 
@@ -17643,8 +17643,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16212
+                        readonly property real width: 81
+                        readonly property real x: 16212.5
                         readonly property real y: 2059.5
                     }
 
@@ -17675,15 +17675,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16222
+                        readonly property real x: 16222.5
                         readonly property real y: 2066.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15513;2483:15496;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label-checked-hovered"
@@ -17691,8 +17691,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16248
+                        readonly property real width: 35
+                        readonly property real x: 16248.5
                         readonly property real y: 2064.5
                     }
 
@@ -17717,8 +17717,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16212
+                        readonly property real width: 81
+                        readonly property real x: 16212.5
                         readonly property real y: 2126.5
                     }
 
@@ -17749,15 +17749,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16222
+                        readonly property real x: 16222.5
                         readonly property real y: 2133.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15515;2483:15504;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label-checked-pressed"
@@ -17765,8 +17765,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16248
+                        readonly property real width: 35
+                        readonly property real x: 16248.5
                         readonly property real y: 2131.5
                     }
 
@@ -17791,8 +17791,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16212
+                        readonly property real width: 81
+                        readonly property real x: 16212.5
                         readonly property real y: 1988.5
                     }
 
@@ -17823,15 +17823,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16222
+                        readonly property real x: 16222.5
                         readonly property real y: 1995.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15519;2483:15480;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label-disabled"
@@ -17839,8 +17839,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16248
+                        readonly property real width: 35
+                        readonly property real x: 16248.5
                         readonly property real y: 1993.5
                     }
 
@@ -17865,8 +17865,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16212
+                        readonly property real width: 81
+                        readonly property real x: 16212.5
                         readonly property real y: 1779.5
                     }
 
@@ -17897,15 +17897,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16222
+                        readonly property real x: 16222.5
                         readonly property real y: 1786.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15507;2473:12899;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label-hovered"
@@ -17913,8 +17913,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16248
+                        readonly property real width: 35
+                        readonly property real x: 16248.5
                         readonly property real y: 1784.5
                     }
 
@@ -17939,8 +17939,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16212
+                        readonly property real width: 81
+                        readonly property real x: 16212.5
                         readonly property real y: 1710.5
                     }
 
@@ -17971,15 +17971,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16222
+                        readonly property real x: 16222.5
                         readonly property real y: 1717.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15505;2473:12891;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label"
@@ -17987,8 +17987,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16248
+                        readonly property real width: 35
+                        readonly property real x: 16248.5
                         readonly property real y: 1715.5
                     }
 
@@ -18013,8 +18013,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 82
-                        readonly property real x: 16212
+                        readonly property real width: 81
+                        readonly property real x: 16212.5
                         readonly property real y: 1848.5
                     }
 
@@ -18045,15 +18045,15 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 16222
+                        readonly property real x: 16222.5
                         readonly property real y: 1855.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15509;2474:12907;2472:12579"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "radiobutton-label-pressed"
@@ -18061,8 +18061,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 16248
+                        readonly property real width: 35
+                        readonly property real x: 16248.5
                         readonly property real y: 1853.5
                     }
 
@@ -18547,15 +18547,15 @@ QtObject {
                         readonly property string figmaId: "I2557:15543;2513:14093;2513:14075"
                         readonly property string filePath: "light/images/roundbutton-background-checked.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background-checked"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18654
+                        readonly property real width: 89
+                        readonly property real x: 18654.5
                         readonly property real y: 2536.5
                     }
 
@@ -18581,15 +18581,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18664
+                        readonly property real x: 18664.5
                         readonly property real y: 2541.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15543;2513:14093;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label-checked"
@@ -18597,8 +18597,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18698
+                        readonly property real width: 35
+                        readonly property real x: 18698.5
                         readonly property real y: 2543.5
                     }
 
@@ -18617,15 +18617,15 @@ QtObject {
                         readonly property string figmaId: "I2557:15541;2513:14108;2513:14075"
                         readonly property string filePath: "light/images/roundbutton-background-checked-disabled.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background-checked-disabled"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18654
+                        readonly property real width: 89
+                        readonly property real x: 18654.5
                         readonly property real y: 2737.5
                     }
 
@@ -18651,15 +18651,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18664
+                        readonly property real x: 18664.5
                         readonly property real y: 2742.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15541;2513:14108;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label-checked-disabled"
@@ -18667,8 +18667,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18698
+                        readonly property real width: 35
+                        readonly property real x: 18698.5
                         readonly property real y: 2744.5
                     }
 
@@ -18687,15 +18687,15 @@ QtObject {
                         readonly property string figmaId: "I2557:15537;2513:14103;2513:14075"
                         readonly property string filePath: "light/images/roundbutton-background-checked-hovered.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background-checked-hovered"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18654
+                        readonly property real width: 89
+                        readonly property real x: 18654.5
                         readonly property real y: 2670.5
                     }
 
@@ -18721,15 +18721,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18664
+                        readonly property real x: 18664.5
                         readonly property real y: 2675.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15537;2513:14103;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label-checked-hovered"
@@ -18737,8 +18737,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18698
+                        readonly property real width: 35
+                        readonly property real x: 18698.5
                         readonly property real y: 2677.5
                     }
 
@@ -18757,15 +18757,15 @@ QtObject {
                         readonly property string figmaId: "I2557:15539;2513:14113;2513:14075"
                         readonly property string filePath: "light/images/roundbutton-background-checked-pressed.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background-checked-pressed"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18654
+                        readonly property real width: 89
+                        readonly property real x: 18654.5
                         readonly property real y: 2804.5
                     }
 
@@ -18791,15 +18791,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18664
+                        readonly property real x: 18664.5
                         readonly property real y: 2809.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15539;2513:14113;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label-checked-pressed"
@@ -18807,8 +18807,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18698
+                        readonly property real width: 35
+                        readonly property real x: 18698.5
                         readonly property real y: 2811.5
                     }
 
@@ -18827,15 +18827,15 @@ QtObject {
                         readonly property string figmaId: "I2557:15545;2513:14098;2513:14075"
                         readonly property string filePath: "light/images/roundbutton-background-disabled.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background-disabled"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18654
+                        readonly property real width: 89
+                        readonly property real x: 18654.5
                         readonly property real y: 2603.5
                     }
 
@@ -18861,15 +18861,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18664
+                        readonly property real x: 18664.5
                         readonly property real y: 2608.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15545;2513:14098;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label-disabled"
@@ -18877,8 +18877,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18698
+                        readonly property real width: 35
+                        readonly property real x: 18698.5
                         readonly property real y: 2610.5
                     }
 
@@ -18897,15 +18897,15 @@ QtObject {
                         readonly property string figmaId: "I2557:15533;2513:14083;2513:14075"
                         readonly property string filePath: "light/images/roundbutton-background-hovered.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background-hovered"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18654
+                        readonly property real width: 89
+                        readonly property real x: 18654.5
                         readonly property real y: 2402.5
                     }
 
@@ -18931,15 +18931,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18664
+                        readonly property real x: 18664.5
                         readonly property real y: 2407.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15533;2513:14083;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label-hovered"
@@ -18947,8 +18947,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18698
+                        readonly property real width: 35
+                        readonly property real x: 18698.5
                         readonly property real y: 2409.5
                     }
 
@@ -18967,15 +18967,15 @@ QtObject {
                         readonly property string figmaId: "I2557:15531;2513:14078;2513:14075"
                         readonly property string filePath: "light/images/roundbutton-background.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18654
+                        readonly property real width: 89
+                        readonly property real x: 18654.5
                         readonly property real y: 2335.5
                     }
 
@@ -19001,15 +19001,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18664
+                        readonly property real x: 18664.5
                         readonly property real y: 2340.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15531;2513:14078;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label"
@@ -19017,8 +19017,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18698
+                        readonly property real width: 35
+                        readonly property real x: 18698.5
                         readonly property real y: 2342.5
                     }
 
@@ -19037,15 +19037,15 @@ QtObject {
                         readonly property string figmaId: "I2557:15535;2513:14088;2513:14075"
                         readonly property string filePath: "light/images/roundbutton-background-pressed.png"
                         readonly property real height: 34
-                        readonly property real leftOffset: 45
+                        readonly property real leftOffset: 44
                         readonly property real leftShadow: 3
                         readonly property string name: "roundbutton-background-pressed"
                         readonly property real rightOffset: 44
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 17
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 18654
+                        readonly property real width: 89
+                        readonly property real x: 18654.5
                         readonly property real y: 2469.5
                     }
 
@@ -19071,15 +19071,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 18664
+                        readonly property real x: 18664.5
                         readonly property real y: 2474.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15535;2513:14088;2513:14073"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "roundbutton-label-pressed"
@@ -19087,8 +19087,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 18698
+                        readonly property real width: 35
+                        readonly property real x: 18698.5
                         readonly property real y: 2476.5
                     }
 
@@ -19794,8 +19794,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23676
+                        readonly property real width: 120
+                        readonly property real x: 23677
                         readonly property real y: 2810.5
                     }
 
@@ -19827,7 +19827,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23676
+                        readonly property real x: 23677
                         readonly property real y: 2810.5
                     }
 
@@ -19846,7 +19846,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23688
+                        readonly property real x: 23689
                         readonly property real y: 2817.5
                     }
 
@@ -19865,7 +19865,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23758
+                        readonly property real x: 23757
                         readonly property real y: 2810.5
                     }
 
@@ -19884,7 +19884,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23770
+                        readonly property real x: 23769
                         readonly property real y: 2817.5
                     }
 
@@ -19895,8 +19895,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15571;2766:9577;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput-atlimit"
@@ -19904,8 +19904,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23718
+                        readonly property real width: 36
+                        readonly property real x: 23719
                         readonly property real y: 2815.5
                     }
 
@@ -19927,8 +19927,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23676
+                        readonly property real width: 120
+                        readonly property real x: 23677
                         readonly property real y: 2475.5
                     }
 
@@ -19960,7 +19960,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23676
+                        readonly property real x: 23677
                         readonly property real y: 2475.5
                     }
 
@@ -19979,7 +19979,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23688
+                        readonly property real x: 23689
                         readonly property real y: 2482.5
                     }
 
@@ -19998,7 +19998,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23758
+                        readonly property real x: 23757
                         readonly property real y: 2475.5
                     }
 
@@ -20017,7 +20017,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23770
+                        readonly property real x: 23769
                         readonly property real y: 2482.5
                     }
 
@@ -20028,8 +20028,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15561;2766:9207;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput-disabled"
@@ -20037,8 +20037,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23718
+                        readonly property real width: 36
+                        readonly property real x: 23719
                         readonly property real y: 2480.5
                     }
 
@@ -20060,8 +20060,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23676
+                        readonly property real width: 120
+                        readonly property real x: 23677
                         readonly property real y: 2542.5
                     }
 
@@ -20093,7 +20093,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23676
+                        readonly property real x: 23677
                         readonly property real y: 2542.5
                     }
 
@@ -20112,7 +20112,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23688
+                        readonly property real x: 23689
                         readonly property real y: 2549.5
                     }
 
@@ -20131,7 +20131,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23758
+                        readonly property real x: 23757
                         readonly property real y: 2542.5
                     }
 
@@ -20150,7 +20150,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23770
+                        readonly property real x: 23769
                         readonly property real y: 2549.5
                     }
 
@@ -20161,8 +20161,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15563;2766:9281;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput-down-hovered"
@@ -20170,8 +20170,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23718
+                        readonly property real width: 36
+                        readonly property real x: 23719
                         readonly property real y: 2547.5
                     }
 
@@ -20193,8 +20193,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23676
+                        readonly property real width: 120
+                        readonly property real x: 23677
                         readonly property real y: 2609.5
                     }
 
@@ -20226,7 +20226,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23676
+                        readonly property real x: 23677
                         readonly property real y: 2609.5
                     }
 
@@ -20245,7 +20245,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23688
+                        readonly property real x: 23689
                         readonly property real y: 2616.5
                     }
 
@@ -20264,7 +20264,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23758
+                        readonly property real x: 23757
                         readonly property real y: 2609.5
                     }
 
@@ -20283,7 +20283,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23770
+                        readonly property real x: 23769
                         readonly property real y: 2616.5
                     }
 
@@ -20294,8 +20294,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15565;2766:9355;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput-down-pressed"
@@ -20303,8 +20303,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23718
+                        readonly property real width: 36
+                        readonly property real x: 23719
                         readonly property real y: 2614.5
                     }
 
@@ -20326,8 +20326,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23676
+                        readonly property real width: 120
+                        readonly property real x: 23677
                         readonly property real y: 2408.5
                     }
 
@@ -20359,7 +20359,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23676
+                        readonly property real x: 23677
                         readonly property real y: 2408.5
                     }
 
@@ -20378,7 +20378,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23688
+                        readonly property real x: 23689
                         readonly property real y: 2415.5
                     }
 
@@ -20397,7 +20397,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23758
+                        readonly property real x: 23757
                         readonly property real y: 2408.5
                     }
 
@@ -20416,7 +20416,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23770
+                        readonly property real x: 23769
                         readonly property real y: 2415.5
                     }
 
@@ -20427,8 +20427,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15559;2766:9133;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput-hovered"
@@ -20436,8 +20436,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23718
+                        readonly property real width: 36
+                        readonly property real x: 23719
                         readonly property real y: 2413.5
                     }
 
@@ -20459,8 +20459,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23676
+                        readonly property real width: 120
+                        readonly property real x: 23677
                         readonly property real y: 2341.5
                     }
 
@@ -20492,7 +20492,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23676
+                        readonly property real x: 23677
                         readonly property real y: 2341.5
                     }
 
@@ -20511,7 +20511,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23688
+                        readonly property real x: 23689
                         readonly property real y: 2348.5
                     }
 
@@ -20530,7 +20530,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23758
+                        readonly property real x: 23757
                         readonly property real y: 2341.5
                     }
 
@@ -20549,7 +20549,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23770
+                        readonly property real x: 23769
                         readonly property real y: 2348.5
                     }
 
@@ -20560,8 +20560,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15557;2766:9059;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput"
@@ -20569,8 +20569,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23718
+                        readonly property real width: 36
+                        readonly property real x: 23719
                         readonly property real y: 2346.5
                     }
 
@@ -20592,8 +20592,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23676
+                        readonly property real width: 120
+                        readonly property real x: 23677
                         readonly property real y: 2676.5
                     }
 
@@ -20625,7 +20625,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23676
+                        readonly property real x: 23677
                         readonly property real y: 2676.5
                     }
 
@@ -20644,7 +20644,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23688
+                        readonly property real x: 23689
                         readonly property real y: 2683.5
                     }
 
@@ -20663,7 +20663,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23758
+                        readonly property real x: 23757
                         readonly property real y: 2676.5
                     }
 
@@ -20682,7 +20682,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23770
+                        readonly property real x: 23769
                         readonly property real y: 2683.5
                     }
 
@@ -20693,8 +20693,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15567;2766:9429;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput-up-hovered"
@@ -20702,8 +20702,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23718
+                        readonly property real width: 36
+                        readonly property real x: 23719
                         readonly property real y: 2681.5
                     }
 
@@ -20725,8 +20725,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 122
-                        readonly property real x: 23676
+                        readonly property real width: 120
+                        readonly property real x: 23677
                         readonly property real y: 2743.5
                     }
 
@@ -20758,7 +20758,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23676
+                        readonly property real x: 23677
                         readonly property real y: 2743.5
                     }
 
@@ -20777,7 +20777,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23688
+                        readonly property real x: 23689
                         readonly property real y: 2750.5
                     }
 
@@ -20796,7 +20796,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 40
-                        readonly property real x: 23758
+                        readonly property real x: 23757
                         readonly property real y: 2743.5
                     }
 
@@ -20815,7 +20815,7 @@ QtObject {
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
                         readonly property real width: 16
-                        readonly property real x: 23770
+                        readonly property real x: 23769
                         readonly property real y: 2750.5
                     }
 
@@ -20826,8 +20826,8 @@ QtObject {
                     readonly property QtObject textInput: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15569;2766:9503;2526:13381"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "spinbox-textInput-up-pressed"
@@ -20835,8 +20835,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 38
-                        readonly property real x: 23718
+                        readonly property real width: 36
+                        readonly property real x: 23719
                         readonly property real y: 2748.5
                     }
 
@@ -20931,8 +20931,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15580;2531:14856;4350:34544"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "switch-label-checked"
@@ -20940,15 +20940,15 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 24995
+                        readonly property real width: 35
+                        readonly property real x: 24996
                         readonly property real y: 2457.5
                     }
 
                     readonly property real leftPadding: 10
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 10
-                    readonly property real spacing: 30
+                    readonly property real spacing: 31
                     readonly property real topPadding: 5
                 }
 
@@ -21037,8 +21037,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15584;2531:14878;4350:34544"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "switch-label-checked-hovered"
@@ -21046,15 +21046,15 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 24995
+                        readonly property real width: 35
+                        readonly property real x: 24996
                         readonly property real y: 2559.5
                     }
 
                     readonly property real leftPadding: 10
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 10
-                    readonly property real spacing: 30
+                    readonly property real spacing: 31
                     readonly property real topPadding: 5
                 }
 
@@ -21143,8 +21143,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15586;2531:14889;4350:34544"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "switch-label-checked-pressed"
@@ -21152,15 +21152,15 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 24995
+                        readonly property real width: 35
+                        readonly property real x: 24996
                         readonly property real y: 2610.5
                     }
 
                     readonly property real leftPadding: 10
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 10
-                    readonly property real spacing: 30
+                    readonly property real spacing: 31
                     readonly property real topPadding: 5
                 }
 
@@ -21247,8 +21247,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15582;2531:14867;2531:14800"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "switch-label-disabled"
@@ -21256,7 +21256,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
+                        readonly property real width: 35
                         readonly property real x: 24975
                         readonly property real y: 2508.5
                     }
@@ -21351,8 +21351,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15576;2531:14834;2531:14800"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "switch-label-hovered"
@@ -21360,7 +21360,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
+                        readonly property real width: 35
                         readonly property real x: 24975
                         readonly property real y: 2355.5
                     }
@@ -21455,8 +21455,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15574;2531:14823;2531:14800"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "switch-label"
@@ -21464,7 +21464,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
+                        readonly property real width: 35
                         readonly property real x: 24975
                         readonly property real y: 2298.5
                     }
@@ -21559,8 +21559,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15578;2531:14845;2531:14800"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "switch-label-pressed"
@@ -21568,7 +21568,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
+                        readonly property real width: 35
                         readonly property real x: 24975
                         readonly property real y: 2406.5
                     }
@@ -21598,8 +21598,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 294
-                        readonly property real x: 26163.5
+                        readonly property real width: 291
+                        readonly property real x: 26165
                         readonly property real y: 2101.5
                     }
 
@@ -21628,8 +21628,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton1-disabled"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26173.5
+                        readonly property real width: 89
+                        readonly property real x: 26175
                         readonly property real y: 2106.5
                     }
 
@@ -21641,8 +21641,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton2-disabled"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26265.5
+                        readonly property real width: 89
+                        readonly property real x: 26266
                         readonly property real y: 2106.5
                     }
 
@@ -21664,8 +21664,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 294
-                        readonly property real x: 26164
+                        readonly property real width: 291
+                        readonly property real x: 26165.5
                         readonly property real y: 2231.5
                     }
 
@@ -21694,8 +21694,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton1-disabled-footer"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26174
+                        readonly property real width: 89
+                        readonly property real x: 26175.5
                         readonly property real y: 2231.5
                     }
 
@@ -21707,8 +21707,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton2-disabled-footer"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26266
+                        readonly property real width: 89
+                        readonly property real x: 26266.5
                         readonly property real y: 2231.5
                     }
 
@@ -21730,8 +21730,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 294
-                        readonly property real x: 26164
+                        readonly property real width: 291
+                        readonly property real x: 26165.5
                         readonly property real y: 2030.5
                     }
 
@@ -21760,8 +21760,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton1"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26174
+                        readonly property real width: 89
+                        readonly property real x: 26175.5
                         readonly property real y: 2035.5
                     }
 
@@ -21773,8 +21773,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton2"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26266
+                        readonly property real width: 89
+                        readonly property real x: 26266.5
                         readonly property real y: 2035.5
                     }
 
@@ -21796,8 +21796,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 294
-                        readonly property real x: 26164
+                        readonly property real width: 291
+                        readonly property real x: 26165.5
                         readonly property real y: 2164.5
                     }
 
@@ -21826,8 +21826,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton1-normal-footer"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26174
+                        readonly property real width: 89
+                        readonly property real x: 26175.5
                         readonly property real y: 2164.5
                     }
 
@@ -21839,8 +21839,8 @@ QtObject {
                         readonly property string name: "tabbar-tabButton2-normal-footer"
                         readonly property real rightShadow: 5
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 26266
+                        readonly property real width: 89
+                        readonly property real x: 26266.5
                         readonly property real y: 2164.5
                     }
 
@@ -21865,8 +21865,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27421.5
+                        readonly property real width: 89
+                        readonly property real x: 27422
                         readonly property real y: 2280.5
                     }
 
@@ -21892,15 +21892,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27431.5
+                        readonly property real x: 27432
                         readonly property real y: 2285.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15633;2556:16919;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label-checked"
@@ -21908,8 +21908,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27465.5
+                        readonly property real width: 35
+                        readonly property real x: 27466
                         readonly property real y: 2287.5
                     }
 
@@ -21935,8 +21935,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27421.5
+                        readonly property real width: 89
+                        readonly property real x: 27422
                         readonly property real y: 2481.5
                     }
 
@@ -21962,15 +21962,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27431.5
+                        readonly property real x: 27432
                         readonly property real y: 2486.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15639;2556:16934;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label-checked-disabled"
@@ -21978,8 +21978,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27465.5
+                        readonly property real width: 35
+                        readonly property real x: 27466
                         readonly property real y: 2488.5
                     }
 
@@ -22005,8 +22005,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27421.5
+                        readonly property real width: 89
+                        readonly property real x: 27422
                         readonly property real y: 2414.5
                     }
 
@@ -22032,15 +22032,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27431.5
+                        readonly property real x: 27432
                         readonly property real y: 2419.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15637;2556:16929;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label-checked-hovered"
@@ -22048,8 +22048,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27465.5
+                        readonly property real width: 35
+                        readonly property real x: 27466
                         readonly property real y: 2421.5
                     }
 
@@ -22075,8 +22075,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27421.5
+                        readonly property real width: 89
+                        readonly property real x: 27422
                         readonly property real y: 2548.5
                     }
 
@@ -22102,15 +22102,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27431.5
+                        readonly property real x: 27432
                         readonly property real y: 2553.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15641;2556:16939;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label-checked-pressed"
@@ -22118,8 +22118,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27465.5
+                        readonly property real width: 35
+                        readonly property real x: 27466
                         readonly property real y: 2555.5
                     }
 
@@ -22145,8 +22145,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27421.5
+                        readonly property real width: 89
+                        readonly property real x: 27422
                         readonly property real y: 2355.24
                     }
 
@@ -22172,15 +22172,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27431.5
+                        readonly property real x: 27432
                         readonly property real y: 2360.24
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15635;2556:16924;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label-disabled"
@@ -22188,8 +22188,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27465.5
+                        readonly property real width: 35
+                        readonly property real x: 27466
                         readonly property real y: 2362.24
                     }
 
@@ -22215,8 +22215,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27421.5
+                        readonly property real width: 89
+                        readonly property real x: 27422
                         readonly property real y: 2164
                     }
 
@@ -22242,15 +22242,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27431.5
+                        readonly property real x: 27432
                         readonly property real y: 2169
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15629;2556:16909;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label-hovered"
@@ -22258,8 +22258,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27465.5
+                        readonly property real width: 35
+                        readonly property real x: 27466
                         readonly property real y: 2171
                     }
 
@@ -22285,8 +22285,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27421.5
+                        readonly property real width: 89
+                        readonly property real x: 27422
                         readonly property real y: 2079.5
                     }
 
@@ -22312,15 +22312,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27431.5
+                        readonly property real x: 27432
                         readonly property real y: 2084.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15627;2556:16904;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label"
@@ -22328,8 +22328,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27465.5
+                        readonly property real width: 35
+                        readonly property real x: 27466
                         readonly property real y: 2086.5
                     }
 
@@ -22355,8 +22355,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 0
                         readonly property real topShadow: 3
-                        readonly property real width: 90
-                        readonly property real x: 27421.5
+                        readonly property real width: 89
+                        readonly property real x: 27422
                         readonly property real y: 2213.5
                     }
 
@@ -22382,15 +22382,15 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topShadow: 0
                         readonly property real width: 24
-                        readonly property real x: 27431.5
+                        readonly property real x: 27432
                         readonly property real y: 2218.5
                     }
 
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15631;2556:16914;2556:16898"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tabbutton-label-pressed"
@@ -22398,8 +22398,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 27465.5
+                        readonly property real width: 35
+                        readonly property real x: 27466
                         readonly property real y: 2220.5
                     }
 
@@ -22427,8 +22427,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 29938
+                        readonly property real width: 179
+                        readonly property real x: 29944.5
                         readonly property real y: 2103
                     }
 
@@ -22448,8 +22448,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15602;2554:13608;2554:13582"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 40
                         readonly property real leftShadow: 0
                         readonly property string name: "textarea-label-disabled"
@@ -22457,8 +22457,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 32
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 29938
+                        readonly property real width: 179
+                        readonly property real x: 29944.5
                         readonly property real y: 2103
                     }
 
@@ -22481,8 +22481,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 29938
+                        readonly property real width: 179
+                        readonly property real x: 29944.5
                         readonly property real y: 2180
                     }
 
@@ -22502,8 +22502,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2654:6236;2654:5963;2554:13582"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 40
                         readonly property real leftShadow: 0
                         readonly property string name: "textarea-label-focused"
@@ -22511,8 +22511,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 32
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 29938
+                        readonly property real width: 179
+                        readonly property real x: 29944.5
                         readonly property real y: 2180
                     }
 
@@ -22535,8 +22535,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 29938
+                        readonly property real width: 179
+                        readonly property real x: 29944.5
                         readonly property real y: 2026
                     }
 
@@ -22556,8 +22556,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15600;2554:13603;2554:13582"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 40
                         readonly property real leftShadow: 0
                         readonly property string name: "textarea-label-hovered"
@@ -22565,8 +22565,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 32
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 29938
+                        readonly property real width: 179
+                        readonly property real x: 29944.5
                         readonly property real y: 2026
                     }
 
@@ -22589,8 +22589,8 @@ QtObject {
                         readonly property real rightShadow: 0
                         readonly property real topOffset: 0
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 29938
+                        readonly property real width: 179
+                        readonly property real x: 29944.5
                         readonly property real y: 1949
                     }
 
@@ -22610,8 +22610,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15598;2554:13588;2554:13582"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 40
                         readonly property real leftShadow: 0
                         readonly property string name: "textarea-label"
@@ -22619,8 +22619,8 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 32
                         readonly property real topShadow: 0
-                        readonly property real width: 192
-                        readonly property real x: 29938
+                        readonly property real width: 179
+                        readonly property real x: 29944.5
                         readonly property real y: 1949
                     }
 
@@ -22668,8 +22668,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15595;2537:15922;2537:15892"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "textfield-label-disabled"
@@ -22677,7 +22677,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 28
+                        readonly property real width: 27
                         readonly property real x: 28653
                         readonly property real y: 2027.5
                     }
@@ -22723,8 +22723,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2644:5967;2644:5955;2537:15892"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "textfield-label-focused"
@@ -22732,7 +22732,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 28
+                        readonly property real width: 27
                         readonly property real x: 28653
                         readonly property real y: 2096.5
                     }
@@ -22778,8 +22778,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15593;2537:15917;2537:15892"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "textfield-label-hovered"
@@ -22787,7 +22787,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 28
+                        readonly property real width: 27
                         readonly property real x: 28653
                         readonly property real y: 1958.5
                     }
@@ -22833,8 +22833,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15591;2537:15912;2537:15892"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "textfield-label"
@@ -22842,7 +22842,7 @@ QtObject {
                         readonly property real textHAlignment: 1
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 28
+                        readonly property real width: 27
                         readonly property real x: 28653
                         readonly property real y: 1889.5
                     }
@@ -23171,8 +23171,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15659;2556:18709;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label-checked"
@@ -23180,15 +23180,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32462.5
+                        readonly property real width: 35
+                        readonly property real x: 32463.5
                         readonly property real y: 1776.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -23241,8 +23241,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15665;2556:18724;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label-checked-disabled"
@@ -23250,15 +23250,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32462.5
+                        readonly property real width: 35
+                        readonly property real x: 32463.5
                         readonly property real y: 1977.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -23311,8 +23311,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15663;2556:18719;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label-checked-hovered"
@@ -23320,15 +23320,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32462.5
+                        readonly property real width: 35
+                        readonly property real x: 32463.5
                         readonly property real y: 1910.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -23381,8 +23381,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15667;2556:18729;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label-checked-pressed"
@@ -23390,15 +23390,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32462.5
+                        readonly property real width: 35
+                        readonly property real x: 32463.5
                         readonly property real y: 2044.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -23451,8 +23451,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15661;2556:18714;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label-disabled"
@@ -23460,15 +23460,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32462.5
+                        readonly property real width: 35
+                        readonly property real x: 32463.5
                         readonly property real y: 1843.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -23521,8 +23521,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15655;2556:18699;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label-hovered"
@@ -23530,15 +23530,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32462.5
+                        readonly property real width: 35
+                        readonly property real x: 32463.5
                         readonly property real y: 1642.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -23591,8 +23591,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15653;2556:18694;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label"
@@ -23600,15 +23600,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32462.5
+                        readonly property real width: 35
+                        readonly property real x: 32463.5
                         readonly property real y: 1575.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -23661,8 +23661,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I2557:15657;2556:18704;4732:16190"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "toolbutton-label-pressed"
@@ -23670,15 +23670,15 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 32462.5
+                        readonly property real width: 35
+                        readonly property real x: 32463.5
                         readonly property real y: 1709.5
                     }
 
                     readonly property real leftPadding: 5
                     readonly property bool mirrored: false
                     readonly property real rightPadding: 5
-                    readonly property real spacing: 13
+                    readonly property real spacing: 14
                     readonly property real topPadding: 5
                 }
 
@@ -23700,8 +23700,8 @@ QtObject {
                         readonly property real rightShadow: 5
                         readonly property real topOffset: 4
                         readonly property real topShadow: 3
-                        readonly property real width: 56
-                        readonly property real x: 34003
+                        readonly property real width: 55
+                        readonly property real x: 34003.5
                         readonly property real y: 1642
                     }
 
@@ -23721,8 +23721,8 @@ QtObject {
                     readonly property QtObject label: QtObject {
                         readonly property real bottomShadow: 0
                         readonly property string figmaId: "I3409:9151;3406:8836;3406:8827"
-                        readonly property string fontFamily: "Titillium Web"
-                        readonly property real fontSize: 16
+                        readonly property string fontFamily: "Anuphan"
+                        readonly property real fontSize: 14
                         readonly property real height: 20
                         readonly property real leftShadow: 0
                         readonly property string name: "tooltip-label"
@@ -23730,8 +23730,8 @@ QtObject {
                         readonly property real textHAlignment: 4
                         readonly property real textVAlignment: 128
                         readonly property real topShadow: 0
-                        readonly property real width: 36
-                        readonly property real x: 34013
+                        readonly property real width: 35
+                        readonly property real x: 34013.5
                         readonly property real y: 1647
                     }
 
