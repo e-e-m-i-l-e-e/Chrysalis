@@ -8,14 +8,22 @@
 
 namespace PB {
     class Project {
+        friend class boost::serialization::access;
     public:
         explicit Project(ProjectParameters* parameters);
         ~Project();
+
+        static Project* create();
 
         void addPattern(Pattern* pattern);
     private:
         ProjectParameters* parameters_;
         std::forward_list<Pattern*> patterns_;
+
+        template<class Archive>
+        void serialize(Archive& archive, const unsigned int version) {
+            archive & parameters_;
+        }
     };
 }
 

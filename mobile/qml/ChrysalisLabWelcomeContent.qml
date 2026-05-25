@@ -7,15 +7,35 @@ import FigmaStyle
 
 Item {
     anchors.fill: parent
-    Button {
-        text: "Open project"
+
+    signal projectOpened(url filePath)
+    signal createProject()
+
+    ColumnLayout {
+
         anchors.centerIn: parent
-        icon.source: "FigmaStyle/dark/images/busyindicator-indicator.png"
-        onClicked: fileDialog.open()
+
+        Button {
+            width: 100
+            text: "New project"
+            icon.source: "FigmaStyle/dark/images/busyindicator-indicator.png"
+            onClicked: createProject()
+        }
+
+        Button {
+            width: 100
+            text: "Open project"
+            icon.source: "FigmaStyle/dark/images/busyindicator-indicator.png"
+            onClicked: fileDialog.open()
+        }
+
     }
 
     FileDialog {
         id: fileDialog
         title: "Open Project"
+        onAccepted: () => {
+            projectOpened(selectedFile)
+        }
     }
 }

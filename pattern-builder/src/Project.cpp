@@ -11,6 +11,11 @@ Project::~Project() {
     }
 }
 
+Project* Project::create() {
+    auto* parameters = new ProjectParameters();
+    return new Project(parameters);
+}
+
 void Project::addPattern(Pattern* pattern) {
     patterns_.push_front(pattern);
 }

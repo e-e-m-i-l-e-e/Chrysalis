@@ -3,9 +3,12 @@
 
 #include <unordered_map>
 
+#include <boost/serialization/unordered_map.hpp>
+
 #include "Parameter.h"
 
 class ProjectParameters {
+    friend class boost::serialization::access;
 public:
     ~ProjectParameters();
 
@@ -13,6 +16,11 @@ public:
     Parameter* getParameter(const std::string& name);
 private:
     std::unordered_map<std::string, Parameter*> parameters_;
+
+    template <class Archive>
+    void serialize(Archive& archive, const unsigned int version) {
+        archive & parameters_;
+    }
 };
 
 #endif //FASHIONDESIGNAPPS_PROJECTPARAMETERS_H
