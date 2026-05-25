@@ -16,6 +16,7 @@ PB::Project* Archive::read(const char* filePath) {
         boost::archive::binary_iarchive archive(file);
         PB::Project* project;
         archive >> project;
+        return project;
     } catch (const boost::archive::archive_exception &e) {
         std::cout << "Archive error: " << e.what();
     } catch (const std::exception &e) {
@@ -32,8 +33,18 @@ void Archive::write(const char* filePath, PB::Project* project) {
             return;
         }
 
-        boost::archive::binary_oarchive archive(file);
-        archive << project;
+        {
+            boost::archive::binary_oarchive archive(file);
+            archive << project;
+        } // ← archive destructor flushes here before file closes
+
+        file.flush();
+        file.close();
+
+        if (file.fail())
+            std::cout << "Write failed after close";
+        else
+            std::cout << "Write successful";
 
     } catch (const boost::archive::archive_exception &e) {
         std::cout << "Archive error: " << e.what();

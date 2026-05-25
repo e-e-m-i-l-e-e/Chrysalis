@@ -2,7 +2,7 @@
 
 using namespace PB;
 
-Project::Project(ProjectParameters* parameters): parameters_(parameters) {}
+Project::Project(const std::string& name, ProjectParameters* parameters): name(name), parameters_(parameters) {}
 
 Project::~Project() {
     delete parameters_;
@@ -13,7 +13,7 @@ Project::~Project() {
 
 Project* Project::create() {
     auto* parameters = new ProjectParameters();
-    return new Project(parameters);
+    return new Project("Untitled", parameters);
 }
 
 void Project::addPattern(Pattern* pattern) {

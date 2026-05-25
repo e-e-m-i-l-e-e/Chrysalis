@@ -18,6 +18,7 @@ void ChrysalisPatternProjectElement::createProject() {
 
 void ChrysalisPatternProjectElement::openProject(const QUrl& filePath) {
     project = archive.read(filePath.toLocalFile().toUtf8().constData());
+    std::cout << project->name << std::endl;
     emit projectChanged();
 }
 

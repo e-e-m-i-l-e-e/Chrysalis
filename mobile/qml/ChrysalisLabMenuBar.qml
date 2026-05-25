@@ -9,10 +9,9 @@ MenuBar {
 
     QtObject {
         id: config
-        readonly property int menuBarHeight: 23;
     }
 
-    ChrysalisPatternSaveFileDialog {
+    ChrysalisPatternOpenFileDialog {
         id: openPatternFileDialog
         project: patternProject
     }
@@ -22,47 +21,41 @@ MenuBar {
         project: patternProject
     }
 
-    height: implicitHeight
+    id: menuBar
+    topPadding: 2
+    bottomPadding: 2
 
     delegate: MenuBarItem {
-        height: config.menuBarHeight
-        padding: 0
+        topPadding: 0
+        bottomPadding: 0
     }
 
     Menu {
         title: "File"
-        padding: 0
-
-        delegate: MenuItem {
-            height: config.menuBarHeight
-            padding: 0
-        }
 
         MenuItem {
             id: newPatternAction
             text: "New Pattern"
-            height: config.menuBarHeight
+            height: menuBar.height
+            onTriggered: patternProject.createProject()
         }
         MenuItem {
             id: openProjectAction
             text: "Open"
-            height: config.menuBarHeight
+            height: menuBar.height
+            onTriggered: openPatternFileDialog.open()
         }
         MenuItem {
             id: saveProjectAction
             text: "Save"
-            // onTriggered: savePatternFileDialog.open()
-            height: patternProject.hasProject ? config.menuBarHeight : 0
+            height: patternProject.hasProject ? menuBar.height : 0
+            onTriggered: savePatternFileDialog.open()
         }
         MenuItem {
             id: closeProjectAction
             text: "Close"
-            height: patternProject.hasProject ? config.menuBarHeight : 0
+            height: patternProject.hasProject ? menuBar.height : 0
+            onTriggered: patternProject.closeProject()
         }
-    }
-
-    Component.onCompleted: {
-        newPatternAction.triggered.connect(patternProject.createProject)
-        closeProjectAction.triggered.connect(patternProject.closeProject)
     }
 }

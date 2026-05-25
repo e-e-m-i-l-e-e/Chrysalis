@@ -16,14 +16,16 @@ Item {
         anchors.centerIn: parent
 
         Button {
-            width: 100
+            Layout.fillWidth: true
+
             text: "New project"
             icon.source: "FigmaStyle/dark/images/busyindicator-indicator.png"
             onClicked: createProject()
         }
 
         Button {
-            width: 100
+            Layout.fillWidth: true
+
             text: "Open project"
             icon.source: "FigmaStyle/dark/images/busyindicator-indicator.png"
             onClicked: fileDialog.open()

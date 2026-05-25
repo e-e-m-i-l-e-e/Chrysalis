@@ -88,7 +88,7 @@ void ChrysalisRenderer::initialize() {
     // parameters->addParameter(new Parameter("Shoulder To Waist Front", 54));
     // parameters->addParameter(new Parameter("Sleeve Length", 62));
 
-    auto project = PB::Project(parameters);
+    auto project = PB::Project("", parameters);
 
     // Back
     const auto backSpaceRendererData = new SpaceRendererData();
