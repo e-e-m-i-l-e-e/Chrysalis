@@ -267,6 +267,7 @@ void ChrysalisRenderer::changeScale(const double scalar, QPointF&& center) {
 void ChrysalisRenderer::changeCursor(QPointF&& cursor) const {
     cursor *= area_;
     cursor += area_;
+    std::cout << "Cursor changed: " << cursor.x() << ", " << cursor.y() << std::endl;
     for (const auto& patternRenderer: patternRenderers_) {
         for (const auto& points = patternRenderer->getPoints();
              const auto& point: points) {

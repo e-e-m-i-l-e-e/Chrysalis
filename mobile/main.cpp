@@ -7,6 +7,9 @@ int main(int argc, char *argv[]) {
     const QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
 
+    QGuiApplication::setWindowIcon(QIcon(":/logo.png"));
+    QGuiApplication::setApplicationName("Chrysalis Lab");
+
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed,
                      &app, [] {
                          QCoreApplication::exit(-1);
@@ -14,6 +17,6 @@ int main(int argc, char *argv[]) {
                      Qt::QueuedConnection
     );
 
-    engine.load("qrc:/qt/qml/PatternBuilder/qml/Main.qml");
+    engine.load("qrc:/qt/qml/PatternBuilder/qml/ChrysalisLab.qml");
     return QGuiApplication::exec();
 }

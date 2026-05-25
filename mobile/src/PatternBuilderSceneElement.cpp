@@ -23,8 +23,8 @@ QQuickFramebufferObject::Renderer* PatternBuilderSceneElement::createRenderer() 
 }
 
 QPointF PatternBuilderSceneElement::normalize(QPointF&& point) const {
-    point.setX(point.x() / window()->width());
-    point.setY(1 - point.y() / window()->height());
+    point.setX(point.x() / width());
+    point.setY(1 - point.y() / height());
     return point;
 }
 
