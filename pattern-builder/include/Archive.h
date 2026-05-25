@@ -15,7 +15,7 @@ namespace Chrysalis::Pattern {
 namespace boost::serialization {
     template<class Archive>
     void save_construct_data(Archive& archive, const PB::Project* project, const unsigned int version) {
-        archive & project->name;
+        archive & project->name_;
         archive & project->parameters_;
     }
 

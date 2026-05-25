@@ -28,17 +28,18 @@ namespace PB {
 
         static Project* create();
 
+        std::string getName();
+        void setName(const std::string& name);
+
         void addPattern(Pattern* pattern);
-
-        std::string name;
     private:
-
+        std::string name_;
         ProjectParameters* parameters_;
         std::forward_list<Pattern*> patterns_;
 
         template<class Archive>
         void serialize(Archive& archive, const unsigned int version) {
-            archive & name;
+            archive & name_;
             archive & parameters_;
         }
         template<class Archive>
