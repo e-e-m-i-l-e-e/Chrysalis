@@ -1,4 +1,4 @@
-#include "ColoredLevelFlagFormatter.h"
+#include "formatters/ColoredLevelFlagFormatter.h"
 
 void ColoredLevelFlagFormatter::format(const spdlog::details::log_msg& msg, const std::tm& tm_time, spdlog::memory_buf_t& dest) {
     static constexpr const char* LEVEL_COLORS[7] = {

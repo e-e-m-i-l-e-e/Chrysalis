@@ -1,0 +1,9 @@
+#ifndef FASHIONDESIGNAPPS_BASECONSOLEUSER_H
+#define FASHIONDESIGNAPPS_BASECONSOLEUSER_H
+
+class BaseConsoleUser {
+protected:
+    explicit BaseConsoleUser();
+};
+
+#endif //FASHIONDESIGNAPPS_BASECONSOLEUSER_H

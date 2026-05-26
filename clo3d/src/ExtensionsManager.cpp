@@ -124,10 +124,19 @@ void ExtensionsManager::install() {
         BaseNativeShortcutHandler::startListening();
     });
 
-    // Forward all CLO3D logging into Extension's logger
-    HooksManager::addIgnore<&qInstallMessageHandler>([](const HookHandle&, bool& ignore, QtMessageHandler&, QtMessageHandler&) {
-        ignore = true;
+    HooksManager::addBefore<&qInstallMessageHandler>([&](const HookHandle&, QtMessageHandler& handler) {
+        handler = [](const QtMsgType type, const QMessageLogContext& ctx, const QString& msg) {
+            static constexpr spdlog::level::level_enum LEVELS[] = {
+                spdlog::level::debug,
+                spdlog::level::warn,
+                spdlog::level::critical,
+                spdlog::level::critical,
+                spdlog::level::info
+            };
+            LOG_TO("Qt", LEVELS[static_cast<int>(type)], "{}", msg.toStdString());
+        };
     });
+
     HooksManager::addAfter<&QWidget::show>([&](const HookHandle& handle, QWidget* this_) {
         if (this_->objectName() == " TitleFrame") {
             LOG_INFO("Main window has been detected by Extensions Manager. Setting up UI.");

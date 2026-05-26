@@ -1,6 +1,6 @@
-#include "NameFlagFormatter.h"
+#include "formatters/NameFlagFormatter.h"
 
-#include "Logging.h"
+#include "Logger.h"
 
 void NameFlagFormatter::format(const spdlog::details::log_msg& msg, const std::tm& tm_time, spdlog::memory_buf_t& dest) {
     std::string name(msg.logger_name.begin(), msg.logger_name.end());

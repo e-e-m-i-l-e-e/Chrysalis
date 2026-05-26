@@ -1,4 +1,4 @@
-#include "LevelFlagFormatter.h"
+#include "formatters/LevelFlagFormatter.h"
 
 #include <algorithm>
 

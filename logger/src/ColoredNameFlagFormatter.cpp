@@ -1,4 +1,4 @@
-#include "ColoredNameFlagFormatter.h"
+#include "formatters/ColoredNameFlagFormatter.h"
 
 void ColoredNameFlagFormatter::format(const spdlog::details::log_msg& msg, const std::tm& tm_time, spdlog::memory_buf_t& dest) {
     static constexpr const char* COLOR_PALETTE[] = {

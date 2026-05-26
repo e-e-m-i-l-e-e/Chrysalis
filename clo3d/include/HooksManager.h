@@ -5,6 +5,8 @@
 #include <regex>
 #include <string>
 
+#include "../../logger/include/Logging.h"
+
 // ─── undef Qt's emit if it was defined before this header ────────────────────
 // Qt defines `#define emit` (empty). asmjit (pulled in by polyhook) uses
 // `emit` as a member-function identifier. If the macro is still live when
@@ -27,9 +29,7 @@
 // When LOGS_DIR is not defined, HooksManager compiles with zero dependency on
 // spdlog or Logger. Each logging call is wrapped in #ifdef LOGS_DIR so the
 // lines are absent entirely from the translation unit — no stubs, no overhead.
-#ifdef LOGS_DIR
-#include <C:/Life/Design/Apps/FashionDesignApps/common/Logger.h>
-#endif
+#include "Logging.h"
 
 // =============================================================================
 //  HookHandle
@@ -222,7 +222,7 @@ concept IgnoreCallbackFor =
 //    });
 // =============================================================================
 class HooksManager {
-    inline static std::string LOGGER_NAME_ = "Hooks Manager";
+    inline static auto LOGGER_NAME_ = "Hooks Manager";
     // ── AbstractHook ──────────────────────────────────────────────────────────
     // Base class stored in the hooks map. Owns the PLH detour lifetime.
     //
@@ -553,9 +553,7 @@ class HooksManager {
         if (it == _hooks.end()) {
             auto *hook = new Hook<F>(u.addr);
             _hooks[u.addr] = hook;
-#ifdef LOGS_DIR
-            LOG_INFO_TO(HooksManager::LOGGER_NAME_, "Hook created: {}", getName(u.addr));
-#endif
+            LOG_INFO_TO(LOGGER_NAME_, "Hook created: {}", getName(u.addr));
             return hook;
         }
 
