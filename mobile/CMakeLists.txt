@@ -20,6 +20,7 @@ qt_add_qml_module(PatternBuilderApp URI PatternBuilder VERSION 1.0
         qml/ChrysalisLabMenuBar.qml
 
         qml/ChrysalisProjectData.qml
+        qml/ChrysalisPatternParameters.qml
         qml/ChrysalisLabWelcomeContent.qml
         qml/BaseChrysalisPatternFileDialog.qml
         qml/ChrysalisPatternOpenFileDialog.qml

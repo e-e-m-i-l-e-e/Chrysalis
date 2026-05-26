@@ -36,7 +36,7 @@ Item {
         }
         TextField {
             text: project.name
-            onTextChanged: project.name = text
+            onEditingFinished: project.name = text
 
             Layout.fillWidth: true
         }

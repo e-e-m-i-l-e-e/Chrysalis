@@ -24,6 +24,16 @@ void ChrysalisPatternProjectElement::setFilePath(const QUrl& filePath) {
     emit filePathChanged();
 }
 
+PatternParametersModel* ChrysalisPatternProjectElement::getParameters() const {
+    return parameters_;
+}
+
+void ChrysalisPatternProjectElement::setParameters(PatternParametersModel* parameters) {
+    parameters_ = parameters;
+    if (project) parameters_->setParameters(project->getParameters());
+    emit parametersChanged();
+}
+
 bool ChrysalisPatternProjectElement::hasProject() const {
     return project != nullptr;
 }
@@ -31,11 +41,15 @@ bool ChrysalisPatternProjectElement::hasProject() const {
 void ChrysalisPatternProjectElement::createProject() {
     delete project;
     project = PB::Project::create();
+    const auto parameters = project->getParameters();
+    parameters->addParameter(new Parameter("Test", 1));
+    parameters_->setParameters(project->getParameters());
     emit projectChanged();
 }
 
 void ChrysalisPatternProjectElement::openProject(const QUrl& filePath) {
     project = archive.read(filePath.toLocalFile().toUtf8().constData());
+    parameters_->setParameters(project->getParameters());
     setFilePath(filePath);
     emit nameChanged();
     emit projectChanged();

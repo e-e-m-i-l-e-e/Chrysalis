@@ -12,6 +12,7 @@ class ProjectParameters {
 public:
     ~ProjectParameters();
 
+    [[nodiscard]] unsigned int count() const;
     void addParameter(Parameter* parameter);
     Parameter* getParameter(const std::string& name);
 private:

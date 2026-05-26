@@ -24,6 +24,10 @@ void Project::setName(const std::string& name) {
     name_ = name;
 }
 
+ProjectParameters* Project::getParameters() const {
+    return parameters_;
+}
+
 void Project::addPattern(Pattern* pattern) {
     patterns_.push_front(pattern);
 }

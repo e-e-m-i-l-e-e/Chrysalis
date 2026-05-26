@@ -31,6 +31,8 @@ namespace PB {
         std::string getName();
         void setName(const std::string& name);
 
+        ProjectParameters* getParameters() const;
+
         void addPattern(Pattern* pattern);
     private:
         std::string name_;

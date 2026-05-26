@@ -8,6 +8,10 @@ ProjectParameters::~ProjectParameters() {
     }
 }
 
+unsigned int ProjectParameters::count() const {
+    return parameters_.size();
+}
+
 void ProjectParameters::addParameter(Parameter* parameter) {
     parameters_[parameter->getName()] = parameter;
 }

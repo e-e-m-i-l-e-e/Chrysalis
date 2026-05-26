@@ -4,6 +4,7 @@
 #include <QQuickItem>
 
 #include "Archive.h"
+#include "PatternParametersModel.h"
 #include "Project.h"
 
 class ChrysalisPatternProjectElement: public QQuickItem {
@@ -13,6 +14,7 @@ class ChrysalisPatternProjectElement: public QQuickItem {
     Q_PROPERTY(bool hasProject READ hasProject NOTIFY projectChanged)
     Q_PROPERTY(QString name READ getName WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(QUrl filePath READ getFilePath WRITE setFilePath NOTIFY filePathChanged)
+    Q_PROPERTY(PatternParametersModel* parameters READ getParameters WRITE setParameters NOTIFY parametersChanged)
 public:
     explicit ChrysalisPatternProjectElement(QQuickItem *parent = nullptr);
     ~ChrysalisPatternProjectElement() override;
@@ -20,14 +22,17 @@ public:
     [[nodiscard]] QString getName() const;
     [[nodiscard]] QUrl getFilePath() const;
     [[nodiscard]] bool hasProject() const;
+    PatternParametersModel* getParameters() const;
 
     void setName(const QString& name);
     void setFilePath(const QUrl& filePath);
+    void setParameters(PatternParametersModel* parameters);
 
     signals:
     void nameChanged();
     void projectChanged();
     void filePathChanged();
+    void parametersChanged();
 
 public slots:
     void createProject();
@@ -39,6 +44,7 @@ private:
     QUrl filePath_;
     PB::Project* project = nullptr;
     Chrysalis::Pattern::Archive archive;
+    PatternParametersModel* parameters_ = nullptr;
 };
 
 #endif //FASHIONDESIGNAPPS_CHRYSALISPATTERNPROJECTELEMENT_H
