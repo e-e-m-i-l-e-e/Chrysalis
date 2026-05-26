@@ -3,7 +3,9 @@
 #include <future>
 #include <forward_list>
 
+#include <QSet>
 #include <QBuffer>
+#include <QTextStream>
 #include <QToolButton>
 #include <QFormBuilder>
 #include <QDomDocument>
@@ -13,7 +15,7 @@
 
 #include "ExtensionsManager.h"
 
-#include "Logger.h"
+#include "Logging.h"
 #define LOGGER_NAME "XML UI Exporter"
 
 // TODO: Improve logging

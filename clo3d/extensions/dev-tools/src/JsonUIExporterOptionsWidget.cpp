@@ -1,7 +1,7 @@
 #include "JsonUIExporterOptionsWidget.h"
 #include "ui_JsonUIExporterOptionsWidget.h"
 
-#include "Logger.h"
+#include "Logging.h"
 
 #define LOGGER_NAME "UI Exporter Options"
 

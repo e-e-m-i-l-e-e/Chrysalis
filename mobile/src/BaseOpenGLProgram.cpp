@@ -1,6 +1,6 @@
 #include "BaseOpenGLProgram.h"
 
-#include "Logger.h"
+#include "Logging.h"
 #define LOGGER_NAME "OpenGL Program"
 
 BaseOpenGLProgram::BaseOpenGLProgram(const char* pathToVertexShader, const char* pathToFragmentShader)

@@ -2,7 +2,7 @@
 
 #include <QKeySequence>
 
-#include "Logger.h"
+#include "Logging.h"
 #define LOGGER_NAME "UI Exporter Options"
 
 void GeneralUIExporterOptions::read(const QSettings* settings) {

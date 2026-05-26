@@ -2,10 +2,10 @@
 
 #include "windows.h"
 
-#include "../private/NameFlagFormatter.h"
+#include "NameFlagFormatter.h"
 #include "LevelFlagFormatter.h"
-#include "../private/ColoredNameFlagFormatter.h"
-#include "../private/ColoredLevelFlagFormatter.h"
+#include "ColoredNameFlagFormatter.h"
+#include "ColoredLevelFlagFormatter.h"
 
 template<typename NameFlag, typename LevelFlag>
 static void format(const std::shared_ptr<spdlog::sinks::sink> sync) {

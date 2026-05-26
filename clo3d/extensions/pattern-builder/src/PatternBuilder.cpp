@@ -8,7 +8,7 @@
 #include <QMainWindow>
 #include <QToolButton>
 
-#include "Logger.h"
+#include "Logging.h"
 #include "MVDockingButton.h"
 #include "PatternBuilderDockWidget.h"
 #include "MVDockWidgetTitleBar.h"

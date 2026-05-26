@@ -1,7 +1,7 @@
 #include "XmlUIExporterOptionsWidget.h"
 #include "ui_XmlUIExporterOptionsWidget.h"
 
-#include "Logger.h"
+#include "Logging.h"
 
 #define LOGGER_NAME "UI Exporter Options"
 

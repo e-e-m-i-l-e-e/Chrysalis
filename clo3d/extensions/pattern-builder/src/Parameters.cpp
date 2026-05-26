@@ -4,7 +4,7 @@
 #include <QToolButton>
 
 #include "ExtensionsManager.h"
-#include "Logger.h"
+#include "Logging.h"
 #include "ui_Parameters.h"
 
 #define LOGGER_NAME "Parameters"

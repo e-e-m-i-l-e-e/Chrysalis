@@ -5,7 +5,7 @@
 #include <QWidget>
 #include <QApplication>
 
-#include "Logger.h"
+#include "Logging.h"
 #define LOGGER_NAME "UI Exporter"
 
 void BaseUIExporter::exportUI() {

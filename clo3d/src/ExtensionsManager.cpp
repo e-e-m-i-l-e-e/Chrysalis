@@ -1,5 +1,6 @@
 #include "ExtensionsManager.h"
 
+#include "Logging.h"
 #define LOGGER_NAME "Extensions Manager"
 
 #include <QApplication>
@@ -408,7 +409,7 @@ void ExtensionsManager::setMessage(const QString &message) {
 void ExtensionsManager::setMessage(const QString &extensionName, const QString &message,
                                    const bool logMessage) {
     // TODO: limit message length
-    if (logMessage) LOG_INFO_TO(extensionName.toStdString(), "{}", message.toStdString());
+    if (logMessage) LOG_INFO_TO(extensionName.toUtf8().data(), "{}", message.toStdString());
     setMessage(QString("<img src=':/Resources/CommonIcon/Title Bullet Secondary.svg' width='11' height='11'><b>%1:</b> %2").arg(extensionName).arg(message));
 }
 

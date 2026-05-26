@@ -1,13 +1,8 @@
 find_package(spdlog REQUIRED)
 
-add_executable(NEWLOGGER main.cpp
-        src/Logger.cpp
-        src/LoggerRegistry.cpp
-        src/LevelFlagFormatter.cpp
-        src/ColoredLevelFlagFormatter.cpp
-        src/NameFlagFormatter.cpp
-        src/ColoredNameFlagFormatter.cpp
-)
-target_include_directories(NEWLOGGER PUBLIC include)
-target_include_directories(NEWLOGGER PRIVATE private)
-target_link_libraries(NEWLOGGER PRIVATE spdlog::spdlog)
+file(GLOB_RECURSE LOGGER_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*)
+
+add_library(Logger STATIC ${LOGGER_SOURCES})
+target_include_directories(Logger PUBLIC include)
+target_link_libraries(Logger PUBLIC spdlog::spdlog)
+target_compile_definitions(Logger PRIVATE LOGS_DIR="${LOGS_DIR}")

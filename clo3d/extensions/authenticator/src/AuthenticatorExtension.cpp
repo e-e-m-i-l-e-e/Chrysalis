@@ -9,7 +9,7 @@
 #include <QDesktopServices>
 #include <QtCore/private/qhooks_p.h>
 
-#include "Logger.h"
+#include "Logging.h"
 #include "HooksManager.h"
 
 // TODO:
@@ -50,6 +50,7 @@ void AuthenticatorExtension::install() {
         QMetaObject::invokeMethod(loginDialog, "SignInWithCloset");
 
         qtHookData[QHooks::AddQObject] = 0;
+        handle.remove();
     });
     HooksManager::addIgnore<&QDesktopServices::openUrl>([](const HookHandle &handle, bool &ignore, bool &ret, const QUrl &url) {
         if (url.toString().startsWith("https://style.clo-set.com/en/account/signin?productId=40")) {

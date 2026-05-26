@@ -9,7 +9,7 @@
 
 #include "ExtensionsManager.h"
 
-#include "Logger.h"
+#include "Logging.h"
 #define LOGGER_NAME "Json UI Exporter"
 
 JsonUIExporter::JsonUIExporter(JsonUIExporterOptions *options): options_(options) {}

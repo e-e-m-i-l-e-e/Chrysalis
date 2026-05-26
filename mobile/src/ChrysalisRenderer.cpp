@@ -7,7 +7,7 @@
 #include "BinaryFunction.h"
 #include "Project.h"
 
-#include "Logger.h"
+#include "Logging.h"
 #include "VectorFunction.h"
 #define LOGGER_NAME "Chrysalis Renderer"
 

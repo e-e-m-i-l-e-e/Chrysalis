@@ -1,9 +1,10 @@
 #include "BaseNativeShortcutHandler.h"
 
+#include <ranges>
 #include <Windows.h>
 #include <unordered_map>
 
-#include "Logger.h"
+#include "Logging.h"
 #define LOGGER_NAME "Shortcut Handler"
 
 // TODO: class for statics

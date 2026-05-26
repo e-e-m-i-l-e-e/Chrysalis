@@ -8,7 +8,7 @@
 #include "UIExporterToolSettings.h"
 #include "UIExporterToolSettingsWidget.h"
 
-#include "Logger.h"
+#include "Logging.h"
 #define LOGGER_NAME "UI Exporter"
 
 UIExporterTool::UIExporterTool(UIExporterToolSettings *uiExporterToolSettings, GeneralUIExporterOptions *options)

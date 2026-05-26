@@ -1,6 +1,6 @@
 #include "GeneralUIExporterOptionsWidget.h"
 
-#include "Logger.h"
+#include "Logging.h"
 #include "ui_GeneralUIExporterOptionsWidget.h"
 
 #define LOGGER_NAME "UI Exporter Options"

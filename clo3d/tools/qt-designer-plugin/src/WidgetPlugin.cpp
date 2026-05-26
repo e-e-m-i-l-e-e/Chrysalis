@@ -1,6 +1,6 @@
 #include "WidgetPlugin.h"
 
-#include "Logger.h"
+#include "Logging.h"
 
 #define LOGGER_NAME "Designer Plugin"
 
