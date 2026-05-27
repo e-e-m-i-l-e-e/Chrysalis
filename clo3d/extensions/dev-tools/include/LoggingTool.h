@@ -1,6 +1,8 @@
 #ifndef FASHIONDESIGNAPPS_LOGGINGTOOL_H
 #define FASHIONDESIGNAPPS_LOGGINGTOOL_H
 
+#include <spdlog/sinks/qt_sinks.h>
+
 #include <QStackedWidget>
 
 #include "BaseDevTool.h"
@@ -20,6 +22,8 @@ public:
 private:
 
     void addWidgetSink(Logger* logger) const;
+
+    std::shared_ptr<spdlog::sinks::qt_color_sink_st> commonWidgetSink_;
 
     QStackedWidget* sinks_ = nullptr;
     LoggingToolSettings* settings_;

@@ -23,7 +23,7 @@ LoggingToolSettingsWidget::LoggingToolSettingsWidget(LoggingToolSettings* settin
     connect(ui->table->selectionModel(), &QItemSelectionModel::currentRowChanged, this,
         [=](const QModelIndex& current, const QModelIndex&) {
             if (current.column() != 0) return;
-            sinks->setCurrentIndex(current.row());
+            sinks->setCurrentIndex(current.row() + 1);
         }
     );
 }

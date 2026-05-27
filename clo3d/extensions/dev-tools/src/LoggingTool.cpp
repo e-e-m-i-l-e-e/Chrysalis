@@ -18,7 +18,11 @@ LoggingTool::~LoggingTool() {
 
 void LoggingTool::addWidgetSink(Logger* logger) const {
     const auto sink = new QTextEdit(sinks_);
+    sink->setReadOnly(true);
+
     logger->addSink(std::make_shared<spdlog::sinks::qt_color_sink_st>(sink, 100));
+    logger->addSink(commonWidgetSink_);
+
     sinks_->addWidget(sink);
 }
 
@@ -28,7 +32,13 @@ void LoggingTool::loggerAdded(Logger* logger) {
 }
 
 void LoggingTool::startup() {
+    const auto commonWidget = new QTextEdit(sinks_);
+    commonWidget->setReadOnly(true);
+
     sinks_ = new QStackedWidget();
+    sinks_->addWidget(commonWidget);
+    commonWidgetSink_ = std::make_shared<spdlog::sinks::qt_color_sink_st>(commonWidget, 100);
+
     for (const auto& logger : registry_.getLoggers() | std::views::values) {
         addWidgetSink(logger);
     }

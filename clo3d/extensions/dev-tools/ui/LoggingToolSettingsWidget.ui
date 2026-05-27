@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>251</width>
-    <height>161</height>
+    <width>405</width>
+    <height>203</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -201,6 +201,95 @@ QLineEdit:disabled {
         <attribute name="verticalHeaderDefaultSectionSize">
          <number>30</number>
         </attribute>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QWidget" name="logsFileWidget" native="true">
+     <property name="styleSheet">
+      <string notr="true">#logsFileWidget {
+	border-radius: 8px;
+}
+
+QWidget {
+	background: rgba(47, 47, 50, 255);
+}
+
+QLineEdit {
+        border-radius: 4px;
+        background: rgba(0, 0, 0, 77);
+        color: rgba(225, 225, 228, 255);
+        font-family: Inter;
+        font-size: 12px;
+        letter-spacing: 0px;
+        min-height: 22px;
+        max-height: 22px;
+        padding: 0px 6px;
+}
+
+QLineEdit:hover {
+        background: rgba(0, 0, 0, 77);
+        color: rgba(110, 185, 255, 255);
+}
+
+QLineEdit:focus {
+        background: rgba(37, 37, 40, 255);
+        color: rgba(110, 185, 255, 255);
+}
+
+QLineEdit[widget-type=&quot;Warning&quot;] {
+        background: rgba(40, 32, 35, 255);
+        color: rgba(255, 97, 125, 255);
+}
+
+QLineEdit[readOnly=&quot;true&quot;], QLineEdit[widget-type=&quot;ReadOnly&quot;] {
+        background: transparent;
+        color: rgba(153, 153, 156, 255);
+}
+
+QLineEdit:disabled {
+        background: rgba(37, 37, 40, 255);
+        color: rgba(70, 70, 73, 255);
+}</string>
+     </property>
+     <layout class="QHBoxLayout" name="logFileWidget">
+      <property name="spacing">
+       <number>7</number>
+      </property>
+      <property name="topMargin">
+       <number>7</number>
+      </property>
+      <property name="bottomMargin">
+       <number>7</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Log File</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_2">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="commonFileButton">
+        <property name="text">
+         <string>Common File</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="openInEditorButton">
+        <property name="text">
+         <string>Open in editor</string>
+        </property>
        </widget>
       </item>
      </layout>
