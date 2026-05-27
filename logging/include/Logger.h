@@ -12,6 +12,11 @@ public:
 
     const char* getName() const;
 
+    const char* getLevel() const;
+    void setLevel(spdlog::level::level_enum level);
+
+    void addSink(const std::shared_ptr<spdlog::sinks::sink>& sink);
+
     template<typename... Args>
     void log(spdlog::level::level_enum lvl, spdlog::format_string_t<Args...> fmt, Args &&... args) {
         logger_.log(lvl, fmt, std::forward<Args>(args)...);
@@ -49,8 +54,6 @@ public:
     }
 
 private:
-    void addSink(const std::shared_ptr<spdlog::sinks::sink>& sink);
-
     const char* name_;
 
     spdlog::logger logger_;

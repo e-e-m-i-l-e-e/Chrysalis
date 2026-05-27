@@ -11,3 +11,10 @@ void Logger::addSink(const std::shared_ptr<spdlog::sinks::sink>& sink) {
 const char* Logger::getName() const {
     return name_;
 }
+
+const char* Logger::getLevel() const {
+    return spdlog::level::to_string_view(level_).data();
+}
+
+void Logger::setLevel(spdlog::level::level_enum level) {
+}

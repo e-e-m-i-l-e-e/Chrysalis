@@ -10,6 +10,7 @@ protected:
     virtual ~BaseExtension() = default;
 public:
     virtual void install() {}
+    virtual void startup() {}
     virtual void configure(QWidget* widget) {}
     virtual void configureMenu(QMenu* extensionMenu) {}
     virtual void configureSettings(ExtensionsSettings* extensionsSettings) {}

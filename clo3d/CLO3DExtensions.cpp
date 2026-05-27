@@ -7,6 +7,7 @@
 #include "DevToolsExtension.h"
 #include "JsonUIExporter.h"
 #include "JsonUIExporterOptions.h"
+#include "Logging.h"
 #include "LoggingTool.h"
 #include "XmlUIExporter.h"
 #include "XmlUIExporterOptions.h"
@@ -38,7 +39,7 @@ BOOL WINAPI DllMain(HINSTANCE hInst, const DWORD reason, LPVOID) {
         devToolsExtension->addDevTool(uiExporterTool);
 
         const auto loggingToolSettings = new LoggingToolSettings();
-        const auto loggingTool = new LoggingTool(loggingToolSettings);
+        const auto loggingTool = new LoggingTool(Logging::REGISTRY, loggingToolSettings);
         devToolsExtension->addDevTool(loggingTool);
 
         ExtensionsManager::addExtension(devToolsExtension);

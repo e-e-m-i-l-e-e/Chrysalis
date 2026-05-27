@@ -6,28 +6,27 @@
 #include "spdlog/sinks/basic_file_sink.h"
 
 #include "Logger.h"
-#include "LoggerFormatter.h"
 #include "BaseConsoleUser.h"
-
-class NameFlagFormatter;
-class LevelFlagFormatter;
-class ColoredNameFlagFormatter;
-class ColoredLevelFlagFormatter;
+#include "BaseLoggerRegistryListener.h"
 
 class LoggerRegistry: BaseConsoleUser {
+    friend class BaseLoggerRegistryListener;
 public:
     explicit LoggerRegistry(const char* loggingDirectory, const char* fileName);
     ~LoggerRegistry();
 
     Logger* get(const char* name);
-    const std::unordered_map<const char*, Logger*>& getLoggers();
+    [[nodiscard]] const std::unordered_map<const char*, Logger*>& getLoggers() const;
 
+    void setFileName(const char* fileName);
+    void setLoggingDirectory(const char* loggingDirectory);
 private:
+
+    void addListener(BaseLoggerRegistryListener* listener);
+
     std::string loggingDirectory_;
     std::unordered_map<const char*, Logger*> loggers_;
-
-    LoggerFormatter<NameFlagFormatter, LevelFlagFormatter> fileFormatter_;
-    LoggerFormatter<ColoredNameFlagFormatter, ColoredLevelFlagFormatter> consoleFormatter_;
+    std::forward_list<BaseLoggerRegistryListener*> listeners_;
 
     std::shared_ptr<spdlog::sinks::stdout_sink_mt> consoleSink_;
     std::shared_ptr<spdlog::sinks::basic_file_sink_mt> commonFileSink_;

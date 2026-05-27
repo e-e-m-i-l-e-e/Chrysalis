@@ -1,17 +1,27 @@
 #ifndef FASHIONDESIGNAPPS_LOGGINGTOOL_H
 #define FASHIONDESIGNAPPS_LOGGINGTOOL_H
 
+#include <QStackedWidget>
+
 #include "BaseDevTool.h"
 #include "LoggingToolSettings.h"
+#include "BaseLoggerRegistryListener.h"
 
-class LoggingTool: public BaseDevTool {
+class LoggingTool: public BaseDevTool, public BaseLoggerRegistryListener {
 public:
-    explicit LoggingTool(LoggingToolSettings* settings);
+    explicit LoggingTool(LoggerRegistry& registry, LoggingToolSettings* settings);
     ~LoggingTool() override;
 
+    void loggerAdded(Logger* logger) override;
+
+    void startup() override;
     void configureSettings(ExtensionsSettings *extensionsSettings) override;
     void configureSettingsUI(UI::ExtensionsSettingsDialog *extensionsSettingsDialog) override;
 private:
+
+    void addWidgetSink(Logger* logger) const;
+
+    QStackedWidget* sinks_ = nullptr;
     LoggingToolSettings* settings_;
 };
 

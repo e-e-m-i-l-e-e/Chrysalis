@@ -13,6 +13,12 @@ void DevToolsExtension::addDevTool(BaseDevTool* tool) {
     devTools_.push_back(tool);
 }
 
+void DevToolsExtension::startup() {
+    for (const auto devTool: devTools_) {
+        devTool->startup();
+    }
+}
+
 void DevToolsExtension::configureSettings(ExtensionsSettings* extensionsSettings) {
     for (const auto devTool: devTools_) {
         devTool->configureSettings(extensionsSettings);

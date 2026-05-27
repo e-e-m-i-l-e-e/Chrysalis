@@ -5,7 +5,7 @@
 #include <regex>
 #include <string>
 
-#include "../../logger/include/Logging.h"
+#include "../../logging/include/Logging.h"
 
 // ─── undef Qt's emit if it was defined before this header ────────────────────
 // Qt defines `#define emit` (empty). asmjit (pulled in by polyhook) uses

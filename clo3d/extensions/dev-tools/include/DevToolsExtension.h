@@ -11,6 +11,7 @@ public:
 
     void addDevTool(BaseDevTool* tool);
 
+    void startup() override;
     void configureSettings(ExtensionsSettings* extensionsSettings) override;
     void configureSettingsUI(UI::ExtensionsSettingsDialog *extensionsSettingsDialog) override;
 private:

@@ -122,6 +122,9 @@ void ExtensionsManager::install() {
     qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(+[] {
         BaseNativeShortcutHandler::registerShortcuts();
         BaseNativeShortcutHandler::startListening();
+        for (const auto& extension: extensions) {
+            extension->startup();
+        }
     });
 
     HooksManager::addBefore<&qInstallMessageHandler>([&](const HookHandle&, QtMessageHandler& handler) {

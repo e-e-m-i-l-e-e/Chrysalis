@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>287</width>
+    <width>251</width>
     <height>161</height>
    </rect>
   </property>
@@ -159,7 +159,7 @@ QLineEdit:disabled {
        <number>0</number>
       </property>
       <item>
-       <widget class="QTableWidget" name="table">
+       <widget class="QTableView" name="table">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
           <horstretch>0</horstretch>
@@ -190,38 +190,21 @@ QLineEdit:disabled {
          <bool>false</bool>
         </attribute>
         <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-         <bool>true</bool>
+         <bool>false</bool>
+        </attribute>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>false</bool>
         </attribute>
         <attribute name="verticalHeaderVisible">
          <bool>false</bool>
         </attribute>
-        <column>
-         <property name="text">
-          <string>Logger Name</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Log Level</string>
-         </property>
-        </column>
+        <attribute name="verticalHeaderDefaultSectionSize">
+         <number>30</number>
+        </attribute>
        </widget>
       </item>
      </layout>
     </widget>
-   </item>
-   <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>0</height>
-      </size>
-     </property>
-    </spacer>
    </item>
   </layout>
  </widget>

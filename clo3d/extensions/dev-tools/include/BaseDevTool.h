@@ -8,6 +8,7 @@ class BaseDevTool {
 protected:
     virtual ~BaseDevTool() = default;
 public:
+    virtual void startup();
     virtual void configureSettings(ExtensionsSettings* extensionsSettings) = 0;
     virtual void configureSettingsUI(UI::ExtensionsSettingsDialog* extensionsSettingsDialog) = 0;
 };
