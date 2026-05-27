@@ -338,6 +338,16 @@ QLineEdit:disabled {
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="flushButton">
+        <property name="focusPolicy">
+         <enum>Qt::TabFocus</enum>
+        </property>
+        <property name="text">
+         <string>Flush</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>

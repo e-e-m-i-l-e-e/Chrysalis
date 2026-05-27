@@ -9,7 +9,7 @@
 LoggerRegistry::LoggerRegistry(const char* loggingDirectory, const char* fileName)
     : loggingDirectory_(loggingDirectory), fileName_(fileName),
       consoleSink_(std::make_shared<spdlog::sinks::stdout_sink_mt>()),
-      commonFileSink_(std::make_shared<spdlog::sinks::basic_file_sink_mt>(loggingDirectory_ + "/" + fileName_ + ".log")) {
+      commonFileSink_(std::make_shared<spdlog::sinks::basic_file_sink_mt>(loggingDirectory_ + "/" + fileName_ + ".log", true)) {
     LoggerFormatter<NameFlagFormatter, LevelFlagFormatter>::apply(commonFileSink_);
     LoggerFormatter<ColoredNameFlagFormatter, ColoredLevelFlagFormatter>::apply(consoleSink_);
 }
@@ -58,7 +58,7 @@ Logger* LoggerRegistry::at(const int i) const {
 
 Logger* LoggerRegistry::get(const char* name) {
     if (!loggersMap_.contains(name)) {
-        const auto fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(loggingDirectory_ + "/" + name + ".log");
+        const auto fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(loggingDirectory_ + "/" + name + ".log", true);
         LoggerFormatter<NameFlagFormatter, LevelFlagFormatter>::apply(fileSink);
 
         const auto logger = new Logger(name);
