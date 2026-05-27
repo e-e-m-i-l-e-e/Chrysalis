@@ -22,6 +22,8 @@ namespace UI {
         explicit LoggingToolSettingsWidget(LoggingToolSettings* settings, LoggerRegistryModel* registryModel, QStackedWidget* sinks, QWidget *parent = nullptr);
         ~LoggingToolSettingsWidget() override;
 
+        void read() override;
+        void write() override;
     private:
         Ui::LoggingToolSettingsWidget *ui;
 

@@ -7,9 +7,9 @@
 #include "formatters/ColoredLevelFlagFormatter.h"
 
 LoggerRegistry::LoggerRegistry(const char* loggingDirectory, const char* fileName)
-    : loggingDirectory_(loggingDirectory),
+    : loggingDirectory_(loggingDirectory), fileName_(fileName),
       consoleSink_(std::make_shared<spdlog::sinks::stdout_sink_mt>()),
-      commonFileSink_(std::make_shared<spdlog::sinks::basic_file_sink_mt>(loggingDirectory_ + "/" + fileName + ".log")) {
+      commonFileSink_(std::make_shared<spdlog::sinks::basic_file_sink_mt>(loggingDirectory_ + "/" + fileName_ + ".log")) {
     LoggerFormatter<NameFlagFormatter, LevelFlagFormatter>::apply(commonFileSink_);
     LoggerFormatter<ColoredNameFlagFormatter, ColoredLevelFlagFormatter>::apply(consoleSink_);
 }
@@ -24,11 +24,19 @@ void LoggerRegistry::addListener(BaseLoggerRegistryListener* listener) {
     listeners_.push_front(listener);
 }
 
+const char* LoggerRegistry::getFileName() const {
+    return fileName_;
+}
+
+std::string LoggerRegistry::getLoggingDirectory() const {
+    return loggingDirectory_;
+}
+
 void LoggerRegistry::setFileName(const char* fileName)
 {
 }
 
-void LoggerRegistry::setLoggingDirectory(const char* loggingDirectory)
+void LoggerRegistry::setLoggingDirectory(std::string loggingDirectory)
 {
 }
 

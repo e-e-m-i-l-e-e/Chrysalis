@@ -46,8 +46,8 @@ UIExporterToolSettingsWidget::~UIExporterToolSettingsWidget() {
 }
 
 void UIExporterToolSettingsWidget::read() {
-        BaseExtensionSettingsWidget::read();
-        processOptions(&BaseUIExporterOptionsWidget::read);
+    BaseExtensionSettingsWidget::read();
+    processOptions(&BaseUIExporterOptionsWidget::read);
 }
 
 void UIExporterToolSettingsWidget::write() {
@@ -56,7 +56,7 @@ void UIExporterToolSettingsWidget::write() {
 }
 
 void UIExporterToolSettingsWidget::processOptions(void (BaseUIExporterOptionsWidget::*processor)()) const {
-        for (const auto uiExporterOptionsWidget: this->findChildren<BaseUIExporterOptionsWidget *>()) {
-                (uiExporterOptionsWidget->*processor)();
-        }
+   for (const auto uiExporterOptionsWidget: this->findChildren<BaseUIExporterOptionsWidget *>()) {
+      (uiExporterOptionsWidget->*processor)();
+   }
 }

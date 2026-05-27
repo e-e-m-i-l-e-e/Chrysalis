@@ -57,7 +57,6 @@ void AuthenticatorExtension::install() {
             LOG_INFO("Bypassing login URL: {}", url.toString().toStdString());
             ignore = true;
             ret = true;
-            handle.remove();
         }
     });
 }

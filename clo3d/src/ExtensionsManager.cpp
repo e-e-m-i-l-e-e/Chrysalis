@@ -77,7 +77,6 @@ public:
         original->eventFilter(watched, event);
         if (event->type() == QEvent::Paint && watched->objectName().contains("widget2d"))
         {
-            LOG_INFO("Custom receiver");
             glPushAttrib(GL_ALL_ATTRIB_BITS);
 
             glDisable(GL_DEPTH_TEST);
@@ -128,7 +127,7 @@ void ExtensionsManager::install() {
     });
 
     HooksManager::addBefore<&qInstallMessageHandler>([&](const HookHandle&, QtMessageHandler& handler) {
-        handler = [](const QtMsgType type, const QMessageLogContext& ctx, const QString& msg) {
+        handler = [](const QtMsgType type, const QMessageLogContext&, const QString& msg) {
             static constexpr spdlog::level::level_enum LEVELS[] = {
                 spdlog::level::debug,
                 spdlog::level::warn,
@@ -198,8 +197,8 @@ void ExtensionsManager::install() {
     HooksManager::addIgnore<&QObject::installEventFilter>([](const HookHandle& handle, bool& ignore, QObject* object, QObject*& receiver) {
         if (const auto openGL = qobject_cast<QOpenGLWidget*>(object)) {
             if (openGL->parent()->parent()) LOG_DEBUG("Installing event filter on QOpenGLWidget: {}. Parent: {}.", openGL->objectName().toStdString(), object->parent()->parent()->metaObject()->className());
-            // QObject* original = receiver;
-            // receiver = new PaintFilter(original);
+            QObject* original = receiver;
+            receiver = new PaintFilter(original);
         }
     });
 

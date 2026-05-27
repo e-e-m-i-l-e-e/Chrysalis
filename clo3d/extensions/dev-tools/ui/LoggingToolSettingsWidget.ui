@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>405</width>
-    <height>203</height>
+    <width>462</width>
+    <height>194</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@
     <number>7</number>
    </property>
    <property name="bottomMargin">
-    <number>7</number>
+    <number>0</number>
    </property>
    <item>
     <widget class="QWidget" name="logsDirectoryWidget" native="true">
@@ -96,7 +96,7 @@ QLineEdit:disabled {
       <item>
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Directory</string>
+         <string>&lt;img src=':/Resources/CommonIcon/Title Bullet Secondary.svg' width='11' height='11'&gt;Directory</string>
         </property>
        </widget>
       </item>
@@ -109,7 +109,7 @@ QLineEdit:disabled {
          <number>0</number>
         </property>
         <item>
-         <widget class="QLineEdit" name="lineEdit">
+         <widget class="QLineEdit" name="loggingDirectory">
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
@@ -127,6 +127,16 @@ QLineEdit:disabled {
          </widget>
         </item>
        </layout>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>&lt;img src=':/Resources/CommonIcon/Title Bullet Secondary.svg' width='11' height='11'&gt;File Name</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="commonFileName"/>
       </item>
      </layout>
     </widget>
@@ -217,6 +227,57 @@ QWidget {
 	background: rgba(47, 47, 50, 255);
 }
 
+QPushButton {
+    color: rgba(225, 225, 228, 255);
+    background: rgba(0, 0, 0, 77);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    outline: none;
+
+    padding: 4px 6px;
+    min-height: 16px;
+    max-height: 16px;
+    height: 16px;
+    qproperty-iconSize: 14px;
+}
+
+QPushButton:hover,
+QPushButton:focus {
+    color: rgba(110, 185, 255, 255);
+    background: rgba(45, 52, 68, 255);
+    border-color: rgba(52, 80, 130, 255);
+}
+
+QPushButton:pressed {
+    color: rgba(110, 185, 255, 255);
+    background: rgba(52, 80, 130, 255);
+    border-color: transparent;
+}
+
+QPushButton:checked {
+    color: rgba(110, 185, 255, 255);
+    background: rgba(45, 52, 68, 255);
+    border-color: transparent;
+}
+
+QPushButton:disabled {
+    color: rgba(70, 70, 73, 255);
+    background: rgba(0, 0, 0, 77);
+    border-color: transparent;
+}
+
+QPushButton[widget-type=&quot;Warning&quot;] {
+    color: rgba(255, 97, 125, 255);
+    background: transparent;
+    border-color: transparent;
+}
+
+QPushButton[widget-type=&quot;Active&quot;] {
+    color: rgba(110, 185, 255, 255);
+    background: rgba(45, 52, 68, 255);
+    border-color: transparent;
+}
+
 QLineEdit {
         border-radius: 4px;
         background: rgba(0, 0, 0, 77);
@@ -267,12 +328,12 @@ QLineEdit:disabled {
       <item>
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Log File</string>
+         <string>&lt;img src=':/Resources/CommonIcon/Title Bullet Secondary.svg' width='11' height='11'&gt;Log File</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_2">
+       <widget class="QLineEdit" name="loggerFileLocation">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -280,13 +341,19 @@ QLineEdit:disabled {
       </item>
       <item>
        <widget class="QPushButton" name="commonFileButton">
+        <property name="focusPolicy">
+         <enum>Qt::TabFocus</enum>
+        </property>
         <property name="text">
-         <string>Common File</string>
+         <string>All logs</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="openInEditorButton">
+        <property name="focusPolicy">
+         <enum>Qt::TabFocus</enum>
+        </property>
         <property name="text">
          <string>Open in editor</string>
         </property>

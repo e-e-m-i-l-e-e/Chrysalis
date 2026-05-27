@@ -18,12 +18,16 @@ public:
     Logger* get(const char* name);
     [[nodiscard]] const std::unordered_map<const char*, Logger*>& getLoggers() const;
 
+    const char* getFileName() const;
+    std::string getLoggingDirectory() const;
+
     void setFileName(const char* fileName);
-    void setLoggingDirectory(const char* loggingDirectory);
+    void setLoggingDirectory(std::string loggingDirectory);
 private:
 
     void addListener(BaseLoggerRegistryListener* listener);
 
+    const char* fileName_;
     std::string loggingDirectory_;
     std::unordered_map<const char*, Logger*> loggers_;
     std::forward_list<BaseLoggerRegistryListener*> listeners_;

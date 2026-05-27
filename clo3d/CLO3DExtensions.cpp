@@ -38,7 +38,7 @@ BOOL WINAPI DllMain(HINSTANCE hInst, const DWORD reason, LPVOID) {
 
         devToolsExtension->addDevTool(uiExporterTool);
 
-        const auto loggingToolSettings = new LoggingToolSettings();
+        const auto loggingToolSettings = new LoggingToolSettings(Logging::REGISTRY);
         const auto loggingTool = new LoggingTool(Logging::REGISTRY, loggingToolSettings);
         devToolsExtension->addDevTool(loggingTool);
 
