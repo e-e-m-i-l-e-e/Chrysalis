@@ -1,10 +1,10 @@
 #include "LoggingTool.h"
 
-#include <iostream>
 #include <ranges>
-#include <spdlog/sinks/qt_sinks.h>
 
+#include "LoggerFormatter.h"
 #include "ExtensionsSettings.h"
+#include "LoggerTextEditSink.h"
 #include "Logging.h"
 #include "LoggingToolSettingsWidget.h"
 
@@ -17,13 +17,10 @@ LoggingTool::~LoggingTool() {
 }
 
 void LoggingTool::addWidgetSink(Logger* logger) const {
-    const auto sink = new QTextEdit(sinks_);
-    sink->setReadOnly(true);
-
-    logger->addSink(std::make_shared<spdlog::sinks::qt_color_sink_st>(sink, 100));
-    logger->addSink(commonWidgetSink_);
-
-    sinks_->addWidget(sink);
+    const auto sinkWidget = new LoggerTextEditSink(sinks_);
+    sinkWidget->attach(logger);
+    commonWidgetSink_->attach(logger);
+    sinks_->addWidget(sinkWidget);
 }
 
 void LoggingTool::loggerAdded(Logger* logger) {
@@ -32,14 +29,10 @@ void LoggingTool::loggerAdded(Logger* logger) {
 }
 
 void LoggingTool::startup() {
-    const auto commonWidget = new QTextEdit(sinks_);
-    commonWidget->setReadOnly(true);
-
     sinks_ = new QStackedWidget();
-    sinks_->addWidget(commonWidget);
-    commonWidgetSink_ = std::make_shared<spdlog::sinks::qt_color_sink_st>(commonWidget, 100);
-
-    for (const auto& logger : registry_.getLoggers() | std::views::values) {
+    commonWidgetSink_ = new LoggerTextEditSink(sinks_);
+    sinks_->addWidget(commonWidgetSink_);
+    for (const auto& logger: registry_) {
         addWidgetSink(logger);
     }
 }

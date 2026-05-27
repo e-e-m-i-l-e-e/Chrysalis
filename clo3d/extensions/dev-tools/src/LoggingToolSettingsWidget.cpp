@@ -1,8 +1,11 @@
 #include "LoggingToolSettingsWidget.h"
+
+#include <iostream>
+
 #include "ui_LoggingToolSettingsWidget.h"
 
-#include <QUrl>
 #include <QComboBox>
+#include <QFileDialog>
 #include <QDesktopServices>
 
 #include "LogLevelDelegate.h"
@@ -10,7 +13,7 @@
 using namespace UI;
 
 LoggingToolSettingsWidget::LoggingToolSettingsWidget(LoggingToolSettings* settings, LoggerRegistryModel* registryModel, QStackedWidget* sinks, QWidget *parent)
-: BaseExtensionSettingsWidget(settings, parent), ui(new Ui::LoggingToolSettingsWidget), settings_(settings), registryModel_(registryModel) {
+: BaseExtensionSettingsWidget(settings, parent), ui(new Ui::LoggingToolSettingsWidget), sinks_(sinks), settings_(settings), registryModel_(registryModel) {
     ui->setupUi(this);
     ui->table->setModel(registryModel_);
     ui->table->setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -18,24 +21,34 @@ LoggingToolSettingsWidget::LoggingToolSettingsWidget(LoggingToolSettings* settin
     ui->table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     ui->table->setEditTriggers(QAbstractItemView::CurrentChanged | QAbstractItemView::SelectedClicked);
 
-    this->layout()->addWidget(sinks);
+    sinks_->setCurrentIndex(0);
+    this->layout()->addWidget(sinks_);
     connect(ui->table->selectionModel(), &QItemSelectionModel::currentRowChanged, this,
-        [=, this](const QModelIndex& current, const QModelIndex&) {
-            sinks->setCurrentIndex(current.row() + 1);
+        [this](const QModelIndex& current, const QModelIndex&) {
+            sinks_->setCurrentIndex(current.row() + 1);
             if (current.column() == 0) ui->loggerFileLocation->setText(settings_->getLoggerFileLocation(current.data().toString()));
         }
     );
-    connect(ui->commonFileButton, &QPushButton::clicked, [this, sinks] {
-        sinks->setCurrentIndex(0);
+    connect(ui->commonFileButton, &QPushButton::clicked, [this] {
+        sinks_->setCurrentIndex(0);
         ui->table->setCurrentIndex({});
         ui->loggerFileLocation->setText(settings_->getLoggerFileLocation());
     });
     connect(ui->openInEditorButton, &QPushButton::clicked, [this] {
         QDesktopServices::openUrl(QUrl::fromLocalFile(ui->loggerFileLocation->text()));
     });
+    connect(ui->folderButton, &QToolButton::clicked, this, [this] {
+        static constexpr auto LOGGING_FOLDER_PROMPT = "Choose logging folder";
+        if (const QString directory = QFileDialog::getExistingDirectory(this, LOGGING_FOLDER_PROMPT,
+            ui->loggingDirectory->text(), QFileDialog::ShowDirsOnly); !directory.isEmpty()) {
+            ui->loggingDirectory->setText(directory);
+        }
+    });
 }
 
 LoggingToolSettingsWidget::~LoggingToolSettingsWidget() {
+    this->layout()->removeWidget(sinks_);
+    sinks_->setParent(nullptr);
     delete ui;
 }
 

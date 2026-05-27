@@ -15,9 +15,21 @@ LoggerRegistry::LoggerRegistry(const char* loggingDirectory, const char* fileNam
 }
 
 LoggerRegistry::~LoggerRegistry() {
-    for (const auto logger: loggers_ | std::views::values) {
+    for (const auto logger: loggers_) {
         delete logger;
     }
+}
+
+std::vector<Logger*>::const_iterator LoggerRegistry::begin() const {
+    return loggers_.cbegin();
+}
+
+std::vector<Logger*>::const_iterator LoggerRegistry::end() const {
+    return loggers_.cend();
+}
+
+size_t LoggerRegistry::size() const {
+    return loggers_.size();
 }
 
 void LoggerRegistry::addListener(BaseLoggerRegistryListener* listener) {
@@ -40,8 +52,12 @@ void LoggerRegistry::setLoggingDirectory(std::string loggingDirectory)
 {
 }
 
+Logger* LoggerRegistry::at(const int i) const {
+    return loggers_[i];
+}
+
 Logger* LoggerRegistry::get(const char* name) {
-    if (!loggers_.contains(name)) {
+    if (!loggersMap_.contains(name)) {
         const auto fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(loggingDirectory_ + "/" + name + ".log");
         LoggerFormatter<NameFlagFormatter, LevelFlagFormatter>::apply(fileSink);
 
@@ -50,14 +66,11 @@ Logger* LoggerRegistry::get(const char* name) {
         logger->addSink(consoleSink_);
         logger->addSink(commonFileSink_);
 
-        loggers_.emplace(name, logger);
+        loggers_.push_back(logger);
+        loggersMap_.emplace(name, logger);
         for (const auto listener: listeners_) {
             listener->loggerAdded(logger);
         }
     }
-    return loggers_.at(name);
-}
-
-const std::unordered_map<const char*, Logger*>& LoggerRegistry::getLoggers() const {
-    return loggers_;
+    return loggersMap_.at(name);
 }

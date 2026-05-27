@@ -6,6 +6,7 @@
 #include <QStackedWidget>
 
 #include "BaseDevTool.h"
+#include "LoggerTextEditSink.h"
 #include "LoggingToolSettings.h"
 #include "BaseLoggerRegistryListener.h"
 
@@ -20,10 +21,11 @@ public:
     void configureSettings(ExtensionsSettings *extensionsSettings) override;
     void configureSettingsUI(UI::ExtensionsSettingsDialog *extensionsSettingsDialog) override;
 private:
+    constexpr static int LINES_LIMIT = 1000;
 
     void addWidgetSink(Logger* logger) const;
 
-    std::shared_ptr<spdlog::sinks::qt_color_sink_st> commonWidgetSink_;
+    LoggerTextEditSink* commonWidgetSink_ = nullptr;
 
     QStackedWidget* sinks_ = nullptr;
     LoggingToolSettings* settings_;

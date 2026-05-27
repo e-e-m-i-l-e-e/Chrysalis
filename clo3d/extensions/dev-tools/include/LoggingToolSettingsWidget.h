@@ -27,6 +27,7 @@ namespace UI {
     private:
         Ui::LoggingToolSettingsWidget *ui;
 
+        QStackedWidget* sinks_;
         LoggingToolSettings* settings_;
         LoggerRegistryModel* registryModel_;
     };
