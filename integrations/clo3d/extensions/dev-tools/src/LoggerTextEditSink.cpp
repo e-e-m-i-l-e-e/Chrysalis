@@ -1,5 +1,6 @@
 #include "LoggerTextEditSink.h"
 
+#include <QScrollBar>
 #include <QRegularExpression>
 
 #include "Logger.h"
@@ -75,4 +76,9 @@ void LoggerTextEditSink::format(const QString& text) {
 
     cursor_.insertText(clean.mid(nameEnd + 1), defaultFormat_);
     cursor_.insertBlock();
+}
+
+void LoggerTextEditSink::showEvent(QShowEvent* show_event) {
+    verticalScrollBar()->setValue(verticalScrollBar()->maximum());
+    QTextEdit::showEvent(show_event);
 }

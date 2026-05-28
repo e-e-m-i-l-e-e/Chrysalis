@@ -13,10 +13,10 @@ public:
     explicit LoggerTextEditSink(QWidget* parent);
 
     void attach(Logger* logger) const;
-
 public slots:
     void format(const QString& text);
-
+protected:
+    void showEvent(QShowEvent*) override;
 private:
     static constexpr auto FORMAT_METHOD = "format";
     std::shared_ptr<spdlog::sinks::qt_sink_mt> sink_;

@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include <QDesktopServices>
 
+#include "LoggerTextEditSink.h"
 #include "LogLevelDelegate.h"
 
 using namespace UI;
@@ -31,9 +32,7 @@ LoggingToolSettingsWidget::LoggingToolSettingsWidget(LoggingToolSettings* settin
     connect(ui->table->selectionModel(), &QItemSelectionModel::currentRowChanged, this,
             [this](const QModelIndex& current, const QModelIndex&) {
                 sinks_->setCurrentIndex(current.row() + 1);
-                if (current.column() == 0)
-                    ui->loggerFileLocation->setText(
-                        settings_->getLoggerFileLocation(current.data().toString()));
+                if (current.column() == 0) ui->loggerFileLocation->setText(settings_->getLoggerFileLocation(current.data().toString()));
             }
     );
 }

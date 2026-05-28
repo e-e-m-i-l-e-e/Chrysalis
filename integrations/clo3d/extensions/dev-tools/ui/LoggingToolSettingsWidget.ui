@@ -176,6 +176,12 @@ QLineEdit:disabled {
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>250</height>
+         </size>
+        </property>
         <property name="styleSheet">
          <string notr="true">QTableWidget::item:selected {
         background: transparent;
