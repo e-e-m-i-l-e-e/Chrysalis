@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_LOGGINGTOOL_H
-#define FASHIONDESIGNAPPS_LOGGINGTOOL_H
+#ifndef CHRYSALIS_LOGGINGTOOL_H
+#define CHRYSALIS_LOGGINGTOOL_H
 
 #include <spdlog/sinks/qt_sinks.h>
 
@@ -21,14 +21,12 @@ public:
     void configureSettings(ExtensionsSettings *extensionsSettings) override;
     void configureSettingsUI(UI::ExtensionsSettingsDialog *extensionsSettingsDialog) override;
 private:
-    constexpr static int LINES_LIMIT = 1000;
-
     void addWidgetSink(Logger* logger) const;
 
-    LoggerTextEditSink* commonWidgetSink_ = nullptr;
+    UI::LoggerTextEditSink* commonWidgetSink_ = nullptr;
 
     QStackedWidget* sinks_ = nullptr;
     LoggingToolSettings* settings_;
 };
 
-#endif //FASHIONDESIGNAPPS_LOGGINGTOOL_H
+#endif //CHRYSALIS_LOGGINGTOOL_H

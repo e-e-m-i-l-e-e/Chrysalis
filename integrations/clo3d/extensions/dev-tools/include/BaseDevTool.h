@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_BASEDEVTOOL_H
-#define FASHIONDESIGNAPPS_BASEDEVTOOL_H
+#ifndef CHRYSALIS_BASEDEVTOOL_H
+#define CHRYSALIS_BASEDEVTOOL_H
 
 #include "ExtensionsSettingsDialog.h"
 
@@ -13,4 +13,4 @@ public:
     virtual void configureSettingsUI(UI::ExtensionsSettingsDialog* extensionsSettingsDialog) = 0;
 };
 
-#endif //FASHIONDESIGNAPPS_BASEDEVTOOL_H
+#endif //CHRYSALIS_BASEDEVTOOL_H

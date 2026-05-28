@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_LOGGING_H
-#define FASHIONDESIGNAPPS_LOGGING_H
+#ifndef CHRYSALIS_LOGGING_H
+#define CHRYSALIS_LOGGING_H
 
 #include "LoggerRegistry.h"
 
@@ -33,4 +33,4 @@ namespace Logging {
 #define LOG_ERROR_TO(name, ...) LOGGER_NAMED(name)->error(__VA_ARGS__)
 #define LOG_CRITICAL_TO(name, ...) LOGGER_NAMED(name)->critical(__VA_ARGS__)
 
-#endif //FASHIONDESIGNAPPS_LOGGING_H
+#endif //CHRYSALIS_LOGGING_H

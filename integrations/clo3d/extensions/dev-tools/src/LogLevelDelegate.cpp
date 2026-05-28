@@ -3,6 +3,8 @@
 #include <QTimer>
 #include <QComboBox>
 
+using namespace UI;
+
 LogLevelDelegate::LogLevelDelegate(LoggerRegistryModel* model): QStyledItemDelegate(model), editors_(model->rowCount({})) {
     static const auto prepareLevels = [] {
         QStringList levels;

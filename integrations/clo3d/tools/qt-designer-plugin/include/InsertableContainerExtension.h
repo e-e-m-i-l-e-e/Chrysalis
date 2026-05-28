@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_INSERTABLECONTAINER_H
-#define FASHIONDESIGNAPPS_INSERTABLECONTAINER_H
+#ifndef CHRYSALIS_INSERTABLECONTAINER_H
+#define CHRYSALIS_INSERTABLECONTAINER_H
 
 #include "ContainerExtension.h"
 #include "BaseInsertableContainer.h"
@@ -21,4 +21,4 @@ private:
     UI::BaseInsertableContainer* container_;
 };
 
-#endif //FASHIONDESIGNAPPS_INSERTABLECONTAINER_H
+#endif //CHRYSALIS_INSERTABLECONTAINER_H

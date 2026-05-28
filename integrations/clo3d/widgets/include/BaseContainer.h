@@ -1,5 +1,5 @@
-#ifndef CLOEXTENSIONS_CONTAINER_H
-#define CLOEXTENSIONS_CONTAINER_H
+#ifndef CHRYSALIS_CONTAINER_H
+#define CHRYSALIS_CONTAINER_H
 
 #include <QWidget>
 
@@ -22,4 +22,4 @@ namespace UI {
     };
 }
 
-#endif //CLOEXTENSIONS_CONTAINER_H
+#endif //CHRYSALIS_CONTAINER_H

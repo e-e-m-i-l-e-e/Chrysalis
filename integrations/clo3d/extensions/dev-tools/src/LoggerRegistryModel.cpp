@@ -2,6 +2,8 @@
 
 #include "LoggerRegistry.h"
 
+using namespace UI;
+
 LoggerRegistryModel::LoggerRegistryModel(QObject* parent, LoggerRegistry& registry)
     : QAbstractTableModel(parent), registry_(registry) {}
 

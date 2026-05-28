@@ -1,25 +1,22 @@
-compilation_database_dir: ../.build/RelWithDebInfo
-output_directory: diagrams
-remove_compile_flags:
-  - /fp:strict
-  - /fp:except-
+compilation_database_dir: ../../../.build/RelWithDebInfo
+output_directory: .
 add_compile_flags:
-  - -IC:\FDA\.misc\cgal-stubs    # ← regular -I beats -external:I, so stub wins
-  - /fp:fast
   - /clang:-fparse-all-comments
 diagrams:
   CLO3DDevToolsUIExporterClassDiagram:
     type: class
     glob:
       include:
-        - ../clo3d/extensions/dev-tools/src/JsonUIExporter.cpp
-        - ../clo3d/extensions/dev-tools/src/XmlUIExporter.cpp
+        - ../../../integrations/clo3d/extensions/dev-tools/src/DevToolsExtension.cpp
+        - r: ".*UIExporter.*"
     exclude:
       namespaces:
         - std
         - UI::Ui
       elements:
-        - r: ".*LoggingTool.*"
+        - WidgetPlugin
+        - ContainerPlugin
+        - BaseUIExporterSettingsBlockContainerWidgetPlugin
         - r: "QList.*"
         - type: method
           name:
@@ -28,9 +25,9 @@ diagrams:
           name:
             r: '.*::staticMetaObject$'
       paths:
-        - ../.conan
-        - ../logging
-        - ../clo3d/widgets
+        - ../../../.conan
+        - ../../../logging
+        - ../../../integrations/clo3d/widgets
       relationships:
         - dependency
     layout:
@@ -77,95 +74,119 @@ diagrams:
             FontStyle Italic
           }
         - >
+          skinparam class<<Extension>> {
+            BackgroundColor #F9EBEA
+            BorderColor #7B241C
+            BorderThickness 3
+            FontSize 16
+            FontColor #7B241C
+            AttributeFontColor #A93226
+            StereotypeFontColor #CD6155
+            FontStyle Italic
+          }
+        - >
           {% for e in diagram.elements %}
 
           {% if e.namespace != "" %}
           class {{ e.alias }} <<{{ e.namespace }}>> {% if replace(e.name, "Base", "") != e.name %}<<Base>>{% endif %}
           {% else if replace(e.name, "Base", "") != e.name %}
           class {{ e.alias }} <<Base>>
+          {% else if replace(e.name, "Extension", "") != e.name and replace(e.name, "Extensions", "") == e.name %}
+          class {{ e.alias }} <<Extension>>
           {% else %}
           {% endif %}
 
           {% endfor %}
   CLO3DDevToolsLoggingClassDiagram:
-      type: class
-      glob:
-        include:
-          - ../clo3d/extensions/dev-tools/src/LoggingTool.cpp
-      exclude:
-        namespaces:
-          - std
-          - UI::Ui
-        elements:
-          - r: "QList.*"
-          - type: method
-            name:
-              r: '.*::(qt_metacall|qt_static_metacall|qt_metacast|metaObject|tr|trUtf8|staticMetaObject)$'
-          - type: member
-            name:
-              r: '.*::staticMetaObject$'
-        paths:
-          - ../.conan
-          - ../clo3d/widgets
-        relationships:
-          - dependency
-      layout:
-        ExtensionsSettings:
-          - down: BaseExtensionSettings
-        DevToolsExtension:
-          - down: BaseDevTool
-      plantuml:
-        after:
-          - >
-            skinparam class {
-              BackgroundColor #EAFAF1
-              BorderColor #1E8449
-              FontColor #0B5345
-              AttributeFontColor #1E8449
-              StereotypeFontColor #1E8449
-              FontStyle Bold
-            }
-          - >
-            skinparam class<<UI>> {
-              BackgroundColor #F5EEF8
-              BorderColor #8E44AD
-              FontColor #4A235A
-              AttributeFontColor #6C3483
-              StereotypeFontColor #6C3483
-            }
-          - >
-            skinparam class<<Base>> {
-              BackgroundColor #F2F3F4
-              BorderColor #2C3E50
-              BorderThickness 3
-              FontSize 16
-              FontColor #2C3E50
-              AttributeFontColor #566573
-              StereotypeFontColor #808B96
-              FontStyle Italic
-            }
-          - >
-            {% for e in diagram.elements %}
-
-            {% if e.namespace != "" %}
-            class {{ e.alias }} <<{{ e.namespace }}>> {% if replace(e.name, "Base", "") != e.name %}<<Base>>{% endif %}
-            {% else if replace(e.name, "Base", "") != e.name %}
-            class {{ e.alias }} <<Base>>
-            {% else %}
-            {% endif %}
-
-            {% endfor %}
-  CLO3DExtensionsSettingsSequenceDiagram:
-    type: sequence
-    generate_message_comments: true
+    type: class
     glob:
       include:
-        - ../clo3d/src/*.cpp
-        - ../clo3d/extensions/dev-tools/src/*.cpp
-    from:
-      - function: "UI::ExtensionsSettingsDialog::exec()"
-      - function: "UI::ExtensionsSettingsDialog::accept()"
-      - function: "UI::ExtensionsSettingsDialog::reject()"
+        - ../../../integrations/clo3d/extensions/dev-tools/src/DevToolsExtension.cpp
+        - r: ".*Logging.*"
+    exclude:
+      namespaces:
+        - std
+        - fmt
+        - spdlog
+        - UI::Ui
+      elements:
+        - QFlags<Qt::ItemFlag>
+        - BaseNativeShortcutHandler
+        - type: class
+          name:
+            r: '.*UIExporter.*'
+        - type: class
+          name:
+            r: '.*Formatter.*'
+        - type: method
+          name:
+            r: '.*::(qt_metacall|qt_static_metacall|qt_metacast|metaObject|tr|trUtf8|staticMetaObject)$'
+        - type: member
+          name:
+            r: '.*::staticMetaObject$'
+      paths:
+        - ../../../.conan
+        - ../../../integrations/clo3d/widgets
+      relationships:
+        - dependency
+    layout:
+      LoggingToolSettings:
+        - down: LoggingToolSettings::Keys
+        - down: LoggingToolSettings::Defaults
+    plantuml:
+      after:
+        - >
+          skinparam class {
+            BackgroundColor #EAFAF1
+            BorderColor #1E8449
+            FontColor #0B5345
+            AttributeFontColor #1E8449
+            StereotypeFontColor #1E8449
+            FontStyle Bold
+          }
+        - >
+          skinparam class<<UI>> {
+            BackgroundColor #F5EEF8
+            BorderColor #8E44AD
+            FontColor #4A235A
+            AttributeFontColor #6C3483
+            StereotypeFontColor #6C3483
+          }
+        - >
+          skinparam class<<Base>> {
+            BackgroundColor #F2F3F4
+            BorderColor #2C3E50
+            BorderThickness 3
+            FontSize 16
+            FontColor #2C3E50
+            AttributeFontColor #566573
+            StereotypeFontColor #808B96
+            FontStyle Italic
+          }
+        - >
+          skinparam class<<Extension>> {
+            BackgroundColor #F9EBEA
+            BorderColor #7B241C
+            BorderThickness 3
+            FontSize 16
+            FontColor #7B241C
+            AttributeFontColor #A93226
+            StereotypeFontColor #CD6155
+            FontStyle Italic
+          }
+        - >
+          {% for e in diagram.elements %}
+
+          {% if e.namespace != "" %}
+          class {{ e.alias }} <<{{ e.namespace }}>> {% if replace(e.name, "Base", "") != e.name %}<<Base>>{% endif %}
+          {% else if replace(e.name, "Base", "") != e.name %}
+          class {{ e.alias }} <<Base>>
+          {% else if replace(e.name, "Extension", "") != e.name and replace(e.name, "Extensions", "") == e.name %}
+          class {{ e.alias }} <<Extension>>
+          {% else %}
+          {% endif %}
+
+          {% endfor %}
   PatternBuilderClassDiagram:
       type: class
       glob:

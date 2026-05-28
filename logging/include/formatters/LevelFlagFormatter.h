@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_PLAINLEVELFLAG_H
-#define FASHIONDESIGNAPPS_PLAINLEVELFLAG_H
+#ifndef CHRYSALIS_PLAINLEVELFLAG_H
+#define CHRYSALIS_PLAINLEVELFLAG_H
 
 #include <spdlog/pattern_formatter.h>
 
@@ -9,4 +9,4 @@ public:
     [[nodiscard]] std::unique_ptr<custom_flag_formatter> clone() const override;
 };
 
-#endif //FASHIONDESIGNAPPS_PLAINLEVELFLAG_H
+#endif //CHRYSALIS_PLAINLEVELFLAG_H

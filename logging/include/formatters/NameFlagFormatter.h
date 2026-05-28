@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_COLOREDNAMEFLAG_H
-#define FASHIONDESIGNAPPS_COLOREDNAMEFLAG_H
+#ifndef CHRYSALIS_COLOREDNAMEFLAG_H
+#define CHRYSALIS_COLOREDNAMEFLAG_H
 
 #include <spdlog/pattern_formatter.h>
 
@@ -9,4 +9,4 @@ public:
     [[nodiscard]] std::unique_ptr<custom_flag_formatter> clone() const override;
 };
 
-#endif //FASHIONDESIGNAPPS_COLOREDNAMEFLAG_H
+#endif //CHRYSALIS_COLOREDNAMEFLAG_H

@@ -1,5 +1,5 @@
-#ifndef CLOEXTENSIONS_WIDGETPLUGIN_H
-#define CLOEXTENSIONS_WIDGETPLUGIN_H
+#ifndef CHRYSALIS_WIDGETPLUGIN_H
+#define CHRYSALIS_WIDGETPLUGIN_H
 
 #include <QtUiPlugin/QDesignerCustomWidgetInterface>
 
@@ -15,4 +15,4 @@ public:
     void initialize(QDesignerFormEditorInterface *core) override;
 };
 
-#endif //CLOEXTENSIONS_WIDGETPLUGIN_H
+#endif //CHRYSALIS_WIDGETPLUGIN_H

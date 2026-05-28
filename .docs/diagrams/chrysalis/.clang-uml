@@ -1,0 +1,60 @@
+compilation_database_dir: ../../../.build/Debug
+output_directory: .
+add_compile_flags:
+  - /clang:-fparse-all-comments
+diagrams:
+  PatternBuilderClassDiagram:
+      type: class
+      glob:
+        include:
+          - ../pattern-builder/src/*.cpp
+      exclude:
+        namespaces:
+          - std
+          - CGAL
+        paths:
+          - ../.conan
+          - ../common
+        relationships:
+          - dependency
+      plantuml:
+        after:
+          - >
+            skinparam class {
+              BackgroundColor #EAFAF1
+              BorderColor #1E8449
+              FontColor #0B5345
+              AttributeFontColor #1E8449
+              StereotypeFontColor #1E8449
+              FontStyle Bold
+            }
+          - >
+            skinparam class<<UI>> {
+              BackgroundColor #F5EEF8
+              BorderColor #8E44AD
+              FontColor #4A235A
+              AttributeFontColor #6C3483
+              StereotypeFontColor #6C3483
+            }
+          - >
+            skinparam class<<Builder>> {
+              BackgroundColor #F2F3F4
+              BorderColor #2C3E50
+              BorderThickness 3
+              FontSize 16
+              FontColor #2C3E50
+              AttributeFontColor #566573
+              StereotypeFontColor #808B96
+              FontStyle Italic
+            }
+          - >
+            {% for e in diagram.elements %}
+
+            {% if e.namespace != "" %}
+            class {{ e.alias }} <<{{ e.namespace }}>> {% if replace(e.name, "Builder", "") != e.name %}<<Builder>>{% endif %}
+            {% else if replace(e.name, "Builder", "") != e.name %}
+            class {{ e.alias }} <<Builder>>
+            {% else %}
+            {% endif %}
+
+            {% endfor %}

@@ -1,5 +1,5 @@
-#ifndef CLOEXTENSIONS_CUSTOMWIDGETINTERFACE_H
-#define CLOEXTENSIONS_CUSTOMWIDGETINTERFACE_H
+#ifndef CHRYSALIS_CUSTOMWIDGETINTERFACE_H
+#define CHRYSALIS_CUSTOMWIDGETINTERFACE_H
 
 #include <QtUiPlugin/QDesignerCustomWidgetCollectionInterface>
 
@@ -15,4 +15,4 @@ public:
     QList<QDesignerCustomWidgetInterface*> customWidgets() const override; // NOLINT(*-use-nodiscard)
 };
 
-#endif //CLOEXTENSIONS_CUSTOMWIDGETINTERFACE_H
+#endif //CHRYSALIS_CUSTOMWIDGETINTERFACE_H

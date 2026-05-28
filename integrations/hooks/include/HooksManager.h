@@ -1,11 +1,11 @@
-#ifndef CLOEXTENSIONS_HOOKMANAGER_H
-#define CLOEXTENSIONS_HOOKMANAGER_H
+#ifndef CHRYSALIS_HOOKMANAGER_H
+#define CHRYSALIS_HOOKMANAGER_H
 
 #include <unordered_map>
 #include <regex>
 #include <string>
 
-#include "../../../logging/include/Logging.h"
+#include "Logging.h"
 
 // ─── undef Qt's emit if it was defined before this header ────────────────────
 // Qt defines `#define emit` (empty). asmjit (pulled in by polyhook) uses
@@ -626,4 +626,4 @@ public:
     }
 };
 
-#endif // CLOEXTENSIONS_HOOKMANAGER_H
+#endif // CHRYSALIS_HOOKMANAGER_H

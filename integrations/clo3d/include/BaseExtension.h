@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_BASEEXTENSION_H
-#define FASHIONDESIGNAPPS_BASEEXTENSION_H
+#ifndef CHRYSALIS_BASEEXTENSION_H
+#define CHRYSALIS_BASEEXTENSION_H
 
 #include <QMenu>
 
@@ -18,4 +18,4 @@ public:
     virtual void configureStatusBar(QWidget* parent) {}
 };
 
-#endif //FASHIONDESIGNAPPS_BASEEXTENSION_H
+#endif //CHRYSALIS_BASEEXTENSION_H

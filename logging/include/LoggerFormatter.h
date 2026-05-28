@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_LOGGERFORMATTER_H
-#define FASHIONDESIGNAPPS_LOGGERFORMATTER_H
+#ifndef CHRYSALIS_LOGGERFORMATTER_H
+#define CHRYSALIS_LOGGERFORMATTER_H
 
 #include <spdlog/sinks/sink.h>
 #include <spdlog/pattern_formatter.h>
@@ -19,4 +19,4 @@ public:
     }
 };
 
-#endif //FASHIONDESIGNAPPS_LOGGERFORMATTER_H
+#endif //CHRYSALIS_LOGGERFORMATTER_H

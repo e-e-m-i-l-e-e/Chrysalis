@@ -17,7 +17,7 @@ LoggingTool::~LoggingTool() {
 }
 
 void LoggingTool::addWidgetSink(Logger* logger) const {
-    const auto sinkWidget = new LoggerTextEditSink(sinks_);
+    const auto sinkWidget = new UI::LoggerTextEditSink(sinks_);
     sinkWidget->attach(logger);
     commonWidgetSink_->attach(logger);
     sinks_->addWidget(sinkWidget);
@@ -31,7 +31,7 @@ void LoggingTool::loggerAdded(Logger* logger) {
 
 void LoggingTool::startup() {
     sinks_ = new QStackedWidget();
-    commonWidgetSink_ = new LoggerTextEditSink(sinks_);
+    commonWidgetSink_ = new UI::LoggerTextEditSink(sinks_);
     sinks_->addWidget(commonWidgetSink_);
     for (const auto& logger: registry_) {
         addWidgetSink(logger);
@@ -43,8 +43,8 @@ void LoggingTool::configureSettings(ExtensionsSettings* extensionsSettings) {
 }
 
 void LoggingTool::configureSettingsUI(UI::ExtensionsSettingsDialog* extensionsSettingsDialog) {
-    const auto loggerRegistryModel = new LoggerRegistryModel(extensionsSettingsDialog, registry_);
-    const auto logLevelDelegate = new LogLevelDelegate(loggerRegistryModel);
+    const auto loggerRegistryModel = new UI::LoggerRegistryModel(extensionsSettingsDialog, registry_);
+    const auto logLevelDelegate = new UI::LogLevelDelegate(loggerRegistryModel);
     const auto settingsWidget = new UI::LoggingToolSettingsWidget(settings_, loggerRegistryModel, logLevelDelegate, sinks_, extensionsSettingsDialog);
     extensionsSettingsDialog->addPage(settingsWidget);
 }

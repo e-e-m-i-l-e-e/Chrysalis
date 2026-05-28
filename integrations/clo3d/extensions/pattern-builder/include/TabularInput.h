@@ -2,8 +2,8 @@
 // Created by emily on 03/04/2026.
 //
 
-#ifndef CLOEXTENSIONS_TABULARINPUT_H
-#define CLOEXTENSIONS_TABULARINPUT_H
+#ifndef CHRYSALIS_TABULARINPUT_H
+#define CHRYSALIS_TABULARINPUT_H
 
 #include <QWidget>
 
@@ -33,4 +33,4 @@ private:
 };
 
 
-#endif //CLOEXTENSIONS_TABULARINPUT_H
+#endif //CHRYSALIS_TABULARINPUT_H

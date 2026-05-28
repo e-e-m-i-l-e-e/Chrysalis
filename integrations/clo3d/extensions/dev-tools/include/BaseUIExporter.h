@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_BASEUIEXPORTER_H
-#define FASHIONDESIGNAPPS_BASEUIEXPORTER_H
+#ifndef CHRYSALIS_BASEUIEXPORTER_H
+#define CHRYSALIS_BASEUIEXPORTER_H
 
 #include <forward_list>
 
@@ -16,4 +16,4 @@ public:
     virtual BaseUIExporterOptions* getOptions() = 0;
 };
 
-#endif //FASHIONDESIGNAPPS_BASEUIEXPORTER_H
+#endif //CHRYSALIS_BASEUIEXPORTER_H

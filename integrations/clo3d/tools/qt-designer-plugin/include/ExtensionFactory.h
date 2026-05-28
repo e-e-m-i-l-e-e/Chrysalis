@@ -1,5 +1,5 @@
-#ifndef CLOEXTENSIONS_EXTENSIONFACTORY_H
-#define CLOEXTENSIONS_EXTENSIONFACTORY_H
+#ifndef CHRYSALIS_EXTENSIONFACTORY_H
+#define CHRYSALIS_EXTENSIONFACTORY_H
 
 #include "QExtensionFactory"
 
@@ -11,4 +11,4 @@ protected:
     QObject* createExtension(QObject *object, const QString &iid, QObject *parent) const override;
 };
 
-#endif //CLOEXTENSIONS_EXTENSIONFACTORY_H
+#endif //CHRYSALIS_EXTENSIONFACTORY_H

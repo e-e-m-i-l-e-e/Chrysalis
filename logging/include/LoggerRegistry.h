@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_LOGGERREGISTRY_H
-#define FASHIONDESIGNAPPS_LOGGERREGISTRY_H
+#ifndef CHRYSALIS_LOGGERREGISTRY_H
+#define CHRYSALIS_LOGGERREGISTRY_H
 
 #include <map>
 
@@ -47,4 +47,4 @@ private:
     std::shared_ptr<spdlog::sinks::basic_file_sink_mt> commonFileSink_;
 };
 
-#endif //FASHIONDESIGNAPPS_LOGGERREGISTRY_H
+#endif //CHRYSALIS_LOGGERREGISTRY_H

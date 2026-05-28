@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_EXTENSIONSSETTINGS_H
-#define FASHIONDESIGNAPPS_EXTENSIONSSETTINGS_H
+#ifndef CHRYSALIS_EXTENSIONSSETTINGS_H
+#define CHRYSALIS_EXTENSIONSSETTINGS_H
 
 #include "BaseExtensionSettings.h"
 
@@ -16,4 +16,4 @@ private:
     std::forward_list<BaseExtensionSettings*> extensionsSettings_;
 };
 
-#endif //FASHIONDESIGNAPPS_EXTENSIONSSETTINGS_H
+#endif //CHRYSALIS_EXTENSIONSSETTINGS_H

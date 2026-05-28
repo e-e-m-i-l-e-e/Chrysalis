@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_XMLUIEXPORTER_H
-#define FASHIONDESIGNAPPS_XMLUIEXPORTER_H
+#ifndef CHRYSALIS_XMLUIEXPORTER_H
+#define CHRYSALIS_XMLUIEXPORTER_H
 
 #include "BaseUIExporter.h"
 #include "XmlUIExporterOptions.h"
@@ -15,4 +15,4 @@ private:
     XmlUIExporterOptions* options_;
 };
 
-#endif //FASHIONDESIGNAPPS_XMLUIEXPORTER_H
+#endif //CHRYSALIS_XMLUIEXPORTER_H

@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_COLOREDLEVELFLAG_H
-#define FASHIONDESIGNAPPS_COLOREDLEVELFLAG_H
+#ifndef CHRYSALIS_COLOREDLEVELFLAG_H
+#define CHRYSALIS_COLOREDLEVELFLAG_H
 
 #include "LevelFlagFormatter.h"
 
@@ -9,4 +9,4 @@ public:
     [[nodiscard]] std::unique_ptr<custom_flag_formatter> clone() const override;
 };
 
-#endif //FASHIONDESIGNAPPS_COLOREDLEVELFLAG_H
+#endif //CHRYSALIS_COLOREDLEVELFLAG_H

@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_LOGGER_H
-#define FASHIONDESIGNAPPS_LOGGER_H
+#ifndef CHRYSALIS_LOGGER_H
+#define CHRYSALIS_LOGGER_H
 
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
@@ -76,4 +76,4 @@ private:
     std::shared_ptr<spdlog::sinks::basic_file_sink_st> fileSink_;
 };
 
-#endif //FASHIONDESIGNAPPS_LOGGER_H
+#endif //CHRYSALIS_LOGGER_H

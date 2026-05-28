@@ -1,5 +1,5 @@
-#ifndef CLOEXTENSIONS_EXTENSIONSMANAGER_H
-#define CLOEXTENSIONS_EXTENSIONSMANAGER_H
+#ifndef CHRYSALIS_EXTENSIONSMANAGER_H
+#define CHRYSALIS_EXTENSIONSMANAGER_H
 
 #include <QLabel>
 
@@ -34,4 +34,4 @@ public:
 #define UI_MESSAGE(message) ExtensionsManager::setMessage(LOGGER_NAME, message, false);
 #define LOG_UI_MESSAGE(message) ExtensionsManager::setMessage(LOGGER_NAME, message, true);
 
-#endif //CLOEXTENSIONS_EXTENSIONSMANAGER_H
+#endif //CHRYSALIS_EXTENSIONSMANAGER_H

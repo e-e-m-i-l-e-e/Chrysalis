@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_JSONUIEXPORTER_H
-#define FASHIONDESIGNAPPS_JSONUIEXPORTER_H
+#ifndef CHRYSALIS_JSONUIEXPORTER_H
+#define CHRYSALIS_JSONUIEXPORTER_H
 
 #include "BaseUIExporter.h"
 #include "JsonUIExporterOptions.h"
@@ -18,4 +18,4 @@ private:
     JsonUIExporterOptions* options_;
 };
 
-#endif //FASHIONDESIGNAPPS_JSONUIEXPORTER_H
+#endif //CHRYSALIS_JSONUIEXPORTER_H

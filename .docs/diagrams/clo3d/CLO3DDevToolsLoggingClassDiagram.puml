@@ -1,0 +1,364 @@
+@startuml
+class "UI::BaseExtensionSettingsWidget" as C_0010218074716017551262
+class C_0010218074716017551262 {
++BaseExtensionSettingsWidget(BaseExtensionSettings * extensionSettings, QWidget * parent) : void
+..
++getBaseExtensionSettings() const : BaseExtensionSettings *
++read() : void
++write() : void
+__
+-extensionSettings_ : BaseExtensionSettings *
+}
+class "UI::ExtensionsSettingsDialog" as C_0002933765265782475360
+class C_0002933765265782475360 {
++ExtensionsSettingsDialog(ExtensionsSettings * settings, QWidget * parent = nullptr) : void
++~ExtensionsSettingsDialog() : void
+..
++accept() : void
++addPage(BaseExtensionSettingsWidget * page) const : void
++exec() : int
+-processPages(void (BaseExtensionSettingsWidget::*)() processor) const : void
++reject() : void
++reset() : void
+__
+-extensionsSettings : ExtensionsSettings *
+-ui : Ui::ExtensionsSettingsDialog *
+}
+class "UI::LoggerRegistryModel" as C_0002822806808277750321
+class C_0002822806808277750321 {
++LoggerRegistryModel(QObject * parent, LoggerRegistry & registry) : void
+..
++columnCount(const QModelIndex & parent) const : int
++data(const QModelIndex & index, int role) const : QVariant
++flags(const QModelIndex & index) const : Qt::ItemFlags
++headerData(int section, Qt::Orientation orientation, int role) const : QVariant
++rowCount(const QModelIndex & parent) const : int
+__
+-registry_ : LoggerRegistry &
+}
+class "UI::LogLevelDelegate" as C_0009326196689895914892
+class C_0009326196689895914892 {
++LogLevelDelegate(LoggerRegistryModel * model) : void
+..
++createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const : QWidget *
++getLevel(int row) const : int
++setLevel(int row, int value) const : void
+__
+-editors_ : std::vector<QComboBox *>
+}
+class "UI::LoggingToolSettingsWidget" as C_0012644845507741191035
+class C_0012644845507741191035 {
++LoggingToolSettingsWidget(LoggingToolSettings * settings, LoggerRegistryModel * registryModel, LogLevelDelegate * logLevelDelegate, QStackedWidget * sinks, QWidget * parent = nullptr) : void
++~LoggingToolSettingsWidget() : void
+..
+-chooseLoggingDirectory() : void
+-flush() const : void
+-openInEditor() const : void
++read() : void
+-resetSelection() const : void
++write() : void
+__
+-logLevelDelegate_ : LogLevelDelegate *
+-registryModel_ : LoggerRegistryModel *
+-settings_ : LoggingToolSettings *
+-sinks_ : QStackedWidget *
+-ui : Ui::LoggingToolSettingsWidget *
+}
+class "UI::LoggerTextEditSink" as C_0010732678981144094451
+class C_0010732678981144094451 {
++LoggerTextEditSink(QWidget * parent) : void
+..
++attach(Logger * logger) const : void
++format(const QString & text) : void
+#showEvent(QShowEvent *) : void
+__
+{static} -FORMAT_METHOD : const char *const
+-coloredFormat_ : QTextCharFormat
+-cursor_ : QTextCursor
+-defaultFormat_ : QTextCharFormat
+-sink_ : std::shared_ptr<spdlog::sinks::qt_sink_mt>
+}
+abstract "BaseExtensionSettings" as C_0016168181109205541512
+abstract C_0016168181109205541512 {
+#~BaseExtensionSettings() constexpr = default : void
+..
+{abstract} #read() = 0 : void
++readSettings() : void
+-setSettings(QSettings * settings) : void
+{abstract} #write() = 0 : void
++writeSettings() : void
+__
+#settings_ : QSettings *
+}
+abstract "BaseDevTool" as C_0011953255168798855977
+abstract C_0011953255168798855977 {
+#~BaseDevTool() constexpr = default : void
+..
+{abstract} +configureSettings(ExtensionsSettings * extensionsSettings) = 0 : void
+{abstract} +configureSettingsUI(UI::ExtensionsSettingsDialog * extensionsSettingsDialog) = 0 : void
++startup() : void
+__
+}
+class "BaseExtension" as C_0008116604999349224677
+class C_0008116604999349224677 {
+#~BaseExtension() constexpr = default : void
+..
++configure(QWidget * widget) : void
++configureMenu(QMenu * extensionMenu) : void
++configureSettings(ExtensionsSettings * extensionsSettings) : void
++configureSettingsUI(UI::ExtensionsSettingsDialog * extensionsSettingsDialog) : void
++configureStatusBar(QWidget * parent) : void
++install() : void
++startup() : void
+__
+}
+class "DevToolsExtension" as C_0010143777606507426232
+class C_0010143777606507426232 {
++~DevToolsExtension() : void
+..
++addDevTool(BaseDevTool * tool) : void
++configureSettings(ExtensionsSettings * extensionsSettings) : void
++configureSettingsUI(UI::ExtensionsSettingsDialog * extensionsSettingsDialog) : void
++startup() : void
+__
+-devTools_ : std::list<BaseDevTool *>
+}
+class "ExtensionsSettings" as C_0010078071459042722134
+class C_0010078071459042722134 {
++ExtensionsSettings(const QString & organization, const QString & application) : void
++~ExtensionsSettings() : void
+..
++addSettings(BaseExtensionSettings * settings) : void
++clear() const : void
++read() const : void
+__
+-extensionsSettings_ : std::forward_list<BaseExtensionSettings *>
+-settings_ : QSettings *
+}
+class "Logger" as C_0002476766866792568373
+class C_0002476766866792568373 {
+-Logger(const std::string & loggingDirectory, const char * name) : void
+..
++addSink(const std::shared_ptr<spdlog::sinks::sink> & sink) : void
+{static} -createFileSink<Mutex>(const std::string & loggingDirectory, const std::string & name) : std::shared_ptr<spdlog::sinks::basic_file_sink<Mutex> >
++critical<Args...>(spdlog::format_string_t<Args...> fmt, Args &&... args) : void
++debug<Args...>(spdlog::format_string_t<Args...> fmt, Args &&... args) : void
++error<Args...>(spdlog::format_string_t<Args...> fmt, Args &&... args) : void
++flush() const : void
++getLevel() const : spdlog::level::level_enum
++getName() const : const char *
++info<Args...>(spdlog::format_string_t<Args...> fmt, Args &&... args) : void
++log<Args...>(spdlog::level::level_enum lvl, spdlog::format_string_t<Args...> fmt, Args &&... args) : void
+-setCommonFileSink(const std::shared_ptr<spdlog::sinks::basic_file_sink_mt> & sink) : void
++setLevel(spdlog::level::level_enum level) : void
+-setLoggingDirectory(const std::string & loggingDirectory) : void
++trace<Args...>(spdlog::format_string_t<Args...> fmt, Args &&... args) : void
++warn<Args...>(spdlog::format_string_t<Args...> fmt, Args &&... args) : void
+__
+{static} +LOGGER_NAME_LENGTH : const short
+-fileSink_ : std::shared_ptr<spdlog::sinks::basic_file_sink_st>
+-logger_ : spdlog::logger
+-name_ : const char *
+}
+class "BaseConsoleUser" as C_0007738904270693382766
+class C_0007738904270693382766 {
+#BaseConsoleUser() : void
+__
+}
+abstract "BaseLoggerRegistryListener" as C_0003308211728183492323
+abstract C_0003308211728183492323 {
+#BaseLoggerRegistryListener(LoggerRegistry & registry) : void
+#~BaseLoggerRegistryListener() constexpr = default : void
+..
+{abstract} +loggerAdded(Logger * logger) = 0 : void
+__
+#registry_ : LoggerRegistry &
+}
+class "LoggerRegistry" as C_0015588288654513966046
+class C_0015588288654513966046 {
++LoggerRegistry(const char * loggingDirectory, const char * fileName) : void
++~LoggerRegistry() : void
+..
+-addListener(BaseLoggerRegistryListener * listener) : void
++at(int i) const : Logger *
++begin() const : std::_Vector_const_iterator<Logger *>::const_iterator
++end() const : std::_Vector_const_iterator<Logger *>::const_iterator
++flush() const : void
++get(const char * name) : Logger *
++getFileName() const : const std::string &
++getLoggingDirectory() const : const std::string &
++setFileName(const std::string & fileName) : void
++setLoggingDirectory(const std::string & loggingDirectory) : void
++size() const : size_t
+__
+-commonFileSink_ : std::shared_ptr<spdlog::sinks::basic_file_sink_mt>
+-consoleSink_ : std::shared_ptr<spdlog::sinks::stdout_sink_mt>
+-fileName_ : std::string
+-listeners_ : std::forward_list<BaseLoggerRegistryListener *>
+-loggersMap_ : std::map<const char *,Logger *>
+-loggers_ : std::vector<Logger *>
+-loggingDirectory_ : std::string
+}
+class "LoggingToolSettings" as C_0010267664722849993861
+class C_0010267664722849993861 {
++LoggingToolSettings(LoggerRegistry & registry) : void
+..
++flush() const : void
++flush(int i) const : void
++getFileName() const : const std::string &
++getLogLevel(int loggerIndex) const : int
++getLoggerFileLocation() const : QString
++getLoggerFileLocation(const QString & loggerName) const : QString
++getLoggingDirectory() const : QString
++read() : void
++read(int loggerIndex, const Logger * logger) const : void
+-readLoggerSettings(int loggerIndex, const Logger * logger) const : void
++setFileName(const QString & fileName) const : void
++setLogLevel(int loggerIndex, int logLevel) const : void
++setLoggingDirectory(const QString & loggingDirectory) const : void
++write() : void
+__
+-registry_ : LoggerRegistry &
+}
+class "LoggingToolSettings::Keys" as C_0014140850573583768651
+class C_0014140850573583768651 {
+__
+{static} +LOGGER_FILE_NAME : const char *const
+{static} +LOGGER_LOG_LEVEL : const char *const
+{static} +LOGGING_DIRECTORY : const char *const
+}
+class "LoggingToolSettings::Defaults" as C_0014836659225812161093
+class C_0014836659225812161093 {
+__
+{static} +LOGGER_FILE_NAME : const char *const
+{static} +LOGGER_LOG_LEVEL : const spdlog::level::level_enum
+{static} +LOGGING_DIRECTORY : const char *const
+}
+class "LoggingTool" as C_0003715015464081519320
+class C_0003715015464081519320 {
++LoggingTool(LoggerRegistry & registry, LoggingToolSettings * settings) : void
++~LoggingTool() : void
+..
+-addWidgetSink(Logger * logger) const : void
++configureSettings(ExtensionsSettings * extensionsSettings) : void
++configureSettingsUI(UI::ExtensionsSettingsDialog * extensionsSettingsDialog) : void
++loggerAdded(Logger * logger) : void
++startup() : void
+__
+{static} -LINES_LIMIT : const int
+-commonWidgetSink_ : UI::LoggerTextEditSink *
+-settings_ : LoggingToolSettings *
+-sinks_ : QStackedWidget *
+}
+C_0010218074716017551262 --> C_0016168181109205541512 : -extensionSettings_
+C_0002933765265782475360 --> C_0010078071459042722134 : -extensionsSettings
+C_0002822806808277750321 --> C_0015588288654513966046 : -registry_
+C_0012644845507741191035 --> C_0010267664722849993861 : -settings_
+C_0012644845507741191035 --> C_0002822806808277750321 : -registryModel_
+C_0012644845507741191035 --> C_0009326196689895914892 : -logLevelDelegate_
+C_0010218074716017551262 <|-- C_0012644845507741191035
+C_0016168181109205541512 <.. C_0010078071459042722134 : +<<friend>>
+C_0011953255168798855977 <.. C_0010143777606507426232 : +<<friend>>
+C_0010143777606507426232 --> C_0011953255168798855977 : -devTools_
+C_0008116604999349224677 <|-- C_0010143777606507426232
+C_0010078071459042722134 --> C_0016168181109205541512 : -extensionsSettings_
+C_0002476766866792568373 <.. C_0015588288654513966046 : +<<friend>>
+C_0003308211728183492323 --> C_0015588288654513966046 : #registry_
+C_0015588288654513966046 --> C_0002476766866792568373 : -loggers_
+C_0015588288654513966046 --> C_0002476766866792568373 : -loggersMap_
+C_0015588288654513966046 --> C_0003308211728183492323 : -listeners_
+C_0015588288654513966046 <.. C_0003308211728183492323 : +<<friend>>
+C_0007738904270693382766 <|-- C_0015588288654513966046
+C_0010267664722849993861 --> C_0015588288654513966046 : -registry_
+C_0016168181109205541512 <|-- C_0010267664722849993861
+C_0014140850573583768651 --+ C_0010267664722849993861
+C_0014836659225812161093 --+ C_0010267664722849993861
+C_0003715015464081519320 --> C_0010732678981144094451 : -commonWidgetSink_
+C_0003715015464081519320 --> C_0010267664722849993861 : -settings_
+C_0011953255168798855977 <|-- C_0003715015464081519320
+C_0003308211728183492323 <|-- C_0003715015464081519320
+C_0010267664722849993861 -[hidden]down- C_0014140850573583768651
+C_0010267664722849993861 -[hidden]down- C_0014836659225812161093
+skinparam class {
+  BackgroundColor #EAFAF1
+  BorderColor #1E8449
+  FontColor #0B5345
+  AttributeFontColor #1E8449
+  StereotypeFontColor #1E8449
+  FontStyle Bold
+}
+
+skinparam class<<UI>> {
+  BackgroundColor #F5EEF8
+  BorderColor #8E44AD
+  FontColor #4A235A
+  AttributeFontColor #6C3483
+  StereotypeFontColor #6C3483
+}
+
+skinparam class<<Base>> {
+  BackgroundColor #F2F3F4
+  BorderColor #2C3E50
+  BorderThickness 3
+  FontSize 16
+  FontColor #2C3E50
+  AttributeFontColor #566573
+  StereotypeFontColor #808B96
+  FontStyle Italic
+}
+
+skinparam class<<Extension>> {
+  BackgroundColor #F9EBEA
+  BorderColor #7B241C
+  BorderThickness 3
+  FontSize 16
+  FontColor #7B241C
+  AttributeFontColor #A93226
+  StereotypeFontColor #CD6155
+  FontStyle Italic
+}
+
+
+ class C_0016168181109205541512 <<Base>> 
+
+ class C_0010218074716017551262 <<UI>> <<Base>> 
+
+ class C_0002933765265782475360 <<UI>>  
+
+ class C_0011953255168798855977 <<Base>> 
+
+ class C_0008116604999349224677 <<Base>> 
+
+ class C_0010143777606507426232 <<Extension>> 
+
+ 
+
+ 
+
+ class C_0007738904270693382766 <<Base>> 
+
+ class C_0003308211728183492323 <<Base>> 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ class C_0002822806808277750321 <<UI>>  
+
+ class C_0009326196689895914892 <<UI>>  
+
+ class C_0012644845507741191035 <<UI>>  
+
+ class C_0010732678981144094451 <<UI>>  
+
+ 
+
+
+
+'Generated with clang-uml, version 0.6.2
+'LLVM version clang version 20.1.7 (https://github.com/llvm/llvm-project.git 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+@enduml
