@@ -9,7 +9,6 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(Qt5 REQUIRED)
-find_package(polyhook2 REQUIRED)
 
 add_subdirectory(widgets)
 
@@ -50,8 +49,8 @@ if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
             EXTEND_WITH_PATTERN_BUILDER=$<BOOL:${EXTEND_WITH_PATTERN_BUILDER}>
     )
     target_link_libraries(CLO3DExtensions PRIVATE
-            Logger Widgets
-            polyhook2::polyhook2 clo-sdk::clo-sdk
+            Logger Widgets HooksLibrary
+            clo-sdk::clo-sdk
             Qt5::Core Qt5::CorePrivate Qt5::Concurrent Qt5::Xml Qt5::Designer)
 
     add_custom_command(TARGET CLO3DExtensions POST_BUILD

@@ -10,7 +10,7 @@
 #include <QtCore/private/qhooks_p.h>
 
 #include "Logging.h"
-#include "HooksManager.h"
+#include "../../../../integrations/hooks/include/HooksManager.h"
 
 // TODO:
 //  - Class for qHookData, constructionQueue, loginDialog

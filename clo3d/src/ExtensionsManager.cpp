@@ -25,7 +25,7 @@
 #include "ExtensionsSettingsDialog.h"
 #include "GeneralUIExporterOptions.h"
 
-#include "HooksManager.h"
+#include "../../integrations/hooks/include/HooksManager.h"
 #include "JsonUIExporterOptions.h"
 #include "UIExporterToolSettingsWidget.h"
 #include "XmlUIExporterOptions.h"
