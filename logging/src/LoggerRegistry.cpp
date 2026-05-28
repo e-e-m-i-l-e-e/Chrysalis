@@ -32,6 +32,10 @@ size_t LoggerRegistry::size() const {
     return loggers_.size();
 }
 
+void LoggerRegistry::flush() const {
+    commonFileSink_->flush();
+}
+
 void LoggerRegistry::addListener(BaseLoggerRegistryListener* listener) {
     listeners_.push_front(listener);
 }
@@ -58,11 +62,7 @@ Logger* LoggerRegistry::at(const int i) const {
 
 Logger* LoggerRegistry::get(const char* name) {
     if (!loggersMap_.contains(name)) {
-        const auto fileSink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(loggingDirectory_ + "/" + name + ".log", true);
-        LoggerFormatter<NameFlagFormatter, LevelFlagFormatter>::apply(fileSink);
-
-        const auto logger = new Logger(name);
-        logger->addSink(fileSink);
+        const auto logger = new Logger(loggingDirectory_, name);
         logger->addSink(consoleSink_);
         logger->addSink(commonFileSink_);
 

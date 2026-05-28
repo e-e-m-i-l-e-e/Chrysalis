@@ -2,21 +2,26 @@
 
 #include <QTimer>
 #include <QComboBox>
-#include <QApplication>
 
-LogLevelDelegate::LogLevelDelegate(QWidget* parent): QStyledItemDelegate(parent) {}
+LogLevelDelegate::LogLevelDelegate(LoggerRegistryModel* model): QStyledItemDelegate(model), editors_(model->rowCount({})) {
+    static const auto prepareLevels = [] {
+        QStringList levels;
+        for (int i = 0; i < spdlog::level::n_levels; i++) {
+            levels << QString(spdlog::level::to_string_view(static_cast<spdlog::level::level_enum>(i)).data()).toUpper();
+        }
+        return levels;
+    };
+    static const QStringList LOG_LEVELS = prepareLevels();
+
+    for (auto& editor: editors_) {
+        editor = new QComboBox();
+        editor->addItems(LOG_LEVELS);
+        editor->setFocusPolicy(Qt::NoFocus);
+    }
+}
 
 QWidget* LogLevelDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem&, const QModelIndex& index) const {
-    auto* combo = new QComboBox(parent);
-    combo->addItems({"trace", "debug", "info", "warning", "error", "fatal"});
-    QTimer::singleShot(0, combo, &QComboBox::showPopup);
-    return combo;
-}
-
-void LogLevelDelegate::setEditorData(QWidget* editor, const QModelIndex& index) const {
-    static_cast<QComboBox*>(editor)->setCurrentText(index.data(Qt::EditRole).toString());
-}
-
-void LogLevelDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const {
-    // model->setData(index, static_cast<QComboBox*>(editor)->currentText(), Qt::EditRole);
+    auto& editor = editors_[index.row()];
+    editor->setParent(parent);
+    return editor;
 }

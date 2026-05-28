@@ -8,6 +8,14 @@ void LoggingToolSettings::read() {
 void LoggingToolSettings::write() {
 }
 
+void LoggingToolSettings::flush() const {
+    registry_.flush();
+}
+
+void LoggingToolSettings::flush(const int i) const {
+    registry_.at(i)->flush();
+}
+
 QString LoggingToolSettings::getLoggingDirectory() const {
     return QString::fromStdString(registry_.getLoggingDirectory());
 }

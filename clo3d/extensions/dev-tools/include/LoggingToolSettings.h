@@ -11,6 +11,9 @@ public:
     void read() override;
     void write() override;
 
+    void flush() const;
+    void flush(int i) const;
+
     QString getLoggingDirectory() const;
     const char* getCommonFileName() const;
     QString getLoggerFileLocation() const;

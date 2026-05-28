@@ -22,7 +22,7 @@ int LoggerRegistryModel::columnCount(const QModelIndex& parent) const {
 QVariant LoggerRegistryModel::data(const QModelIndex& index, const int role) const {
     if (role != Qt::DisplayRole) return {};
     const auto logger = registry_.at(index.row());
-    return index.column() == 0 ? logger->getName() : logger->getLevel();
+    return index.column() == 0 ? QVariant(logger->getName()) : static_cast<int>(logger->getLevel());
 }
 
 QVariant LoggerRegistryModel::headerData(const int section, const Qt::Orientation orientation, const int role) const {

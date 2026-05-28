@@ -4,7 +4,6 @@
 
 #include "ui_LoggingToolSettingsWidget.h"
 
-#include <QComboBox>
 #include <QFileDialog>
 #include <QDesktopServices>
 
@@ -17,33 +16,26 @@ LoggingToolSettingsWidget::LoggingToolSettingsWidget(LoggingToolSettings* settin
     ui->setupUi(this);
     ui->table->setModel(registryModel_);
     ui->table->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->table->setItemDelegateForColumn(1, new LogLevelDelegate(this));
+    ui->table->setItemDelegateForColumn(1, new LogLevelDelegate(registryModel_));
     ui->table->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
-    ui->table->setEditTriggers(QAbstractItemView::CurrentChanged | QAbstractItemView::SelectedClicked);
-
-    sinks_->setCurrentIndex(0);
+    ui->table->setEditTriggers(QAbstractItemView::CurrentChanged);
+    for (int row = 0; row < registryModel->rowCount({}); row++) {
+        ui->table->openPersistentEditor(registryModel->index(row, 1));
+    }
     this->layout()->addWidget(sinks_);
+    resetSelection();
+
+    connect(ui->commonFileButton, &QPushButton::clicked, this, &LoggingToolSettingsWidget::resetSelection);
+    connect(ui->openInEditorButton, &QPushButton::clicked, this, &LoggingToolSettingsWidget::openInEditor);
+    connect(ui->folderButton, &QToolButton::clicked, this, &LoggingToolSettingsWidget::chooseLoggingDirectory);
     connect(ui->table->selectionModel(), &QItemSelectionModel::currentRowChanged, this,
-        [this](const QModelIndex& current, const QModelIndex&) {
-            sinks_->setCurrentIndex(current.row() + 1);
-            if (current.column() == 0) ui->loggerFileLocation->setText(settings_->getLoggerFileLocation(current.data().toString()));
-        }
+            [this](const QModelIndex& current, const QModelIndex&)
+            {
+                sinks_->setCurrentIndex(current.row() + 1);
+                if (current.column() == 0) ui->loggerFileLocation->setText(
+                    settings_->getLoggerFileLocation(current.data().toString()));
+            }
     );
-    connect(ui->commonFileButton, &QPushButton::clicked, [this] {
-        sinks_->setCurrentIndex(0);
-        ui->table->setCurrentIndex({});
-        ui->loggerFileLocation->setText(settings_->getLoggerFileLocation());
-    });
-    connect(ui->openInEditorButton, &QPushButton::clicked, [this] {
-        QDesktopServices::openUrl(QUrl::fromLocalFile(ui->loggerFileLocation->text()));
-    });
-    connect(ui->folderButton, &QToolButton::clicked, this, [this] {
-        static constexpr auto LOGGING_FOLDER_PROMPT = "Choose logging folder";
-        if (const QString directory = QFileDialog::getExistingDirectory(this, LOGGING_FOLDER_PROMPT,
-            ui->loggingDirectory->text(), QFileDialog::ShowDirsOnly); !directory.isEmpty()) {
-            ui->loggingDirectory->setText(directory);
-        }
-    });
 }
 
 LoggingToolSettingsWidget::~LoggingToolSettingsWidget() {
@@ -61,4 +53,29 @@ void LoggingToolSettingsWidget::read() {
 
 void LoggingToolSettingsWidget::write() {
     BaseExtensionSettingsWidget::write();
+}
+
+void LoggingToolSettingsWidget::flush() const {
+    if (sinks_->currentIndex() == 0) settings_->flush();
+    else settings_->flush(sinks_->currentIndex() - 1);
+}
+
+void LoggingToolSettingsWidget::openInEditor() const {
+    flush();
+    QDesktopServices::openUrl(QUrl::fromLocalFile(ui->loggerFileLocation->text()));
+}
+
+void LoggingToolSettingsWidget::resetSelection() const {
+    sinks_->setCurrentIndex(0);
+    ui->table->setCurrentIndex({});
+    ui->loggerFileLocation->setText(settings_->getLoggerFileLocation());
+}
+
+void LoggingToolSettingsWidget::chooseLoggingDirectory() {
+    static constexpr auto LOGGING_FOLDER_PROMPT = "Choose logging folder";
+    if (const QString directory = QFileDialog::getExistingDirectory(this, LOGGING_FOLDER_PROMPT,
+                                                                    ui->loggingDirectory->text(),
+                                                                    QFileDialog::ShowDirsOnly); !directory.isEmpty()) {
+        ui->loggingDirectory->setText(directory);
+    }
 }

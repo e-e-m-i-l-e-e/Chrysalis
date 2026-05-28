@@ -281,7 +281,7 @@ QPushButton[widget-type=&quot;Active&quot;] {
 QLineEdit {
         border-radius: 4px;
         background: rgba(0, 0, 0, 77);
-        color: rgba(225, 225, 228, 255);
+        color: rgba(225, 225, 228, 200);
         font-family: Inter;
         font-size: 12px;
         letter-spacing: 0px;

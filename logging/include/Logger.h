@@ -2,19 +2,21 @@
 #define FASHIONDESIGNAPPS_LOGGER_H
 
 #include <spdlog/spdlog.h>
+#include <spdlog/sinks/basic_file_sink.h>
 
 class Logger {
     friend class LoggerRegistry;
 
-    explicit Logger(const char* name);
+    explicit Logger(const std::string& loggingDirectory, const char* name);
 public:
     constexpr static short LOGGER_NAME_LENGTH = 20;
 
     const char* getName() const;
 
-    const char* getLevel() const;
+    spdlog::level::level_enum getLevel() const;
     void setLevel(spdlog::level::level_enum level);
 
+    void flush() const;
     void addSink(const std::shared_ptr<spdlog::sinks::sink>& sink);
 
     template<typename... Args>
@@ -57,7 +59,7 @@ private:
     const char* name_;
 
     spdlog::logger logger_;
-    spdlog::level::level_enum level_ = spdlog::level::trace;
+    std::shared_ptr<spdlog::sinks::basic_file_sink_st> fileSink_;
 };
 
 #endif //FASHIONDESIGNAPPS_LOGGER_H

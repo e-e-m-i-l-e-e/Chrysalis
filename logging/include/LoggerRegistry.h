@@ -25,6 +25,8 @@ public:
     Logger* at(int i) const;
     Logger* get(const char* name);
 
+    void flush() const;
+
     const char* getFileName() const;
     std::string getLoggingDirectory() const;
 

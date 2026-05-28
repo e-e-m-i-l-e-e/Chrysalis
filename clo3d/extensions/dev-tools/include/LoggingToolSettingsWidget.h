@@ -24,6 +24,12 @@ namespace UI {
 
         void read() override;
         void write() override;
+
+    private slots:
+        void flush() const;
+        void openInEditor() const;
+        void resetSelection() const;
+        void chooseLoggingDirectory();
     private:
         Ui::LoggingToolSettingsWidget *ui;
 
