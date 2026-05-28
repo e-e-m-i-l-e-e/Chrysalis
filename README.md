@@ -1,6 +1,6 @@
 ## Build
 ```
-mklink /J C:\FDA "C:\Life\Design\Apps\FashionDesignApps"
+mklink /J C:\Chrysalis "C:\Life\Design\Apps\FashionDesignApps"
 python -m venv .venv
 .venv\Scripts\activate
 pip install --upgrade pip
