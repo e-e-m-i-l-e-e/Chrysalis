@@ -1,5 +1,6 @@
 #include "DevToolsExtension.h"
 
+#include "LoggingTool.h"
 #include "UIExporterTool.h"
 #include "UIExporterToolSettingsWidget.h"
 
@@ -7,6 +8,13 @@ DevToolsExtension::~DevToolsExtension() {
     for (const auto devTool: devTools_) {
         delete devTool;
     }
+}
+
+DevToolsExtension* DevToolsExtension::create() {
+    const auto devToolsExtension = new DevToolsExtension();
+    devToolsExtension->addDevTool(UIExporterTool::create());
+    devToolsExtension->addDevTool(LoggingTool::create());
+    return devToolsExtension;
 }
 
 void DevToolsExtension::addDevTool(BaseDevTool* tool) {

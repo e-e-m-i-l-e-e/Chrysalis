@@ -4,21 +4,17 @@
 #include <forward_list>
 
 #include "BaseDevTool.h"
-#include "BaseNativeShortcutHandler.h"
 #include "BaseUIExporter.h"
-#include "GeneralUIExporterOptions.h"
 #include "UIExporterToolSettings.h"
-
-/*
- *  TODO:
- *      - add ability to stop export
- *      - add overall progress tracker
- */
+#include "GeneralUIExporterOptions.h"
+#include "BaseNativeShortcutHandler.h"
 
 class UIExporterTool: public BaseDevTool, public BaseNativeShortcutHandler {
 public:
     explicit UIExporterTool(UIExporterToolSettings* uiExporterToolSettings, GeneralUIExporterOptions* options);
     ~UIExporterTool() override;
+
+    static UIExporterTool* create();
 
     void configureSettings(ExtensionsSettings *extensionsSettings) override;
     void configureSettingsUI(UI::ExtensionsSettingsDialog *extensionsSettingsDialog) override;

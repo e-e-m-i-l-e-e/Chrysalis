@@ -18,6 +18,10 @@ JsonUIExporter::~JsonUIExporter() {
     delete options_;
 }
 
+JsonUIExporter* JsonUIExporter::create() {
+    return new JsonUIExporter(new JsonUIExporterOptions());
+}
+
 void JsonUIExporter::exportUI(const std::forward_list<QWidget*> widgets) {
     QJsonArray json;
     for (const auto& widget : widgets) {

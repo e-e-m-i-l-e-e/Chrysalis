@@ -4,6 +4,8 @@
 
 #include <QApplication>
 
+#include "XmlUIExporter.h"
+#include "JsonUIExporter.h"
 #include "ExtensionsManager.h"
 #include "UIExporterToolSettings.h"
 #include "UIExporterToolSettingsWidget.h"
@@ -20,6 +22,13 @@ UIExporterTool::UIExporterTool(UIExporterToolSettings *uiExporterToolSettings, G
 UIExporterTool::~UIExporterTool() {
     delete options_;
     delete uiExporterToolSettings_;
+}
+
+UIExporterTool* UIExporterTool::create() {
+    const auto uiExporterTool = new UIExporterTool(new UIExporterToolSettings(), new GeneralUIExporterOptions());
+    uiExporterTool->addExporter(JsonUIExporter::create());
+    uiExporterTool->addExporter(XmlUIExporter::create());
+    return uiExporterTool;
 }
 
 void UIExporterTool::configureSettings(ExtensionsSettings *extensionsSettings) {

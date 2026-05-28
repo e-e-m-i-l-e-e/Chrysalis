@@ -15,6 +15,8 @@ public:
     explicit LoggingTool(LoggerRegistry& registry, LoggingToolSettings* settings);
     ~LoggingTool() override;
 
+    static LoggingTool* create();
+
     void loggerAdded(Logger* logger) override;
 
     void startup() override;

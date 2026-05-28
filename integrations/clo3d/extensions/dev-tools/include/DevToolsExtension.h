@@ -9,6 +9,8 @@ class DevToolsExtension: public BaseExtension {
 public:
     ~DevToolsExtension() override;
 
+    static DevToolsExtension* create();
+
     void addDevTool(BaseDevTool* tool);
 
     void startup() override;

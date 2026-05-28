@@ -9,6 +9,8 @@ public:
     explicit JsonUIExporter(JsonUIExporterOptions* options);
     ~JsonUIExporter() override;
 
+    static JsonUIExporter* create();
+
     void exportUI(std::forward_list<QWidget*> widgets) override;
     BaseUIExporterOptions* getOptions() override;
 private:

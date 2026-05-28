@@ -16,6 +16,10 @@ LoggingTool::~LoggingTool() {
     delete settings_;
 }
 
+LoggingTool* LoggingTool::create() {
+    return new LoggingTool(Logging::REGISTRY, new LoggingToolSettings(Logging::REGISTRY));
+}
+
 void LoggingTool::addWidgetSink(Logger* logger) const {
     const auto sinkWidget = new UI::LoggerTextEditSink(sinks_);
     sinkWidget->attach(logger);

@@ -24,6 +24,10 @@ XmlUIExporter::~XmlUIExporter() {
     delete options_;
 }
 
+XmlUIExporter* XmlUIExporter::create() {
+    return new XmlUIExporter(new XmlUIExporterOptions());
+}
+
 void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
     int id = 0;
     std::forward_list<std::future<void>> backgroundPostProcessors;
