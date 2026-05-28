@@ -17,18 +17,18 @@ public:
     explicit LoggerRegistry(const char* loggingDirectory, const char* fileName);
     ~LoggerRegistry();
 
-    std::vector<Logger*>::const_iterator begin() const;
-    std::vector<Logger*>::const_iterator end() const;
+    [[nodiscard]] std::vector<Logger*>::const_iterator begin() const;
+    [[nodiscard]] std::vector<Logger*>::const_iterator end() const;
 
-    size_t size() const;
+    [[nodiscard]] size_t size() const;
 
-    Logger* at(int i) const;
+    [[nodiscard]] Logger* at(int i) const;
     Logger* get(const char* name);
 
     void flush() const;
 
-    const std::string& getFileName() const;
-    const std::string& getLoggingDirectory() const;
+    [[nodiscard]] const std::string& getFileName() const;
+    [[nodiscard]] const std::string& getLoggingDirectory() const;
 
     void setFileName(const std::string& fileName);
     void setLoggingDirectory(const std::string& loggingDirectory);

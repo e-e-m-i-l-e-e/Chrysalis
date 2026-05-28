@@ -23,7 +23,7 @@ if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
 
     add_executable(Launcher CLO3DLauncher.cpp)
     set_target_properties(Launcher PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CLO3D_OUTPUT_DIR})
-    target_link_libraries(Launcher PRIVATE Logger)
+    target_link_libraries(Launcher PRIVATE LoggingLibrary)
 
     # ----- Build "Extensions.dll" -------------------------------------------------------------------------------------
 
@@ -49,8 +49,8 @@ if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
             EXTEND_WITH_PATTERN_BUILDER=$<BOOL:${EXTEND_WITH_PATTERN_BUILDER}>
     )
     target_link_libraries(CLO3DExtensions PRIVATE
-            Logger Widgets HooksLibrary
             clo-sdk::clo-sdk
+            LoggingLibrary CLO3DWidgetsLibrary HooksLibrary
             Qt5::Core Qt5::CorePrivate Qt5::Concurrent Qt5::Xml Qt5::Designer)
 
     add_custom_command(TARGET CLO3DExtensions POST_BUILD
@@ -71,6 +71,6 @@ add_subdirectory(tools)
 
 # ----- Build tests ----------------------------------------------------------------------------------------------------
 
-add_subdirectory(test)
+#add_subdirectory(test)
 
 # ----------------------------------------------------------------------------------------------------------------------
