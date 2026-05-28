@@ -10,7 +10,7 @@
 LoggerRegistry::LoggerRegistry(const char* loggingDirectory, const char* fileName)
     : fileName_(fileName), loggingDirectory_(loggingDirectory),
       consoleSink_(std::make_shared<spdlog::sinks::stdout_sink_mt>()),
-      commonFileSink_(std::make_shared<spdlog::sinks::basic_file_sink_mt>(loggingDirectory_ + "/" + fileName_ + ".log", true)) {
+      commonFileSink_(Logger::createFileSink<std::mutex>(loggingDirectory_, fileName_)) {
     LoggerFormatter<NameFlagFormatter, LevelFlagFormatter>::apply(commonFileSink_);
     LoggerFormatter<ColoredNameFlagFormatter, ColoredLevelFlagFormatter>::apply(consoleSink_);
 }
@@ -41,20 +41,31 @@ void LoggerRegistry::addListener(BaseLoggerRegistryListener* listener) {
     listeners_.push_front(listener);
 }
 
-const char* LoggerRegistry::getFileName() const {
+const std::string& LoggerRegistry::getFileName() const {
     return fileName_;
 }
 
-std::string LoggerRegistry::getLoggingDirectory() const {
+const std::string& LoggerRegistry::getLoggingDirectory() const {
     return loggingDirectory_;
 }
 
-void LoggerRegistry::setFileName(const char* fileName)
-{
+void LoggerRegistry::setFileName(const std::string& fileName) {
+    if (fileName_ == fileName) return;
+    fileName_ = fileName;
+    commonFileSink_ = Logger::createFileSink<std::mutex>(loggingDirectory_, fileName_);
+    for (const auto& logger: loggers_) {
+        logger->setCommonFileSink(commonFileSink_);
+    }
 }
 
-void LoggerRegistry::setLoggingDirectory(std::string loggingDirectory)
-{
+void LoggerRegistry::setLoggingDirectory(const std::string& loggingDirectory) {
+    if (loggingDirectory_ == loggingDirectory) return;
+    loggingDirectory_ = loggingDirectory;
+    commonFileSink_ = Logger::createFileSink<std::mutex>(loggingDirectory_, fileName_);
+    for (const auto& logger: loggers_) {
+        logger->setCommonFileSink(commonFileSink_);
+        logger->setLoggingDirectory(loggingDirectory_);
+    }
 }
 
 Logger* LoggerRegistry::at(const int i) const {

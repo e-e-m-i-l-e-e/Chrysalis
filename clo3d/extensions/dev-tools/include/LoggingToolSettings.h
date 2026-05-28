@@ -26,7 +26,7 @@ public:
 
     void read(int loggerIndex, const Logger* logger) const;
 
-    const char* getFileName() const;
+    const std::string& getFileName() const;
     int getLogLevel(int loggerIndex) const;
     QString getLoggingDirectory() const;
 

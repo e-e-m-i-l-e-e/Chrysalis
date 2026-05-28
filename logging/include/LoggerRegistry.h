@@ -27,16 +27,16 @@ public:
 
     void flush() const;
 
-    const char* getFileName() const;
-    std::string getLoggingDirectory() const;
+    const std::string& getFileName() const;
+    const std::string& getLoggingDirectory() const;
 
-    void setFileName(const char* fileName);
-    void setLoggingDirectory(std::string loggingDirectory);
+    void setFileName(const std::string& fileName);
+    void setLoggingDirectory(const std::string& loggingDirectory);
 private:
 
     void addListener(BaseLoggerRegistryListener* listener);
 
-    const char* fileName_;
+    std::string fileName_;
     std::string loggingDirectory_;
 
     std::vector<Logger*> loggers_;

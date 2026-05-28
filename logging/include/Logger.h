@@ -4,6 +4,10 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/basic_file_sink.h>
 
+#include "LoggerFormatter.h"
+#include "formatters/NameFlagFormatter.h"
+#include "formatters/LevelFlagFormatter.h"
+
 class Logger {
     friend class LoggerRegistry;
 
@@ -56,6 +60,16 @@ public:
     }
 
 private:
+    template<typename Mutex>
+    static std::shared_ptr<spdlog::sinks::basic_file_sink<Mutex>> createFileSink(const std::string& loggingDirectory, const std::string& name) {
+        const auto sink = std::make_shared<spdlog::sinks::basic_file_sink<Mutex>>(loggingDirectory + "/" + name + ".log", true);
+        LoggerFormatter<NameFlagFormatter, LevelFlagFormatter>::apply(sink);
+        return sink;
+    }
+
+    void setLoggingDirectory(const std::string& loggingDirectory);
+    void setCommonFileSink(const std::shared_ptr<spdlog::sinks::basic_file_sink_mt>& sink);
+
     const char* name_;
 
     spdlog::logger logger_;

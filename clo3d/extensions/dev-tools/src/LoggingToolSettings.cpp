@@ -16,7 +16,7 @@ void LoggingToolSettings::read() {
 }
 
 void LoggingToolSettings::write() {
-    settings_->setValue(Keys::LOGGER_FILE_NAME, getFileName());
+    settings_->setValue(Keys::LOGGER_FILE_NAME, getFileName().data());
     settings_->setValue(Keys::LOGGING_DIRECTORY, getLoggingDirectory());
 
     int i = 0;
@@ -56,7 +56,7 @@ QString LoggingToolSettings::getLoggingDirectory() const {
     return QString::fromStdString(registry_.getLoggingDirectory());
 }
 
-const char* LoggingToolSettings::getFileName() const {
+const std::string& LoggingToolSettings::getFileName() const {
     return registry_.getFileName();
 }
 
@@ -65,7 +65,7 @@ void LoggingToolSettings::setLogLevel(const int loggerIndex, int logLevel) const
 }
 
 void LoggingToolSettings::setFileName(const QString& fileName) const {
-    registry_.setFileName(fileName.toUtf8().data());
+    registry_.setFileName(fileName.toStdString().c_str());
 }
 
 void LoggingToolSettings::setLoggingDirectory(const QString& loggingDirectory) const {
@@ -73,7 +73,7 @@ void LoggingToolSettings::setLoggingDirectory(const QString& loggingDirectory) c
 }
 
 QString LoggingToolSettings::getLoggerFileLocation() const {
-    return getLoggerFileLocation(getFileName());
+    return getLoggerFileLocation(getFileName().data());
 }
 
 QString LoggingToolSettings::getLoggerFileLocation(const QString& loggerName) const {

@@ -46,7 +46,7 @@ LoggingToolSettingsWidget::~LoggingToolSettingsWidget() {
 
 void LoggingToolSettingsWidget::read() {
     BaseExtensionSettingsWidget::read();
-    ui->commonFileName->setText(settings_->getFileName());
+    ui->commonFileName->setText(settings_->getFileName().data());
     ui->loggingDirectory->setText(settings_->getLoggingDirectory());
     for (int i = 0; i < registryModel_->rowCount({}); i++) {
         logLevelDelegate_->setLevel(i, settings_->getLogLevel(i));

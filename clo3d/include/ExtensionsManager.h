@@ -3,7 +3,6 @@
 
 #include <QLabel>
 
-#include <vector>
 #include <Windows.h>
 
 #include "BaseExtension.h"
@@ -21,7 +20,7 @@ public:
 
     static void addExtension(BaseExtension* extension);
 
-    static void setMessage(const QString& extensionName, const QString& message, bool logMessage = false);
+    static void setMessage(const char* extensionName, const QString& message, bool logMessage = false);
     static void clearMessage();
 
     inline static std::forward_list<BaseExtension*> extensions;
