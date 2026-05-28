@@ -18,8 +18,6 @@
 #include "Logging.h"
 #define LOGGER_NAME "XML UI Exporter"
 
-// TODO: Improve logging
-
 XmlUIExporter::XmlUIExporter(XmlUIExporterOptions *options): options_(options) {}
 
 XmlUIExporter::~XmlUIExporter() {
@@ -65,13 +63,17 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
 
                     QStringList discoveredCustomWidgets;
 
-                    LOG_INFO("#{}: Post-processing XML widgets.", id);
+                    static constexpr auto LOG_POST_PROCESSING = FMT_STRING("#{}: Post-processing {}.");
+                    static constexpr auto LOG_POST_PROCESSING_PROGRESS = "#%1: Post-processing %2 %3 / %4.";
+
+                    LOG_INFO(LOG_POST_PROCESSING, id, "XML widgets");
 
                     const auto widgetsXML = doc.elementsByTagName("widget");
                     for (int i = widgetsXML.count() - 1; i >= 0; i--) {
                         UI_MESSAGE(
-                            QString("#%1: Post-processing XML widgets %2 / %3.")
+                            QString(LOG_POST_PROCESSING_PROGRESS)
                             .arg(QString::number(id))
+                            .arg("XML widgets")
                             .arg(QString::number(widgetsXML.count() - i))
                             .arg(QString::number(widgetsXML.count()))
                         );
@@ -80,11 +82,12 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
                         const auto className = widgetElement.attribute("class");
 
                         // Delete internal Qt classes
-                        if (QStringList({
+                        static const QStringList CLASSES_TO_DELETE = {
                             "QHeaderView",
                             "QTableCornerButton",
                             "QComboBoxPrivateContainer"
-                        }).contains(className)) {
+                        };
+                        if (CLASSES_TO_DELETE.contains(className)) {
                             widgetElement.parentNode().removeChild(widgetElement);
                             continue;
                         }
@@ -143,21 +146,21 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
                         }
                     }
 
-                    LOG_INFO("#{}: Post-processing layouts.", id);
+                    LOG_INFO(LOG_POST_PROCESSING, id, "layouts");
 
                     const auto layouts = doc.elementsByTagName("layout");
                     for (int i = layouts.count() - 1; i >= 0; i--) {
                         UI_MESSAGE(
-                            QString("#%1: Post-processing layouts %2 / %3.")
+                            QString(LOG_POST_PROCESSING_PROGRESS)
                             .arg(QString::number(id))
+                            .arg("layouts")
                             .arg(QString::number(layouts.count() - i))
                             .arg(QString::number(layouts.count()))
                         );
 
+                        static const QStringList LAYOUTS_TO_TRANSFORM = {"QDockWidgetLayout", "QStackedLayout"};
                         if (const auto layoutElement = layouts.at(i).toElement();
-                            QStringList({
-                                "QDockWidgetLayout", "QStackedLayout"
-                            }).contains(layoutElement.attribute("class"))) {
+                            LAYOUTS_TO_TRANSFORM.contains(layoutElement.attribute("class"))) {
                             // Transform Qt internal layouts
                             const auto items = layoutElement.elementsByTagName("item");
                             while (!items.isEmpty()) {
@@ -171,14 +174,15 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
                         }
                     }
 
-                    LOG_INFO("#{}: Post-processing properties.", id);
+                    LOG_INFO(LOG_POST_PROCESSING, id, "properties");
 
                     QSet<QString> resources;
                     const auto properties = doc.elementsByTagName("property");
                     for (int i = properties.count() - 1; i >= 0; i--) {
                         UI_MESSAGE(
-                            QString("#%1: Post-processing properties %2 / %3.")
+                            QString(LOG_POST_PROCESSING_PROGRESS)
                             .arg(QString::number(id))
+                            .arg("properties")
                             .arg(QString::number(properties.count() - i))
                             .arg(QString::number(properties.count()))
                         );
@@ -196,18 +200,14 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
                         if (property.attribute("name") == "objectName") {
                             const auto value = property.firstChildElement().text();
 
-                            if (QStringList({
-                                "qt_scrollarea_vcontainer",
-                                "qt_scrollarea_hcontainer"
-                            }).contains(value)) {
+                            static const QStringList OBJECTS_TO_DELETE = {"qt_scrollarea_vcontainer", "qt_scrollarea_hcontainer"};
+                            if (OBJECTS_TO_DELETE.contains(value)) {
                                 // Delete internal Qt widgets by object name
                                 property.parentNode().parentNode().removeChild(property.parentNode());
                                 continue;
                             }
 
-                            if (QStringList({
-                                "qt_scrollarea_viewport"
-                            }).contains(value)) {
+                            if (value == "qt_scrollarea_viewport") {
                                 const auto childNodes = property.parentNode().childNodes();
                                 for (int j = 0; j < childNodes.count(); j++) {
                                     if (QStringList({"widget", "layout"}).contains(
@@ -231,20 +231,24 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
                     }
 
                     if (options_->getExportIcons()) {
-                        LOG_INFO("#{}: Exporting resources.", id);
+
+                        static constexpr auto LOG_EXPORTING_RESOURCES = FMT_STRING("#{}: Exporting resources.");
+                        static constexpr auto LOG_EXPORTING_RESOURCES_PROGRESS = "#%1: Exporting resources %2 / %3.";
+
+                        LOG_INFO(LOG_EXPORTING_RESOURCES, id);
 
                         static QString RESOURCES_FOLDER_NAME = "resources";
                         auto resourcesDirectory = options_->getRootFolder();
 
                         if (resourcesDirectory.mkdir(RESOURCES_FOLDER_NAME)) {
-                            LOG_INFO("\"{}\" folder has been created under {}.", RESOURCES_FOLDER_NAME.toStdString(), resourcesDirectory.path().toStdString());
+                            LOG_INFO(Logging::Message::LOG_FOLDER_WAS_CREATED_IN_DIRECTORY, RESOURCES_FOLDER_NAME.toStdString(), resourcesDirectory.path().toStdString());
                         }
                         resourcesDirectory.cd(RESOURCES_FOLDER_NAME);
 
                         int i = 1;
                         for (auto resource: resources) {
                             UI_MESSAGE(
-                                QString("#%1: Exporting resources %2 / %3.")
+                                QString(LOG_EXPORTING_RESOURCES_PROGRESS)
                                 .arg(QString::number(id))
                                 .arg(QString::number(i))
                                 .arg(QString::number(resources.count()))
@@ -253,17 +257,17 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
                             if (QFile in(resource); in.open(QIODevice::ReadOnly)) {
                                 QString fullPath = resourcesDirectory.filePath(resourcesDirectory.filePath(resource.remove(":/")));
                                 if (QFileInfo info(fullPath); !QDir().mkpath(info.path())) {
-                                    LOG_ERROR("Failed to create path for resource: {}", fullPath.toStdString());
+                                    LOG_ERROR(Logging::Message::LOG_FAILED_TO_CREATE_PATH, fullPath.toStdString());
                                     continue;
                                 }
                                 if (QFile out(fullPath); out.open(QIODevice::WriteOnly)) {
                                     out.write(in.readAll());
                                 } else {
-                                    LOG_ERROR("Failed to write file: {}", fullPath.toStdString());
+                                    LOG_ERROR(Logging::Message::LOG_FAILED_TO_OPEN_FILE, fullPath.toStdString());
                                     continue;
                                 }
                             } else {
-                                LOG_ERROR("Failed to open resource: \"{}\"", resource.toStdString());
+                                LOG_ERROR(Logging::Message::LOG_FAILED_TO_OPEN_FILE, resource.toStdString());
                                 continue;
                             }
                             i++;
@@ -279,7 +283,7 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
                     static QString ICONS_FOLDER_NAME = "icons";
                     QDir iconsDirectory = options_->getRootFolder();
                     if (iconsDirectory.mkdir(ICONS_FOLDER_NAME)) {
-                        LOG_INFO("\"{}\" folder was created under \"{}\" directory.", ICONS_FOLDER_NAME.toStdString(), options_->getRootFolder().path().toStdString());
+                        LOG_INFO(Logging::Message::LOG_FOLDER_WAS_CREATED_IN_DIRECTORY, ICONS_FOLDER_NAME.toStdString(), options_->getRootFolder().path().toStdString());
                     }
                     iconsDirectory.cd(ICONS_FOLDER_NAME);
 
@@ -287,9 +291,14 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
                     QSet<QByteArray> seenHashes;
                     for (QToolButton* btn: buttons) {
                         QIcon icon = btn->icon();
+
+                        static constexpr auto LOG_NO_IMAGE_FOR_ICON = "#%1: There is no image for icon. Skipping %2 / %3.";
+                        static constexpr auto LOG_DUPLICATED_ICON = "#%1: Duplicate detected for icon. Skipping %2 / %3.";
+                        static constexpr auto LOG_ICON_PROGRESS = "#%1: Exporting icon %2 / %3.";
+
                         if (icon.isNull()) {
                             UI_MESSAGE(
-                                QString("#%1: There is no image for icon. Skipping %2 / %3.")
+                                QString(LOG_NO_IMAGE_FOR_ICON)
                                 .arg(QString::number(id))
                                 .arg(QString::number(counter))
                                 .arg(QString::number(buttons.count()))
@@ -301,7 +310,7 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
                         QPixmap pixmap = icon.pixmap(size);
                         if (pixmap.isNull()) {
                             UI_MESSAGE(
-                                QString("#%1: There is no image for icon. Skipping %2 / %3.")
+                                QString(LOG_NO_IMAGE_FOR_ICON)
                                 .arg(QString::number(id))
                                 .arg(QString::number(counter))
                                 .arg(QString::number(buttons.count()))
@@ -320,7 +329,7 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
                         // Skip duplicates
                         if (seenHashes.contains(hash)) {
                             UI_MESSAGE(
-                                QString("#%1: Duplicate detected for icon. Skipping %2 / %3.")
+                                QString(LOG_DUPLICATED_ICON)
                                 .arg(QString::number(id))
                                 .arg(QString::number(counter)
                                 .arg(QString::number(buttons.count())))
@@ -329,7 +338,7 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
                         }
 
                         UI_MESSAGE(
-                            QString("#%1: Exporting icon %2 / %3.")
+                            QString(LOG_ICON_PROGRESS)
                             .arg(QString::number(id))
                             .arg(QString::number(counter))
                             .arg(QString::number(buttons.count()))
@@ -338,7 +347,7 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
                         seenHashes.insert(hash);
 
                         if (const auto iconPath = iconsDirectory.filePath(QString("%1-%2").arg(QString::number(id)).arg(QString::number(counter++))).append(".png"); !pixmap.save(iconPath)) {
-                            LOG_ERROR("Failed to save icon: {}", iconPath.toStdString());
+                            LOG_ERROR(Logging::Message::LOG_FAILED_TO_SAVE_FILE, iconPath.toStdString());
                         }
                     }
                 }
@@ -350,7 +359,7 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
                     doc.save(stream, 4);
                     file.close();
                 } else {
-                    LOG_ERROR("Failed to open file: {}", filePath.toStdString());
+                    LOG_ERROR(Logging::Message::LOG_FAILED_TO_OPEN_FILE, filePath.toStdString());
                 }
             }
         ));

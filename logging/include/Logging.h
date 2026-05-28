@@ -5,6 +5,14 @@
 
 namespace Logging {
     inline LoggerRegistry REGISTRY(LOGS_DIR, LOGS_FILE_NAME);
+
+    namespace Message {
+        static constexpr auto LOG_SAVING_FILE = FMT_STRING("Saving file: {}.");
+        static constexpr auto LOG_FAILED_TO_OPEN_FILE = FMT_STRING("Failed to open file: {}.");
+        static constexpr auto LOG_FAILED_TO_SAVE_FILE = FMT_STRING("Failed to save file: {}.");
+        static constexpr auto LOG_FAILED_TO_CREATE_PATH = FMT_STRING("Failed to create path: {}.");
+        static constexpr auto LOG_FOLDER_WAS_CREATED_IN_DIRECTORY = FMT_STRING("Folder \"{}\" was created in \"{}\" directory.");
+    }
 }
 
 #define LOGGER Logging::REGISTRY.get(LOGGER_NAME)

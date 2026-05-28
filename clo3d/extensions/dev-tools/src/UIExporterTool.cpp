@@ -40,16 +40,16 @@ void UIExporterTool::handle() {
     QWidget* widgetAtMousePosition = nullptr;
     if (options_->getPickMyMouse()) {
         widgetAtMousePosition = QApplication::widgetAt(QCursor::pos());
-        LOG_DEBUG("Exporting widget at cursor position. Class name: {}. Object name: {}.",
-                  widgetAtMousePosition->metaObject()->className(),
-                  widgetAtMousePosition->objectName().toStdString()
+        static constexpr auto LOG_EXPORT_AT_CURSOR = "Exporting widget at cursor position. Class name: {}. Object name: {}.";
+        LOG_DEBUG(LOG_EXPORT_AT_CURSOR, widgetAtMousePosition->metaObject()->className(), widgetAtMousePosition->objectName().toStdString()
         );
     }
     std::unordered_map<QString, std::unordered_map<QString, std::forward_list<QWidget*>>> foundWidgets; // <className, <objectName, widgets>>
     for (const auto exporter : exporters_) {
         const auto options = exporter->getOptions();
         if (!options->isEnabled()) {
-            LOG_DEBUG("Skipping export using {}", typeid(*exporter).name());
+            static constexpr auto LOG_SKIP_EXPORT = "Skipping export using {}";
+            LOG_DEBUG(LOG_SKIP_EXPORT, typeid(*exporter).name());
             continue;
         }
         if (widgetAtMousePosition) {
@@ -63,11 +63,8 @@ void UIExporterTool::handle() {
             for (const auto widget: QApplication::allWidgets()) {
                 if ((objectName.isEmpty() || objectName == widget->objectName()) &&
                     (className.isEmpty() || className == widget->metaObject()->className())) {
-                    LOG_DEBUG(
-                        "Matching widget has been found with class \"{}\" and name \"{}\"",
-                        widget->metaObject()->className(),
-                        widget->objectName().toStdString()
-                    );
+                    static constexpr auto LOG_MATCH_FOUND = "Matching widget has been found with class \"{}\" and name \"{}\"";
+                    LOG_DEBUG(LOG_MATCH_FOUND, widget->metaObject()->className(), widget->objectName().toStdString());
                     foundWidgets[className][objectName].push_front(widget);
                 }
             }
