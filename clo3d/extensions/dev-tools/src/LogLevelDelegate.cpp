@@ -20,6 +20,14 @@ LogLevelDelegate::LogLevelDelegate(LoggerRegistryModel* model): QStyledItemDeleg
     }
 }
 
+int LogLevelDelegate::getLevel(const int row) const {
+    return editors_[row]->currentIndex();
+}
+
+void LogLevelDelegate::setLevel(const int row, const int value) const {
+    editors_[row]->setCurrentIndex(value);
+}
+
 QWidget* LogLevelDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem&, const QModelIndex& index) const {
     auto& editor = editors_[index.row()];
     editor->setParent(parent);

@@ -8,9 +8,9 @@ BaseExtensionSettings* UI::BaseExtensionSettingsWidget::getBaseExtensionSettings
 }
 
 void UI::BaseExtensionSettingsWidget::write() {
-    extensionSettings_->write();
+    extensionSettings_->writeSettings();
 }
 
 void UI::BaseExtensionSettingsWidget::read() {
-    extensionSettings_->read();
+    extensionSettings_->readSettings();
 }

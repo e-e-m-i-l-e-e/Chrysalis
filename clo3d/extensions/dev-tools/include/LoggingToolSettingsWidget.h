@@ -6,6 +6,7 @@
 #include "BaseExtensionSettingsWidget.h"
 #include "LoggerRegistryModel.h"
 #include "LoggingToolSettings.h"
+#include "LogLevelDelegate.h"
 
 namespace UI {
     QT_BEGIN_NAMESPACE
@@ -19,7 +20,7 @@ namespace UI {
     class LoggingToolSettingsWidget: public BaseExtensionSettingsWidget {
         Q_OBJECT
     public:
-        explicit LoggingToolSettingsWidget(LoggingToolSettings* settings, LoggerRegistryModel* registryModel, QStackedWidget* sinks, QWidget *parent = nullptr);
+        explicit LoggingToolSettingsWidget(LoggingToolSettings* settings, LoggerRegistryModel* registryModel, LogLevelDelegate* logLevelDelegate, QStackedWidget* sinks, QWidget *parent = nullptr);
         ~LoggingToolSettingsWidget() override;
 
         void read() override;
@@ -36,6 +37,7 @@ namespace UI {
         QStackedWidget* sinks_;
         LoggingToolSettings* settings_;
         LoggerRegistryModel* registryModel_;
+        LogLevelDelegate* logLevelDelegate_;
     };
 } // UI
 

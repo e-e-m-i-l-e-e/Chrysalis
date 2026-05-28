@@ -1,5 +1,8 @@
 #include "ExtensionsSettings.h"
 
+#include "Logging.h"
+#define LOGGER_NAME "Extensions Settings"
+
 ExtensionsSettings::ExtensionsSettings(const QString &organization, const QString &application)
     : settings_(new QSettings(organization, application)) {}
 
@@ -17,11 +20,12 @@ void ExtensionsSettings::addSettings(BaseExtensionSettings* settings) {
 
 void ExtensionsSettings::read() const {
     for (const auto settings: extensionsSettings_) {
-        settings->read();
+        settings->readSettings();
     }
 }
 
 void ExtensionsSettings::clear() const {
+    LOG_INFO("Resetting settings");
     settings_->clear();
     read();
 }

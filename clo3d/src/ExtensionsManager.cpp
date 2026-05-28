@@ -50,24 +50,6 @@ void ExtensionsManager::addExtension(BaseExtension* extension) {
     extensions.push_front(extension);
 }
 
-using PaintGLFn = void(__fastcall*)(QOpenGLWidget* self);
-
-PaintGLFn g_originalPaintGL = nullptr;
-
-void __fastcall hkPaintGL(QOpenGLWidget* self)
-{
-    // BEFORE original rendering
-    LOG_INFO("BEFORE ORIGINAL");
-
-    // call original
-    g_originalPaintGL(self);
-
-    LOG_INFO("AFTER ORIGINAL");
-
-    // AFTER rendering
-    // custom OpenGL rendering here
-}
-
 class PaintFilter : public QObject
 {
 public:
@@ -114,9 +96,13 @@ private:
     QObject* original;
 };
 
-static QGraphicsView* view = nullptr;
 void ExtensionsManager::install() {
     extensionsSettings = new ExtensionsSettings("eemilee.me", "CLO3D Extensions");
+    for (const auto extension: extensions) {
+        extension->install();
+        extension->configureSettings(extensionsSettings);
+    }
+    extensionsSettings->read();
 
     qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(+[] {
         BaseNativeShortcutHandler::registerShortcuts();
@@ -403,11 +389,6 @@ void ExtensionsManager::install() {
     //         }
     //     }
     // });
-    for (const auto extension: extensions) {
-        extension->install();
-        extension->configureSettings(extensionsSettings);
-    }
-    extensionsSettings->read();
 }
 
 void ExtensionsManager::setMessage(const QString &message) {

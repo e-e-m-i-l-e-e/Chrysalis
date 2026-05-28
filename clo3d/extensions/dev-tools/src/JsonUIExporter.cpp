@@ -1,9 +1,9 @@
 #include "JsonUIExporter.h"
 
-#include <QApplication>
 #include <QLayout>
-#include <QJsonObject>
 #include <QJsonArray>
+#include <QJsonObject>
+#include <QApplication>
 #include <QMetaProperty>
 #include <QJsonDocument>
 

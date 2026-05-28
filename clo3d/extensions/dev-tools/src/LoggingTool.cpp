@@ -2,10 +2,10 @@
 
 #include <ranges>
 
+#include "Logging.h"
 #include "LoggerFormatter.h"
 #include "ExtensionsSettings.h"
 #include "LoggerTextEditSink.h"
-#include "Logging.h"
 #include "LoggingToolSettingsWidget.h"
 
 LoggingTool::LoggingTool(LoggerRegistry& registry, LoggingToolSettings* settings)
@@ -24,6 +24,7 @@ void LoggingTool::addWidgetSink(Logger* logger) const {
 }
 
 void LoggingTool::loggerAdded(Logger* logger) {
+    settings_->read(registry_.size() - 1, logger);
     if (!sinks_) return;
     addWidgetSink(logger);
 }
@@ -42,7 +43,8 @@ void LoggingTool::configureSettings(ExtensionsSettings* extensionsSettings) {
 }
 
 void LoggingTool::configureSettingsUI(UI::ExtensionsSettingsDialog* extensionsSettingsDialog) {
-    const auto loggerRegistryModel = new LoggerRegistryModel(extensionsSettingsDialog, Logging::REGISTRY);
-    const auto settingsWidget = new UI::LoggingToolSettingsWidget(settings_, loggerRegistryModel, sinks_, extensionsSettingsDialog);
+    const auto loggerRegistryModel = new LoggerRegistryModel(extensionsSettingsDialog, registry_);
+    const auto logLevelDelegate = new LogLevelDelegate(loggerRegistryModel);
+    const auto settingsWidget = new UI::LoggingToolSettingsWidget(settings_, loggerRegistryModel, logLevelDelegate, sinks_, extensionsSettingsDialog);
     extensionsSettingsDialog->addPage(settingsWidget);
 }

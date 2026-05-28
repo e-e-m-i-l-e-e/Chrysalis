@@ -5,6 +5,16 @@
 #include "LoggerRegistry.h"
 
 class LoggingToolSettings: public BaseExtensionSettings {
+    struct Keys {
+        static constexpr auto LOGGING_DIRECTORY = "loggingDirectory";
+        static constexpr auto LOGGER_FILE_NAME = "fileName";
+        static constexpr auto LOGGER_LOG_LEVEL = "logLevel";
+    };
+    struct Defaults {
+        static constexpr auto LOGGING_DIRECTORY = LOGS_DIR;
+        static constexpr auto LOGGER_FILE_NAME = LOGS_FILE_NAME;
+        static constexpr auto LOGGER_LOG_LEVEL = spdlog::level::info;
+    };
 public:
     explicit LoggingToolSettings(LoggerRegistry& registry);
 
@@ -14,11 +24,21 @@ public:
     void flush() const;
     void flush(int i) const;
 
+    void read(int loggerIndex, const Logger* logger) const;
+
+    const char* getFileName() const;
+    int getLogLevel(int loggerIndex) const;
     QString getLoggingDirectory() const;
-    const char* getCommonFileName() const;
+
+    void setFileName(const QString& fileName) const;
+    void setLogLevel(int loggerIndex, int logLevel) const;
+    void setLoggingDirectory(const QString& loggingDirectory) const;
+
     QString getLoggerFileLocation() const;
     QString getLoggerFileLocation(const QString& loggerName) const;
 private:
+    void readLoggerSettings(int loggerIndex, const Logger* logger) const;
+
     LoggerRegistry& registry_;
 };
 

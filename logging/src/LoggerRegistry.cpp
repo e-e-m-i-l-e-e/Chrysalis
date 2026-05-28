@@ -1,5 +1,6 @@
 #include "LoggerRegistry.h"
 
+#include <iostream>
 #include <ranges>
 
 #include "LoggerFormatter.h"
@@ -7,7 +8,7 @@
 #include "formatters/ColoredLevelFlagFormatter.h"
 
 LoggerRegistry::LoggerRegistry(const char* loggingDirectory, const char* fileName)
-    : loggingDirectory_(loggingDirectory), fileName_(fileName),
+    : fileName_(fileName), loggingDirectory_(loggingDirectory),
       consoleSink_(std::make_shared<spdlog::sinks::stdout_sink_mt>()),
       commonFileSink_(std::make_shared<spdlog::sinks::basic_file_sink_mt>(loggingDirectory_ + "/" + fileName_ + ".log", true)) {
     LoggerFormatter<NameFlagFormatter, LevelFlagFormatter>::apply(commonFileSink_);

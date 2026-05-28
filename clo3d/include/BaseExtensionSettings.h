@@ -7,11 +7,14 @@ class BaseExtensionSettings {
     friend class ExtensionsSettings;
 protected:
     virtual ~BaseExtensionSettings() = default;
+
+    virtual void read() = 0;
+    virtual void write() = 0;
 private:
     void setSettings(QSettings* settings);
 public:
-    virtual void read() = 0;
-    virtual void write() = 0;
+    void readSettings();
+    void writeSettings();
 protected:
     QSettings* settings_ = nullptr;
 };
