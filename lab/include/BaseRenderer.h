@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_BASERENDERER_H
-#define FASHIONDESIGNAPPS_BASERENDERER_H
+#ifndef CHRYSALIS_BASERENDERER_H
+#define CHRYSALIS_BASERENDERER_H
 
 #include <QOpenGLBuffer>
 #include <QOpenGLFunctions>
@@ -56,4 +56,4 @@ private:
     bool shouldUpload_ = true;
 };
 
-#endif //FASHIONDESIGNAPPS_BASERENDERER_H
+#endif //CHRYSALIS_BASERENDERER_H

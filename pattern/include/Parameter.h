@@ -2,6 +2,7 @@
 #define CHRYSALIS_PARAMETER_H
 
 #include <string>
+#include <boost/optional/optional.hpp>
 
 #include "serialization.h"
 #include "BaseArgument.h"
@@ -10,17 +11,33 @@ namespace Chrysalis {
     class SERIALIZABLE(Parameter): public BaseArgument {
         PROVIDE_SERIALIZATION_ACCESS(Parameter)
     public:
-        explicit Parameter(const std::string& name, double value);
+        explicit Parameter(std::string name);
 
         [[nodiscard]] double getValue() const override;
-        void setValue(double value);
 
+        [[nodiscard]] bool isValid() const;
+        [[nodiscard]] bool hasAlias() const;
+        [[nodiscard]] bool hasValue() const;
+        [[nodiscard]] bool hasDefaultValue() const;
+
+        [[nodiscard]] double getDefaultValue() const;
         [[nodiscard]] const std::string& getName() const;
+        [[nodiscard]] const std::string& getAlias() const;
+
+        void setName(const std::string& name);
+        void setAlias(const std::string& alias);
+        void setValue(double value);
+        void setDefaultValue(double defaultValue);
+
     private:
-        double value_;
+        boost::optional<double> value_;
+        boost::optional<double> defaultValue_;
+
         std::string name_;
+        boost::optional<std::string> alias_;
     };
-    SIMPLE_SERIALIZE_MEMBERS(Parameter, name_, value_)
+    SERIALIZE_MEMBERS(Parameter, name_, value_, defaultValue_, alias_)
+    SERIALIZATION_CONSTRUCTOR(Parameter, name_)
 }
 
 #endif //CHRYSALIS_PARAMETER_H

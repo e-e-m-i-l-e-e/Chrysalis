@@ -11,14 +11,15 @@ namespace Chrysalis {
         ~Parameters();
 
         Parameter* at(int index);
-
         [[nodiscard]] unsigned int count() const;
+
         void addParameter(Parameter* parameter);
-        Parameter* getParameter(const std::string& name);
+        [[nodiscard]] Parameter* getParameter(const std::string& name) const;
     private:
-        std::unordered_map<std::string, Parameter*> parameters_;
+        std::list<Parameter*> parameters_;
+        std::unordered_map<std::string, Parameter*> parametersMap_;
     };
-    DEFAULT_SERIALIZE_MEMBERS(Parameters, parameters_)
+    DEFAULT_SERIALIZE_MEMBERS(Parameters, parameters_, parametersMap_)
 }
 
 #endif //CHRYSALIS_PARAMETERS_H

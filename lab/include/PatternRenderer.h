@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_PATTERNRENDERER_H
-#define FASHIONDESIGNAPPS_PATTERNRENDERER_H
+#ifndef CHRYSALIS_PATTERNRENDERER_H
+#define CHRYSALIS_PATTERNRENDERER_H
 
 #include "PatternShapeRenderer.h"
 #include "PatternSpaceRenderer.h"
@@ -18,4 +18,4 @@ private:
     PatternShapeRenderer* shapeRenderer_;
 };
 
-#endif //FASHIONDESIGNAPPS_PATTERNRENDERER_H
+#endif //CHRYSALIS_PATTERNRENDERER_H

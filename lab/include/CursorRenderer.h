@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_CURSORRENDERER_H
-#define FASHIONDESIGNAPPS_CURSORRENDERER_H
+#ifndef CHRYSALIS_CURSORRENDERER_H
+#define CHRYSALIS_CURSORRENDERER_H
 
 #include "SpaceVertex.h"
 #include "BaseAnimatedRenderer.h"
@@ -21,4 +21,4 @@ private:
     ChrysalisOpenGLProgram* program_;
 };
 
-#endif //FASHIONDESIGNAPPS_CURSORRENDERER_H
+#endif //CHRYSALIS_CURSORRENDERER_H

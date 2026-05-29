@@ -2,6 +2,8 @@
 #define CHRYSALIS_SERIALIZATION_H
 
 #include <boost/preprocessor.hpp>
+#include <boost/serialization/list.hpp>
+#include <boost/serialization/optional.hpp>
 #include <boost/serialization/unordered_map.hpp>
 
 // --- Forward declarations --------------------------------------------------------------------------------------------

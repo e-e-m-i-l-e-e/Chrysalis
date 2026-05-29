@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_OPENGLPROGRAM_H
-#define FASHIONDESIGNAPPS_OPENGLPROGRAM_H
+#ifndef CHRYSALIS_OPENGLPROGRAM_H
+#define CHRYSALIS_OPENGLPROGRAM_H
 
 #include "BaseOpenGLProgram.h"
 
@@ -12,4 +12,4 @@ public:
     void setColor(float r, float g, float b, float a);
 };
 
-#endif //FASHIONDESIGNAPPS_OPENGLPROGRAM_H
+#endif //CHRYSALIS_OPENGLPROGRAM_H
