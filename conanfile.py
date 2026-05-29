@@ -15,7 +15,7 @@ class FashionDesignAppsConan(ConanFile):
         "cgal/6.1.1"
     ]
     options = {
-        "app": ["none", "CLO3D", "mobile"]
+        "app": ["none", "CLO3D", "Chrysalis"]
     }
     default_options = {
         "app": "none"
@@ -26,7 +26,7 @@ class FashionDesignAppsConan(ConanFile):
             self.requires("qt/5.15.16")
             self.requires("clo-sdk/9.1.0")
             self.requires("polyhook2/2.0")
-        elif self.options.app == "mobile":
+        elif self.options.app == "Chrysalis":
             self.requires("qt/6.8.3")
 
     def configure(self):
@@ -43,14 +43,13 @@ class FashionDesignAppsConan(ConanFile):
             self.options["qt/5.15.16"].with_sqlite3 = False
             self.options["qt/5.15.16"].with_freetype = False
 
-        elif self.options.app == "mobile":
+        elif self.options.app == "Chrysalis":
             self.options["qt/6.8.3"].shared = True
             self.options["qt/6.8.3"].openssl = False
             self.options["qt/6.8.3"].with_pq = False
             self.options["qt/6.8.3"].with_md4c = False
             self.options["qt/6.8.3"].with_odbc = False
             self.options["qt/6.8.3"].with_brotli = False
-            # self.options["qt/6.8.3"].with_libpng = False
             self.options["qt/6.8.3"].with_sqlite3 = False
             self.options["qt/6.8.3"].qtdeclarative = True
             self.options["qt/6.8.3"].qtshadertools = True
