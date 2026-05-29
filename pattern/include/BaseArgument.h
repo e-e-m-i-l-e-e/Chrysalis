@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_BASEARGUMENT_H
-#define FASHIONDESIGNAPPS_BASEARGUMENT_H
+#ifndef CHRYSALIS_BASEARGUMENT_H
+#define CHRYSALIS_BASEARGUMENT_H
 
 class BaseArgument {
 protected:
@@ -10,4 +10,4 @@ public:
     virtual double getValue() const = 0;
 };
 
-#endif //FASHIONDESIGNAPPS_BASEARGUMENT_H
+#endif //CHRYSALIS_BASEARGUMENT_H

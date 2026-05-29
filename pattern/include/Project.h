@@ -1,29 +1,18 @@
-#ifndef FASHIONDESIGNAPPS_PROJECT_H
-#define FASHIONDESIGNAPPS_PROJECT_H
+#ifndef CHRYSALIS_PROJECT_H
+#define CHRYSALIS_PROJECT_H
 
 #include <forward_list>
 
-#include "PatternBuilder.h"
-#include "ProjectParameters.h"
+#include "serialization.h"
 
-namespace PB
-{
-    class Project;
-}
+#include "Pattern.h"
+#include "Parameters.h"
 
-namespace boost::serialization {
-    template<class Archive>
-    void save_construct_data(Archive&, const PB::Project*, const unsigned int);
-
-    template<class Archive>
-    void load_construct_data(Archive&, PB::Project*, const unsigned int);
-}
-
-namespace PB {
-    class Project {
-        friend class boost::serialization::access;
+namespace Chrysalis {
+    class SERIALIZABLE(Project) {
+        PROVIDE_SERIALIZATION_ACCESS(Project)
     public:
-        explicit Project(const std::string& name, ProjectParameters* parameters);
+        explicit Project(const std::string& name, Parameters* parameters);
         ~Project();
 
         static Project* create();
@@ -31,25 +20,17 @@ namespace PB {
         std::string getName();
         void setName(const std::string& name);
 
-        ProjectParameters* getParameters() const;
+        [[nodiscard]] Parameters* getParameters() const;
 
         void addPattern(Pattern* pattern);
     private:
         std::string name_;
-        ProjectParameters* parameters_;
+        Parameters* parameters_;
         std::forward_list<Pattern*> patterns_;
-
-        template<class Archive>
-        void serialize(Archive& archive, const unsigned int version) {
-            archive & name_;
-            archive & parameters_;
-        }
-        template<class Archive>
-        friend void boost::serialization::save_construct_data(Archive&, const Project*, const unsigned int);
-
-        template<class Archive>
-        friend void boost::serialization::load_construct_data(Archive&, Project*, const unsigned int);
     };
+
+    SERIALIZE_MEMBERS(Project, name_, parameters_)
+    SERIALIZATION_CONSTRUCTOR(Project, name_, parameters_)
 }
 
-#endif //FASHIONDESIGNAPPS_PROJECT_H
+#endif //CHRYSALIS_PROJECT_H

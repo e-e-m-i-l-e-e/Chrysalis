@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_ARGUMENT_H
-#define FASHIONDESIGNAPPS_ARGUMENT_H
+#ifndef CHRYSALIS_ARGUMENT_H
+#define CHRYSALIS_ARGUMENT_H
 
 #include "BaseArgument.h"
 
@@ -12,4 +12,4 @@ private:
     double value_;
 };
 
-#endif //FASHIONDESIGNAPPS_ARGUMENT_H
+#endif //CHRYSALIS_ARGUMENT_H

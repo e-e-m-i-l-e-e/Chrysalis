@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_SPACE_H
-#define FASHIONDESIGNAPPS_SPACE_H
+#ifndef CHRYSALIS_SPACE_H
+#define CHRYSALIS_SPACE_H
 
 #include <unordered_map>
 
@@ -40,4 +40,4 @@ private:
     std::unordered_map<std::string, std::string> parentPoints_;
 };
 
-#endif //FASHIONDESIGNAPPS_SPACE_H
+#endif //CHRYSALIS_SPACE_H

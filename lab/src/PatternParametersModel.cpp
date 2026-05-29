@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-void PatternParametersModel::setParameters(ProjectParameters* parameters) {
+void PatternParametersModel::setParameters(Chrysalis::Parameters* parameters) {
     beginResetModel();
     parameters_ = parameters;
     endResetModel();
@@ -17,5 +17,6 @@ int PatternParametersModel::columnCount(const QModelIndex& parent) const {
 }
 
 QVariant PatternParametersModel::data(const QModelIndex& index, int role) const {
-    return {"TEST"};
+    if (role != Qt::DisplayRole) return {};
+    return index.column() == 0 ? QVariant(QString::fromStdString(parameters_->at(index.row())->getName())) : parameters_->at(index.row())->getValue();
 }

@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_VERTEX_H
-#define FASHIONDESIGNAPPS_VERTEX_H
+#ifndef CHRYSALIS_VERTEX_H
+#define CHRYSALIS_VERTEX_H
 
 #include <vector>
 
@@ -20,4 +20,4 @@ private:
     float y_;
 };
 
-#endif //FASHIONDESIGNAPPS_VERTEX_H
+#endif //CHRYSALIS_VERTEX_H

@@ -1,12 +1,11 @@
-#ifndef FASHIONDESIGNAPPS_PATTERN_H
-#define FASHIONDESIGNAPPS_PATTERN_H
+#ifndef CHRYSALIS_PATTERN_H
+#define CHRYSALIS_PATTERN_H
 
-#include "BaseArgument.h"
 #include "Space.h"
-#include "DartBuilder.h"
-#include "OutlineBuilder.h"
+#include "Outline.h"
+#include "BaseArgument.h"
 
-namespace PB {
+namespace Chrysalis {
     class Pattern {
     public:
         explicit Pattern(const std::string& name, Space* space, Outline* outline);
@@ -20,9 +19,6 @@ namespace PB {
 
         void sharePoint(const std::string& point, const Pattern* pattern) const;
 
-        DartBuilder startDart() const;
-        OutlineBuilder editOutline() const;
-
         std::vector<std::vector<float>> getOutline() const;
         std::vector<float> getShape() const;
     private:
@@ -32,4 +28,4 @@ namespace PB {
     };
 }
 
-#endif //FASHIONDESIGNAPPS_PATTERN_H
+#endif //CHRYSALIS_PATTERN_H

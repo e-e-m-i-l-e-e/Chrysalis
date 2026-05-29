@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_OUTLINE_H
-#define FASHIONDESIGNAPPS_OUTLINE_H
+#ifndef CHRYSALIS_OUTLINE_H
+#define CHRYSALIS_OUTLINE_H
 
 #include <forward_list>
 
@@ -11,7 +11,7 @@
 #include "Dart.h"
 #include "Space.h"
 
-namespace PB {
+namespace Chrysalis {
     class Outline {
         using Polygon_with_holes = CGAL::Polygon_with_holes_2<Kernel>;
         using Vb  = CGAL::Triangulation_vertex_base_2<Kernel>;
@@ -35,4 +35,4 @@ namespace PB {
     };
 }
 
-#endif //FASHIONDESIGNAPPS_OUTLINE_H
+#endif //CHRYSALIS_OUTLINE_H

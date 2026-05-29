@@ -2,7 +2,7 @@
 
 #include <queue>
 
-using namespace PB;
+using namespace Chrysalis;
 
 Outline::Outline(Space* space): space_(space) {}
 

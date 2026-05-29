@@ -1,12 +1,12 @@
-#ifndef FASHIONDESIGNAPPS_DART_H
-#define FASHIONDESIGNAPPS_DART_H
+#ifndef CHRYSALIS_DART_H
+#define CHRYSALIS_DART_H
 
 #include <CGAL/Polygon_2.h>
 #include <CGAL/Simple_cartesian.h>
 
 #include "Space.h"
 
-namespace PB {
+namespace Chrysalis {
     using Polygon = CGAL::Polygon_2<Kernel>;
 
     class Dart {
@@ -23,4 +23,4 @@ namespace PB {
     };
 }
 
-#endif //FASHIONDESIGNAPPS_DART_H
+#endif //CHRYSALIS_DART_H

@@ -1,6 +1,6 @@
 #include "Pattern.h"
 
-using namespace PB;
+using namespace Chrysalis;
 
 Pattern::Pattern(const std::string& name, Space* space, Outline* outline)
     : name_(name), space_(space), outline_(outline) {}
@@ -29,18 +29,6 @@ void Pattern::sharePoint(const std::string& point, const Pattern* pattern) const
     const Point& p = space_->getPoint(point);
     pattern->addPoint(point, p.x(), p.y());
 }
-
-DartBuilder Pattern::startDart() const {
-    return DartBuilder(outline_, new Dart(space_));
-}
-
-OutlineBuilder Pattern::editOutline() const {
-    return OutlineBuilder(outline_);
-}
-
-// std::vector<Vertex> Pattern::getPoints() const {
-//     return space_->getVBO();
-// }
 
 std::vector<std::vector<float>> Pattern::getOutline() const {
     return outline_->getPoints();

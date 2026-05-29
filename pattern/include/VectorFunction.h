@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_VECTORFUNCTIONS_H
-#define FASHIONDESIGNAPPS_VECTORFUNCTIONS_H
+#ifndef CHRYSALIS_VECTORFUNCTIONS_H
+#define CHRYSALIS_VECTORFUNCTIONS_H
 
 #include "BaseArgument.h"
 #include "Space.h"
@@ -21,4 +21,4 @@ private:
     double(*function)(const VectorFunction*);
 };
 
-#endif //FASHIONDESIGNAPPS_VECTORFUNCTIONS_H
+#endif //CHRYSALIS_VECTORFUNCTIONS_H

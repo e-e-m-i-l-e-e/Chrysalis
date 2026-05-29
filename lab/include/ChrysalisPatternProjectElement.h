@@ -42,8 +42,8 @@ public slots:
 
 private:
     QUrl filePath_;
-    PB::Project* project = nullptr;
-    Chrysalis::Pattern::Archive archive;
+    Chrysalis::Project* project = nullptr;
+    Chrysalis::Archive archive;
     PatternParametersModel* parameters_ = nullptr;
 };
 

@@ -1,12 +1,4 @@
 @startuml
-abstract "BaseArgument" as C_0014032639484775088103
-abstract C_0014032639484775088103 {
-#BaseArgument() = default : void
-+~BaseArgument() constexpr = default : void
-..
-{abstract} +getValue() const = 0 : double
-__
-}
 class "Vertex" as C_0002326256006988294087
 class C_0002326256006988294087 {
 +Vertex(float x, float y) : void
@@ -85,8 +77,8 @@ LEFT
 UP
 DOWN
 }
-class "PB::Dart" as C_0013418707691566027006
-class C_0013418707691566027006 {
+class "Chrysalis::Dart" as C_0009492302074556763060
+class C_0009492302074556763060 {
 +Dart(Space * space) : void
 ..
 +addPoint(const std::string & pointName) : void
@@ -96,8 +88,8 @@ __
 -polygon_ : Polygon
 -space_ : Space *
 }
-class "PB::Outline" as C_0015223333465504068435
-class C_0015223333465504068435 {
+class "Chrysalis::Outline" as C_0012923087791918137441
+class C_0012923087791918137441 {
 +Outline(Space * space) : void
 +~Outline() : void
 ..
@@ -110,102 +102,72 @@ __
 -polygon_ : Polygon_with_holes
 -space_ : Space *
 }
-class "PB::DartBuilder" as C_0002264357742943673553
-class C_0002264357742943673553 {
-+DartBuilder(Outline * outline, Dart * dart) : void
-..
-+addPoint(const std::string & pointName) : DartBuilder &
-+complete() const : void
-__
--dart_ : Dart *
--outline_ : Outline *
-}
-class "PB::OutlineBuilder" as C_0004467681112100964754
-class C_0004467681112100964754 {
-+OutlineBuilder(Outline * outline) : void
-..
-+addPoint(const std::string & pointName) : OutlineBuilder &
-__
--outline_ : Outline *
-}
-class "PB::Pattern" as C_0005833888742069232503
-class C_0005833888742069232503 {
+class "Chrysalis::Pattern" as C_0005824426893526781565
+class C_0005824426893526781565 {
 +Pattern(const std::string & name, Space * space, Outline * outline) : void
 ..
 +addPoint(const std::string & name, double x, double y) const : void
 +addPoint(const std::string & from, const std::string & to, const BaseArgument * angle, const BaseArgument * length) const : void
 +addPoint(const std::string & from, const std::string & to, Space::Direction direction, const BaseArgument * length) const : void
-+editOutline() const : OutlineBuilder
 +getOutline() const : std::vector<std::vector<float>>
 +getShape() const : std::vector<float>
 +nextPoint(const std::string & to, const BaseArgument * angle, const BaseArgument * length) const : void
 +nextPoint(const std::string & to, Space::Direction direction, const BaseArgument * length) const : void
 +sharePoint(const std::string & point, const Pattern * pattern) const : void
-+startDart() const : DartBuilder
 __
 -name_ : std::string
 -outline_ : Outline *
 -space_ : Space *
 }
-class "PB::PatternBuilder" as C_0015340525554118583374
-class C_0015340525554118583374 {
-+PatternBuilder(Space * space, Pattern * pattern) : void
-..
-+addPoint(const std::string & name, double x, double y) : PatternBuilder &
-+addPoint(const std::string & fromPointName, const std::string & name, double angle, double length) : PatternBuilder &
-+addPoint(const std::string & fromPointName, const std::string & name, Space::Direction direction, double length) : PatternBuilder &
-+editOutline() const : OutlineBuilder
-+getSpace() const : Space &
-+getSpaceRendererData() const : const SpaceRendererData *
-+nextPoint(const std::string & name, double angle, double length) : PatternBuilder &
-+nextPoint(const std::string & name, Space::Direction direction, double length) : PatternBuilder &
-__
--pattern_ : Pattern *
--space_ : Space *
-}
-class "PB::Project" as C_0002059810468929738276
-class C_0002059810468929738276 {
-+Project(const std::string & name, ProjectParameters * parameters) : void
-+~Project() : void
-..
-+addPattern(Pattern * pattern) : void
-{static} +create() : Project *
-+getName() : std::string
-+getParameters() const : ProjectParameters *
--serialize<Archive>(Archive & archive, const unsigned int version) : void
-+setName(const std::string & name) : void
-__
--name_ : std::string
--parameters_ : ProjectParameters *
--patterns_ : std::forward_list<Pattern *>
-}
-class "Parameter" as C_0006906501909834539344
-class C_0006906501909834539344 {
+class "Chrysalis::Parameter" as C_0012811662139665247956
+class C_0012811662139665247956 {
 +Parameter(const std::string & name, double value) : void
 ..
 +getName() const : const std::string &
 +getValue() const : double
--serialize<Archive>(Archive & archive, const unsigned int version) : void
 +setValue(double value) : void
 __
 -name_ : std::string
 -value_ : double
 }
-class "ProjectParameters" as C_0015415048128036706046
-class C_0015415048128036706046 {
-+~ProjectParameters() : void
+class "Chrysalis::Parameters" as C_0003412445458623038917
+class C_0003412445458623038917 {
++~Parameters() : void
 ..
 +addParameter(Parameter * parameter) : void
++at(int index) : Parameter *
 +count() const : unsigned int
 +getParameter(const std::string & name) : Parameter *
--serialize<Archive>(Archive & archive, const unsigned int version) : void
 __
 -parameters_ : std::unordered_map<std::string,Parameter *>
 }
-class "Chrysalis::Pattern::Archive" as C_0013208927567080793949
-class C_0013208927567080793949 {
-+read(const char * filePath) : PB::Project *
-+write(const char * filePath, PB::Project * project) : void
+class "Chrysalis::Project" as C_0008495545694619727706
+class C_0008495545694619727706 {
++Project(const std::string & name, Parameters * parameters) : void
++~Project() : void
+..
++addPattern(Pattern * pattern) : void
+{static} +create() : Project *
++getName() : std::string
++getParameters() const : Parameters *
++setName(const std::string & name) : void
+__
+-name_ : std::string
+-parameters_ : Parameters *
+-patterns_ : std::forward_list<Pattern *>
+}
+class "Chrysalis::Archive" as C_0002478467559743555641
+class C_0002478467559743555641 {
++read(const char * filePath) : Project *
++write(const char * filePath, Project * project) : void
+__
+}
+abstract "BaseArgument" as C_0014032639484775088103
+abstract C_0014032639484775088103 {
+#BaseArgument() = default : void
++~BaseArgument() constexpr = default : void
+..
+{abstract} +getValue() const = 0 : double
 __
 }
 class "SpaceRendererData::Private" as C_0012658801633232851719
@@ -265,20 +227,15 @@ C_0005127897508348657534 <.. C_0000228797310809486917 : +<<friend>>
 C_0003956790280424976785 --+ C_0005127897508348657534
 C_0000228797310809486917 --> C_0005127897508348657534 : -rendererData_
 C_0006255543702469591148 --+ C_0000228797310809486917
-C_0013418707691566027006 --> C_0000228797310809486917 : -space_
-C_0015223333465504068435 --> C_0000228797310809486917 : -space_
-C_0015223333465504068435 --> C_0013418707691566027006 : -darts_
-C_0002264357742943673553 --> C_0013418707691566027006 : -dart_
-C_0002264357742943673553 --> C_0015223333465504068435 : -outline_
-C_0004467681112100964754 --> C_0015223333465504068435 : -outline_
-C_0005833888742069232503 --> C_0000228797310809486917 : -space_
-C_0005833888742069232503 --> C_0015223333465504068435 : -outline_
-C_0015340525554118583374 --> C_0000228797310809486917 : -space_
-C_0015340525554118583374 --> C_0005833888742069232503 : -pattern_
-C_0002059810468929738276 --> C_0015415048128036706046 : -parameters_
-C_0002059810468929738276 --> C_0005833888742069232503 : -patterns_
-C_0014032639484775088103 <|-- C_0006906501909834539344
-C_0015415048128036706046 --> C_0006906501909834539344 : -parameters_
+C_0009492302074556763060 --> C_0000228797310809486917 : -space_
+C_0012923087791918137441 --> C_0000228797310809486917 : -space_
+C_0012923087791918137441 --> C_0009492302074556763060 : -darts_
+C_0005824426893526781565 --> C_0000228797310809486917 : -space_
+C_0005824426893526781565 --> C_0012923087791918137441 : -outline_
+C_0014032639484775088103 <|-- C_0012811662139665247956
+C_0003412445458623038917 --> C_0012811662139665247956 : -parameters_
+C_0008495545694619727706 --> C_0003412445458623038917 : -parameters_
+C_0008495545694619727706 --> C_0005824426893526781565 : -patterns_
 C_0012658801633232851719 --+ C_0005127897508348657534
 C_0012658801633232851719 o-- C_0013753387506434927655 : +points_
 C_0012658801633232851719 o-- C_0013753387506434927655 : +arrows_
@@ -298,15 +255,7 @@ skinparam class {
   FontStyle Bold
 }
 
-skinparam class<<UI>> {
-  BackgroundColor #F5EEF8
-  BorderColor #8E44AD
-  FontColor #4A235A
-  AttributeFontColor #6C3483
-  StereotypeFontColor #6C3483
-}
-
-skinparam class<<Builder>> {
+skinparam class<<Base>> {
   BackgroundColor #F2F3F4
   BorderColor #2C3E50
   BorderThickness 3
@@ -317,53 +266,7 @@ skinparam class<<Builder>> {
   FontStyle Italic
 }
 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
- class C_0013418707691566027006 <<PB>>  
-
- class C_0015223333465504068435 <<PB>>  
-
- class C_0002264357742943673553 <<PB>> <<Builder>> 
-
- class C_0004467681112100964754 <<PB>> <<Builder>> 
-
- class C_0005833888742069232503 <<PB>>  
-
- class C_0015340525554118583374 <<PB>> <<Builder>> 
-
- 
-
- 
-
- class C_0002059810468929738276 <<PB>>  
-
- class C_0013208927567080793949 <<Chrysalis::Pattern>>  
-
- 
-
- 
-
- 
-
- 
-
- 
-
- 
-
+                 class C_0014032639484775088103 <<Base>>                       
 
 'Generated with clang-uml, version 0.6.2
 'LLVM version clang version 20.1.7 (https://github.com/llvm/llvm-project.git 6146a88f60492b520a36f8f8f3231e15f3cc6082)

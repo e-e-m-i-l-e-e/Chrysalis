@@ -1,5 +1,7 @@
 #include "Parameter.h"
 
+using namespace Chrysalis;
+
 Parameter::Parameter(const std::string& name, const double value): value_(value), name_(name) {}
 
 double Parameter::getValue() const {

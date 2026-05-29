@@ -1,5 +1,5 @@
-#ifndef FASHIONDESIGNAPPS_BINARYFUNCTION_H
-#define FASHIONDESIGNAPPS_BINARYFUNCTION_H
+#ifndef CHRYSALIS_BINARYFUNCTION_H
+#define CHRYSALIS_BINARYFUNCTION_H
 
 #include "BaseArgument.h"
 
@@ -24,4 +24,4 @@ private:
     double(*function)(double a, double b);
 };
 
-#endif //FASHIONDESIGNAPPS_BINARYFUNCTION_H
+#endif //CHRYSALIS_BINARYFUNCTION_H

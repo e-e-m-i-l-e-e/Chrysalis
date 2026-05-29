@@ -3,9 +3,9 @@
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 
-using namespace Chrysalis::Pattern;
+using namespace Chrysalis;
 
-PB::Project* Archive::read(const char* filePath) {
+Project* Archive::read(const char* filePath) {
     try {
         std::ifstream file(filePath, std::ios::binary);
         if (!file.is_open()) {
@@ -14,7 +14,7 @@ PB::Project* Archive::read(const char* filePath) {
         }
 
         boost::archive::binary_iarchive archive(file);
-        PB::Project* project;
+        Project* project;
         archive >> project;
         return project;
     } catch (const boost::archive::archive_exception &e) {
@@ -25,7 +25,7 @@ PB::Project* Archive::read(const char* filePath) {
     return nullptr;
 }
 
-void Archive::write(const char* filePath, PB::Project* project) {
+void Archive::write(const char* filePath, Project* project) {
     try {
         std::ofstream file(filePath, std::ios::binary);
         if (!file.is_open()) {

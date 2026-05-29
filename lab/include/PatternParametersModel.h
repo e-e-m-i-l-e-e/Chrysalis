@@ -3,20 +3,20 @@
 
 #include <QtQmlIntegration/QtQmlIntegration>
 
-#include "ProjectParameters.h"
+#include "Parameters.h"
 
 class PatternParametersModel: public QAbstractListModel {
     Q_OBJECT
     QML_ELEMENT
 public:
-    void setParameters(ProjectParameters* parameters);
+    void setParameters(Chrysalis::Parameters* parameters);
 
     [[nodiscard]] QVariant data(const QModelIndex& index, int role) const override;
 
     [[nodiscard]] int rowCount(const QModelIndex& parent) const override;
     [[nodiscard]] int columnCount(const QModelIndex& parent = QModelIndex()) const override;
 private:
-    ProjectParameters* parameters_ = nullptr;
+    Chrysalis::Parameters* parameters_ = nullptr;
 };
 
 

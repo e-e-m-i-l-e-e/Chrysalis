@@ -1,8 +1,8 @@
 #include "Project.h"
 
-using namespace PB;
+using namespace Chrysalis;
 
-Project::Project(const std::string& name, ProjectParameters* parameters): name_(name), parameters_(parameters) {}
+Project::Project(const std::string& name, Parameters* parameters): name_(name), parameters_(parameters) {}
 
 Project::~Project() {
     delete parameters_;
@@ -12,7 +12,7 @@ Project::~Project() {
 }
 
 Project* Project::create() {
-    auto* parameters = new ProjectParameters();
+    auto* parameters = new Parameters();
     return new Project("Untitled", parameters);
 }
 
@@ -24,7 +24,7 @@ void Project::setName(const std::string& name) {
     name_ = name;
 }
 
-ProjectParameters* Project::getParameters() const {
+Parameters* Project::getParameters() const {
     return parameters_;
 }
 

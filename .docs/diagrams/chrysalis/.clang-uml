@@ -33,15 +33,7 @@ diagrams:
               FontStyle Bold
             }
           - >
-            skinparam class<<UI>> {
-              BackgroundColor #F5EEF8
-              BorderColor #8E44AD
-              FontColor #4A235A
-              AttributeFontColor #6C3483
-              StereotypeFontColor #6C3483
-            }
-          - >
-            skinparam class<<Builder>> {
+            skinparam class<<Base>> {
               BackgroundColor #F2F3F4
               BorderColor #2C3E50
               BorderThickness 3
@@ -53,12 +45,5 @@ diagrams:
             }
           - >
             {% for e in diagram.elements %}
-
-            {% if e.namespace != "" %}
-            class {{ e.alias }} <<{{ e.namespace }}>> {% if replace(e.name, "Builder", "") != e.name %}<<Builder>>{% endif %}
-            {% else if replace(e.name, "Builder", "") != e.name %}
-            class {{ e.alias }} <<Builder>>
-            {% else %}
-            {% endif %}
-
+            {% if replace(e.name, "Base", "") != e.name %}class {{ e.alias }} <<Base>>{% endif %}
             {% endfor %}

@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD 23)
 set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/BuildArtifacts")
 set(LOGS_DIR "${CMAKE_SOURCE_DIR}/.logs" CACHE PATH "Directory for log files")
 
+add_compile_options(/Zc:preprocessor)
+
 add_subdirectory(logging)
 add_subdirectory(pattern)
 

@@ -40,9 +40,20 @@ bool ChrysalisPatternProjectElement::hasProject() const {
 
 void ChrysalisPatternProjectElement::createProject() {
     delete project;
-    project = PB::Project::create();
+    project = Chrysalis::Project::create();
     const auto parameters = project->getParameters();
-    parameters->addParameter(new Parameter("Test", 1));
+    parameters->addParameter(new Chrysalis::Parameter("Back Waist Length", 42));
+    parameters->addParameter(new Chrysalis::Parameter("Back Width", 31));
+    parameters->addParameter(new Chrysalis::Parameter("Bust Height", 28));
+    parameters->addParameter(new Chrysalis::Parameter("Bust Span", 17));
+    parameters->addParameter(new Chrysalis::Parameter("Apex to center-front", 21));
+    parameters->addParameter(new Chrysalis::Parameter("Apex to shoulder", 27));
+    parameters->addParameter(new Chrysalis::Parameter("Hip Depth", 21.5));
+    parameters->addParameter(new Chrysalis::Parameter("Bust Circumference", 96));
+    parameters->addParameter(new Chrysalis::Parameter("Waist Circumference", 68));
+    parameters->addParameter(new Chrysalis::Parameter("Neck Circumference", 38));
+    parameters->addParameter(new Chrysalis::Parameter("Shoulder Length", 11));
+    parameters->addParameter(new Chrysalis::Parameter("Hip Circumference", 98));
     parameters_->setParameters(project->getParameters());
     emit projectChanged();
 }

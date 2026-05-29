@@ -65,19 +65,19 @@ void ChrysalisRenderer::initialize() {
     using BF = BinaryFunction;
     using VF = VectorFunction;
 
-    const auto parameters = new ProjectParameters();
-    parameters->addParameter(new Parameter("Back Waist Length", 42));
-    parameters->addParameter(new Parameter("Back Width", 31));
-    parameters->addParameter(new Parameter("Bust Height", 28));
-    parameters->addParameter(new Parameter("Bust Span", 17));
-    parameters->addParameter(new Parameter("Apex to center-front", 21));
-    parameters->addParameter(new Parameter("Apex to shoulder", 27));
-    parameters->addParameter(new Parameter("Hip Depth", 21.5));
-    parameters->addParameter(new Parameter("Bust Circumference", 96));
-    parameters->addParameter(new Parameter("Waist Circumference", 68));
-    parameters->addParameter(new Parameter("Neck Circumference", 38));
-    parameters->addParameter(new Parameter("Shoulder Length", 11));
-    parameters->addParameter(new Parameter("Hip Circumference", 98));
+    const auto parameters = new Chrysalis::Parameters();
+    parameters->addParameter(new Chrysalis::Parameter("Back Waist Length", 42));
+    parameters->addParameter(new Chrysalis::Parameter("Back Width", 31));
+    parameters->addParameter(new Chrysalis::Parameter("Bust Height", 28));
+    parameters->addParameter(new Chrysalis::Parameter("Bust Span", 17));
+    parameters->addParameter(new Chrysalis::Parameter("Apex to center-front", 21));
+    parameters->addParameter(new Chrysalis::Parameter("Apex to shoulder", 27));
+    parameters->addParameter(new Chrysalis::Parameter("Hip Depth", 21.5));
+    parameters->addParameter(new Chrysalis::Parameter("Bust Circumference", 96));
+    parameters->addParameter(new Chrysalis::Parameter("Waist Circumference", 68));
+    parameters->addParameter(new Chrysalis::Parameter("Neck Circumference", 38));
+    parameters->addParameter(new Chrysalis::Parameter("Shoulder Length", 11));
+    parameters->addParameter(new Chrysalis::Parameter("Hip Circumference", 98));
     // parameters->addParameter(new Parameter("Length", 66));
     // parameters->addParameter(new Parameter("Bust", 96));
     // parameters->addParameter(new Parameter("Bust Height", 36));
@@ -88,13 +88,13 @@ void ChrysalisRenderer::initialize() {
     // parameters->addParameter(new Parameter("Shoulder To Waist Front", 54));
     // parameters->addParameter(new Parameter("Sleeve Length", 62));
 
-    auto project = PB::Project("", parameters);
+    auto project = Chrysalis::Project("", parameters);
 
     // Back
     const auto backSpaceRendererData = new SpaceRendererData();
     const auto backSpace = new Space(backSpaceRendererData);
-    const auto backOutline = new PB::Outline(backSpace);
-    const auto back = new PB::Pattern("Back", backSpace, backOutline);
+    const auto backOutline = new Chrysalis::Outline(backSpace);
+    const auto back = new Chrysalis::Pattern("Back", backSpace, backOutline);
 
     // Main lines
     back->addPoint("S", 0, 0);
@@ -151,8 +151,8 @@ void ChrysalisRenderer::initialize() {
     // Front
     const auto frontSpaceRendererData = new SpaceRendererData();
     const auto frontSpace = new Space(frontSpaceRendererData);
-    const auto frontOutline = new PB::Outline(frontSpace);
-    const auto front = new PB::Pattern("Front", frontSpace, frontOutline);
+    const auto frontOutline = new Chrysalis::Outline(frontSpace);
+    const auto front = new Chrysalis::Pattern("Front", frontSpace, frontOutline);
 
     // Main lines
     back->sharePoint("S", front);
