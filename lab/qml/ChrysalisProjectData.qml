@@ -5,7 +5,7 @@ import QtQuick.Controls
 import FigmaStyle
 
 Item {
-    property ChrysalisPatternProject project: null
+    property ChrysalisProject project: null
 
     QtObject {
         id: config

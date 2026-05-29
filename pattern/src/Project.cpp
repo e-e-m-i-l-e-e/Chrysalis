@@ -1,8 +1,11 @@
 #include "Project.h"
 
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
+
 using namespace Chrysalis;
 
-Project::Project(const std::string& name, Parameters* parameters): name_(name), parameters_(parameters) {}
+Project::Project(std::string name, Parameters* parameters): name_(std::move(name)), parameters_(parameters) {}
 
 Project::~Project() {
     delete parameters_;
@@ -14,6 +17,46 @@ Project::~Project() {
 Project* Project::create() {
     auto* parameters = new Parameters();
     return new Project("Untitled", parameters);
+}
+
+Project* Project::read(const std::string& filePath) {
+    try {
+        std::ifstream file(filePath, std::ios::binary);
+        if (!file.is_open()) {
+            std::cout << "Failed to open file: " << filePath;
+            return nullptr;
+        }
+
+        boost::archive::binary_iarchive archive(file);
+        Project* project;
+        archive >> project;
+        return project;
+    } catch (const boost::archive::archive_exception &e) {
+        std::cout << "Archive error: " << e.what();
+    } catch (const std::exception &e) {
+        std::cout << "Read error: " << e.what();
+    }
+    return nullptr;
+}
+
+void Project::write(const std::string& filePath, Project* project) {
+    try {
+        std::ofstream file(filePath, std::ios::binary);
+        if (!file.is_open()) {
+            std::cout << "Failed to open file: " << filePath;
+            return;
+        }
+
+        boost::archive::binary_oarchive archive(file);
+        archive << project;
+
+        file.flush();
+        file.close();
+    } catch (const boost::archive::archive_exception &e) {
+        std::cout << "Archive error: " << e.what();
+    } catch (const std::exception &e) {
+        std::cout << "Write error: " << e.what();
+    }
 }
 
 std::string Project::getName() {

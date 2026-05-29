@@ -5,60 +5,31 @@ import QtQuick.Controls
 import FigmaStyle
 
 Item {
-    property PatternParametersModel parameters: null
+    property ChrysalisParametersModel parameters: null
 
     HorizontalHeaderView {
-        id: header
-        anchors.top: parent.top
-        anchors.left: tableView.left
-        anchors.right: tableView.right
+        id: headerView
         syncView: tableView
-        model: ["Name", "Value"]
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
     }
 
     TableView {
         id: tableView
-        anchors.top: header.bottom
+        model: parameters
+        anchors.top: headerView.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.bottom: buttonRow.top   // ← stop above the buttons
-        model: parameters
+        anchors.bottom: buttonRow.top
 
-        columnWidthProvider: (col) => col === 0 ? 200 : width - 200
+        delegate: Rectangle {
+            implicitWidth: tableView.width / 4
+            implicitHeight: 20
 
-        delegate: Loader {
-            required property int column
-            required property int row
-            required property var display
-
-            height: 36
-            width: tableView.columnWidthProvider(column)
-
-            sourceComponent: column === 0 ? nameCell : valueCell
-
-            Component {
-                id: nameCell
-                Rectangle {
-                    border.color: "#e0e0e0"
-                    Label {
-                        anchors.fill: parent
-                        anchors.margins: 8
-                        text: display
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                }
-            }
-
-            Component {
-                id: valueCell
-                Rectangle {
-                    border.color: "#e0e0e0"
-                    TextField {
-                        anchors.fill: parent
-                        text: display
-                        onEditingFinished: parameters.setValue(row, text)
-                    }
-                }
+            TextEdit {
+                anchors.centerIn: parent
+                text: display ?? ""
             }
         }
     }

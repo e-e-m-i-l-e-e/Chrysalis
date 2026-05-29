@@ -12,10 +12,12 @@ namespace Chrysalis {
     class SERIALIZABLE(Project) {
         PROVIDE_SERIALIZATION_ACCESS(Project)
     public:
-        explicit Project(const std::string& name, Parameters* parameters);
+        explicit Project(std::string  name, Parameters* parameters);
         ~Project();
 
         static Project* create();
+        static Project* read(const std::string& filePath);
+        static void write(const std::string& filePath, Project* project);
 
         std::string getName();
         void setName(const std::string& name);

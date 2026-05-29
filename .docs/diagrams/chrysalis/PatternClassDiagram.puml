@@ -1,4 +1,36 @@
 @startuml
+abstract "BaseArgument" as C_0014032639484775088103
+abstract C_0014032639484775088103 {
+#BaseArgument() = default : void
++~BaseArgument() constexpr = default : void
+..
+{abstract} +getValue() const = 0 : double
+__
+}
+class "Argument" as C_0017881155643566426614
+class C_0017881155643566426614 {
++Argument(double value) : void
+..
++getValue() const : double
+__
+-value_ : double
+}
+class "BinaryFunction" as C_0006214883631769309796
+class C_0006214883631769309796 {
++BinaryFunction(BaseArgument * argumentLeft, BaseArgument * argumentRight, double (*)(double,double) function) : void
+..
+{static} +ADDITION(double a, double b) : double
+{static} +DIVISION(double a, double b) : double
+{static} +MAX(double a, double b) : double
+{static} +MIN(double a, double b) : double
+{static} +MULTIPLICATION(double a, double b) : double
+{static} +SUBTRACTION(double a, double b) : double
++getValue() const : double
+__
+-argumentLeft : BaseArgument *
+-argumentRight : BaseArgument *
+-function : double (*)(double,double)
+}
 class "Vertex" as C_0002326256006988294087
 class C_0002326256006988294087 {
 +Vertex(float x, float y) : void
@@ -102,6 +134,40 @@ __
 -polygon_ : Polygon_with_holes
 -space_ : Space *
 }
+class "Chrysalis::Parameter" as C_0012811662139665247956
+class C_0012811662139665247956 {
++Parameter(std::string name) : void
+..
++getAlias() const : const std::string &
++getDefaultValue() const : double
++getName() const : const std::string &
++getValue() const : double
++hasAlias() const : bool
++hasDefaultValue() const : bool
++hasValue() const : bool
++isValid() const : bool
++setAlias(const std::string & alias) : void
++setDefaultValue(double defaultValue) : void
++setName(const std::string & name) : void
++setValue(double value) : void
+__
+-alias_ : boost::optional<std::string>
+-defaultValue_ : boost::optional<double>
+-name_ : std::string
+-value_ : boost::optional<double>
+}
+class "Chrysalis::Parameters" as C_0003412445458623038917
+class C_0003412445458623038917 {
++~Parameters() : void
+..
++addParameter(Parameter * parameter) : void
++at(int index) : Parameter *
++count() const : unsigned int
++getParameter(const std::string & name) const : Parameter *
+__
+-parametersMap_ : std::unordered_map<std::string,Parameter *>
+-parameters_ : std::list<Parameter *>
+}
 class "Chrysalis::Pattern" as C_0005824426893526781565
 class C_0005824426893526781565 {
 +Pattern(const std::string & name, Space * space, Outline * outline) : void
@@ -119,56 +185,22 @@ __
 -outline_ : Outline *
 -space_ : Space *
 }
-class "Chrysalis::Parameter" as C_0012811662139665247956
-class C_0012811662139665247956 {
-+Parameter(const std::string & name, double value) : void
-..
-+getName() const : const std::string &
-+getValue() const : double
-+setValue(double value) : void
-__
--name_ : std::string
--value_ : double
-}
-class "Chrysalis::Parameters" as C_0003412445458623038917
-class C_0003412445458623038917 {
-+~Parameters() : void
-..
-+addParameter(Parameter * parameter) : void
-+at(int index) : Parameter *
-+count() const : unsigned int
-+getParameter(const std::string & name) : Parameter *
-__
--parameters_ : std::unordered_map<std::string,Parameter *>
-}
 class "Chrysalis::Project" as C_0008495545694619727706
 class C_0008495545694619727706 {
-+Project(const std::string & name, Parameters * parameters) : void
++Project(std::string name, Parameters * parameters) : void
 +~Project() : void
 ..
 +addPattern(Pattern * pattern) : void
 {static} +create() : Project *
 +getName() : std::string
 +getParameters() const : Parameters *
+{static} +read(const std::string & filePath) : Project *
 +setName(const std::string & name) : void
+{static} +write(const std::string & filePath, Project * project) : void
 __
 -name_ : std::string
 -parameters_ : Parameters *
 -patterns_ : std::forward_list<Pattern *>
-}
-class "Chrysalis::Archive" as C_0002478467559743555641
-class C_0002478467559743555641 {
-+read(const char * filePath) : Project *
-+write(const char * filePath, Project * project) : void
-__
-}
-abstract "BaseArgument" as C_0014032639484775088103
-abstract C_0014032639484775088103 {
-#BaseArgument() = default : void
-+~BaseArgument() constexpr = default : void
-..
-{abstract} +getValue() const = 0 : double
-__
 }
 class "SpaceRendererData::Private" as C_0012658801633232851719
 class C_0012658801633232851719 {
@@ -177,30 +209,6 @@ __
 +arrows_ : std::vector<std::vector<SpaceVertex>>
 +lines_ : std::vector<std::vector<SpaceVertex>>
 +points_ : std::vector<SpaceVertex>
-}
-class "Argument" as C_0017881155643566426614
-class C_0017881155643566426614 {
-+Argument(double value) : void
-..
-+getValue() const : double
-__
--value_ : double
-}
-class "BinaryFunction" as C_0006214883631769309796
-class C_0006214883631769309796 {
-+BinaryFunction(BaseArgument * argumentLeft, BaseArgument * argumentRight, double (*)(double,double) function) : void
-..
-{static} +ADDITION(double a, double b) : double
-{static} +DIVISION(double a, double b) : double
-{static} +MAX(double a, double b) : double
-{static} +MIN(double a, double b) : double
-{static} +MULTIPLICATION(double a, double b) : double
-{static} +SUBTRACTION(double a, double b) : double
-+getValue() const : double
-__
--argumentLeft : BaseArgument *
--argumentRight : BaseArgument *
--function : double (*)(double,double)
 }
 class "PatternRendererData" as C_0010500610705199261562
 class C_0010500610705199261562 {
@@ -220,6 +228,10 @@ __
 -space : Space *
 -to : std::string
 }
+C_0014032639484775088103 <|-- C_0017881155643566426614
+C_0006214883631769309796 --> C_0014032639484775088103 : -argumentLeft
+C_0006214883631769309796 --> C_0014032639484775088103 : -argumentRight
+C_0014032639484775088103 <|-- C_0006214883631769309796
 C_0002155889465830571527 --+ C_0002326256006988294087
 C_0002326256006988294087 <|-- C_0013753387506434927655
 C_0005127897508348657534 --> C_0012658801633232851719 : -p
@@ -230,20 +242,17 @@ C_0006255543702469591148 --+ C_0000228797310809486917
 C_0009492302074556763060 --> C_0000228797310809486917 : -space_
 C_0012923087791918137441 --> C_0000228797310809486917 : -space_
 C_0012923087791918137441 --> C_0009492302074556763060 : -darts_
-C_0005824426893526781565 --> C_0000228797310809486917 : -space_
-C_0005824426893526781565 --> C_0012923087791918137441 : -outline_
 C_0014032639484775088103 <|-- C_0012811662139665247956
 C_0003412445458623038917 --> C_0012811662139665247956 : -parameters_
+C_0003412445458623038917 --> C_0012811662139665247956 : -parametersMap_
+C_0005824426893526781565 --> C_0000228797310809486917 : -space_
+C_0005824426893526781565 --> C_0012923087791918137441 : -outline_
 C_0008495545694619727706 --> C_0003412445458623038917 : -parameters_
 C_0008495545694619727706 --> C_0005824426893526781565 : -patterns_
 C_0012658801633232851719 --+ C_0005127897508348657534
 C_0012658801633232851719 o-- C_0013753387506434927655 : +points_
 C_0012658801633232851719 o-- C_0013753387506434927655 : +arrows_
 C_0012658801633232851719 o-- C_0013753387506434927655 : +lines_
-C_0014032639484775088103 <|-- C_0017881155643566426614
-C_0006214883631769309796 --> C_0014032639484775088103 : -argumentLeft
-C_0006214883631769309796 --> C_0014032639484775088103 : -argumentRight
-C_0014032639484775088103 <|-- C_0006214883631769309796
 C_0016617338678814122198 --> C_0000228797310809486917 : -space
 C_0014032639484775088103 <|-- C_0016617338678814122198
 skinparam class {
@@ -266,7 +275,7 @@ skinparam class<<Base>> {
   FontStyle Italic
 }
 
-                 class C_0014032639484775088103 <<Base>>                       
+ class C_0014032639484775088103 <<Base>>                                     
 
 'Generated with clang-uml, version 0.6.2
 'LLVM version clang version 20.1.7 (https://github.com/llvm/llvm-project.git 6146a88f60492b520a36f8f8f3231e15f3cc6082)

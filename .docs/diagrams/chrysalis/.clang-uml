@@ -8,7 +8,7 @@ add_compile_flags:
   - /clang:-ffp-exception-behavior=ignore
   - /clang:-U__llvm__
 diagrams:
-  PatternBuilderClassDiagram:
+  PatternClassDiagram:
       type: class
       glob:
         include:
@@ -17,6 +17,7 @@ diagrams:
         namespaces:
           - std
           - CGAL
+          - boost
         paths:
           - ../../../.conan
         relationships:

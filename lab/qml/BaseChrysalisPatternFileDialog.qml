@@ -6,7 +6,7 @@ import PatternBuilder
 Item {
     property alias title: fileDialog.title
     property alias fileMode: fileDialog.fileMode
-    property ChrysalisPatternProject project: null
+    property ChrysalisProject project: null
 
     function open() {
         fileDialog.open()

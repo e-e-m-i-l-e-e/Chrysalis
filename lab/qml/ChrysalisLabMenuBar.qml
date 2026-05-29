@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 
 MenuBar {
-    property ChrysalisPatternProject patternProject: null
+    property ChrysalisProject patternProject: null
 
     readonly property alias openPatternFileDialog: openPatternFileDialog
     readonly property alias savePatternFileDialog: savePatternFileDialog
