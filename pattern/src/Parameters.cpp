@@ -14,8 +14,8 @@ Parameter* Parameters::at(const int index) {
     return *std::next(parameters_.begin(), index);
 }
 
-unsigned int Parameters::count() const {
-    return parameters_.size();
+int Parameters::count() const {
+    return static_cast<int>(parameters_.size());
 }
 
 void Parameters::addParameter(Parameter* parameter) {

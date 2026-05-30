@@ -57,6 +57,7 @@ diagrams:
         - ../../../pattern
         - ../../../logging
       elements:
+        - QFlags<Qt::ItemFlag>
         - type: method
           name:
             r: '.*::(qt_metacall|qt_static_metacall|qt_metacast|metaObject|tr|trUtf8|staticMetaObject)$'

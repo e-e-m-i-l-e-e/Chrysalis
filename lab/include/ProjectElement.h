@@ -1,10 +1,8 @@
 #ifndef CHRYSALIS_PROJECTELEMENT_H
 #define CHRYSALIS_PROJECTELEMENT_H
 
-#include <QQuickItem>
-
 #include "Project.h"
-#include "ParametersModel.h"
+#include "ParametersElement.h"
 
 namespace Chrysalis {
     class ProjectElement: public QQuickItem {
@@ -14,7 +12,7 @@ namespace Chrysalis {
         Q_PROPERTY(bool hasProject READ hasProject NOTIFY projectChanged)
         Q_PROPERTY(QString name READ getName WRITE setName NOTIFY nameChanged)
         Q_PROPERTY(QUrl filePath READ getFilePath WRITE setFilePath NOTIFY filePathChanged)
-        Q_PROPERTY(ParametersModel* parameters READ getParameters WRITE setParameters NOTIFY parametersChanged)
+        Q_PROPERTY(ParametersElement* parameters READ getParameters WRITE setParameters NOTIFY parametersChanged)
     public:
         explicit ProjectElement(QQuickItem *parent = nullptr);
         ~ProjectElement() override;
@@ -22,11 +20,11 @@ namespace Chrysalis {
         [[nodiscard]] QString getName() const;
         [[nodiscard]] QUrl getFilePath() const;
         [[nodiscard]] bool hasProject() const;
-        [[nodiscard]] ParametersModel* getParameters() const;
+        [[nodiscard]] ParametersElement* getParameters() const;
 
         void setName(const QString& name);
         void setFilePath(const QUrl& filePath);
-        void setParameters(ParametersModel* parameters);
+        void setParameters(ParametersElement* parameters);
 
         signals:
         void nameChanged();
@@ -43,7 +41,7 @@ namespace Chrysalis {
     private:
         QUrl filePath_;
         Project* project = nullptr;
-        ParametersModel* parameters_ = nullptr;
+        ParametersElement* parameters_ = nullptr;
     };
 }
 

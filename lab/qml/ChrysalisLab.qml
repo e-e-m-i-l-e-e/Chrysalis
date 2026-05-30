@@ -45,7 +45,11 @@ ApplicationWindow {
 
     contentData: ChrysalisProject {
         id: patternProject
-        parameters: ChrysalisParametersModel {}
+        parameters: ChrysalisParameters {
+            model: ChrysalisParametersModel {
+
+            }
+        }
         anchors.fill: parent
 
         Loader {
@@ -123,7 +127,7 @@ ApplicationWindow {
                         }
 
                         ChrysalisPatternParameters {
-                            parameters: patternProject.parameters
+                            parameters: patternProject.parameters.model
                         }
 
                         Item {

@@ -18,6 +18,12 @@ int ParametersModel::columnCount(const QModelIndex& parent) const {
     return 4;
 }
 
+Qt::ItemFlags ParametersModel::flags(const QModelIndex& index) const {
+    Qt::ItemFlags flags = QAbstractTableModel::flags(index);
+    flags |= Qt::ItemIsEditable;
+    return flags;
+}
+
 QVariant ParametersModel::data(const QModelIndex& index, const int role) const {
     if (!parameters_ || role != Qt::DisplayRole) return {};
     const auto parameter = parameters_->at(index.row());
@@ -40,4 +46,15 @@ QVariant ParametersModel::headerData(const int section, const Qt::Orientation or
         }
     }
     return {};
+}
+
+bool ParametersModel::setData(const QModelIndex& index, const QVariant& value, const int role) {
+    if (role == Qt::DisplayRole) {
+        if (index.column() == 1) {
+            parameters_->at(index.row())->setValue(value.toDouble());
+            return true;
+        }
+        return false;
+    }
+    return false;
 }

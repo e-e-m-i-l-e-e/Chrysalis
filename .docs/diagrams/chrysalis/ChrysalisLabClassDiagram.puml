@@ -142,10 +142,22 @@ class "Chrysalis::ParametersModel" as C_0006294982762641672186
 class C_0006294982762641672186 {
 +columnCount(const QModelIndex & parent) const : int
 +data(const QModelIndex & index, int role) const : QVariant
++flags(const QModelIndex & index) const : Qt::ItemFlags
 +headerData(int section, Qt::Orientation orientation, int role) const : QVariant
 +rowCount(const QModelIndex & parent) const : int
++setData(const QModelIndex & index, const QVariant & value, int role) : bool
 +setParameters(Parameters * parameters) : void
 __
+-parameters_ : Parameters *
+}
+class "Chrysalis::ParametersElement" as C_0003994509085763311703
+class C_0003994509085763311703 {
++getModel() const : ParametersModel *
++modelChanged() : void
++setModel(ParametersModel * model) : void
++setParameters(Parameters * parameters) : void
+__
+-model_ : ParametersModel *
 -parameters_ : Parameters *
 }
 class "Chrysalis::ProjectElement" as C_0008929981772084998866
@@ -158,7 +170,7 @@ class C_0008929981772084998866 {
 +filePathChanged() : void
 +getFilePath() const : QUrl
 +getName() const : QString
-+getParameters() const : ParametersModel *
++getParameters() const : ParametersElement *
 +hasProject() const : bool
 +nameChanged() : void
 +openProject(const QUrl & filePath) : void
@@ -167,10 +179,10 @@ class C_0008929981772084998866 {
 +saveProject(const QUrl & filePath) : void
 +setFilePath(const QUrl & filePath) : void
 +setName(const QString & name) : void
-+setParameters(ParametersModel * parameters) : void
++setParameters(ParametersElement * parameters) : void
 __
 -filePath_ : QUrl
--parameters_ : ParametersModel *
+-parameters_ : ParametersElement *
 -project : Project *
 }
 class "PatternBuilderSceneElement" as C_0000532881802130584044
@@ -208,7 +220,8 @@ C_0003925136470158514146 --> C_0000282649222739637142 : -program_
 C_0003925136470158514146 --> C_0010189638850974360928 : -cursorRenderer_
 C_0003925136470158514146 --> C_0000449815443628269094 : -cartesianRenderer_
 C_0003925136470158514146 --> C_0011504052414250660842 : -patternRenderers_
-C_0008929981772084998866 --> C_0006294982762641672186 : -parameters_
+C_0003994509085763311703 --> C_0006294982762641672186 : -model_
+C_0008929981772084998866 --> C_0003994509085763311703 : -parameters_
 C_0000532881802130584044 --> C_0003925136470158514146 : -renderer_
 skinparam class {
   BackgroundColor #EAFAF1
@@ -284,6 +297,9 @@ skinparam class<<Model>> {
   
 
    class C_0006294982762641672186 <<Model>>
+  
+
+   class C_0003994509085763311703 <<Element>>
   
 
    class C_0000532881802130584044 <<Element>>

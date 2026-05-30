@@ -11,7 +11,7 @@ namespace Chrysalis {
         ~Parameters();
 
         Parameter* at(int index);
-        [[nodiscard]] unsigned int count() const;
+        [[nodiscard]] int count() const;
 
         void addParameter(Parameter* parameter);
         [[nodiscard]] Parameter* getParameter(const std::string& name) const;

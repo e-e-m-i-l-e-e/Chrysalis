@@ -162,7 +162,7 @@ class C_0003412445458623038917 {
 ..
 +addParameter(Parameter * parameter) : void
 +at(int index) : Parameter *
-+count() const : unsigned int
++count() const : int
 +getParameter(const std::string & name) const : Parameter *
 __
 -parametersMap_ : std::unordered_map<std::string,Parameter *>

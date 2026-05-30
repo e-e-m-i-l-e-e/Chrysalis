@@ -26,11 +26,11 @@ void ProjectElement::setFilePath(const QUrl& filePath) {
     emit filePathChanged();
 }
 
-ParametersModel* ProjectElement::getParameters() const {
+ParametersElement* ProjectElement::getParameters() const {
     return parameters_;
 }
 
-void ProjectElement::setParameters(ParametersModel* parameters) {
+void ProjectElement::setParameters(ParametersElement* parameters) {
     parameters_ = parameters;
     if (project) parameters_->setParameters(project->getParameters());
     emit parametersChanged();
