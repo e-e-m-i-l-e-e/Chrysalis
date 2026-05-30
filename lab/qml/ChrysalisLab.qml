@@ -11,6 +11,34 @@ ApplicationWindow {
     visibility: Window.Maximized
     visible: true
 
+    font {
+        family: "IBM Plex Sans"
+        pixelSize: 12
+        letterSpacing: 0.4
+        weight: Font.Medium
+    }
+
+    palette {
+        window:          "#141416"
+        base:            "#0A0A0C"
+        alternateBase:   "#1A1A1D"
+        text:            "#A8A8B0"   // barely cool
+        brightText:      "#F0F0F5"
+        placeholderText: "#505058"
+        button:          "#202025"
+        buttonText:      "#F0F0F5"
+        highlight:       "#E5383B"
+        highlightedText: "#F0F0F5"
+        mid:             "#28282E"
+        midlight:        "#36363D"
+        dark:            "#202025"
+        shadow:          "#050506"
+
+        disabled.text:       "#505058"
+        disabled.buttonText: "#505058"
+        disabled.brightText: "#36363D"
+    }
+
     menuBar: ChrysalisLabMenuBar {
         patternProject: patternProject
     }
