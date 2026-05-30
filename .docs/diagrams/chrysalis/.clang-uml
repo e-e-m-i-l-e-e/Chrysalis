@@ -1,50 +1,116 @@
 compilation_database_dir: ../../../.build/Debug
 output_directory: .
-remove_compile_flags:
-  - -ffp-model=strict
-  - -ffp-exception-behavior=strict
 add_compile_flags:
-  - /clang:-fparse-all-comments
-  - /clang:-ffp-exception-behavior=ignore
   - /clang:-U__llvm__
+  - -D_CRT_USE_BUILTIN_OFFSETOF
 diagrams:
   PatternClassDiagram:
-      type: class
-      glob:
-        include:
-          - ../../../pattern/src/*.cpp
-      exclude:
-        namespaces:
-          - std
-          - CGAL
-          - boost
-        paths:
-          - ../../../.conan
-        relationships:
-          - dependency
-      plantuml:
-        after:
-          - >
-            skinparam class {
-              BackgroundColor #EAFAF1
-              BorderColor #1E8449
-              FontColor #0B5345
-              AttributeFontColor #1E8449
-              StereotypeFontColor #1E8449
-              FontStyle Bold
-            }
-          - >
-            skinparam class<<Base>> {
-              BackgroundColor #F2F3F4
-              BorderColor #2C3E50
-              BorderThickness 3
-              FontSize 16
-              FontColor #2C3E50
-              AttributeFontColor #566573
-              StereotypeFontColor #808B96
-              FontStyle Italic
-            }
-          - >
-            {% for e in diagram.elements %}
-            {% if replace(e.name, "Base", "") != e.name %}class {{ e.alias }} <<Base>>{% endif %}
-            {% endfor %}
+    type: class
+    glob:
+      include:
+        - ../../../pattern/src/*.cpp
+    exclude:
+      namespaces:
+        - std
+        - CGAL
+        - boost
+      paths:
+        - ../../../.conan
+      relationships:
+        - dependency
+    plantuml:
+      after:
+        - >
+          skinparam class {
+            BackgroundColor #EAFAF1
+            BorderColor #1E8449
+            FontColor #0B5345
+            AttributeFontColor #1E8449
+            StereotypeFontColor #1E8449
+            FontStyle Bold
+          }
+        - >
+          skinparam class<<Base>> {
+            BackgroundColor #F2F3F4
+            BorderColor #2C3E50
+            BorderThickness 3
+            FontSize 16
+            FontColor #2C3E50
+            AttributeFontColor #566573
+            StereotypeFontColor #808B96
+            FontStyle Italic
+          }
+        - >
+          {% for e in diagram.elements %}
+          {% if replace(e.name, "Base", "") != e.name %}class {{ e.alias }} <<Base>>{% endif %}
+          {% endfor %}
+  ChrysalisLabClassDiagram:
+    type: class
+    glob:
+      include:
+        - ../../../lab/src/*.cpp
+    exclude:
+      namespaces:
+        - std
+      paths:
+        - ../../../.conan
+        - ../../../pattern
+        - ../../../logging
+      elements:
+        - type: method
+          name:
+            r: '.*::(qt_metacall|qt_static_metacall|qt_metacast|metaObject|tr|trUtf8|staticMetaObject)$'
+        - type: member
+          name:
+            r: '.*::staticMetaObject$'
+      relationships:
+        - dependency
+    plantuml:
+      after:
+        - >
+          skinparam class {
+            BackgroundColor #EAFAF1
+            BorderColor #1E8449
+            FontColor #0B5345
+            AttributeFontColor #1E8449
+            StereotypeFontColor #1E8449
+            FontStyle Bold
+          }
+        - >
+          skinparam class<<Base>> {
+            BackgroundColor #F2F3F4
+            BorderColor #2C3E50
+            BorderThickness 3
+            FontSize 16
+            FontColor #2C3E50
+            AttributeFontColor #566573
+            StereotypeFontColor #808B96
+            FontStyle Italic
+          }
+        - >
+          skinparam class<<Element>> {
+            BackgroundColor #EBF5FB
+            BorderColor #1A5276
+            FontColor #1A5276
+            AttributeFontColor #2E86C1
+            StereotypeFontColor #2E86C1
+            FontStyle Bold
+          }
+        - >
+          skinparam class<<Model>> {
+            BackgroundColor #E8F8F5
+            BorderColor #0E6655
+            BorderThickness 3
+            FontSize 16
+            FontColor #0E6655
+            AttributeFontColor #117A65
+            StereotypeFontColor #148F77
+            FontStyle Italic
+          }
+        - >
+          {% for e in diagram.elements %}
+            {% if replace(e.name, "Base", "") != e.name %} class {{ e.alias }} <<Base>>
+            {% else if replace(e.name, "Model", "") != e.name %} class {{ e.alias }} <<Model>>
+            {% else if replace(e.name, "Element", "") != e.name %} class {{ e.alias }} <<Element>>
+            {% endif %}
+          {% endfor %}

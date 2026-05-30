@@ -23,8 +23,8 @@ QVariant ParametersModel::data(const QModelIndex& index, const int role) const {
     const auto parameter = parameters_->at(index.row());
     if (index.column() == 0) return parameter->getName().data();
     if (index.column() == 1) return parameter->getValue();
-    if (index.column() == 2) return parameter->hasDefaultValue() ? QVariant(parameter->getDefaultValue()) : QVariant();
-    if (index.column() == 3) return parameter->hasAlias() ? parameter->getAlias().data() : QVariant();
+    if (index.column() == 2) return parameter->hasDefaultValue() ? QVariant(parameter->getDefaultValue()) : "";
+    if (index.column() == 3) return parameter->hasAlias() ? parameter->getAlias().data() : "";
     return {};
 }
 

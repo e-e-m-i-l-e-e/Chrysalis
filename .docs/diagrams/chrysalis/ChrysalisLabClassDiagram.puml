@@ -1,0 +1,298 @@
+@startuml
+class "BaseOpenGLProgram" as C_0002278131201632887213
+class C_0002278131201632887213 {
+#BaseOpenGLProgram(const char * pathToVertexShader, const char * pathToFragmentShader) : void
+..
++bind() : void
++initialize() : void
++release() : void
+#setUniformValue(const char * name, GLint value) : void
+#setUniformValue(const char * name, GLfloat value) : void
+#setUniformValue(const char * name, const QMatrix4x4 & value) : void
+#setUniformValue(const char * name, GLfloat x, GLfloat y, GLfloat z, GLfloat w) : void
+__
+-pathToFragmentShader_ : const char *
+-pathToVertexShader_ : const char *
+-program_ : QOpenGLShaderProgram
+}
+abstract "BaseRenderer<V>" as C_0004233131307133403721
+abstract C_0004233131307133403721 {
+#~BaseRenderer() = default : void
+..
+{abstract} +draw() = 0 : void
++initialize() : void
++render() : void
++shouldUpload() : void
++upload() : void
+__
+#data_ : std::vector<V>
+-shouldUpload_ : bool
+#vao : QOpenGLVertexArrayObject
+#vbo : QOpenGLBuffer
+}
+class "ChrysalisOpenGLProgram" as C_0000282649222739637142
+class C_0000282649222739637142 {
++ChrysalisOpenGLProgram() : void
+..
++setColor(float r, float g, float b, float a) : void
++setPointRadius(float radius) : void
++setProjection(const QMatrix4x4 & projection) : void
+__
+}
+class "BaseRenderer<Vertex>" as C_0010736818921998541087
+class C_0010736818921998541087 {
+__
+}
+class "CartesianRenderer" as C_0000449815443628269094
+class C_0000449815443628269094 {
++CartesianRenderer(ChrysalisOpenGLProgram * program) : void
+..
++changeArea(const QRectF & area) : void
++draw() : void
+__
+-gridSize_ : float
+-program_ : ChrysalisOpenGLProgram *
+}
+abstract "BaseAnimatedRenderer<V>" as C_0008905268405372382414
+abstract C_0008905268405372382414 {
+#BaseAnimatedRenderer() = default : void
+..
++animate() : bool
+#complete() : void
+{abstract} #prepareNextFrame(qint64 startTime, qint64 previousFrameTime, qint64 currentFrameTime) = 0 : void
+__
+-isCompleted_ : bool
+-startTime_ : qint64
+-time_ : qint64
+-timer_ : QElapsedTimer
+}
+class "BaseAnimatedRenderer<SpaceVertex>" as C_0005675248113660705844
+class C_0005675248113660705844 {
+__
+}
+class "CursorRenderer" as C_0010189638850974360928
+class C_0010189638850974360928 {
++CursorRenderer(ChrysalisOpenGLProgram * program) : void
+..
++displayCursor(const QPointF & cursor) : void
++draw() : void
++hideCursor() : void
+#prepareNextFrame(qint64 startTime, qint64 previousFrameTime, qint64 currentFrameTime) : void
+__
+-displayCursor_ : bool
+-opacity_ : float
+-program_ : ChrysalisOpenGLProgram *
+}
+class "PatternShapeRenderer" as C_0009334335780883493241
+class C_0009334335780883493241 {
++draw() : void
++scaleChanged(float scale) : void
+__
+}
+class "BaseRenderer<SpaceVertex>" as C_0007377301541239460207
+class C_0007377301541239460207 {
+__
+}
+class "PatternSpaceRenderer" as C_0011408520031068065626
+class C_0011408520031068065626 {
++PatternSpaceRenderer(ChrysalisOpenGLProgram * program, const SpaceRendererData * spaceRendererData) : void
+..
++draw() : void
++getPoints() const : std::vector<SpaceVertex>
++initialize() : void
++scaleChanged(float scale) : void
+__
+-program_ : ChrysalisOpenGLProgram *
+-scale_ : float
+-spaceRendererData_ : const SpaceRendererData *
+}
+class "PatternRenderer" as C_0011504052414250660842
+class C_0011504052414250660842 {
++PatternRenderer(PatternSpaceRenderer * spaceRenderer, PatternShapeRenderer * shapeRenderer) : void
+..
++getPoints() const : std::vector<SpaceVertex>
++initialize() const : void
++render() const : void
++scaleChanged(float scale) const : void
+__
+-shapeRenderer_ : PatternShapeRenderer *
+-spaceRenderer_ : PatternSpaceRenderer *
+}
+class "ChrysalisRenderer" as C_0003925136470158514146
+class C_0003925136470158514146 {
++ChrysalisRenderer(ChrysalisOpenGLProgram * program, CursorRenderer * cursorRenderer, CartesianRenderer * cartesianRenderer) : void
++~ChrysalisRenderer() : void
+..
++changeCursor(QPointF && cursor) const : void
++changeOffset(QPointF && delta) : void
++changeScale(double scalar, QPointF && center) : void
+#createFramebufferObject(const QSize & size) : QOpenGLFramebufferObject *
++initialize() : void
+#render() : void
+#synchronize(QQuickFramebufferObject *) : void
+__
+-area_ : QRectF
+-cartesianRenderer_ : CartesianRenderer *
+-cursorRenderer_ : CursorRenderer *
+-patternRenderers_ : std::vector<PatternRenderer *>
+-program_ : ChrysalisOpenGLProgram *
+-scale_ : double
+}
+class "Chrysalis::ParametersModel" as C_0006294982762641672186
+class C_0006294982762641672186 {
++columnCount(const QModelIndex & parent) const : int
++data(const QModelIndex & index, int role) const : QVariant
++headerData(int section, Qt::Orientation orientation, int role) const : QVariant
++rowCount(const QModelIndex & parent) const : int
++setParameters(Parameters * parameters) : void
+__
+-parameters_ : Parameters *
+}
+class "Chrysalis::ProjectElement" as C_0008929981772084998866
+class C_0008929981772084998866 {
++ProjectElement(QQuickItem * parent = nullptr) : void
++~ProjectElement() : void
+..
++closeProject() : void
++createProject() : void
++filePathChanged() : void
++getFilePath() const : QUrl
++getName() const : QString
++getParameters() const : ParametersModel *
++hasProject() const : bool
++nameChanged() : void
++openProject(const QUrl & filePath) : void
++parametersChanged() : void
++projectChanged() : void
++saveProject(const QUrl & filePath) : void
++setFilePath(const QUrl & filePath) : void
++setName(const QString & name) : void
++setParameters(ParametersModel * parameters) : void
+__
+-filePath_ : QUrl
+-parameters_ : ParametersModel *
+-project : Project *
+}
+class "PatternBuilderSceneElement" as C_0000532881802130584044
+class C_0000532881802130584044 {
++PatternBuilderSceneElement(QQuickItem * parent = nullptr) : void
+..
++createRenderer() const : Renderer *
+#hoverMoveEvent(QHoverEvent * event) : void
+#mouseMoveEvent(QMouseEvent * event) : void
+#mousePressEvent(QMouseEvent * event) : void
+#mouseReleaseEvent(QMouseEvent * event) : void
+-normalize(QPointF && point) const : QPointF
+#wheelEvent(QWheelEvent * event) : void
+__
+-isLeftMouseButtonPressed_ : bool
+-mousePosition_ : QPointF
+-renderer_ : ChrysalisRenderer *
+-windowPosition_ : QPointF
+}
+C_0002278131201632887213 <|-- C_0000282649222739637142
+C_0010736818921998541087 ..|> C_0004233131307133403721
+C_0000449815443628269094 --> C_0000282649222739637142 : -program_
+C_0010736818921998541087 <|-- C_0000449815443628269094
+C_0004233131307133403721 <|-- C_0008905268405372382414
+C_0005675248113660705844 ..|> C_0008905268405372382414
+C_0010189638850974360928 --> C_0000282649222739637142 : -program_
+C_0005675248113660705844 <|-- C_0010189638850974360928
+C_0010736818921998541087 <|-- C_0009334335780883493241
+C_0007377301541239460207 ..|> C_0004233131307133403721
+C_0011408520031068065626 --> C_0000282649222739637142 : -program_
+C_0007377301541239460207 <|-- C_0011408520031068065626
+C_0011504052414250660842 --> C_0011408520031068065626 : -spaceRenderer_
+C_0011504052414250660842 --> C_0009334335780883493241 : -shapeRenderer_
+C_0003925136470158514146 --> C_0000282649222739637142 : -program_
+C_0003925136470158514146 --> C_0010189638850974360928 : -cursorRenderer_
+C_0003925136470158514146 --> C_0000449815443628269094 : -cartesianRenderer_
+C_0003925136470158514146 --> C_0011504052414250660842 : -patternRenderers_
+C_0008929981772084998866 --> C_0006294982762641672186 : -parameters_
+C_0000532881802130584044 --> C_0003925136470158514146 : -renderer_
+skinparam class {
+  BackgroundColor #EAFAF1
+  BorderColor #1E8449
+  FontColor #0B5345
+  AttributeFontColor #1E8449
+  StereotypeFontColor #1E8449
+  FontStyle Bold
+}
+
+skinparam class<<Base>> {
+  BackgroundColor #F2F3F4
+  BorderColor #2C3E50
+  BorderThickness 3
+  FontSize 16
+  FontColor #2C3E50
+  AttributeFontColor #566573
+  StereotypeFontColor #808B96
+  FontStyle Italic
+}
+
+skinparam class<<Element>> {
+  BackgroundColor #EBF5FB
+  BorderColor #1A5276
+  FontColor #1A5276
+  AttributeFontColor #2E86C1
+  StereotypeFontColor #2E86C1
+  FontStyle Bold
+}
+
+skinparam class<<Model>> {
+  BackgroundColor #E8F8F5
+  BorderColor #0E6655
+  BorderThickness 3
+  FontSize 16
+  FontColor #0E6655
+  AttributeFontColor #117A65
+  StereotypeFontColor #148F77
+  FontStyle Italic
+}
+
+
+   class C_0002278131201632887213 <<Base>>
+  
+
+   class C_0004233131307133403721 <<Base>>
+  
+
+  
+
+   class C_0010736818921998541087 <<Base>>
+  
+
+  
+
+   class C_0008905268405372382414 <<Base>>
+  
+
+   class C_0005675248113660705844 <<Base>>
+  
+
+  
+
+  
+
+   class C_0007377301541239460207 <<Base>>
+  
+
+  
+
+  
+
+  
+
+   class C_0006294982762641672186 <<Model>>
+  
+
+   class C_0000532881802130584044 <<Element>>
+  
+
+   class C_0008929981772084998866 <<Element>>
+  
+
+
+'Generated with clang-uml, version 0.6.2
+'LLVM version clang version 20.1.7 (https://github.com/llvm/llvm-project.git 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+@enduml
