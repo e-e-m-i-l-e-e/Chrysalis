@@ -1,15 +1,45 @@
-#ifndef CHRYSALIS_ARGUMENT_H
-#define CHRYSALIS_ARGUMENT_H
+#ifndef CHRYSALIS_BASEARGUMENT_H
+#define CHRYSALIS_BASEARGUMENT_H
 
-#include "BaseArgument.h"
+#include <forward_list>
+#include <boost/optional/optional.hpp>
 
-class Argument: public BaseArgument {
+#include "BaseArgumentObserver.h"
+
+template<typename T>
+class Argument {
 public:
-    explicit Argument(double value);
+    explicit Argument() = default;
+    explicit Argument(T argument): argument_(argument) {}
+    virtual ~Argument() = default;
 
-    double getValue() const override;
+    bool hasArgument() {
+        return argument_.has_value();
+    }
+    void setArgument(T value) {
+        argument_ = value;
+        argumentChanged();
+    }
+    void resetArgument() {
+        argument_.reset();
+    }
+    [[nodiscard]] const T& getArgument() const {
+        return argument_.value();
+    }
+
+    void addObserver(BaseArgumentObserver* observer) {
+        observers_.push_front(observer);
+    }
+protected:
+    void argumentChanged() const {
+        for (const auto& observer: observers_) {
+            observer->reset();
+        }
+    }
+
+    boost::optional<T> argument_;
 private:
-    double value_;
+    std::forward_list<BaseArgumentObserver*> observers_;
 };
 
-#endif //CHRYSALIS_ARGUMENT_H
+#endif //CHRYSALIS_BASEARGUMENT_H

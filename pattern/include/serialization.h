@@ -53,7 +53,9 @@ void load_construct_data(Archive& archive, Class* obj, const unsigned int) {    
 #define SERIALIZE_MEMBERS(Class, ...)                                                                                  \
 template<class Archive>                                                                                                \
 void serialize(Archive& archive, Class& obj, const unsigned int version) {                                             \
+  __VA_OPT__(                                                                                                          \
     BOOST_PP_SEQ_FOR_EACH(ACCESS_FIELD, _, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))                                      \
+  )                                                                                                                    \
 }
 
 // --- Specify members to serialize and use default constructor --------------------------------------------------------

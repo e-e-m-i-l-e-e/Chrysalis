@@ -5,18 +5,19 @@
 
 using namespace Chrysalis;
 
-Project::Project(std::string name, Parameters* parameters): name_(std::move(name)), parameters_(parameters) {}
+Project::Project(std::string name, Parameters* parameters, Instructions* instructions)
+    : name_(std::move(name)), parameters_(parameters), instructions_(instructions) {}
 
 Project::~Project() {
     delete parameters_;
+    delete instructions_;
     for (const auto pattern: patterns_) {
         delete pattern;
     }
 }
 
 Project* Project::create() {
-    auto* parameters = new Parameters();
-    return new Project("Untitled", parameters);
+    return new Project("Untitled", new Parameters(), new Instructions());
 }
 
 Project* Project::read(const std::string& filePath) {

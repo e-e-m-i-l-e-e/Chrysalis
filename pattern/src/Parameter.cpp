@@ -7,10 +7,6 @@ using namespace Chrysalis;
 
 Parameter::Parameter(std::string name): name_(std::move(name)) {}
 
-double Parameter::getValue() const {
-    return hasValue() ? value_.value() : defaultValue_.value();
-}
-
 bool Parameter::isValid() const {
     return value_.has_value() || defaultValue_.has_value();
 }
@@ -25,6 +21,10 @@ bool Parameter::hasValue() const {
 
 bool Parameter::hasDefaultValue() const {
     return defaultValue_.has_value();
+}
+
+double Parameter::getValue() const {
+    return value_.value();
 }
 
 double Parameter::getDefaultValue() const {
@@ -48,6 +48,7 @@ void Parameter::setAlias(const std::string& alias) {
 }
 
 void Parameter::setValue(double value) {
+    argument_ = value;
     value_ = value;
 }
 

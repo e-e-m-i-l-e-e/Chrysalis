@@ -17,8 +17,9 @@ void Space::addPoint(const std::string& name, double x, double y) {
 }
 
 void Space::addPoint(const std::string& fromPointName, const std::string& name, const double angle, const double length) {
+    std::cout << fromPointName << " " << name << " " << angle << " " << length << std::endl;
     const auto& fromPoint = points_[fromPointName];
-    const auto& toPoint = Point(fromPoint.x() + length * std::cos(angle), fromPoint.y() + length * std::sin(angle));
+    const auto& toPoint = Point(fromPoint.x() + length * std::cos(angle * CGAL_PI / 180.0), fromPoint.y() + length * std::sin(angle * CGAL_PI / 180.0));
     addPoint(name, toPoint);
 
     if (parentPoints_.contains(fromPointName) && linesIndices_.contains(fromPointName)) {
@@ -33,10 +34,10 @@ void Space::addPoint(const std::string& fromPointName, const std::string& name, 
 
 void Space::addPoint(const std::string& fromPointName, const std::string& name, const Direction direction, const double length) {
     static std::unordered_map<Direction, double> directions = {
-        {RIGHT, 0 * CGAL_PI / 180},
-        {LEFT, 180 * CGAL_PI / 180},
-        {UP, 90 * CGAL_PI / 180},
-        {DOWN, 270 * CGAL_PI / 180}
+        {RIGHT, 0},
+        {LEFT, 180},
+        {UP, 90},
+        {DOWN, 270}
     };
     addPoint(fromPointName, name, directions[direction], length);
 }

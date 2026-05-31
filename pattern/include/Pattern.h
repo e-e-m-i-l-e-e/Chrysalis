@@ -3,7 +3,7 @@
 
 #include "Space.h"
 #include "Outline.h"
-#include "BaseArgument.h"
+#include "Argument.h"
 
 namespace Chrysalis {
     class Pattern {
@@ -11,11 +11,11 @@ namespace Chrysalis {
         explicit Pattern(const std::string& name, Space* space, Outline* outline);
 
         void addPoint(const std::string& name, double x, double y) const;
-        void addPoint(const std::string& from, const std::string& to, const BaseArgument* angle, const BaseArgument* length) const;
-        void addPoint(const std::string& from, const std::string& to, Space::Direction direction, const BaseArgument* length) const;
+        void addPoint(const std::string& from, const std::string& to, const Argument<double>* angle, const Argument<double>* length) const;
+        void addPoint(const std::string& from, const std::string& to, Space::Direction direction, const Argument<double>* length) const;
 
-        void nextPoint(const std::string& to, const BaseArgument* angle, const BaseArgument* length) const;
-        void nextPoint(const std::string& to, Space::Direction direction, const BaseArgument* length) const;
+        void nextPoint(const std::string& to, const Argument<double>* angle, const Argument<double>* length) const;
+        void nextPoint(const std::string& to, Space::Direction direction, const Argument<double>* length) const;
 
         void sharePoint(const std::string& point, const Pattern* pattern) const;
 

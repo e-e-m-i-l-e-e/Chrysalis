@@ -5,21 +5,20 @@
 #include <boost/optional/optional.hpp>
 
 #include "serialization.h"
-#include "BaseArgument.h"
+#include "Argument.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(Parameter): public BaseArgument {
+    class SERIALIZABLE(Parameter): public Argument<double> {
         PROVIDE_SERIALIZATION_ACCESS(Parameter)
     public:
         explicit Parameter(std::string name);
-
-        [[nodiscard]] double getValue() const override;
 
         [[nodiscard]] bool isValid() const;
         [[nodiscard]] bool hasAlias() const;
         [[nodiscard]] bool hasValue() const;
         [[nodiscard]] bool hasDefaultValue() const;
 
+        [[nodiscard]] double getValue() const;
         [[nodiscard]] double getDefaultValue() const;
         [[nodiscard]] const std::string& getName() const;
         [[nodiscard]] const std::string& getAlias() const;

@@ -6,6 +6,7 @@ add_compile_flags:
 diagrams:
   PatternClassDiagram:
     type: class
+    skip_redundant_dependencies: true
     glob:
       include:
         - ../../../pattern/src/*.cpp
@@ -18,6 +19,11 @@ diagrams:
         - ../../../.conan
       relationships:
         - dependency
+    layout:
+      BinaryFunctionArgument:
+        - down: BinaryFunctionArgument::Use
+      VectorFunctionArgument:
+        - down: VectorFunctionArgument::Use
     plantuml:
       after:
         - >
@@ -41,8 +47,47 @@ diagrams:
             FontStyle Italic
           }
         - >
+          skinparam class<<Function>> {
+            BackgroundColor #E8F8F5
+            BorderColor #0E6655
+            BorderThickness 3
+            FontSize 16
+            FontColor #0E6655
+            AttributeFontColor #117A65
+            StereotypeFontColor #148F77
+            FontStyle Italic
+          }
+        - >
+          skinparam class<<Argument>> {
+            BackgroundColor #FDF2E9
+            BorderColor #E59866
+            BorderThickness 3
+            FontSize 16
+            FontColor #784212
+            AttributeFontColor #A04000
+            StereotypeFontColor #CA6F1E
+            FontStyle Italic
+          }
+        - >
+          skinparam class<<Instruction>> {
+            BackgroundColor #EAF2FF
+            BorderColor #2E86C1
+            BorderThickness 3
+            FontSize 16
+            FontColor #1A5276
+            AttributeFontColor #2471A3
+            StereotypeFontColor #5DADE2
+            FontStyle Italic
+          }
+        - >
           {% for e in diagram.elements %}
-          {% if replace(e.name, "Base", "") != e.name %}class {{ e.alias }} <<Base>>{% endif %}
+
+          {% if replace(e.name, "Base", "") != e.name %} class {{ e.alias }} <<Base>>
+          {% else if replace(e.name, "::Use", "") != e.name %} class {{ e.alias }} <<Function>>
+          {% else if replace(e.name, "Instruction", "") != e.name and e.name != "Instructions" %} class {{ e.alias }} <<Instruction>>
+          {% else if replace(e.name, "Argument", "") != e.name or e.name == "Parameter" %} class {{ e.alias }} <<Argument>>
+          {% endif %}
+
           {% endfor %}
   ChrysalisLabClassDiagram:
     type: class

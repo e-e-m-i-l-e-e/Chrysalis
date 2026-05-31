@@ -9,20 +9,20 @@ void Pattern::addPoint(const std::string& name, const double x, const double y) 
     space_->addPoint(name, x, y);
 }
 
-void Pattern::addPoint(const std::string& from, const std::string& to, const BaseArgument* angle, const BaseArgument* length) const {
-    space_->addPoint(from, to, angle->getValue() * CGAL_PI / 180.0, length->getValue());
+void Pattern::addPoint(const std::string& from, const std::string& to, const Argument<double>* angle, const Argument<double>* length) const {
+    space_->addPoint(from, to, angle->getArgument(), length->getArgument());
 }
 
-void Pattern::addPoint(const std::string& from, const std::string& to, const Space::Direction direction, const BaseArgument* length) const {
-    space_->addPoint(from, to, direction, length->getValue());
+void Pattern::addPoint(const std::string& from, const std::string& to, const Space::Direction direction, const Argument<double>* length) const {
+    space_->addPoint(from, to, direction, length->getArgument());
 }
 
-void Pattern::nextPoint(const std::string& to, const BaseArgument* angle, const BaseArgument* length) const {
-    space_->nextPoint(to, angle->getValue(), length->getValue());
+void Pattern::nextPoint(const std::string& to, const Argument<double>* angle, const Argument<double>* length) const {
+    space_->nextPoint(to, angle->getArgument(), length->getArgument());
 }
 
-void Pattern::nextPoint(const std::string& to, const Space::Direction direction, const BaseArgument* length) const {
-    space_->nextPoint(to, direction, length->getValue());
+void Pattern::nextPoint(const std::string& to, const Space::Direction direction, const Argument<double>* length) const {
+    space_->nextPoint(to, direction, length->getArgument());
 }
 
 void Pattern::sharePoint(const std::string& point, const Pattern* pattern) const {
