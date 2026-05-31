@@ -8,7 +8,7 @@
 
 class PatternSpaceRenderer: public BaseRenderer<SpaceVertex> {
 public:
-    explicit PatternSpaceRenderer(ChrysalisOpenGLProgram* program, const SpaceRendererData* spaceRendererData);
+    explicit PatternSpaceRenderer(ChrysalisOpenGLProgram* program, const Chrysalis::SpaceRendererData* spaceRendererData);
 
     void draw() override;
     void initialize() override;
@@ -19,7 +19,7 @@ private:
     float scale_ = 10.f;
 
     ChrysalisOpenGLProgram* program_;
-    const SpaceRendererData* spaceRendererData_;
+    const Chrysalis::SpaceRendererData* spaceRendererData_;
 };
 
 #endif //CHRYSALIS_PATTERNSPACERENDERER_H

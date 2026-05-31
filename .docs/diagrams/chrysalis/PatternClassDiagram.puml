@@ -1,4 +1,8 @@
 @startuml
+class "ActivatePatternSpacesInstruction" as C_0013837509633103473967
+class C_0013837509633103473967 {
+__
+}
 abstract "BaseArgumentObserver" as C_0017664114470945092585
 abstract C_0017664114470945092585 {
 #~BaseArgumentObserver() constexpr = default : void
@@ -21,29 +25,6 @@ class C_0015265763276868060256 {
 __
 #argument_ : boost::optional<T>
 -observers_ : std::forward_list<BaseArgumentObserver *>
-}
-class "Argument<double>" as C_0007177370541721034727
-class C_0007177370541721034727 {
-__
-}
-class "BinaryFunctionArgument" as C_0009375725191645997603
-class C_0009375725191645997603 {
-+BinaryFunctionArgument(Argument<double> * argumentLeft, Argument<double> * argumentRight, double (*)(double,double) function) : void
-+~BinaryFunctionArgument() : void
-__
--argumentLeft : Argument<double> *
--argumentRight : Argument<double> *
--function : double (*)(double,double)
-}
-class "BinaryFunctionArgument::Use" as C_0014972569708940212144
-class C_0014972569708940212144 {
-{static} +ADDITION(double a, double b) : double
-{static} +DIVISION(double a, double b) : double
-{static} +MAX(double a, double b) : double
-{static} +MIN(double a, double b) : double
-{static} +MULTIPLICATION(double a, double b) : double
-{static} +SUBTRACTION(double a, double b) : double
-__
 }
 class "Vertex" as C_0002326256006988294087
 class C_0002326256006988294087 {
@@ -71,8 +52,8 @@ class C_0013753387506434927655 {
 __
 -distance_ : float
 }
-class "SpaceRendererData" as C_0005127897508348657534
-class C_0005127897508348657534 {
+class "Chrysalis::SpaceRendererData" as C_0002552225099657878418
+class C_0002552225099657878418 {
 +SpaceRendererData() : void
 +~SpaceRendererData() : void
 ..
@@ -87,67 +68,67 @@ class C_0005127897508348657534 {
 __
 -p : Private *
 }
-class "SpaceRendererData::Range" as C_0003956790280424976785
-class C_0003956790280424976785 {
+class "Chrysalis::SpaceRendererData::Range" as C_0010158876069943185973
+class C_0010158876069943185973 {
 +operator+(const std::vector<SpaceVertex> & vertices) const : Range
 __
 +count : size_t
 +from : size_t
 }
-class "Space" as C_0000228797310809486917
-class C_0000228797310809486917 {
-+Space(SpaceRendererData * rendererData) : void
-+~Space() : void
+class "Chrysalis::ProjectSpace" as C_0007088239576659478452
+class C_0007088239576659478452 {
++~ProjectSpace() : void
 ..
-+addPoint(const std::string & name, double x, double y) : void
-+addPoint(const std::string & fromPointName, const std::string & name, double angle, double length) : void
-+addPoint(const std::string & fromPointName, const std::string & name, Direction direction, double length) : void
--addPoint(const std::string & name, const Point & point) : void
-+angle(const std::string & from, const std::string & to) const : double
-+distance(const std::string & from, const std::string & to) const : double
-+getPoint(const std::string & name) : Point &
-+getRendererData() const : const SpaceRendererData *
-+nextPoint(const std::string & name, double angle, double length) : void
-+nextPoint(const std::string & name, Direction direction, double length) : void
++addPoint(double x, double y) : Point *
++addPoint(const Point * fromPoint, double angle, double length) : Point *
 __
--lastPointName_ : std::string
--linesIndices_ : std::unordered_map<std::string,int>
--parentPoints_ : std::unordered_map<std::string,std::string>
--points_ : std::unordered_map<std::string,Point>
--rendererData_ : SpaceRendererData *
+-points_ : std::unordered_set<Point *>
 }
-enum "Space::Direction" as C_0006255543702469591148
-enum C_0006255543702469591148 {
-RIGHT
-LEFT
-UP
-DOWN
+class "Chrysalis::PatternSpace" as C_0006410388496936549037
+class C_0006410388496936549037 {
++addPoint(const std::string & name, Point * point) : void
++getLastPoint() const : Point *
++getPoint(const std::string & name) const : Point *
++hasPoint(const std::string & name) const : bool
+__
+-lastPoint_ : Point *
+-points_ : std::unordered_map<std::string,Point *>
 }
-class "Chrysalis::Dart" as C_0009492302074556763060
-class C_0009492302074556763060 {
-+Dart(Space * space) : void
+class "Chrysalis::SpaceRendererData::Private" as C_0006284053251442054283
+class C_0006284053251442054283 {
++addArrow(const Point & from, const Point & to) : void
+__
++arrows_ : std::vector<std::vector<SpaceVertex>>
++lines_ : std::vector<std::vector<SpaceVertex>>
++points_ : std::vector<SpaceVertex>
+}
+class "Chrysalis::BasePatternSpacesInstruction" as C_0010160050710713477139
+class C_0010160050710713477139 {
+#BasePatternSpacesInstruction(ProjectSpace * space, Argument<PatternSpacesArgument *> * patternSpaces) : void
+#~BasePatternSpacesInstruction() : void
+__
+#patternSpaces_ : Argument<PatternSpacesArgument *> *
+#space_ : ProjectSpace *
+}
+class "Chrysalis::FreePointInstruction" as C_0014778024850504188725
+class C_0014778024850504188725 {
++FreePointInstruction(ProjectSpace * space, Argument<PatternSpacesArgument *> * patternSpaces, Argument<std::string> * pointName, Argument<double> * x, Argument<double> * y) : void
++~FreePointInstruction() : void
 ..
-+addPoint(const std::string & pointName) : void
-+getPoints() : std::vector<float>
-+getPolygon() : Polygon &
++execute() : void
++isValid() : bool
++reset() : void
 __
--polygon_ : Polygon
--space_ : Space *
+-pointName_ : Argument<std::string> *
+-x_ : Argument<double> *
+-y_ : Argument<double> *
 }
-class "Chrysalis::Outline" as C_0012923087791918137441
-class C_0012923087791918137441 {
-+Outline(Space * space) : void
-+~Outline() : void
-..
-+addDart(Dart * dart) : void
-+addPoint(const std::string & pointName) : void
-+getPoints() const : std::vector<std::vector<float>>
-+getShape() const : std::vector<float>
-__
--darts_ : std::forward_list<Dart *>
--polygon_ : Polygon_with_holes
--space_ : Space *
-}
+note top of C_0014778024850504188725
+Syntax samples:
+ A (1, 1)
+ "A 1" (1.0, 2)
+ A (exp() exp())
+end note
 class "Chrysalis::Parameter" as C_0012811662139665247956
 class C_0012811662139665247956 {
 +Parameter(std::string name) : void
@@ -184,24 +165,24 @@ __
 }
 class "Chrysalis::Pattern" as C_0005824426893526781565
 class C_0005824426893526781565 {
-+Pattern(const std::string & name, Space * space, Outline * outline) : void
-..
-+addPoint(const std::string & name, double x, double y) const : void
-+addPoint(const std::string & from, const std::string & to, const Argument<double> * angle, const Argument<double> * length) const : void
-+addPoint(const std::string & from, const std::string & to, Space::Direction direction, const Argument<double> * length) const : void
-+getOutline() const : std::vector<std::vector<float>>
-+getShape() const : std::vector<float>
-+nextPoint(const std::string & to, const Argument<double> * angle, const Argument<double> * length) const : void
-+nextPoint(const std::string & to, Space::Direction direction, const Argument<double> * length) const : void
-+sharePoint(const std::string & point, const Pattern * pattern) const : void
++Pattern(const std::string & name, PatternSpace * space) : void
++~Pattern() : void
 __
 -name_ : std::string
--outline_ : Outline *
--space_ : Space *
+-space_ : PatternSpace *
+}
+class "Chrysalis::PatternSpacesInstructions" as C_0002760590466830417391
+class C_0002760590466830417391 {
++addInstruction(BasePatternSpacesInstruction * instruction) : void
++execute() : void
++isValid() : bool
++reset() : void
+__
+-instructions_ : std::list<BasePatternSpacesInstruction *>
 }
 class "Chrysalis::Project" as C_0008495545694619727706
 class C_0008495545694619727706 {
-+Project(std::string name, Parameters * parameters, Instructions * instructions) : void
++Project(std::string name, ProjectSpace * space, Parameters * parameters, Instructions * instructions) : void
 +~Project() : void
 ..
 +addPattern(Pattern * pattern) : void
@@ -216,157 +197,166 @@ __
 -name_ : std::string
 -parameters_ : Parameters *
 -patterns_ : std::forward_list<Pattern *>
+-space_ : ProjectSpace *
 }
-class "SpaceRendererData::Private" as C_0012658801633232851719
-class C_0012658801633232851719 {
-+addArrow(const Point & from, const Point & to) : void
-__
-+arrows_ : std::vector<std::vector<SpaceVertex>>
-+lines_ : std::vector<std::vector<SpaceVertex>>
-+points_ : std::vector<SpaceVertex>
-}
-abstract "BaseInstruction" as C_0004071660578947207320
-abstract C_0004071660578947207320 {
-{abstract} +execute() = 0 : void
-__
-}
-class "FreePointInstruction" as C_0012565262491634935433
-class C_0012565262491634935433 {
+class "Chrysalis::RelativePointInstruction" as C_0004936461079814340647
+class C_0004936461079814340647 {
++RelativePointInstruction(ProjectSpace * space, Argument<PatternSpacesArgument *> * patternSpaces, Argument<std::string> * pointFrom, Argument<PatternSpace *> * pointFromPatternSpace, Argument<std::string> * pointTo, Argument<double> * angle, Argument<double> * distance) : void
++~RelativePointInstruction() : void
+..
 +execute() : void
++isValid() : bool
 +reset() : void
 __
+-angle_ : Argument<double> *
+-distance_ : Argument<double> *
+-pointFromPatternSpace_ : Argument<PatternSpace *> *
+-pointFrom_ : Argument<std::string> *
+-pointTo_ : Argument<std::string> *
 }
-note top of C_0012565262491634935433
+note top of C_0004936461079814340647
 Syntax samples:
- A (1, 1)
- "A 1" (1.0, 2)
- A (exp() exp())
 end note
-class "Instructions" as C_0003799996615983069860
-class C_0003799996615983069860 {
-+~Instructions() : void
-..
-+addInstruction(BaseInstruction * instruction) : void
+class "Chrysalis::VectorFunctionArgument" as C_0014380000036712777437
+class C_0014380000036712777437 {
++VectorFunctionArgument(ProjectSpace * space, std::string from, std::string to, double (*)(const VectorFunctionArgument *) function) : void
 __
--instructions : std::list<BaseInstruction *>
+-from : std::string
+-function : double (*)(const VectorFunctionArgument *)
+-space : ProjectSpace *
+-to : std::string
 }
-class "PatternRendererData" as C_0010500610705199261562
-class C_0010500610705199261562 {
+class "Chrysalis::VectorFunctionArgument::Use" as C_0012334584440756786522
+class C_0012334584440756786522 {
+{static} +ANGLE(const VectorFunctionArgument * function) : double
+{static} +LENGTH(const VectorFunctionArgument * function) : double
 __
--vertices_ : std::vector<float>
 }
-class "PatternSpace" as C_0012855385320242958265
-class C_0012855385320242958265 {
-+PatternSpace(Space * space) : void
-..
-+addPoint(const std::string & name, Point * point) : void
-+getPoint(const std::string & name) const : Point *
-+hasPoint(const std::string & name) const : bool
-__
--points_ : std::unordered_map<std::string,Point *>
--space_ : Space *
-}
-class "Argument<std::forward_list<PatternSpace *>>" as C_0002182205128844809365
-class C_0002182205128844809365 {
+class "Argument<std::list<Chrysalis::PatternSpace *>>" as C_0001753206086132524315
+class C_0001753206086132524315 {
 __
 }
 class "PatternSpacesArgument" as C_0011938357208849355321
 class C_0011938357208849355321 {
-+PatternSpacesArgument<Spaces...>(Spaces *... patternSpaces) : void
++PatternSpacesArgument(const std::list<Chrysalis::PatternSpace *> & patternSpaces) : void
 ..
-+addPatternSpace(PatternSpace * space) : void
++addPatternSpace(Chrysalis::PatternSpace * space) : void
++begin() : std::_List_const_iterator<std::_List_val<std::_List_simple_types<Chrysalis::PatternSpace *>>>
++end() : std::_List_const_iterator<std::_List_val<std::_List_simple_types<Chrysalis::PatternSpace *>>>
 __
 }
-class "Point" as C_0009962967977086807313
-class C_0009962967977086807313 {
+abstract "BaseInstruction" as C_0004071660578947207320
+abstract C_0004071660578947207320 {
+{abstract} +execute() = 0 : void
+{abstract} +isValid() = 0 : bool
+__
+}
+class "Argument<PatternSpacesArgument *>" as C_0003332354453197134960
+class C_0003332354453197134960 {
+__
+}
+class "Argument<double>" as C_0007177370541721034727
+class C_0007177370541721034727 {
+__
+}
+class "BinaryFunctionArgument" as C_0009375725191645997603
+class C_0009375725191645997603 {
++BinaryFunctionArgument(Argument<double> * argumentLeft, Argument<double> * argumentRight, double (*)(double,double) function) : void
++~BinaryFunctionArgument() : void
+__
+-argumentLeft : Argument<double> *
+-argumentRight : Argument<double> *
+-function : double (*)(double,double)
+}
+class "BinaryFunctionArgument::Use" as C_0014972569708940212144
+class C_0014972569708940212144 {
+{static} +ADDITION(double a, double b) : double
+{static} +DIVISION(double a, double b) : double
+{static} +MAX(double a, double b) : double
+{static} +MIN(double a, double b) : double
+{static} +MULTIPLICATION(double a, double b) : double
+{static} +SUBTRACTION(double a, double b) : double
 __
 }
 class "Argument<std::string>" as C_0007464688992843838532
 class C_0007464688992843838532 {
 __
 }
-class "RelativePointInstruction" as C_0015292141585869135019
-class C_0015292141585869135019 {
-+RelativePointInstruction(Space * space, PatternSpacesArgument * patternSpaces, Argument<std::string> * pointFrom, Argument<std::string> * pointTo, Argument<double> * angle, Argument<double> * distance) : void
-+~RelativePointInstruction() : void
+class "Instructions" as C_0003799996615983069860
+class C_0003799996615983069860 {
++~Instructions() : void
 ..
-+execute() : void
-+reset() : void
++addInstruction(BaseInstruction * instruction) : void
++execute() const : void
 __
--angle_ : Argument<double> *
--distance_ : Argument<double> *
--patternSpaces_ : PatternSpacesArgument *
--pointFrom_ : Argument<std::string> *
--pointTo_ : Argument<std::string> *
--space_ : Space *
+-instructions : std::list<BaseInstruction *>
 }
-note top of C_0015292141585869135019
-Syntax samples:
-end note
-class "VectorFunctionArgument" as C_0015093027864871346801
-class C_0015093027864871346801 {
-+VectorFunctionArgument(Space * space, std::string from, std::string to, double (*)(const VectorFunctionArgument *) function) : void
+class "Point" as C_0009962967977086807313
+class C_0009962967977086807313 {
 __
--from : std::string
--function : double (*)(const VectorFunctionArgument *)
--space : Space *
--to : std::string
 }
-class "VectorFunctionArgument::Use" as C_0003216682044062115078
-class C_0003216682044062115078 {
-{static} +ANGLE(const VectorFunctionArgument * function) : double
-{static} +LENGTH(const VectorFunctionArgument * function) : double
+class "Argument<PatternSpace *>" as C_0008259397873790167998
+class C_0008259397873790167998 {
 __
 }
 C_0015265763276868060256 --> C_0017664114470945092585 : -observers_
-C_0007177370541721034727 ..|> C_0015265763276868060256
-C_0007177370541721034727 <|-- C_0009375725191645997603
-C_0014972569708940212144 --+ C_0009375725191645997603
 C_0002155889465830571527 --+ C_0002326256006988294087
 C_0002326256006988294087 <|-- C_0013753387506434927655
-C_0005127897508348657534 --> C_0012658801633232851719 : -p
-C_0005127897508348657534 <.. C_0000228797310809486917 : +<<friend>>
-C_0003956790280424976785 --+ C_0005127897508348657534
-C_0000228797310809486917 --> C_0005127897508348657534 : -rendererData_
-C_0006255543702469591148 --+ C_0000228797310809486917
-C_0009492302074556763060 --> C_0000228797310809486917 : -space_
-C_0012923087791918137441 --> C_0000228797310809486917 : -space_
-C_0012923087791918137441 --> C_0009492302074556763060 : -darts_
+C_0002552225099657878418 --> C_0006284053251442054283 : -p
+C_0002552225099657878418 <.. C_0007088239576659478452 : +<<friend>>
+C_0010158876069943185973 --+ C_0002552225099657878418
+C_0006284053251442054283 --+ C_0002552225099657878418
+C_0006284053251442054283 o-- C_0013753387506434927655 : +points_
+C_0006284053251442054283 o-- C_0013753387506434927655 : +arrows_
+C_0006284053251442054283 o-- C_0013753387506434927655 : +lines_
+C_0010160050710713477139 --> C_0007088239576659478452 : #space_
+C_0010160050710713477139 --> C_0011938357208849355321 : #patternSpaces_
+C_0010160050710713477139 --> C_0003332354453197134960 : #patternSpaces_
+C_0010160050710713477139 --> C_0015265763276868060256 : #patternSpaces_
+C_0004071660578947207320 <|-- C_0010160050710713477139
+C_0014778024850504188725 --> C_0007464688992843838532 : -pointName_
+C_0014778024850504188725 --> C_0015265763276868060256 : -pointName_
+C_0014778024850504188725 --> C_0007177370541721034727 : -x_
+C_0014778024850504188725 --> C_0015265763276868060256 : -x_
+C_0014778024850504188725 --> C_0007177370541721034727 : -y_
+C_0014778024850504188725 --> C_0015265763276868060256 : -y_
+C_0010160050710713477139 <|-- C_0014778024850504188725
 C_0007177370541721034727 <|-- C_0012811662139665247956
 C_0003412445458623038917 --> C_0012811662139665247956 : -parameters_
 C_0003412445458623038917 --> C_0012811662139665247956 : -parametersMap_
-C_0005824426893526781565 --> C_0000228797310809486917 : -space_
-C_0005824426893526781565 --> C_0012923087791918137441 : -outline_
-C_0008495545694619727706 --> C_0003412445458623038917 : -parameters_
-C_0008495545694619727706 --> C_0003799996615983069860 : -instructions_
+C_0005824426893526781565 *-- C_0006410388496936549037 : -space_
+C_0002760590466830417391 --> C_0010160050710713477139 : -instructions_
+C_0004071660578947207320 <|-- C_0002760590466830417391
+C_0008495545694619727706 *-- C_0007088239576659478452 : -space_
+C_0008495545694619727706 *-- C_0003412445458623038917 : -parameters_
+C_0008495545694619727706 *-- C_0003799996615983069860 : -instructions_
 C_0008495545694619727706 --> C_0005824426893526781565 : -patterns_
-C_0012658801633232851719 --+ C_0005127897508348657534
-C_0012658801633232851719 o-- C_0013753387506434927655 : +points_
-C_0012658801633232851719 o-- C_0013753387506434927655 : +arrows_
-C_0012658801633232851719 o-- C_0013753387506434927655 : +lines_
+C_0004936461079814340647 --> C_0007464688992843838532 : -pointFrom_
+C_0004936461079814340647 --> C_0015265763276868060256 : -pointFrom_
+C_0004936461079814340647 --> C_0008259397873790167998 : -pointFromPatternSpace_
+C_0004936461079814340647 --> C_0015265763276868060256 : -pointFromPatternSpace_
+C_0004936461079814340647 --> C_0006410388496936549037 : -pointFromPatternSpace_
+C_0004936461079814340647 --> C_0007464688992843838532 : -pointTo_
+C_0004936461079814340647 --> C_0015265763276868060256 : -pointTo_
+C_0004936461079814340647 --> C_0007177370541721034727 : -angle_
+C_0004936461079814340647 --> C_0015265763276868060256 : -angle_
+C_0004936461079814340647 --> C_0007177370541721034727 : -distance_
+C_0004936461079814340647 --> C_0015265763276868060256 : -distance_
+C_0010160050710713477139 <|-- C_0004936461079814340647
+C_0014380000036712777437 --> C_0007088239576659478452 : -space
+C_0007177370541721034727 <|-- C_0014380000036712777437
+C_0012334584440756786522 --+ C_0014380000036712777437
+C_0001753206086132524315 ..|> C_0015265763276868060256
+C_0001753206086132524315 <|-- C_0011938357208849355321
 C_0017664114470945092585 <|-- C_0004071660578947207320
-C_0004071660578947207320 <|-- C_0012565262491634935433
-C_0003799996615983069860 --> C_0004071660578947207320 : -instructions
-C_0012855385320242958265 --> C_0000228797310809486917 : -space_
-C_0002182205128844809365 ..|> C_0015265763276868060256
-C_0002182205128844809365 <|-- C_0011938357208849355321
+C_0003332354453197134960 ..|> C_0015265763276868060256
+C_0007177370541721034727 ..|> C_0015265763276868060256
+C_0007177370541721034727 <|-- C_0009375725191645997603
+C_0014972569708940212144 --+ C_0009375725191645997603
 C_0007464688992843838532 ..|> C_0015265763276868060256
-C_0015292141585869135019 --> C_0000228797310809486917 : -space_
-C_0015292141585869135019 --> C_0011938357208849355321 : -patternSpaces_
-C_0015292141585869135019 --> C_0007464688992843838532 : -pointFrom_
-C_0015292141585869135019 --> C_0015265763276868060256 : -pointFrom_
-C_0015292141585869135019 --> C_0007464688992843838532 : -pointTo_
-C_0015292141585869135019 --> C_0015265763276868060256 : -pointTo_
-C_0015292141585869135019 --> C_0007177370541721034727 : -angle_
-C_0015292141585869135019 --> C_0015265763276868060256 : -angle_
-C_0015292141585869135019 --> C_0007177370541721034727 : -distance_
-C_0015292141585869135019 --> C_0015265763276868060256 : -distance_
-C_0004071660578947207320 <|-- C_0015292141585869135019
-C_0015093027864871346801 --> C_0000228797310809486917 : -space
-C_0007177370541721034727 <|-- C_0015093027864871346801
-C_0003216682044062115078 --+ C_0015093027864871346801
+C_0003799996615983069860 --> C_0004071660578947207320 : -instructions
+C_0008259397873790167998 ..|> C_0015265763276868060256
 C_0009375725191645997603 -[hidden]down- C_0014972569708940212144
-C_0015093027864871346801 -[hidden]down- C_0003216682044062115078
 skinparam class {
   BackgroundColor #EAFAF1
   BorderColor #1E8449
@@ -421,9 +411,37 @@ skinparam class<<Instruction>> {
 }
 
 
+ class C_0013837509633103473967 <<Instruction>> 
+
  class C_0017664114470945092585 <<Base>> 
 
  class C_0015265763276868060256 <<Argument>> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ class C_0001753206086132524315 <<Argument>> 
+
+ class C_0011938357208849355321 <<Argument>> 
+
+
+
+ class C_0004071660578947207320 <<Base>> 
+
+ class C_0003332354453197134960 <<Argument>> 
+
+ class C_0010160050710713477139 <<Base>> 
 
  class C_0007177370541721034727 <<Argument>> 
 
@@ -431,27 +449,9 @@ skinparam class<<Instruction>> {
 
  class C_0014972569708940212144 <<Function>> 
 
+ class C_0007464688992843838532 <<Argument>> 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- class C_0004071660578947207320 <<Base>> 
-
- class C_0012565262491634935433 <<Instruction>> 
-
-
+ class C_0014778024850504188725 <<Instruction>> 
 
 
 
@@ -461,27 +461,19 @@ skinparam class<<Instruction>> {
 
 
 
-
-
-
-
- class C_0002182205128844809365 <<Argument>> 
-
- class C_0011938357208849355321 <<Argument>> 
+ class C_0002760590466830417391 <<Instruction>> 
 
 
 
 
 
- class C_0007464688992843838532 <<Argument>> 
+ class C_0008259397873790167998 <<Argument>> 
 
- class C_0015292141585869135019 <<Instruction>> 
+ class C_0004936461079814340647 <<Instruction>> 
 
- class C_0015093027864871346801 <<Argument>> 
+ class C_0014380000036712777437 <<Argument>> 
 
- class C_0003216682044062115078 <<Function>> 
-
-
+ class C_0012334584440756786522 <<Function>> 
 
 
 

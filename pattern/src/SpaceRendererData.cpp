@@ -2,6 +2,8 @@
 
 #include <numbers>
 
+using namespace Chrysalis;
+
 struct SpaceRendererData::Private {
     void addArrow(const Point& from, const Point& to);
 

@@ -30,6 +30,8 @@ class FashionDesignAppsConan(ConanFile):
             self.requires("qt/6.8.3")
 
     def configure(self):
+        self.options["boost"].without_test = True
+
         if self.options.app == "CLO3D":
             self.options["qt/5.15.16"].shared = True
             self.options["qt/5.15.16"].qttools = True

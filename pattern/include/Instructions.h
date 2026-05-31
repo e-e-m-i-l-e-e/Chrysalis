@@ -10,6 +10,7 @@ class SERIALIZABLE(Instructions) {
 public:
     ~Instructions();
 
+    void execute() const;
     void addInstruction(BaseInstruction* instruction);
 private:
     std::list<BaseInstruction*> instructions;

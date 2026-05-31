@@ -9,6 +9,8 @@ set(LOGS_DIR "${CMAKE_SOURCE_DIR}/.logs" CACHE PATH "Directory for log files")
 
 add_compile_options(/Zc:preprocessor)
 
+find_package(GTest REQUIRED)
+
 add_subdirectory(logging)
 add_subdirectory(pattern)
 

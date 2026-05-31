@@ -89,55 +89,6 @@ class C_0009334335780883493241 {
 +scaleChanged(float scale) : void
 __
 }
-class "BaseRenderer<SpaceVertex>" as C_0007377301541239460207
-class C_0007377301541239460207 {
-__
-}
-class "PatternSpaceRenderer" as C_0011408520031068065626
-class C_0011408520031068065626 {
-+PatternSpaceRenderer(ChrysalisOpenGLProgram * program, const SpaceRendererData * spaceRendererData) : void
-..
-+draw() : void
-+getPoints() const : std::vector<SpaceVertex>
-+initialize() : void
-+scaleChanged(float scale) : void
-__
--program_ : ChrysalisOpenGLProgram *
--scale_ : float
--spaceRendererData_ : const SpaceRendererData *
-}
-class "PatternRenderer" as C_0011504052414250660842
-class C_0011504052414250660842 {
-+PatternRenderer(PatternSpaceRenderer * spaceRenderer, PatternShapeRenderer * shapeRenderer) : void
-..
-+getPoints() const : std::vector<SpaceVertex>
-+initialize() const : void
-+render() const : void
-+scaleChanged(float scale) const : void
-__
--shapeRenderer_ : PatternShapeRenderer *
--spaceRenderer_ : PatternSpaceRenderer *
-}
-class "ChrysalisRenderer" as C_0003925136470158514146
-class C_0003925136470158514146 {
-+ChrysalisRenderer(ChrysalisOpenGLProgram * program, CursorRenderer * cursorRenderer, CartesianRenderer * cartesianRenderer) : void
-+~ChrysalisRenderer() : void
-..
-+changeCursor(QPointF && cursor) const : void
-+changeOffset(QPointF && delta) : void
-+changeScale(double scalar, QPointF && center) : void
-#createFramebufferObject(const QSize & size) : QOpenGLFramebufferObject *
-+initialize() : void
-#render() : void
-#synchronize(QQuickFramebufferObject *) : void
-__
--area_ : QRectF
--cartesianRenderer_ : CartesianRenderer *
--cursorRenderer_ : CursorRenderer *
--patternRenderers_ : std::vector<PatternRenderer *>
--program_ : ChrysalisOpenGLProgram *
--scale_ : double
-}
 class "Chrysalis::ParametersModel" as C_0006294982762641672186
 class C_0006294982762641672186 {
 +columnCount(const QModelIndex & parent) const : int
@@ -185,6 +136,55 @@ __
 -parameters_ : ParametersElement *
 -project : Project *
 }
+class "BaseRenderer<SpaceVertex>" as C_0007377301541239460207
+class C_0007377301541239460207 {
+__
+}
+class "PatternSpaceRenderer" as C_0011408520031068065626
+class C_0011408520031068065626 {
++PatternSpaceRenderer(ChrysalisOpenGLProgram * program, const Chrysalis::SpaceRendererData * spaceRendererData) : void
+..
++draw() : void
++getPoints() const : std::vector<SpaceVertex>
++initialize() : void
++scaleChanged(float scale) : void
+__
+-program_ : ChrysalisOpenGLProgram *
+-scale_ : float
+-spaceRendererData_ : const Chrysalis::SpaceRendererData *
+}
+class "PatternRenderer" as C_0011504052414250660842
+class C_0011504052414250660842 {
++PatternRenderer(PatternSpaceRenderer * spaceRenderer, PatternShapeRenderer * shapeRenderer) : void
+..
++getPoints() const : std::vector<SpaceVertex>
++initialize() const : void
++render() const : void
++scaleChanged(float scale) const : void
+__
+-shapeRenderer_ : PatternShapeRenderer *
+-spaceRenderer_ : PatternSpaceRenderer *
+}
+class "ChrysalisRenderer" as C_0003925136470158514146
+class C_0003925136470158514146 {
++ChrysalisRenderer(ChrysalisOpenGLProgram * program, CursorRenderer * cursorRenderer, CartesianRenderer * cartesianRenderer) : void
++~ChrysalisRenderer() : void
+..
++changeCursor(QPointF && cursor) const : void
++changeOffset(QPointF && delta) : void
++changeScale(double scalar, QPointF && center) : void
+#createFramebufferObject(const QSize & size) : QOpenGLFramebufferObject *
++initialize() : void
+#render() : void
+#synchronize(QQuickFramebufferObject *) : void
+__
+-area_ : QRectF
+-cartesianRenderer_ : CartesianRenderer *
+-cursorRenderer_ : CursorRenderer *
+-patternRenderers_ : std::vector<PatternRenderer *>
+-program_ : ChrysalisOpenGLProgram *
+-scale_ : double
+}
 class "PatternBuilderSceneElement" as C_0000532881802130584044
 class C_0000532881802130584044 {
 +PatternBuilderSceneElement(QQuickItem * parent = nullptr) : void
@@ -211,6 +211,8 @@ C_0005675248113660705844 ..|> C_0008905268405372382414
 C_0010189638850974360928 --> C_0000282649222739637142 : -program_
 C_0005675248113660705844 <|-- C_0010189638850974360928
 C_0010736818921998541087 <|-- C_0009334335780883493241
+C_0003994509085763311703 --> C_0006294982762641672186 : -model_
+C_0008929981772084998866 --> C_0003994509085763311703 : -parameters_
 C_0007377301541239460207 ..|> C_0004233131307133403721
 C_0011408520031068065626 --> C_0000282649222739637142 : -program_
 C_0007377301541239460207 <|-- C_0011408520031068065626
@@ -220,8 +222,6 @@ C_0003925136470158514146 --> C_0000282649222739637142 : -program_
 C_0003925136470158514146 --> C_0010189638850974360928 : -cursorRenderer_
 C_0003925136470158514146 --> C_0000449815443628269094 : -cartesianRenderer_
 C_0003925136470158514146 --> C_0011504052414250660842 : -patternRenderers_
-C_0003994509085763311703 --> C_0006294982762641672186 : -model_
-C_0008929981772084998866 --> C_0003994509085763311703 : -parameters_
 C_0000532881802130584044 --> C_0003925136470158514146 : -renderer_
 skinparam class {
   BackgroundColor #EAFAF1

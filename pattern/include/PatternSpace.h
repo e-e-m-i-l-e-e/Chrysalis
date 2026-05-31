@@ -3,18 +3,21 @@
 
 #include <unordered_map>
 
-#include "Space.h"
+#include "ProjectSpace.h"
 
-class PatternSpace {
-public:
-    explicit PatternSpace(Space* space);
+namespace Chrysalis {
+    class PatternSpace {
+    public:
+        bool hasPoint(const std::string& name) const;
 
-    bool hasPoint(const std::string& name) const;
-    Point* getPoint(const std::string& name) const;
-    void addPoint(const std::string& name, Point* point);
-private:
-    Space* space_;
-    std::unordered_map<std::string, Point*> points_;
-};
+        Point* getLastPoint() const;
+        Point* getPoint(const std::string& name) const;
+
+        void addPoint(const std::string& name, Point* point);
+    private:
+        Point* lastPoint_ = nullptr;
+        std::unordered_map<std::string, Point*> points_;
+    };
+}
 
 #endif //CHRYSALIS_PATTERNSPACE_H

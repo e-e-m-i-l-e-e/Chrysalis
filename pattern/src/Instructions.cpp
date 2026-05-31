@@ -4,6 +4,10 @@ Instructions::~Instructions() {
     for (const auto& instruction: instructions) delete instruction;
 }
 
+void Instructions::execute() const {
+    for (const auto& instruction: instructions) instruction->execute();
+}
+
 void Instructions::addInstruction(BaseInstruction* instruction) {
     instructions.push_back(instruction);
     instruction->execute();

@@ -5,8 +5,8 @@
 
 using namespace Chrysalis;
 
-Project::Project(std::string name, Parameters* parameters, Instructions* instructions)
-    : name_(std::move(name)), parameters_(parameters), instructions_(instructions) {}
+Project::Project(std::string name, ProjectSpace* space, Parameters* parameters, Instructions* instructions)
+    : name_(std::move(name)), space_(space), parameters_(parameters), instructions_(instructions) {}
 
 Project::~Project() {
     delete parameters_;
@@ -17,7 +17,7 @@ Project::~Project() {
 }
 
 Project* Project::create() {
-    return new Project("Untitled", new Parameters(), new Instructions());
+    return new Project("Untitled", new ProjectSpace(), new Parameters(), new Instructions());
 }
 
 Project* Project::read(const std::string& filePath) {

@@ -1,6 +1,6 @@
 #include "PatternSpaceRenderer.h"
 
-PatternSpaceRenderer::PatternSpaceRenderer(ChrysalisOpenGLProgram* program, const SpaceRendererData* spaceRendererData)
+PatternSpaceRenderer::PatternSpaceRenderer(ChrysalisOpenGLProgram* program, const Chrysalis::SpaceRendererData* spaceRendererData)
     : program_(program), spaceRendererData_(spaceRendererData) {}
 
 void PatternSpaceRenderer::initialize() {

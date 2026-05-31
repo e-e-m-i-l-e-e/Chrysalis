@@ -1,15 +1,17 @@
-#ifndef CHRYSALIS_PATTERNSPACESARGUMENT_H
-#define CHRYSALIS_PATTERNSPACESARGUMENT_H
+#ifndef CHRYSALIS_ACTIVEPATTERNSPACES_H
+#define CHRYSALIS_ACTIVEPATTERNSPACES_H
 
 #include "Argument.h"
 #include "PatternSpace.h"
 
-class PatternSpacesArgument: public Argument<std::forward_list<PatternSpace*>> {
+class PatternSpacesArgument: public Argument<std::list<Chrysalis::PatternSpace*>> {
 public:
-    template<typename... Spaces>
-    explicit PatternSpacesArgument(Spaces*... patternSpaces): Argument(patternSpaces...) {}
+    explicit PatternSpacesArgument(const std::list<Chrysalis::PatternSpace*>& patternSpaces): Argument(patternSpaces) {}
 
-    void addPatternSpace(PatternSpace* space);
+    std::_List_const_iterator<std::_List_val<std::_List_simple_types<Chrysalis::PatternSpace*>>> begin();
+    std::_List_const_iterator<std::_List_val<std::_List_simple_types<Chrysalis::PatternSpace*>>> end();
+
+    void addPatternSpace(Chrysalis::PatternSpace* space);
 };
 
-#endif //CHRYSALIS_PATTERNSPACESARGUMENT_H
+#endif //CHRYSALIS_ACTIVEPATTERNSPACES_H
