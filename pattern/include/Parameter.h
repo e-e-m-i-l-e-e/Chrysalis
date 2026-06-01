@@ -6,9 +6,10 @@
 
 #include "serialization.h"
 #include "Argument.h"
+#include "NumberArgument.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(Parameter): public Argument<double> {
+    class SERIALIZABLE(Parameter): public NumberArgument {
         PROVIDE_SERIALIZATION_ACCESS(Parameter)
     public:
         explicit Parameter(std::string name);

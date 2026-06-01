@@ -6,7 +6,6 @@ add_compile_flags:
 diagrams:
   PatternClassDiagram:
     type: class
-    skip_redundant_dependencies: true
     glob:
       include:
         - ../../../pattern/src/*.cpp
@@ -80,11 +79,23 @@ diagrams:
             FontStyle Italic
           }
         - >
+          skinparam class<<Container>> {
+            BackgroundColor #E8F7FD
+            BorderColor #0096B7
+            BorderThickness 3
+            FontSize 16
+            FontColor #023E52
+            AttributeFontColor #0277A0
+            StereotypeFontColor #0096B7
+            FontStyle Italic
+          }
+        - >
           {% for e in diagram.elements %}
 
           {% if replace(e.name, "Base", "") != e.name %} class {{ e.alias }} <<Base>>
           {% else if replace(e.name, "::Use", "") != e.name %} class {{ e.alias }} <<Function>>
-          {% else if replace(e.name, "Instruction", "") != e.name and e.name != "Instructions" %} class {{ e.alias }} <<Instruction>>
+          {% else if replace(e.name, "Container", "") != e.name %} class {{ e.alias }} <<Container>>
+          {% else if replace(e.name, "Instruction", "") != e.name %} class {{ e.alias }} <<Instruction>>
           {% else if replace(e.name, "Argument", "") != e.name or e.name == "Parameter" %} class {{ e.alias }} <<Argument>>
           {% endif %}
 

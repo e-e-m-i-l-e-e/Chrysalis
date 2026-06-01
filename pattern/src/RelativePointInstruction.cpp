@@ -4,43 +4,33 @@ using namespace Chrysalis;
 
 RelativePointInstruction::RelativePointInstruction(ProjectSpace* space,
                                                    Argument<PatternSpacesArgument*>* patternSpaces,
-                                                   Argument<std::string>* pointFrom,
-                                                   Argument<PatternSpace*>* pointFromPatternSpace,
-                                                   Argument<std::string>* pointTo,
-                                                   Argument<double>* angle,
-                                                   Argument<double>* distance)
-    : BasePatternSpacesInstruction(space, patternSpaces), pointFrom_(pointFrom),
-      pointFromPatternSpace_(pointFromPatternSpace), pointTo_(pointTo), angle_(angle),
-      distance_(distance) {
-    patternSpaces_->addObserver(this);
-    pointFrom_->addObserver(this);
-    pointFromPatternSpace_->addObserver(this);
-    pointTo_->addObserver(this);
-    angle_->addObserver(this);
-    distance_->addObserver(this);
-}
+                                                   name* pointFrom,
+                                                   pattern* pointFromPattern,
+                                                   name* pointTo,
+                                                   num* angle,
+                                                   num* distance)
+    : BasePatternInstruction(space, patternSpaces), pointFrom_(pointFrom),
+      pointFromPattern_(pointFromPattern), pointTo_(pointTo), angle_(angle),
+      distance_(distance) {}
 
 RelativePointInstruction::~RelativePointInstruction() {
     delete pointFrom_;
-    delete pointFromPatternSpace_;
+    delete pointFromPattern_;
     delete pointTo_;
     delete angle_;
     delete distance_;
 }
 
-void RelativePointInstruction::reset() {
-}
-
 bool RelativePointInstruction::isValid() {
     if (pointFrom_->hasArgument()) {
         std::unordered_set<Point*> points;
-        for (const auto& patternSpace: *patternSpaces_->getArgument()) {
+        for (const auto& patternSpace: patterns()) {
             points.insert(patternSpace->getPoint(pointFrom_->getArgument()));
         }
         if (points.size() != 1) return false;
     } else {
         std::unordered_set<Point*> points;
-        for (const auto& patternSpace: *patternSpaces_->getArgument()) {
+        for (const auto& patternSpace: patterns()) {
             Point* lastPoint = patternSpace->getPoint(pointTo_->getArgument());
             if (!lastPoint) return false;
             points.insert(lastPoint);
@@ -53,17 +43,17 @@ bool RelativePointInstruction::isValid() {
 void RelativePointInstruction::execute() {
     const Point* pointFrom;
     if (pointFrom_->hasArgument()) {
-        if (pointFromPatternSpace_->hasArgument()) {
-            const PatternSpace* patternSpaceFrom = pointFromPatternSpace_->getArgument();
+        if (pointFromPattern_->hasArgument()) {
+            const PatternSpace* patternSpaceFrom = pointFromPattern_->getArgument();
             pointFrom = patternSpaceFrom->getPoint(pointFrom_->getArgument());
         } else {
-            pointFrom = (*patternSpaces_->getArgument()->begin())->getPoint(pointFrom_->getArgument());
+            pointFrom = (*patterns().begin())->getPoint(pointFrom_->getArgument());
         }
     } else {
-        pointFrom = (*patternSpaces_->getArgument()->begin())->getLastPoint();
+        pointFrom = (*patterns().begin())->getLastPoint();
     }
-    Point* point = space_->addPoint(pointFrom, angle_->getArgument(), distance_->getArgument());
-    for (const auto& patternSpace: *patternSpaces_->getArgument()) {
+    Point* point = space().addPoint(pointFrom, angle_->getArgument(), distance_->getArgument());
+    for (const auto& patternSpace: patterns()) {
         patternSpace->addPoint(pointTo_->getArgument(), point);
     }
 }

@@ -118,7 +118,7 @@ void ChrysalisRenderer::initialize() {
     // parameters->addParameter(new Parameter("Shoulder To Waist Front", 54));
     // parameters->addParameter(new Parameter("Sleeve Length", 62));
 
-    const auto instructions = new Instructions();
+    const auto instructions = new InstructionsContainer();
 
     // Back
     const auto backSpaceRendererData = new SpaceRendererData();

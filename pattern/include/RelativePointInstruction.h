@@ -7,35 +7,39 @@
 #include "PatternSpacesArgument.h"
 #include "Argument.h"
 #include "PatternSpace.h"
-#include "BaseInstruction.h"
-#include "BasePatternSpacesInstruction.h"
+#include "BasePatternInstruction.h"
+#include "NameArgument.h"
+#include "NumberArgument.h"
+#include "PatternArgument.h"
 
 namespace Chrysalis {
+    using name = NameArgument;
+    using num = NumberArgument;
+    using pattern = PatternArgument;
     /**
      * \uml{note[top] Syntax samples:
      *
      * }
      */
-    class RelativePointInstruction: public BasePatternSpacesInstruction {
+    class RelativePointInstruction: public BasePatternInstruction {
     public:
         explicit RelativePointInstruction(ProjectSpace* space,
                                           Argument<PatternSpacesArgument*>* patternSpaces,
-                                          Argument<std::string>* pointFrom,
-                                          Argument<PatternSpace*>* pointFromPatternSpace,
-                                          Argument<std::string>* pointTo,
-                                          Argument<double>* angle,
-                                          Argument<double>* distance);
+                                          name* pointFrom,
+                                          pattern* pointFromPattern,
+                                          name* pointTo,
+                                          num* angle,
+                                          num* distance);
         ~RelativePointInstruction() override;
 
-        void reset() override;
         bool isValid() override;
         void execute() override;
     private:
-        Argument<std::string>* pointFrom_;
-        Argument<PatternSpace*>* pointFromPatternSpace_;
-        Argument<std::string>* pointTo_;
-        Argument<double>* angle_;
-        Argument<double>* distance_;
+        name* pointFrom_;
+        pattern* pointFromPattern_;
+        name* pointTo_;
+        num* angle_;
+        num* distance_;
     };
 }
 

@@ -3,6 +3,7 @@
 #include "Project.h"
 #include "Argument.h"
 #include "FreePointInstruction.h"
+#include "PatternInstructionsContainer.h"
 
 using namespace Chrysalis;
 
@@ -10,19 +11,45 @@ class TestProjectExecution: public ::testing::Test {
 protected:
     void SetUp() override {
         space_ = new ProjectSpace();
-        instructions_ = new Instructions();
+        instructions_ = new InstructionsContainer();
         project_ = new Project("Test", space_, new Parameters(), instructions_);
+
+        patternSpace1_ = new PatternSpace();
+        pattern1_ = new Pattern("Pattern 1", patternSpace1_);
+        project_->addPattern(pattern1_);
+
+        patternSpace2_ = new PatternSpace();
+        pattern2_ = new Pattern("Pattern 2", patternSpace2_);
+        project_->addPattern(pattern2_);
     }
     void TearDown() override {
         delete project_;
     }
     Project* project_ = nullptr;
     ProjectSpace* space_ = nullptr;
-    Instructions* instructions_ = nullptr;
+    InstructionsContainer* instructions_ = nullptr;
+
+    Pattern* pattern1_ = nullptr;
+    PatternSpace* patternSpace1_ = nullptr;
+
+    Pattern* pattern2_ = nullptr;
+    PatternSpace* patternSpace2_ = nullptr;
 };
 
-TEST_F(TestProjectExecution, Pattern1) {
-    instructions_->addInstruction(new FreePointInstruction(space_, new Argument<ActivePatternSpaces*>(),
-                                                           new Argument<std::string>("A"),
-                                                           new Argument<double>(0), new Argument<double>(0)));
+#define num(val) new NumberArgument(val)
+#define name(name) new NameArgument(name)
+
+TEST_F(TestProjectExecution, Project1) {
+    const auto patternSpacesArgument = new PatternSpacesArgument({patternSpace1_, patternSpace2_});
+    const auto patternInstructions = new PatternInstructionsContainer(patternSpacesArgument);
+
+    patternInstructions->add(new FreePointInstruction(space_, new Argument(patternSpacesArgument),
+                                                           name("A"), num(0.0), num(0.0)));
+    instructions_->add(patternInstructions);
+    instructions_->execute();
+
+    // First point is added. Both patterns share same point.
+    EXPECT_EQ(patternSpace1_->getLastPoint(), patternSpace2_->getLastPoint());
+    EXPECT_EQ(patternSpace1_->getLastPoint()->x(), 0);
+    EXPECT_EQ(patternSpace1_->getLastPoint()->y(), 0);
 }

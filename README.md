@@ -13,6 +13,8 @@ git restore .conan/p
 cd C:\Chrysalis
 conan install . --build=missing --output-folder=.conan -o app=CLO3D -s build_type=RelWithDebInfo
 conan install . --build=missing --output-folder=.conan -o app=Chrysalis -s build_type=Debug
+source .venv-wsl/bin/activate
+conan install . --build=missing --output-folder=.conan -o app=Chrysalis -s build_type=Debug -pr:h wsl -pr:b wsl
 cmake -B .build -S . -G Ninja -DCMAKE_TOOLCHAIN_FILE=.conan/build/Release/generators/conan_toolchain.cmake
 cmake --build .build
 ```

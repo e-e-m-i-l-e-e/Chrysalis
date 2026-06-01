@@ -3,12 +3,8 @@
 using namespace Chrysalis;
 
 FreePointInstruction::FreePointInstruction(ProjectSpace* space, Argument<PatternSpacesArgument*>* patternSpaces,
-                                           Argument<std::string>* pointName, Argument<double>* x, Argument<double>* y)
-    : BasePatternSpacesInstruction(space, patternSpaces), pointName_(pointName), x_(x), y_(y) {
-    pointName_->addObserver(this);
-    x_->addObserver(this);
-    y_->addObserver(this);
-}
+                                           name* pointName, num* x, num* y)
+    : BasePatternInstruction(space, patternSpaces), pointName_(pointName), x_(x), y_(y) {}
 
 FreePointInstruction::~FreePointInstruction() {
     delete pointName_;
@@ -20,13 +16,9 @@ bool FreePointInstruction::isValid() {
     return pointName_->hasArgument() && x_->hasArgument() && y_->hasArgument();
 }
 
-void FreePointInstruction::reset()
-{
-}
-
 void FreePointInstruction::execute() {
-    const auto point = space_->addPoint(x_->getArgument(), y_->getArgument());
-    for (const auto& patternSpace: *patternSpaces_->getArgument()) {
+    const auto point = space().addPoint(x_->getArgument(), y_->getArgument());
+    for (const auto& patternSpace: patterns()) {
         patternSpace->addPoint(pointName_->getArgument(), point);
     }
 }

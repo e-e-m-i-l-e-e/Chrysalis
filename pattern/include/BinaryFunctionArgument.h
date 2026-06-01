@@ -2,8 +2,9 @@
 #define CHRYSALIS_BINARYFUNCTION_H
 
 #include "Argument.h"
+#include "NumberArgument.h"
 
-class BinaryFunctionArgument: public Argument<double> {
+class BinaryFunctionArgument: public NumberArgument {
 public:
     struct Use {
         static double ADDITION(double a, double b);

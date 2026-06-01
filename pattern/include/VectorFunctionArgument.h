@@ -2,10 +2,10 @@
 #define CHRYSALIS_VECTORFUNCTIONS_H
 
 #include "ProjectSpace.h"
-#include "Argument.h"
+#include "NumberArgument.h"
 
 namespace Chrysalis {
-    class VectorFunctionArgument: public Argument<double> {
+    class VectorFunctionArgument: public NumberArgument {
     public:
         struct Use {
             static double ANGLE(const VectorFunctionArgument* function);

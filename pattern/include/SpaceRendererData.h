@@ -14,7 +14,6 @@ using Vector = Kernel::Vector_2;
 
 namespace Chrysalis {
     class SERIALIZABLE(SpaceRendererData) {
-        friend class ProjectSpace;
     public:
         explicit SpaceRendererData();
         ~SpaceRendererData();
