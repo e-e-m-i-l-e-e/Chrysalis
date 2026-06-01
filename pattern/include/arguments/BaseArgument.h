@@ -9,6 +9,7 @@ namespace Chrysalis {
     protected:
         explicit BaseArgument() = default;
         explicit BaseArgument(T argument): argument_(argument) {}
+        explicit BaseArgument(boost::optional<T> argument): argument_(argument) {}
     public:
         virtual ~BaseArgument() = default;
 

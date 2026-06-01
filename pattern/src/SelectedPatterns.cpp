@@ -9,3 +9,7 @@ std::list<PatternSpace*>::const_iterator SelectedPatterns::begin() const {
 std::list<PatternSpace*>::const_iterator SelectedPatterns::end() const {
     return patterns_.cend();
 }
+
+void SelectedPatterns::add(PatternSpace* pattern) {
+    patterns_.push_back(pattern);
+}

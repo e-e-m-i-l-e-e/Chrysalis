@@ -7,7 +7,9 @@ namespace Chrysalis {
     class NumberArgument: public BaseArgument<double> {
     public:
         explicit NumberArgument() = default;
-        explicit NumberArgument(const double x): BaseArgument(x) {};
+        explicit NumberArgument(const double x): BaseArgument(x) {}
+    protected:
+        explicit NumberArgument(boost::optional<double> x): BaseArgument<double>(x) {}
     };
 }
 

@@ -21,6 +21,7 @@ class "Chrysalis::BaseArgument<T>" as C_0004566211642871539975
 class C_0004566211642871539975 {
 #BaseArgument() = default : void
 #BaseArgument(T argument) : void
+#BaseArgument(boost::optional<T> argument) : void
 +~BaseArgument() = default : void
 ..
 +getArgument() const : const T &
@@ -48,6 +49,7 @@ class "Chrysalis::NumberArgument" as C_0002470944207325597787
 class C_0002470944207325597787 {
 +NumberArgument() = default : void
 +NumberArgument(const double x) : void
+#NumberArgument(boost::optional<double> x) : void
 __
 }
 class "Chrysalis::PatternSpace" as C_0006410388496936549037
@@ -72,6 +74,7 @@ __
 }
 class "Chrysalis::SelectedPatterns" as C_0017992245358367024427
 class C_0017992245358367024427 {
++add(PatternSpace * pattern) : void
 +begin() const : std::_List_const_iterator<PatternSpace *>::const_iterator
 +end() const : std::_List_const_iterator<PatternSpace *>::const_iterator
 __
@@ -99,6 +102,25 @@ __
 -selectedPatterns_ : SelectedPatternsArgument *
 -space_ : ProjectSpace *
 }
+class "Chrysalis::BinaryFunction" as C_0007965462709904309096
+class C_0007965462709904309096 {
+{static} +add(const NumberArgument * operand1, const NumberArgument * operand2) : boost::optional<double>
+{static} +divide(const NumberArgument * operand1, const NumberArgument * operand2) : boost::optional<double>
+{static} -evaluate(const NumberArgument * operand1, const NumberArgument * operand2, const std::function<double (double,double)> & evaluator) : boost::optional<double>
+{static} +multiply(const NumberArgument * operand1, const NumberArgument * operand2) : boost::optional<double>
+{static} +subtract(const NumberArgument * operand1, const NumberArgument * operand2) : boost::optional<double>
+__
+}
+class "Chrysalis::BinaryFunctionArgument" as C_0001365093100257756951
+class C_0001365093100257756951 {
++BinaryFunctionArgument(const NumberArgument * operand1, const NumberArgument * operand2, const boost::optional<double> (BinaryFunction::*)(const NumberArgument *,const NumberArgument *) function) : void
++~BinaryFunctionArgument() : void
+__
+{static} -evaluator : BinaryFunction
+-function_ : const boost::optional<double> (BinaryFunction::*)(const NumberArgument *,const NumberArgument *)
+-operand1_ : const NumberArgument *
+-operand2_ : const NumberArgument *
+}
 class "Chrysalis::FreePointInstruction" as C_0014778024850504188725
 class C_0014778024850504188725 {
 +FreePointInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const name * pointName, const num * x, const num * y) : void
@@ -123,7 +145,9 @@ class C_0014718586687870172815 {
 +~BaseContainer() : void
 ..
 +add(T * item) : void
-+call<Fn,Args...>(Fn function, Args &&... args) const : void
+#begin() const : typename std::list<T *>::const_iterator
+#call<Fn,Args...>(Fn function, Args &&... args) const : void
+#end() const : typename std::list<T *>::const_iterator
 __
 -data_ : std::list<T *>
 }
@@ -146,8 +170,9 @@ __
 }
 class "Chrysalis::InstructionsContainer" as C_0005076600185507105511
 class C_0005076600185507105511 {
-+execute() const : void
++execute() : void
 __
+-nextInstruction_ : boost::optional<std::list<PatternInstructionsContainer *>::const_iterator>
 }
 class "Chrysalis::Parameter" as C_0012811662139665247956
 class C_0012811662139665247956 {
@@ -248,6 +273,10 @@ C_0017878381134947189585 ..|> C_0004566211642871539975
 C_0017878381134947189585 <|-- C_0004837404360303133352
 C_0012361199867370331426 --> C_0007088239576659478452 : -space_
 C_0012361199867370331426 *-- C_0004837404360303133352 : -selectedPatterns_
+C_0001365093100257756951 *-- C_0002470944207325597787 : -operand1_
+C_0001365093100257756951 *-- C_0002470944207325597787 : -operand2_
+C_0001365093100257756951 --> C_0007965462709904309096 : -evaluator
+C_0002470944207325597787 <|-- C_0001365093100257756951
 C_0014778024850504188725 --> C_0002244960169437715781 : -pointName_
 C_0014778024850504188725 --> C_0002470944207325597787 : -x_
 C_0014778024850504188725 --> C_0002470944207325597787 : -y_
@@ -256,6 +285,7 @@ C_0003017492801455056124 ..|> C_0014718586687870172815
 C_0003800391587746138531 *-- C_0017992245358367024427 : -patterns_
 C_0003017492801455056124 <|-- C_0003800391587746138531
 C_0011893039496096170351 ..|> C_0014718586687870172815
+C_0005076600185507105511 --> C_0003800391587746138531 : -nextInstruction_
 C_0011893039496096170351 <|-- C_0005076600185507105511
 C_0002470944207325597787 <|-- C_0012811662139665247956
 C_0003412445458623038917 --> C_0012811662139665247956 : -parameters_
@@ -397,6 +427,14 @@ skinparam class<<Container>> {
   
   
  class C_0012361199867370331426 <<Base>> 
+
+  
+  
+
+
+  
+  
+ class C_0001365093100257756951 <<Argument>> 
 
   
   

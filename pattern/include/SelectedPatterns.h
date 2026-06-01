@@ -8,6 +8,8 @@ namespace Chrysalis {
     public:
         std::list<PatternSpace*>::const_iterator begin() const;
         std::list<PatternSpace*>::const_iterator end() const;
+
+        void add(PatternSpace* pattern);
     private:
         std::list<PatternSpace*> patterns_;
     };
