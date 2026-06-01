@@ -5,20 +5,19 @@
 
 using namespace Chrysalis;
 
-Project::Project(std::string name, ProjectSpace* space, Parameters* parameters, InstructionsContainer* instructions)
-    : name_(std::move(name)), space_(space), parameters_(parameters), instructions_(instructions) {}
+Project::Project(std::string name, ProjectSpace* space, Parameters* parameters,
+                 PatternsContainer* patterns, InstructionsContainer* instructions)
+    : name_(std::move(name)), space_(space), parameters_(parameters), patterns_(patterns), instructions_(instructions) {}
 
 Project::~Project() {
     delete space_;
+    delete patterns_;
     delete parameters_;
     delete instructions_;
-    for (const auto pattern: patterns_) {
-        delete pattern;
-    }
 }
 
 Project* Project::create() {
-    return new Project("Untitled", new ProjectSpace(), new Parameters(), new InstructionsContainer());
+    return new Project("Untitled", new ProjectSpace(), new Parameters(), new PatternsContainer(), new InstructionsContainer());
 }
 
 Project* Project::read(const std::string& filePath) {
@@ -71,8 +70,4 @@ void Project::setName(const std::string& name) {
 
 Parameters* Project::getParameters() const {
     return parameters_;
-}
-
-void Project::addPattern(Pattern* pattern) {
-    patterns_.push_front(pattern);
 }

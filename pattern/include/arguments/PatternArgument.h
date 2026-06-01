@@ -1,14 +1,14 @@
 #ifndef CHRYSALIS_PATTERNARGUMENT_H
 #define CHRYSALIS_PATTERNARGUMENT_H
 
-#include "Argument.h"
+#include "BaseArgument.h"
 #include "PatternSpace.h"
 
 namespace Chrysalis {
-    class PatternArgument: public Argument<PatternSpace*> {
+    class PatternArgument: public BaseArgument<PatternSpace*> {
     public:
         explicit PatternArgument() = default;
-        explicit PatternArgument(PatternSpace* pattern): Argument(pattern) {}
+        explicit PatternArgument(PatternSpace* pattern): BaseArgument(pattern) {}
     };
 }
 

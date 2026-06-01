@@ -4,7 +4,7 @@
 #include <QOpenGLFramebufferObject>
 
 #include "RelativePointInstruction.h"
-#include "Argument.h"
+#include "../../pattern/include/arguments/Argument.h"
 #include "BinaryFunctionArgument.h"
 #include "FreePointInstruction.h"
 #include "Project.h"

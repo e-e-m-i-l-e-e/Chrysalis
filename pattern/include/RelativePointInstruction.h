@@ -1,21 +1,9 @@
 #ifndef CHRYSALIS_ADDPOINTINSTRUCTION_H
 #define CHRYSALIS_ADDPOINTINSTRUCTION_H
 
-#include <string>
-#include <boost/optional/optional.hpp>
-
-#include "PatternSpacesArgument.h"
-#include "Argument.h"
-#include "PatternSpace.h"
 #include "BasePatternInstruction.h"
-#include "NameArgument.h"
-#include "NumberArgument.h"
-#include "PatternArgument.h"
 
 namespace Chrysalis {
-    using name = NameArgument;
-    using num = NumberArgument;
-    using pattern = PatternArgument;
     /**
      * \uml{note[top] Syntax samples:
      *
@@ -23,23 +11,19 @@ namespace Chrysalis {
      */
     class RelativePointInstruction: public BasePatternInstruction {
     public:
-        explicit RelativePointInstruction(ProjectSpace* space,
-                                          Argument<PatternSpacesArgument*>* patternSpaces,
-                                          name* pointFrom,
-                                          pattern* pointFromPattern,
-                                          name* pointTo,
-                                          num* angle,
-                                          num* distance);
+        explicit RelativePointInstruction(ProjectSpace* space, SelectedPatternsArgument* selectedPatterns,
+                                          const name* pointFrom, const pattern* pointFromPattern,
+                                          const name* pointTo, const num* angle, const num* distance);
         ~RelativePointInstruction() override;
 
         bool isValid() override;
-        void execute() override;
+        void execute() const override;
     private:
-        name* pointFrom_;
-        pattern* pointFromPattern_;
-        name* pointTo_;
-        num* angle_;
-        num* distance_;
+        const name* pointFrom_;
+        const pattern* pointFromPattern_;
+        const name* pointTo_;
+        const num* angle_;
+        const num* distance_;
     };
 }
 

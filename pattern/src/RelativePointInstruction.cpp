@@ -2,14 +2,10 @@
 
 using namespace Chrysalis;
 
-RelativePointInstruction::RelativePointInstruction(ProjectSpace* space,
-                                                   Argument<PatternSpacesArgument*>* patternSpaces,
-                                                   name* pointFrom,
-                                                   pattern* pointFromPattern,
-                                                   name* pointTo,
-                                                   num* angle,
-                                                   num* distance)
-    : BasePatternInstruction(space, patternSpaces), pointFrom_(pointFrom),
+RelativePointInstruction::RelativePointInstruction(ProjectSpace* space, SelectedPatternsArgument* selectedPatterns,
+                                                   const name* pointFrom, const pattern* pointFromPattern,
+                                                   const name* pointTo, const num* angle, const num* distance)
+    : BasePatternInstruction(space, selectedPatterns), pointFrom_(pointFrom),
       pointFromPattern_(pointFromPattern), pointTo_(pointTo), angle_(angle),
       distance_(distance) {}
 
@@ -40,7 +36,7 @@ bool RelativePointInstruction::isValid() {
     return pointTo_->hasArgument() && angle_->hasArgument() && distance_->hasArgument();
 }
 
-void RelativePointInstruction::execute() {
+void RelativePointInstruction::execute() const {
     const Point* pointFrom;
     if (pointFrom_->hasArgument()) {
         if (pointFromPattern_->hasArgument()) {

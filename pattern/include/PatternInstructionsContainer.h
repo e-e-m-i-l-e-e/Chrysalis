@@ -3,17 +3,18 @@
 
 #include "BaseContainer.h"
 #include "BasePatternInstruction.h"
+#include "SelectedPatterns.h"
 
 namespace Chrysalis {
     class PatternInstructionsContainer: public BaseContainer<BasePatternInstruction> {
     public:
-        explicit PatternInstructionsContainer(PatternSpacesArgument* patternSpaces);
+        explicit PatternInstructionsContainer(SelectedPatterns* patterns);
         ~PatternInstructionsContainer() override;
 
-        void execute();
+        void execute() const;
     private:
         /// @uml{composition[]}
-        PatternSpacesArgument* patternSpaces_;
+        SelectedPatterns* patterns_;
     };
 }
 

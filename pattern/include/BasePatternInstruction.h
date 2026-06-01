@@ -2,27 +2,36 @@
 #define CHRYSALIS_BASEPATTERNINSTRUCTION_H
 
 #include "ProjectSpace.h"
-#include "PatternSpacesArgument.h"
+
+#include "arguments/NameArgument.h"
+#include "arguments/NumberArgument.h"
+#include "arguments/PatternArgument.h"
+#include "arguments/SelectedPatternsArgument.h"
 
 namespace Chrysalis {
+    using name = NameArgument;
+    using num = NumberArgument;
+    using pattern = PatternArgument;
+
     class BasePatternInstruction {
     public:
         virtual ~BasePatternInstruction();
-    protected:
-        explicit BasePatternInstruction(ProjectSpace* space, Argument<PatternSpacesArgument*>* patternSpaces);
 
         virtual bool isValid() = 0;
-        virtual void execute() = 0;
+        virtual void execute() const = 0;
+    protected:
+        explicit BasePatternInstruction(ProjectSpace* space, SelectedPatternsArgument* selectedPatterns);
 
         [[nodiscard]] ProjectSpace& space() const {
             return *space_;
         }
-        [[nodiscard]] PatternSpacesArgument& patterns() const {
-            return *patternSpaces_->getArgument();
+        [[nodiscard]] SelectedPatterns& patterns() const {
+            return *selectedPatterns_->getArgument();
         }
     private:
         ProjectSpace* space_;
-        Argument<PatternSpacesArgument*>* patternSpaces_;
+        /// @uml{composition}
+        SelectedPatternsArgument* selectedPatterns_;
     };
 };
 

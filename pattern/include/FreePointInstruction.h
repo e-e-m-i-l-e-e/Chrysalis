@@ -1,15 +1,10 @@
 #ifndef CHRYSALIS_FREEPOINTINSTRUCTION_H
 #define CHRYSALIS_FREEPOINTINSTRUCTION_H
 
-#include "PatternSpacesArgument.h"
 #include "ProjectSpace.h"
 #include "BasePatternInstruction.h"
-#include "NameArgument.h"
-#include "NumberArgument.h"
 
 namespace Chrysalis {
-    using name = NameArgument;
-    using num = NumberArgument;
     /**
      * @uml{note[top] Syntax samples:
      * A (1, 1)
@@ -18,17 +13,16 @@ namespace Chrysalis {
      */
     class FreePointInstruction: public BasePatternInstruction {
     public:
-        explicit FreePointInstruction(ProjectSpace* space,
-                                      Argument<PatternSpacesArgument*>* patternSpaces, name* pointName,
-                                      num* x, num* y);
+        explicit FreePointInstruction(ProjectSpace* space, SelectedPatternsArgument* patterns,
+                                      const name* pointName, const num* x, const num* y);
         ~FreePointInstruction() override;
 
         bool isValid() override;
-        void execute() override;
+        void execute() const override;
     private:
-        name* pointName_;
-        num* x_;
-        num* y_;
+        const name* pointName_;
+        const num* x_;
+        const num* y_;
     };
 }
 

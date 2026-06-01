@@ -3,6 +3,8 @@
 
 #include <list>
 
+#include "PatternSpace.h"
+
 namespace Chrysalis {
     template<typename T>
     class BaseContainer {
@@ -15,7 +17,13 @@ namespace Chrysalis {
         void add(T* item) {
             data_.push_back(item);
         }
-    protected:
+        template<typename Fn, typename... Args>
+        void call(Fn function, Args&&... args) const {
+            for (const auto& item : data_) {
+                (item->*function)(std::forward<Args>(args)...);
+            }
+        }
+    private:
         std::list<T*> data_;
     };
 }

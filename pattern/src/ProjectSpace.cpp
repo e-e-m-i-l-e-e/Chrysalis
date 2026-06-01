@@ -1,5 +1,7 @@
 #include "ProjectSpace.h"
 
+#include "CGAL/number_type_config.h"
+
 using namespace Chrysalis;
 
 ProjectSpace::~ProjectSpace() {

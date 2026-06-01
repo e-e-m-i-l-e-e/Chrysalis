@@ -1,12 +1,12 @@
 #include "PatternInstructionsContainer.h"
 
-Chrysalis::PatternInstructionsContainer::PatternInstructionsContainer(PatternSpacesArgument* patternSpaces)
-    : patternSpaces_(patternSpaces) {}
+Chrysalis::PatternInstructionsContainer::PatternInstructionsContainer(SelectedPatterns* patterns)
+    : patterns_(patterns) {}
 
 Chrysalis::PatternInstructionsContainer::~PatternInstructionsContainer() {
-    BaseContainer::~BaseContainer();
-    delete patternSpaces_;
+    delete patterns_;
 }
 
-void Chrysalis::PatternInstructionsContainer::execute() {
+void Chrysalis::PatternInstructionsContainer::execute() const {
+    call(&BasePatternInstruction::execute);
 }

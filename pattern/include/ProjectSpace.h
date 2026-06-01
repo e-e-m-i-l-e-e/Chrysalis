@@ -1,8 +1,11 @@
 #ifndef CHRYSALIS_SPACE_H
 #define CHRYSALIS_SPACE_H
 
+#include <unordered_set>
+
 #include "serialization.h"
-#include "SpaceRendererData.h"
+
+#include "Point.h"
 
 namespace Chrysalis {
     class SERIALIZABLE(ProjectSpace) {

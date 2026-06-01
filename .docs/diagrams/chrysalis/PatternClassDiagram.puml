@@ -1,52 +1,12 @@
 @startuml
-class "Vertex" as C_0002326256006988294087
-class C_0002326256006988294087 {
-+Vertex(float x, float y) : void
+class "Point" as C_0009962967977086807313
+class C_0009962967977086807313 {
++Point(double x, double y) : void
 ..
-{static} +getLayout() : std::vector<Layout>
-+x() const : float
-+y() const : float
++x() const : const double &
++y() const : const double &
 __
--x_ : float
--y_ : float
-}
-class "Vertex::Layout" as C_0002155889465830571527
-class C_0002155889465830571527 {
-__
-+offset : void *
-+size : int
-}
-class "SpaceVertex" as C_0013753387506434927655
-class C_0013753387506434927655 {
-+SpaceVertex(float x, float y, float distance) : void
-..
-+distance() const : float
-{static} +getLayout() : std::vector<Layout>
-__
--distance_ : float
-}
-class "Chrysalis::SpaceRendererData" as C_0002552225099657878418
-class C_0002552225099657878418 {
-+SpaceRendererData() : void
-+~SpaceRendererData() : void
-..
--addLine(const Point & from, const Point & to, double distance) const : int
--addPoint(const Point & point) const : void
-+arrowsRanges() const : std::vector<Range>
--extendLine(int lineIndex, const Point & point, double distance) const : void
-+getPoints() const : std::vector<SpaceVertex>
-+getVBO() const : std::vector<SpaceVertex>
-+linesRanges() const : std::vector<Range>
-+pointsRange() const : Range
-__
--p : Private *
-}
-class "Chrysalis::SpaceRendererData::Range" as C_0010158876069943185973
-class C_0010158876069943185973 {
-+operator+(const std::vector<SpaceVertex> & vertices) const : Range
-__
-+count : size_t
-+from : size_t
+-point_ : CGAL::Point
 }
 class "Chrysalis::ProjectSpace" as C_0007088239576659478452
 class C_0007088239576659478452 {
@@ -56,6 +16,39 @@ class C_0007088239576659478452 {
 +addPoint(const Point * fromPoint, double angle, double length) : Point *
 __
 -points_ : std::unordered_set<Point *>
+}
+class "Chrysalis::BaseArgument<T>" as C_0004566211642871539975
+class C_0004566211642871539975 {
+#BaseArgument() = default : void
+#BaseArgument(T argument) : void
++~BaseArgument() = default : void
+..
++getArgument() const : const T &
++hasArgument() const : bool
++resetArgument() : void
++setArgument(T value) : void
+__
+#argument_ : boost::optional<T>
+}
+class "Chrysalis::BaseArgument<std::string>" as C_0005387570045788273291
+class C_0005387570045788273291 {
+__
+}
+class "Chrysalis::NameArgument" as C_0002244960169437715781
+class C_0002244960169437715781 {
++NameArgument() = default : void
++NameArgument(const std::string & name) : void
+__
+}
+class "Chrysalis::BaseArgument<double>" as C_0001471877624587876994
+class C_0001471877624587876994 {
+__
+}
+class "Chrysalis::NumberArgument" as C_0002470944207325597787
+class C_0002470944207325597787 {
++NumberArgument() = default : void
++NumberArgument(const double x) : void
+__
 }
 class "Chrysalis::PatternSpace" as C_0006410388496936549037
 class C_0006410388496936549037 {
@@ -67,38 +60,56 @@ __
 -lastPoint_ : Point *
 -points_ : std::unordered_map<std::string,Point *>
 }
+class "Chrysalis::BaseArgument<PatternSpace *>" as C_0011638807436206440807
+class C_0011638807436206440807 {
+__
+}
+class "Chrysalis::PatternArgument" as C_0003510744074585417582
+class C_0003510744074585417582 {
++PatternArgument() = default : void
++PatternArgument(PatternSpace * pattern) : void
+__
+}
+class "Chrysalis::SelectedPatterns" as C_0017992245358367024427
+class C_0017992245358367024427 {
++begin() const : std::_List_const_iterator<PatternSpace *>::const_iterator
++end() const : std::_List_const_iterator<PatternSpace *>::const_iterator
+__
+-patterns_ : std::list<PatternSpace *>
+}
+class "Chrysalis::BaseArgument<SelectedPatterns *>" as C_0017878381134947189585
+class C_0017878381134947189585 {
+__
+}
+class "Chrysalis::SelectedPatternsArgument" as C_0004837404360303133352
+class C_0004837404360303133352 {
++SelectedPatternsArgument(SelectedPatterns * patterns) : void
+__
+}
 abstract "Chrysalis::BasePatternInstruction" as C_0012361199867370331426
 abstract C_0012361199867370331426 {
-#BasePatternInstruction(ProjectSpace * space, Argument<PatternSpacesArgument *> * patternSpaces) : void
+#BasePatternInstruction(ProjectSpace * space, SelectedPatternsArgument * selectedPatterns) : void
 +~BasePatternInstruction() : void
 ..
-{abstract} #execute() = 0 : void
-{abstract} #isValid() = 0 : bool
-#patterns() const : PatternSpacesArgument &
+{abstract} +execute() const = 0 : void
+{abstract} +isValid() = 0 : bool
+#patterns() const : SelectedPatterns &
 #space() const : ProjectSpace &
 __
--patternSpaces_ : Argument<PatternSpacesArgument *> *
+-selectedPatterns_ : SelectedPatternsArgument *
 -space_ : ProjectSpace *
-}
-class "Chrysalis::SpaceRendererData::Private" as C_0006284053251442054283
-class C_0006284053251442054283 {
-+addArrow(const Point & from, const Point & to) : void
-__
-+arrows_ : std::vector<std::vector<SpaceVertex>>
-+lines_ : std::vector<std::vector<SpaceVertex>>
-+points_ : std::vector<SpaceVertex>
 }
 class "Chrysalis::FreePointInstruction" as C_0014778024850504188725
 class C_0014778024850504188725 {
-+FreePointInstruction(ProjectSpace * space, Argument<PatternSpacesArgument *> * patternSpaces, name * pointName, num * x, num * y) : void
++FreePointInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const name * pointName, const num * x, const num * y) : void
 +~FreePointInstruction() : void
 ..
-+execute() : void
++execute() const : void
 +isValid() : bool
 __
--pointName_ : name *
--x_ : num *
--y_ : num *
+-pointName_ : const name *
+-x_ : const num *
+-y_ : const num *
 }
 note top of C_0014778024850504188725
 Syntax samples:
@@ -112,8 +123,9 @@ class C_0014718586687870172815 {
 +~BaseContainer() : void
 ..
 +add(T * item) : void
++call<Fn,Args...>(Fn function, Args &&... args) const : void
 __
-#data_ : std::list<T *>
+-data_ : std::list<T *>
 }
 class "Chrysalis::BaseContainer<Chrysalis::BasePatternInstruction>" as C_0003017492801455056124
 class C_0003017492801455056124 {
@@ -121,12 +133,12 @@ __
 }
 class "Chrysalis::PatternInstructionsContainer" as C_0003800391587746138531
 class C_0003800391587746138531 {
-+PatternInstructionsContainer(PatternSpacesArgument * patternSpaces) : void
++PatternInstructionsContainer(SelectedPatterns * patterns) : void
 +~PatternInstructionsContainer() : void
 ..
-+execute() : void
++execute() const : void
 __
--patternSpaces_ : PatternSpacesArgument *
+-patterns_ : SelectedPatterns *
 }
 class "Chrysalis::BaseContainer<Chrysalis::PatternInstructionsContainer>" as C_0011893039496096170351
 class C_0011893039496096170351 {
@@ -179,12 +191,19 @@ __
 -name_ : std::string
 -space_ : PatternSpace *
 }
+class "Chrysalis::BaseContainer<Chrysalis::Pattern>" as C_0009354046990169271201
+class C_0009354046990169271201 {
+__
+}
+class "Chrysalis::PatternsContainer" as C_0004298799808645500217
+class C_0004298799808645500217 {
+__
+}
 class "Chrysalis::Project" as C_0008495545694619727706
 class C_0008495545694619727706 {
-+Project(std::string name, ProjectSpace * space, Parameters * parameters, InstructionsContainer * instructions) : void
++Project(std::string name, ProjectSpace * space, Parameters * parameters, PatternsContainer * patterns, InstructionsContainer * instructions) : void
 +~Project() : void
 ..
-+addPattern(Pattern * pattern) : void
 {static} +create() : Project *
 +getName() : std::string
 +getParameters() const : Parameters *
@@ -195,174 +214,65 @@ __
 -instructions_ : InstructionsContainer *
 -name_ : std::string
 -parameters_ : Parameters *
--patterns_ : std::forward_list<Pattern *>
+-patterns_ : PatternsContainer *
 -space_ : ProjectSpace *
-}
-class "Chrysalis::PatternArgument" as C_0003510744074585417582
-class C_0003510744074585417582 {
-+PatternArgument() = default : void
-+PatternArgument(PatternSpace * pattern) : void
-__
 }
 class "Chrysalis::RelativePointInstruction" as C_0004936461079814340647
 class C_0004936461079814340647 {
-+RelativePointInstruction(ProjectSpace * space, Argument<PatternSpacesArgument *> * patternSpaces, name * pointFrom, pattern * pointFromPattern, name * pointTo, num * angle, num * distance) : void
++RelativePointInstruction(ProjectSpace * space, SelectedPatternsArgument * selectedPatterns, const name * pointFrom, const pattern * pointFromPattern, const name * pointTo, const num * angle, const num * distance) : void
 +~RelativePointInstruction() : void
 ..
-+execute() : void
++execute() const : void
 +isValid() : bool
 __
--angle_ : num *
--distance_ : num *
--pointFromPattern_ : pattern *
--pointFrom_ : name *
--pointTo_ : name *
+-angle_ : const num *
+-distance_ : const num *
+-pointFromPattern_ : const pattern *
+-pointFrom_ : const name *
+-pointTo_ : const name *
 }
 note top of C_0004936461079814340647
 Syntax samples:
 end note
-class "Chrysalis::VectorFunctionArgument" as C_0014380000036712777437
-class C_0014380000036712777437 {
-+VectorFunctionArgument(ProjectSpace * space, std::string from, std::string to, double (*)(const VectorFunctionArgument *) function) : void
-__
--from : std::string
--function : double (*)(const VectorFunctionArgument *)
--space : ProjectSpace *
--to : std::string
-}
-class "Chrysalis::VectorFunctionArgument::Use" as C_0012334584440756786522
-class C_0012334584440756786522 {
-{static} +ANGLE(const VectorFunctionArgument * function) : double
-{static} +LENGTH(const VectorFunctionArgument * function) : double
-__
-}
-class "Argument<T>" as C_0015265763276868060256
-class C_0015265763276868060256 {
-+Argument() = default : void
-+Argument(T argument) : void
-+~Argument() = default : void
-..
-+getArgument() const : const T &
-+hasArgument() : bool
-+resetArgument() : void
-+setArgument(T value) : void
-__
-#argument_ : boost::optional<T>
-}
-class "Argument<std::list<Chrysalis::PatternSpace *>>" as C_0001753206086132524315
-class C_0001753206086132524315 {
-__
-}
-class "PatternSpacesArgument" as C_0011938357208849355321
-class C_0011938357208849355321 {
-+PatternSpacesArgument(const std::list<Chrysalis::PatternSpace *> & patternSpaces) : void
-..
-+addPatternSpace(Chrysalis::PatternSpace * space) : void
-+begin() : std::_List_const_iterator<Chrysalis::PatternSpace *>::const_iterator
-+end() : std::_List_const_iterator<Chrysalis::PatternSpace *>::const_iterator
-__
-}
-class "Argument<PatternSpacesArgument *>" as C_0003332354453197134960
-class C_0003332354453197134960 {
-__
-}
-class "Argument<double>" as C_0007177370541721034727
-class C_0007177370541721034727 {
-__
-}
-class "NumberArgument" as C_0002415663693627387631
-class C_0002415663693627387631 {
-+NumberArgument() = default : void
-+NumberArgument(const double x) : void
-__
-}
-class "BinaryFunctionArgument" as C_0009375725191645997603
-class C_0009375725191645997603 {
-+BinaryFunctionArgument(Argument<double> * argumentLeft, Argument<double> * argumentRight, double (*)(double,double) function) : void
-+~BinaryFunctionArgument() : void
-__
--argumentLeft : Argument<double> *
--argumentRight : Argument<double> *
--function : double (*)(double,double)
-}
-class "BinaryFunctionArgument::Use" as C_0014972569708940212144
-class C_0014972569708940212144 {
-{static} +ADDITION(double a, double b) : double
-{static} +DIVISION(double a, double b) : double
-{static} +MAX(double a, double b) : double
-{static} +MIN(double a, double b) : double
-{static} +MULTIPLICATION(double a, double b) : double
-{static} +SUBTRACTION(double a, double b) : double
-__
-}
-class "Argument<std::string>" as C_0007464688992843838532
-class C_0007464688992843838532 {
-__
-}
-class "NameArgument" as C_0007315641808894342881
-class C_0007315641808894342881 {
-+NameArgument() = default : void
-+NameArgument(const std::string & name) : void
-__
-}
-class "Point" as C_0009962967977086807313
-class C_0009962967977086807313 {
-__
-}
-class "Argument<PatternSpace *>" as C_0008259397873790167998
-class C_0008259397873790167998 {
-__
-}
-C_0002155889465830571527 --+ C_0002326256006988294087
-C_0002326256006988294087 <|-- C_0013753387506434927655
-C_0002552225099657878418 --> C_0006284053251442054283 : -p
-C_0010158876069943185973 --+ C_0002552225099657878418
+C_0007088239576659478452 "1" *-- "*" C_0009962967977086807313 : -points_
+C_0005387570045788273291 ..|> C_0004566211642871539975
+C_0005387570045788273291 <|-- C_0002244960169437715781
+C_0001471877624587876994 ..|> C_0004566211642871539975
+C_0001471877624587876994 <|-- C_0002470944207325597787
+C_0006410388496936549037 --> C_0009962967977086807313 : -lastPoint_
+C_0006410388496936549037 --> C_0009962967977086807313 : -points_
+C_0011638807436206440807 ..|> C_0004566211642871539975
+C_0011638807436206440807 <|-- C_0003510744074585417582
+C_0017992245358367024427 --> C_0006410388496936549037 : -patterns_
+C_0017878381134947189585 ..|> C_0004566211642871539975
+C_0017878381134947189585 <|-- C_0004837404360303133352
 C_0012361199867370331426 --> C_0007088239576659478452 : -space_
-C_0012361199867370331426 --> C_0011938357208849355321 : -patternSpaces_
-C_0012361199867370331426 --> C_0003332354453197134960 : -patternSpaces_
-C_0012361199867370331426 --> C_0015265763276868060256 : -patternSpaces_
-C_0006284053251442054283 --+ C_0002552225099657878418
-C_0006284053251442054283 o-- C_0013753387506434927655 : +points_
-C_0006284053251442054283 o-- C_0013753387506434927655 : +arrows_
-C_0006284053251442054283 o-- C_0013753387506434927655 : +lines_
-C_0014778024850504188725 --> C_0007315641808894342881 : -pointName_
-C_0014778024850504188725 --> C_0002415663693627387631 : -x_
-C_0014778024850504188725 --> C_0002415663693627387631 : -y_
+C_0012361199867370331426 *-- C_0004837404360303133352 : -selectedPatterns_
+C_0014778024850504188725 --> C_0002244960169437715781 : -pointName_
+C_0014778024850504188725 --> C_0002470944207325597787 : -x_
+C_0014778024850504188725 --> C_0002470944207325597787 : -y_
 C_0012361199867370331426 <|-- C_0014778024850504188725
 C_0003017492801455056124 ..|> C_0014718586687870172815
-C_0003800391587746138531 *-- C_0011938357208849355321 : -patternSpaces_
+C_0003800391587746138531 *-- C_0017992245358367024427 : -patterns_
 C_0003017492801455056124 <|-- C_0003800391587746138531
 C_0011893039496096170351 ..|> C_0014718586687870172815
 C_0011893039496096170351 <|-- C_0005076600185507105511
-C_0002415663693627387631 <|-- C_0012811662139665247956
+C_0002470944207325597787 <|-- C_0012811662139665247956
 C_0003412445458623038917 --> C_0012811662139665247956 : -parameters_
 C_0003412445458623038917 --> C_0012811662139665247956 : -parametersMap_
 C_0005824426893526781565 *-- C_0006410388496936549037 : -space_
+C_0009354046990169271201 ..|> C_0014718586687870172815
+C_0009354046990169271201 <|-- C_0004298799808645500217
 C_0008495545694619727706 *-- C_0007088239576659478452 : -space_
 C_0008495545694619727706 *-- C_0003412445458623038917 : -parameters_
+C_0008495545694619727706 *-- C_0004298799808645500217 : -patterns_
 C_0008495545694619727706 *-- C_0005076600185507105511 : -instructions_
-C_0008495545694619727706 --> C_0005824426893526781565 : -patterns_
-C_0008259397873790167998 <|-- C_0003510744074585417582
-C_0004936461079814340647 --> C_0007315641808894342881 : -pointFrom_
+C_0004936461079814340647 --> C_0002244960169437715781 : -pointFrom_
 C_0004936461079814340647 --> C_0003510744074585417582 : -pointFromPattern_
-C_0004936461079814340647 --> C_0007315641808894342881 : -pointTo_
-C_0004936461079814340647 --> C_0002415663693627387631 : -angle_
-C_0004936461079814340647 --> C_0002415663693627387631 : -distance_
+C_0004936461079814340647 --> C_0002244960169437715781 : -pointTo_
+C_0004936461079814340647 --> C_0002470944207325597787 : -angle_
+C_0004936461079814340647 --> C_0002470944207325597787 : -distance_
 C_0012361199867370331426 <|-- C_0004936461079814340647
-C_0014380000036712777437 --> C_0007088239576659478452 : -space
-C_0002415663693627387631 <|-- C_0014380000036712777437
-C_0012334584440756786522 --+ C_0014380000036712777437
-C_0001753206086132524315 ..|> C_0015265763276868060256
-C_0001753206086132524315 <|-- C_0011938357208849355321
-C_0003332354453197134960 ..|> C_0015265763276868060256
-C_0007177370541721034727 ..|> C_0015265763276868060256
-C_0007177370541721034727 <|-- C_0002415663693627387631
-C_0002415663693627387631 <|-- C_0009375725191645997603
-C_0014972569708940212144 --+ C_0009375725191645997603
-C_0007464688992843838532 ..|> C_0015265763276868060256
-C_0007464688992843838532 <|-- C_0007315641808894342881
-C_0008259397873790167998 ..|> C_0015265763276868060256
-C_0009375725191645997603 -[hidden]down- C_0014972569708940212144
 skinparam class {
   BackgroundColor #EAFAF1
   BorderColor #1E8449
@@ -428,75 +338,123 @@ skinparam class<<Container>> {
 }
 
 
+  
+  
 
 
+  
+  
 
 
+  
+  
+ class C_0004566211642871539975 <<Base>> 
+
+  
+  
+ class C_0005387570045788273291 <<Base>> 
+
+  
+  
+ class C_0002244960169437715781 <<Argument>> 
+
+  
+  
+ class C_0001471877624587876994 <<Base>> 
+
+  
+  
+ class C_0002470944207325597787 <<Argument>> 
+
+  
+  
 
 
+  
+  C_0011638807436206440807 --> C_0006410388496936549037
+
+  
+ class C_0011638807436206440807 <<Base>> 
+
+  
+  
+ class C_0003510744074585417582 <<Argument>> 
+
+  
+  
 
 
+  
+  C_0017878381134947189585 --> C_0017992245358367024427
 
+  
+ class C_0017878381134947189585 <<Base>> 
 
+  
+  
+ class C_0004837404360303133352 <<Argument>> 
 
-
- class C_0015265763276868060256 <<Argument>> 
-
-
-
- class C_0001753206086132524315 <<Argument>> 
-
- class C_0011938357208849355321 <<Argument>> 
-
- class C_0003332354453197134960 <<Argument>> 
-
+  
+  
  class C_0012361199867370331426 <<Base>> 
 
-
-
- class C_0007177370541721034727 <<Argument>> 
-
- class C_0002415663693627387631 <<Argument>> 
-
- class C_0009375725191645997603 <<Argument>> 
-
- class C_0014972569708940212144 <<Function>> 
-
- class C_0007464688992843838532 <<Argument>> 
-
- class C_0007315641808894342881 <<Argument>> 
-
+  
+  
  class C_0014778024850504188725 <<Instruction>> 
 
+  
+  
  class C_0014718586687870172815 <<Base>> 
+
+  
+  
+  C_0003017492801455056124 *-- C_0012361199867370331426
 
  class C_0003017492801455056124 <<Base>> 
 
+  
+  
  class C_0003800391587746138531 <<Container>> 
+
+  
+  
+  C_0011893039496096170351 *-- C_0003800391587746138531
 
  class C_0011893039496096170351 <<Base>> 
 
+  
+  
  class C_0005076600185507105511 <<Container>> 
 
+  
+  
  class C_0012811662139665247956 <<Argument>> 
 
+  
+  
 
 
+  
+  
 
 
+  
+  
+  C_0009354046990169271201 *-- C_0005824426893526781565
+
+ class C_0009354046990169271201 <<Base>> 
+
+  
+  
+ class C_0004298799808645500217 <<Container>> 
+
+  
+  
 
 
-
-
- class C_0008259397873790167998 <<Argument>> 
-
- class C_0003510744074585417582 <<Argument>> 
-
+  
+  
  class C_0004936461079814340647 <<Instruction>> 
-
- class C_0014380000036712777437 <<Argument>> 
-
- class C_0012334584440756786522 <<Function>> 
 
 
 

@@ -1,13 +1,13 @@
 #include "BasePatternInstruction.h"
 
-#include "PatternSpacesArgument.h"
+#include "arguments/SelectedPatternsArgument.h"
 
 using namespace Chrysalis;
 
 BasePatternInstruction::BasePatternInstruction(ProjectSpace* space,
-                                                           Argument<PatternSpacesArgument*>* patternSpaces)
-    : space_(space), patternSpaces_(patternSpaces) {}
+                                               SelectedPatternsArgument* selectedPatterns)
+    : space_(space), selectedPatterns_(selectedPatterns) {}
 
 BasePatternInstruction::~BasePatternInstruction() {
-    delete patternSpaces_;
+    delete selectedPatterns_;
 }

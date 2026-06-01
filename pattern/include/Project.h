@@ -8,13 +8,15 @@
 #include "Pattern.h"
 #include "Parameters.h"
 #include "InstructionsContainer.h"
+#include "PatternsContainer.h"
 #include "ProjectSpace.h"
 
 namespace Chrysalis {
     class SERIALIZABLE(Project) {
         PROVIDE_SERIALIZATION_ACCESS(Project)
     public:
-        explicit Project(std::string name, ProjectSpace* space, Parameters* parameters, InstructionsContainer* instructions);
+        explicit Project(std::string name, ProjectSpace* space, Parameters* parameters,
+                         PatternsContainer* patterns, InstructionsContainer* instructions);
         ~Project();
 
         static Project* create();
@@ -25,8 +27,6 @@ namespace Chrysalis {
         void setName(const std::string& name);
 
         [[nodiscard]] Parameters* getParameters() const;
-
-        void addPattern(Pattern* pattern);
     private:
         std::string name_;
         /// @uml{composition[]}
@@ -34,11 +34,12 @@ namespace Chrysalis {
         /// @uml{composition[]}
         Parameters* parameters_;
         /// @uml{composition[]}
+        PatternsContainer* patterns_;
+        /// @uml{composition[]}
         InstructionsContainer* instructions_;
-        std::forward_list<Pattern*> patterns_;
     };
 
-    SIMPLE_SERIALIZE_MEMBERS(Project, name_, space_, parameters_, instructions_)
+    SIMPLE_SERIALIZE_MEMBERS(Project, name_, space_, parameters_, patterns_, instructions_)
 }
 
 #endif //CHRYSALIS_PROJECT_H
