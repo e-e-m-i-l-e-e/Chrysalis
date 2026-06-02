@@ -1,21 +1,18 @@
 #ifndef CHRYSALIS_PROJECT_H
 #define CHRYSALIS_PROJECT_H
 
-#include <forward_list>
-
 #include "serialization.h"
 
-#include "Pattern.h"
-#include "Parameters.h"
-#include "InstructionsContainer.h"
-#include "PatternsContainer.h"
 #include "ProjectSpace.h"
+#include "PatternsContainer.h"
+#include "ParametersContainer.h"
+#include "InstructionsContainer.h"
 
 namespace Chrysalis {
     class SERIALIZABLE(Project) {
         PROVIDE_SERIALIZATION_ACCESS(Project)
     public:
-        explicit Project(std::string name, ProjectSpace* space, Parameters* parameters,
+        explicit Project(std::string name, ProjectSpace* space, ParametersContainer* parameters,
                          PatternsContainer* patterns, InstructionsContainer* instructions);
         ~Project();
 
@@ -26,15 +23,15 @@ namespace Chrysalis {
         std::string getName();
         void setName(const std::string& name);
 
-        [[nodiscard]] Parameters* getParameters() const;
+        [[nodiscard]] ParametersContainer* getParameters() const;
     private:
         std::string name_;
         /// @uml{composition[]}
         ProjectSpace* space_;
         /// @uml{composition[]}
-        Parameters* parameters_;
-        /// @uml{composition[]}
         PatternsContainer* patterns_;
+        /// @uml{composition[]}
+        ParametersContainer* parameters_;
         /// @uml{composition[]}
         InstructionsContainer* instructions_;
     };

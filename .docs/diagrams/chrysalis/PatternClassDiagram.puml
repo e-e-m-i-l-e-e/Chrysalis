@@ -58,6 +58,7 @@ class C_0006410388496936549037 {
 +addPoint(const std::string & name, Point * point) : void
 +getLastPoint() const : Point *
 +getPoint(const std::string & name) const : Point *
++getPoints() const : const std::unordered_map<std::string,Point *> &
 +hasPoint(const std::string & name) const : bool
 __
 -lastPoint_ : Point *
@@ -145,9 +146,7 @@ class C_0014718586687870172815 {
 +~BaseContainer() : void
 ..
 +add(T * item) : void
-#begin() const : typename std::list<T *>::const_iterator
 #call<Fn,Args...>(Fn function, Args &&... args) const : void
-#end() const : typename std::list<T *>::const_iterator
 __
 -data_ : std::list<T *>
 }
@@ -200,17 +199,22 @@ __
 -name_ : std::string
 -value_ : boost::optional<double>
 }
-class "Chrysalis::Parameters" as C_0003412445458623038917
-class C_0003412445458623038917 {
-+~Parameters() : void
-..
-+addParameter(Parameter * parameter) : void
-+at(int index) : Parameter *
-+count() const : int
-+getParameter(const std::string & name) const : Parameter *
+class "Chrysalis::ParameterArgument" as C_0016547166278433300083
+class C_0016547166278433300083 {
++ParameterArgument(Parameter * parameter) : void
+__
+-parameter_ : Parameter *
+}
+class "Chrysalis::BaseContainer<Chrysalis::Parameter>" as C_0014583015597006537638
+class C_0014583015597006537638 {
+__
+}
+class "Chrysalis::ParametersContainer" as C_0017382097479736929272
+class C_0017382097479736929272 {
++add(Parameter * item) : void
++get(const std::string & name) const : Parameter *
 __
 -parametersMap_ : std::unordered_map<std::string,Parameter *>
--parameters_ : std::list<Parameter *>
 }
 class "Chrysalis::Pattern" as C_0005824426893526781565
 class C_0005824426893526781565 {
@@ -230,19 +234,19 @@ __
 }
 class "Chrysalis::Project" as C_0008495545694619727706
 class C_0008495545694619727706 {
-+Project(std::string name, ProjectSpace * space, Parameters * parameters, PatternsContainer * patterns, InstructionsContainer * instructions) : void
++Project(std::string name, ProjectSpace * space, ParametersContainer * parameters, PatternsContainer * patterns, InstructionsContainer * instructions) : void
 +~Project() : void
 ..
 {static} +create() : Project *
 +getName() : std::string
-+getParameters() const : Parameters *
++getParameters() const : ParametersContainer *
 {static} +read(const std::string & filePath) : Project *
 +setName(const std::string & name) : void
 {static} +write(const std::string & filePath, Project * project) : void
 __
 -instructions_ : InstructionsContainer *
 -name_ : std::string
--parameters_ : Parameters *
+-parameters_ : ParametersContainer *
 -patterns_ : PatternsContainer *
 -space_ : ProjectSpace *
 }
@@ -323,15 +327,17 @@ C_0003800391587746138531 *-- C_0017992245358367024427 : -patterns_
 C_0006776945885242230637 <|-- C_0003800391587746138531
 C_0006377274413643530130 ..|> C_0009832473294063137986
 C_0006377274413643530130 <|-- C_0005076600185507105511
-C_0002470944207325597787 <|-- C_0012811662139665247956
-C_0003412445458623038917 --> C_0012811662139665247956 : -parameters_
-C_0003412445458623038917 --> C_0012811662139665247956 : -parametersMap_
+C_0016547166278433300083 --> C_0012811662139665247956 : -parameter_
+C_0002470944207325597787 <|-- C_0016547166278433300083
+C_0014583015597006537638 ..|> C_0014718586687870172815
+C_0017382097479736929272 --> C_0012811662139665247956 : -parametersMap_
+C_0014583015597006537638 <|-- C_0017382097479736929272
 C_0005824426893526781565 *-- C_0006410388496936549037 : -space_
 C_0009354046990169271201 ..|> C_0014718586687870172815
 C_0009354046990169271201 <|-- C_0004298799808645500217
 C_0008495545694619727706 *-- C_0007088239576659478452 : -space_
-C_0008495545694619727706 *-- C_0003412445458623038917 : -parameters_
 C_0008495545694619727706 *-- C_0004298799808645500217 : -patterns_
+C_0008495545694619727706 *-- C_0017382097479736929272 : -parameters_
 C_0008495545694619727706 *-- C_0005076600185507105511 : -instructions_
 C_0004936461079814340647 --> C_0002244960169437715781 : -pointFrom_
 C_0004936461079814340647 --> C_0003510744074585417582 : -pointFromPattern_
@@ -476,7 +482,7 @@ skinparam class<<Container>> {
 
   
   
-
+ class C_0007965462709904309096 <<Function>> 
 
   
   
@@ -512,11 +518,21 @@ skinparam class<<Container>> {
 
   
   
- class C_0012811662139665247956 <<Argument>> 
+
 
   
   
+ class C_0016547166278433300083 <<Argument>> 
 
+  
+  
+  C_0014583015597006537638 *-- C_0012811662139665247956
+
+ class C_0014583015597006537638 <<Base>> 
+
+  
+  
+ class C_0017382097479736929272 <<Container>> 
 
   
   
@@ -542,7 +558,7 @@ skinparam class<<Container>> {
 
   
   
-
+ class C_0007765536925596756322 <<Function>> 
 
   
   

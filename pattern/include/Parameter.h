@@ -5,10 +5,9 @@
 #include <boost/optional/optional.hpp>
 
 #include "serialization.h"
-#include "arguments/NumberArgument.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(Parameter): public NumberArgument {
+    class SERIALIZABLE(Parameter) {
         PROVIDE_SERIALIZATION_ACCESS(Parameter)
     public:
         explicit Parameter(std::string name);

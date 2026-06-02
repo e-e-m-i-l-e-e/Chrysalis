@@ -105,10 +105,10 @@ diagrams:
           {% endif %}
 
           {% if replace(e.name, "Base", "") != e.name %} class {{ e.alias }} <<Base>>
-          {% else if replace(e.name, "::Use", "") != e.name %} class {{ e.alias }} <<Function>>
           {% else if replace(e.name, "Container", "") != e.name %} class {{ e.alias }} <<Container>>
           {% else if replace(e.name, "Instruction", "") != e.name %} class {{ e.alias }} <<Instruction>>
-          {% else if replace(e.name, "Argument", "") != e.name or e.name == "Parameter" %} class {{ e.alias }} <<Argument>>
+          {% else if replace(e.name, "Argument", "") != e.name %} class {{ e.alias }} <<Argument>>
+          {% else if replace(e.name, "Function", "") != e.name %} class {{ e.alias }} <<Function>>
           {% endif %}
 
           {% endfor %}

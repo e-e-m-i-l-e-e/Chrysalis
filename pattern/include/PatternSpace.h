@@ -12,6 +12,7 @@ namespace Chrysalis {
 
         Point* getLastPoint() const;
         Point* getPoint(const std::string& name) const;
+        const std::unordered_map<std::string, Point*>& getPoints() const;
 
         void addPoint(const std::string& name, Point* point);
     private:

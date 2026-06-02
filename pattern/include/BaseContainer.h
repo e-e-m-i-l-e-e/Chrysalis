@@ -15,12 +15,6 @@ namespace Chrysalis {
                 (item->*function)(std::forward<Args>(args)...);
             }
         }
-        std::list<T*>::const_iterator begin() const {
-            return data_.cbegin();
-        }
-        std::list<T*>::const_iterator end() const {
-            return data_.cend();
-        }
     public:
         virtual ~BaseContainer() {
             for (const auto& item: data_) delete item;

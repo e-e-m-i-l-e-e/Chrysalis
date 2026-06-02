@@ -48,7 +48,6 @@ void Parameter::setAlias(const std::string& alias) {
 }
 
 void Parameter::setValue(double value) {
-    argument_ = value;
     value_ = value;
 }
 
