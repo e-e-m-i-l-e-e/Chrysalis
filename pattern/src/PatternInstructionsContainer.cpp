@@ -6,7 +6,3 @@ Chrysalis::PatternInstructionsContainer::PatternInstructionsContainer(SelectedPa
 Chrysalis::PatternInstructionsContainer::~PatternInstructionsContainer() {
     delete patterns_;
 }
-
-void Chrysalis::PatternInstructionsContainer::execute() const {
-    call(&BasePatternInstruction::execute);
-}

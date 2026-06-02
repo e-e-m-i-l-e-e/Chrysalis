@@ -5,16 +5,11 @@
 
 #include "serialization.h"
 
-#include "BaseContainer.h"
+#include "BaseInstructionsContainer.h"
 #include "PatternInstructionsContainer.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(InstructionsContainer): public BaseContainer<PatternInstructionsContainer> {
-    public:
-        void execute();
-    private:
-        boost::optional<std::list<PatternInstructionsContainer*>::const_iterator> nextInstruction_;
-    };
+    class SERIALIZABLE(InstructionsContainer): public BaseInstructionsContainer<PatternInstructionsContainer> {};
     DEFAULT_SERIALIZE_MEMBERS(InstructionsContainer)
 }
 

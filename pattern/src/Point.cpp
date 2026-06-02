@@ -9,3 +9,7 @@ const double& Point::x() const {
 const double& Point::y() const {
     return point_.y();
 }
+
+CGAL::Vector Point::operator-(const Point& other) const {
+    return point_ - other.point_;
+}

@@ -1,6 +1,7 @@
 #ifndef CHRYSALIS_BASEPATTERNINSTRUCTION_H
 #define CHRYSALIS_BASEPATTERNINSTRUCTION_H
 
+#include "BaseInstruction.h"
 #include "ProjectSpace.h"
 
 #include "arguments/NameArgument.h"
@@ -13,12 +14,10 @@ namespace Chrysalis {
     using num = NumberArgument;
     using pattern = PatternArgument;
 
-    class BasePatternInstruction {
+    class BasePatternInstruction: public BaseInstruction {
     public:
-        virtual ~BasePatternInstruction();
-
+        ~BasePatternInstruction() override;
         virtual bool isValid() = 0;
-        virtual void execute() const = 0;
     protected:
         explicit BasePatternInstruction(ProjectSpace* space, SelectedPatternsArgument* selectedPatterns);
 

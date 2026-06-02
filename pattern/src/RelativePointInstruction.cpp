@@ -36,7 +36,7 @@ bool RelativePointInstruction::isValid() {
     return pointTo_->hasArgument() && angle_->hasArgument() && distance_->hasArgument();
 }
 
-void RelativePointInstruction::execute() const {
+void RelativePointInstruction::execute() {
     const Point* pointFrom;
     if (pointFrom_->hasArgument()) {
         if (pointFromPattern_->hasArgument()) {

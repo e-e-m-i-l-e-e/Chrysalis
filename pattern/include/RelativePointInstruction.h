@@ -17,7 +17,7 @@ namespace Chrysalis {
         ~RelativePointInstruction() override;
 
         bool isValid() override;
-        void execute() const override;
+        void execute() override;
     private:
         const name* pointFrom_;
         const pattern* pointFromPattern_;

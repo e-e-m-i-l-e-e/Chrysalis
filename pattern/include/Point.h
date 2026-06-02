@@ -6,6 +6,7 @@
 namespace CGAL {
     using Kernel = Simple_cartesian<double>;
     using Point = Point_2<Kernel>;
+    using Vector = Vector_2<Kernel>;
 }
 
 class Point {
@@ -14,6 +15,8 @@ public:
 
     const double& x() const;
     const double& y() const;
+
+    CGAL::Vector operator-(const Point& other) const;
 private:
     CGAL::Point point_;
 };

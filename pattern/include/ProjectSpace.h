@@ -14,7 +14,10 @@ namespace Chrysalis {
         ~ProjectSpace();
 
         Point* addPoint(double x, double y);
-        Point* addPoint(const Point* fromPoint, double angle, double length);
+        Point* addPoint(const Point* pointFrom, double angle, double length);
+
+        static double angle(const Point* pointFrom, const Point* pointTo);
+        static double length(const Point* pointFrom, const Point* pointTo);
     private:
         /// @uml{composition[1:*]}
         std::unordered_set<Point*> points_;

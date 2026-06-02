@@ -18,7 +18,7 @@ namespace Chrysalis {
         ~FreePointInstruction() override;
 
         bool isValid() override;
-        void execute() const override;
+        void execute() override;
     private:
         const name* pointName_;
         const num* x_;

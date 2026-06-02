@@ -16,7 +16,7 @@ bool FreePointInstruction::isValid() {
     return pointName_->hasArgument() && x_->hasArgument() && y_->hasArgument();
 }
 
-void FreePointInstruction::execute() const {
+void FreePointInstruction::execute() {
     const auto point = space().addPoint(x_->getArgument(), y_->getArgument());
     for (const auto& pattern: patterns()) {
         pattern->addPoint(pointName_->getArgument(), point);

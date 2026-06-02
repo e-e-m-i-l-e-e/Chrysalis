@@ -3,8 +3,6 @@
 
 #include <list>
 
-#include "PatternSpace.h"
-
 namespace Chrysalis {
     template<typename T>
     class BaseContainer {
@@ -27,7 +25,7 @@ namespace Chrysalis {
         virtual ~BaseContainer() {
             for (const auto& item: data_) delete item;
         }
-        void add(T* item) {
+        virtual void add(T* item) {
             data_.push_back(item);
         }
     private:
