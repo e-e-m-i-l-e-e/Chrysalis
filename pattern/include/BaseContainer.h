@@ -3,9 +3,11 @@
 
 #include <list>
 
+#include "serialization.h"
+
 namespace Chrysalis {
     template<typename T>
-    class BaseContainer {
+    class SERIALIZABLE(BaseContainer) {
     protected:
         explicit BaseContainer() = default;
 
@@ -29,6 +31,7 @@ namespace Chrysalis {
             data_.push_back(item);
         }
     private:
+        ///@uml{composition}
         std::list<T*> data_;
     };
 }

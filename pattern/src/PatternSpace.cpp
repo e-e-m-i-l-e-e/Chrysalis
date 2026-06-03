@@ -2,8 +2,18 @@
 
 using namespace Chrysalis;
 
+PatternSpace::PatternSpace(OutlineContainer* outline): outline_(outline) {}
+
+PatternSpace::~PatternSpace() {
+    delete outline_;
+}
+
 Point* PatternSpace::getLastPoint() const {
     return lastPoint_;
+}
+
+OutlineContainer* PatternSpace::getOutline() const {
+    return outline_;
 }
 
 bool PatternSpace::hasPoint(const std::string& name) const {

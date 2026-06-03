@@ -20,6 +20,12 @@ namespace Chrysalis {
                                                 const name* pointTo, const pattern* patternTo,
                                                 const std::function<double(Point* from, Point* to)>& evaluator);
     };
+    /**
+     * @uml{note[top] Syntax samples:
+     * (A -> B).length
+     * (A ("Pattern 1") -> "A 1").angle
+     * }
+     */
     class VectorFunctionArgument: public NumberArgument {
     public:
         explicit VectorFunctionArgument(const name* pointFrom, const pattern* patternFrom,

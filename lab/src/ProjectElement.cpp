@@ -40,9 +40,13 @@ bool ProjectElement::hasProject() const {
     return project != nullptr;
 }
 
+#include "HARDCODED_PROJECTS.h"
+
 void ProjectElement::createProject() {
     delete project;
     project = Project::create();
+    setupProject1(project);
+    parameters_->setParameters(project->getParameters());
     emit projectChanged();
 }
 

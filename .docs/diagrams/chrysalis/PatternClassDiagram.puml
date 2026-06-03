@@ -53,15 +53,54 @@ class C_0002470944207325597787 {
 #NumberArgument(boost::optional<double> x) : void
 __
 }
+class "Chrysalis::Outline" as C_0012923087791918137441
+class C_0012923087791918137441 {
++Outline(const std::string & name, const std::string & firstPoint) : void
+..
++addPoint(const std::string & name) : void
++getName() : const std::string &
+__
+-name_ : std::string
+-points_ : std::list<std::string>
+}
+class "Chrysalis::BaseContainer<T>" as C_0014718586687870172815
+class C_0014718586687870172815 {
+#BaseContainer() = default : void
++~BaseContainer() : void
+..
++add(T * item) : void
++at(size_t index) const : T *
+#call<Fn,Args...>(Fn function, Args &&... args) const : void
++count() const : size_t
+__
+-data_ : std::list<T *>
+}
+class "Chrysalis::BaseContainer<Chrysalis::Outline>" as C_0002828212648879384581
+class C_0002828212648879384581 {
+__
+}
+class "Chrysalis::OutlineContainer" as C_0010040553678137761252
+class C_0010040553678137761252 {
++add(Outline * item) : void
++get(const std::string & name) const : Outline *
++has(const std::string & name) const : bool
+__
+-outlines_ : std::unordered_map<std::string,Outline *>
+}
 class "Chrysalis::PatternSpace" as C_0006410388496936549037
 class C_0006410388496936549037 {
++PatternSpace(OutlineContainer * outline) : void
++~PatternSpace() : void
+..
 +addPoint(const std::string & name, Point * point) : void
 +getLastPoint() const : Point *
++getOutline() const : OutlineContainer *
 +getPoint(const std::string & name) const : Point *
 +getPoints() const : const std::unordered_map<std::string,Point *> &
 +hasPoint(const std::string & name) const : bool
 __
 -lastPoint_ : Point *
+-outline_ : OutlineContainer *
 -points_ : std::unordered_map<std::string,Point *>
 }
 class "Chrysalis::BaseArgument<PatternSpace *>" as C_0011638807436206440807
@@ -122,6 +161,21 @@ __
 -operand1_ : const num *
 -operand2_ : const num *
 }
+class "Chrysalis::BuildOutlineInstruction" as C_0014956221374281501729
+class C_0014956221374281501729 {
++BuildOutlineInstruction(ProjectSpace * space, SelectedPatternsArgument * selectedPatterns, name * outlineName, name * point) : void
+..
++execute() : void
++isValid() : bool
+__
+-outlineName_ : name *
+-point_ : name *
+}
+note top of C_0014956221374281501729
+Syntax samples:
+ out -> A -> B -> C // (3 instructions)
+ out("Name") -> A -> B -> C
+end note
 class "Chrysalis::FreePointInstruction" as C_0014778024850504188725
 class C_0014778024850504188725 {
 +FreePointInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const name * pointName, const num * x, const num * y) : void
@@ -138,20 +192,8 @@ note top of C_0014778024850504188725
 Syntax samples:
  A (1, 1)
  "A 1" (1.0, 2)
- A (exp() exp())
+ A (1 * 2 + 3, param("Circumference of something"))
 end note
-class "Chrysalis::BaseContainer<T>" as C_0014718586687870172815
-class C_0014718586687870172815 {
-#BaseContainer() = default : void
-+~BaseContainer() : void
-..
-+add(T * item) : void
-+at(size_t index) const : T *
-#call<Fn,Args...>(Fn function, Args &&... args) const : void
-+count() const : size_t
-__
--data_ : std::list<T *>
-}
 class "Chrysalis::BaseInstructionsContainer<T>" as C_0009832473294063137986
 class C_0009832473294063137986 {
 #BaseInstructionsContainer() = default : void
@@ -268,6 +310,9 @@ __
 }
 note top of C_0004936461079814340647
 Syntax samples:
+ A -> B 45 10
+ "A 1" ("Back") -> "B 2" 1 / 2 * 3 param("Short alias")
+ A -> B (1 * 2 * 3 * 4) (1 / 2 / param("Circumference of something"))
 end note
 class "Chrysalis::VectorFunction" as C_0007765536925596756322
 class C_0007765536925596756322 {
@@ -288,6 +333,11 @@ __
 -pointFrom_ : const name *
 -pointTo_ : const name *
 }
+note top of C_0014380000036712777437
+Syntax samples:
+ (A -> B).length
+ (A ("Pattern 1") -> "A 1").angle
+end note
 class "Point" as C_0009962967977086807313
 class C_0009962967977086807313 {
 +Point(double x, double y) : void
@@ -304,7 +354,11 @@ C_0005387570045788273291 ..|> C_0004566211642871539975
 C_0005387570045788273291 <|-- C_0002244960169437715781
 C_0001471877624587876994 ..|> C_0004566211642871539975
 C_0001471877624587876994 <|-- C_0002470944207325597787
+C_0002828212648879384581 ..|> C_0014718586687870172815
+C_0010040553678137761252 --> C_0012923087791918137441 : -outlines_
+C_0002828212648879384581 <|-- C_0010040553678137761252
 C_0006410388496936549037 --> C_0009962967977086807313 : -lastPoint_
+C_0006410388496936549037 *-- C_0010040553678137761252 : -outline_
 C_0006410388496936549037 --> C_0009962967977086807313 : -points_
 C_0011638807436206440807 ..|> C_0004566211642871539975
 C_0011638807436206440807 <|-- C_0003510744074585417582
@@ -318,6 +372,9 @@ C_0001365093100257756951 *-- C_0002470944207325597787 : -operand1_
 C_0001365093100257756951 *-- C_0002470944207325597787 : -operand2_
 C_0001365093100257756951 --> C_0007965462709904309096 : -evaluator
 C_0002470944207325597787 <|-- C_0001365093100257756951
+C_0014956221374281501729 --> C_0002244960169437715781 : -outlineName_
+C_0014956221374281501729 --> C_0002244960169437715781 : -point_
+C_0012361199867370331426 <|-- C_0014956221374281501729
 C_0014778024850504188725 --> C_0002244960169437715781 : -pointName_
 C_0014778024850504188725 --> C_0002470944207325597787 : -x_
 C_0014778024850504188725 --> C_0002470944207325597787 : -y_
@@ -455,6 +512,24 @@ skinparam class<<Container>> {
 
 
   
+  
+ class C_0014718586687870172815 <<Base>> 
+
+  
+  
+  C_0002828212648879384581 *-- C_0012923087791918137441
+
+ class C_0002828212648879384581 <<Base>> 
+
+  
+  
+ class C_0010040553678137761252 <<Container>> 
+
+  
+  
+
+
+  
   C_0011638807436206440807 --> C_0006410388496936549037
 
   
@@ -492,11 +567,11 @@ skinparam class<<Container>> {
 
   
   
- class C_0014778024850504188725 <<Instruction>> 
+ class C_0014956221374281501729 <<Instruction>> 
 
   
   
- class C_0014718586687870172815 <<Base>> 
+ class C_0014778024850504188725 <<Instruction>> 
 
   
   
