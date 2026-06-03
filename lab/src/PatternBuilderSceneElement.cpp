@@ -8,7 +8,7 @@
 
 PatternBuilderSceneElement::PatternBuilderSceneElement(QQuickItem* parent)
     : QQuickFramebufferObject(parent), renderer_([] {
-        const auto program = new ChrysalisOpenGLProgram();
+        const auto program = new Chrysalis::MainOpenGLProgram();
         const auto cursor = new CursorRenderer(program);
         const auto cartesian = new CartesianRenderer(program);
         return new ChrysalisRenderer(program, cursor, cartesian);

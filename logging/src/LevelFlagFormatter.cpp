@@ -3,7 +3,7 @@
 #include <algorithm>
 
 void LevelFlagFormatter::format(const spdlog::details::log_msg& msg, const std::tm& tm_time, spdlog::memory_buf_t& dest) {
-    constexpr static short LOG_LEVEL_LENGTH = 7;
+    constexpr static short LOG_LEVEL_LENGTH = 8;
     const auto logLevelView = spdlog::level::to_string_view(msg.level);
     std::string logLevel(logLevelView.begin(), logLevelView.end());
     std::ranges::transform(logLevel, logLevel.begin(), ::toupper);

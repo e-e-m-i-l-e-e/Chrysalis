@@ -1,6 +1,8 @@
 #include "PatternSpaceRenderer.h"
 
-PatternSpaceRenderer::PatternSpaceRenderer(ChrysalisOpenGLProgram* program, const Chrysalis::SpaceRendererData* spaceRendererData)
+using namespace Chrysalis;
+
+PatternSpaceRenderer::PatternSpaceRenderer(MainOpenGLProgram* program, const RendererData* spaceRendererData)
     : program_(program), spaceRendererData_(spaceRendererData) {}
 
 void PatternSpaceRenderer::initialize() {
@@ -17,7 +19,7 @@ void PatternSpaceRenderer::draw() {
         glDrawArrays(GL_TRIANGLE_STRIP, from, count);
     }
     program_->setPointRadius(0.25 * scale_);
-    glDrawArrays(GL_POINTS, spaceRendererData_->pointsRange().from, spaceRendererData_->pointsRange().count);
+    glDrawArrays(GL_POINTS, spaceRendererData_->pointsRange().first, spaceRendererData_->pointsRange().second);
     program_->setPointRadius(0);
 }
 
@@ -25,6 +27,6 @@ void PatternSpaceRenderer::scaleChanged(const float scale) {
     scale_ = scale;
 }
 
-std::vector<SpaceVertex> PatternSpaceRenderer::getPoints() const {
+std::vector<Vertex3f> PatternSpaceRenderer::getPoints() const {
     return spaceRendererData_->getPoints();
 }

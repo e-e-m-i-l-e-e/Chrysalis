@@ -13,36 +13,6 @@ __
 -x_ : float
 -y_ : float
 }
-class "Vertex2f" as C_0002545152376591623339
-class C_0002545152376591623339 {
-+Vertex2f(float x, float y) : void
-..
-{static} +getLayout() : std::vector<std::pair<int,void *>>
-+x() const : const float &
-+y() const : const float &
-__
--x_ : const float
--y_ : const float
-}
-abstract "BaseRenderer<V>" as C_0004233131307133403721
-abstract C_0004233131307133403721 {
-#~BaseRenderer() : void
-..
-{abstract} +draw() = 0 : void
-+initialize() : void
-+render() : void
-+shouldUpload() : void
-+upload() : void
-__
-#data_ : std::vector<V>
--shouldUpload_ : bool
--vao_ : GLuint
--vbo_ : GLuint
-}
-class "glm::mat<4,4,float,defaultp>" as C_0011668248383743793436
-class C_0011668248383743793436 {
-__
-}
 class "Chrysalis::BaseOpenGLProgram" as C_0009014904075807390969
 class C_0009014904075807390969 {
 #BaseOpenGLProgram(const char * vertexShader, const char * fragmentShader) : void
@@ -69,52 +39,31 @@ class C_0008404019008873523889 {
 +setProjection(const glm::mat4x4 & projection) const : void
 __
 }
-class "Chrysalis::ParametersModel" as C_0006294982762641672186
-class C_0006294982762641672186 {
-+columnCount(const QModelIndex & parent) const : int
-+data(const QModelIndex & index, int role) const : QVariant
-+flags(const QModelIndex & index) const : Qt::ItemFlags
-+headerData(int section, Qt::Orientation orientation, int role) const : QVariant
-+rowCount(const QModelIndex & parent) const : int
-+setData(const QModelIndex & index, const QVariant & value, int role) : bool
-+setParameters(ParametersContainer * parameters) : void
-__
--parameters_ : ParametersContainer *
-}
-class "Chrysalis::ParametersElement" as C_0003994509085763311703
-class C_0003994509085763311703 {
-+getModel() const : ParametersModel *
-+modelChanged() : void
-+setModel(ParametersModel * model) : void
-+setParameters(ParametersContainer * parameters) : void
-__
--model_ : ParametersModel *
--parameters_ : ParametersContainer *
-}
-class "Chrysalis::ProjectElement" as C_0008929981772084998866
-class C_0008929981772084998866 {
-+ProjectElement(QQuickItem * parent = nullptr) : void
-+~ProjectElement() : void
+class "Vertex2f" as C_0002545152376591623339
+class C_0002545152376591623339 {
++Vertex2f(float x, float y) : void
 ..
-+closeProject() : void
-+createProject() : void
-+filePathChanged() : void
-+getFilePath() const : QUrl
-+getName() const : QString
-+getParameters() const : ParametersElement *
-+hasProject() const : bool
-+nameChanged() : void
-+openProject(const QUrl & filePath) : void
-+parametersChanged() : void
-+projectChanged() : void
-+saveProject(const QUrl & filePath) : void
-+setFilePath(const QUrl & filePath) : void
-+setName(const QString & name) : void
-+setParameters(ParametersElement * parameters) : void
+{static} +getLayout() : std::vector<std::pair<int,void *>>
++x() const : const float &
++y() const : const float &
 __
--filePath_ : QUrl
--parameters_ : ParametersElement *
--project : Project *
+-x_ : const float
+-y_ : const float
+}
+abstract "BaseRenderer<V>" as C_0004233131307133403721
+abstract C_0004233131307133403721 {
+#~BaseRenderer() : void
+..
+{abstract} +draw() = 0 : void
++initialize() : void
++render() : void
++shouldUpload() : void
++upload() : void
+__
+#data_ : std::vector<V>
+-shouldUpload_ : bool
+-vao_ : GLuint
+-vbo_ : GLuint
 }
 class "BaseRenderer<Vertex2f>" as C_0017575270490622573355
 class C_0017575270490622573355 {
@@ -209,47 +158,8 @@ __
 -shapeRenderer_ : PatternShapeRenderer *
 -spaceRenderer_ : PatternSpaceRenderer *
 }
-class "ChrysalisRenderer" as C_0003925136470158514146
-class C_0003925136470158514146 {
-+ChrysalisRenderer(Chrysalis::MainOpenGLProgram * program, CursorRenderer * cursorRenderer, CartesianRenderer * cartesianRenderer) : void
-+~ChrysalisRenderer() : void
-..
-+changeCursor(QPointF && cursor) const : void
-+changeOffset(QPointF && delta) : void
-+changeScale(double scalar, QPointF && center) : void
-#createFramebufferObject(const QSize & size) : QOpenGLFramebufferObject *
-+initialize() const : void
-#render() : void
-#synchronize(QQuickFramebufferObject *) : void
-__
--area_ : QRectF
--cartesianRenderer_ : CartesianRenderer *
--cursorRenderer_ : CursorRenderer *
--patternRenderers_ : std::vector<PatternRenderer *>
--program_ : Chrysalis::MainOpenGLProgram *
--scale_ : double
-}
-class "PatternBuilderSceneElement" as C_0000532881802130584044
-class C_0000532881802130584044 {
-+PatternBuilderSceneElement(QQuickItem * parent = nullptr) : void
-..
-+createRenderer() const : Renderer *
-#hoverMoveEvent(QHoverEvent * event) : void
-#mouseMoveEvent(QMouseEvent * event) : void
-#mousePressEvent(QMouseEvent * event) : void
-#mouseReleaseEvent(QMouseEvent * event) : void
--normalize(QPointF && point) const : QPointF
-#wheelEvent(QWheelEvent * event) : void
-__
--isLeftMouseButtonPressed_ : bool
--mousePosition_ : QPointF
--renderer_ : ChrysalisRenderer *
--windowPosition_ : QPointF
-}
-C_0004233131307133403721 ..> C_0002545152376591623339
 C_0009014904075807390969 <|-- C_0008404019008873523889
-C_0003994509085763311703 --> C_0006294982762641672186 : -model_
-C_0008929981772084998866 --> C_0003994509085763311703 : -parameters_
+C_0004233131307133403721 ..> C_0002545152376591623339
 C_0017575270490622573355 ..|> C_0004233131307133403721
 C_0000449815443628269094 --> C_0008404019008873523889 : -program_
 C_0017575270490622573355 <|-- C_0000449815443628269094
@@ -265,11 +175,6 @@ C_0011408520031068065626 --> C_0018334680632992880734 : -spaceRendererData_
 C_0017077293977764062028 <|-- C_0011408520031068065626
 C_0011504052414250660842 --> C_0011408520031068065626 : -spaceRenderer_
 C_0011504052414250660842 --> C_0009334335780883493241 : -shapeRenderer_
-C_0003925136470158514146 --> C_0008404019008873523889 : -program_
-C_0003925136470158514146 --> C_0010189638850974360928 : -cursorRenderer_
-C_0003925136470158514146 --> C_0000449815443628269094 : -cartesianRenderer_
-C_0003925136470158514146 --> C_0011504052414250660842 : -patternRenderers_
-C_0000532881802130584044 --> C_0003925136470158514146 : -renderer_
 skinparam class {
   BackgroundColor #EAFAF1
   BorderColor #1E8449
@@ -290,80 +195,39 @@ skinparam class<<Base>> {
   FontStyle Italic
 }
 
-skinparam class<<Element>> {
-  BackgroundColor #EBF5FB
-  BorderColor #1A5276
-  FontColor #1A5276
-  AttributeFontColor #2E86C1
-  StereotypeFontColor #2E86C1
-  FontStyle Bold
-}
-
-skinparam class<<Model>> {
-  BackgroundColor #E8F8F5
-  BorderColor #0E6655
-  BorderThickness 3
-  FontSize 16
-  FontColor #0E6655
-  AttributeFontColor #117A65
-  StereotypeFontColor #148F77
-  FontStyle Italic
-}
 
 
-  
 
-  
+ class C_0009014904075807390969 <<Base>> 
 
-   class C_0004233131307133403721 <<Base>>
-  
 
-  
 
-   class C_0009014904075807390969 <<Base>>
-  
+ class C_0004233131307133403721 <<Base>> 
 
-  
 
-   class C_0017575270490622573355 <<Base>>
-  
 
-  
+ class C_0017575270490622573355 <<Base>> 
 
-  
 
-   class C_0008905268405372382414 <<Base>>
-  
 
-   class C_0014001124478256818369 <<Base>>
-  
 
-  
 
-  
+ class C_0008905268405372382414 <<Base>> 
 
-  
+ class C_0014001124478256818369 <<Base>> 
 
-   class C_0017077293977764062028 <<Base>>
-  
 
-  
 
-  
 
-  
 
-   class C_0006294982762641672186 <<Model>>
-  
 
-   class C_0003994509085763311703 <<Element>>
-  
 
-   class C_0000532881802130584044 <<Element>>
-  
+ class C_0017077293977764062028 <<Base>> 
 
-   class C_0008929981772084998866 <<Element>>
-  
+
+
+
+
 
 
 'Generated with clang-uml, version 0.6.2

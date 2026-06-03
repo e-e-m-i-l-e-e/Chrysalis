@@ -12,7 +12,7 @@ public:
     void initialize() const;
     void scaleChanged(float scale) const;
 
-    std::vector<SpaceVertex> getPoints() const;
+    std::vector<Vertex3f> getPoints() const;
 private:
     PatternSpaceRenderer* spaceRenderer_;
     PatternShapeRenderer* shapeRenderer_;

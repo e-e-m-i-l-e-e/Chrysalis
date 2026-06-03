@@ -1,4 +1,4 @@
-#include "PatternRenderer.h"
+#include "../include/PatternRenderer.h"
 
 PatternRenderer::PatternRenderer(PatternSpaceRenderer* spaceRenderer, PatternShapeRenderer* shapeRenderer)
 : spaceRenderer_(spaceRenderer), shapeRenderer_(shapeRenderer) {}
@@ -18,6 +18,6 @@ void PatternRenderer::scaleChanged(const float scale) const {
     shapeRenderer_->scaleChanged(scale);
 }
 
-std::vector<SpaceVertex> PatternRenderer::getPoints() const {
+std::vector<Vertex3f> PatternRenderer::getPoints() const {
     return spaceRenderer_->getPoints();
 }

@@ -4,7 +4,7 @@
 
 using namespace Chrysalis;
 
-void ParametersModel::setParameters(Parameters* parameters) {
+void ParametersModel::setParameters(ParametersContainer* parameters) {
     beginResetModel();
     parameters_ = parameters;
     endResetModel();

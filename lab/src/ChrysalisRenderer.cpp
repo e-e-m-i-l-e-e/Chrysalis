@@ -1,18 +1,15 @@
 #include "ChrysalisRenderer.h"
 
-#include <iostream>
 #include <QOpenGLFramebufferObject>
+#include <glm/gtc/matrix_transform.hpp>
 
-#include "RelativePointInstruction.h"
-#include "../../pattern/include/arguments/Argument.h"
-#include "BinaryFunctionArgument.h"
-#include "FreePointInstruction.h"
 #include "Project.h"
-// #include "ActivePatternSpaces.h"
 
 #include "Logging.h"
-#include "VectorFunctionArgument.h"
 #define LOGGER_NAME "Chrysalis Renderer"
+
+#include "glad/gl.h"
+#include <QOpenGLContext> // Needed to resolve the function loader
 
 using namespace Chrysalis;
 
@@ -53,7 +50,7 @@ QPointF operator+(QPointF point, const QRectF& rect) {
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-ChrysalisRenderer::ChrysalisRenderer(ChrysalisOpenGLProgram* program,
+ChrysalisRenderer::ChrysalisRenderer(MainOpenGLProgram* program,
                                      CursorRenderer* cursorRenderer,
                                      CartesianRenderer* cartesianRenderer)
     : program_(program), cursorRenderer_(cursorRenderer), cartesianRenderer_(cartesianRenderer) {}
@@ -63,229 +60,23 @@ ChrysalisRenderer::~ChrysalisRenderer() {
     delete cartesianRenderer_;
 }
 
-void ChrysalisRenderer::initialize() {
-    initializeOpenGLFunctions();
+void ChrysalisRenderer::initialize() const {
+    auto openGLContext = QOpenGLContext::currentContext();
+    if (!openGLContext) {
+        LOG_CRITICAL("GLAD: No active QOpenGLContext found in this thread!");
+        return;
+    }
 
-    using A = Argument<double>;
-    using NA = Argument<std::string>;
-    using BF = BinaryFunctionArgument;
-    using VF = VectorFunctionArgument;
+    bool gladLoaded = gladLoadGL([](const char* name) -> GLADapiproc {
+        return reinterpret_cast<GLADapiproc>(
+            QOpenGLContext::currentContext()->getProcAddress(name)
+        );
+    });
 
-    const auto parameters = new Chrysalis::Parameters();
-    const auto param1 = new Chrysalis::Parameter("Back Waist Length");
-    param1->setValue(42);
-    const auto param2 = new Chrysalis::Parameter("Back Width");
-    param2->setValue(31);
-    const auto param3 = new Chrysalis::Parameter("Bust Height");
-    param3->setValue(28);
-    const auto param4 = new Chrysalis::Parameter("Bust Span");
-    param4->setValue(17);
-    const auto param5 = new Chrysalis::Parameter("Apex to center-front");
-    param5->setValue(21);
-    const auto param6 = new Chrysalis::Parameter("Apex to shoulder");
-    param6->setValue(27);
-    const auto param7 = new Chrysalis::Parameter("Hip Depth");
-    param7->setValue(21.5);
-    const auto param8 = new Chrysalis::Parameter("Bust Circumference");
-    param8->setValue(96);
-    const auto param9 = new Chrysalis::Parameter("Waist Circumference");
-    param9->setValue(68);
-    const auto param10 = new Chrysalis::Parameter("Neck Circumference");
-    param10->setValue(38);
-    const auto param11 = new Chrysalis::Parameter("Shoulder Length");
-    param11->setValue(11);
-    const auto param12 = new Chrysalis::Parameter("Hip Circumference");
-    param12->setValue(98);
-    parameters->addParameter(param1);
-    parameters->addParameter(param2);
-    parameters->addParameter(param3);
-    parameters->addParameter(param4);
-    parameters->addParameter(param5);
-    parameters->addParameter(param6);
-    parameters->addParameter(param7);
-    parameters->addParameter(param8);
-    parameters->addParameter(param9);
-    parameters->addParameter(param10);
-    parameters->addParameter(param11);
-    parameters->addParameter(param12);
-    // parameters->addParameter(new Parameter("Length", 66));
-    // parameters->addParameter(new Parameter("Bust", 96));
-    // parameters->addParameter(new Parameter("Bust Height", 36));
-    // parameters->addParameter(new Parameter("Back Width", 31));
-    // parameters->addParameter(new Parameter("Neck", 38));
-    // parameters->addParameter(new Parameter("Shoulder Length", 11));
-    // parameters->addParameter(new Parameter("Shoulder To Waist Back", 42));
-    // parameters->addParameter(new Parameter("Shoulder To Waist Front", 54));
-    // parameters->addParameter(new Parameter("Sleeve Length", 62));
-
-    const auto instructions = new InstructionsContainer();
-
-    // Back
-    const auto backSpaceRendererData = new SpaceRendererData();
-    const auto backSpace = new ProjectSpace();
-    const auto backPatternSpace = new Chrysalis::PatternSpace();
-    // const auto backOutline = new Chrysalis::Outline(backSpace);
-    const auto back = new Chrysalis::Pattern("Back", backPatternSpace);
-    auto project = new Chrysalis::Project("", backSpace, parameters, instructions);
-
-    // Main lines
-    // back->addPoint("S", 0, 0);
-    // instructions->addInstruction(new FreePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA("S"), new Argument<double>(0), new Argument<double>(0)));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA(), new Argument<PatternSpace*>(), new NA("W"), new A(270), parameters->getParameter("Back Waist Length")));
-    // // back->nextPoint("W", Space::Direction::DOWN, parameters->getParameter("Back Waist Length"));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA(), new Argument<PatternSpace*>(), new NA("H"), new A(270), parameters->getParameter("Hip Depth")));
-    // // back->nextPoint("H", Space::Direction::DOWN, parameters->getParameter("Hip Depth"));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA(), new Argument<PatternSpace*>(), new NA("H1"), new A(0), new BF(new BF(parameters->getParameter("Hip Circumference"), new A(4), BF::Use::DIVISION), new A(1), BF::Use::SUBTRACTION)));
-    // // back->nextPoint("H1", Space::Direction::RIGHT, new BF(new BF(parameters->getParameter("Hip Circumference"), new A(4), BF::Use::DIVISION), new A(1), BF::Use::SUBTRACTION));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA("W"), new Argument<PatternSpace*>(), new NA("W1"), new A(0), new VF(backSpace, "H", "H1", VF::Use::LENGTH)));
-    // // back->addPoint("W", "W1", Space::Direction::RIGHT, new VF(backSpace, "H", "H1", VF::Use::LENGTH));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA("W"), new Argument<PatternSpace*>(), new NA("W2"), new A(0), new BF(new BF(parameters->getParameter("Bust Circumference"), new A(4), BF::Use::DIVISION), new A(1), BF::Use::SUBTRACTION)));
-    // // back->addPoint("W", "W2", Space::Direction::RIGHT, new BF(new BF(parameters->getParameter("Bust Circumference"), new A(4), BF::Use::DIVISION), new A(1), BF::Use::SUBTRACTION));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA("S"), new Argument<PatternSpace*>(), new NA("S1"), new A(0), new VF(backSpace, "W", "W2", VF::Use::LENGTH)));
-    // // back->addPoint("S", "S1", Space::Direction::RIGHT, new VF(backSpace, "W", "W2", VF::Use::LENGTH));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA("W"), new Argument<PatternSpace*>(), new NA("AH"), new A(90), new BF(new VF(backSpace, "S", "W", VF::Use::LENGTH), new A(2), BF::Use::DIVISION)));
-    // // back->addPoint("W", "AH", Space::Direction::UP, new BF(new VF(backSpace, "S", "W", VF::Use::LENGTH), new A(2), BF::Use::DIVISION));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA("AH"), new Argument<PatternSpace*>(), new NA("UB"), new A(90), new BF(new VF(backSpace, "S", "AH", VF::Use::LENGTH), new A(3), BF::Use::DIVISION)));
-    // // back->addPoint("AH", "UB", Space::Direction::UP, new BF(new VF(backSpace, "S", "AH", VF::Use::LENGTH), new A(3), BF::Use::DIVISION));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA("H"), new Argument<PatternSpace*>(), new NA("T"), new A(90), new BF(new VF(backSpace, "H", "W", VF::Use::LENGTH), new A(2), BF::Use::DIVISION)));
-    // // back->addPoint("H", "T", Space::Direction::UP, new BF(new VF(backSpace, "H", "W", VF::Use::LENGTH), new A(2), BF::Use::DIVISION));
-    // // Neck
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA("S"), new Argument<PatternSpace*>(), new NA("N"), new A(0), new BF(parameters->getParameter("Neck Circumference"), new A(6), BF::Use::DIVISION)));
-    // // back->addPoint("S", "N", Space::Direction::RIGHT, new BF(parameters->getParameter("Neck Circumference"), new A(6), BF::Use::DIVISION));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA(), new Argument<PatternSpace*>(), new NA("N1"), new A(270), new BF(parameters->getParameter("Neck Circumference"), new A(16), BF::Use::DIVISION)));
-    // // back->nextPoint("N1", Space::Direction::DOWN, new BF(parameters->getParameter("Neck Circumference"), new A(16), BF::Use::DIVISION));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA(), new Argument<PatternSpace*>(), new NA("N2"), new A(180), new VF(backSpace, "N", "S", VF::Use::LENGTH)));
-    // // back->nextPoint("N2", Space::Direction::LEFT, new VF(backSpace, "N", "S", VF::Use::LENGTH));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA("N1"), new Argument<PatternSpace*>(), new NA("N3"), new A(180), new BF(new VF(backSpace, "N2", "N1", VF::Use::LENGTH), new A(2), BF::Use::DIVISION)));
-    // // back->addPoint("N1", "N3", Space::Direction::LEFT, new BF(new VF(backSpace, "N2", "N1", VF::Use::LENGTH), new A(2), BF::Use::DIVISION));
-    // // Shoulder
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA("N"), new Argument<PatternSpace*>(), new NA("S2"), new A(-18), parameters->getParameter("Shoulder Length")));
-    // // back->addPoint("N", "S2", new A(-18), parameters->getParameter("Shoulder Length"));
-    // // Armhole
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA("UB"), new Argument<PatternSpace*>(), new NA("UB1"), new A(0), new BF(parameters->getParameter("Back Width"), new A(2), BF::Use::DIVISION)));
-    // // back->addPoint("UB", "UB1", Space::Direction::RIGHT, new BF(parameters->getParameter("Back Width"), new A(2), BF::Use::DIVISION));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA("AH"), new Argument<PatternSpace*>(), new NA("AH1"), new A(0), new BF(parameters->getParameter("Back Width"), new A(2), BF::Use::DIVISION)));
-    // // back->addPoint("AH", "AH1", Space::Direction::RIGHT, new BF(parameters->getParameter("Back Width"), new A(2), BF::Use::DIVISION));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA(), new Argument<PatternSpace*>(), new NA("AH2"), new A(45), new A(1.5)));
-    // // back->nextPoint("AH2", new A(45), new A(1.5));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA("AH"), new Argument<PatternSpace*>(), new NA("AH3"), new A(0), new VF(backSpace, "W", "W2", VF::Use::LENGTH)));
-    // // back->addPoint("AH", "AH3", Space::Direction::RIGHT, new VF(backSpace, "W", "W2", VF::Use::LENGTH));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA(), new Argument<PatternSpace*>(), new NA("AH4"), new A(180), new A(1)));
-    // // back->nextPoint("AH4", Space::Direction::LEFT, new A(1));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA("W"), new Argument<PatternSpace*>(), new NA("W2"), new A(180), new BF(new BF(parameters->getParameter("Bust Circumference"), new A(4), BF::Use::DIVISION), new A(1), BF::Use::ADDITION)));
-    // // back->addPoint("W", "W2", Space::Direction::LEFT, new BF(new BF(parameters->getParameter("Bust Circumference"), new A(4), BF::Use::DIVISION), new A(1), BF::Use::ADDITION));
-    // instructions->addInstruction(new RelativePointInstruction(backSpace, new Argument<ActivePatternSpaces*>(new ActivePatternSpaces({backPatternSpace})), new NA("S"), new Argument<PatternSpace*>(), new NA("S1"), new A(180), new VF(backSpace, "W", "W2", VF::Use::LENGTH)));
-    // back->addPoint("S", "S1", Space::Direction::LEFT, new VF(backSpace, "W", "W2", VF::Use::LENGTH));
-
-    // back->addPoint("A", 0, 0);
-    // back->nextPoint("L", Space::Direction::DOWN, parameters->getParameter("Length"));
-    // back->addPoint("A", "B", Space::Direction::DOWN, new BinaryFunction(new BinaryFunction(new BinaryFunction(parameters->getParameter("Bust"), new Argument(2), BinaryFunction::DIVISION), new Argument(3), BinaryFunction::DIVISION), new Argument(5), BinaryFunction::ADDITION));
-    // back->addPoint("A", "W", Space::Direction::DOWN, parameters->getParameter("Shoulder To Waist Back"));
-    // back->addPoint("B", "B1", Space::Direction::LEFT, new BinaryFunction(new BinaryFunction(parameters->getParameter("Back Width"), new Argument(2), BinaryFunction::DIVISION), new Argument(1), BinaryFunction::ADDITION));
-    // back->addPoint("B1", "B2", Space::Direction::LEFT, new BinaryFunction(new BinaryFunction(new BinaryFunction(parameters->getParameter("Bust"), new Argument(2), BinaryFunction::DIVISION), new Argument(4), BinaryFunction::DIVISION), new Argument(14), BinaryFunction::MIN));
-    // back->addPoint("B1", "B3", Space::Direction::LEFT, new BinaryFunction(new BinaryFunction(new VectorFunction(backSpace, "B1", "B2", &VectorFunction::LENGTH), new Argument(2), BinaryFunction::DIVISION), new Argument(1), BinaryFunction::SUBTRACTION));
-    // back->addPoint("B1", "S", Space::Direction::UP, new VectorFunction(backSpace, "A", "B", &VectorFunction::LENGTH));
-    // back->addPoint("A", "A1", Space::Direction::LEFT, new BinaryFunction(new BinaryFunction(new BinaryFunction(parameters->getParameter("Neck"), new Argument(2), BinaryFunction::DIVISION), new Argument(3), BinaryFunction::DIVISION), new Argument(0.5), BinaryFunction::ADDITION));
-    // back->nextPoint("A2", Space::Direction::UP, new Argument(2));
-    // back->addPoint("S", "S1", Space::Direction::DOWN, new Argument(3));
-    // back->addPoint("B1", "S2", Space::Direction::DOWN, new BinaryFunction(new BinaryFunction(new VectorFunction(backSpace, "A", "B", &VectorFunction::LENGTH), new Argument(3), BinaryFunction::DIVISION), new Argument(1), BinaryFunction::SUBTRACTION));
-    // back->addPoint("B1", "S3", new Argument(135), new Argument(2.5));
-    // back->addPoint("S1", "S4", new VectorFunction(backSpace, "A2", "S1", &VectorFunction::ANGLE), new Argument(1.5));
-    // back->addPoint("A2", "D0", new VectorFunction(backSpace, "A2", "S1", &VectorFunction::ANGLE), new Argument(5));
-    // back->addPoint("D0", "D01", Space::Direction::DOWN, new Argument(7));
-    // back->addPoint("D0", "D02", new VectorFunction(backSpace, "A2", "S1", &VectorFunction::ANGLE), new Argument(1.75));
-    // back->addPoint("L", "L1", Space::Direction::LEFT, new BinaryFunction(new VectorFunction(backSpace, "B", "B3", &VectorFunction::LENGTH), new Argument(1), BinaryFunction::ADDITION));
-
-    const auto patternRendererBack = new PatternRenderer(
-        new PatternSpaceRenderer(program_, backSpaceRendererData),
-        new PatternShapeRenderer()
-    );
-    patternRenderers_.push_back(patternRendererBack);
-
-    // Front
-    const auto frontSpaceRendererData = new SpaceRendererData();
-    const auto frontSpace = new ProjectSpace();
-    const auto frontPatternSpace = new PatternSpace();
-    // const auto frontOutline = new Chrysalis::Outline(frontSpace);
-    const auto front = new Chrysalis::Pattern("Front", frontPatternSpace);
-
-    // Main lines
-    // back->sharePoint("S", front);
-    // back->sharePoint("W", front);
-    // back->sharePoint("H", front);
-    // back->sharePoint("AH", front);
-    // back->sharePoint("UP", front);
-    // back->sharePoint("T", front);
-    // front->addPoint("H", "H1", Space::Direction::LEFT, new BF(new BF(parameters->getParameter("Hip Circumference"), new A(4), BF::Use::DIVISION), new A(1), BF::Use::ADDITION));
-    // front->addPoint("W", "W1", Space::Direction::LEFT, new VF(backSpace, "H", "H1", VF::Use::LENGTH));
-    // // Neck
-    // front->addPoint("S", "N", Space::Direction::LEFT, new BF(parameters->getParameter("Neck Circumference"), new A(6), BF::Use::DIVISION));
-    // front->nextPoint("N1", Space::Direction::DOWN, new BF(new BF(parameters->getParameter("Neck Circumference"), new A(6), BF::Use::DIVISION), new A(2), BF::Use::ADDITION));
-    // // Shoulder
-    // front->addPoint("N", "S2", new BF(new A(180), new A(26), BF::Use::ADDITION), parameters->getParameter("Shoulder Length"));
-    // // Armhole
-    // front->addPoint("UB", "UB1", Space::Direction::LEFT, new BF(parameters->getParameter("Back Width"), new A(2), BF::Use::DIVISION));
-    // front->addPoint("AH", "AH1", Space::Direction::LEFT, new BF(parameters->getParameter("Back Width"), new A(2), BF::Use::DIVISION));
-    // front->nextPoint("AH2", new BF(new A(90), new A(45), BF::Use::ADDITION), new A(2.5));
-    // front->addPoint("AH", "AH3", Space::Direction::LEFT, new VF(backSpace, "W", "W2", VF::Use::LENGTH));
-    // front->nextPoint("AH4", Space::Direction::RIGHT, new A(1));
-    // // Bust dart
-    // front->addPoint("S", "B", Space::Direction::DOWN, parameters->getParameter("Bust Height"));
-    // front->nextPoint("DA", Space::Direction::LEFT, new BF(parameters->getParameter("Bust Span"), new A(2), BF::Use::DIVISION));
-
-    // back->sharePoint("A", front);
-    // back->sharePoint("B", front);
-    // back->sharePoint("W", front);
-    // back->sharePoint("L", front);
-    // back->sharePoint("A2", front);
-    // back->sharePoint("D01", front);
-    // back->sharePoint("D02", front);
-    // front->addPoint("B", "B4", Space::Direction::LEFT, new BinaryFunction(new BinaryFunction(parameters->getParameter("Bust"), new Argument(2), BinaryFunction::DIVISION), new Argument(4), BinaryFunction::ADDITION));
-    // front->nextPoint("W1", Space::Direction::DOWN, new VectorFunction(frontSpace, "B", "W", &VectorFunction::LENGTH));
-    // front->addPoint("B4", "L2", Space::Direction::DOWN, new VectorFunction(frontSpace, "B", "L", &VectorFunction::LENGTH));
-    // front->addPoint("B4", "A3", Space::Direction::UP, new BinaryFunction(new BinaryFunction(new BinaryFunction(parameters->getParameter("Bust"), new Argument(2), BinaryFunction::DIVISION), new Argument(2), BinaryFunction::DIVISION), new Argument(1), BinaryFunction::ADDITION));
-    // front->nextPoint("A4", Space::Direction::RIGHT, new BinaryFunction(new BinaryFunction(new BinaryFunction(parameters->getParameter("Neck"), new Argument(2), BinaryFunction::DIVISION), new Argument(3), BinaryFunction::DIVISION), new Argument(0.5), BinaryFunction::ADDITION));
-    // front->addPoint("A3", "A5", Space::Direction::DOWN, new BinaryFunction(new BinaryFunction(new BinaryFunction(parameters->getParameter("Neck"), new Argument(2), BinaryFunction::DIVISION), new Argument(3), BinaryFunction::DIVISION), new Argument(1), BinaryFunction::ADDITION));
-    // front->addPoint("A4", "A6", Space::Direction::RIGHT, new Argument(5));
-    // front->addPoint("B4", "B5", Space::Direction::RIGHT, new BinaryFunction(new VectorFunction(frontSpace, "A3", "A6", &VectorFunction::LENGTH), new Argument(2), BinaryFunction::SUBTRACTION));
-    // front->addPoint("A6", "A7", new VectorFunction(frontSpace, "A6", "B5", VectorFunction::ANGLE), new Argument(1.5));
-    // front->addPoint("A2", "A-2", new BinaryFunction(new VectorFunction(frontSpace, "D02", "D01", VectorFunction::ANGLE), new Argument(0.75), BinaryFunction::MULTIPLICATION), new Argument(0.25));
-    // front->addPoint("A", "A0", Space::Direction::LEFT, new Argument(1));
-
-    const auto patternRendererFront = new PatternRenderer(
-        new PatternSpaceRenderer(program_, frontSpaceRendererData),
-        new PatternShapeRenderer()
-    );
-    patternRenderers_.push_back(patternRendererFront);
-
-    // auto pattern1 = project.addPattern("Back");
-    // pattern1
-    //     .addPoint("A", 0, 0)
-    //     .nextPoint("B", Space::Direction::UP, 10)
-    //     .addPoint("C", 10, 10)
-    //     .nextPoint("D", Space::Direction::DOWN, 10);
-    // PatternRenderer* patternRenderer1 = new PatternRenderer(
-    //     new PatternSpaceRenderer(program_, pattern1.getSpaceRendererData()),
-    //     new PatternShapeRenderer()
-    // );
-    // patternRenderers_.push_back(patternRenderer1);
-    //
-    // auto pattern2 = project.addPattern("Front");
-    // pattern2
-    //     .addPoint("A", 7, 5)
-    //     .nextPoint("B", Space::Direction::UP, 20)
-    //     .nextPoint("C", Space::Direction::RIGHT, 5)
-    //     .nextPoint("D", Space::Direction::DOWN, 7)
-    //     .nextPoint("E", Space::Direction::RIGHT, 10)
-    //     .nextPoint("F", Space::Direction::DOWN, 10)
-    //     .addPoint("D", "G", Space::Direction::DOWN, 3);
-    //
-    // PatternRenderer* patternRenderer2 = new PatternRenderer(
-    //     new PatternSpaceRenderer(program_, pattern2.getSpaceRendererData()),
-    //     new PatternShapeRenderer()
-    // );
-    // patternRenderers_.push_back(patternRenderer2);
-
+    if (!gladLoaded) {
+        LOG_CRITICAL("GLAD: Failed to initialize OpenGL context loaders!");
+        return;
+    }
     program_->initialize();
     cartesianRenderer_->initialize();
     for (const auto patternRenderer: patternRenderers_) {
@@ -296,14 +87,14 @@ void ChrysalisRenderer::initialize() {
 
 QOpenGLFramebufferObject* ChrysalisRenderer::createFramebufferObject(const QSize& size) {
     area_.setSize(size / scale_);
-    cartesianRenderer_->changeArea(area_);
+    cartesianRenderer_->changeArea(Area(area_.x(), area_.y(), area_.width(), area_.height()));
     cartesianRenderer_->upload();
     return Renderer::createFramebufferObject(size);
 }
 
 void ChrysalisRenderer::changeOffset(QPointF&& delta) {
     area_ -= delta * area_;
-    cartesianRenderer_->changeArea(area_);
+    cartesianRenderer_->changeArea(Area(area_.x(), area_.y(), area_.width(), area_.height()));
 }
 
 void ChrysalisRenderer::changeScale(const double scalar, QPointF&& center) {
@@ -328,7 +119,7 @@ void ChrysalisRenderer::changeCursor(QPointF&& cursor) const {
             constexpr double pointRadius = 0.25;
             if (const double distance = sqrt(pow(point.x() - cursor.x(), 2) + pow(point.y() - cursor.y(), 2));
                 distance < pointRadius) {
-                cursorRenderer_->displayCursor({point.x(), point.y()});
+                cursorRenderer_->displayCursor(Vertex2f(point.x(), point.y()));
                 return;
             }
         }
@@ -344,14 +135,13 @@ void ChrysalisRenderer::render() {
     glClearColor(11.0f / 255.0f, 9.0f / 255.0f, 10.0f / 255.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    QMatrix4x4 projection;
-    projection.ortho(
-        0, framebufferObject()->width(),
-        framebufferObject()->height(), 0,
-        -1, 1
+    glm::mat4x4 projection = glm::ortho(
+        0.f, static_cast<float>(framebufferObject()->width()),
+        static_cast<float>(framebufferObject()->height()), 0.f,
+        -1.f, 1.f
     );
-    projection.scale(scale_);
-    projection.translate(-area_.x(), -area_.y(), 0);
+    projection = glm::scale(projection, glm::vec3(scale_, scale_, 1.0f));
+    projection = glm::translate(projection, glm::vec3(-area_.x(), -area_.y(), 0.0f));
 
     program_->bind();
     program_->setProjection(projection);

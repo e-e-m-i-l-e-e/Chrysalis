@@ -4,18 +4,18 @@
 #include <QQuickFramebufferObject>
 
 #include "CartesianRenderer.h"
-#include "ChrysalisOpenGLProgram.h"
+#include "MainOpenGLProgram.h"
 #include "CursorRenderer.h"
 #include "PatternRenderer.h"
 
-class ChrysalisRenderer: public QQuickFramebufferObject::Renderer, QOpenGLFunctions {
+class ChrysalisRenderer: public QQuickFramebufferObject::Renderer {
 public:
-    explicit ChrysalisRenderer(ChrysalisOpenGLProgram* program,
+    explicit ChrysalisRenderer(Chrysalis::MainOpenGLProgram* program,
                                CursorRenderer* cursorRenderer,
                                CartesianRenderer* cartesianRenderer);
     ~ChrysalisRenderer() override;
 
-    void initialize();
+    void initialize() const;
     void changeCursor(QPointF&& cursor) const;
     void changeOffset(QPointF&& delta);
     void changeScale(double scalar, QPointF&& center);
@@ -27,7 +27,7 @@ private:
     QRectF area_;
     double scale_ = 10.0;
 
-    ChrysalisOpenGLProgram* program_;
+    Chrysalis::MainOpenGLProgram* program_;
 
     CursorRenderer* cursorRenderer_;
     CartesianRenderer* cartesianRenderer_;

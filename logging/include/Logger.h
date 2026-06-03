@@ -56,6 +56,7 @@ public:
     template<typename... Args>
     void critical(spdlog::format_string_t<Args...> fmt, Args &&... args) {
         log(spdlog::level::critical, fmt, std::forward<Args>(args)...);
+        spdlog::shutdown();
         exit(1);
     }
 

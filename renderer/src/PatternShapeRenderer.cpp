@@ -1,4 +1,4 @@
-#include "PatternShapeRenderer.h"
+#include "../include/PatternShapeRenderer.h"
 
 void PatternShapeRenderer::draw() {
 }

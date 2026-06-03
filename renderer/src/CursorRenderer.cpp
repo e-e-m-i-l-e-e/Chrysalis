@@ -1,6 +1,8 @@
 #include "CursorRenderer.h"
 
-CursorRenderer::CursorRenderer(ChrysalisOpenGLProgram* program): program_(program) {}
+using namespace Chrysalis;
+
+CursorRenderer::CursorRenderer(MainOpenGLProgram* program): program_(program) {}
 
 void CursorRenderer::draw() {
     program_->setColor(1.f, 1.f, 1.f, opacity_);
@@ -11,7 +13,7 @@ void CursorRenderer::hideCursor() {
     displayCursor_ = false;
 }
 
-void CursorRenderer::displayCursor(const QPointF& cursor) {
+void CursorRenderer::displayCursor(const Vertex2f& cursor) {
     displayCursor_ = true;
 
     data_.clear();
@@ -25,7 +27,7 @@ void CursorRenderer::displayCursor(const QPointF& cursor) {
     shouldUpload();
 }
 
-void CursorRenderer::prepareNextFrame(const qint64 startTime, const qint64 previousFrameTime, const qint64 currentFrameTime) {
+void CursorRenderer::prepareNextFrame(int64_t startTime, const int64_t previousFrameTime, const int64_t currentFrameTime) {
     static constexpr float duration = 300.f;
     const float target = displayCursor_ ? 1.f : 0.f;
     if (displayCursor_ && opacity_ < target) {

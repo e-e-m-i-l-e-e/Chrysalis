@@ -146,7 +146,9 @@ class C_0014718586687870172815 {
 +~BaseContainer() : void
 ..
 +add(T * item) : void
++at(size_t index) const : T *
 #call<Fn,Args...>(Fn function, Args &&... args) const : void
++count() const : size_t
 __
 -data_ : std::list<T *>
 }

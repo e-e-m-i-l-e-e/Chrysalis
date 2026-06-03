@@ -3,14 +3,14 @@
 
 #include <QtQmlIntegration/QtQmlIntegration>
 
-#include "Parameters.h"
+#include "ParametersContainer.h"
 
 namespace Chrysalis {
     class ParametersModel: public QAbstractTableModel {
         Q_OBJECT
         QML_NAMED_ELEMENT(ChrysalisParametersModel)
     public:
-        void setParameters(Parameters* parameters);
+        void setParameters(ParametersContainer* parameters);
 
         [[nodiscard]] int rowCount(const QModelIndex& parent) const override;
         [[nodiscard]] int columnCount(const QModelIndex& parent) const override;
@@ -22,7 +22,7 @@ namespace Chrysalis {
         [[nodiscard]] QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
     private:
-        Parameters* parameters_ = nullptr;
+        ParametersContainer* parameters_ = nullptr;
     };
 }
 

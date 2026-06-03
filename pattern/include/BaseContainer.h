@@ -19,6 +19,12 @@ namespace Chrysalis {
         virtual ~BaseContainer() {
             for (const auto& item: data_) delete item;
         }
+        T* at(size_t index) const {
+            return *std::next(data_.begin(), index);
+        }
+        size_t count() const {
+            return data_.size();
+        }
         virtual void add(T* item) {
             data_.push_back(item);
         }

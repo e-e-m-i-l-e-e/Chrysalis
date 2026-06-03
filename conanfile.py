@@ -12,7 +12,9 @@ class FashionDesignAppsConan(ConanFile):
     requires = [
         "spdlog/1.17.0",
         "gtest/1.17.0",
-        "cgal/6.1.1"
+        "cgal/6.1.1",
+        "glad/2.0.8",
+        "glm/1.0.1"
     ]
     options = {
         "app": ["none", "CLO3D", "Chrysalis"]

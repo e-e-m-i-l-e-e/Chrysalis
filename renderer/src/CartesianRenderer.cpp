@@ -1,19 +1,24 @@
 #include "CartesianRenderer.h"
-CartesianRenderer::CartesianRenderer(ChrysalisOpenGLProgram* program): program_(program) {}
+
+#include <iostream>
+
+using namespace Chrysalis;
+
+CartesianRenderer::CartesianRenderer(MainOpenGLProgram* program): program_(program) {}
 
 void CartesianRenderer::draw() {
-    program_->setColor(22.0f / 255.0f, 26.0f / 255.0f, 29.0f / 255.0f, 0.05f);
+    program_->setColor(22.0f / 255.0f, 26.0f / 255.0f, 29.0f / 255.0f, 1.f);
     glDrawArrays(GL_LINES, 0, 4); // x and y axes
-    program_->setColor(22.0f / 255.0f, 26.0f / 255.0f, 29.0f / 255.0f, 0.05f);
+    program_->setColor(22.0f / 255.0f, 26.0f / 255.0f, 29.0f / 255.0f, 0.5f);
     glDrawArrays(GL_LINES, 4, data_.size() - 4); // grid
 }
 
-void CartesianRenderer::changeArea(const QRectF& area) {
-    const float xFrom = std::floor(area.x() / gridSize_) * gridSize_;
-    const float xRange = std::ceil(static_cast<float>(area.width()) / gridSize_ + 1) * gridSize_;
+void CartesianRenderer::changeArea(const Area& area) {
+    const float xFrom = std::floor(area.x() / gridSize_) * gridSize_ - 1000;
+    const float xRange = std::ceil(static_cast<float>(area.width()) / gridSize_ + 1) * gridSize_ + 1000;
 
-    const float yFrom = std::floor(area.y() / gridSize_) * gridSize_;
-    const float yRange = std::ceil(static_cast<float>(area.height()) / gridSize_ + 1) * gridSize_;
+    const float yFrom = std::floor(area.y() / gridSize_) * gridSize_ - 1000;
+    const float yRange = std::ceil(static_cast<float>(area.height()) / gridSize_ + 1) * gridSize_ + 1000;
 
     data_.clear();
     // x axis

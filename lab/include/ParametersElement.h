@@ -12,7 +12,7 @@ namespace Chrysalis {
 
         Q_PROPERTY(ParametersModel* model READ getModel WRITE setModel NOTIFY modelChanged)
     public:
-        void setParameters(Parameters* parameters);
+        void setParameters(ParametersContainer* parameters);
 
         [[nodiscard]] ParametersModel* getModel() const;
         void setModel(ParametersModel* model);
@@ -20,8 +20,8 @@ namespace Chrysalis {
         signals:
         void modelChanged();
     private:
-        Parameters* parameters_ = nullptr;
         ParametersModel* model_ = nullptr;
+        ParametersContainer* parameters_ = nullptr;
     };
 }
 

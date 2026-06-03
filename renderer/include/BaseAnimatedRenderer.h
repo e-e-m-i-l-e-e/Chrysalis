@@ -1,27 +1,26 @@
 #ifndef CHRYSALIS_BASEANIMATEDRENDERER_H
 #define CHRYSALIS_BASEANIMATEDRENDERER_H
 
-#include <iostream>
-#include <QElapsedTimer>
+#include <chrono>
 
 #include "BaseRenderer.h"
 
 template<typename V>
-class BaseAnimatedRenderer: public BaseRenderer<V> {
+class BaseAnimatedRenderer : public BaseRenderer<V> {
 protected:
     explicit BaseAnimatedRenderer() = default;
 
     void complete() {
         isCompleted_ = true;
     }
-    virtual void prepareNextFrame(qint64 startTime, qint64 previousFrameTime, qint64 currentFrameTime) = 0;
-private:
-    using BaseRenderer<V>::upload;
+    virtual void prepareNextFrame(int64_t startTime, int64_t previousFrameTime, int64_t currentFrameTime) = 0;
 public:
     bool animate() {
-        const qint64 currentTime = timer_.elapsed();
+        const auto now = clock::now();
+        const int64_t currentTime = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
+
         if (isCompleted_) {
-            startTime_ = timer_.elapsed();
+            startTime_ = currentTime;
             isCompleted_ = false;
             time_ = currentTime;
         }
@@ -31,11 +30,11 @@ public:
         return !isCompleted_;
     }
 private:
-    qint64 time_ {};
-    qint64 startTime_ {};
-    bool isCompleted_ = true;
+    using clock = std::chrono::steady_clock;
 
-    QElapsedTimer timer_;
+    int64_t time_ = 0;
+    int64_t startTime_ = 0;
+    bool isCompleted_ = true;
 };
 
 #endif //CHRYSALIS_BASEANIMATEDRENDERER_H

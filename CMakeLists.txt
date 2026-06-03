@@ -21,6 +21,7 @@ find_package(GTest REQUIRED)
 
 add_subdirectory(logging)
 add_subdirectory(pattern)
+add_subdirectory(renderer)
 
 if (NOT LINUX)
     if (APP STREQUAL "Chrysalis")

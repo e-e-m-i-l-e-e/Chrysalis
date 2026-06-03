@@ -43,44 +43,6 @@ bool ProjectElement::hasProject() const {
 void ProjectElement::createProject() {
     delete project;
     project = Project::create();
-    const auto parameters = project->getParameters();
-    const auto param1 = new Parameter("Back Waist Length");
-    param1->setValue(42);
-    const auto param2 = new Parameter("Back Width");
-    param2->setValue(31);
-    const auto param3 = new Parameter("Bust Height");
-    param3->setValue(28);
-    const auto param4 = new Parameter("Bust Span");
-    param4->setValue(17);
-    const auto param5 = new Parameter("Apex to center-front");
-    param5->setValue(21);
-    const auto param6 = new Parameter("Apex to shoulder");
-    param6->setValue(27);
-    const auto param7 = new Parameter("Hip Depth");
-    param7->setValue(21.5);
-    const auto param8 = new Parameter("Bust Circumference");
-    param8->setValue(96);
-    const auto param9 = new Parameter("Waist Circumference");
-    param9->setValue(68);
-    const auto param10 = new Parameter("Neck Circumference");
-    param10->setValue(38);
-    const auto param11 = new Parameter("Shoulder Length");
-    param11->setValue(11);
-    const auto param12 = new Parameter("Hip Circumference");
-    param12->setValue(98);
-    parameters->addParameter(param1);
-    parameters->addParameter(param2);
-    parameters->addParameter(param3);
-    parameters->addParameter(param4);
-    parameters->addParameter(param5);
-    parameters->addParameter(param6);
-    parameters->addParameter(param7);
-    parameters->addParameter(param8);
-    parameters->addParameter(param9);
-    parameters->addParameter(param10);
-    parameters->addParameter(param11);
-    parameters->addParameter(param12);
-    parameters_->setParameters(project->getParameters());
     emit projectChanged();
 }
 

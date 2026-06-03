@@ -3,7 +3,7 @@
 
 #include "BaseRenderer.h"
 
-class PatternShapeRenderer: public BaseRenderer<Vertex> {
+class PatternShapeRenderer: public BaseRenderer<Vertex2f> {
 public:
     void draw() override;
     void scaleChanged(float scale);
