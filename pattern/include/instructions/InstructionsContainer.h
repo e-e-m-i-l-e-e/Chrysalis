@@ -3,7 +3,7 @@
 
 #include <boost/optional/optional.hpp>
 
-#include "serialization.h"
+#include "../serialization.h"
 
 #include "BaseInstructionsContainer.h"
 #include "PatternInstructionsContainer.h"

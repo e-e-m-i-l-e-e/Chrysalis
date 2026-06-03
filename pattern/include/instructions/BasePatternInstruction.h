@@ -2,12 +2,12 @@
 #define CHRYSALIS_BASEPATTERNINSTRUCTION_H
 
 #include "BaseInstruction.h"
-#include "ProjectSpace.h"
+#include "../ProjectSpace.h"
 
-#include "arguments/NameArgument.h"
-#include "arguments/NumberArgument.h"
-#include "arguments/PatternArgument.h"
-#include "arguments/SelectedPatternsArgument.h"
+#include "../arguments/NameArgument.h"
+#include "../arguments/NumberArgument.h"
+#include "../arguments/PatternArgument.h"
+#include "../arguments/SelectedPatternsArgument.h"
 
 namespace Chrysalis {
     using name = NameArgument;

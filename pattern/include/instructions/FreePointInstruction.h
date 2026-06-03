@@ -1,7 +1,7 @@
 #ifndef CHRYSALIS_FREEPOINTINSTRUCTION_H
 #define CHRYSALIS_FREEPOINTINSTRUCTION_H
 
-#include "ProjectSpace.h"
+#include "../ProjectSpace.h"
 #include "BasePatternInstruction.h"
 
 namespace Chrysalis {
@@ -9,7 +9,7 @@ namespace Chrysalis {
      * @uml{note[top] Syntax samples:
      * A (1, 1)
      * "A 1" (1.0, 2)
-     * A (exp() exp())}
+     * A (1 * 2 + 3, param("Circumference of something"))}
      */
     class FreePointInstruction: public BasePatternInstruction {
     public:

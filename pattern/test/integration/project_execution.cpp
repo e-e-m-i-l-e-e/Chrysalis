@@ -1,12 +1,15 @@
 #include <gtest/gtest.h>
 
 #include "Project.h"
-#include "FreePointInstruction.h"
-#include "RelativePointInstruction.h"
-#include "PatternInstructionsContainer.h"
+
 #include "arguments/ParameterArgument.h"
 #include "arguments/BinaryFunctionArgument.h"
 #include "arguments/VectorFunctionArgument.h"
+
+#include "instructions/FreePointInstruction.h"
+#include "instructions/BuildOutlineInstruction.h"
+#include "instructions/RelativePointInstruction.h"
+#include "instructions/PatternInstructionsContainer.h"
 
 using namespace Chrysalis;
 
@@ -75,11 +78,13 @@ protected:
     void SetUp() override {
         patterns_ = new PatternsContainer();
 
-        patternSpaceBack_ = new PatternSpace();
+        outlineBack_ = new OutlineContainer();
+        patternSpaceBack_ = new PatternSpace(outlineBack_);
         patternBack_ = new Pattern("Back", patternSpaceBack_);
         patterns_->add(patternBack_);
 
-        patternSpaceFront_ = new PatternSpace();
+        outlineFront_ = new OutlineContainer();
+        patternSpaceFront_ = new PatternSpace(outlineFront_);
         patternFront_ = new Pattern("Front", patternSpaceFront_);
         patterns_->add(patternFront_);
 
@@ -147,9 +152,11 @@ protected:
 
     Pattern* patternBack_ = nullptr;
     PatternSpace* patternSpaceBack_ = nullptr;
+    OutlineContainer* outlineBack_ = nullptr;
 
     Pattern* patternFront_ = nullptr;
     PatternSpace* patternSpaceFront_ = nullptr;
+    OutlineContainer* outlineFront_ = nullptr;
 };
 
 TEST_F(TestProjectExecution, Project1) {
@@ -255,6 +262,31 @@ TEST_F(TestProjectExecution, Project1) {
     patternInstructions->add(new RelativePointInstruction(common, name(S), pattern(), name(B), down, param(BUST_HEIGHT)));
     patternInstructions->add(new RelativePointInstruction(use_last_point, name(DA), left,
                                                           biFunc(param(BUST_SPAN), num(2), &BinaryFunction::divide)));
+
+    selectedPatterns = new SelectedPatterns();
+    selectedPatterns->add(patternSpaceBack_);
+    selectedPatterns->add(patternSpaceFront_);
+    patternInstructions = new PatternInstructionsContainer(selectedPatterns);
+    instructions_->add(patternInstructions);
+
+    patternInstructions->add(new BuildOutlineInstruction(common, name(), name(AH3)));
+    patternInstructions->add(new BuildOutlineInstruction(common, name(), name(H1)));
+    patternInstructions->add(new BuildOutlineInstruction(common, name(), name(H)));
+
+    selectedPatterns = new SelectedPatterns();
+    selectedPatterns->add(patternSpaceBack_);
+    patternInstructions = new PatternInstructionsContainer(selectedPatterns);
+    instructions_->add(patternInstructions);
+    patternInstructions->add(new BuildOutlineInstruction(common, name(), name(UB)));
+
+    selectedPatterns = new SelectedPatterns();
+    selectedPatterns->add(patternSpaceBack_);
+    selectedPatterns->add(patternSpaceFront_);
+    patternInstructions = new PatternInstructionsContainer(selectedPatterns);
+    instructions_->add(patternInstructions);
+
+    patternInstructions->add(new BuildOutlineInstruction(common, name(), name(N2)));
+    patternInstructions->add(new BuildOutlineInstruction(common, name(), name(N)));
 
     static const std::unordered_map<std::string, std::pair<double, double>> expectedBack = {
         {S, {0.0, 0.0}},

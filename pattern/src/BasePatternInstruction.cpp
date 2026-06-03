@@ -1,4 +1,4 @@
-#include "BasePatternInstruction.h"
+#include "../include/instructions/BasePatternInstruction.h"
 
 #include "arguments/SelectedPatternsArgument.h"
 

@@ -6,7 +6,7 @@
 #include "ProjectSpace.h"
 #include "PatternsContainer.h"
 #include "ParametersContainer.h"
-#include "InstructionsContainer.h"
+#include "instructions/InstructionsContainer.h"
 
 namespace Chrysalis {
     class SERIALIZABLE(Project) {

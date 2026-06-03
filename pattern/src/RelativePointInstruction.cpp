@@ -1,4 +1,4 @@
-#include "RelativePointInstruction.h"
+#include "../include/instructions/RelativePointInstruction.h"
 
 using namespace Chrysalis;
 

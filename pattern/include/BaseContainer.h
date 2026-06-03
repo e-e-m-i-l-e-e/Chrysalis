@@ -6,8 +6,16 @@
 #include "serialization.h"
 
 namespace Chrysalis {
-    template<typename T>
-    class SERIALIZABLE(BaseContainer) {
+    template<class T>
+    class BaseContainer;
+    template <class Archive, typename T>
+    void serialize(Archive&, BaseContainer<T>&, const unsigned int);
+    template <class Archive>
+    void load_construct_data(Archive&, BaseContainer*, const unsigned int);
+    template <class Archive>
+    void save_construct_data(Archive&, const BaseContainer*, const unsigned int);
+
+    class BaseContainer {
     protected:
         explicit BaseContainer() = default;
 

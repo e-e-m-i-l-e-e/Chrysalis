@@ -3,7 +3,7 @@
 
 #include "BaseInstructionsContainer.h"
 #include "BasePatternInstruction.h"
-#include "SelectedPatterns.h"
+#include "../SelectedPatterns.h"
 
 namespace Chrysalis {
     class PatternInstructionsContainer: public BaseInstructionsContainer<BasePatternInstruction> {

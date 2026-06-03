@@ -3,7 +3,7 @@
 
 #include <boost/optional/optional.hpp>
 
-#include "BaseContainer.h"
+#include "../BaseContainer.h"
 #include "BaseInstruction.h"
 
 namespace Chrysalis {

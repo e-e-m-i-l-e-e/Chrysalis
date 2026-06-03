@@ -5,8 +5,10 @@
 
 namespace Chrysalis {
     /**
-     * \uml{note[top] Syntax samples:
-     *
+     * @uml{note[top] Syntax samples:
+     * A -> B 45 10
+     * "A 1" ("Back") -> "B 2" 1 / 2 * 3 param("Short alias")
+     * A -> B (1 * 2 * 3 * 4) (1 / 2 / param("Circumference of something"))
      * }
      */
     class RelativePointInstruction: public BasePatternInstruction {

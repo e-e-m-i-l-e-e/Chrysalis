@@ -1,4 +1,4 @@
-#include "FreePointInstruction.h"
+#include "../include/instructions/FreePointInstruction.h"
 
 using namespace Chrysalis;
 
