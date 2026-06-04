@@ -6,16 +6,9 @@
 #include "serialization.h"
 
 namespace Chrysalis {
-    template<class T>
-    class BaseContainer;
-    template <class Archive, typename T>
-    void serialize(Archive&, BaseContainer<T>&, const unsigned int);
-    template <class Archive>
-    void load_construct_data(Archive&, BaseContainer*, const unsigned int);
-    template <class Archive>
-    void save_construct_data(Archive&, const BaseContainer*, const unsigned int);
-
-    class BaseContainer {
+    template <typename T>
+    class SERIALIZABLE_T(BaseContainer, T) {
+        PROVIDE_SERIALIZATION_ACCESS_T(BaseContainer)
     protected:
         explicit BaseContainer() = default;
 
@@ -42,6 +35,7 @@ namespace Chrysalis {
         ///@uml{composition}
         std::list<T*> data_;
     };
+    DEFAULT_SERIALIZE_BASE_MEMBERS_T(BaseContainer, T, data_)
 }
 
 #endif //CHRYSALIS_BASECONTAINER_H

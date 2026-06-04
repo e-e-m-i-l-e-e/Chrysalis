@@ -14,7 +14,7 @@ namespace Chrysalis {
     private:
         std::unordered_map<std::string, Parameter*> parametersMap_;
     };
-    DEFAULT_SERIALIZE_MEMBERS(ParametersContainer, parametersMap_)
+    DEFAULT_SERIALIZE_DERIVED_MEMBERS(ParametersContainer, BaseContainer<Parameter>, parametersMap_)
 }
 
 #endif //CHRYSALIS_PARAMETERSCONTAINER_H
