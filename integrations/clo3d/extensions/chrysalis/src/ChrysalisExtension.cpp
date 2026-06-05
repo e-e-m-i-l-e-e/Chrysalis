@@ -1,19 +1,47 @@
-#include "PatternBuilder.h"
+#include "ChrysalisExtension.h"
 
-#define LOGGER_NAME "Pattern Builder"
+#include "Logging.h"
+#define LOGGER_NAME "Chrysalis Extension"
 
-#include <CLOAPIInterface.h>
 #include <QLayout>
-#include <QMainWindow>
+#include <QFileDialog>
 #include <QMainWindow>
 #include <QToolButton>
 
-#include "Logging.h"
+#include "Project.h"
 #include "MVDockingButton.h"
-#include "PatternBuilderDockWidget.h"
 #include "MVDockWidgetTitleBar.h"
+#include "ParametersDelegate.h"
+#include "PatternBuilderDockWidget.h"
+#include "PatternImportDialog.h"
 
-void PatternBuilder::configureStatusBar(QWidget *parent) {
+using namespace Chrysalis;
+
+void ChrysalisExtension::configureMenu(QMenu* extensionMenu) {
+    const auto menu = new QMenu("Chrysalis", extensionMenu);
+    extensionMenu->addMenu(menu);
+
+    const auto fileDialog = new QFileDialog(menu);
+    fileDialog->setNameFilter(Project::PROJECT_NAME_FILTER);
+    fileDialog->setDefaultSuffix(Project::PROJECT_FILE_SUFFIX);
+
+    const auto importPatternAction = new QAction("Import", menu);
+    QObject::connect(importPatternAction, &QAction::triggered, fileDialog, [fileDialog]{
+        fileDialog->exec();
+    });
+    QObject::connect(fileDialog, &QFileDialog::accepted, importPatternAction, [fileDialog] {
+        const auto& filePath = fileDialog->selectedFiles().first().toStdString();
+        LOG_INFO("Importing project: {}", filePath);
+
+        const auto project = Project::read(filePath);
+        const auto parametersModel = new UI::ParametersModel(project->getParameters());
+        const auto parametersDelegate = new UI::ParametersDelegate(parametersModel);
+        (new UI::PatternImportDialog(project, parametersModel, parametersDelegate))->exec();
+    });
+    menu->addAction(importPatternAction);
+}
+
+void ChrysalisExtension::configureStatusBar(QWidget *parent) {
     for (const auto childIcon: parent->findChildren<QToolButton*>()) {
         if (childIcon->toolTip() == "3D / 2D Window") {
 
@@ -41,7 +69,7 @@ void PatternBuilder::configureStatusBar(QWidget *parent) {
     LOG_CRITICAL("\"Pattern Builder\" cannot be configured. \"3D / 2D Window\" wasn't found in status bar.");
 }
 
-void PatternBuilder::configure(QWidget *widget) {
+void ChrysalisExtension::configure(QWidget *widget) {
     if (widget->objectName() == "dockingBarContents" && widget->parent()->findChild<QAction*>()->iconText() == "Right Docking Bar") {
         LOG_INFO("Configuring right docking bar.");
         const auto patternBuilderDockItem = new MVDockingButton(widget);

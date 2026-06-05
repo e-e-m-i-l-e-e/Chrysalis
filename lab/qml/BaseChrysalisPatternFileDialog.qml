@@ -16,6 +16,8 @@ Item {
 
     FileDialog {
         id: fileDialog
+        nameFilters: ["Chrysalis Project (*.chrysalis)"]
+        defaultSuffix: "chrysalis"
         onAccepted: fileChosen(selectedFile)
     }
 }

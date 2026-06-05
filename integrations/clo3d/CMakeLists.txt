@@ -1,8 +1,8 @@
 set(CLO3D_OUTPUT_DIR "${OUTPUT_DIR}/CLO3D")
 
-option(EXTEND_WITH_DEV_TOOLS "Add options and settings useful for debugging and investigation" ON)
+option(EXTEND_WITH_CHRYSALIS "Add \"Chrysalis Extension\"" ON)
 option(EXTEND_WITH_AUTHENTICATOR "Skip authentication with \"CLOSET\"" ON)
-option(EXTEND_WITH_PATTERN_BUILDER "Add \"Pattern Builder Extension\"" ON)
+option(EXTEND_WITH_DEV_TOOLS "Add options and settings useful for debugging and investigation" ON)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
@@ -44,13 +44,13 @@ if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
     set_target_properties(CLO3DExtensions PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CLO3D_OUTPUT_DIR})
     target_include_directories(CLO3DExtensions PRIVATE ${CLO3D_INCLUDE_DIRS})
     target_compile_definitions(CLO3DExtensions PRIVATE
+            EXTEND_WITH_CHRYSALIS=$<BOOL:${EXTEND_WITH_CHRYSALIS}>
             EXTEND_WITH_DEV_TOOLS=$<BOOL:${EXTEND_WITH_DEV_TOOLS}>
             EXTEND_WITH_AUTHENTICATOR=$<BOOL:${EXTEND_WITH_AUTHENTICATOR}>
-            EXTEND_WITH_PATTERN_BUILDER=$<BOOL:${EXTEND_WITH_PATTERN_BUILDER}>
     )
     target_link_libraries(CLO3DExtensions PRIVATE
             clo-sdk::clo-sdk
-            LoggingLibrary CLO3DWidgetsLibrary HooksLibrary
+            LoggingLibrary PatternLibrary CLO3DWidgetsLibrary HooksLibrary
             Qt5::Core Qt5::CorePrivate Qt5::Concurrent Qt5::Xml Qt5::Designer)
 
     add_custom_command(TARGET CLO3DExtensions POST_BUILD

@@ -36,6 +36,10 @@ class FashionDesignAppsConan(ConanFile):
 
     def configure(self):
         self.options["boost"].without_test = True
+        self.options["boost"].without_stacktrace_basic = True
+        self.options["boost"].without_stacktrace_windbg = True
+        self.options["boost"].without_stacktrace_windbg_cached = True
+
         if self.settings.os == "Linux":
             return
 

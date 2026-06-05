@@ -12,6 +12,9 @@ namespace Chrysalis {
     class SERIALIZABLE(Project) {
         PROVIDE_SERIALIZATION_ACCESS(Project)
     public:
+        static constexpr auto PROJECT_FILE_SUFFIX = "chrysalis";
+        static constexpr auto PROJECT_NAME_FILTER = "Chrysalis Project (*.chrysalis)";
+
         explicit Project(std::string name, ProjectSpace* space, ParametersContainer* parameters,
                          PatternsContainer* patterns, InstructionsContainer* instructions);
         ~Project();

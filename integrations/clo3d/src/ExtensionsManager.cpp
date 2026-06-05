@@ -139,11 +139,7 @@ void ExtensionsManager::install() {
             const auto menuBar = qobject_cast<QMenuBar *>(this_);
             const auto extensionsMenu = menuBar->addMenu("Extensions");
 
-            // const auto settings = new QSettings("eemilee.me", "CLO3D Extensions");
-            // extensionsSettings = new UI::ExtensionsSettingsDialog(extensionsSettings, mainWindow);
-            // extensionsSettings = new ExtensionsSettings(mainWindow);
             const QAction *extensionsSettingsMenu = extensionsMenu->addAction("Extensions Settings");
-            // QObject::connect(extensionsSettingsMenu, &QAction::triggered, extensionsSettings, &ExtensionsSettings::exec);
             QObject::connect(extensionsSettingsMenu, &QAction::triggered, [&]() {
                 const auto extensionsSettingsDialog = new UI::ExtensionsSettingsDialog(extensionsSettings, mainWindow);
                 for (const auto extension: extensions) {
