@@ -1,11 +1,15 @@
 #include "BaseDialogContainer.h"
+
+#include <QLineEdit>
+
 #include "ui_BaseDialogContainer.h"
 
 using namespace UI;
 
 BaseDialogContainer::BaseDialogContainer(QWidget* parent)
-    : QDialog(parent), ui(new Ui::BaseDialogContainer) {
+    : NamedWidget(parent), ui(new Ui::BaseDialogContainer) {
     ui->setupUi(this);
+    connect(this, &NamedWidget::titleChanged, ui->label, &QLabel::setText);
 }
 
 BaseDialogContainer::~BaseDialogContainer() {
@@ -17,11 +21,11 @@ int BaseDialogContainer::count() const {
 }
 
 void BaseDialogContainer::insertWidget(int index, QWidget* widget) {
-    if (index == 0) ui->contentWidget->layout()->addWidget(widget);
-    else ui->footerLayout->layout()->addWidget(widget);
+    if (index == 0) ui->contentLayout->addWidget(widget);
+    else ui->customFooter->layout()->addWidget(widget);
 }
 
 QWidget* BaseDialogContainer::getWidget(int index) {
-    if (index == 0) return ui->contentWidget->layout()->itemAt(0)->widget();
-    return ui->footerLayout->itemAt(0)->widget();
+    if (index == 0) return ui->contentLayout->itemAt(0)->widget();
+    return ui->customFooter->layout()->itemAt(0)->widget();
 }

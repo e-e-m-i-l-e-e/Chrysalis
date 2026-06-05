@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>UI::PatternImportDialog</class>
- <widget class="QDialog" name="UI::PatternImportDialog">
+ <widget class="UI::BaseDialog" name="UI::PatternImportDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -384,6 +384,13 @@ QPushButton[widget-type=&quot;Active&quot;] {
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>UI::BaseDialog</class>
+   <extends>QDialog</extends>
+   <header>BaseDialog.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../../../resources/resources.qrc"/>
  </resources>

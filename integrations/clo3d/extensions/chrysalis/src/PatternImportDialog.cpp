@@ -1,19 +1,14 @@
 #include "PatternImportDialog.h"
 #include "ui_PatternImportDialog.h"
 
-#include <QTimer>
-#include <QStringListModel>
-
 #include "CLOAPIInterface.h"
 
 using namespace UI;
 
 PatternImportDialog::PatternImportDialog(Chrysalis::Project* project, ParametersModel* model, ParametersDelegate* delegate, QWidget* parent)
-    : QDialog(parent), model_(model), project_(project), ui(new Ui::PatternImportDialog) {
+    : BaseDialog(parent), model_(model), project_(project), ui(new Ui::PatternImportDialog) {
     ui->setupUi(this);
     UTILITY_API->UpdateCloStyleForPlugIn(this);
-    setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-    setWindowModality(Qt::WindowModal);
 
     ui->parametersListView->setModel(model_);
     ui->parametersListView->setItemDelegate(delegate);

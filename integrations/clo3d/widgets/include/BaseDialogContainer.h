@@ -4,6 +4,7 @@
 #include <QDialog>
 
 #include "BaseContainer.h"
+#include "NamedWidget.h"
 
 namespace UI {
     QT_BEGIN_NAMESPACE
@@ -12,7 +13,7 @@ namespace UI {
     }
     QT_END_NAMESPACE
 
-    class BaseDialogContainer: public QDialog, public BaseContainer {
+    class BaseDialogContainer: public NamedWidget, public BaseContainer {
         Q_OBJECT
     public:
         explicit BaseDialogContainer(QWidget* parent = nullptr);
@@ -21,6 +22,9 @@ namespace UI {
         [[nodiscard]] int count() const override;
         void insertWidget(int index, QWidget* widget) override;
         [[nodiscard]] QWidget* getWidget(int index) override;
+
+    signals:
+        void closed();
     private:
         Ui::BaseDialogContainer* ui;
     };

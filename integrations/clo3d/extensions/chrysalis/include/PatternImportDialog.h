@@ -1,9 +1,8 @@
 #ifndef CHRYSALIS_PATTERNIMPORTDIALOG_H
 #define CHRYSALIS_PATTERNIMPORTDIALOG_H
 
-#include <QDialog>
-
 #include "Project.h"
+#include "BaseDialog.h"
 #include "ParametersModel.h"
 #include "ParametersDelegate.h"
 
@@ -14,7 +13,7 @@ namespace UI {
     }
     QT_END_NAMESPACE
 
-    class PatternImportDialog : public QDialog {
+    class PatternImportDialog: public BaseDialog {
         Q_OBJECT
     public:
         explicit PatternImportDialog(Chrysalis::Project* project, ParametersModel* model, ParametersDelegate* delegate, QWidget* parent = nullptr);
