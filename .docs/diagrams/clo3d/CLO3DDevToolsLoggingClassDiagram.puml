@@ -1,83 +1,4 @@
 @startuml
-class "UI::BaseExtensionSettingsWidget" as C_0010218074716017551262
-class C_0010218074716017551262 {
-+BaseExtensionSettingsWidget(BaseExtensionSettings * extensionSettings, QWidget * parent) : void
-..
-+getBaseExtensionSettings() const : BaseExtensionSettings *
-+read() : void
-+write() : void
-__
--extensionSettings_ : BaseExtensionSettings *
-}
-class "UI::ExtensionsSettingsDialog" as C_0002933765265782475360
-class C_0002933765265782475360 {
-+ExtensionsSettingsDialog(ExtensionsSettings * settings, QWidget * parent = nullptr) : void
-+~ExtensionsSettingsDialog() : void
-..
-+accept() : void
-+addPage(BaseExtensionSettingsWidget * page) const : void
-+exec() : int
--processPages(void (BaseExtensionSettingsWidget::*)() processor) const : void
-+reject() : void
-+reset() : void
-__
--extensionsSettings : ExtensionsSettings *
--ui : Ui::ExtensionsSettingsDialog *
-}
-class "UI::LoggerRegistryModel" as C_0002822806808277750321
-class C_0002822806808277750321 {
-+LoggerRegistryModel(QObject * parent, LoggerRegistry & registry) : void
-..
-+columnCount(const QModelIndex & parent) const : int
-+data(const QModelIndex & index, int role) const : QVariant
-+flags(const QModelIndex & index) const : Qt::ItemFlags
-+headerData(int section, Qt::Orientation orientation, int role) const : QVariant
-+rowCount(const QModelIndex & parent) const : int
-__
--registry_ : LoggerRegistry &
-}
-class "UI::LogLevelDelegate" as C_0009326196689895914892
-class C_0009326196689895914892 {
-+LogLevelDelegate(LoggerRegistryModel * model) : void
-..
-+createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const : QWidget *
-+getLevel(int row) const : int
-+setLevel(int row, int value) const : void
-__
--editors_ : std::vector<QComboBox *>
-}
-class "UI::LoggingToolSettingsWidget" as C_0012644845507741191035
-class C_0012644845507741191035 {
-+LoggingToolSettingsWidget(LoggingToolSettings * settings, LoggerRegistryModel * registryModel, LogLevelDelegate * logLevelDelegate, QStackedWidget * sinks, QWidget * parent = nullptr) : void
-+~LoggingToolSettingsWidget() : void
-..
--chooseLoggingDirectory() : void
--flush() const : void
--openInEditor() const : void
-+read() : void
--resetSelection() const : void
-+write() : void
-__
--logLevelDelegate_ : LogLevelDelegate *
--registryModel_ : LoggerRegistryModel *
--settings_ : LoggingToolSettings *
--sinks_ : QStackedWidget *
--ui : Ui::LoggingToolSettingsWidget *
-}
-class "UI::LoggerTextEditSink" as C_0010732678981144094451
-class C_0010732678981144094451 {
-+LoggerTextEditSink(QWidget * parent) : void
-..
-+attach(Logger * logger) const : void
-+format(const QString & text) : void
-#showEvent(QShowEvent *) : void
-__
-{static} -FORMAT_METHOD : const char *const
--coloredFormat_ : QTextCharFormat
--cursor_ : QTextCursor
--defaultFormat_ : QTextCharFormat
--sink_ : std::shared_ptr<spdlog::sinks::qt_sink_mt>
-}
 abstract "BaseExtensionSettings" as C_0016168181109205541512
 abstract C_0016168181109205541512 {
 #~BaseExtensionSettings() constexpr = default : void
@@ -89,51 +10,6 @@ abstract C_0016168181109205541512 {
 +writeSettings() : void
 __
 #settings_ : QSettings *
-}
-abstract "BaseDevTool" as C_0011953255168798855977
-abstract C_0011953255168798855977 {
-#~BaseDevTool() constexpr = default : void
-..
-{abstract} +configureSettings(ExtensionsSettings * extensionsSettings) = 0 : void
-{abstract} +configureSettingsUI(UI::ExtensionsSettingsDialog * extensionsSettingsDialog) = 0 : void
-+startup() : void
-__
-}
-class "BaseExtension" as C_0008116604999349224677
-class C_0008116604999349224677 {
-#~BaseExtension() constexpr = default : void
-..
-+configure(QWidget * widget) : void
-+configureMenu(QMenu * extensionMenu) : void
-+configureSettings(ExtensionsSettings * extensionsSettings) : void
-+configureSettingsUI(UI::ExtensionsSettingsDialog * extensionsSettingsDialog) : void
-+configureStatusBar(QWidget * parent) : void
-+install() : void
-+startup() : void
-__
-}
-class "DevToolsExtension" as C_0010143777606507426232
-class C_0010143777606507426232 {
-+~DevToolsExtension() : void
-..
-+addDevTool(BaseDevTool * tool) : void
-+configureSettings(ExtensionsSettings * extensionsSettings) : void
-+configureSettingsUI(UI::ExtensionsSettingsDialog * extensionsSettingsDialog) : void
-+startup() : void
-__
--devTools_ : std::list<BaseDevTool *>
-}
-class "ExtensionsSettings" as C_0010078071459042722134
-class C_0010078071459042722134 {
-+ExtensionsSettings(const QString & organization, const QString & application) : void
-+~ExtensionsSettings() : void
-..
-+addSettings(BaseExtensionSettings * settings) : void
-+clear() const : void
-+read() const : void
-__
--extensionsSettings_ : std::forward_list<BaseExtensionSettings *>
--settings_ : QSettings *
 }
 class "Logger" as C_0002476766866792568373
 class C_0002476766866792568373 {
@@ -234,6 +110,106 @@ __
 {static} +LOGGER_LOG_LEVEL : const spdlog::level::level_enum
 {static} +LOGGING_DIRECTORY : const char *const
 }
+class "ExtensionsSettings" as C_0010078071459042722134
+class C_0010078071459042722134 {
++ExtensionsSettings(const QString & organization, const QString & application) : void
++~ExtensionsSettings() : void
+..
++addSettings(BaseExtensionSettings * settings) : void
++clear() const : void
++read() const : void
+__
+-extensionsSettings_ : std::forward_list<BaseExtensionSettings *>
+-settings_ : QSettings *
+}
+class "UI::BaseExtensionSettingsWidget" as C_0010218074716017551262
+class C_0010218074716017551262 {
++BaseExtensionSettingsWidget(BaseExtensionSettings * extensionSettings, QWidget * parent) : void
+..
++getBaseExtensionSettings() const : BaseExtensionSettings *
++read() : void
++write() : void
+__
+-extensionSettings_ : BaseExtensionSettings *
+}
+class "UI::ExtensionsSettingsDialog" as C_0002933765265782475360
+class C_0002933765265782475360 {
++ExtensionsSettingsDialog(ExtensionsSettings * settings) : void
++~ExtensionsSettingsDialog() : void
+..
++accept() : void
++addPage(BaseExtensionSettingsWidget * page) const : void
++exec() : int
+-processPages(void (BaseExtensionSettingsWidget::*)() processor) const : void
++reject() : void
++reset() : void
+__
+-extensionsSettings : ExtensionsSettings *
+-ui : Ui::ExtensionsSettingsDialog *
+}
+class "UI::LoggerTextEditSink" as C_0010732678981144094451
+class C_0010732678981144094451 {
++LoggerTextEditSink(QWidget * parent) : void
+..
++attach(Logger * logger) const : void
++format(const QString & text) : void
+#showEvent(QShowEvent *) : void
+__
+{static} -FORMAT_METHOD : const char *const
+-coloredFormat_ : QTextCharFormat
+-cursor_ : QTextCursor
+-defaultFormat_ : QTextCharFormat
+-sink_ : std::shared_ptr<spdlog::sinks::qt_sink_mt>
+}
+class "UI::LoggerRegistryModel" as C_0002822806808277750321
+class C_0002822806808277750321 {
++LoggerRegistryModel(QObject * parent, LoggerRegistry & registry) : void
+..
++columnCount(const QModelIndex & parent) const : int
++data(const QModelIndex & index, int role) const : QVariant
++flags(const QModelIndex & index) const : Qt::ItemFlags
++headerData(int section, Qt::Orientation orientation, int role) const : QVariant
++rowCount(const QModelIndex & parent) const : int
+__
+-registry_ : LoggerRegistry &
+}
+class "UI::LogLevelDelegate" as C_0009326196689895914892
+class C_0009326196689895914892 {
++LogLevelDelegate(LoggerRegistryModel * model) : void
+..
++createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const : QWidget *
++getLevel(int row) const : int
++setLevel(int row, int value) const : void
+__
+-editors_ : std::vector<QComboBox *>
+}
+class "UI::LoggingToolSettingsWidget" as C_0012644845507741191035
+class C_0012644845507741191035 {
++LoggingToolSettingsWidget(LoggingToolSettings * settings, LoggerRegistryModel * registryModel, LogLevelDelegate * logLevelDelegate, QStackedWidget * sinks, QWidget * parent = nullptr) : void
++~LoggingToolSettingsWidget() : void
+..
+-chooseLoggingDirectory() : void
+-flush() const : void
+-openInEditor() const : void
++read() : void
+-resetSelection() const : void
++write() : void
+__
+-logLevelDelegate_ : LogLevelDelegate *
+-registryModel_ : LoggerRegistryModel *
+-settings_ : LoggingToolSettings *
+-sinks_ : QStackedWidget *
+-ui : Ui::LoggingToolSettingsWidget *
+}
+abstract "BaseDevTool" as C_0011953255168798855977
+abstract C_0011953255168798855977 {
+#~BaseDevTool() constexpr = default : void
+..
+{abstract} +configureSettings(ExtensionsSettings * extensionsSettings) = 0 : void
+{abstract} +configureSettingsUI(UI::ExtensionsSettingsDialog * extensionsSettingsDialog) = 0 : void
++startup() : void
+__
+}
 class "LoggingTool" as C_0003715015464081519320
 class C_0003715015464081519320 {
 +LoggingTool(LoggerRegistry & registry, LoggingToolSettings * settings) : void
@@ -242,26 +218,19 @@ class C_0003715015464081519320 {
 -addWidgetSink(Logger * logger) const : void
 +configureSettings(ExtensionsSettings * extensionsSettings) : void
 +configureSettingsUI(UI::ExtensionsSettingsDialog * extensionsSettingsDialog) : void
+{static} +create() : LoggingTool *
 +loggerAdded(Logger * logger) : void
 +startup() : void
 __
-{static} -LINES_LIMIT : const int
 -commonWidgetSink_ : UI::LoggerTextEditSink *
 -settings_ : LoggingToolSettings *
 -sinks_ : QStackedWidget *
 }
-C_0010218074716017551262 --> C_0016168181109205541512 : -extensionSettings_
-C_0002933765265782475360 --> C_0010078071459042722134 : -extensionsSettings
-C_0002822806808277750321 --> C_0015588288654513966046 : -registry_
-C_0012644845507741191035 --> C_0010267664722849993861 : -settings_
-C_0012644845507741191035 --> C_0002822806808277750321 : -registryModel_
-C_0012644845507741191035 --> C_0009326196689895914892 : -logLevelDelegate_
-C_0010218074716017551262 <|-- C_0012644845507741191035
+class "DevToolsExtension" as C_0010143777606507426232
+class C_0010143777606507426232 {
+__
+}
 C_0016168181109205541512 <.. C_0010078071459042722134 : +<<friend>>
-C_0011953255168798855977 <.. C_0010143777606507426232 : +<<friend>>
-C_0010143777606507426232 --> C_0011953255168798855977 : -devTools_
-C_0008116604999349224677 <|-- C_0010143777606507426232
-C_0010078071459042722134 --> C_0016168181109205541512 : -extensionsSettings_
 C_0002476766866792568373 <.. C_0015588288654513966046 : +<<friend>>
 C_0003308211728183492323 --> C_0015588288654513966046 : #registry_
 C_0015588288654513966046 --> C_0002476766866792568373 : -loggers_
@@ -273,6 +242,15 @@ C_0010267664722849993861 --> C_0015588288654513966046 : -registry_
 C_0016168181109205541512 <|-- C_0010267664722849993861
 C_0014140850573583768651 --+ C_0010267664722849993861
 C_0014836659225812161093 --+ C_0010267664722849993861
+C_0010078071459042722134 --> C_0016168181109205541512 : -extensionsSettings_
+C_0010218074716017551262 --> C_0016168181109205541512 : -extensionSettings_
+C_0002933765265782475360 --> C_0010078071459042722134 : -extensionsSettings
+C_0002822806808277750321 --> C_0015588288654513966046 : -registry_
+C_0012644845507741191035 --> C_0010267664722849993861 : -settings_
+C_0012644845507741191035 --> C_0002822806808277750321 : -registryModel_
+C_0012644845507741191035 --> C_0009326196689895914892 : -logLevelDelegate_
+C_0010218074716017551262 <|-- C_0012644845507741191035
+C_0011953255168798855977 <.. C_0010143777606507426232 : +<<friend>>
 C_0003715015464081519320 --> C_0010732678981144094451 : -commonWidgetSink_
 C_0003715015464081519320 --> C_0010267664722849993861 : -settings_
 C_0011953255168798855977 <|-- C_0003715015464081519320
@@ -321,18 +299,6 @@ skinparam class<<Extension>> {
 
  class C_0016168181109205541512 <<Base>> 
 
- class C_0010218074716017551262 <<UI>> <<Base>> 
-
- class C_0002933765265782475360 <<UI>>  
-
- class C_0011953255168798855977 <<Base>> 
-
- class C_0008116604999349224677 <<Base>> 
-
- class C_0010143777606507426232 <<Extension>> 
-
- 
-
  
 
  class C_0007738904270693382766 <<Base>> 
@@ -347,15 +313,25 @@ skinparam class<<Extension>> {
 
  
 
+ 
+
+ class C_0010218074716017551262 <<UI>> <<Base>> 
+
+ class C_0002933765265782475360 <<UI>>  
+
+ class C_0011953255168798855977 <<Base>> 
+
+ class C_0010732678981144094451 <<UI>>  
+
+ 
+
  class C_0002822806808277750321 <<UI>>  
 
  class C_0009326196689895914892 <<UI>>  
 
  class C_0012644845507741191035 <<UI>>  
 
- class C_0010732678981144094451 <<UI>>  
-
- 
+ class C_0010143777606507426232 <<Extension>> 
 
 
 

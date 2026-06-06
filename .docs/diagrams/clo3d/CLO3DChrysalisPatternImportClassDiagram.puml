@@ -1,0 +1,367 @@
+@startuml
+class "Chrysalis::Parameter" as C_0012811662139665247956
+class C_0012811662139665247956 {
++Parameter(std::string name) : void
+..
++getAlias() const : const std::string &
++getDefaultValue() const : double
++getName() const : const std::string &
++getValue() const : double
++hasAlias() const : bool
++hasDefaultValue() const : bool
++hasValue() const : bool
++isValid() const : bool
++setAlias(const std::string & alias) : void
++setDefaultValue(double defaultValue) : void
++setName(const std::string & name) : void
++setValue(double value) : void
+__
+-alias_ : boost::optional<std::string>
+-defaultValue_ : boost::optional<double>
+-name_ : std::string
+-value_ : boost::optional<double>
+}
+class "Chrysalis::ProjectSpace" as C_0007088239576659478452
+class C_0007088239576659478452 {
++~ProjectSpace() : void
+..
++addPoint(double x, double y) : Point *
++addPoint(const Point * pointFrom, double angle, double length) : Point *
+{static} +angle(const Point * pointFrom, const Point * pointTo) : double
+{static} +length(const Point * pointFrom, const Point * pointTo) : double
+__
+-points_ : std::unordered_set<Point *>
+}
+class "Chrysalis::Outline" as C_0012923087791918137441
+class C_0012923087791918137441 {
++Outline(const std::string & name, const std::string & firstPoint) : void
+..
++addPoint(const std::string & name) : void
++getName() : const std::string &
+__
+{static} +DEFAULT : const char *const
+-name_ : std::string
+-points_ : std::list<std::string>
+}
+class "Chrysalis::BaseContainer<T>" as C_0014718586687870172815
+class C_0014718586687870172815 {
+#BaseContainer() = default : void
++~BaseContainer() : void
+..
++add(T * item) : void
++at(size_t index) const : T *
+#call<Fn,Args...>(Fn function, Args &&... args) const : void
++count() const : size_t
+__
+-data_ : std::list<T *>
+}
+class "Chrysalis::BaseContainer<Chrysalis::Outline>" as C_0002828212648879384581
+class C_0002828212648879384581 {
+__
+}
+class "Chrysalis::OutlineContainer" as C_0010040553678137761252
+class C_0010040553678137761252 {
++add(Outline * item) : void
++get(const std::string & name) const : Outline *
++has(const std::string & name) const : bool
+__
+-outlines_ : std::unordered_map<std::string,Outline *>
+}
+class "Chrysalis::PatternSpace" as C_0006410388496936549037
+class C_0006410388496936549037 {
++PatternSpace(OutlineContainer * outline) : void
++~PatternSpace() : void
+..
++addPoint(const std::string & name, Point * point) : void
++getLastPoint() const : Point *
++getOutline() const : OutlineContainer *
++getPoint(const std::string & name) const : Point *
++getPoints() const : const std::unordered_map<std::string,Point *> &
++hasPoint(const std::string & name) const : bool
+__
+-lastPoint_ : Point *
+-outline_ : OutlineContainer *
+-points_ : std::unordered_map<std::string,Point *>
+}
+class "Chrysalis::Pattern" as C_0005824426893526781565
+class C_0005824426893526781565 {
++Pattern(const std::string & name, PatternSpace * space) : void
++~Pattern() : void
+__
+-name_ : std::string
+-space_ : PatternSpace *
+}
+class "Chrysalis::BaseContainer<Chrysalis::Pattern>" as C_0009354046990169271201
+class C_0009354046990169271201 {
+__
+}
+class "Chrysalis::PatternsContainer" as C_0004298799808645500217
+class C_0004298799808645500217 {
+__
+}
+class "Chrysalis::BaseContainer<Chrysalis::Parameter>" as C_0014583015597006537638
+class C_0014583015597006537638 {
+__
+}
+class "Chrysalis::ParametersContainer" as C_0017382097479736929272
+class C_0017382097479736929272 {
++add(Parameter * item) : void
++get(const std::string & name) const : Parameter *
+__
+-parametersMap_ : std::unordered_map<std::string,Parameter *>
+}
+abstract "Chrysalis::BaseInstruction" as C_0002610049402694154836
+abstract C_0002610049402694154836 {
+#BaseInstruction() = default : void
+#~BaseInstruction() constexpr = default : void
+..
+{abstract} +execute() = 0 : void
+__
+}
+class "Chrysalis::SelectedPatterns" as C_0017992245358367024427
+class C_0017992245358367024427 {
++add(PatternSpace * pattern) : void
++begin() const : std::_List_const_iterator<PatternSpace *>::const_iterator
++end() const : std::_List_const_iterator<PatternSpace *>::const_iterator
+__
+-patterns_ : std::list<PatternSpace *>
+}
+abstract "Chrysalis::BasePatternInstruction" as C_0012361199867370331426
+abstract C_0012361199867370331426 {
+#BasePatternInstruction(ProjectSpace * space, SelectedPatternsArgument * selectedPatterns) : void
++~BasePatternInstruction() : void
+..
+{abstract} +isValid() = 0 : bool
+#patterns() const : SelectedPatterns &
+#space() const : ProjectSpace &
+__
+-selectedPatterns_ : SelectedPatternsArgument *
+-space_ : ProjectSpace *
+}
+class "Chrysalis::PatternInstructionsContainer" as C_0003800391587746138531
+class C_0003800391587746138531 {
++PatternInstructionsContainer(SelectedPatterns * patterns) : void
++~PatternInstructionsContainer() : void
+__
+-patterns_ : SelectedPatterns *
+}
+class "Chrysalis::InstructionsContainer" as C_0005076600185507105511
+class C_0005076600185507105511 {
+__
+}
+class "Chrysalis::Project" as C_0008495545694619727706
+class C_0008495545694619727706 {
++Project(std::string name, ProjectSpace * space, ParametersContainer * parameters, PatternsContainer * patterns, InstructionsContainer * instructions) : void
++~Project() : void
+..
+{static} +create() : Project *
++getName() : std::string
++getParameters() const : ParametersContainer *
+{static} +read(const std::string & filePath) : Project *
++setName(const std::string & name) : void
+{static} +write(const std::string & filePath, Project * project) : void
+__
+{static} +PROJECT_FILE_SUFFIX : const char *const
+{static} +PROJECT_NAME_FILTER : const char *const
+-instructions_ : InstructionsContainer *
+-name_ : std::string
+-parameters_ : ParametersContainer *
+-patterns_ : PatternsContainer *
+-space_ : ProjectSpace *
+}
+class "Chrysalis::PatternImporter" as C_0002206756607826776811
+class C_0002206756607826776811 {
++PatternImporter(Project * project) : void
+..
++import() const : void
+__
+-project_ : Project *
+}
+class "UI::ParameterWidget" as C_0011673986955732978878
+class C_0011673986955732978878 {
++ParameterWidget(QWidget * parent = nullptr) : void
++~ParameterWidget() : void
+..
++metaObject() const : const QMetaObject *
++qt_metacall(QMetaObject::Call, int, void **) : int
++qt_metacast(const char *) : void *
+{static} -qt_static_metacall(QObject *, QMetaObject::Call, int, void **) : void
++setParameter(Chrysalis::Parameter * parameter) : void
+{static} +tr(const char * s, const char * c = nullptr, int n = -1) : QString
+{static} +trUtf8(const char * s, const char * c = nullptr, int n = -1) : QString
+__
+-parameter_ : Chrysalis::Parameter *
+{static} +staticMetaObject : const QMetaObject
+-ui : Ui::ParameterWidget *
+}
+class "UI::BaseDialog" as C_0010507882201943938998
+class C_0010507882201943938998 {
++BaseDialog() : void
+..
++metaObject() const : const QMetaObject *
++qt_metacall(QMetaObject::Call, int, void **) : int
++qt_metacast(const char *) : void *
+{static} -qt_static_metacall(QObject *, QMetaObject::Call, int, void **) : void
+{static} +tr(const char * s, const char * c = nullptr, int n = -1) : QString
+{static} +trUtf8(const char * s, const char * c = nullptr, int n = -1) : QString
+__
+{static} +staticMetaObject : const QMetaObject
+}
+class "UI::ParametersModel" as C_0008639774122268316592
+class C_0008639774122268316592 {
++ParametersModel(Chrysalis::ParametersContainer * parameters) : void
+..
++data(const QModelIndex & index, int role) const : QVariant
++rowCount(const QModelIndex & parent) const : int
+__
+-parameters_ : Chrysalis::ParametersContainer *
+}
+class "UI::ParametersDelegate" as C_0003183302856284598580
+class C_0003183302856284598580 {
++ParametersDelegate(QObject * parent) : void
+..
++createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const : QWidget *
++setEditorData(QWidget * editor, const QModelIndex & index) const : void
++sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const : QSize
++updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const : void
+__
+}
+class "UI::PatternImportDialog" as C_0006597931841462278842
+class C_0006597931841462278842 {
++PatternImportDialog(Chrysalis::PatternImporter * importer, ParametersModel * model, ParametersDelegate * delegate) : void
++~PatternImportDialog() : void
+..
++accept() : void
++metaObject() const : const QMetaObject *
++qt_metacall(QMetaObject::Call, int, void **) : int
++qt_metacast(const char *) : void *
+{static} -qt_static_metacall(QObject *, QMetaObject::Call, int, void **) : void
+{static} +tr(const char * s, const char * c = nullptr, int n = -1) : QString
+{static} +trUtf8(const char * s, const char * c = nullptr, int n = -1) : QString
+__
+-importer_ : Chrysalis::PatternImporter *
+-model_ : ParametersModel *
+{static} +staticMetaObject : const QMetaObject
+-ui : Ui::PatternImportDialog *
+}
+class "Point" as C_0009962967977086807313
+class C_0009962967977086807313 {
++Point(double x, double y) : void
+..
++operator-(const Point & other) const : CGAL::Vector
+..
++x() const : const double &
++y() const : const double &
+__
+-point_ : CGAL::Point
+}
+C_0007088239576659478452 "1" *-- "*" C_0009962967977086807313 : -points_
+C_0002828212648879384581 ..|> C_0014718586687870172815
+C_0010040553678137761252 --> C_0012923087791918137441 : -outlines_
+C_0002828212648879384581 <|-- C_0010040553678137761252
+C_0006410388496936549037 --> C_0009962967977086807313 : -lastPoint_
+C_0006410388496936549037 *-- C_0010040553678137761252 : -outline_
+C_0006410388496936549037 --> C_0009962967977086807313 : -points_
+C_0005824426893526781565 *-- C_0006410388496936549037 : -space_
+C_0009354046990169271201 ..|> C_0014718586687870172815
+C_0009354046990169271201 <|-- C_0004298799808645500217
+C_0014583015597006537638 ..|> C_0014718586687870172815
+C_0017382097479736929272 --> C_0012811662139665247956 : -parametersMap_
+C_0014583015597006537638 <|-- C_0017382097479736929272
+C_0017992245358367024427 --> C_0006410388496936549037 : -patterns_
+C_0012361199867370331426 --> C_0007088239576659478452 : -space_
+C_0002610049402694154836 <|-- C_0012361199867370331426
+C_0003800391587746138531 *-- C_0017992245358367024427 : -patterns_
+C_0008495545694619727706 *-- C_0007088239576659478452 : -space_
+C_0008495545694619727706 *-- C_0004298799808645500217 : -patterns_
+C_0008495545694619727706 *-- C_0017382097479736929272 : -parameters_
+C_0008495545694619727706 *-- C_0005076600185507105511 : -instructions_
+C_0002206756607826776811 *-- C_0008495545694619727706 : -project_
+C_0011673986955732978878 --> C_0012811662139665247956 : -parameter_
+C_0008639774122268316592 --> C_0017382097479736929272 : -parameters_
+C_0006597931841462278842 *-- C_0008639774122268316592 : -model_
+C_0006597931841462278842 *-- C_0002206756607826776811 : -importer_
+C_0010507882201943938998 <|-- C_0006597931841462278842
+skinparam class {
+  BackgroundColor #EAFAF1
+  BorderColor #1E8449
+  FontColor #0B5345
+  AttributeFontColor #1E8449
+  StereotypeFontColor #1E8449
+  FontStyle Bold
+}
+
+skinparam class<<UI>> {
+  BackgroundColor #F5EEF8
+  BorderColor #8E44AD
+  FontColor #4A235A
+  AttributeFontColor #6C3483
+  StereotypeFontColor #6C3483
+}
+
+skinparam class<<Base>> {
+  BackgroundColor #F2F3F4
+  BorderColor #2C3E50
+  BorderThickness 3
+  FontSize 16
+  FontColor #2C3E50
+  AttributeFontColor #566573
+  StereotypeFontColor #808B96
+  FontStyle Italic
+}
+
+
+ class C_0012811662139665247956 <<Chrysalis>>  
+
+ class C_0011673986955732978878 <<UI>>  
+
+ 
+
+ class C_0007088239576659478452 <<Chrysalis>>  
+
+ class C_0012923087791918137441 <<Chrysalis>>  
+
+ class C_0014718586687870172815 <<Chrysalis>> <<Base>> 
+
+ class C_0002828212648879384581 <<Chrysalis>> <<Base>> 
+
+ class C_0010040553678137761252 <<Chrysalis>>  
+
+ class C_0006410388496936549037 <<Chrysalis>>  
+
+ class C_0005824426893526781565 <<Chrysalis>>  
+
+ class C_0009354046990169271201 <<Chrysalis>> <<Base>> 
+
+ class C_0004298799808645500217 <<Chrysalis>>  
+
+ class C_0014583015597006537638 <<Chrysalis>> <<Base>> 
+
+ class C_0017382097479736929272 <<Chrysalis>>  
+
+ class C_0002610049402694154836 <<Chrysalis>> <<Base>> 
+
+ class C_0017992245358367024427 <<Chrysalis>>  
+
+ class C_0012361199867370331426 <<Chrysalis>> <<Base>> 
+
+ class C_0003800391587746138531 <<Chrysalis>>  
+
+ class C_0005076600185507105511 <<Chrysalis>>  
+
+ class C_0008495545694619727706 <<Chrysalis>>  
+
+ class C_0010507882201943938998 <<UI>> <<Base>> 
+
+ class C_0002206756607826776811 <<Chrysalis>>  
+
+ class C_0008639774122268316592 <<UI>>  
+
+ class C_0003183302856284598580 <<UI>>  
+
+ class C_0006597931841462278842 <<UI>>  
+
+
+'Generated with clang-uml, version 0.6.2
+'LLVM version clang version 20.1.7 (https://github.com/llvm/llvm-project.git 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+@enduml
