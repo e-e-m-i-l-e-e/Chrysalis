@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>UI::ExtensionsSettingsDialog</class>
- <widget class="QDialog" name="UI::ExtensionsSettingsDialog">
+ <widget class="UI::BaseDialog" name="UI::ExtensionsSettingsDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -296,6 +296,12 @@ QPushButton[widget-type=&quot;Active&quot;] {
    <class>UI::ListNavigationWidget</class>
    <extends>QWidget</extends>
    <header>ListNavigationWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>UI::BaseDialog</class>
+   <extends>QDialog</extends>
+   <header>BaseDialog.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

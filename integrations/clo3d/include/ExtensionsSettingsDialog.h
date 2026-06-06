@@ -1,21 +1,17 @@
 #ifndef CHRYSALIS_EXTENSIONSSETTINGSDIALOG_H
 #define CHRYSALIS_EXTENSIONSSETTINGSDIALOG_H
 
-#include <functional>
-
-#include <QDialog>
-
+#include "BaseDialog.h"
 #include "BaseExtensionSettingsWidget.h"
 
 namespace UI {
-
     QT_BEGIN_NAMESPACE
     namespace Ui {
         class ExtensionsSettingsDialog;
     }
     QT_END_NAMESPACE
 
-    class ExtensionsSettingsDialog : public QDialog {
+    class ExtensionsSettingsDialog: public BaseDialog {
         Q_OBJECT
     public:
         explicit ExtensionsSettingsDialog(ExtensionsSettings* settings, QWidget *parent = nullptr);

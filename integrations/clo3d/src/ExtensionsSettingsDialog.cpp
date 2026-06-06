@@ -8,11 +8,9 @@
 using namespace UI;
 
 ExtensionsSettingsDialog::ExtensionsSettingsDialog(ExtensionsSettings* settings, QWidget *parent)
-    : QDialog(parent), ui(new Ui::ExtensionsSettingsDialog), extensionsSettings(settings) {
+    : BaseDialog(parent), ui(new Ui::ExtensionsSettingsDialog), extensionsSettings(settings) {
     ui->setupUi(this);
     UTILITY_API->UpdateCloStyleForPlugIn(this);
-    setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
-    setWindowModality(Qt::WindowModal);
     connect(ui->reset, &QPushButton::clicked, this, &ExtensionsSettingsDialog::reset);
 }
 
