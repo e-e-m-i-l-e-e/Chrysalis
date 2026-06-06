@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>167</height>
+    <height>171</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -238,6 +238,22 @@ QListView::item {
     <hint type="destinationlabel">
      <x>249</x>
      <y>138</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>importButton</sender>
+   <signal>clicked()</signal>
+   <receiver>UI::PatternImportDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>249</x>
+     <y>150</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>85</y>
     </hint>
    </hints>
   </connection>

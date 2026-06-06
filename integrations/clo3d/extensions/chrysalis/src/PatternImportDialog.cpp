@@ -2,11 +2,12 @@
 #include "ui_PatternImportDialog.h"
 
 #include "CLOAPIInterface.h"
+#include "PatternImporter.h"
 
 using namespace UI;
 
-PatternImportDialog::PatternImportDialog(Chrysalis::Project* project, ParametersModel* model, ParametersDelegate* delegate)
-    : model_(model), project_(project), ui(new Ui::PatternImportDialog) {
+PatternImportDialog::PatternImportDialog(Chrysalis::PatternImporter* importer, ParametersModel* model, ParametersDelegate* delegate)
+    : model_(model), importer_(importer), ui(new Ui::PatternImportDialog) {
     ui->setupUi(this);
     UTILITY_API->UpdateCloStyleForPlugIn(this);
     ui->baseDialogContainer->install({ui->content, ui->footer});
@@ -27,5 +28,10 @@ PatternImportDialog::PatternImportDialog(Chrysalis::Project* project, Parameters
 PatternImportDialog::~PatternImportDialog() {
     delete ui;
     delete model_;
-    delete project_;
+    delete importer_;
+}
+
+void PatternImportDialog::accept() {
+    importer_->import();
+    BaseDialog::accept();
 }

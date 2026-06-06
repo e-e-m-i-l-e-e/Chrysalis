@@ -3,6 +3,7 @@
 
 #include "Project.h"
 #include "BaseDialog.h"
+#include "PatternImporter.h"
 #include "ParametersModel.h"
 #include "ParametersDelegate.h"
 
@@ -16,12 +17,15 @@ namespace UI {
     class PatternImportDialog: public BaseDialog {
         Q_OBJECT
     public:
-        explicit PatternImportDialog(Chrysalis::Project* project, ParametersModel* model, ParametersDelegate* delegate);
+        explicit PatternImportDialog(Chrysalis::PatternImporter* importer, ParametersModel* model, ParametersDelegate* delegate);
         ~PatternImportDialog() override;
 
+        void accept() override;
     private:
+        /// @uml{composition}
         ParametersModel* model_;
-        Chrysalis::Project* project_;
+        /// @uml{composition}
+        Chrysalis::PatternImporter* importer_;
 
         Ui::PatternImportDialog* ui;
     };
