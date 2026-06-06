@@ -24,9 +24,6 @@ class FashionDesignAppsConan(ConanFile):
     }
 
     def requirements(self):
-        if self.settings.os == "Linux":
-            return
-
         if self.options.app == "CLO3D":
             self.requires("qt/5.15.16")
             self.requires("clo-sdk/9.1.0")
@@ -39,9 +36,6 @@ class FashionDesignAppsConan(ConanFile):
         self.options["boost"].without_stacktrace_basic = True
         self.options["boost"].without_stacktrace_windbg = True
         self.options["boost"].without_stacktrace_windbg_cached = True
-
-        if self.settings.os == "Linux":
-            return
 
         if self.options.app == "CLO3D":
             self.options["qt/5.15.16"].shared = True
