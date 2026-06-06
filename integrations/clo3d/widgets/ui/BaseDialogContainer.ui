@@ -7,11 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>143</width>
-    <height>59</height>
+    <height>51</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>BaseDialogContainer</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background: rgba(37, 37, 40, 255);</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="spacing">
@@ -225,16 +228,16 @@ QPushButton[widget-type=&quot;Active&quot;] {
        <number>0</number>
       </property>
       <property name="leftMargin">
-       <number>11</number>
+       <number>7</number>
       </property>
       <property name="topMargin">
-       <number>11</number>
+       <number>7</number>
       </property>
       <property name="rightMargin">
-       <number>11</number>
+       <number>7</number>
       </property>
       <property name="bottomMargin">
-       <number>11</number>
+       <number>7</number>
       </property>
      </layout>
     </widget>

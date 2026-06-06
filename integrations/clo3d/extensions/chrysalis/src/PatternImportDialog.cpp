@@ -9,6 +9,7 @@ PatternImportDialog::PatternImportDialog(Chrysalis::Project* project, Parameters
     : BaseDialog(parent), model_(model), project_(project), ui(new Ui::PatternImportDialog) {
     ui->setupUi(this);
     UTILITY_API->UpdateCloStyleForPlugIn(this);
+    ui->baseDialogContainer->install({ui->content, ui->footer});
 
     ui->parametersListView->setModel(model_);
     ui->parametersListView->setItemDelegate(delegate);

@@ -10,6 +10,7 @@ BaseDialogContainer::BaseDialogContainer(QWidget* parent)
     : NamedWidget(parent), ui(new Ui::BaseDialogContainer) {
     ui->setupUi(this);
     connect(this, &NamedWidget::titleChanged, ui->label, &QLabel::setText);
+    connect(ui->close, &QToolButton::clicked, this, &BaseDialogContainer::closed);
 }
 
 BaseDialogContainer::~BaseDialogContainer() {

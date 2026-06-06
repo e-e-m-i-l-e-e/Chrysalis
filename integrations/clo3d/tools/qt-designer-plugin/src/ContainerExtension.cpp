@@ -9,8 +9,7 @@ int ContainerExtension::count() const {
     return container_->count();
 }
 
-QWidget* ContainerExtension::widget(int index) const {
-    std::cout << "Get widget: " << index << std::endl;
+QWidget* ContainerExtension::widget(const int index) const {
     return container_->getWidget(index);
 }
 
@@ -21,14 +20,10 @@ int ContainerExtension::currentIndex() const {
 void ContainerExtension::setCurrentIndex(int index) {}
 
 void ContainerExtension::addWidget(QWidget *widget) {
-    std::cout << "Add widget" << std::endl;
     container_->insertWidget(index_++, widget);
 }
 
-void ContainerExtension::insertWidget(int index, QWidget *widget)
-{
-    std::cout << "Insert widget" << std::endl;
-}
+void ContainerExtension::insertWidget(int index, QWidget *widget) {}
 
 void ContainerExtension::remove(int index) {}
 
