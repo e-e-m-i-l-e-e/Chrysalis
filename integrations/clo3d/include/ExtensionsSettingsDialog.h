@@ -14,7 +14,7 @@ namespace UI {
     class ExtensionsSettingsDialog: public BaseDialog {
         Q_OBJECT
     public:
-        explicit ExtensionsSettingsDialog(ExtensionsSettings* settings, QWidget *parent = nullptr);
+        explicit ExtensionsSettingsDialog(ExtensionsSettings* settings);
         ~ExtensionsSettingsDialog() override;
 
         void accept() override;

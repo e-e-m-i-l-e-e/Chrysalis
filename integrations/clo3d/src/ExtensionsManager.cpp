@@ -141,7 +141,7 @@ void ExtensionsManager::install() {
 
             const QAction *extensionsSettingsMenu = extensionsMenu->addAction("Extensions Settings");
             QObject::connect(extensionsSettingsMenu, &QAction::triggered, [&]() {
-                const auto extensionsSettingsDialog = new UI::ExtensionsSettingsDialog(extensionsSettings, mainWindow);
+                const auto extensionsSettingsDialog = new UI::ExtensionsSettingsDialog(extensionsSettings);
                 for (const auto extension: extensions) {
                     extension->configureSettingsUI(extensionsSettingsDialog);
                 }

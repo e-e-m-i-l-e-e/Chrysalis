@@ -7,7 +7,7 @@ namespace UI {
     class BaseDialog: public QDialog {
         Q_OBJECT
     public:
-        explicit BaseDialog(QWidget* parent = nullptr);
+        explicit BaseDialog();
     };
 }
 

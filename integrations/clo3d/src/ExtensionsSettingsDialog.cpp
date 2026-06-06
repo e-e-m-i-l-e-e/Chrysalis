@@ -7,10 +7,11 @@
 
 using namespace UI;
 
-ExtensionsSettingsDialog::ExtensionsSettingsDialog(ExtensionsSettings* settings, QWidget *parent)
-    : BaseDialog(parent), ui(new Ui::ExtensionsSettingsDialog), extensionsSettings(settings) {
+ExtensionsSettingsDialog::ExtensionsSettingsDialog(ExtensionsSettings* settings)
+    : ui(new Ui::ExtensionsSettingsDialog), extensionsSettings(settings) {
     ui->setupUi(this);
     UTILITY_API->UpdateCloStyleForPlugIn(this);
+    ui->baseDialogContainer->install({ui->content, ui->footer});
     connect(ui->reset, &QPushButton::clicked, this, &ExtensionsSettingsDialog::reset);
 }
 

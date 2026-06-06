@@ -5,8 +5,8 @@
 
 using namespace UI;
 
-PatternImportDialog::PatternImportDialog(Chrysalis::Project* project, ParametersModel* model, ParametersDelegate* delegate, QWidget* parent)
-    : BaseDialog(parent), model_(model), project_(project), ui(new Ui::PatternImportDialog) {
+PatternImportDialog::PatternImportDialog(Chrysalis::Project* project, ParametersModel* model, ParametersDelegate* delegate)
+    : model_(model), project_(project), ui(new Ui::PatternImportDialog) {
     ui->setupUi(this);
     UTILITY_API->UpdateCloStyleForPlugIn(this);
     ui->baseDialogContainer->install({ui->content, ui->footer});

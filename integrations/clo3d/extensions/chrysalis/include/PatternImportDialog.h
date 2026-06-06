@@ -16,7 +16,7 @@ namespace UI {
     class PatternImportDialog: public BaseDialog {
         Q_OBJECT
     public:
-        explicit PatternImportDialog(Chrysalis::Project* project, ParametersModel* model, ParametersDelegate* delegate, QWidget* parent = nullptr);
+        explicit PatternImportDialog(Chrysalis::Project* project, ParametersModel* model, ParametersDelegate* delegate);
         ~PatternImportDialog() override;
 
     private:
