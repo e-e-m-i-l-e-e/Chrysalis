@@ -21,7 +21,7 @@ namespace UI {
         explicit ParameterWidget(QWidget* parent = nullptr);
         ~ParameterWidget() override;
 
-        void setParameter(Chrysalis::Parameter* parameter);
+        void set(Chrysalis::Parameter* parameter);
     private:
         Chrysalis::Parameter* parameter_ = nullptr;
         Ui::ParameterWidget* ui;

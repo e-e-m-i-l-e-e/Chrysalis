@@ -12,7 +12,7 @@ ParameterWidget::~ParameterWidget() {
     delete ui;
 }
 
-void ParameterWidget::setParameter(Chrysalis::Parameter* parameter) {
+void ParameterWidget::set(Chrysalis::Parameter* parameter) {
     parameter_ = parameter;
     ui->name->setText(parameter_->getName().data());
     if (parameter->hasValue()) ui->value->setText(QString::number(parameter_->getValue()));

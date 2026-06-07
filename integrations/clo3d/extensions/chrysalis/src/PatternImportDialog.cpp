@@ -6,7 +6,8 @@
 
 using namespace UI;
 
-PatternImportDialog::PatternImportDialog(Chrysalis::PatternImporter* importer, ParametersModel* model, ParametersDelegate* delegate)
+PatternImportDialog::PatternImportDialog(Chrysalis::PatternImporter* importer, ParametersModel* model,
+                                         BaseDelegate<ParameterWidget, Chrysalis::Parameter>* delegate)
     : model_(model), importer_(importer), ui(new Ui::PatternImportDialog) {
     ui->setupUi(this);
     UTILITY_API->UpdateCloStyleForPlugIn(this);

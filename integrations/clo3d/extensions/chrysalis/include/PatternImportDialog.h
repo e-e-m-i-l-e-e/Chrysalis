@@ -3,9 +3,10 @@
 
 #include "Project.h"
 #include "BaseDialog.h"
+#include "BaseDelegate.h"
 #include "PatternImporter.h"
+#include "ParameterWidget.h"
 #include "ParametersModel.h"
-#include "ParametersDelegate.h"
 
 namespace UI {
     QT_BEGIN_NAMESPACE
@@ -17,7 +18,8 @@ namespace UI {
     class PatternImportDialog: public BaseDialog {
         Q_OBJECT
     public:
-        explicit PatternImportDialog(Chrysalis::PatternImporter* importer, ParametersModel* model, ParametersDelegate* delegate);
+        explicit PatternImportDialog(Chrysalis::PatternImporter* importer, ParametersModel* model,
+                                     BaseDelegate<ParameterWidget, Chrysalis::Parameter>* delegate);
         ~PatternImportDialog() override;
 
         void accept() override;

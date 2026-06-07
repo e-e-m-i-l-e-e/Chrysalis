@@ -11,7 +11,6 @@
 #include "Project.h"
 #include "MVDockingButton.h"
 #include "MVDockWidgetTitleBar.h"
-#include "ParametersDelegate.h"
 #include "PatternBuilderDockWidget.h"
 #include "PatternImportDialog.h"
 
@@ -36,7 +35,7 @@ void ChrysalisExtension::configureMenu(QMenu* extensionMenu) {
         const auto project = Project::read(filePath);
         const auto importer = new PatternImporter(project);
         const auto parametersModel = new UI::ParametersModel(project->getParameters());
-        const auto parametersDelegate = new UI::ParametersDelegate(parametersModel);
+        const auto parametersDelegate = new UI::BaseDelegate<UI::ParameterWidget, Parameter>(parametersModel);
         (new UI::PatternImportDialog(importer, parametersModel, parametersDelegate))->exec();
     });
     menu->addAction(importPatternAction);

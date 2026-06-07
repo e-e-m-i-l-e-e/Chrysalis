@@ -43,22 +43,6 @@ __
 -name_ : std::string
 -points_ : std::list<std::string>
 }
-class "Chrysalis::BaseContainer<T>" as C_0014718586687870172815
-class C_0014718586687870172815 {
-#BaseContainer() = default : void
-+~BaseContainer() : void
-..
-+add(T * item) : void
-+at(size_t index) const : T *
-#call<Fn,Args...>(Fn function, Args &&... args) const : void
-+count() const : size_t
-__
--data_ : std::list<T *>
-}
-class "Chrysalis::BaseContainer<Chrysalis::Outline>" as C_0002828212648879384581
-class C_0002828212648879384581 {
-__
-}
 class "Chrysalis::OutlineContainer" as C_0010040553678137761252
 class C_0010040553678137761252 {
 +add(Outline * item) : void
@@ -91,16 +75,8 @@ __
 -name_ : std::string
 -space_ : PatternSpace *
 }
-class "Chrysalis::BaseContainer<Chrysalis::Pattern>" as C_0009354046990169271201
-class C_0009354046990169271201 {
-__
-}
 class "Chrysalis::PatternsContainer" as C_0004298799808645500217
 class C_0004298799808645500217 {
-__
-}
-class "Chrysalis::BaseContainer<Chrysalis::Parameter>" as C_0014583015597006537638
-class C_0014583015597006537638 {
 __
 }
 class "Chrysalis::ParametersContainer" as C_0017382097479736929272
@@ -116,6 +92,14 @@ abstract C_0002610049402694154836 {
 #~BaseInstruction() constexpr = default : void
 ..
 {abstract} +execute() = 0 : void
+__
+}
+class "Chrysalis::BaseInstructionsContainer<T>" as C_0009832473294063137986
+class C_0009832473294063137986 {
+#BaseInstructionsContainer() = default : void
+..
++add(T * item) : void
++execute() : void
 __
 }
 class "Chrysalis::SelectedPatterns" as C_0017992245358367024427
@@ -138,12 +122,20 @@ __
 -selectedPatterns_ : SelectedPatternsArgument *
 -space_ : ProjectSpace *
 }
+class "Chrysalis::BaseInstructionsContainer<Chrysalis::BasePatternInstruction>" as C_0006776945885242230637
+class C_0006776945885242230637 {
+__
+}
 class "Chrysalis::PatternInstructionsContainer" as C_0003800391587746138531
 class C_0003800391587746138531 {
 +PatternInstructionsContainer(SelectedPatterns * patterns) : void
 +~PatternInstructionsContainer() : void
 __
 -patterns_ : SelectedPatterns *
+}
+class "Chrysalis::BaseInstructionsContainer<Chrysalis::PatternInstructionsContainer>" as C_0006377274413643530130
+class C_0006377274413643530130 {
+__
 }
 class "Chrysalis::InstructionsContainer" as C_0005076600185507105511
 class C_0005076600185507105511 {
@@ -186,7 +178,7 @@ class C_0011673986955732978878 {
 +qt_metacall(QMetaObject::Call, int, void **) : int
 +qt_metacast(const char *) : void *
 {static} -qt_static_metacall(QObject *, QMetaObject::Call, int, void **) : void
-+setParameter(Chrysalis::Parameter * parameter) : void
++set(Chrysalis::Parameter * parameter) : void
 {static} +tr(const char * s, const char * c = nullptr, int n = -1) : QString
 {static} +trUtf8(const char * s, const char * c = nullptr, int n = -1) : QString
 __
@@ -207,6 +199,16 @@ class C_0010507882201943938998 {
 __
 {static} +staticMetaObject : const QMetaObject
 }
+class "UI::BaseDelegate<W,C>" as C_0007144605065180177457
+class C_0007144605065180177457 {
++BaseDelegate(QObject * parent) : void
+..
++createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const : QWidget *
++setEditorData(QWidget * editor, const QModelIndex & index) const : void
++sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const : QSize
++updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const : void
+__
+}
 class "UI::ParametersModel" as C_0008639774122268316592
 class C_0008639774122268316592 {
 +ParametersModel(Chrysalis::ParametersContainer * parameters) : void
@@ -216,19 +218,9 @@ class C_0008639774122268316592 {
 __
 -parameters_ : Chrysalis::ParametersContainer *
 }
-class "UI::ParametersDelegate" as C_0003183302856284598580
-class C_0003183302856284598580 {
-+ParametersDelegate(QObject * parent) : void
-..
-+createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const : QWidget *
-+setEditorData(QWidget * editor, const QModelIndex & index) const : void
-+sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const : QSize
-+updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const : void
-__
-}
 class "UI::PatternImportDialog" as C_0006597931841462278842
 class C_0006597931841462278842 {
-+PatternImportDialog(Chrysalis::PatternImporter * importer, ParametersModel * model, ParametersDelegate * delegate) : void
++PatternImportDialog(Chrysalis::PatternImporter * importer, ParametersModel * model, UI::BaseDelegate<ParameterWidget,Chrysalis::Parameter> * delegate) : void
 +~PatternImportDialog() : void
 ..
 +accept() : void
@@ -256,22 +248,21 @@ __
 -point_ : CGAL::Point
 }
 C_0007088239576659478452 "1" *-- "*" C_0009962967977086807313 : -points_
-C_0002828212648879384581 ..|> C_0014718586687870172815
 C_0010040553678137761252 --> C_0012923087791918137441 : -outlines_
-C_0002828212648879384581 <|-- C_0010040553678137761252
 C_0006410388496936549037 --> C_0009962967977086807313 : -lastPoint_
 C_0006410388496936549037 *-- C_0010040553678137761252 : -outline_
 C_0006410388496936549037 --> C_0009962967977086807313 : -points_
 C_0005824426893526781565 *-- C_0006410388496936549037 : -space_
-C_0009354046990169271201 ..|> C_0014718586687870172815
-C_0009354046990169271201 <|-- C_0004298799808645500217
-C_0014583015597006537638 ..|> C_0014718586687870172815
 C_0017382097479736929272 --> C_0012811662139665247956 : -parametersMap_
-C_0014583015597006537638 <|-- C_0017382097479736929272
+C_0002610049402694154836 <|-- C_0009832473294063137986
 C_0017992245358367024427 --> C_0006410388496936549037 : -patterns_
 C_0012361199867370331426 --> C_0007088239576659478452 : -space_
 C_0002610049402694154836 <|-- C_0012361199867370331426
+C_0006776945885242230637 ..|> C_0009832473294063137986
 C_0003800391587746138531 *-- C_0017992245358367024427 : -patterns_
+C_0006776945885242230637 <|-- C_0003800391587746138531
+C_0006377274413643530130 ..|> C_0009832473294063137986
+C_0006377274413643530130 <|-- C_0005076600185507105511
 C_0008495545694619727706 *-- C_0007088239576659478452 : -space_
 C_0008495545694619727706 *-- C_0004298799808645500217 : -patterns_
 C_0008495545694619727706 *-- C_0017382097479736929272 : -parameters_
@@ -321,31 +312,29 @@ skinparam class<<Base>> {
 
  class C_0012923087791918137441 <<Chrysalis>>  
 
- class C_0014718586687870172815 <<Chrysalis>> <<Base>> 
-
- class C_0002828212648879384581 <<Chrysalis>> <<Base>> 
-
  class C_0010040553678137761252 <<Chrysalis>>  
 
  class C_0006410388496936549037 <<Chrysalis>>  
 
  class C_0005824426893526781565 <<Chrysalis>>  
 
- class C_0009354046990169271201 <<Chrysalis>> <<Base>> 
-
  class C_0004298799808645500217 <<Chrysalis>>  
-
- class C_0014583015597006537638 <<Chrysalis>> <<Base>> 
 
  class C_0017382097479736929272 <<Chrysalis>>  
 
  class C_0002610049402694154836 <<Chrysalis>> <<Base>> 
 
+ class C_0009832473294063137986 <<Chrysalis>> <<Base>> 
+
  class C_0017992245358367024427 <<Chrysalis>>  
 
  class C_0012361199867370331426 <<Chrysalis>> <<Base>> 
 
+ class C_0006776945885242230637 <<Chrysalis>> <<Base>> 
+
  class C_0003800391587746138531 <<Chrysalis>>  
+
+ class C_0006377274413643530130 <<Chrysalis>> <<Base>> 
 
  class C_0005076600185507105511 <<Chrysalis>>  
 
@@ -353,11 +342,11 @@ skinparam class<<Base>> {
 
  class C_0010507882201943938998 <<UI>> <<Base>> 
 
+ class C_0007144605065180177457 <<UI>> <<Base>> 
+
  class C_0002206756607826776811 <<Chrysalis>>  
 
  class C_0008639774122268316592 <<UI>>  
-
- class C_0003183302856284598580 <<UI>>  
 
  class C_0006597931841462278842 <<UI>>  
 

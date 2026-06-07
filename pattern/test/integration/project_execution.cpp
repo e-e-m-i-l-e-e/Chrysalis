@@ -169,6 +169,8 @@ TEST_F(TestProjectExecution, Project1) {
     patternInstructions = new PatternInstructionsContainer(selectedPatterns);
     instructions_->add(patternInstructions);
 
+    new int(8);
+
     patternInstructions->add(new FreePointInstruction(common, name(S), num(0.0), num(0.0)));
     patternInstructions->add(new RelativePointInstruction(use_last_point, name(W), down, param(BACK_WAIST_LENGTH)));
     patternInstructions->add(new RelativePointInstruction(use_last_point, name(H), down, param(HIP_DEPTH)));

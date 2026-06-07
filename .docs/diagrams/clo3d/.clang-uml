@@ -205,7 +205,7 @@ diagrams:
             r: '.*Argument.*'
         - type: class
           name:
-            r: '.*BaseInstructionsContainer.*'
+            r: '.*BaseContainer.*'
       paths:
         - ../../../.conan
         - ../../../logging
