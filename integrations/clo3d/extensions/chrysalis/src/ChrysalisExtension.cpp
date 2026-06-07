@@ -34,7 +34,7 @@ void ChrysalisExtension::configureMenu(QMenu* extensionMenu) {
 
         const auto project = Project::read(filePath);
         const auto importer = new PatternImporter(project);
-        const auto parametersModel = new UI::ParametersModel(project->getParameters());
+        const auto parametersModel = new UI::BaseModel(project->getParameters());
         const auto parametersDelegate = new UI::BaseDelegate<UI::ParameterWidget, Parameter>(parametersModel);
         (new UI::PatternImportDialog(importer, parametersModel, parametersDelegate))->exec();
     });

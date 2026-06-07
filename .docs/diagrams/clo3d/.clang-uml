@@ -206,6 +206,12 @@ diagrams:
         - type: class
           name:
             r: '.*BaseContainer.*'
+        - type: method
+          name:
+            r: '.*::(qt_metacall|qt_static_metacall|qt_metacast|metaObject|tr|trUtf8|staticMetaObject)$'
+        - type: member
+          name:
+            r: '.*::staticMetaObject$'
       paths:
         - ../../../.conan
         - ../../../logging
@@ -244,13 +250,23 @@ diagrams:
             FontStyle Italic
           }
         - >
+          skinparam class<<Model>> {
+            BackgroundColor #E8F8F5
+            BorderColor #0E6655
+            BorderThickness 3
+            FontSize 16
+            FontColor #0E6655
+            AttributeFontColor #117A65
+            StereotypeFontColor #148F77
+            FontStyle Italic
+          }
+        - >
           {% for e in diagram.elements %}
 
           {% if e.namespace != "" %}
           class {{ e.alias }} <<{{ e.namespace }}>> {% if replace(e.name, "Base", "") != e.name %}<<Base>>{% endif %}
-          {% else if replace(e.name, "Base", "") != e.name %}
-          class {{ e.alias }} <<Base>>
-          {% else %}
+          {% else if replace(e.name, "Base", "") != e.name %} class {{ e.alias }} <<Base>>
+          {% else if replace(e.name, "Model", "") != e.name %} class {{ e.alias }} <<Model>>
           {% endif %}
 
           {% endfor %}

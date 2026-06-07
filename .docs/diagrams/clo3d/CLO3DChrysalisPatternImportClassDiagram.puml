@@ -174,30 +174,15 @@ class C_0011673986955732978878 {
 +ParameterWidget(QWidget * parent = nullptr) : void
 +~ParameterWidget() : void
 ..
-+metaObject() const : const QMetaObject *
-+qt_metacall(QMetaObject::Call, int, void **) : int
-+qt_metacast(const char *) : void *
-{static} -qt_static_metacall(QObject *, QMetaObject::Call, int, void **) : void
 +set(Chrysalis::Parameter * parameter) : void
-{static} +tr(const char * s, const char * c = nullptr, int n = -1) : QString
-{static} +trUtf8(const char * s, const char * c = nullptr, int n = -1) : QString
 __
 -parameter_ : Chrysalis::Parameter *
-{static} +staticMetaObject : const QMetaObject
 -ui : Ui::ParameterWidget *
 }
 class "UI::BaseDialog" as C_0010507882201943938998
 class C_0010507882201943938998 {
 +BaseDialog() : void
-..
-+metaObject() const : const QMetaObject *
-+qt_metacall(QMetaObject::Call, int, void **) : int
-+qt_metacast(const char *) : void *
-{static} -qt_static_metacall(QObject *, QMetaObject::Call, int, void **) : void
-{static} +tr(const char * s, const char * c = nullptr, int n = -1) : QString
-{static} +trUtf8(const char * s, const char * c = nullptr, int n = -1) : QString
 __
-{static} +staticMetaObject : const QMetaObject
 }
 class "UI::BaseDelegate<W,C>" as C_0007144605065180177457
 class C_0007144605065180177457 {
@@ -209,31 +194,33 @@ class C_0007144605065180177457 {
 +updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const : void
 __
 }
-class "UI::ParametersModel" as C_0008639774122268316592
-class C_0008639774122268316592 {
-+ParametersModel(Chrysalis::ParametersContainer * parameters) : void
+class "UI::BaseModel<T>" as C_0000760598864925262687
+class C_0000760598864925262687 {
++BaseModel(T * data) : void
 ..
-+data(const QModelIndex & index, int role) const : QVariant
++data(const QModelIndex & index, const int role) const : QVariant
 +rowCount(const QModelIndex & parent) const : int
 __
--parameters_ : Chrysalis::ParametersContainer *
+-data_ : T *
+}
+class "UI::BaseModel<Chrysalis::ParametersContainer>" as C_0009381834591580468042
+class C_0009381834591580468042 {
+__
+}
+class "UI::BaseDelegate<UI::ParameterWidget,Chrysalis::Parameter>" as C_0011409645942090549001
+class C_0011409645942090549001 {
+__
 }
 class "UI::PatternImportDialog" as C_0006597931841462278842
 class C_0006597931841462278842 {
-+PatternImportDialog(Chrysalis::PatternImporter * importer, ParametersModel * model, UI::BaseDelegate<ParameterWidget,Chrysalis::Parameter> * delegate) : void
++PatternImportDialog(Chrysalis::PatternImporter * importer, UI::BaseModel<Chrysalis::ParametersContainer> * model, UI::BaseDelegate<ParameterWidget,Chrysalis::Parameter> * delegate) : void
 +~PatternImportDialog() : void
 ..
 +accept() : void
-+metaObject() const : const QMetaObject *
-+qt_metacall(QMetaObject::Call, int, void **) : int
-+qt_metacast(const char *) : void *
-{static} -qt_static_metacall(QObject *, QMetaObject::Call, int, void **) : void
-{static} +tr(const char * s, const char * c = nullptr, int n = -1) : QString
-{static} +trUtf8(const char * s, const char * c = nullptr, int n = -1) : QString
 __
+-delegate_ : BaseDelegate<ParameterWidget,Chrysalis::Parameter> *
 -importer_ : Chrysalis::PatternImporter *
--model_ : ParametersModel *
-{static} +staticMetaObject : const QMetaObject
+-model_ : BaseModel<Chrysalis::ParametersContainer> *
 -ui : Ui::PatternImportDialog *
 }
 class "Point" as C_0009962967977086807313
@@ -269,9 +256,16 @@ C_0008495545694619727706 *-- C_0017382097479736929272 : -parameters_
 C_0008495545694619727706 *-- C_0005076600185507105511 : -instructions_
 C_0002206756607826776811 *-- C_0008495545694619727706 : -project_
 C_0011673986955732978878 --> C_0012811662139665247956 : -parameter_
-C_0008639774122268316592 --> C_0017382097479736929272 : -parameters_
-C_0006597931841462278842 *-- C_0008639774122268316592 : -model_
+C_0009381834591580468042 ..|> C_0000760598864925262687
+C_0011409645942090549001 ..|> C_0007144605065180177457
 C_0006597931841462278842 *-- C_0002206756607826776811 : -importer_
+C_0006597931841462278842 *-- C_0017382097479736929272 : -model_
+C_0006597931841462278842 *-- C_0009381834591580468042 : -model_
+C_0006597931841462278842 *-- C_0000760598864925262687 : -model_
+C_0006597931841462278842 --> C_0011673986955732978878 : -delegate_
+C_0006597931841462278842 --> C_0012811662139665247956 : -delegate_
+C_0006597931841462278842 --> C_0011409645942090549001 : -delegate_
+C_0006597931841462278842 --> C_0007144605065180177457 : -delegate_
 C_0010507882201943938998 <|-- C_0006597931841462278842
 skinparam class {
   BackgroundColor #EAFAF1
@@ -301,12 +295,23 @@ skinparam class<<Base>> {
   FontStyle Italic
 }
 
+skinparam class<<Model>> {
+  BackgroundColor #E8F8F5
+  BorderColor #0E6655
+  BorderThickness 3
+  FontSize 16
+  FontColor #0E6655
+  AttributeFontColor #117A65
+  StereotypeFontColor #148F77
+  FontStyle Italic
+}
+
 
  class C_0012811662139665247956 <<Chrysalis>>  
 
  class C_0011673986955732978878 <<UI>>  
 
- 
+
 
  class C_0007088239576659478452 <<Chrysalis>>  
 
@@ -344,9 +349,13 @@ skinparam class<<Base>> {
 
  class C_0007144605065180177457 <<UI>> <<Base>> 
 
+ class C_0000760598864925262687 <<UI>> <<Base>> 
+
  class C_0002206756607826776811 <<Chrysalis>>  
 
- class C_0008639774122268316592 <<UI>>  
+ class C_0009381834591580468042 <<UI>> <<Base>> 
+
+ class C_0011409645942090549001 <<UI>> <<Base>> 
 
  class C_0006597931841462278842 <<UI>>  
 

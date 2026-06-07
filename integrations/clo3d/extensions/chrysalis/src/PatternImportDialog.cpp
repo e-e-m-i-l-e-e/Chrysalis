@@ -6,22 +6,23 @@
 
 using namespace UI;
 
-PatternImportDialog::PatternImportDialog(Chrysalis::PatternImporter* importer, ParametersModel* model,
-                                         BaseDelegate<ParameterWidget, Chrysalis::Parameter>* delegate)
-    : model_(model), importer_(importer), ui(new Ui::PatternImportDialog) {
+PatternImportDialog::PatternImportDialog(Chrysalis::PatternImporter* importer,
+                    BaseModel<Chrysalis::ParametersContainer>* model,
+                    BaseDelegate<ParameterWidget, Chrysalis::Parameter>* delegate)
+    : ui(new Ui::PatternImportDialog), importer_(importer), model_(model), delegate_(delegate) {
     ui->setupUi(this);
     UTILITY_API->UpdateCloStyleForPlugIn(this);
     ui->baseDialogContainer->install({ui->content, ui->footer});
 
     ui->parametersListView->setModel(model_);
-    ui->parametersListView->setItemDelegate(delegate);
+    ui->parametersListView->setItemDelegate(delegate_);
 
     const int space = ui->parametersListView->spacing();
 
     int totalHeight = space;
     for (int i = 0; i < model_->rowCount({}); i++) {
         ui->parametersListView->openPersistentEditor(model_->index(i));
-        totalHeight += delegate->sizeHint({}, model->index(i)).height() + 2 * space;
+        totalHeight += delegate_->sizeHint({}, model->index(i)).height() + 2 * space;
     }
     ui->parametersListView->setFixedHeight(std::min(totalHeight, ui->parametersListView->maximumHeight()));
 }
