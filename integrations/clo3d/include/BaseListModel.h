@@ -6,9 +6,9 @@
 namespace UI {
     template<typename T>
     class BaseModel: public QAbstractListModel {
-    public:
+    protected:
         explicit BaseModel(T* data): data_(data) {}
-
+    public:
         int rowCount(const QModelIndex& parent) const override {
             return data_->count();
         }

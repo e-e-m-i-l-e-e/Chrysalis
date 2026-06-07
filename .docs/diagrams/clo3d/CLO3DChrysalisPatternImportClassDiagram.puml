@@ -184,19 +184,9 @@ class C_0010507882201943938998 {
 +BaseDialog() : void
 __
 }
-class "UI::BaseDelegate<W,C>" as C_0007144605065180177457
-class C_0007144605065180177457 {
-+BaseDelegate(QObject * parent) : void
-..
-+createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const : QWidget *
-+setEditorData(QWidget * editor, const QModelIndex & index) const : void
-+sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const : QSize
-+updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const : void
-__
-}
 class "UI::BaseModel<T>" as C_0000760598864925262687
 class C_0000760598864925262687 {
-+BaseModel(T * data) : void
+#BaseModel(T * data) : void
 ..
 +data(const QModelIndex & index, const int role) const : QVariant
 +rowCount(const QModelIndex & parent) const : int
@@ -207,20 +197,40 @@ class "UI::BaseModel<Chrysalis::ParametersContainer>" as C_000938183459158046804
 class C_0009381834591580468042 {
 __
 }
+class "UI::ParametersModel" as C_0008639774122268316592
+class C_0008639774122268316592 {
++ParametersModel(Chrysalis::ParametersContainer * parameters) : void
+__
+}
+class "UI::BaseDelegate<W,C>" as C_0007144605065180177457
+class C_0007144605065180177457 {
++BaseDelegate(QObject * parent) : void
+..
++createEditor(QWidget * parent, const QStyleOptionViewItem & option, const QModelIndex & index) const : QWidget *
++setEditorData(QWidget * editor, const QModelIndex & index) const : void
++sizeHint(const QStyleOptionViewItem & option, const QModelIndex & index) const : QSize
++updateEditorGeometry(QWidget * editor, const QStyleOptionViewItem & option, const QModelIndex & index) const : void
+__
+}
 class "UI::BaseDelegate<UI::ParameterWidget,Chrysalis::Parameter>" as C_0011409645942090549001
 class C_0011409645942090549001 {
 __
 }
+class "UI::ParameterDelegate" as C_0015361787604387007109
+class C_0015361787604387007109 {
++ParameterDelegate(QObject * parent) : void
+__
+}
 class "UI::PatternImportDialog" as C_0006597931841462278842
 class C_0006597931841462278842 {
-+PatternImportDialog(Chrysalis::PatternImporter * importer, UI::BaseModel<Chrysalis::ParametersContainer> * model, UI::BaseDelegate<ParameterWidget,Chrysalis::Parameter> * delegate) : void
++PatternImportDialog(Chrysalis::PatternImporter * importer, ParametersModel * model, ParameterDelegate * delegate) : void
 +~PatternImportDialog() : void
 ..
 +accept() : void
 __
--delegate_ : BaseDelegate<ParameterWidget,Chrysalis::Parameter> *
+-delegate_ : ParameterDelegate *
 -importer_ : Chrysalis::PatternImporter *
--model_ : BaseModel<Chrysalis::ParametersContainer> *
+-model_ : ParametersModel *
 -ui : Ui::PatternImportDialog *
 }
 class "Point" as C_0009962967977086807313
@@ -257,15 +267,12 @@ C_0008495545694619727706 *-- C_0005076600185507105511 : -instructions_
 C_0002206756607826776811 *-- C_0008495545694619727706 : -project_
 C_0011673986955732978878 --> C_0012811662139665247956 : -parameter_
 C_0009381834591580468042 ..|> C_0000760598864925262687
+C_0009381834591580468042 <|-- C_0008639774122268316592
 C_0011409645942090549001 ..|> C_0007144605065180177457
+C_0011409645942090549001 <|-- C_0015361787604387007109
 C_0006597931841462278842 *-- C_0002206756607826776811 : -importer_
-C_0006597931841462278842 *-- C_0017382097479736929272 : -model_
-C_0006597931841462278842 *-- C_0009381834591580468042 : -model_
-C_0006597931841462278842 *-- C_0000760598864925262687 : -model_
-C_0006597931841462278842 --> C_0011673986955732978878 : -delegate_
-C_0006597931841462278842 --> C_0012811662139665247956 : -delegate_
-C_0006597931841462278842 --> C_0011409645942090549001 : -delegate_
-C_0006597931841462278842 --> C_0007144605065180177457 : -delegate_
+C_0006597931841462278842 *-- C_0008639774122268316592 : -model_
+C_0006597931841462278842 *-- C_0015361787604387007109 : -delegate_
 C_0010507882201943938998 <|-- C_0006597931841462278842
 skinparam class {
   BackgroundColor #EAFAF1
@@ -347,15 +354,19 @@ skinparam class<<Model>> {
 
  class C_0010507882201943938998 <<UI>> <<Base>> 
 
- class C_0007144605065180177457 <<UI>> <<Base>> 
-
  class C_0000760598864925262687 <<UI>> <<Base>> 
-
- class C_0002206756607826776811 <<Chrysalis>>  
 
  class C_0009381834591580468042 <<UI>> <<Base>> 
 
+ class C_0008639774122268316592 <<UI>>  
+
+ class C_0002206756607826776811 <<Chrysalis>>  
+
+ class C_0007144605065180177457 <<UI>> <<Base>> 
+
  class C_0011409645942090549001 <<UI>> <<Base>> 
+
+ class C_0015361787604387007109 <<UI>>  
 
  class C_0006597931841462278842 <<UI>>  
 
