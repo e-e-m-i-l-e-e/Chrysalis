@@ -1,9 +1,12 @@
 #include "BaseConsoleUser.h"
 
 #include <cstdio>
-#include "Windows.h"
+#ifdef _WIN32
+    #include "Windows.h"
+#endif
 
 BaseConsoleUser::BaseConsoleUser() {
+#ifdef _WIN32
     const bool attached = AttachConsole(ATTACH_PARENT_PROCESS);
     if (const bool allocated = !attached && AllocConsole(); attached || allocated) {
         FILE* f = nullptr;
@@ -23,4 +26,5 @@ BaseConsoleUser::BaseConsoleUser() {
     };
     enableVT(STD_OUTPUT_HANDLE);
     enableVT(STD_ERROR_HANDLE);
+#endif
 }

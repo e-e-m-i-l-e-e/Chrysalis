@@ -8,4 +8,4 @@ compiler.version=13
 os=Linux
 
 [conf]
-tools.build:jobs=8
+tools.build:jobs=6
