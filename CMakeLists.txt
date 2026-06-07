@@ -17,6 +17,8 @@ else ()
     add_compile_options(/Zc:preprocessor)
 endif ()
 
+include(CTest)
+enable_testing()
 find_package(GTest REQUIRED)
 
 add_subdirectory(logging)
