@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UI::CommandDialog</class>
+ <widget class="BaseDialog" name="UI::CommandDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>141</width>
+    <height>91</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>100</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>CommandDialog</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="sizeConstraint">
+    <enum>QLayout::SetMinimumSize</enum>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="UI::BaseDialogContainer" name="baseDialogContainer">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+     <widget class="QWidget" name="content">
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <layout class="QVBoxLayout" name="layout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>11</number>
+       </property>
+       <property name="topMargin">
+        <number>11</number>
+       </property>
+       <property name="rightMargin">
+        <number>11</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QWidget" name="argumentsWidgetWrapper" native="true">
+         <property name="styleSheet">
+          <string notr="true">#argumentsWidgetWrapper {
+	background: rgba(42, 42, 45, 255);
+	border-radius: 5px;
+}
+
+QLineEdit {
+        border-radius: 4px;
+        background: rgba(0, 0, 0, 77);
+        color: rgba(225, 225, 228, 255);
+        font-family: Inter;
+        font-size: 12px;
+        letter-spacing: 0px;
+        min-height: 22px;
+        max-height: 22px;
+        padding: 0px 6px;
+}
+
+QLineEdit:hover {
+        background: rgba(0, 0, 0, 77);
+        color: rgba(110, 185, 255, 255);
+}
+
+QLineEdit:focus {
+        background: rgba(37, 37, 40, 255);
+        color: rgba(110, 185, 255, 255);
+}
+
+QLineEdit[widget-type=&quot;Warning&quot;] {
+        background: rgba(40, 32, 35, 255);
+        color: rgba(255, 97, 125, 255);
+}
+
+QLineEdit[readOnly=&quot;true&quot;],
+QLineEdit[widget-type=&quot;ReadOnly&quot;] {
+        background: transparent;
+        color: rgba(153, 153, 156, 255);
+}
+
+QLineEdit:disabled {
+        background: rgba(37, 37, 40, 255);
+        color: rgba(70, 70, 73, 255);
+}
+       </string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="footer">
+      <layout class="QHBoxLayout" name="layout_2">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="runButton">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>Run</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>UI::NamedWidget</class>
+   <extends>QWidget</extends>
+   <header>NamedWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>UI::BaseDialogContainer</class>
+   <extends>UI::NamedWidget</extends>
+   <header>BaseDialogContainer.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>BaseDialog</class>
+   <extends>QDialog</extends>
+   <header>BaseDialog.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>baseDialogContainer</sender>
+   <signal>closed()</signal>
+   <receiver>UI::CommandDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>70</x>
+     <y>45</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>70</x>
+     <y>45</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>runButton</sender>
+   <signal>clicked()</signal>
+   <receiver>UI::CommandDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>70</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>70</x>
+     <y>45</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

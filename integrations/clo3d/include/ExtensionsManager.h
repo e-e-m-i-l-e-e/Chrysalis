@@ -1,11 +1,13 @@
 #ifndef CHRYSALIS_EXTENSIONSMANAGER_H
 #define CHRYSALIS_EXTENSIONSMANAGER_H
 
+#include <QDir>
 #include <QLabel>
 
 #include <Windows.h>
 
 #include "BaseExtension.h"
+#include "CommandRunner.h"
 #include "ExtensionsSettings.h"
 
 class ExtensionsManager {
@@ -29,6 +31,9 @@ public:
     inline static QFrame* mainWindow;
 
     inline static QToolButton* action;
+    inline static CommandRunner* commandRunner_;
+
+    static inline auto ROOT_EXTENSIONS_DIR = QDir(QString(CLO_HOME) + "/.extensions");
 };
 
 #define UI_MESSAGE(message) ExtensionsManager::setMessage(LOGGER_NAME, message, false);

@@ -5,13 +5,14 @@
 
 class ExtensionsSettings {
 public:
-    ExtensionsSettings(const QString &organization, const QString &application);
+    explicit ExtensionsSettings(QSettings* settings);
     ~ExtensionsSettings();
 
     void read() const;
     void clear() const;
     void addSettings(BaseExtensionSettings* settings);
 private:
+    /// @uml{composition}
     QSettings* settings_;
     std::forward_list<BaseExtensionSettings*> extensionsSettings_;
 };

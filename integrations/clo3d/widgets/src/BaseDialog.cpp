@@ -2,7 +2,7 @@
 
 using namespace UI;
 
-BaseDialog::BaseDialog(): QDialog() {
+BaseDialog::BaseDialog() {
     setWindowModality(Qt::WindowModal);
     setWindowFlags(Qt::FramelessWindowHint | Qt::Dialog);
     connect(this, &QDialog::accepted, this, &QDialog::deleteLater);

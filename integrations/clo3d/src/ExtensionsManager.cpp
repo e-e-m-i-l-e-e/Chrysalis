@@ -97,7 +97,8 @@ private:
 };
 
 void ExtensionsManager::install() {
-    extensionsSettings = new ExtensionsSettings("eemilee.me", "CLO3D Extensions");
+    const auto settings = new QSettings("eemilee.me", "CLO3D Extensions");
+    extensionsSettings = new ExtensionsSettings(settings);
     for (const auto extension: extensions) {
         extension->install();
         extension->configureSettings(extensionsSettings);
@@ -125,7 +126,7 @@ void ExtensionsManager::install() {
         };
     });
 
-    HooksManager::addAfter<&QWidget::show>([&](const HookHandle& handle, QWidget* this_) {
+    HooksManager::addAfter<&QWidget::show>([settings](const HookHandle& handle, QWidget* this_) {
         if (this_->objectName() == " TitleFrame") {
             LOG_INFO("Main window has been detected by Extensions Manager. Setting up UI.");
             mainWindow = dynamic_cast<QFrame*>(this_);
@@ -148,8 +149,10 @@ void ExtensionsManager::install() {
                 extensionsSettingsDialog->exec();
             });
 
+            commandRunner_ = new CommandRunner(settings, extensionsMenu->addMenu("Commands"));
             for (const auto extension: extensions) {
                 extension->configureMenu(extensionsMenu);
+                extension->configureCommands(commandRunner_);
             }
         } else if (QString(this_->metaObject()->className()) == "MVStatusBar") {
             LOG_INFO("Configuring status bar.");

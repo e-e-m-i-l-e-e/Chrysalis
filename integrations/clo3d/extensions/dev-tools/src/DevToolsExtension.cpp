@@ -1,5 +1,8 @@
 #include "DevToolsExtension.h"
 
+#include "BaseCommandArgumentsWidget.h"
+#include "ExportPatternCommand.h"
+#include "ExportPatternCommandArgumentsWidget.h"
 #include "LoggingTool.h"
 #include "UIExporterTool.h"
 #include "UIExporterToolSettingsWidget.h"
@@ -25,6 +28,10 @@ void DevToolsExtension::startup() {
     for (const auto devTool: devTools_) {
         devTool->startup();
     }
+}
+
+void DevToolsExtension::configureCommands(CommandRunner* runner) {
+    runner->add<ExportPatternCommand, ExportPatternCommandArguments, UI::ExportPatternCommandArgumentsWidget>();
 }
 
 void DevToolsExtension::configureSettings(ExtensionsSettings* extensionsSettings) {

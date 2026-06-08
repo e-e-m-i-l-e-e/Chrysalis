@@ -3,8 +3,7 @@
 #include "Logging.h"
 #define LOGGER_NAME "Extensions Settings"
 
-ExtensionsSettings::ExtensionsSettings(const QString &organization, const QString &application)
-    : settings_(new QSettings(organization, application)) {}
+ExtensionsSettings::ExtensionsSettings(QSettings* settings): settings_(settings) {}
 
 ExtensionsSettings::~ExtensionsSettings() {
     for (const auto settings: extensionsSettings_) {

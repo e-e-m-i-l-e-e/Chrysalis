@@ -1,8 +1,7 @@
 #ifndef CHRYSALIS_BASEUIEXPORTEROPTIONS_H
 #define CHRYSALIS_BASEUIEXPORTEROPTIONS_H
 
-#include <QDir>
-#include <QSettings>
+#include "ExtensionsManager.h"
 
 class BaseUIExporterOptions {
     struct Keys {
@@ -12,7 +11,7 @@ class BaseUIExporterOptions {
         inline static const QString CLASS_NAME = "className";
     };
     struct Defaults {
-        inline static const QDir ROOT_FOLDER = QDir(QString(CLO_HOME) + "/.extensions");
+        inline static const QDir ROOT_FOLDER = ExtensionsManager::ROOT_EXTENSIONS_DIR;
         inline static const QString FILE_NAME = "ui";
         inline static const QString OBJECT_NAME = "";
         inline static const QString CLASS_NAME = "";
