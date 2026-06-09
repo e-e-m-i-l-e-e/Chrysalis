@@ -2,8 +2,6 @@
 
 using namespace Chrysalis;
 
-Outline::Outline(const std::string& name): name_(name) {}
-
 Outline::Outline(const std::string& name, const std::string& firstPoint): name_(name) {
     points_.push_back(firstPoint);
 }

@@ -1,9 +1,9 @@
 #include "PatternImporter.h"
 
-#include <QFile>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QTemporaryFile>
 
 #include "CLOAPIInterface.h"
 
@@ -21,38 +21,62 @@ PatternImporter::~PatternImporter() {
 }
 
 void PatternImporter::import() const {
-    project_->getInstructions()->execute();
     LOG_INFO("Importing pattern from project: {}", project_->getName());
+    project_->getInstructions()->execute();
+
     QJsonObject root;
     QJsonArray patternList;
-    std::cout << "Pattern size: " << project_->getPatterns()->count() << std::endl;
     for (const auto& pattern: *project_->getPatterns()) {
-        const auto patternObject = QJsonObject();
-        const auto patternSpace = pattern->getSpace();
-        for (const auto& outline: *patternSpace->getOutline()) {
-            patternObject["Name"] = QString("%1 - %2").arg(pattern->getName().data()).arg(outline->getName().data());
+        for (const auto patternSpace = pattern->getSpace();
+             const auto& outline: *patternSpace->getOutline()) {
+            QJsonObject patternObject;
+            patternObject["Name"] = QString("%1 - %2")
+                                    .arg(pattern->getName().data())
+                                    .arg(outline->getName().data());
+            QJsonArray lineList;
+            QJsonObject prevPointObject;
             for (const auto& pointName: outline->getPoints()) {
-                std::cout << "Point: " << pointName.data() << std::endl;
+                const auto point = patternSpace->getPoint(pointName);
+                QJsonObject pointObject;
+                pointObject["ID"] = QString::number(reinterpret_cast<std::size_t>(point));
+                QJsonObject position;
+                position["x"] = point->x();
+                position["y"] = point->y();
+                pointObject["Position"] = position;
+
+                if (!prevPointObject.empty()) {
+                    QJsonArray pointList;
+                    pointList.push_back(prevPointObject);
+                    pointList.push_back(pointObject);
+                    QJsonObject lineObject;
+                    lineObject["PointList"] = pointList;
+                    lineList.push_back(lineObject);
+                }
+
+                prevPointObject = pointObject;
             }
+            QJsonObject shapeInfo;
+            shapeInfo["LineList"] = lineList;
+            patternObject["ShapeInfo"] = shapeInfo;
+            patternList.push_back(patternObject);
         }
         std::cout << std::endl;
     }
 
     root["PatternList"] = patternList;
 
-    QJsonDocument doc(root);
+    QTemporaryFile tempFile;
+    if (!tempFile.open()) {
+        LOG_ERROR("Failed to create temporary file.");
+        return;
+    }
 
-    const auto filePath = "C:\\Life\\Design\\Apps\\Chrysalis\\.misc\\pattern.json";
-    // QFile file(filePath);
-    // if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-    //     qWarning() << "Cannot open file:" << filePath;
-    //     return;
-    // }
-    //
-    // file.write(doc.toJson(QJsonDocument::Indented));
-    // file.close();
+    const QJsonDocument doc(root);
+    tempFile.write(doc.toJson(QJsonDocument::Indented));
+    tempFile.flush();
 
-    if (!PATTERN_API->ImportPatternJSON(filePath)) {
-        LOG_ERROR("Failed to import pattern: {}", filePath);
+    if (std::string tempFilePath = tempFile.fileName().toStdString();
+        !PATTERN_API->ImportPatternJSON(tempFilePath)) {
+        LOG_ERROR("Failed to import pattern: {}", tempFilePath);
     }
 }

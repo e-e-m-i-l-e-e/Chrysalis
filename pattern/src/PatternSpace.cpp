@@ -20,7 +20,7 @@ bool PatternSpace::hasPoint(const std::string& name) const {
     return points_.contains(name);
 }
 
-Point* PatternSpace::getPoint(const std::string& name) const {
+const Point* PatternSpace::getPoint(const std::string& name) const {
     return points_.at(name);
 }
 

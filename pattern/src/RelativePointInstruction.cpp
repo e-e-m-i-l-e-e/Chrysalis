@@ -1,4 +1,4 @@
-#include "../include/instructions/RelativePointInstruction.h"
+#include "instructions/RelativePointInstruction.h"
 
 using namespace Chrysalis;
 
@@ -19,15 +19,15 @@ RelativePointInstruction::~RelativePointInstruction() {
 
 bool RelativePointInstruction::isValid() {
     if (pointFrom_->hasArgument()) {
-        std::unordered_set<Point*> points;
+        std::unordered_set<const Point*> points;
         for (const auto& patternSpace: patterns()) {
             points.insert(patternSpace->getPoint(pointFrom_->getArgument()));
         }
         if (points.size() != 1) return false;
     } else {
-        std::unordered_set<Point*> points;
+        std::unordered_set<const Point*> points;
         for (const auto& patternSpace: patterns()) {
-            Point* lastPoint = patternSpace->getPoint(pointTo_->getArgument());
+            const Point* lastPoint = patternSpace->getPoint(pointTo_->getArgument());
             if (!lastPoint) return false;
             points.insert(lastPoint);
         }

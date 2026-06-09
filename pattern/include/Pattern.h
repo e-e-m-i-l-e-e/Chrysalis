@@ -10,8 +10,8 @@ namespace Chrysalis {
         explicit Pattern(const std::string& name, PatternSpace* space);
         ~Pattern();
 
-        const std::string& getName() const;
-        const PatternSpace* getSpace() const;
+        [[nodiscard]] const std::string& getName() const;
+        [[nodiscard]] const PatternSpace* getSpace() const;
     private:
         std::string name_;
         /// @uml{composition[]}

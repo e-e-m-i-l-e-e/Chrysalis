@@ -14,12 +14,12 @@ namespace Chrysalis {
         explicit PatternSpace(OutlineContainer* outline);
         ~PatternSpace();
 
-        bool hasPoint(const std::string& name) const;
+        [[nodiscard]] bool hasPoint(const std::string& name) const;
 
-        Point* getLastPoint() const;
-        OutlineContainer* getOutline() const;
-        Point* getPoint(const std::string& name) const;
-        const std::unordered_map<std::string, Point*>& getPoints() const;
+        [[nodiscard]] Point* getLastPoint() const;
+        [[nodiscard]] OutlineContainer* getOutline() const;
+        [[nodiscard]] const Point* getPoint(const std::string& name) const;
+        [[nodiscard]] const std::unordered_map<std::string, Point*>& getPoints() const;
 
         void addPoint(const std::string& name, Point* point);
     private:

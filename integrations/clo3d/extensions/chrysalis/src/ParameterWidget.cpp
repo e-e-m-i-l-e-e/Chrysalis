@@ -1,11 +1,20 @@
 #include "ParameterWidget.h"
+
+#include <iostream>
+
 #include "ui_ParameterWidget.h"
+
+#include <QDoubleValidator>
 
 using namespace UI;
 
 ParameterWidget::ParameterWidget(QWidget* parent)
     : QWidget(parent), ui(new Ui::ParameterWidget) {
     ui->setupUi(this);
+    ui->value->setValidator(new QDoubleValidator(ui->value));
+    connect(ui->value, &QLineEdit::textChanged, [this](const QString& text) {
+        parameter_->setValue(text.toDouble());
+    });
 }
 
 ParameterWidget::~ParameterWidget() {
