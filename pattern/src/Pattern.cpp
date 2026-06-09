@@ -9,6 +9,10 @@ Pattern::~Pattern() {
     delete space_;
 }
 
+const std::string& Pattern::getName() const {
+    return name_;
+}
+
 const PatternSpace* Pattern::getSpace() const {
     return space_;
 }

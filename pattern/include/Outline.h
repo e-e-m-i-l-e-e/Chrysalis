@@ -13,7 +13,9 @@ namespace Chrysalis {
     public:
         explicit Outline(const std::string& name, const std::string& firstPoint);
 
-        const std::string& getName();
+        [[nodiscard]] const std::string& getName() const;
+        [[nodiscard]] const std::list<std::string>& getPoints() const;
+
         void addPoint(const std::string& name);
 
         static constexpr auto DEFAULT = "main";

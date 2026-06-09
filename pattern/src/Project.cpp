@@ -5,14 +5,16 @@
 #include <boost/archive/binary_oarchive.hpp>
 
 #include "arguments/ParameterArgument.h"
+#include "instructions/BuildOutlineInstruction.h"
 #include "instructions/FreePointInstruction.h"
 #include "instructions/RelativePointInstruction.h"
 
 using namespace Chrysalis;
 
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::FreePointInstruction)
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::RelativePointInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::ParameterArgument)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::FreePointInstruction)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BuildOutlineInstruction)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::RelativePointInstruction)
 
 Project::Project(std::string name, ProjectSpace* space, ParametersContainer* parameters,
                  PatternsContainer* patterns, InstructionsContainer* instructions)

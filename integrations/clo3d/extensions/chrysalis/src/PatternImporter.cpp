@@ -21,17 +21,21 @@ PatternImporter::~PatternImporter() {
 }
 
 void PatternImporter::import() const {
+    project_->getInstructions()->execute();
     LOG_INFO("Importing pattern from project: {}", project_->getName());
     QJsonObject root;
     QJsonArray patternList;
     std::cout << "Pattern size: " << project_->getPatterns()->count() << std::endl;
     for (const auto& pattern: *project_->getPatterns()) {
         const auto patternObject = QJsonObject();
-        patternObject["Name"] = "Test";
-        std::cout << "Points size: " << pattern->getSpace()->getPoints().size();
-        for (const auto& [name, point]: pattern->getSpace()->getPoints()) {
-            std::cout << name << ": " << point << std::endl;
+        const auto patternSpace = pattern->getSpace();
+        for (const auto& outline: *patternSpace->getOutline()) {
+            patternObject["Name"] = QString("%1 - %2").arg(pattern->getName().data()).arg(outline->getName().data());
+            for (const auto& pointName: outline->getPoints()) {
+                std::cout << "Point: " << pointName.data() << std::endl;
+            }
         }
+        std::cout << std::endl;
     }
 
     root["PatternList"] = patternList;

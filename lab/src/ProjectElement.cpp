@@ -62,6 +62,13 @@ void ProjectElement::openProject(const QUrl& filePath) {
         {
             std::cout << name << ": (" << point->x() << ", " << point->y() << ")" << std::endl;
         }
+        for (const auto& outline: *project->getPatterns()->at(i)->getSpace()->getOutline())
+        {
+            for (const auto& pointName: outline->getPoints())
+            {
+                std::cout << pointName << ": (" << project->getPatterns()->at(i)->getSpace()->getPoint(pointName)->x() << ", " << project->getPatterns()->at(i)->getSpace()->getPoint(pointName)->y() << ")" << std::endl;
+            }
+        }
     }
     emit nameChanged();
     emit projectChanged();

@@ -8,8 +8,12 @@ Outline::Outline(const std::string& name, const std::string& firstPoint): name_(
     points_.push_back(firstPoint);
 }
 
-const std::string& Outline::getName() {
+const std::string& Outline::getName() const{
     return name_;
+}
+
+const std::list<std::string>& Outline::getPoints() const {
+    return points_;
 }
 
 void Outline::addPoint(const std::string& name) {

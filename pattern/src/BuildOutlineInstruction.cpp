@@ -1,4 +1,4 @@
-#include "../include/instructions/BuildOutlineInstruction.h"
+#include "instructions/BuildOutlineInstruction.h"
 
 #include "Outline.h"
 

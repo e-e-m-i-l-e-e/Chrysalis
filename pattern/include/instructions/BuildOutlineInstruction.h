@@ -1,7 +1,10 @@
 #ifndef CHRYSALIS_STARTOUTLINEINSTRUCTION_H
 #define CHRYSALIS_STARTOUTLINEINSTRUCTION_H
 
+#include <boost/serialization/export.hpp>
+
 #include "BasePatternInstruction.h"
+#include "BuildOutlineInstruction.h"
 
 namespace Chrysalis {
     using name = NameArgument;
@@ -11,7 +14,8 @@ namespace Chrysalis {
      * out("Name") -> A -> B -> C
      * }
      */
-    class BuildOutlineInstruction: public BasePatternInstruction {
+    class SERIALIZABLE(BuildOutlineInstruction): public BasePatternInstruction {
+        PROVIDE_SERIALIZATION_ACCESS(BuildOutlineInstruction)
     public:
         explicit BuildOutlineInstruction(ProjectSpace* space, SelectedPatternsArgument* selectedPatterns,
                                          name* outlineName, name* point);
@@ -23,6 +27,10 @@ namespace Chrysalis {
         name* outlineName_;
         name* point_;
     };
+    SERIALIZE_DERIVED_MEMBERS(BuildOutlineInstruction, BasePatternInstruction, outlineName_, point_)
+    SERIALIZATION_CONSTRUCTOR(BuildOutlineInstruction, space_, selectedPatterns_, outlineName_, point_)
 }
+
+BOOST_CLASS_EXPORT_KEY(Chrysalis::BuildOutlineInstruction)
 
 #endif //CHRYSALIS_STARTOUTLINEINSTRUCTION_H
