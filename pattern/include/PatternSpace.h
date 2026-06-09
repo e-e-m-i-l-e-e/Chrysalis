@@ -8,7 +8,8 @@
 #include "ProjectSpace.h"
 
 namespace Chrysalis {
-    class PatternSpace {
+    class SERIALIZABLE(PatternSpace) {
+        PROVIDE_SERIALIZATION_ACCESS(PatternSpace)
     public:
         explicit PatternSpace(OutlineContainer* outline);
         ~PatternSpace();
@@ -24,9 +25,10 @@ namespace Chrysalis {
     private:
         Point* lastPoint_ = nullptr;
         /// @uml{composition}
-        OutlineContainer* outline_ = nullptr;
+        OutlineContainer* outline_;
         std::unordered_map<std::string, Point*> points_;
     };
+    SIMPLE_SERIALIZE_MEMBERS(PatternSpace, outline_)
 }
 
 #endif //CHRYSALIS_PATTERNSPACE_H

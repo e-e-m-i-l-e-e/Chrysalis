@@ -3,9 +3,12 @@
 
 #include <boost/optional/optional.hpp>
 
+#include "serialization.h"
+
 namespace Chrysalis {
     template<typename T>
-    class BaseArgument {
+    class SERIALIZABLE_T(BaseArgument, T) {
+        PROVIDE_SERIALIZATION_ACCESS_T(BaseArgument)
     protected:
         explicit BaseArgument() = default;
         explicit BaseArgument(T argument): argument_(argument) {}
@@ -28,6 +31,7 @@ namespace Chrysalis {
     protected:
         boost::optional<T> argument_;
     };
+    SIMPLE_SERIALIZE_MEMBERS_T(BaseArgument, T, argument_)
 }
 
 #endif //CHRYSALIS_BASEARGUMENT_H

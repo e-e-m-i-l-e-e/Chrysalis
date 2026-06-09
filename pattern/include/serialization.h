@@ -28,6 +28,17 @@ void save_construct_data(Archive&, const Class<T>*, const unsigned int);        
 template<typename T>                                                                                                   \
 class Class
 
+#define SERIALIZABLE_T_DERIVED_FROM(Class, T, Base)                                                                    \
+Class;                                                                                                                 \
+template<class Archive, typename T>                                                                                    \
+void serialize(Archive&, Class<T>&, const unsigned int);                                                               \
+template<class Archive, typename T>                                                                                    \
+void load_construct_data(Archive&, Class<T>*, const unsigned int);                                                     \
+template<class Archive, typename T>                                                                                    \
+void save_construct_data(Archive&, const Class<T>*, const unsigned int);                                               \
+template<typename T> requires std::derived_from<T, Base>                                                               \
+class Class
+
 // --- Friends (Optional) ----------------------------------------------------------------------------------------------
 #define PROVIDE_SERIALIZATION_ACCESS(Class)                                                                            \
 template<class Archive>                                                                                                \
@@ -82,7 +93,7 @@ void load_construct_data(Archive& archive, Class<T>* obj, const unsigned int) { 
     BOOST_PP_SEQ_FOR_EACH(DECLARE_FIELD, _, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))                                     \
     BOOST_PP_SEQ_FOR_EACH(LOAD_FIELD, _, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))                                        \
   )                                                                                                                    \
-  ::new(obj) Class(__VA_ARGS__);                                                                                       \
+  ::new(obj) Class<T>(__VA_ARGS__);                                                                                    \
 }
 
 // --- Specify members to serialize ------------------------------------------------------------------------------------
@@ -111,6 +122,15 @@ void serialize(Archive& archive, Class& obj, const unsigned int version) {      
   )                                                                                                                    \
 }
 
+#define SERIALIZE_DERIVED_MEMBERS_T(Class, T, Base, ...)                                                               \
+template<class Archive, typename T>                                                                                    \
+void serialize(Archive& archive, Class<T>& obj, const unsigned int version) {                                          \
+  archive & boost::serialization::base_object<Base<T>>(obj);                                                           \
+  __VA_OPT__(                                                                                                          \
+    BOOST_PP_SEQ_FOR_EACH(ACCESS_FIELD, _, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))                                      \
+  )                                                                                                                    \
+}
+
 // --- Specify members to serialize and use default constructor --------------------------------------------------------
 #define DEFAULT_SERIALIZE_MEMBERS(Class, ...)                                                                          \
 SERIALIZE_MEMBERS(Class, __VA_ARGS__)                                                                                  \
@@ -125,9 +145,21 @@ SERIALIZE_MEMBERS_T(Class, T, __VA_ARGS__)
 SERIALIZE_DERIVED_MEMBERS(Class, Base, __VA_ARGS__)                                                                    \
 SERIALIZATION_CONSTRUCTOR(Class)
 
+#define DEFAULT_SERIALIZE_DERIVED_MEMBERS_T(Class, T, Base, ...)                                                       \
+SERIALIZE_DERIVED_MEMBERS_T(Class, T, Base, __VA_ARGS__)                                                               \
+SERIALIZATION_CONSTRUCTOR_T(Class, T)
+
 // --- Specify members to serialize and use same members in constructor ------------------------------------------------
 #define SIMPLE_SERIALIZE_MEMBERS(Class, ...)                                                                           \
 SERIALIZE_MEMBERS(Class, __VA_ARGS__)                                                                                  \
+SERIALIZATION_CONSTRUCTOR(Class, __VA_ARGS__)
+
+#define SIMPLE_SERIALIZE_MEMBERS_T(Class, T, ...)                                                                      \
+SERIALIZE_MEMBERS_T(Class, T, __VA_ARGS__)                                                                             \
+SERIALIZATION_CONSTRUCTOR_T(Class, T, __VA_ARGS__)
+
+#define SIMPLE_SERIALIZE_DERIVED_MEMBERS(Class, Base, ...)                                                             \
+SERIALIZE_DERIVED_MEMBERS(Class, Base, __VA_ARGS__)                                                                    \
 SERIALIZATION_CONSTRUCTOR(Class, __VA_ARGS__)
 
 #endif //CHRYSALIS_SERIALIZATION_H

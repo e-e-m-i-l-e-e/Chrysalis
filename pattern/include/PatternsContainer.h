@@ -8,7 +8,7 @@
 
 namespace Chrysalis {
     class SERIALIZABLE(PatternsContainer): public BaseContainer<Pattern> {};
-    DEFAULT_SERIALIZE_MEMBERS(PatternsContainer)
+    DEFAULT_SERIALIZE_DERIVED_MEMBERS(PatternsContainer, BaseContainer<Pattern>)
 }
 
 #endif //CHRYSALIS_PATTERNSCONTAINER_H

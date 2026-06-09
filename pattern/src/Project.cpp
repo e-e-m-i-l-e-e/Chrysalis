@@ -1,10 +1,18 @@
 #include "Project.h"
-#include "BaseContainer.h"
 
+#include <boost/serialization/export.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 
+#include "arguments/ParameterArgument.h"
+#include "instructions/FreePointInstruction.h"
+#include "instructions/RelativePointInstruction.h"
+
 using namespace Chrysalis;
+
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::FreePointInstruction)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::RelativePointInstruction)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::ParameterArgument)
 
 Project::Project(std::string name, ProjectSpace* space, ParametersContainer* parameters,
                  PatternsContainer* patterns, InstructionsContainer* instructions)
@@ -69,6 +77,18 @@ void Project::setName(const std::string& name) {
     name_ = name;
 }
 
+ProjectSpace* Project::getSpace() const {
+    return space_;
+}
+
+PatternsContainer* Project::getPatterns() const {
+    return patterns_;
+}
+
 ParametersContainer* Project::getParameters() const {
     return parameters_;
+}
+
+InstructionsContainer* Project::getInstructions() const {
+    return instructions_;
 }

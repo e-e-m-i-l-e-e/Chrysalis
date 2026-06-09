@@ -4,13 +4,14 @@
 #include "BaseArgument.h"
 
 namespace Chrysalis {
-    class NumberArgument: public BaseArgument<double> {
+    class SERIALIZABLE(NumberArgument): public BaseArgument<double> {
     public:
         explicit NumberArgument() = default;
         explicit NumberArgument(const double x): BaseArgument(x) {}
     protected:
-        explicit NumberArgument(boost::optional<double> x): BaseArgument<double>(x) {}
+        explicit NumberArgument(const boost::optional<double> x): BaseArgument(x) {}
     };
+    DEFAULT_SERIALIZE_DERIVED_MEMBERS(NumberArgument, BaseArgument<double>)
 }
 
 #endif //CHRYSALIS_NUMBERARGUMENT_H

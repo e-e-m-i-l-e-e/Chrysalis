@@ -270,3 +270,78 @@ diagrams:
           {% endif %}
 
           {% endfor %}
+  CLO3DCommandsClassDiagram:
+    type: class
+    glob:
+      include:
+        - r: ".*clo3d.*Command.*"
+    exclude:
+      namespaces:
+        - std
+        - UI::Ui
+      elements:
+        - type: method
+          name:
+            r: '.*::(qt_metacall|qt_static_metacall|qt_metacast|metaObject|tr|trUtf8|staticMetaObject)$'
+        - type: member
+          name:
+            r: '.*::staticMetaObject$'
+      paths:
+        - ../../../.conan
+        - ../../../logging
+      relationships:
+        - dependency
+    plantuml:
+      after:
+        - >
+          skinparam class {
+            BackgroundColor #EAFAF1
+            BorderColor #1E8449
+            FontColor #0B5345
+            AttributeFontColor #1E8449
+            StereotypeFontColor #1E8449
+            FontStyle Bold
+          }
+        - >
+          skinparam class<<UI>> {
+            BackgroundColor #F5EEF8
+            BorderColor #8E44AD
+            FontColor #4A235A
+            AttributeFontColor #6C3483
+            StereotypeFontColor #6C3483
+          }
+        - >
+          skinparam class<<Base>> {
+            BackgroundColor #F2F3F4
+            BorderColor #2C3E50
+            BorderThickness 3
+            FontSize 16
+            FontColor #2C3E50
+            AttributeFontColor #566573
+            StereotypeFontColor #808B96
+            FontStyle Italic
+          }
+        - >
+          skinparam class<<Extension>> {
+            BackgroundColor #F9EBEA
+            BorderColor #7B241C
+            BorderThickness 3
+            FontSize 16
+            FontColor #7B241C
+            AttributeFontColor #A93226
+            StereotypeFontColor #CD6155
+            FontStyle Italic
+          }
+        - >
+          {% for e in diagram.elements %}
+
+          {% if e.namespace != "" %}
+          class {{ e.alias }} <<{{ e.namespace }}>> {% if replace(e.name, "Base", "") != e.name %}<<Base>>{% endif %}
+          {% else if replace(e.name, "Base", "") != e.name %}
+          class {{ e.alias }} <<Base>>
+          {% else if replace(e.name, "Extension", "") != e.name and replace(e.name, "Extensions", "") == e.name %}
+          class {{ e.alias }} <<Extension>>
+          {% else %}
+          {% endif %}
+
+          {% endfor %}

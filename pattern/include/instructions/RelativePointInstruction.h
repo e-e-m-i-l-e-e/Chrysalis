@@ -1,7 +1,10 @@
 #ifndef CHRYSALIS_ADDPOINTINSTRUCTION_H
 #define CHRYSALIS_ADDPOINTINSTRUCTION_H
 
+#include <boost/serialization/export.hpp>
+
 #include "BasePatternInstruction.h"
+#include "RelativePointInstruction.h"
 
 namespace Chrysalis {
     /**
@@ -11,7 +14,8 @@ namespace Chrysalis {
      * A -> B (1 * 2 * 3 * 4) (1 / 2 / param("Circumference of something"))
      * }
      */
-    class RelativePointInstruction: public BasePatternInstruction {
+    class SERIALIZABLE(RelativePointInstruction): public BasePatternInstruction {
+        PROVIDE_SERIALIZATION_ACCESS(RelativePointInstruction)
     public:
         explicit RelativePointInstruction(ProjectSpace* space, SelectedPatternsArgument* selectedPatterns,
                                           const name* pointFrom, const pattern* pointFromPattern,
@@ -27,6 +31,10 @@ namespace Chrysalis {
         const num* angle_;
         const num* distance_;
     };
+    SERIALIZE_DERIVED_MEMBERS(RelativePointInstruction, Chrysalis::BasePatternInstruction, pointFrom_, pointFromPattern_, pointTo_, angle_, distance_)
+    SERIALIZATION_CONSTRUCTOR(RelativePointInstruction, space_, selectedPatterns_, pointFrom_, pointFromPattern_, pointTo_, angle_, distance_)
 }
+
+BOOST_CLASS_EXPORT_KEY(Chrysalis::RelativePointInstruction)
 
 #endif //CHRYSALIS_ADDPOINTINSTRUCTION_H

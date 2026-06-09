@@ -3,13 +3,13 @@
 
 #include <boost/optional/optional.hpp>
 
-#include "../BaseContainer.h"
+#include "BaseContainer.h"
 #include "BaseInstruction.h"
 
 namespace Chrysalis {
     template<typename T>
     requires std::derived_from<T, BaseInstruction>
-    class BaseInstructionsContainer: public BaseInstruction, public BaseContainer<T> {
+    class SERIALIZABLE_T_DERIVED_FROM(BaseInstructionsContainer, T, BaseInstruction): public BaseInstruction, public BaseContainer<T> {
     protected:
         explicit BaseInstructionsContainer() = default;
     public:
@@ -21,6 +21,7 @@ namespace Chrysalis {
             this->call(&BaseInstruction::execute);
         }
     };
+    DEFAULT_SERIALIZE_DERIVED_MEMBERS_T(BaseInstructionsContainer, T, BaseContainer)
 }
 
 #endif //CHRYSALIS_BASEINSTRUCTIONSCONTAINER_H

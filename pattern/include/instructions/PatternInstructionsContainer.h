@@ -1,12 +1,13 @@
 #ifndef CHRYSALIS_PATTERNINSTRUCTIONSCONTAINER_H
 #define CHRYSALIS_PATTERNINSTRUCTIONSCONTAINER_H
 
-#include "BaseInstructionsContainer.h"
+#include "SelectedPatterns.h"
 #include "BasePatternInstruction.h"
-#include "../SelectedPatterns.h"
+#include "BaseInstructionsContainer.h"
 
 namespace Chrysalis {
-    class PatternInstructionsContainer: public BaseInstructionsContainer<BasePatternInstruction> {
+    class SERIALIZABLE(PatternInstructionsContainer): public BaseInstructionsContainer<BasePatternInstruction> {
+        PROVIDE_SERIALIZATION_ACCESS(PatternInstructionsContainer)
     public:
         explicit PatternInstructionsContainer(SelectedPatterns* patterns);
         ~PatternInstructionsContainer() override;
@@ -14,6 +15,7 @@ namespace Chrysalis {
         /// @uml{composition[]}
         SelectedPatterns* patterns_;
     };
+    SIMPLE_SERIALIZE_DERIVED_MEMBERS(PatternInstructionsContainer, BaseInstructionsContainer<BasePatternInstruction>, patterns_)
 }
 
 #endif //CHRYSALIS_PATTERNINSTRUCTIONSCONTAINER_H

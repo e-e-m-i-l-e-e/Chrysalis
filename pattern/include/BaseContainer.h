@@ -31,6 +31,12 @@ namespace Chrysalis {
         virtual void add(T* item) {
             data_.push_back(item);
         }
+        std::list<T*>::const_iterator begin() const {
+            return data_.begin();
+        }
+        std::list<T*>::const_iterator end() const {
+            return data_.end();
+        }
     private:
         ///@uml{composition}
         std::list<T*> data_;

@@ -5,11 +5,12 @@
 #include "PatternSpace.h"
 
 namespace Chrysalis {
-    class PatternArgument: public BaseArgument<PatternSpace*> {
+    class SERIALIZABLE(PatternArgument): public BaseArgument<PatternSpace*> {
     public:
         explicit PatternArgument() = default;
         explicit PatternArgument(PatternSpace* pattern): BaseArgument(pattern) {}
     };
+    DEFAULT_SERIALIZE_DERIVED_MEMBERS(PatternArgument, BaseArgument<PatternSpace*>)
 }
 
 #endif //CHRYSALIS_PATTERNARGUMENT_H

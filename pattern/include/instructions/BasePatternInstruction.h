@@ -1,20 +1,22 @@
 #ifndef CHRYSALIS_BASEPATTERNINSTRUCTION_H
 #define CHRYSALIS_BASEPATTERNINSTRUCTION_H
 
+#include "ProjectSpace.h"
 #include "BaseInstruction.h"
-#include "../ProjectSpace.h"
+#include "BasePatternInstruction.h"
 
-#include "../arguments/NameArgument.h"
-#include "../arguments/NumberArgument.h"
-#include "../arguments/PatternArgument.h"
-#include "../arguments/SelectedPatternsArgument.h"
+#include "arguments/NameArgument.h"
+#include "arguments/NumberArgument.h"
+#include "arguments/PatternArgument.h"
+#include "arguments/SelectedPatternsArgument.h"
 
 namespace Chrysalis {
     using name = NameArgument;
     using num = NumberArgument;
     using pattern = PatternArgument;
 
-    class BasePatternInstruction: public BaseInstruction {
+    class SERIALIZABLE(BasePatternInstruction): public BaseInstruction {
+        PROVIDE_SERIALIZATION_ACCESS(BasePatternInstruction)
     public:
         ~BasePatternInstruction() override;
         virtual bool isValid() = 0;
@@ -27,11 +29,12 @@ namespace Chrysalis {
         [[nodiscard]] SelectedPatterns& patterns() const {
             return *selectedPatterns_->getArgument();
         }
-    private:
+
         ProjectSpace* space_;
         /// @uml{composition}
         SelectedPatternsArgument* selectedPatterns_;
     };
+    SERIALIZE_MEMBERS(BasePatternInstruction, space_, selectedPatterns_);
 };
 
 #endif //CHRYSALIS_BASEPATTERNINSTRUCTION_H

@@ -1,40 +1,70 @@
 @startuml
-class "BaseUIExporterOptions" as C_0002364118592477390475
-class C_0002364118592477390475 {
-#~BaseUIExporterOptions() constexpr = default : void
+abstract "BaseCommandArguments" as C_0017826349404709606115
+abstract C_0017826349404709606115 {
+#BaseCommandArguments(QSettings * settings) : void
++~BaseCommandArguments() constexpr = default : void
 ..
-+getClassName() const : QString
-+getFileName() const : QString
-+getObjectName() const : QString
-+getRootFolder() const : QDir
-+isEnabled() : bool
-+read(const QSettings * settings) : void
-+setClassName(const QString & className) : void
-+setFileName(const QString & fileName) : void
-+setObjectName(const QString & objectName) : void
-+setRootFolder(const QDir & rootFolder) : void
-+write(QSettings * settings) : void
+{abstract} +getName() = 0 : QString
+{abstract} #read() = 0 : void
++readSettings() : void
+{abstract} #write() = 0 : void
++writeSettings() : void
 __
--className_ : QString
--fileName_ : QString
--objectName_ : QString
--rootFolder_ : QDir
+#settings_ : QSettings *
 }
-class "BaseUIExporterOptions::Keys" as C_0008405219056795622625
-class C_0008405219056795622625 {
+abstract "BaseCommand" as C_0014850613953214503793
+abstract C_0014850613953214503793 {
+#BaseCommand(BaseCommandArguments * arguments) : void
++~BaseCommand() : void
+..
+{abstract} +run() = 0 : void
 __
-{static} +CLASS_NAME : const QString
-{static} +FILE_NAME : const QString
-{static} +OBJECT_NAME : const QString
-{static} +ROOT_FOLDER : const QString
+#arguments_ : BaseCommandArguments *
 }
-class "BaseUIExporterOptions::Defaults" as C_0007653554705407741843
-class C_0007653554705407741843 {
+class "UI::BaseCommandArgumentsWidget" as C_0008907065976657435877
+class C_0008907065976657435877 {
++BaseCommandArgumentsWidget(BaseCommandArguments * arguments) : void
+..
++load() : void
++save() const : void
 __
-{static} +CLASS_NAME : const QString
-{static} +FILE_NAME : const QString
-{static} +OBJECT_NAME : const QString
-{static} +ROOT_FOLDER : const QDir
+#arguments_ : BaseCommandArguments *
+}
+class "UI::CommandDialog" as C_0008115529870550764648
+class C_0008115529870550764648 {
++CommandDialog(const QString & title, BaseCommandArgumentsWidget * argumentsWidget, BaseCommand * command) : void
++~CommandDialog() : void
+..
++accept() : void
+__
+-argumentsWidget_ : BaseCommandArgumentsWidget *
+-command_ : BaseCommand *
+-ui : Ui::CommandDialog *
+}
+class "UI::BaseExtensionSettingsWidget" as C_0010218074716017551262
+class C_0010218074716017551262 {
++BaseExtensionSettingsWidget(BaseExtensionSettings * extensionSettings, QWidget * parent) : void
+..
++getBaseExtensionSettings() const : BaseExtensionSettings *
++read() : void
++write() : void
+__
+-extensionSettings_ : BaseExtensionSettings *
+}
+class "UI::ExtensionsSettingsDialog" as C_0002933765265782475360
+class C_0002933765265782475360 {
++ExtensionsSettingsDialog(ExtensionsSettings * settings) : void
++~ExtensionsSettingsDialog() : void
+..
++accept() : void
++addPage(BaseExtensionSettingsWidget * page) const : void
++exec() : int
+-processPages(void (BaseExtensionSettingsWidget::*)() processor) const : void
++reject() : void
++reset() : void
+__
+-extensionsSettings : ExtensionsSettings *
+-ui : Ui::ExtensionsSettingsDialog *
 }
 abstract "UI::BaseUIExporterOptionsWidget" as C_0014335928297626608881
 abstract C_0014335928297626608881 {
@@ -65,31 +95,6 @@ class C_0001932425129801750660 {
 __
 -options_ : JsonUIExporterOptions *
 -ui : Ui::JsonUIExporterOptionsWidget *
-}
-class "UI::BaseExtensionSettingsWidget" as C_0010218074716017551262
-class C_0010218074716017551262 {
-+BaseExtensionSettingsWidget(BaseExtensionSettings * extensionSettings, QWidget * parent) : void
-..
-+getBaseExtensionSettings() const : BaseExtensionSettings *
-+read() : void
-+write() : void
-__
--extensionSettings_ : BaseExtensionSettings *
-}
-class "UI::ExtensionsSettingsDialog" as C_0002933765265782475360
-class C_0002933765265782475360 {
-+ExtensionsSettingsDialog(ExtensionsSettings * settings) : void
-+~ExtensionsSettingsDialog() : void
-..
-+accept() : void
-+addPage(BaseExtensionSettingsWidget * page) const : void
-+exec() : int
--processPages(void (BaseExtensionSettingsWidget::*)() processor) const : void
-+reject() : void
-+reset() : void
-__
--extensionsSettings : ExtensionsSettings *
--ui : Ui::ExtensionsSettingsDialog *
 }
 class "UI::UIExporterToolSettingsWidget" as C_0014469424477386747179
 class C_0014469424477386747179 {
@@ -139,6 +144,106 @@ __
 -options_ : XmlUIExporterOptions *
 -ui : Ui::XmlUIExporterOptionsWidget *
 }
+class "CommandRunner" as C_0011922452949065162588
+class C_0011922452949065162588 {
++CommandRunner(QSettings * settings, QMenu * menu) : void
+..
++add<Command,Arguments,Widget>() : void
+__
+-menu_ : QMenu *
+-settings_ : QSettings *
+}
+abstract "BaseExtensionSettings" as C_0016168181109205541512
+abstract C_0016168181109205541512 {
+#~BaseExtensionSettings() constexpr = default : void
+..
+{abstract} #read() = 0 : void
++readSettings() : void
+-setSettings(QSettings * settings) : void
+{abstract} #write() = 0 : void
++writeSettings() : void
+__
+#settings_ : QSettings *
+}
+class "BaseExtension" as C_0008116604999349224677
+class C_0008116604999349224677 {
+#~BaseExtension() constexpr = default : void
+..
++configure(QWidget * widget) : void
++configureCommands(CommandRunner * container) : void
++configureMenu(QMenu * extensionMenu) : void
++configureSettings(ExtensionsSettings * extensionsSettings) : void
++configureSettingsUI(UI::ExtensionsSettingsDialog * extensionsSettingsDialog) : void
++configureStatusBar(QWidget * parent) : void
++install() : void
++startup() : void
+__
+}
+class "ExtensionsSettings" as C_0010078071459042722134
+class C_0010078071459042722134 {
++ExtensionsSettings(QSettings * settings) : void
++~ExtensionsSettings() : void
+..
++addSettings(BaseExtensionSettings * settings) : void
++clear() const : void
++read() const : void
+__
+-extensionsSettings_ : std::forward_list<BaseExtensionSettings *>
+-settings_ : QSettings *
+}
+class "ExtensionsManager" as C_0009727816568490413834
+class C_0009727816568490413834 {
+{static} +addExtension(BaseExtension * extension) : void
+{static} +clearMessage() : void
+{static} -install() : void
+{static} -setMessage(const QString & message) : void
+{static} +setMessage(const char * extensionName, const QString & message, bool logMessage = false) : void
+__
+{static} +ROOT_EXTENSIONS_DIR : QDir
+{static} +action : QToolButton *
+{static} -backgroundMessage_ : QLabel *
+{static} +commandRunner_ : CommandRunner *
+{static} +extensions : std::forward_list<BaseExtension *>
+{static} +extensionsSettings : ExtensionsSettings *
+{static} +mainWindow : QFrame *
+}
+class "BaseUIExporterOptions" as C_0002364118592477390475
+class C_0002364118592477390475 {
+#~BaseUIExporterOptions() constexpr = default : void
+..
++getClassName() const : QString
++getFileName() const : QString
++getObjectName() const : QString
++getRootFolder() const : QDir
++isEnabled() : bool
++read(const QSettings * settings) : void
++setClassName(const QString & className) : void
++setFileName(const QString & fileName) : void
++setObjectName(const QString & objectName) : void
++setRootFolder(const QDir & rootFolder) : void
++write(QSettings * settings) : void
+__
+-className_ : QString
+-fileName_ : QString
+-objectName_ : QString
+-rootFolder_ : QDir
+}
+class "BaseUIExporterOptions::Keys" as C_0008405219056795622625
+class C_0008405219056795622625 {
+__
+{static} +CLASS_NAME : const QString
+{static} +FILE_NAME : const QString
+{static} +OBJECT_NAME : const QString
+{static} +ROOT_FOLDER : const QString
+}
+class "BaseUIExporterOptions::Defaults" as C_0007653554705407741843
+class C_0007653554705407741843 {
+__
+{static} +CLASS_NAME : const QString
+{static} +FILE_NAME : const QString
+{static} +OBJECT_NAME : const QString
+{static} +ROOT_FOLDER : const QDir
+}
 class "JsonUIExporterOptions" as C_0003483514578000412706
 class C_0003483514578000412706 {
 +getIgnoreCSS() const : bool
@@ -167,18 +272,6 @@ __
 {static} +IGNORE_CSS : const bool
 {static} +IS_ENABLED : const bool
 {static} +VISIBLE_ONLY : const bool
-}
-abstract "BaseExtensionSettings" as C_0016168181109205541512
-abstract C_0016168181109205541512 {
-#~BaseExtensionSettings() constexpr = default : void
-..
-{abstract} #read() = 0 : void
-+readSettings() : void
--setSettings(QSettings * settings) : void
-{abstract} #write() = 0 : void
-+writeSettings() : void
-__
-#settings_ : QSettings *
 }
 abstract "BaseDevTool" as C_0011953255168798855977
 abstract C_0011953255168798855977 {
@@ -319,65 +412,35 @@ class C_0004682397984485573468 {
 __
 -options_ : JsonUIExporterOptions *
 }
-class "BaseExtension" as C_0008116604999349224677
-class C_0008116604999349224677 {
-#~BaseExtension() constexpr = default : void
-..
-+configure(QWidget * widget) : void
-+configureMenu(QMenu * extensionMenu) : void
-+configureSettings(ExtensionsSettings * extensionsSettings) : void
-+configureSettingsUI(UI::ExtensionsSettingsDialog * extensionsSettingsDialog) : void
-+configureStatusBar(QWidget * parent) : void
-+install() : void
-+startup() : void
-__
-}
-class "ExtensionsSettings" as C_0010078071459042722134
-class C_0010078071459042722134 {
-+ExtensionsSettings(const QString & organization, const QString & application) : void
-+~ExtensionsSettings() : void
-..
-+addSettings(BaseExtensionSettings * settings) : void
-+clear() const : void
-+read() const : void
-__
--extensionsSettings_ : std::forward_list<BaseExtensionSettings *>
--settings_ : QSettings *
-}
-class "ExtensionsManager" as C_0009727816568490413834
-class C_0009727816568490413834 {
-{static} +addExtension(BaseExtension * extension) : void
-{static} +clearMessage() : void
-{static} -install() : void
-{static} -setMessage(const QString & message) : void
-{static} +setMessage(const char * extensionName, const QString & message, bool logMessage = false) : void
-__
-{static} +action : QToolButton *
-{static} -backgroundMessage_ : QLabel *
-{static} +extensions : std::forward_list<BaseExtension *>
-{static} +extensionsSettings : ExtensionsSettings *
-{static} +mainWindow : QFrame *
-}
 class "DevToolsExtension" as C_0010143777606507426232
 class C_0010143777606507426232 {
 __
 }
-C_0008405219056795622625 --+ C_0002364118592477390475
-C_0007653554705407741843 --+ C_0002364118592477390475
-C_0001932425129801750660 --> C_0003483514578000412706 : -options_
-C_0014335928297626608881 <|-- C_0001932425129801750660
+C_0014850613953214503793 --> C_0017826349404709606115 : #arguments_
+C_0008907065976657435877 --> C_0017826349404709606115 : #arguments_
+C_0008115529870550764648 *-- C_0014850613953214503793 : -command_
+C_0008115529870550764648 *-- C_0008907065976657435877 : -argumentsWidget_
 C_0010218074716017551262 --> C_0016168181109205541512 : -extensionSettings_
 C_0002933765265782475360 --> C_0010078071459042722134 : -extensionsSettings
+C_0001932425129801750660 --> C_0003483514578000412706 : -options_
+C_0014335928297626608881 <|-- C_0001932425129801750660
 C_0014469424477386747179 --> C_0009062172491150368489 : -settings_
 C_0010218074716017551262 <|-- C_0014469424477386747179
 C_0008226627381243229116 --> C_0011694668836325593514 : -options_
 C_0014335928297626608881 <|-- C_0008226627381243229116
 C_0002926957725831650451 --> C_0001751045535794520025 : -options_
 C_0014335928297626608881 <|-- C_0002926957725831650451
+C_0016168181109205541512 <.. C_0010078071459042722134 : +<<friend>>
+C_0010078071459042722134 --> C_0016168181109205541512 : -extensionsSettings_
+C_0009727816568490413834 --> C_0008116604999349224677 : +extensions
+C_0009727816568490413834 --> C_0010078071459042722134 : +extensionsSettings
+C_0009727816568490413834 --> C_0011922452949065162588 : +commandRunner_
+C_0009727816568490413834 <.. C_0008116604999349224677 : +<<friend>>
+C_0008405219056795622625 --+ C_0002364118592477390475
+C_0007653554705407741843 --+ C_0002364118592477390475
 C_0002364118592477390475 <|-- C_0003483514578000412706
 C_0003874668667896401620 --+ C_0003483514578000412706
 C_0014162813912439682906 --+ C_0003483514578000412706
-C_0016168181109205541512 <.. C_0010078071459042722134 : +<<friend>>
 C_0011953255168798855977 <.. C_0010143777606507426232 : +<<friend>>
 C_0009062172491150368489 --> C_0002364118592477390475 : -options_
 C_0016168181109205541512 <|-- C_0009062172491150368489
@@ -397,10 +460,6 @@ C_0003462064165936373025 --> C_0001751045535794520025 : -options_
 C_0010892009232951994255 <|-- C_0003462064165936373025
 C_0004682397984485573468 --> C_0003483514578000412706 : -options_
 C_0010892009232951994255 <|-- C_0004682397984485573468
-C_0010078071459042722134 --> C_0016168181109205541512 : -extensionsSettings_
-C_0009727816568490413834 --> C_0008116604999349224677 : +extensions
-C_0009727816568490413834 --> C_0010078071459042722134 : +extensionsSettings
-C_0009727816568490413834 <.. C_0008116604999349224677 : +<<friend>>
 C_0002364118592477390475 -[hidden]down- C_0008405219056795622625
 C_0002364118592477390475 -[hidden]down- C_0007653554705407741843
 C_0011694668836325593514 -[hidden]down- C_0015818025480861924188
@@ -449,6 +508,28 @@ skinparam class<<Extension>> {
 }
 
 
+ class C_0017826349404709606115 <<Base>> 
+
+ class C_0014850613953214503793 <<Base>> 
+
+ class C_0008907065976657435877 <<UI>> <<Base>> 
+
+ class C_0008115529870550764648 <<UI>>  
+
+ 
+
+ class C_0016168181109205541512 <<Base>> 
+
+ class C_0010218074716017551262 <<UI>> <<Base>> 
+
+ class C_0002933765265782475360 <<UI>>  
+
+ class C_0008116604999349224677 <<Base>> 
+
+ 
+
+ 
+
  class C_0002364118592477390475 <<Base>> 
 
  class C_0008405219056795622625 <<Base>> 
@@ -464,12 +545,6 @@ skinparam class<<Extension>> {
  
 
  class C_0001932425129801750660 <<UI>>  
-
- class C_0016168181109205541512 <<Base>> 
-
- class C_0010218074716017551262 <<UI>> <<Base>> 
-
- class C_0002933765265782475360 <<UI>>  
 
  class C_0011953255168798855977 <<Base>> 
 
@@ -492,12 +567,6 @@ skinparam class<<Extension>> {
  
 
  
-
- 
-
- 
-
- class C_0008116604999349224677 <<Base>> 
 
  
 

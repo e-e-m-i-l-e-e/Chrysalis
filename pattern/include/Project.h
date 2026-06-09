@@ -26,7 +26,10 @@ namespace Chrysalis {
         std::string getName();
         void setName(const std::string& name);
 
+        [[nodiscard]] ProjectSpace* getSpace() const;
+        [[nodiscard]] PatternsContainer* getPatterns() const;
         [[nodiscard]] ParametersContainer* getParameters() const;
+        [[nodiscard]] InstructionsContainer* getInstructions() const;
     private:
         std::string name_;
         /// @uml{composition[]}

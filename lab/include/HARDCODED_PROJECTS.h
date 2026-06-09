@@ -2,6 +2,9 @@
 #define CHRYSALIS_HARDCODED_PROJECTS_H
 
 #include "Project.h"
+#include "arguments/ParameterArgument.h"
+#include "instructions/FreePointInstruction.h"
+#include "instructions/RelativePointInstruction.h"
 
 namespace Chrysalis {
     static constexpr auto HIP_DEPTH = "Hip Depth";
@@ -66,6 +69,32 @@ namespace Chrysalis {
         const auto hipCircumference = new Parameter(HIP_CIRCUMFERENCE);
         hipCircumference->setValue(98);
         parameters->add(hipCircumference);
+
+        const auto backPatternSpace = new PatternSpace(new OutlineContainer());
+        const auto frontPatternSpace = new PatternSpace(new OutlineContainer());
+
+        project->getPatterns()->add(new Pattern("Back", backPatternSpace));
+        project->getPatterns()->add(new Pattern("Front", frontPatternSpace));
+
+        auto selectedPatterns = new SelectedPatterns();
+        selectedPatterns->add(backPatternSpace);
+        selectedPatterns->add(frontPatternSpace);
+        auto instructions = new PatternInstructionsContainer(selectedPatterns);
+        instructions->add(new FreePointInstruction(project->getSpace(), new SelectedPatternsArgument(selectedPatterns), new NameArgument("A"), new NumberArgument(0), new NumberArgument(0)));
+        instructions->add(new RelativePointInstruction(project->getSpace(), new SelectedPatternsArgument(selectedPatterns), new NameArgument(), new PatternArgument(), new NameArgument("B"), new NumberArgument(270), new ParameterArgument(parameters->get(BACK_WAIST_LENGTH))));
+        project->getInstructions()->add(instructions);
+
+        selectedPatterns = new SelectedPatterns();
+        selectedPatterns->add(backPatternSpace);
+        instructions = new PatternInstructionsContainer(selectedPatterns);
+        instructions->add(new RelativePointInstruction(project->getSpace(), new SelectedPatternsArgument(selectedPatterns), new NameArgument(), new PatternArgument(), new NameArgument("C"), new NumberArgument(0), new NumberArgument(10)));
+        project->getInstructions()->add(instructions);
+
+        selectedPatterns = new SelectedPatterns();
+        selectedPatterns->add(frontPatternSpace);
+        instructions = new PatternInstructionsContainer(selectedPatterns);
+        instructions->add(new RelativePointInstruction(project->getSpace(), new SelectedPatternsArgument(selectedPatterns), new NameArgument(), new PatternArgument(), new NameArgument("D"), new NumberArgument(180), new NumberArgument(20)));
+        project->getInstructions()->add(instructions);
     }
 }
 

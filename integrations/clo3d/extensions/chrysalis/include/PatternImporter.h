@@ -7,6 +7,7 @@ namespace Chrysalis {
     class PatternImporter {
     public:
         explicit PatternImporter(Project* project);
+        ~PatternImporter();
 
         void import() const;
     private:

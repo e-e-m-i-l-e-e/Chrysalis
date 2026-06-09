@@ -112,7 +112,7 @@ __
 }
 class "ExtensionsSettings" as C_0010078071459042722134
 class C_0010078071459042722134 {
-+ExtensionsSettings(const QString & organization, const QString & application) : void
++ExtensionsSettings(QSettings * settings) : void
 +~ExtensionsSettings() : void
 ..
 +addSettings(BaseExtensionSettings * settings) : void
