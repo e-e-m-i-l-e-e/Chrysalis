@@ -1,11 +1,14 @@
 @startuml
-abstract "Chrysalis::BaseInstruction" as C_0002610049402694154836
-abstract C_0002610049402694154836 {
-#BaseInstruction() = default : void
-#~BaseInstruction() constexpr = default : void
+class "Point" as C_0009962967977086807313
+class C_0009962967977086807313 {
++Point(double x, double y) : void
 ..
-{abstract} +execute() = 0 : void
++operator-(const Point & other) const : CGAL::Vector
+..
++x() const : const double &
++y() const : const double &
 __
+-point_ : CGAL::Point
 }
 class "Chrysalis::ProjectSpace" as C_0007088239576659478452
 class C_0007088239576659478452 {
@@ -17,6 +20,14 @@ class C_0007088239576659478452 {
 {static} +length(const Point * pointFrom, const Point * pointTo) : double
 __
 -points_ : std::unordered_set<Point *>
+}
+abstract "Chrysalis::BaseInstruction" as C_0002610049402694154836
+abstract C_0002610049402694154836 {
+#BaseInstruction() = default : void
+#~BaseInstruction() constexpr = default : void
+..
+{abstract} +execute() = 0 : void
+__
 }
 class "Chrysalis::BaseArgument<T>" as C_0004566211642871539975
 class C_0004566211642871539975 {
@@ -50,7 +61,7 @@ class "Chrysalis::NumberArgument" as C_0002470944207325597787
 class C_0002470944207325597787 {
 +NumberArgument() = default : void
 +NumberArgument(const double x) : void
-#NumberArgument(boost::optional<double> x) : void
+#NumberArgument(const boost::optional<double> x) : void
 __
 }
 class "Chrysalis::Outline" as C_0012923087791918137441
@@ -58,8 +69,10 @@ class C_0012923087791918137441 {
 +Outline(const std::string & name, const std::string & firstPoint) : void
 ..
 +addPoint(const std::string & name) : void
-+getName() : const std::string &
++getName() const : const std::string &
++getPoints() const : const std::list<std::string> &
 __
+{static} +DEFAULT : const char *const
 -name_ : std::string
 -points_ : std::list<std::string>
 }
@@ -70,8 +83,10 @@ class C_0014718586687870172815 {
 ..
 +add(T * item) : void
 +at(size_t index) const : T *
++begin() const : typename std::list<T *>::const_iterator
 #call<Fn,Args...>(Fn function, Args &&... args) const : void
 +count() const : size_t
++end() const : typename std::list<T *>::const_iterator
 __
 -data_ : std::list<T *>
 }
@@ -95,7 +110,7 @@ class C_0006410388496936549037 {
 +addPoint(const std::string & name, Point * point) : void
 +getLastPoint() const : Point *
 +getOutline() const : OutlineContainer *
-+getPoint(const std::string & name) const : Point *
++getPoint(const std::string & name) const : const Point *
 +getPoints() const : const std::unordered_map<std::string,Point *> &
 +hasPoint(const std::string & name) const : bool
 __
@@ -127,6 +142,7 @@ __
 }
 class "Chrysalis::SelectedPatternsArgument" as C_0004837404360303133352
 class C_0004837404360303133352 {
+-SelectedPatternsArgument() = default : void
 +SelectedPatternsArgument(SelectedPatterns * patterns) : void
 __
 }
@@ -139,8 +155,8 @@ abstract C_0012361199867370331426 {
 #patterns() const : SelectedPatterns &
 #space() const : ProjectSpace &
 __
--selectedPatterns_ : SelectedPatternsArgument *
--space_ : ProjectSpace *
+#selectedPatterns_ : SelectedPatternsArgument *
+#space_ : ProjectSpace *
 }
 class "Chrysalis::BinaryFunction" as C_0007965462709904309096
 class C_0007965462709904309096 {
@@ -164,6 +180,7 @@ __
 class "Chrysalis::BuildOutlineInstruction" as C_0014956221374281501729
 class C_0014956221374281501729 {
 +BuildOutlineInstruction(ProjectSpace * space, SelectedPatternsArgument * selectedPatterns, name * outlineName, name * point) : void
++~BuildOutlineInstruction() : void
 ..
 +execute() : void
 +isValid() : bool
@@ -171,11 +188,6 @@ __
 -outlineName_ : name *
 -point_ : name *
 }
-note top of C_0014956221374281501729
-Syntax samples:
- out -> A -> B -> C // (3 instructions)
- out("Name") -> A -> B -> C
-end note
 class "Chrysalis::FreePointInstruction" as C_0014778024850504188725
 class C_0014778024850504188725 {
 +FreePointInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const name * pointName, const num * x, const num * y) : void
@@ -188,12 +200,6 @@ __
 -x_ : const num *
 -y_ : const num *
 }
-note top of C_0014778024850504188725
-Syntax samples:
- A (1, 1)
- "A 1" (1.0, 2)
- A (1 * 2 + 3, param("Circumference of something"))
-end note
 class "Chrysalis::BaseInstructionsContainer<T>" as C_0009832473294063137986
 class C_0009832473294063137986 {
 #BaseInstructionsContainer() = default : void
@@ -264,6 +270,9 @@ class "Chrysalis::Pattern" as C_0005824426893526781565
 class C_0005824426893526781565 {
 +Pattern(const std::string & name, PatternSpace * space) : void
 +~Pattern() : void
+..
++getName() const : const std::string &
++getSpace() const : const PatternSpace *
 __
 -name_ : std::string
 -space_ : PatternSpace *
@@ -282,12 +291,17 @@ class C_0008495545694619727706 {
 +~Project() : void
 ..
 {static} +create() : Project *
++getInstructions() const : InstructionsContainer *
 +getName() : std::string
 +getParameters() const : ParametersContainer *
++getPatterns() const : PatternsContainer *
++getSpace() const : ProjectSpace *
 {static} +read(const std::string & filePath) : Project *
 +setName(const std::string & name) : void
 {static} +write(const std::string & filePath, Project * project) : void
 __
+{static} +PROJECT_FILE_SUFFIX : const char *const
+{static} +PROJECT_NAME_FILTER : const char *const
 -instructions_ : InstructionsContainer *
 -name_ : std::string
 -parameters_ : ParametersContainer *
@@ -308,16 +322,10 @@ __
 -pointFrom_ : const name *
 -pointTo_ : const name *
 }
-note top of C_0004936461079814340647
-Syntax samples:
- A -> B 45 10
- "A 1" ("Back") -> "B 2" 1 / 2 * 3 param("Short alias")
- A -> B (1 * 2 * 3 * 4) (1 / 2 / param("Circumference of something"))
-end note
 class "Chrysalis::VectorFunction" as C_0007765536925596756322
 class C_0007765536925596756322 {
 +angle(const name * pointFrom, const pattern * patternFrom, const name * pointTo, const pattern * patternTo) : boost::optional<double>
-{static} -evaluate(const name * pointFrom, const pattern * patternFrom, const name * pointTo, const pattern * patternTo, const std::function<double (Point *,Point *)> & evaluator) : boost::optional<double>
+{static} -evaluate(const name * pointFrom, const pattern * patternFrom, const name * pointTo, const pattern * patternTo, const std::function<double (const Point *,const Point *)> & evaluator) : boost::optional<double>
 +length(const name * pointFrom, const pattern * patternFrom, const name * pointTo, const pattern * patternTo) : boost::optional<double>
 __
 }
@@ -338,17 +346,6 @@ Syntax samples:
  (A -> B).length
  (A ("Pattern 1") -> "A 1").angle
 end note
-class "Point" as C_0009962967977086807313
-class C_0009962967977086807313 {
-+Point(double x, double y) : void
-..
-+operator-(const Point & other) const : CGAL::Vector
-..
-+x() const : const double &
-+y() const : const double &
-__
--point_ : CGAL::Point
-}
 C_0007088239576659478452 "1" *-- "*" C_0009962967977086807313 : -points_
 C_0005387570045788273291 ..|> C_0004566211642871539975
 C_0005387570045788273291 <|-- C_0002244960169437715781
@@ -365,8 +362,8 @@ C_0011638807436206440807 <|-- C_0003510744074585417582
 C_0017992245358367024427 --> C_0006410388496936549037 : -patterns_
 C_0017878381134947189585 ..|> C_0004566211642871539975
 C_0017878381134947189585 <|-- C_0004837404360303133352
-C_0012361199867370331426 --> C_0007088239576659478452 : -space_
-C_0012361199867370331426 *-- C_0004837404360303133352 : -selectedPatterns_
+C_0012361199867370331426 --> C_0007088239576659478452 : #space_
+C_0012361199867370331426 *-- C_0004837404360303133352 : #selectedPatterns_
 C_0002610049402694154836 <|-- C_0012361199867370331426
 C_0001365093100257756951 *-- C_0002470944207325597787 : -operand1_
 C_0001365093100257756951 *-- C_0002470944207325597787 : -operand2_
@@ -477,15 +474,15 @@ skinparam class<<Container>> {
 
   
   
+
+
+  
+  
+
+
+  
+  
  class C_0002610049402694154836 <<Base>> 
-
-  
-  
-
-
-  
-  
-
 
   
   

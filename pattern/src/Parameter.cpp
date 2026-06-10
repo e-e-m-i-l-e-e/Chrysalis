@@ -49,6 +49,7 @@ void Parameter::setAlias(const std::string& alias) {
 
 void Parameter::setValue(double value) {
     value_ = value;
+    valueChanged();
 }
 
 void Parameter::setDefaultValue(double defaultValue) {

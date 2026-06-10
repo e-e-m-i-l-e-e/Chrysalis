@@ -4,10 +4,11 @@
 #include <string>
 #include <boost/optional/optional.hpp>
 
+#include "BaseObservable.h"
 #include "serialization.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(Parameter) {
+    class SERIALIZABLE(Parameter): public BaseObservable {
         PROVIDE_SERIALIZATION_ACCESS(Parameter)
     public:
         explicit Parameter(std::string name);

@@ -58,6 +58,7 @@ void ProjectElement::openProject(const QUrl& filePath) {
     std::cout << "Patterns size: " << project->getPatterns()->count() << std::endl;
     for (int i = 0; i < project->getPatterns()->count(); ++i)
     {
+        std::cout << "Pattern: " << project->getPatterns()->at(i)->getName() << std::endl;
         for (const auto [name, point]: project->getPatterns()->at(i)->getSpace()->getPoints())
         {
             std::cout << name << ": (" << point->x() << ", " << point->y() << ")" << std::endl;
