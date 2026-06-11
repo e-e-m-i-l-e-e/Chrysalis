@@ -7,11 +7,11 @@
 #include "MainOpenGLProgram.h"
 #include "CursorRenderer.h"
 #include "PatternRenderer.h"
+#include "Project.h"
 
 class ChrysalisRenderer: public QQuickFramebufferObject::Renderer {
 public:
     explicit ChrysalisRenderer(Chrysalis::MainOpenGLProgram* program,
-                               CursorRenderer* cursorRenderer,
                                CartesianRenderer* cartesianRenderer);
     ~ChrysalisRenderer() override;
 
@@ -19,6 +19,7 @@ public:
     void changeCursor(QPointF&& cursor) const;
     void changeOffset(QPointF&& delta);
     void changeScale(double scalar, QPointF&& center);
+    void projectChanged(Chrysalis::Project* project);
 protected:
     void render() override;
     void synchronize(QQuickFramebufferObject*) override;
@@ -29,7 +30,6 @@ private:
 
     Chrysalis::MainOpenGLProgram* program_;
 
-    CursorRenderer* cursorRenderer_;
     CartesianRenderer* cartesianRenderer_;
     std::vector<PatternRenderer*> patternRenderers_;
 };

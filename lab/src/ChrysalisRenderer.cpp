@@ -51,13 +51,15 @@ QPointF operator+(QPointF point, const QRectF& rect) {
 // ---------------------------------------------------------------------------------------------------------------------
 
 ChrysalisRenderer::ChrysalisRenderer(MainOpenGLProgram* program,
-                                     CursorRenderer* cursorRenderer,
                                      CartesianRenderer* cartesianRenderer)
-    : program_(program), cursorRenderer_(cursorRenderer), cartesianRenderer_(cartesianRenderer) {}
+    : program_(program), cartesianRenderer_(cartesianRenderer) {}
 
 ChrysalisRenderer::~ChrysalisRenderer() {
     delete program_;
     delete cartesianRenderer_;
+}
+
+void ChrysalisRenderer::projectChanged(Chrysalis::Project* project) {
 }
 
 void ChrysalisRenderer::initialize() const {
@@ -82,7 +84,6 @@ void ChrysalisRenderer::initialize() const {
     for (const auto patternRenderer: patternRenderers_) {
         patternRenderer->initialize();
     }
-    cursorRenderer_->initialize();
 }
 
 QOpenGLFramebufferObject* ChrysalisRenderer::createFramebufferObject(const QSize& size) {
@@ -119,12 +120,12 @@ void ChrysalisRenderer::changeCursor(QPointF&& cursor) const {
             constexpr double pointRadius = 0.25;
             if (const double distance = sqrt(pow(point.x() - cursor.x(), 2) + pow(point.y() - cursor.y(), 2));
                 distance < pointRadius) {
-                cursorRenderer_->displayCursor(Vertex2f(point.x(), point.y()));
+                // cursorRenderer_->displayCursor(Vertex2f(point.x(), point.y()));
                 return;
             }
         }
     }
-    cursorRenderer_->hideCursor();
+    // cursorRenderer_->hideCursor();
 }
 
 void ChrysalisRenderer::render() {
@@ -146,16 +147,12 @@ void ChrysalisRenderer::render() {
     program_->bind();
     program_->setProjection(projection);
     cartesianRenderer_->render();
-    for (const auto patternRenderer: patternRenderers_) {
-        patternRenderer->render();
-    }
-    cursorRenderer_->render();
     program_->release();
 }
 
 void ChrysalisRenderer::synchronize(QQuickFramebufferObject* object) {
     bool shouldAnimate = false;
-    shouldAnimate |= cursorRenderer_->animate();
+    // shouldAnimate |= cursorRenderer_->animate();
     cartesianRenderer_->upload();
     if (shouldAnimate) object->update();
 }

@@ -28,9 +28,9 @@ namespace Chrysalis {
 
         signals:
         void nameChanged();
-        void projectChanged();
         void filePathChanged();
         void parametersChanged();
+        void projectChanged(Project* project);
 
     public slots:
         void createProject();
@@ -40,7 +40,7 @@ namespace Chrysalis {
 
     private:
         QUrl filePath_;
-        Project* project = nullptr;
+        Project* project_ = nullptr;
         ParametersElement* parameters_ = nullptr;
     };
 }

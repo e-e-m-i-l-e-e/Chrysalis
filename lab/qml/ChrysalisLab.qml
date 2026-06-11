@@ -46,9 +46,7 @@ ApplicationWindow {
     contentData: ChrysalisProject {
         id: patternProject
         parameters: ChrysalisParameters {
-            model: ChrysalisParametersModel {
-
-            }
+            model: ChrysalisParametersModel {}
         }
         anchors.fill: parent
 
@@ -197,6 +195,10 @@ ApplicationWindow {
 
                     PatternBuilderScene {
                         anchors.fill: parent
+
+                        Component.onCompleted: {
+                            patternProject.projectChanged.connect(projectChanged)
+                        }
                     }
                 }
             }

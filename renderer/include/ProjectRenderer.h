@@ -1,7 +1,18 @@
-#ifndef CHRYSALIS_PATTERNRENDERER_H
-#define CHRYSALIS_PATTERNRENDERER_H
+#ifndef CHRYSALIS_PROJECTRENDERER_H
+#define CHRYSALIS_PROJECTRENDERER_H
 
-class PatternRenderer {
-};
+#include "Project.h"
+#include "CartesianRenderer.h"
 
-#endif //CHRYSALIS_PATTERNRENDERER_H
+namespace Chrysalis {
+    class ProjectRenderer {
+    public:
+        explicit ProjectRenderer(Project* project_, CartesianRenderer* cartesianRenderer);
+        ~ProjectRenderer();
+    private:
+        /// @uml{composition}
+        CartesianRenderer* cartesianRenderer_;
+    };
+}
+
+#endif //CHRYSALIS_PROJECTRENDERER_H

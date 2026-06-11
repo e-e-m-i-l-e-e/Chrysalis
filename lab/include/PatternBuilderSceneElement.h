@@ -3,6 +3,7 @@
 
 #include <QQuickFramebufferObject>
 
+#include "Project.h"
 #include "ChrysalisRenderer.h"
 
 class PatternBuilderSceneElement: public QQuickFramebufferObject {
@@ -12,6 +13,8 @@ public:
     explicit PatternBuilderSceneElement(QQuickItem *parent = nullptr);
 
     [[nodiscard]] Renderer* createRenderer() const override;
+public slots:
+    void projectChanged(Chrysalis::Project* project) const;
 protected:
     void wheelEvent(QWheelEvent* event) override;
     void hoverMoveEvent(QHoverEvent* event) override;

@@ -9,9 +9,8 @@
 PatternBuilderSceneElement::PatternBuilderSceneElement(QQuickItem* parent)
     : QQuickFramebufferObject(parent), renderer_([] {
         const auto program = new Chrysalis::MainOpenGLProgram();
-        const auto cursor = new CursorRenderer(program);
         const auto cartesian = new CartesianRenderer(program);
-        return new ChrysalisRenderer(program, cursor, cartesian);
+        return new ChrysalisRenderer(program, cartesian);
     }()) {
     setAcceptedMouseButtons(Qt::AllButtons);
     setAcceptHoverEvents(true);
@@ -20,6 +19,10 @@ PatternBuilderSceneElement::PatternBuilderSceneElement(QQuickItem* parent)
 QQuickFramebufferObject::Renderer* PatternBuilderSceneElement::createRenderer() const {
     renderer_->initialize();
     return renderer_;
+}
+
+void PatternBuilderSceneElement::projectChanged(Chrysalis::Project* project) const {
+    renderer_->projectChanged(project);
 }
 
 QPointF PatternBuilderSceneElement::normalize(QPointF&& point) const {
