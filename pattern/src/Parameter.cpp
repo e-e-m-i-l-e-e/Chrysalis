@@ -49,7 +49,7 @@ void Parameter::setAlias(const std::string& alias) {
 
 void Parameter::setValue(double value) {
     value_ = value;
-    valueChanged();
+    notify(&ParameterObserver::valueChanged, value);
 }
 
 void Parameter::setDefaultValue(double defaultValue) {

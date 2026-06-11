@@ -3,17 +3,22 @@
 
 #include <forward_list>
 
-#include "BaseObserver.h"
-
+template<typename T>
 class BaseObservable {
-public:
-    void addObserver(BaseObserver *observer);
 protected:
     explicit BaseObservable() = default;
-
-    void valueChanged() const;
+public:
+    template<typename... Args, typename... CallArgs>
+    void notify(void(T::*function)(Args...), CallArgs&&... args) {
+        for (const auto observer: observers_) {
+            (observer->*function)(std::forward<CallArgs>(args)...);
+        }
+    }
+    void addObserver(T* observer) {
+        observers_.push_front(observer);
+    }
 private:
-    std::forward_list<BaseObserver*> observers_;
+    std::forward_list<T*> observers_;
 };
 
 #endif //CHRYSALIS_BASEOBSERVABLE_H

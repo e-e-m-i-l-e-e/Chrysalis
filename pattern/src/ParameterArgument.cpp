@@ -11,11 +11,9 @@ ParameterArgument::ParameterArgument(Parameter* parameter)
         if (parameter->hasDefaultValue()) return parameter->getDefaultValue();
         return boost::none;
     }()), parameter_(parameter) {
-    observe(parameter);
+    parameter->addObserver(this);
 }
 
-void ParameterArgument::valueChanged() {
-    if (parameter_->hasValue()) setArgument(parameter_->getValue());
-    else if (parameter_->hasDefaultValue()) setArgument(parameter_->getDefaultValue());
-    else resetArgument();
+void ParameterArgument::valueChanged(const double value) {
+    setArgument(value);
 }

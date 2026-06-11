@@ -5,10 +5,12 @@
 #include <boost/optional/optional.hpp>
 
 #include "BaseObservable.h"
+#include "ParameterObserver.h"
+
 #include "serialization.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(Parameter): public BaseObservable {
+    class SERIALIZABLE(Parameter): public BaseObservable<ParameterObserver> {
         PROVIDE_SERIALIZATION_ACCESS(Parameter)
     public:
         explicit Parameter(std::string name);

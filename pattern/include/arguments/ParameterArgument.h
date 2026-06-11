@@ -4,17 +4,16 @@
 #include <boost/serialization/export.hpp>
 
 #include "Parameter.h"
-#include "BaseObserver.h"
 #include "ParameterArgument.h"
 #include "arguments/NumberArgument.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(ParameterArgument): public NumberArgument, public BaseObserver {
+    class SERIALIZABLE(ParameterArgument): public NumberArgument, public ParameterObserver {
         PROVIDE_SERIALIZATION_ACCESS(ParameterArgument)
     public:
         explicit ParameterArgument(Parameter* parameter);
 
-        void valueChanged() override;
+        void valueChanged(double value) override;
     private:
         Parameter* parameter_;
     };
