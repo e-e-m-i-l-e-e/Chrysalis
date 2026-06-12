@@ -13,10 +13,8 @@ public:
     void draw() override;
     void initialize() override;
     void scaleChanged(float scale);
-
-    std::vector<Vertex3f> getPoints() const;
 private:
-    float scale_ = 10.f;
+    float pointRadius_ = 2.5f;
 
     Chrysalis::MainOpenGLProgram* program_;
     const RendererData* spaceRendererData_;

@@ -7,14 +7,15 @@
 class PatternRenderer {
 public:
     explicit PatternRenderer(PatternSpaceRenderer* spaceRenderer, PatternShapeRenderer* shapeRenderer);
+    ~PatternRenderer();
 
     void render() const;
     void initialize() const;
     void scaleChanged(float scale) const;
-
-    std::vector<Vertex3f> getPoints() const;
 private:
+    /// @uml{composition}
     PatternSpaceRenderer* spaceRenderer_;
+    /// @uml{composition}
     PatternShapeRenderer* shapeRenderer_;
 };
 

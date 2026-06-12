@@ -9,16 +9,16 @@ CartesianRenderer::CartesianRenderer(MainOpenGLProgram* program): program_(progr
 void CartesianRenderer::draw() {
     program_->setColor(22.0f / 255.0f, 26.0f / 255.0f, 29.0f / 255.0f, 1.f);
     glDrawArrays(GL_LINES, 0, 4); // x and y axes
-    program_->setColor(22.0f / 255.0f, 26.0f / 255.0f, 29.0f / 255.0f, 0.5f);
-    glDrawArrays(GL_LINES, 4, data_.size() - 4); // grid
+    program_->setColor(22.0f / 255.0f, 26.0f / 255.0f, 29.0f / 255.0f, 0.25f);
+    glDrawArrays(GL_LINES, 4, static_cast<int>(data_.size()) - 4); // grid
 }
 
 void CartesianRenderer::changeArea(const Area& area) {
-    const float xFrom = std::floor(area.x() / gridSize_) * gridSize_ - 1000;
-    const float xRange = std::ceil(static_cast<float>(area.width()) / gridSize_ + 1) * gridSize_ + 1000;
+    const float xFrom = std::floor(area.x() / gridSize_) * gridSize_;
+    const float xRange = std::ceil(area.width() / gridSize_ + 1) * gridSize_;
 
-    const float yFrom = std::floor(area.y() / gridSize_) * gridSize_ - 1000;
-    const float yRange = std::ceil(static_cast<float>(area.height()) / gridSize_ + 1) * gridSize_ + 1000;
+    const float yFrom = std::floor(area.y() / gridSize_) * gridSize_;
+    const float yRange = std::ceil(area.height() / gridSize_ + 1) * gridSize_;
 
     data_.clear();
     // x axis
@@ -29,15 +29,19 @@ void CartesianRenderer::changeArea(const Area& area) {
     data_.emplace_back(xFrom + xRange, 0.f);
 
     // x-lines
-    for (int i = 0; i <= xRange; i += gridSize_) {
-        data_.emplace_back(xFrom + i, yFrom);
-        data_.emplace_back(xFrom + i, yFrom + yRange);
+    float shift = 0.f;
+    while (shift <= xRange) {
+        data_.emplace_back(xFrom + shift, yFrom);
+        data_.emplace_back(xFrom + shift, yFrom + yRange);
+        shift += gridSize_;
     }
 
     // y-lines
-    for (int i = 0; i <= yRange; i += gridSize_) {
-        data_.emplace_back(xFrom, yFrom + i);
-        data_.emplace_back(xFrom + xRange, yFrom + i);
+    shift = 0.f;
+    while (shift <= yRange) {
+        data_.emplace_back(xFrom, yFrom + shift);
+        data_.emplace_back(xFrom + xRange, yFrom + shift);
+        shift += gridSize_;
     }
 
     shouldUpload();

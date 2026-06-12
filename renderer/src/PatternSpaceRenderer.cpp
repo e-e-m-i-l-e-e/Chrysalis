@@ -18,15 +18,11 @@ void PatternSpaceRenderer::draw() {
     for (const auto& [from, count]: spaceRendererData_->arrowsRanges()) {
         glDrawArrays(GL_TRIANGLE_STRIP, from, count);
     }
-    program_->setPointRadius(0.25 * scale_);
+    program_->setPointRadius(pointRadius_);
     glDrawArrays(GL_POINTS, spaceRendererData_->pointsRange().first, spaceRendererData_->pointsRange().second);
     program_->setPointRadius(0);
 }
 
 void PatternSpaceRenderer::scaleChanged(const float scale) {
-    scale_ = scale;
-}
-
-std::vector<Vertex3f> PatternSpaceRenderer::getPoints() const {
-    return spaceRendererData_->getPoints();
+    pointRadius_ = 0.25f * scale;
 }

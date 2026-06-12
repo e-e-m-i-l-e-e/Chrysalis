@@ -7,11 +7,7 @@
 #include "ChrysalisRenderer.h"
 
 PatternBuilderSceneElement::PatternBuilderSceneElement(QQuickItem* parent)
-    : QQuickFramebufferObject(parent), renderer_([] {
-        const auto program = new Chrysalis::MainOpenGLProgram();
-        const auto cartesian = new CartesianRenderer(program);
-        return new ChrysalisRenderer(program, cartesian);
-    }()) {
+    : QQuickFramebufferObject(parent), renderer_(new ChrysalisRenderer()) {
     setAcceptedMouseButtons(Qt::AllButtons);
     setAcceptHoverEvents(true);
 }
@@ -21,8 +17,9 @@ QQuickFramebufferObject::Renderer* PatternBuilderSceneElement::createRenderer() 
     return renderer_;
 }
 
-void PatternBuilderSceneElement::projectChanged(Chrysalis::Project* project) const {
+void PatternBuilderSceneElement::projectChanged(Chrysalis::Project* project) {
     renderer_->projectChanged(project);
+    update();
 }
 
 QPointF PatternBuilderSceneElement::normalize(QPointF&& point) const {

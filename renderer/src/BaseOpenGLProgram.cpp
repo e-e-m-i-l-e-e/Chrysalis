@@ -10,6 +10,10 @@ using namespace Chrysalis;
 BaseOpenGLProgram::BaseOpenGLProgram(const char* vertexShader, const char* fragmentShader)
     : vertexShader_(vertexShader), fragmentShader_(fragmentShader) {}
 
+BaseOpenGLProgram::~BaseOpenGLProgram() {
+    glDeleteProgram(program_);
+}
+
 GLint BaseOpenGLProgram::prepareShader(const char* shaderCode, const GLenum shaderType) {
     const GLint shader = glCreateShader(shaderType);
     glShaderSource(shader, 1, &shaderCode, nullptr);

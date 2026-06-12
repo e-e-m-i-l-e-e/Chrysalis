@@ -3,35 +3,30 @@
 
 #include <QQuickFramebufferObject>
 
-#include "CartesianRenderer.h"
-#include "MainOpenGLProgram.h"
-#include "CursorRenderer.h"
-#include "PatternRenderer.h"
-#include "Project.h"
+#include "ProjectRenderer.h"
 
 class ChrysalisRenderer: public QQuickFramebufferObject::Renderer {
 public:
-    explicit ChrysalisRenderer(Chrysalis::MainOpenGLProgram* program,
-                               CartesianRenderer* cartesianRenderer);
-    ~ChrysalisRenderer() override;
-
-    void initialize() const;
-    void changeCursor(QPointF&& cursor) const;
-    void changeOffset(QPointF&& delta);
-    void changeScale(double scalar, QPointF&& center);
+    void initialize();
     void projectChanged(Chrysalis::Project* project);
+
+    void changeCursor(QPointF&& cursor) const;
+    void changeOffset(QPointF&& delta) const;
+    void changeScale(double scalar, QPointF&& center) const;
 protected:
     void render() override;
     void synchronize(QQuickFramebufferObject*) override;
     QOpenGLFramebufferObject* createFramebufferObject(const QSize& size) override;
 private:
-    QRectF area_;
-    double scale_ = 10.0;
+    void changeSize() const;
 
-    Chrysalis::MainOpenGLProgram* program_;
+    bool isInitialized_ = false;
+    bool isProjectRendererInitialized_ = false;
 
-    CartesianRenderer* cartesianRenderer_;
-    std::vector<PatternRenderer*> patternRenderers_;
+    QSize size_;
+
+    Chrysalis::Project* project_ = nullptr;
+    Chrysalis::ProjectRenderer* projectRenderer_ = nullptr;
 };
 
 #endif //CHRYSALIS_CHRYSALISRENDERER_H

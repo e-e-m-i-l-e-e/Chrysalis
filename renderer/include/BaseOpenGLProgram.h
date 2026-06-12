@@ -7,6 +7,7 @@
 namespace Chrysalis {
     class BaseOpenGLProgram {
     public:
+        ~BaseOpenGLProgram();
         void initialize();
 
         void bind() const;

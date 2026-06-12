@@ -14,7 +14,7 @@ public:
 
     [[nodiscard]] Renderer* createRenderer() const override;
 public slots:
-    void projectChanged(Chrysalis::Project* project) const;
+    void projectChanged(Chrysalis::Project* project);
 protected:
     void wheelEvent(QWheelEvent* event) override;
     void hoverMoveEvent(QHoverEvent* event) override;

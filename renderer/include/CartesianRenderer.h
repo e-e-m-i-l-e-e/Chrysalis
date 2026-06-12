@@ -6,16 +6,18 @@
 #include "BaseRenderer.h"
 #include "MainOpenGLProgram.h"
 
-class CartesianRenderer: public BaseRenderer<Vertex2f> {
-public:
-    explicit CartesianRenderer(Chrysalis::MainOpenGLProgram* program);
+namespace Chrysalis {
+    class CartesianRenderer: public BaseRenderer<Vertex2f> {
+    public:
+        explicit CartesianRenderer(MainOpenGLProgram* program);
 
-    void draw() override;
-    void changeArea(const Area& area);
-private:
-    float gridSize_ = 10;
+        void draw() override;
+        void changeArea(const Area& area);
+    private:
+        float gridSize_ = 10;
 
-    Chrysalis::MainOpenGLProgram* program_;
-};
+        MainOpenGLProgram* program_;
+    };
+}
 
 #endif //CHRYSALIS_CARTESIANRENDERER_H
