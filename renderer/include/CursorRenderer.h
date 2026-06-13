@@ -3,11 +3,12 @@
 
 #include "Vertex3f.h"
 #include "BaseAnimatedRenderer.h"
+#include "CursorRendererData.h"
 #include "MainOpenGLProgram.h"
 
-class CursorRenderer: public BaseAnimatedRenderer<Vertex3f> {
+class CursorRenderer: public BaseAnimatedRenderer<CursorRendererData, Vertex3f> {
 public:
-    explicit CursorRenderer(Chrysalis::MainOpenGLProgram* program);
+    explicit CursorRenderer(Chrysalis::MainOpenGLProgram* program, CursorRendererData* data);
 
     void draw() override;
     void hideCursor();

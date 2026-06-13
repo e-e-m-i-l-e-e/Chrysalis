@@ -3,11 +3,12 @@
 
 #include "Project.h"
 #include "CartesianRenderer.h"
+#include "PatternRenderer.h"
 
 namespace Chrysalis {
     class ProjectRenderer {
     public:
-        explicit ProjectRenderer(Project* project, MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer);
+        explicit ProjectRenderer(const Project* project, MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer);
         ~ProjectRenderer();
 
         void initialize() const;
@@ -24,12 +25,13 @@ namespace Chrysalis {
         Area area_;
         float scale_ = 10.f;
 
-        glm::mat4x4 projection_;
+        glm::mat4x4 projection_{};
 
         /// @uml{composition}
         MainOpenGLProgram* program_;
         /// @uml{composition}
         CartesianRenderer* cartesianRenderer_;
+        std::list<PatternRenderer> patternRenderers_;
     };
 }
 

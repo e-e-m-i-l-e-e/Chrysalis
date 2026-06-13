@@ -51,5 +51,6 @@ void RelativePointInstruction::execute() {
     Point* point = space().addPoint(pointFrom, angle_->getArgument(), distance_->getArgument());
     for (const auto& patternSpace: patterns()) {
         patternSpace->addPoint(pointTo_->getArgument(), point);
+        patternSpace->notify(&PatternSpaceObserver::relativePointAdded, pointFrom, point);
     }
 }

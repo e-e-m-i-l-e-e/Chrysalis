@@ -5,10 +5,10 @@
 
 #include "BaseRenderer.h"
 
-template<typename V>
-class BaseAnimatedRenderer : public BaseRenderer<V> {
+template<typename D, typename V>
+class BaseAnimatedRenderer: public BaseRenderer<D, V> {
 protected:
-    explicit BaseAnimatedRenderer() = default;
+    explicit BaseAnimatedRenderer(D* data): BaseRenderer<D, V>(data) {}
 
     void complete() {
         isCompleted_ = true;
@@ -26,7 +26,7 @@ public:
         }
         prepareNextFrame(startTime_, time_, currentTime);
         time_ = currentTime;
-        BaseRenderer<V>::upload();
+        BaseRenderer<D, V>::upload();
         return !isCompleted_;
     }
 private:

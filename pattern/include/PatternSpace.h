@@ -6,9 +6,11 @@
 #include "Outline.h"
 #include "OutlineContainer.h"
 #include "ProjectSpace.h"
+#include "observers/BaseObservable.h"
+#include "observers/PatternSpaceObserver.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(PatternSpace) {
+    class SERIALIZABLE(PatternSpace): public BaseObservable<PatternSpaceObserver> {
         PROVIDE_SERIALIZATION_ACCESS(PatternSpace)
     public:
         explicit PatternSpace(OutlineContainer* outline);

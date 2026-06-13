@@ -4,8 +4,8 @@
 #include <string>
 #include <boost/optional/optional.hpp>
 
-#include "BaseObservable.h"
-#include "ParameterObserver.h"
+#include "observers/BaseObservable.h"
+#include "observers/ParameterObserver.h"
 
 #include "serialization.h"
 

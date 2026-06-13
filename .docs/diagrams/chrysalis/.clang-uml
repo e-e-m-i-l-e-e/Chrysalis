@@ -116,6 +116,7 @@ diagrams:
       namespaces:
         - std
         - glm
+        - CGAL
       paths:
         - ../../../.conan
         - ../../../logging

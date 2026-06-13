@@ -9,6 +9,7 @@ public:
     explicit PatternRenderer(PatternSpaceRenderer* spaceRenderer, PatternShapeRenderer* shapeRenderer);
     ~PatternRenderer();
 
+    void upload() const;
     void render() const;
     void initialize() const;
     void scaleChanged(float scale) const;

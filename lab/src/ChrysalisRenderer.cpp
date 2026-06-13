@@ -67,7 +67,7 @@ void ChrysalisRenderer::synchronize(QQuickFramebufferObject* object) {
     if (!isProjectRendererInitialized_) {
         delete projectRenderer_;
         const auto program = new MainOpenGLProgram();
-        projectRenderer_ = new ProjectRenderer(project_, program, new CartesianRenderer(program));
+        projectRenderer_ = new ProjectRenderer(project_, program, new CartesianRenderer(program, new CartesianRendererData()));
         changeSize();
         projectRenderer_->initialize();
         isProjectRendererInitialized_ = true;

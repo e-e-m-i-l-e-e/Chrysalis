@@ -1,4 +1,6 @@
-#include "../include/PatternShapeRenderer.h"
+#include "PatternShapeRenderer.h"
+
+PatternShapeRenderer::PatternShapeRenderer(PatternShapeRendererData* data): BaseRenderer(data) {}
 
 void PatternShapeRenderer::draw() {
 }

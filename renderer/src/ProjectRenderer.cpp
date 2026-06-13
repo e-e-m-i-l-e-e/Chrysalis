@@ -4,8 +4,14 @@
 
 using namespace Chrysalis;
 
-ProjectRenderer::ProjectRenderer(Project* project, MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer)
-    : program_(program), cartesianRenderer_(cartesianRenderer) {}
+ProjectRenderer::ProjectRenderer(const Project* project, MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer)
+    : program_(program), cartesianRenderer_(cartesianRenderer) {
+    for (const auto& pattern: *project->getPatterns()) {
+        const auto patternSpaceRenderer = new PatternSpaceRenderer(program_, new PatternSpaceRendererData());
+        pattern->getSpace()->addObserver(patternSpaceRenderer);
+        patternRenderers_.emplace_back(patternSpaceRenderer, new PatternShapeRenderer(new PatternShapeRendererData()));
+    }
+}
 
 ProjectRenderer::~ProjectRenderer() {
     delete program_;
@@ -15,6 +21,7 @@ ProjectRenderer::~ProjectRenderer() {
 void ProjectRenderer::initialize() const {
     program_->initialize();
     cartesianRenderer_->initialize();
+    for (const auto& patternRenderer: patternRenderers_) patternRenderer.initialize();
 }
 
 void ProjectRenderer::areaSizeChanged(const float width, const float height) {
@@ -34,6 +41,7 @@ void ProjectRenderer::scaleChanged(const float scaleFactor, const float zoomX, c
     area_.offset(zoomX * (1 - scaleFactor), zoomY * (1 - scaleFactor));
     scale_ *= scaleFactor;
     cartesianRenderer_->changeArea(area_);
+    for (const auto& patternRenderer: patternRenderers_) patternRenderer.scaleChanged(scale_);
     updateProjectionMatrix();
 }
 
@@ -58,9 +66,11 @@ void ProjectRenderer::render() const {
     program_->bind();
     program_->setProjection(projection_);
     cartesianRenderer_->render();
+    for (const auto& patternRenderer: patternRenderers_) patternRenderer.render();
 }
 
 bool ProjectRenderer::prepareNextFrame() const {
     cartesianRenderer_->upload();
+    for (const auto& patternRenderer: patternRenderers_) patternRenderer.upload();
     return true;
 }

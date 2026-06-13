@@ -5,37 +5,27 @@
 
 #include <glad/gl.h>
 
-#include "Vertex2f.h"
+#include "BaseRendererData.h"
 
-template<typename V>
-requires std::is_base_of_v<Vertex2f, V>
+template<typename D, typename V>
+requires std::is_base_of_v<BaseRendererData<V>, D> && std::is_base_of_v<Vertex2f, V>
 class BaseRenderer {
 protected:
+    explicit BaseRenderer(D* data): data_(data) {}
     virtual ~BaseRenderer() {
+        delete data_;
         if (vbo_ != 0) glDeleteBuffers(1, &vbo_);
         if (vao_ != 0) glDeleteVertexArrays(1, &vao_);
     }
 
 public:
     void upload() {
-        if (!shouldUpload_) return;
-
+        if (!data_->shouldUpload()) return;
         glBindVertexArray(vao_);
         glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-        glBufferData(
-            GL_ARRAY_BUFFER,
-            data_.size() * sizeof(V),
-            data_.data(),
-            GL_DYNAMIC_DRAW
-        );
+        glBufferData(GL_ARRAY_BUFFER, data_->size(), data_->vbo(), GL_DYNAMIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
-
-        shouldUpload_ = false;
-    }
-
-    void shouldUpload() {
-        shouldUpload_ = true;
     }
 
     virtual void initialize() {
@@ -45,21 +35,14 @@ public:
         glGenBuffers(1, &vbo_);
         glBindBuffer(GL_ARRAY_BUFFER, vbo_);
 
-        glBufferData(GL_ARRAY_BUFFER, data_.size() * sizeof(V), data_.data(), GL_DYNAMIC_DRAW);
-
         const auto layout = V::getLayout();
-
         for (GLuint i = 0; i < layout.size(); i++) {
             const auto& [count, offset] = layout[i];
-
             glEnableVertexAttribArray(i);
             glVertexAttribPointer(i, count, GL_FLOAT, GL_FALSE, sizeof(V), offset);
         }
 
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-        glBindVertexArray(0);
-
-        shouldUpload_ = false;
+        upload();
     }
 
     void render() {
@@ -71,12 +54,11 @@ public:
     virtual void draw() = 0;
 
 protected:
-    std::vector<V> data_;
-
+    /// @uml{composition}
+    D* data_;
 private:
     GLuint vbo_ = 0;
     GLuint vao_ = 0;
-    bool shouldUpload_ = true;
 };
 
 #endif //CHRYSALIS_BASERENDERER_H

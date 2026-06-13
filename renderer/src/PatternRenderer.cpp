@@ -13,6 +13,11 @@ void PatternRenderer::initialize() const {
     shapeRenderer_->initialize();
 }
 
+void PatternRenderer::upload() const {
+    spaceRenderer_->upload();
+    shapeRenderer_->upload();
+}
+
 void PatternRenderer::render() const {
     spaceRenderer_->render();
     shapeRenderer_->render();
