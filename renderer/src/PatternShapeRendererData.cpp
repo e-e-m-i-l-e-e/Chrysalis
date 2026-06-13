@@ -1,5 +1,7 @@
 #include "PatternShapeRendererData.h"
 
+using namespace Chrysalis;
+
 size_t PatternShapeRendererData::count() {
     return 0;
 }

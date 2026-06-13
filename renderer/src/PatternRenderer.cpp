@@ -1,7 +1,9 @@
 #include "PatternRenderer.h"
 
+using namespace Chrysalis;
+
 PatternRenderer::PatternRenderer(PatternSpaceRenderer* spaceRenderer, PatternShapeRenderer* shapeRenderer)
-: spaceRenderer_(spaceRenderer), shapeRenderer_(shapeRenderer) {}
+    : spaceRenderer_(spaceRenderer), shapeRenderer_(shapeRenderer) {}
 
 PatternRenderer::~PatternRenderer() {
     delete spaceRenderer_;

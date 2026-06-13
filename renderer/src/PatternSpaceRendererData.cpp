@@ -1,5 +1,7 @@
 #include "PatternSpaceRendererData.h"
 
+using namespace Chrysalis;
+
 void PatternSpaceRendererData::addPoint(const Point* point) {
     points_.emplace_back(point->x(), point->y(), 0);
     updateVBO();

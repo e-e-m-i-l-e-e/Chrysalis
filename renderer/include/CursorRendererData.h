@@ -4,15 +4,16 @@
 #include "Vertex3f.h"
 #include "BaseRendererData.h"
 
-class CursorRendererData: public BaseRendererData<Vertex3f> {
-protected:
-    size_t count() override;
-public:
-    void projectCursor(const Vertex2f& cursor);
+namespace Chrysalis {
+    class CursorRendererData: public BaseRendererData<Vertex3f> {
+    public:
+        void projectCursor(const Vertex2f& cursor);
 
-    Vertex3f* vbo() override;
-private:
-    std::vector<Vertex3f> data_;
-};
+        size_t count() override;
+        Vertex3f* vbo() override;
+    private:
+        std::vector<Vertex3f> data_;
+    };
+}
 
 #endif //CHRYSALIS_CURSORRENDERERDATA_H

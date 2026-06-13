@@ -1,5 +1,7 @@
 #include "CursorRendererData.h"
 
+using namespace Chrysalis;
+
 void CursorRendererData::projectCursor(const Vertex2f& cursor) {
     data_.clear();
     // x axis

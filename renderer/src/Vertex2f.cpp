@@ -1,5 +1,7 @@
 #include "Vertex2f.h"
 
+using namespace Chrysalis;
+
 Vertex2f::Vertex2f(float x, float y): x_(x), y_(y) {}
 
 const float& Vertex2f::x() const {

@@ -3,11 +3,12 @@
 
 #include "BaseRendererData.h"
 
-class PatternShapeRendererData: public BaseRendererData<Vertex2f> {
-protected:
-    size_t count() override;
-public:
-    Vertex2f* vbo() override;
-};
+namespace Chrysalis {
+    class PatternShapeRendererData: public BaseRendererData<Vertex2f> {
+    public:
+        size_t count() override;
+        Vertex2f* vbo() override;
+    };
+}
 
 #endif //CHRYSALIS_PATTERNSHAPERENDERERDATA_H

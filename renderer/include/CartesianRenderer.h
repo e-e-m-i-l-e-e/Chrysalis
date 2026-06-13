@@ -2,7 +2,6 @@
 #define CHRYSALIS_CARTESIANRENDERER_H
 
 #include "Area.h"
-#include "Vertex2f.h"
 #include "BaseRenderer.h"
 #include "CartesianRendererData.h"
 #include "MainOpenGLProgram.h"

@@ -7,7 +7,7 @@ CursorRenderer::CursorRenderer(MainOpenGLProgram* program, CursorRendererData* d
 
 void CursorRenderer::draw() {
     program_->setColor(1.f, 1.f, 1.f, opacity_);
-    glDrawArrays(GL_LINES, 0, data_->size());
+    glDrawArrays(GL_LINES, 0, data_->count());
 }
 
 void CursorRenderer::hideCursor() {
