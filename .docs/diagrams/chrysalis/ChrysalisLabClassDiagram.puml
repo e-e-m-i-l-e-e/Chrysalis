@@ -1,78 +1,7 @@
 @startuml
-class "Chrysalis::Area" as C_0017448836424981341256
-class C_0017448836424981341256 {
-+Area() : void
-+Area(float x, float y, float width, float height) : void
-..
-+height() const : const float &
-+offset(float deltaX, float deltaY) : void
-+scale(float scaleFactor) : void
-+setSize(float width, float height) : void
-+width() const : const float &
-+x() const : const float &
-+y() const : const float &
+class "boost::optional<Project const*>" as C_0016954960473212819266
+class C_0016954960473212819266 {
 __
--height_ : float
--width_ : float
--x_ : float
--y_ : float
-}
-class "Chrysalis::BaseOpenGLProgram" as C_0009014904075807390969
-class C_0009014904075807390969 {
-#BaseOpenGLProgram(const char * vertexShader, const char * fragmentShader) : void
-+~BaseOpenGLProgram() : void
-..
-+bind() const : void
-+initialize() : void
-{static} -prepareShader(const char * shaderCode, GLenum shaderType) : GLint
-{static} +release() : void
-#setUniformValue(const char * name, GLint value) const : void
-#setUniformValue(const char * name, GLfloat value) const : void
-#setUniformValue(const char * name, const glm::mat4x4 & value) const : void
-#setUniformValue(const char * name, GLfloat x, GLfloat y, GLfloat z, GLfloat w) const : void
-__
--fragmentShader_ : const char *
--program_ : GLint
--vertexShader_ : const char *
-}
-class "Chrysalis::MainOpenGLProgram" as C_0008404019008873523889
-class C_0008404019008873523889 {
-+MainOpenGLProgram() : void
-..
-+setColor(float r, float g, float b, float a) const : void
-+setPointRadius(float radius) const : void
-+setProjection(const glm::mat4x4 & projection) const : void
-__
-}
-class "Chrysalis::CartesianRenderer" as C_0012069508297492912490
-class C_0012069508297492912490 {
-+CartesianRenderer(MainOpenGLProgram * program, CartesianRendererData * data) : void
-..
-+changeArea(const Area & area) const : void
-+draw() : void
-__
--gridSize_ : float
--program_ : MainOpenGLProgram *
-}
-class "Chrysalis::ProjectRenderer" as C_0014065787526185037529
-class C_0014065787526185037529 {
-+ProjectRenderer(const Project * project, MainOpenGLProgram * program, CartesianRenderer * cartesianRenderer) : void
-+~ProjectRenderer() : void
-..
-+areaOffsetChanged(float deltaX, float deltaY) : void
-+areaSizeChanged(float width, float height) : void
-+initialize() const : void
-+prepareNextFrame() const : bool
-+render() const : void
-+scaleChanged(float scaleFactor, float zoomX, float zoomY) : void
--updateProjectionMatrix() : void
-__
--area_ : Area
--cartesianRenderer_ : CartesianRenderer *
--patternRenderers_ : std::list<PatternRenderer>
--program_ : MainOpenGLProgram *
--projection_ : glm::mat4x4
--scale_ : float
 }
 class "Chrysalis::ParametersModel" as C_0006294982762641672186
 class C_0006294982762641672186 {
@@ -111,7 +40,7 @@ class C_0008929981772084998866 {
 +nameChanged() : void
 +openProject(const QUrl & filePath) : void
 +parametersChanged() : void
-+projectChanged(Project * project) : void
++projectChanged(const Project * project) : void
 +saveProject(const QUrl & filePath) : void
 +setFilePath(const QUrl & filePath) : void
 +setName(const QString & name) : void
@@ -121,8 +50,26 @@ __
 -parameters_ : ParametersElement *
 -project_ : Project *
 }
-class "Vertex2f" as C_0002545152376591623339
-class C_0002545152376591623339 {
+class "Chrysalis::Area" as C_0017448836424981341256
+class C_0017448836424981341256 {
++Area() : void
++Area(float x, float y, float width, float height) : void
+..
++height() const : const float &
++offset(float deltaX, float deltaY) : void
++scale(float scaleFactor) : void
++setSize(float width, float height) : void
++width() const : const float &
++x() const : const float &
++y() const : const float &
+__
+-height_ : float
+-width_ : float
+-x_ : float
+-y_ : float
+}
+class "Chrysalis::Vertex2f" as C_0014045523936343269615
+class C_0014045523936343269615 {
 +Vertex2f(float x, float y) : void
 ..
 {static} +getLayout() : std::vector<std::pair<int,void *>>
@@ -132,21 +79,20 @@ __
 -x_ : const float
 -y_ : const float
 }
-abstract "BaseRendererData<V>" as C_0011893673611609003617
-abstract C_0011893673611609003617 {
+abstract "Chrysalis::BaseRendererData<V>" as C_0010648050014975774765
+abstract C_0010648050014975774765 {
 #BaseRendererData() = default : void
 +~BaseRendererData() = default : void
 ..
 {abstract} +count() = 0 : size_t
-+shouldUpload() : bool
-+size() : size_t
++shouldUpload() const : bool
 +updateVBO() : void
 {abstract} +vbo() = 0 : V *
 __
 -shouldUpload_ : bool
 }
-abstract "BaseRenderer<D,V>" as C_0002574012942335468689
-abstract C_0002574012942335468689 {
+abstract "Chrysalis::BaseRenderer<D>" as C_0011449526761968468087
+abstract C_0011449526761968468087 {
 #BaseRenderer(D * data) : void
 #~BaseRenderer() : void
 ..
@@ -159,69 +105,102 @@ __
 -vao_ : GLuint
 -vbo_ : GLuint
 }
-class "BaseRendererData<Vertex2f>" as C_0011527099938434924739
-class C_0011527099938434924739 {
+class "Chrysalis::BaseRendererData<Chrysalis::Vertex2f>" as C_0003814330884215016651
+class C_0003814330884215016651 {
 __
 }
-class "CartesianRendererData" as C_0002598933232064242438
-class C_0002598933232064242438 {
-+buildGrid(const Chrysalis::Area & area, float gridSize) : void
+class "Chrysalis::CartesianRendererData" as C_0011935714076265489658
+class C_0011935714076265489658 {
++buildGrid(const Area & area, float gridSize) : void
 +count() : size_t
 +vbo() : Vertex2f *
 __
 -data_ : std::vector<Vertex2f>
 }
-class "glm::mat<4,4,float,defaultp>" as C_0011668248383743793436
-class C_0011668248383743793436 {
+class "Chrysalis::BaseOpenGLProgram" as C_0009014904075807390969
+class C_0009014904075807390969 {
+#BaseOpenGLProgram(const char * vertexShader, const char * fragmentShader) : void
++~BaseOpenGLProgram() : void
+..
++bind() const : void
++initialize() : void
+{static} -prepareShader(const char * shaderCode, GLenum shaderType) : GLint
+{static} +release() : void
+#setUniformValue(const char * name, GLint value) const : void
+#setUniformValue(const char * name, GLfloat value) const : void
+#setUniformValue(const char * name, const glm::mat4x4 & value) const : void
+#setUniformValue(const char * name, GLfloat x, GLfloat y, GLfloat z, GLfloat w) const : void
+__
+-fragmentShader_ : const char *
+-program_ : GLint
+-vertexShader_ : const char *
+}
+class "Chrysalis::MainOpenGLProgram" as C_0008404019008873523889
+class C_0008404019008873523889 {
++MainOpenGLProgram() : void
+..
++setColor(float r, float g, float b, float a) const : void
++setPointRadius(float radius) const : void
++setProjection(const glm::mat4x4 & projection) const : void
 __
 }
-class "BaseRenderer<CartesianRendererData,Vertex2f>" as C_0007392984587421277234
-class C_0007392984587421277234 {
+class "Chrysalis::BaseRenderer<Chrysalis::CartesianRendererData>" as C_0009985944204983126988
+class C_0009985944204983126988 {
 __
 }
-class "PatternShapeRendererData" as C_0006339387894878251273
-class C_0006339387894878251273 {
-#count() : size_t
+class "Chrysalis::CartesianRenderer" as C_0012069508297492912490
+class C_0012069508297492912490 {
++CartesianRenderer(MainOpenGLProgram * program, CartesianRendererData * data) : void
+..
++changeArea(const Area & area) const : void
++draw() : void
+__
+-gridSize_ : float
+-program_ : MainOpenGLProgram *
+}
+class "Chrysalis::PatternShapeRendererData" as C_0011694023645327839877
+class C_0011694023645327839877 {
++count() : size_t
 +vbo() : Vertex2f *
 __
 }
-class "BaseRenderer<PatternShapeRendererData,Vertex2f>" as C_0005616165920600333077
-class C_0005616165920600333077 {
+class "Chrysalis::BaseRenderer<Chrysalis::PatternShapeRendererData>" as C_0015376512757975965057
+class C_0015376512757975965057 {
 __
 }
-class "PatternShapeRenderer" as C_0009334335780883493241
-class C_0009334335780883493241 {
+class "Chrysalis::PatternShapeRenderer" as C_0015064054511240045445
+class C_0015064054511240045445 {
 +PatternShapeRenderer(PatternShapeRendererData * data) : void
 ..
 +draw() : void
 +scaleChanged(float scale) : void
 __
 }
-class "Vertex3f" as C_0002544340937010192846
-class C_0002544340937010192846 {
+class "Chrysalis::Vertex3f" as C_0014044642128017633618
+class C_0014044642128017633618 {
 +Vertex3f(float x, float y, float attribute) : void
 __
 -attribute : float
 }
-class "BaseRendererData<Vertex3f>" as C_0010967902618129735332
-class C_0010967902618129735332 {
+class "Chrysalis::BaseRendererData<Chrysalis::Vertex3f>" as C_0003071611879058204012
+class C_0003071611879058204012 {
 __
 }
-class "PatternSpaceRendererData" as C_0017904380061658340106
-class C_0017904380061658340106 {
+class "Chrysalis::PatternSpaceRendererData" as C_0011260122464657857622
+class C_0011260122464657857622 {
 +addPoint(const Point * point) : void
 +count() : size_t
 +vbo() : Vertex3f *
 __
 -points_ : std::vector<Vertex3f>
 }
-class "BaseRenderer<PatternSpaceRendererData,Vertex3f>" as C_0005072031150018279109
-class C_0005072031150018279109 {
+class "Chrysalis::BaseRenderer<Chrysalis::PatternSpaceRendererData>" as C_0000794775527725307768
+class C_0000794775527725307768 {
 __
 }
-class "PatternSpaceRenderer" as C_0011408520031068065626
-class C_0011408520031068065626 {
-+PatternSpaceRenderer(Chrysalis::MainOpenGLProgram * program, PatternSpaceRendererData * rendererData) : void
+class "Chrysalis::PatternSpaceRenderer" as C_0008349615279724093078
+class C_0008349615279724093078 {
++PatternSpaceRenderer(MainOpenGLProgram * program, PatternSpaceRendererData * rendererData) : void
 ..
 +draw() : void
 +pointAdded(const Point * point) : void
@@ -229,10 +208,10 @@ class C_0011408520031068065626 {
 +scaleChanged(float scale) : void
 __
 -pointRadius_ : float
--program_ : Chrysalis::MainOpenGLProgram *
+-program_ : MainOpenGLProgram *
 }
-class "PatternRenderer" as C_0011504052414250660842
-class C_0011504052414250660842 {
+class "Chrysalis::PatternRenderer" as C_0010886489269060501830
+class C_0010886489269060501830 {
 +PatternRenderer(PatternSpaceRenderer * spaceRenderer, PatternShapeRenderer * shapeRenderer) : void
 +~PatternRenderer() : void
 ..
@@ -244,27 +223,31 @@ __
 -shapeRenderer_ : PatternShapeRenderer *
 -spaceRenderer_ : PatternSpaceRenderer *
 }
-class "ChrysalisRenderer" as C_0003925136470158514146
-class C_0003925136470158514146 {
-+changeCursor(QPointF && cursor) const : void
-+changeOffset(QPointF && delta) const : void
-+changeScale(double scalar, QPointF && center) const : void
--changeSize() const : void
-#createFramebufferObject(const QSize & size) : QOpenGLFramebufferObject *
-+initialize() : void
-+projectChanged(Chrysalis::Project * project) : void
-#render() : void
-#synchronize(QQuickFramebufferObject *) : void
+class "Chrysalis::ProjectRenderer" as C_0014065787526185037529
+class C_0014065787526185037529 {
++ProjectRenderer(MainOpenGLProgram * program, CartesianRenderer * cartesianRenderer) : void
++~ProjectRenderer() : void
+..
++areaOffsetChanged(float deltaX, float deltaY) : void
++areaSizeChanged(float width, float height) : void
++initialize() const : void
+#prepareNextFrame() const : bool
+#render() const : void
++scaleChanged(float scaleFactor, float zoomX, float zoomY) : void
+-updateProjectionMatrix() : void
+#useProject(const Project * project) : void
 __
+-area_ : Area
+-cartesianRenderer_ : CartesianRenderer *
 -isInitialized_ : bool
--isProjectRendererInitialized_ : bool
--projectRenderer_ : Chrysalis::ProjectRenderer *
--project_ : Chrysalis::Project *
--size_ : QSize
+-patternRenderers_ : std::list<PatternRenderer>
+-program_ : MainOpenGLProgram *
+-projection_ : glm::mat4x4
+-scale_ : float
 }
-class "PatternBuilderSceneElement" as C_0000532881802130584044
-class C_0000532881802130584044 {
-+PatternBuilderSceneElement(QQuickItem * parent = nullptr) : void
+class "Chrysalis::ProjectSceneElement" as C_0017487605234251182146
+class C_0017487605234251182146 {
++ProjectSceneElement(QQuickItem * parent = nullptr) : void
 ..
 +createRenderer() const : Renderer *
 #hoverMoveEvent(QHoverEvent * event) : void
@@ -272,45 +255,59 @@ class C_0000532881802130584044 {
 #mousePressEvent(QMouseEvent * event) : void
 #mouseReleaseEvent(QMouseEvent * event) : void
 -normalize(QPointF && point) const : QPointF
-+projectChanged(Chrysalis::Project * project) : void
++projectChanged(const Project * project) : void
 #wheelEvent(QWheelEvent * event) : void
 __
 -isLeftMouseButtonPressed_ : bool
 -mousePosition_ : QPointF
--renderer_ : ChrysalisRenderer *
+-renderer_ : Renderer *
 -windowPosition_ : QPointF
 }
+class "Chrysalis::ProjectSceneElement::Renderer" as C_0015644395940763327543
+class C_0015644395940763327543 {
++Renderer(MainOpenGLProgram * program, CartesianRenderer * cartesianRenderer) : void
++changeProject(const Project * project) : void
+#createFramebufferObject(const QSize & size) : QOpenGLFramebufferObject *
+#render() : void
+#synchronize(QQuickFramebufferObject *) : void
+__
+-pendingProject_ : boost::optional<const Project *>
+}
+class "glm::mat<4,4,float,defaultp>" as C_0011668248383743793436
+class C_0011668248383743793436 {
+__
+}
+C_0003994509085763311703 --> C_0006294982762641672186 : -model_
+C_0008929981772084998866 --> C_0003994509085763311703 : -parameters_
+C_0010648050014975774765 ..> C_0014045523936343269615
+C_0003814330884215016651 ..|> C_0010648050014975774765
+C_0011935714076265489658 o-- C_0014045523936343269615 : -data_
+C_0003814330884215016651 <|-- C_0011935714076265489658
 C_0009014904075807390969 <|-- C_0008404019008873523889
+C_0009985944204983126988 ..|> C_0011449526761968468087
 C_0012069508297492912490 --> C_0008404019008873523889 : -program_
-C_0007392984587421277234 <|-- C_0012069508297492912490
+C_0009985944204983126988 <|-- C_0012069508297492912490
+C_0003814330884215016651 <|-- C_0011694023645327839877
+C_0015376512757975965057 ..|> C_0011449526761968468087
+C_0015376512757975965057 <|-- C_0015064054511240045445
+C_0014045523936343269615 <|-- C_0014044642128017633618
+C_0003071611879058204012 ..|> C_0010648050014975774765
+C_0011260122464657857622 o-- C_0014044642128017633618 : -points_
+C_0003071611879058204012 <|-- C_0011260122464657857622
+C_0000794775527725307768 ..|> C_0011449526761968468087
+C_0008349615279724093078 --> C_0008404019008873523889 : -program_
+C_0000794775527725307768 <|-- C_0008349615279724093078
+C_0010886489269060501830 *-- C_0008349615279724093078 : -spaceRenderer_
+C_0010886489269060501830 *-- C_0015064054511240045445 : -shapeRenderer_
 C_0014065787526185037529 o-- C_0017448836424981341256 : -area_
 C_0014065787526185037529 o-- C_0011668248383743793436 : -projection_
 C_0014065787526185037529 *-- C_0008404019008873523889 : -program_
 C_0014065787526185037529 *-- C_0012069508297492912490 : -cartesianRenderer_
-C_0014065787526185037529 o-- C_0011504052414250660842 : -patternRenderers_
-C_0003994509085763311703 --> C_0006294982762641672186 : -model_
-C_0008929981772084998866 --> C_0003994509085763311703 : -parameters_
-C_0011893673611609003617 ..> C_0002545152376591623339
-C_0002574012942335468689 ..> C_0011893673611609003617
-C_0002574012942335468689 ..> C_0002545152376591623339
-C_0011527099938434924739 ..|> C_0011893673611609003617
-C_0002598933232064242438 o-- C_0002545152376591623339 : -data_
-C_0011527099938434924739 <|-- C_0002598933232064242438
-C_0007392984587421277234 ..|> C_0002574012942335468689
-C_0011527099938434924739 <|-- C_0006339387894878251273
-C_0005616165920600333077 ..|> C_0002574012942335468689
-C_0005616165920600333077 <|-- C_0009334335780883493241
-C_0002545152376591623339 <|-- C_0002544340937010192846
-C_0010967902618129735332 ..|> C_0011893673611609003617
-C_0017904380061658340106 o-- C_0002544340937010192846 : -points_
-C_0010967902618129735332 <|-- C_0017904380061658340106
-C_0005072031150018279109 ..|> C_0002574012942335468689
-C_0011408520031068065626 --> C_0008404019008873523889 : -program_
-C_0005072031150018279109 <|-- C_0011408520031068065626
-C_0011504052414250660842 *-- C_0011408520031068065626 : -spaceRenderer_
-C_0011504052414250660842 *-- C_0009334335780883493241 : -shapeRenderer_
-C_0003925136470158514146 --> C_0014065787526185037529 : -projectRenderer_
-C_0000532881802130584044 --> C_0003925136470158514146 : -renderer_
+C_0014065787526185037529 o-- C_0010886489269060501830 : -patternRenderers_
+C_0017487605234251182146 --> C_0015644395940763327543 : -renderer_
+C_0015644395940763327543 --+ C_0017487605234251182146
+C_0015644395940763327543 o-- C_0016954960473212819266 : -pendingProject_
+C_0014065787526185037529 <|-- C_0015644395940763327543
 skinparam class {
   BackgroundColor #EAFAF1
   BorderColor #1E8449
@@ -352,17 +349,26 @@ skinparam class<<Model>> {
 }
 
 
+   class C_0006294982762641672186 <<Model>>
+  
+
+   class C_0003994509085763311703 <<Element>>
+  
+
+   class C_0008929981772084998866 <<Element>>
   
 
   
 
-   class C_0011893673611609003617 <<Base>>
   
 
-   class C_0002574012942335468689 <<Base>>
+   class C_0010648050014975774765 <<Base>>
   
 
-   class C_0011527099938434924739 <<Base>>
+   class C_0011449526761968468087 <<Base>>
+  
+
+   class C_0003814330884215016651 <<Base>>
   
 
   
@@ -374,26 +380,26 @@ skinparam class<<Model>> {
 
   
 
-   class C_0007392984587421277234 <<Base>>
+   class C_0009985944204983126988 <<Base>>
   
 
   
 
   
 
-   class C_0005616165920600333077 <<Base>>
+   class C_0015376512757975965057 <<Base>>
   
 
   
 
   
 
-   class C_0010967902618129735332 <<Base>>
+   class C_0003071611879058204012 <<Base>>
   
 
   
 
-   class C_0005072031150018279109 <<Base>>
+   class C_0000794775527725307768 <<Base>>
   
 
   
@@ -402,18 +408,12 @@ skinparam class<<Model>> {
 
   
 
+   class C_0017487605234251182146 <<Element>>
   
 
-   class C_0006294982762641672186 <<Model>>
   
 
-   class C_0003994509085763311703 <<Element>>
-  
-
-   class C_0000532881802130584044 <<Element>>
-  
-
-   class C_0008929981772084998866 <<Element>>
+   class C_0015644395940763327543 <<Element>>
   
 
 
