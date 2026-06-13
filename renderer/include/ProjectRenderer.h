@@ -11,16 +11,16 @@ namespace Chrysalis {
         explicit ProjectRenderer(MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer);
         ~ProjectRenderer();
 
-        void initialize();
-        void render() const;
-        [[nodiscard]] bool prepareNextFrame() const;
-
-        void useProject(const Project* project);
+        void initialize() const;
 
         void areaSizeChanged(float width, float height);
         void areaOffsetChanged(float deltaX, float deltaY);
         void scaleChanged(float scaleFactor, float zoomX, float zoomY);
+    protected:
+        void useProject(const Project* project);
 
+        void render() const;
+        [[nodiscard]] bool prepareNextFrame() const;
     private:
         void updateProjectionMatrix();
 

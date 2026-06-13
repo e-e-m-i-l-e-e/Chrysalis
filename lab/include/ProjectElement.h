@@ -30,7 +30,7 @@ namespace Chrysalis {
         void nameChanged();
         void filePathChanged();
         void parametersChanged();
-        void projectChanged(Project* project);
+        void projectChanged(const Project* project);
 
     public slots:
         void createProject();

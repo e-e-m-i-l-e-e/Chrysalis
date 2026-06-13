@@ -193,7 +193,7 @@ ApplicationWindow {
                     SplitView.fillWidth: true
                     SplitView.fillHeight: true
 
-                    PatternBuilderScene {
+                    ProjectScene {
                         anchors.fill: parent
 
                         Component.onCompleted: {

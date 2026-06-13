@@ -13,12 +13,9 @@ ProjectRenderer::~ProjectRenderer() {
     delete cartesianRenderer_;
 }
 
-void ProjectRenderer::initialize() {
-    if (!isInitialized_) {
-        program_->initialize();
-        cartesianRenderer_->initialize();
-        isInitialized_ = true;
-    }
+void ProjectRenderer::initialize() const {
+    program_->initialize();
+    cartesianRenderer_->initialize();
 }
 
 void ProjectRenderer::useProject(const Project* project) {
@@ -27,6 +24,7 @@ void ProjectRenderer::useProject(const Project* project) {
         const auto patternSpaceRenderer = new PatternSpaceRenderer(program_, new PatternSpaceRendererData());
         pattern->getSpace()->addObserver(patternSpaceRenderer);
         patternRenderers_.emplace_back(patternSpaceRenderer, new PatternShapeRenderer(new PatternShapeRendererData()));
+        patternRenderers_.back().initialize();
     }
 }
 
@@ -62,8 +60,6 @@ void ProjectRenderer::updateProjectionMatrix() {
 }
 
 void ProjectRenderer::render() const {
-    for (const auto& patternRenderer: patternRenderers_) patternRenderer.initialize();
-
     glEnable(GL_BLEND);
     glEnable(GL_PROGRAM_POINT_SIZE);
 
@@ -79,9 +75,6 @@ void ProjectRenderer::render() const {
 
 bool ProjectRenderer::prepareNextFrame() const {
     cartesianRenderer_->upload();
-    for (const auto& patternRenderer: patternRenderers_) {
-        patternRenderer.initialize();
-        patternRenderer.upload();
-    }
+    for (const auto& patternRenderer: patternRenderers_) patternRenderer.upload();
     return true;
 }

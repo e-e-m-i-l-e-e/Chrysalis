@@ -32,8 +32,6 @@ public:
     }
 
     virtual void initialize() {
-        if (isInitialized_) return;
-
         glGenVertexArrays(1, &vao_);
         glBindVertexArray(vao_);
 
@@ -48,7 +46,6 @@ public:
         }
 
         upload();
-        isInitialized_ = true;
     }
 
     void render() {
@@ -63,8 +60,6 @@ protected:
     /// @uml{composition}
     D* data_;
 private:
-    bool isInitialized_ = false;
-
     GLuint vbo_ = 0;
     GLuint vao_ = 0;
 };
