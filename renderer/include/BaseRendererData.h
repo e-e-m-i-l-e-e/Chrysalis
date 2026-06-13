@@ -11,6 +11,13 @@ protected:
 public:
     virtual ~BaseRendererData() = default;
 
+    [[nodiscard]] static size_t stride() {
+        return sizeof(V);
+    }
+    [[nodiscard]] static std::vector<std::pair<int, void*>> layout() {
+        return V::getLayout();
+    }
+
     virtual V* vbo() = 0;
     virtual size_t count() = 0;
 

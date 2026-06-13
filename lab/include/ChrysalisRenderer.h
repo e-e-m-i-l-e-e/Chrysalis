@@ -5,28 +5,15 @@
 
 #include "ProjectRenderer.h"
 
-class ChrysalisRenderer: public QQuickFramebufferObject::Renderer {
+class ChrysalisRenderer: public Chrysalis::ProjectRenderer, public QQuickFramebufferObject::Renderer {
 public:
-    void initialize();
-    void projectChanged(Chrysalis::Project* project);
+    explicit ChrysalisRenderer(Chrysalis::MainOpenGLProgram* program, Chrysalis::CartesianRenderer* cartesianRenderer);
 
     void changeCursor(QPointF&& cursor) const;
-    void changeOffset(QPointF&& delta) const;
-    void changeScale(double scalar, QPointF&& center) const;
 protected:
     void render() override;
     void synchronize(QQuickFramebufferObject*) override;
     QOpenGLFramebufferObject* createFramebufferObject(const QSize& size) override;
-private:
-    void changeSize() const;
-
-    bool isInitialized_ = false;
-    bool isProjectRendererInitialized_ = false;
-
-    QSize size_;
-
-    Chrysalis::Project* project_ = nullptr;
-    Chrysalis::ProjectRenderer* projectRenderer_ = nullptr;
 };
 
 #endif //CHRYSALIS_CHRYSALISRENDERER_H

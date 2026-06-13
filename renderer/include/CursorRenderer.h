@@ -6,7 +6,7 @@
 #include "CursorRendererData.h"
 #include "MainOpenGLProgram.h"
 
-class CursorRenderer: public BaseAnimatedRenderer<CursorRendererData, Vertex3f> {
+class CursorRenderer: public BaseAnimatedRenderer<CursorRendererData> {
 public:
     explicit CursorRenderer(Chrysalis::MainOpenGLProgram* program, CursorRendererData* data);
 

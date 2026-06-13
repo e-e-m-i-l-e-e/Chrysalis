@@ -12,34 +12,12 @@
 
 using namespace Chrysalis;
 
-void ChrysalisRenderer::projectChanged(Project* project) {
-    project_ = project;
-    isProjectRendererInitialized_ = false;
-}
-
-void ChrysalisRenderer::initialize() {
-    isInitialized_ = gladLoadGL([](const char* name) -> GLADapiproc {
-        return QOpenGLContext::currentContext()->getProcAddress(name);
-    });
-    if (!isInitialized_) LOG_CRITICAL("Failed to load OpenGL functions.");
-}
+ChrysalisRenderer::ChrysalisRenderer(MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer)
+    : ProjectRenderer(program, cartesianRenderer) {}
 
 QOpenGLFramebufferObject* ChrysalisRenderer::createFramebufferObject(const QSize& size) {
-    size_ = size;
-    changeSize();
+    areaSizeChanged(static_cast<float>(size.width()), static_cast<float>(size.height()));
     return Renderer::createFramebufferObject(size);
-}
-
-void ChrysalisRenderer::changeSize() const {
-    projectRenderer_->areaSizeChanged(static_cast<float>(size_.width()), static_cast<float>(size_.height()));
-}
-
-void ChrysalisRenderer::changeOffset(QPointF&& delta) const {
-    projectRenderer_->areaOffsetChanged(static_cast<float>(delta.x()), static_cast<float>(delta.y()));
-}
-
-void ChrysalisRenderer::changeScale(const double scalar, QPointF&& center) const {
-    projectRenderer_->scaleChanged(scalar, center.x(), center.y());
 }
 
 void ChrysalisRenderer::changeCursor(QPointF&& cursor) const {
@@ -60,21 +38,11 @@ void ChrysalisRenderer::changeCursor(QPointF&& cursor) const {
 }
 
 void ChrysalisRenderer::render() {
-    projectRenderer_->render();
+    ProjectRenderer::render();
 }
 
 void ChrysalisRenderer::synchronize(QQuickFramebufferObject* object) {
-    if (!isProjectRendererInitialized_) {
-        delete projectRenderer_;
-        const auto program = new MainOpenGLProgram();
-        projectRenderer_ = new ProjectRenderer(project_, program, new CartesianRenderer(program, new CartesianRendererData()));
-        changeSize();
-        projectRenderer_->initialize();
-        isProjectRendererInitialized_ = true;
-        project_->getInstructions()->execute();
-    }
-
-    while (!projectRenderer_->prepareNextFrame()) object->update();
+    while (!prepareNextFrame()) object->update();
     // bool shouldAnimate = false;
     // shouldAnimate |= cursorRenderer_->animate();
     // cartesianRenderer_->upload();

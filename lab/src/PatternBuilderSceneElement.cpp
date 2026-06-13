@@ -1,24 +1,36 @@
 #include "PatternBuilderSceneElement.h"
 
-#include <QQuickWindow>
+#include "glad/gl.h"
 
-#include <iostream>
+#include <QQuickWindow>
+#include <QOpenGLContext>
 
 #include "ChrysalisRenderer.h"
 
+#include "Logging.h"
+#define LOGGER_NAME "Chrysalis Renderer"
+
 PatternBuilderSceneElement::PatternBuilderSceneElement(QQuickItem* parent)
-    : QQuickFramebufferObject(parent), renderer_(new ChrysalisRenderer()) {
+    : QQuickFramebufferObject(parent), renderer_([] {
+        const auto program = new Chrysalis::MainOpenGLProgram();
+        return new ChrysalisRenderer(program, new Chrysalis::CartesianRenderer(program, new CartesianRendererData()));
+    }()) {
     setAcceptedMouseButtons(Qt::AllButtons);
     setAcceptHoverEvents(true);
 }
 
 QQuickFramebufferObject::Renderer* PatternBuilderSceneElement::createRenderer() const {
+    const static bool isInitialized = gladLoadGL([](const char* name) -> GLADapiproc {
+        return QOpenGLContext::currentContext()->getProcAddress(name);
+    });
+    if (!isInitialized) LOG_CRITICAL("Failed to load OpenGL functions.");
     renderer_->initialize();
     return renderer_;
 }
 
 void PatternBuilderSceneElement::projectChanged(Chrysalis::Project* project) {
-    renderer_->projectChanged(project);
+    renderer_->useProject(project);
+    project->getInstructions()->execute();
     update();
 }
 
@@ -29,7 +41,9 @@ QPointF PatternBuilderSceneElement::normalize(QPointF&& point) const {
 }
 
 void PatternBuilderSceneElement::wheelEvent(QWheelEvent* event) {
-    renderer_->changeScale(1.f + event->angleDelta().y() / 1000.f, normalize(event->position()));
+    const auto center = normalize(event->position());
+    renderer_->scaleChanged(1.f + static_cast<float>(event->angleDelta().y()) / 1000.f,
+                            static_cast<float>(center.x()), static_cast<float>(center.y()));
     update();
 }
 
@@ -47,8 +61,10 @@ void PatternBuilderSceneElement::mousePressEvent(QMouseEvent* event) {
 
 void PatternBuilderSceneElement::mouseMoveEvent(QMouseEvent* event) {
     if (!isLeftMouseButtonPressed_) return;
-    renderer_->changeOffset(normalize(event->position()) - mousePosition_);
-    mousePosition_ = normalize(event->position());
+    const auto position = normalize(event->position());
+    const auto delta = position - mousePosition_;
+    renderer_->areaOffsetChanged(static_cast<float>(delta.x()), static_cast<float>(delta.y()));
+    mousePosition_ = position;
     update();
 }
 

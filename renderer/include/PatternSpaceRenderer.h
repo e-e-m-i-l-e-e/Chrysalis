@@ -7,7 +7,7 @@
 #include "PatternSpaceRendererData.h"
 #include "observers/PatternSpaceObserver.h"
 
-class PatternSpaceRenderer: public BaseRenderer<PatternSpaceRendererData, Vertex3f>, public PatternSpaceObserver {
+class PatternSpaceRenderer: public BaseRenderer<PatternSpaceRendererData>, public PatternSpaceObserver {
 public:
     explicit PatternSpaceRenderer(Chrysalis::MainOpenGLProgram* program, PatternSpaceRendererData* rendererData);
 

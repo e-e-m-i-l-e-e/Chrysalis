@@ -1,15 +1,18 @@
 #ifndef CHRYSALIS_BASERENDERER_H
 #define CHRYSALIS_BASERENDERER_H
 
-#include <vector>
-
+#include <iostream>
+#include <ostream>
 #include <glad/gl.h>
 
 #include "BaseRendererData.h"
 
-template<typename D, typename V>
-requires std::is_base_of_v<BaseRendererData<V>, D> && std::is_base_of_v<Vertex2f, V>
+template<typename D>
+requires requires {
+    []<typename V>(BaseRendererData<V>*) {}(static_cast<D*>(nullptr));
+}
 class BaseRenderer {
+    using V = decltype([]<typename V>(BaseRendererData<V>*) -> V {}(static_cast<D*>(nullptr)));
 protected:
     explicit BaseRenderer(D* data): data_(data) {}
     virtual ~BaseRenderer() {
@@ -29,6 +32,8 @@ public:
     }
 
     virtual void initialize() {
+        if (isInitialized_) return;
+
         glGenVertexArrays(1, &vao_);
         glBindVertexArray(vao_);
 
@@ -43,6 +48,7 @@ public:
         }
 
         upload();
+        isInitialized_ = true;
     }
 
     void render() {
@@ -57,6 +63,8 @@ protected:
     /// @uml{composition}
     D* data_;
 private:
+    bool isInitialized_ = false;
+
     GLuint vbo_ = 0;
     GLuint vao_ = 0;
 };

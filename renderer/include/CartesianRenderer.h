@@ -8,7 +8,7 @@
 #include "MainOpenGLProgram.h"
 
 namespace Chrysalis {
-    class CartesianRenderer: public BaseRenderer<CartesianRendererData, Vertex2f> {
+    class CartesianRenderer: public BaseRenderer<CartesianRendererData> {
     public:
         explicit CartesianRenderer(MainOpenGLProgram* program, CartesianRendererData* data);
 

@@ -4,7 +4,7 @@
 #include "BaseRenderer.h"
 #include "PatternShapeRendererData.h"
 
-class PatternShapeRenderer: public BaseRenderer<PatternShapeRendererData, Vertex2f> {
+class PatternShapeRenderer: public BaseRenderer<PatternShapeRendererData> {
 public:
     explicit PatternShapeRenderer(PatternShapeRendererData* data);
 

@@ -4,13 +4,8 @@
 
 using namespace Chrysalis;
 
-ProjectRenderer::ProjectRenderer(const Project* project, MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer)
+ProjectRenderer::ProjectRenderer(MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer)
     : program_(program), cartesianRenderer_(cartesianRenderer) {
-    for (const auto& pattern: *project->getPatterns()) {
-        const auto patternSpaceRenderer = new PatternSpaceRenderer(program_, new PatternSpaceRendererData());
-        pattern->getSpace()->addObserver(patternSpaceRenderer);
-        patternRenderers_.emplace_back(patternSpaceRenderer, new PatternShapeRenderer(new PatternShapeRendererData()));
-    }
 }
 
 ProjectRenderer::~ProjectRenderer() {
@@ -18,10 +13,21 @@ ProjectRenderer::~ProjectRenderer() {
     delete cartesianRenderer_;
 }
 
-void ProjectRenderer::initialize() const {
-    program_->initialize();
-    cartesianRenderer_->initialize();
-    for (const auto& patternRenderer: patternRenderers_) patternRenderer.initialize();
+void ProjectRenderer::initialize() {
+    if (!isInitialized_) {
+        program_->initialize();
+        cartesianRenderer_->initialize();
+        isInitialized_ = true;
+    }
+}
+
+void ProjectRenderer::useProject(const Project* project) {
+    patternRenderers_.clear();
+    for (const auto& pattern: *project->getPatterns()) {
+        const auto patternSpaceRenderer = new PatternSpaceRenderer(program_, new PatternSpaceRendererData());
+        pattern->getSpace()->addObserver(patternSpaceRenderer);
+        patternRenderers_.emplace_back(patternSpaceRenderer, new PatternShapeRenderer(new PatternShapeRendererData()));
+    }
 }
 
 void ProjectRenderer::areaSizeChanged(const float width, const float height) {
@@ -56,6 +62,8 @@ void ProjectRenderer::updateProjectionMatrix() {
 }
 
 void ProjectRenderer::render() const {
+    for (const auto& patternRenderer: patternRenderers_) patternRenderer.initialize();
+
     glEnable(GL_BLEND);
     glEnable(GL_PROGRAM_POINT_SIZE);
 
@@ -71,6 +79,9 @@ void ProjectRenderer::render() const {
 
 bool ProjectRenderer::prepareNextFrame() const {
     cartesianRenderer_->upload();
-    for (const auto& patternRenderer: patternRenderers_) patternRenderer.upload();
+    for (const auto& patternRenderer: patternRenderers_) {
+        patternRenderer.initialize();
+        patternRenderer.upload();
+    }
     return true;
 }
