@@ -61,7 +61,7 @@ protected:
     static constexpr auto B = "B";
     static constexpr auto D = "D";
     static constexpr auto DA = "DA";
-    
+
     static constexpr auto HIP_DEPTH = "Hip Depth";
     static constexpr auto BUST_SPAN = "Bust Span";
     static constexpr auto BACK_WIDTH = "Back Width";
@@ -168,8 +168,6 @@ TEST_F(TestProjectExecution, Project1) {
     selectedPatterns->add(patternSpaceFront_);
     patternInstructions = new PatternInstructionsContainer(selectedPatterns);
     instructions_->add(patternInstructions);
-
-    new int(8);
 
     patternInstructions->add(new FreePointInstruction(common, name(S), num(0.0), num(0.0)));
     patternInstructions->add(new RelativePointInstruction(use_last_point, name(W), down, param(BACK_WAIST_LENGTH)));

@@ -7,6 +7,18 @@ using namespace Chrysalis;
 
 Parameter::Parameter(std::string name): name_(std::move(name)) {}
 
+Parameter* Parameter::create(const std::string& name, const double value) {
+    const auto parameter = new Parameter(name);
+    parameter->setValue(value);
+    return parameter;
+}
+
+Parameter* Parameter::createDefault(const std::string& name, const double defaultValue) {
+    const auto parameter = new Parameter(name);
+    parameter->setDefaultValue(defaultValue);
+    return parameter;
+}
+
 bool Parameter::isValid() const {
     return value_.has_value() || defaultValue_.has_value();
 }

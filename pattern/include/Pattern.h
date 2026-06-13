@@ -10,6 +10,8 @@ namespace Chrysalis {
         explicit Pattern(const std::string& name, PatternSpace* space);
         ~Pattern();
 
+        static Pattern* create(const std::string& name);
+
         [[nodiscard]] PatternSpace* getSpace() const;
         [[nodiscard]] const std::string& getName() const;
     private:

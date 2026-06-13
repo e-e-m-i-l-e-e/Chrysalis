@@ -15,6 +15,9 @@ namespace Chrysalis {
     public:
         explicit Parameter(std::string name);
 
+        static Parameter* create(const std::string& name, double value);
+        static Parameter* createDefault(const std::string& name, double defaultValue);
+
         [[nodiscard]] bool isValid() const;
         [[nodiscard]] bool hasAlias() const;
         [[nodiscard]] bool hasValue() const;
