@@ -1,5 +1,10 @@
-//
-// Created by emily on 01/06/2026.
-//
+#include "PatternsContainer.h"
 
-#include "../include/PatternsContainer.h"
+void Chrysalis::PatternsContainer::add(Pattern* item) {
+    BaseContainer::add(item);
+    patterns_[item->getName()] = item;
+}
+
+Chrysalis::Pattern* Chrysalis::PatternsContainer::get(const std::string& name) const {
+    return patterns_.at(name);
+}

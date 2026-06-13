@@ -1,4 +1,4 @@
-#include "Project1.h"
+#include "Project1Composer.h"
 
 #include "instructions.h"
 #include "instructions/FreePointInstruction.h"
@@ -11,13 +11,17 @@
 
 using namespace Chrysalis;
 
-void Project1::fillPatterns(Project* project) {
+Project* Project1Composer::create() const {
+    return Project::create("Project1Composer");
+}
+
+void Project1Composer::fillPatterns(Project* project) {
     const auto patterns = project->getPatterns();
     patterns->add(Pattern::create("Back"));
     patterns->add(Pattern::create("Front"));
 }
 
-void Project1::fillParameters(Project* project) {
+void Project1Composer::fillParameters(Project* project) {
     const auto parameters = project->getParameters();
     parameters->add(Parameter::createDefault(ParameterName::BACK_WAIST_LENGTH, 42));
     parameters->add(Parameter::createDefault(ParameterName::BACK_WIDTH, 31));
@@ -33,7 +37,7 @@ void Project1::fillParameters(Project* project) {
     parameters->add(Parameter::createDefault(ParameterName::HIP_CIRCUMFERENCE, 98));
 }
 
-void Project1::fillInstructions(Project* project) {
+void Project1Composer::fillInstructions(Project* project) {
     const auto space = project->getSpace();
     const auto parameters = project->getParameters();
     const auto instructions = project->getInstructions();

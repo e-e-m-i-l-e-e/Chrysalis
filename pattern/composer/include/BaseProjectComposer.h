@@ -4,12 +4,14 @@
 #include "Project.h"
 
 namespace Chrysalis {
-    class BaseProject {
+    class BaseProjectComposer {
     protected:
-        explicit BaseProject() = default;
-        virtual ~BaseProject() = default;
+        explicit BaseProjectComposer() = default;
+        virtual ~BaseProjectComposer() = default;
 
     public:
+        virtual Project* create() const = 0;
+
         void fill(Project* project);
         virtual void fillPatterns(Project* project) = 0;
         virtual void fillParameters(Project* project) = 0;

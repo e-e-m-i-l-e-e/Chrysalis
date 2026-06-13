@@ -20,6 +20,8 @@ namespace Chrysalis {
         ~Project();
 
         static Project* create();
+        static Project* create(const std::string& name);
+
         static Project* read(const std::string& filePath);
         static void write(const std::string& filePath, Project* project);
 

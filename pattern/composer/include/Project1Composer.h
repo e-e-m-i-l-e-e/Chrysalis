@@ -1,10 +1,10 @@
 #ifndef CHRYSALIS_PROJECT1_H
 #define CHRYSALIS_PROJECT1_H
 
-#include "BaseProject.h"
+#include "BaseProjectComposer.h"
 
 namespace Chrysalis {
-    class Project1 : public BaseProject {
+    class Project1Composer: public BaseProjectComposer {
         struct PointName {
             static constexpr auto S = "S";
             static constexpr auto S1 = "S1";
@@ -52,9 +52,57 @@ namespace Chrysalis {
             static constexpr auto APEX_TO_CENTER_FRONT = "Apex to center-front";
         };
     public:
+        Project* create() const override;
+
         void fillPatterns(Project* project) override;
         void fillParameters(Project* project) override;
         void fillInstructions(Project* project) override;
+
+        inline static const std::unordered_map<std::string, std::pair<double, double>> expectedBack = {
+            {PointName::S, {0.0, 0.0}},
+            {PointName::W, {0.0, -42.0}},
+            {PointName::H, {0.0, -63.5}},
+            {PointName::H1, {23.5, -63.5}},
+            {PointName::W1, {23.5, -42.0}},
+            {PointName::W2, {23.0, -42.0}},
+            {PointName::S1, {23.0, 0.0}},
+            {PointName::AH, {0.0, -21.0}},
+            {PointName::UB, {0.0, -14.0}},
+            {PointName::T, {0.0, -52.75}},
+            {PointName::N, {6.3333, 0.0}},
+            {PointName::N1, {6.3333, -2.375}},
+            {PointName::N2, {0.0, -2.375}},
+            {PointName::N3, {3.1666, -2.375}},
+            {PointName::S2, {16.795, -3.3992}},
+            {PointName::AH1, {15.5, -21.0}},
+            {PointName::UB1, {15.5, -14.0}},
+            {PointName::AH2, {16.5606, -19.9393}},
+            {PointName::AH3, {23.0, -21.0}},
+            {PointName::AH4, {22.0, -21.0}},
+            {PointName::D, {11.5641, -1.6995}},
+        };
+        inline static const std::unordered_map<std::string, std::pair<double, double>> expectedFront = {
+            {PointName::S, {0.0, 0.0}},
+            {PointName::W, {0.0, -42.0}},
+            {PointName::H, {0.0, -63.5}},
+            {PointName::AH, {0.0, -21.0}},
+            {PointName::UB, {0.0, -14.0}},
+            {PointName::T, {0.0, -52.75}},
+            {PointName::H1, {-25.5, -63.5}},
+            {PointName::W1, {-25.5, -42.0}},
+            {PointName::W2, {-25.0, -42.0}},
+            {PointName::S1, {-25.0, 0.0}},
+            {PointName::N, {-6.333333333333333, 0.0}},
+            {PointName::N1, {-6.333333333333333, -8.3333}},
+            {PointName::S2, {-16.22, -4.822}},
+            {PointName::UB1, {-15.5, -14.0}},
+            {PointName::AH1, {-15.5, -21.0}},
+            {PointName::AH2, {-17.2678, -19.23223304703363}},
+            {PointName::AH3, {-25.0, -21.0}},
+            {PointName::AH4, {-24.0, -21.0}},
+            {PointName::B, {0.0, -28.0}},
+            {PointName::DA, {-8.5, -28.0}},
+        };
     };
 }
 

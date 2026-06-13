@@ -6,4 +6,5 @@ add_library(PatternLibrary STATIC ${PATTERN_SOURCES})
 target_include_directories(PatternLibrary PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(PatternLibrary PUBLIC CGAL::CGAL)
 
+add_subdirectory(composer)
 add_subdirectory(test)

@@ -28,7 +28,11 @@ Project::~Project() {
 }
 
 Project* Project::create() {
-    return new Project("Untitled", new ProjectSpace(), new ParametersContainer(), new PatternsContainer(), new InstructionsContainer());
+    return create("Untitled");
+}
+
+Project* Project::create(const std::string& name) {
+    return new Project(name, new ProjectSpace(), new ParametersContainer(), new PatternsContainer(), new InstructionsContainer());
 }
 
 Project* Project::read(const std::string& filePath) {
