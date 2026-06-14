@@ -14,6 +14,8 @@ namespace Chrysalis {
         void render() const;
         void initialize() const;
         void scaleChanged(float scale) const;
+
+        const PatternSpaceRenderer* spaceRenderer() const;
     private:
         /// @uml{composition}
         PatternSpaceRenderer* spaceRenderer_;

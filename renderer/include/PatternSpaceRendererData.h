@@ -20,6 +20,8 @@ namespace Chrysalis {
         size_t linesSize() const;
         size_t arrowsSize() const;
         size_t pointsSize() const;
+
+        bool isPointed(float x, float y, float delta) const;
     private:
         std::vector<Vertex3f> lines_;
         std::vector<Vertex3f> arrows_;

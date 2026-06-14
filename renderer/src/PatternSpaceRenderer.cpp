@@ -19,3 +19,7 @@ void PatternSpaceRenderer::draw() {
 void PatternSpaceRenderer::scaleChanged(const float scale) {
     pointRadius_ = 0.25f * scale;
 }
+
+bool PatternSpaceRenderer::isPointed(const float x, const float y) const {
+    return data_->isPointed(x, y, 0.25f);
+}

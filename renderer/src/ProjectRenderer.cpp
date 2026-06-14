@@ -4,17 +4,19 @@
 
 using namespace Chrysalis;
 
-ProjectRenderer::ProjectRenderer(MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer)
-    : program_(program), cartesianRenderer_(cartesianRenderer) {
+ProjectRenderer::ProjectRenderer(MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer, CursorRenderer* cursorRenderer)
+    : program_(program), cursorRenderer_(cursorRenderer), cartesianRenderer_(cartesianRenderer) {
 }
 
 ProjectRenderer::~ProjectRenderer() {
     delete program_;
+    delete cursorRenderer_;
     delete cartesianRenderer_;
 }
 
 void ProjectRenderer::initialize() const {
     program_->initialize();
+    cursorRenderer_->initialize();
     cartesianRenderer_->initialize();
 }
 
@@ -52,6 +54,18 @@ void ProjectRenderer::scaleChanged(const float scaleFactor, const float zoomX, c
     updateProjectionMatrix();
 }
 
+void ProjectRenderer::cursorPositionChanged(const float x, const float y) const {
+    const float cursorX = x * area_.width() + area_.x();
+    const float cursorY = y * area_.height() + area_.y();
+    for (const auto& patternRenderer: patternRenderers_) {
+        if (patternRenderer.spaceRenderer()->isPointed(cursorX, cursorY)) {
+            cursorRenderer_->displayCursor(cursorX, cursorY);
+            return;
+        }
+    }
+    cursorRenderer_->hideCursor();
+}
+
 void ProjectRenderer::updateProjectionMatrix() {
     projection_ = glm::ortho(
         0.f, area_.width() * scale_,
@@ -74,10 +88,11 @@ void ProjectRenderer::render() const {
     program_->setProjection(projection_);
     cartesianRenderer_->render();
     for (const auto& patternRenderer: patternRenderers_) patternRenderer.render();
+    cursorRenderer_->render();
 }
 
 bool ProjectRenderer::prepareNextFrame() const {
     cartesianRenderer_->upload();
     for (const auto& patternRenderer: patternRenderers_) patternRenderer.upload();
-    return true;
+    return cursorRenderer_->animate();
 }

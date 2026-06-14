@@ -13,14 +13,14 @@ using namespace Chrysalis;
 ProjectSceneElement::ProjectSceneElement(QQuickItem* parent)
     : QQuickFramebufferObject(parent), renderer_([] {
         const auto program = new MainOpenGLProgram();
-        return new Renderer(program, new CartesianRenderer(program, new CartesianRendererData()));
+        return new Renderer(program, new CartesianRenderer(program, new CartesianRendererData()), new CursorRenderer(program, new CursorRendererData()));
     }()) {
     setAcceptedMouseButtons(Qt::AllButtons);
     setAcceptHoverEvents(true);
 }
 
-ProjectSceneElement::Renderer::Renderer(MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer)
-    : ProjectRenderer(program, cartesianRenderer) {}
+ProjectSceneElement::Renderer::Renderer(MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer, CursorRenderer* cursorRenderer)
+    : ProjectRenderer(program, cartesianRenderer, cursorRenderer) {}
 
 ProjectSceneElement::Renderer* ProjectSceneElement::createRenderer() const {
     const static bool isInitialized = gladLoadGL([](const char* name) -> GLADapiproc {
@@ -50,7 +50,7 @@ void ProjectSceneElement::Renderer::synchronize(QQuickFramebufferObject* object)
         pendingProject_.value()->getInstructions()->execute();
         pendingProject_.reset();
     }
-    while (!prepareNextFrame()) object->update();
+    if (prepareNextFrame()) object->update();
 }
 
 QOpenGLFramebufferObject* ProjectSceneElement::Renderer::createFramebufferObject(const QSize& size) {
@@ -72,7 +72,8 @@ void ProjectSceneElement::wheelEvent(QWheelEvent* event) {
 }
 
 void ProjectSceneElement::hoverMoveEvent(QHoverEvent* event) {
-    // renderer_->changeCursor(normalize(event->position()));
+    const auto position = normalize(event->position());
+    renderer_->cursorPositionChanged(position.x(), position.y());
     update();
 }
 

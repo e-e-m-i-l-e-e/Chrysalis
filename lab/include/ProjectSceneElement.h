@@ -12,7 +12,7 @@ namespace Chrysalis {
 
         class Renderer: public ProjectRenderer, public QQuickFramebufferObject::Renderer {
         public:
-            explicit Renderer(MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer);
+            explicit Renderer(MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer, CursorRenderer* cursorRenderer);
 
             void changeProject(const Project* project);
         protected:

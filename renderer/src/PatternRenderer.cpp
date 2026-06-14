@@ -29,3 +29,7 @@ void PatternRenderer::scaleChanged(const float scale) const {
     spaceRenderer_->scaleChanged(scale);
     shapeRenderer_->scaleChanged(scale);
 }
+
+const PatternSpaceRenderer* PatternRenderer::spaceRenderer() const {
+    return spaceRenderer_;
+}

@@ -2,14 +2,14 @@
 
 using namespace Chrysalis;
 
-void CursorRendererData::projectCursor(const Vertex2f& cursor) {
+void CursorRendererData::projectCursor(const float x, const float y) {
     data_.clear();
     // x axis
-    data_.emplace_back(cursor.x(), 0.f, 0.f);
-    data_.emplace_back(cursor.x(), cursor.y(), cursor.y());
+    data_.emplace_back(x, 0.f, 0.f);
+    data_.emplace_back(x, y, y);
     // y axis
-    data_.emplace_back(0.f, cursor.y(), 0.f);
-    data_.emplace_back(cursor.x(), cursor.y(), cursor.x());
+    data_.emplace_back(0.f, y, 0.f);
+    data_.emplace_back(x, y, x);
 
     updateVBO();
 }

@@ -29,6 +29,13 @@ void PatternSpaceRendererData::relativePointAdded(const Point* from, const Point
     arrows_.emplace_back(*to + ProjectSpace::rotate(dir, -ARROW_WING_ANGLE));
 }
 
+bool PatternSpaceRendererData::isPointed(const float x, const float y, float delta) const {
+    for (const auto& point: points_) {
+        if (std::sqrt(std::pow(x - point.x(), 2) + std::pow(y - point.y(), 2)) <= delta) return true;
+    }
+    return false;
+}
+
 size_t PatternSpaceRendererData::size() {
     return lines_.size() + arrows_.size() + points_.size();
 }

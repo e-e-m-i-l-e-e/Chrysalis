@@ -7,7 +7,7 @@
 namespace Chrysalis {
     class CursorRendererData: public BaseRendererData<Vertex3f> {
     public:
-        void projectCursor(const Vertex2f& cursor);
+        void projectCursor(float x, float y);
 
         size_t size() override;
         std::vector<Vertex3f> vbo() override;

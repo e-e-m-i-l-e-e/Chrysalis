@@ -12,7 +12,7 @@ namespace Chrysalis {
 
         void draw() override;
         void hideCursor();
-        void displayCursor(const Vertex2f& cursor);
+        void displayCursor(float x, float y);
     protected:
         void prepareNextFrame(int64_t startTime, int64_t previousFrameTime, int64_t currentFrameTime) override;
     private:

@@ -54,7 +54,6 @@ namespace Chrysalis {
         }
 
         virtual void draw() = 0;
-
     protected:
         /// @uml{composition}
         D* data_;

@@ -3,19 +3,21 @@
 
 #include "Project.h"
 #include "CartesianRenderer.h"
+#include "CursorRenderer.h"
 #include "PatternRenderer.h"
 
 namespace Chrysalis {
     class ProjectRenderer {
     public:
-        explicit ProjectRenderer(MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer);
+        explicit ProjectRenderer(MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer, CursorRenderer* cursorRenderer);
         ~ProjectRenderer();
 
         void initialize() const;
 
+        void scaleChanged(float scaleFactor, float zoomX, float zoomY);
         void areaSizeChanged(float width, float height);
         void areaOffsetChanged(float deltaX, float deltaY);
-        void scaleChanged(float scaleFactor, float zoomX, float zoomY);
+        void cursorPositionChanged(float x, float y) const;
     protected:
         void useProject(const Project* project);
 
@@ -33,6 +35,8 @@ namespace Chrysalis {
 
         /// @uml{composition}
         MainOpenGLProgram* program_;
+        /// @uml{composition}
+        CursorRenderer* cursorRenderer_;
         /// @uml{composition}
         CartesianRenderer* cartesianRenderer_;
         std::list<PatternRenderer> patternRenderers_;

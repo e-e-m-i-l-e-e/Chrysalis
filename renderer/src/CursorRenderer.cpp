@@ -14,9 +14,9 @@ void CursorRenderer::hideCursor() {
     displayCursor_ = false;
 }
 
-void CursorRenderer::displayCursor(const Vertex2f& cursor) {
+void CursorRenderer::displayCursor(const float x, const float y) {
     displayCursor_ = true;
-    data_->projectCursor(cursor);
+    data_->projectCursor(x, y);
 }
 
 void CursorRenderer::prepareNextFrame(int64_t startTime, const int64_t previousFrameTime, const int64_t currentFrameTime) {
