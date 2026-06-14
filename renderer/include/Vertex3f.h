@@ -8,6 +8,8 @@ namespace Chrysalis {
     public:
         explicit Vertex3f(const Point& point);
         explicit Vertex3f(const Point& point, float attribute);
+
+        explicit Vertex3f(float x, float y);
         explicit Vertex3f(float x, float y, float attribute);
 
         const float& attribute() const;

@@ -13,6 +13,7 @@ public:
 
     operator const CGAL::Point&() const;
     CGAL::Vector operator-(const Point& other) const;
+    CGAL::Point operator+(const CGAL::Vector& vector) const;
 private:
     CGAL::Point point_;
 };

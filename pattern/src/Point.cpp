@@ -19,3 +19,7 @@ Point::operator const CGAL::Point&() const {
 CGAL::Vector Point::operator-(const Point& other) const {
     return point_ - other.point_;
 }
+
+CGAL::Point Point::operator+(const CGAL::Vector& vector) const {
+    return point_ + vector;
+}

@@ -25,7 +25,7 @@ namespace Chrysalis {
             if (!data_->shouldUpload()) return;
             glBindVertexArray(vao_);
             glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-            glBufferData(GL_ARRAY_BUFFER, data_->count() * sizeof(V), data_->vbo().data(), GL_DYNAMIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, data_->size() * sizeof(V), data_->vbo().data(), GL_DYNAMIC_DRAW);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             glBindVertexArray(0);
         }

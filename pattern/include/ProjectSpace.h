@@ -16,11 +16,14 @@ namespace Chrysalis {
         Point* addPoint(double x, double y);
         Point* addPoint(const CGAL::Point& pointFrom, double angle, double length);
 
+        static CGAL::Vector rotate(const CGAL::Vector& vector, double angle);
         static double angle(const CGAL::Point& pointFrom, const CGAL::Point& pointTo);
         static double length(const CGAL::Point& pointFrom, const CGAL::Point& pointTo);
         static boost::optional<CGAL::Point> xIntersection(const CGAL::Point& pointFrom, const CGAL::Point& pointTo);
         static boost::optional<CGAL::Point> yIntersection(const CGAL::Point& pointFrom, const CGAL::Point& pointTo);
     private:
+        static double sin(double value);
+        static double cos(double value);
         static double round(double value);
         static boost::optional<CGAL::Point> intersection(const CGAL::Line& line, const CGAL::Point& pointFrom, const CGAL::Point& pointTo);
         /// @uml{composition[1:*]}

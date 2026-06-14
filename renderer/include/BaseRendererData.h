@@ -12,8 +12,8 @@ namespace Chrysalis {
     public:
         virtual ~BaseRendererData() = default;
 
+        virtual size_t size() = 0;
         virtual std::vector<V> vbo() = 0;
-        virtual size_t count() = 0;
 
         void updateVBO() {
             shouldUpload_ = true;

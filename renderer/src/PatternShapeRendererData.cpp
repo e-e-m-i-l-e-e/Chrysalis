@@ -2,7 +2,7 @@
 
 using namespace Chrysalis;
 
-size_t PatternShapeRendererData::count() {
+size_t PatternShapeRendererData::size() {
     return 0;
 }
 

@@ -6,6 +6,8 @@ Vertex3f::Vertex3f(const Point& point): Vertex3f(point, 0) {}
 
 Vertex3f::Vertex3f(const Point& point, const float attribute): Vertex2f(point), attribute_(attribute) {}
 
+Vertex3f::Vertex3f(const float x, const float y): Vertex3f(x, y, 0) {}
+
 Vertex3f::Vertex3f(const float x, const float y, const float attribute): Vertex2f(x, y), attribute_(attribute) {}
 
 const float& Vertex3f::attribute() const {

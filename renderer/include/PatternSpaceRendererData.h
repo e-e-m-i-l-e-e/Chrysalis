@@ -14,13 +14,15 @@ namespace Chrysalis {
         void pointAdded(const Point* point) override;
         void relativePointAdded(const Point* from, const Point* to) override;
 
-        size_t count() override;
+        size_t size() override;
         std::vector<Vertex3f> vbo() override;
 
-        size_t linesCount() const;
-        size_t pointsCount() const;
+        size_t linesSize() const;
+        size_t arrowsSize() const;
+        size_t pointsSize() const;
     private:
         std::vector<Vertex3f> lines_;
+        std::vector<Vertex3f> arrows_;
         std::vector<Vertex3f> points_;
     };
 }

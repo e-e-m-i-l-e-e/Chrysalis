@@ -14,7 +14,7 @@ void CursorRendererData::projectCursor(const Vertex2f& cursor) {
     updateVBO();
 }
 
-size_t CursorRendererData::count() {
+size_t CursorRendererData::size() {
     return data_.size();
 }
 

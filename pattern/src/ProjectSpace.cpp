@@ -10,6 +10,14 @@ ProjectSpace::~ProjectSpace() {
     }
 }
 
+double ProjectSpace::sin(const double value) {
+    return round(std::sin(value));
+}
+
+double ProjectSpace::cos(const double value) {
+    return round(std::cos(value));
+}
+
 double ProjectSpace::round(const double value) {
     static double factor = std::pow(10.0, CGAL::PRECISION);
     return std::round(value * factor) / factor;
@@ -23,9 +31,13 @@ Point* ProjectSpace::addPoint(const double x, const double y) {
 
 Point* ProjectSpace::addPoint(const CGAL::Point& pointFrom, double angle, const double length) {
     angle = angle * CGAL_PI / 180;
-    const auto point = new Point(pointFrom.x() + length * round(std::cos(angle)), pointFrom.y() + length * round(std::sin(angle)));
+    const auto point = new Point(pointFrom.x() + length * cos(angle), pointFrom.y() + length * sin(angle));
     points_.insert(point);
     return point;
+}
+
+CGAL::Vector ProjectSpace::rotate(const CGAL::Vector& vector, const double angle) {
+    return CGAL::Aff_transformation_2<CGAL::Kernel>(CGAL::ROTATION, sin(angle), cos(angle))(vector);
 }
 
 double ProjectSpace::angle(const CGAL::Point& pointFrom, const CGAL::Point& pointTo) {

@@ -38,7 +38,7 @@ void CartesianRendererData::buildGrid(const Area& area, const float gridSize) {
     updateVBO();
 }
 
-size_t CartesianRendererData::count() {
+size_t CartesianRendererData::size() {
     return data_.size();
 }
 

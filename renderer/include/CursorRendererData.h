@@ -9,7 +9,7 @@ namespace Chrysalis {
     public:
         void projectCursor(const Vertex2f& cursor);
 
-        size_t count() override;
+        size_t size() override;
         std::vector<Vertex3f> vbo() override;
     private:
         std::vector<Vertex3f> data_;

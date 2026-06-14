@@ -8,7 +8,7 @@
 namespace Chrysalis {
     class CartesianRendererData: public BaseRendererData<Vertex2f> {
     public:
-        size_t count() override;
+        size_t size() override;
         std::vector<Vertex2f> vbo() override;
 
         void buildGrid(const Area& area, float gridSize);
