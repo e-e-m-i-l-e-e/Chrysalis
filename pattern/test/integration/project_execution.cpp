@@ -15,9 +15,10 @@ protected:
     void SetUp() override {
         project_ = Project1Composer::createProject();
         composer_ = new Project1Composer(project_);
+        composer_->fill();
         
-        back_ = project_->getPatterns()->at(0)->getSpace();
-        front_ = project_->getPatterns()->at(1)->getSpace();
+        back_ = composer_->getBack();
+        front_ = composer_->getFront();
     }
     void TearDown() override {
         delete project_;

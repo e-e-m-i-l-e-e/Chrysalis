@@ -1,15 +1,7 @@
 #ifndef CHRYSALIS_POINT_H
 #define CHRYSALIS_POINT_H
 
-#include <CGAL/Simple_cartesian.h>
-
-namespace CGAL {
-    using Kernel = Simple_cartesian<double>;
-
-    using Line = Line_2<Kernel>;
-    using Point = Point_2<Kernel>;
-    using Vector = Vector_2<Kernel>;
-}
+#include "config.h"
 
 class Point {
 public:

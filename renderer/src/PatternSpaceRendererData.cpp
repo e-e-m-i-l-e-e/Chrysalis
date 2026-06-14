@@ -24,10 +24,6 @@ size_t PatternSpaceRendererData::count() {
 std::vector<Vertex3f> PatternSpaceRendererData::vbo() {
     std::vector<Vertex3f> vbo = lines_;
     vbo.insert(vbo.end(), points_.begin(), points_.end());
-    for (int i = 0; i < lines_.size(); i += 2)
-    {
-        std::cout << "(" << lines_[i].x() << ", " << lines_[i].y() << ")(" << lines_[i].attribute() << ") -> (" << lines_[i + 1].x() << ", " << lines_[i + 1].y() << ")(" << lines_[i + 1].attribute() << ")" << std::endl;
-    }
     return vbo;
 }
 
