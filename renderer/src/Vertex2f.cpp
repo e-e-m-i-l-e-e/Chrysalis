@@ -2,7 +2,9 @@
 
 using namespace Chrysalis;
 
-Vertex2f::Vertex2f(float x, float y): x_(x), y_(y) {}
+Vertex2f::Vertex2f(const float x, const float y): x_(x), y_(y) {}
+
+Vertex2f::Vertex2f(const Point& point): x_(point.x()), y_(point.y()) {}
 
 const float& Vertex2f::x() const {
     return x_;
@@ -12,7 +14,6 @@ const float& Vertex2f::y() const {
     return y_;
 }
 
-std::vector<std::pair<int, void*>> Vertex2f::getLayout()
-{
+std::vector<std::pair<int, void*>> Vertex2f::layout() {
     return {{2, nullptr}};
 }

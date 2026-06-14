@@ -42,6 +42,6 @@ size_t CartesianRendererData::count() {
     return data_.size();
 }
 
-Vertex2f* CartesianRendererData::vbo() {
-    return data_.data();
+std::vector<Vertex2f> CartesianRendererData::vbo() {
+    return data_;
 }

@@ -2,8 +2,10 @@
 
 using namespace Chrysalis;
 
-void BaseProjectComposer::fill(Project* project) {
-    fillPatterns(project);
-    fillParameters(project);
-    fillInstructions(project);
+BaseProjectComposer::BaseProjectComposer(Project* project): project_(project) {}
+
+void BaseProjectComposer::fill() {
+    fillPatterns();
+    fillParameters();
+    fillInstructions();
 }

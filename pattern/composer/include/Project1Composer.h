@@ -52,11 +52,16 @@ namespace Chrysalis {
             static constexpr auto APEX_TO_CENTER_FRONT = "Apex to center-front";
         };
     public:
-        Project* create() const override;
+        explicit Project1Composer(Project* project);
 
-        void fillPatterns(Project* project) override;
-        void fillParameters(Project* project) override;
-        void fillInstructions(Project* project) override;
+        static Project* createProject();
+
+        PatternSpace* getBack() const;
+        PatternSpace* getFront() const;
+
+        void fillPatterns() override;
+        void fillParameters() override;
+        void fillInstructions() override;
 
         inline static const std::unordered_map<std::string, std::pair<double, double>> expectedBack = {
             {PointName::S, {0.0, 0.0}},

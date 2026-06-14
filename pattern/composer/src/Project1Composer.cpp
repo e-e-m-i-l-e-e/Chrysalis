@@ -11,18 +11,28 @@
 
 using namespace Chrysalis;
 
-Project* Project1Composer::create() const {
+Project1Composer::Project1Composer(Project* project): BaseProjectComposer(project) {}
+
+Project* Project1Composer::createProject() {
     return Project::create("Project1Composer");
 }
 
-void Project1Composer::fillPatterns(Project* project) {
-    const auto patterns = project->getPatterns();
+PatternSpace* Project1Composer::getBack() const {
+    return project_->getPatterns()->at(0)->getSpace();
+}
+
+PatternSpace* Project1Composer::getFront() const {
+    return project_->getPatterns()->at(1)->getSpace();
+}
+
+void Project1Composer::fillPatterns() {
+    const auto patterns = project_->getPatterns();
     patterns->add(Pattern::create("Back"));
     patterns->add(Pattern::create("Front"));
 }
 
-void Project1Composer::fillParameters(Project* project) {
-    const auto parameters = project->getParameters();
+void Project1Composer::fillParameters() {
+    const auto parameters = project_->getParameters();
     parameters->add(Parameter::createDefault(ParameterName::BACK_WAIST_LENGTH, 42));
     parameters->add(Parameter::createDefault(ParameterName::BACK_WIDTH, 31));
     parameters->add(Parameter::createDefault(ParameterName::BUST_HEIGHT, 28));
@@ -37,12 +47,13 @@ void Project1Composer::fillParameters(Project* project) {
     parameters->add(Parameter::createDefault(ParameterName::HIP_CIRCUMFERENCE, 98));
 }
 
-void Project1Composer::fillInstructions(Project* project) {
-    const auto space = project->getSpace();
-    const auto parameters = project->getParameters();
-    const auto instructions = project->getInstructions();
-    const auto back = project->getPatterns()->at(0)->getSpace();
-    const auto front = project->getPatterns()->at(1)->getSpace();
+void Project1Composer::fillInstructions() {
+    const auto back = getBack();
+    const auto front = getFront();
+
+    const auto space = project_->getSpace();
+    const auto parameters = project_->getParameters();
+    const auto instructions = project_->getInstructions();
     
     SelectedPatterns* selectedPatterns = nullptr;
     PatternInstructionsContainer* patternInstructions = nullptr;

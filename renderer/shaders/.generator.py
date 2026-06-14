@@ -18,11 +18,9 @@ def stage(path: Path):
 for s in shaders:
     programs[s.stem].append(s)
 
-generated_headers = []
 for program, files in programs.items():
 
     out_file = out_dir / f"{program}_shaders.h"
-    generated_headers.append(str(out_file))
 
     lines = []
     for f in files:
@@ -31,5 +29,3 @@ for program, files in programs.items():
         lines.append(')glsl";\n')
 
     out_file.write_text("\n".join(lines), encoding="utf-8")
-
-print(";".join(generated_headers))

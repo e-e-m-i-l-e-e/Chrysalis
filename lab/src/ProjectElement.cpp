@@ -1,5 +1,7 @@
 #include "ProjectElement.h"
 
+#include "Project1Composer.h"
+
 using namespace Chrysalis;
 
 ProjectElement::ProjectElement(QQuickItem* parent): QQuickItem(parent) {}
@@ -40,12 +42,11 @@ bool ProjectElement::hasProject() const {
     return project_ != nullptr;
 }
 
-#include "HARDCODED_PROJECTS.h"
-
 void ProjectElement::createProject() {
     delete project_;
     project_ = Project::create();
-    setupProject1(project_);
+    Project1Composer composer(project_);
+    composer.fill();
     parameters_->setParameters(project_->getParameters());
     emit projectChanged(project_);
 }

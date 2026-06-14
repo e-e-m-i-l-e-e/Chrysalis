@@ -18,7 +18,7 @@ namespace Chrysalis {
     private:
         static boost::optional<double> evaluate(const name* pointFrom, const pattern* patternFrom,
                                                 const name* pointTo, const pattern* patternTo,
-                                                const std::function<double(const Point* from, const Point* to)>& evaluator);
+                                                const std::function<double(const Point& from, const Point& to)>& evaluator);
     };
     /**
      * @uml{note[top] Syntax samples:

@@ -18,6 +18,6 @@ size_t CursorRendererData::count() {
     return data_.size();
 }
 
-Vertex3f* CursorRendererData::vbo() {
-    return data_.data();
+std::vector<Vertex3f> CursorRendererData::vbo() {
+    return data_;
 }

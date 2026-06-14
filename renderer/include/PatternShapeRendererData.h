@@ -7,7 +7,7 @@ namespace Chrysalis {
     class PatternShapeRendererData: public BaseRendererData<Vertex2f> {
     public:
         size_t count() override;
-        Vertex2f* vbo() override;
+        std::vector<Vertex2f> vbo() override;
     };
 }
 

@@ -12,9 +12,9 @@ boost::optional<double> Chrysalis::VectorFunction::angle(const name* pointFrom, 
 
 boost::optional<double> Chrysalis::VectorFunction::evaluate(const name* pointFrom, const pattern* patternFrom,
                                                             const name* pointTo, const pattern* patternTo,
-                                                            const std::function<double(const Point* from, const Point* to)>& evaluator) {
+                                                            const std::function<double(const Point& from, const Point& to)>& evaluator) {
     if (!pointFrom->hasArgument() || !patternFrom->hasArgument() || !pointTo->hasArgument() || !patternTo->hasArgument()) return boost::none;
-    return evaluator(patternFrom->getArgument()->getPoint(pointFrom->getArgument()), patternTo->getArgument()->getPoint(pointTo->getArgument()));
+    return evaluator(*patternFrom->getArgument()->getPoint(pointFrom->getArgument()), *patternTo->getArgument()->getPoint(pointTo->getArgument()));
 }
 
 Chrysalis::VectorFunctionArgument::VectorFunctionArgument(const name* pointFrom, const pattern* patternFrom,

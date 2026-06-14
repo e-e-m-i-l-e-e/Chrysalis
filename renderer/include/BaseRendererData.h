@@ -12,13 +12,17 @@ namespace Chrysalis {
     public:
         virtual ~BaseRendererData() = default;
 
-        virtual V* vbo() = 0;
+        virtual std::vector<V> vbo() = 0;
         virtual size_t count() = 0;
 
         void updateVBO() {
             shouldUpload_ = true;
         }
-        [[nodiscard]] bool shouldUpload() const {
+        [[nodiscard]] bool shouldUpload() {
+            if (shouldUpload_) {
+                shouldUpload_ = false;
+                return true;
+            }
             return shouldUpload_;
         }
     private:

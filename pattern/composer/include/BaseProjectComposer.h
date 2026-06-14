@@ -6,16 +6,16 @@
 namespace Chrysalis {
     class BaseProjectComposer {
     protected:
-        explicit BaseProjectComposer() = default;
+        explicit BaseProjectComposer(Project* project);
         virtual ~BaseProjectComposer() = default;
 
     public:
-        virtual Project* create() const = 0;
-
-        void fill(Project* project);
-        virtual void fillPatterns(Project* project) = 0;
-        virtual void fillParameters(Project* project) = 0;
-        virtual void fillInstructions(Project* project) = 0;
+        void fill();
+        virtual void fillPatterns() = 0;
+        virtual void fillParameters() = 0;
+        virtual void fillInstructions() = 0;
+    protected:
+        Project* project_;
     };
 }
 

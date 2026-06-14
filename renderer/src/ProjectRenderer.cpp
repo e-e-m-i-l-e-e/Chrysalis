@@ -21,9 +21,12 @@ void ProjectRenderer::initialize() const {
 void ProjectRenderer::useProject(const Project* project) {
     patternRenderers_.clear();
     for (const auto& pattern: *project->getPatterns()) {
-        const auto patternSpaceRenderer = new PatternSpaceRenderer(program_, new PatternSpaceRendererData());
-        pattern->getSpace()->addObserver(patternSpaceRenderer);
-        patternRenderers_.emplace_back(patternSpaceRenderer, new PatternShapeRenderer(new PatternShapeRendererData()));
+        const auto patternSpaceRendererData = new PatternSpaceRendererData();
+        pattern->getSpace()->addObserver(patternSpaceRendererData);
+        patternRenderers_.emplace_back(
+            new PatternSpaceRenderer(program_, patternSpaceRendererData),
+            new PatternShapeRenderer(new PatternShapeRendererData())
+        );
         patternRenderers_.back().initialize();
     }
 }

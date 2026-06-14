@@ -6,6 +6,6 @@ size_t PatternShapeRendererData::count() {
     return 0;
 }
 
-Vertex2f* PatternShapeRendererData::vbo() {
-    return nullptr;
+std::vector<Vertex2f> PatternShapeRendererData::vbo() {
+    return {};
 }
