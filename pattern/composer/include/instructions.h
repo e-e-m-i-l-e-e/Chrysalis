@@ -1,6 +1,18 @@
 #ifndef CHRYSALIS_INSTRUCTIONS_H
 #define CHRYSALIS_INSTRUCTIONS_H
 
+#include "arguments/BinaryFunctionArgument.h"
+#include "arguments/VectorFunctionArgument.h"
+
+#include "instructions/FreePointInstruction.h"
+#include "instructions/RelativePointInstruction.h"
+
+using B = Chrysalis::BinaryFunction;
+using V = Chrysalis::VectorFunction;
+
+using P = Chrysalis::FreePointInstruction;
+using RelP = Chrysalis::RelativePointInstruction;
+
 #define common space, new SelectedPatternsArgument(selectedPatterns)
 
 #define num(val) new NumberArgument(val)
