@@ -11,8 +11,8 @@ void PatternSpaceRendererData::pointAdded(const Point* point) {
 
 void PatternSpaceRendererData::relativePointAdded(const Point* from, const Point* to) {
     static constexpr double ARROW_BASE_FACTOR = 0.75;
-    static constexpr double ARROW_WING_LENGTH = 1;
-    static constexpr double ARROW_WING_ANGLE = CGAL_PI / 8.0;
+    static constexpr double ARROW_WING_LENGTH = 0.75;
+    static constexpr double ARROW_WING_ANGLE = 20;
 
     pointAdded(to);
     auto intersection = ProjectSpace::xIntersection(*from, *to);
@@ -21,17 +21,21 @@ void PatternSpaceRendererData::relativePointAdded(const Point* from, const Point
     lines_.emplace_back(*to, static_cast<float>(ProjectSpace::length(*intersection, *to)));
 
     CGAL::Vector dir = *from - *to;
-    dir = dir * (ARROW_WING_LENGTH / std::sqrt(CGAL::to_double(dir.squared_length())));
+    dir /= std::sqrt(dir.squared_length());
 
-    arrows_.emplace_back(*to + ProjectSpace::rotate(dir, ARROW_WING_ANGLE));
-    arrows_.emplace_back(*to);
-    arrows_.emplace_back(*to + dir * ARROW_BASE_FACTOR);
-    arrows_.emplace_back(*to + ProjectSpace::rotate(dir, -ARROW_WING_ANGLE));
+    const CGAL::Vector shift = dir * POINT_RADIUS;
+
+    dir *= ARROW_WING_LENGTH;
+
+    arrows_.emplace_back(*to + ProjectSpace::rotate(dir + shift, ARROW_WING_ANGLE));
+    arrows_.emplace_back(*to + shift);
+    arrows_.emplace_back(*to + (dir + shift) * ARROW_BASE_FACTOR);
+    arrows_.emplace_back(*to + ProjectSpace::rotate(dir + shift, -ARROW_WING_ANGLE));
 }
 
-bool PatternSpaceRendererData::isPointed(const float x, const float y, float delta) const {
+bool PatternSpaceRendererData::isPointed(const float x, const float y) const {
     for (const auto& point: points_) {
-        if (std::sqrt(std::pow(x - point.x(), 2) + std::pow(y - point.y(), 2)) <= delta) return true;
+        if (std::sqrt(std::pow(x - point.x(), 2) + std::pow(y - point.y(), 2)) <= POINT_RADIUS) return true;
     }
     return false;
 }

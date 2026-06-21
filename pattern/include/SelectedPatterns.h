@@ -1,5 +1,5 @@
-#ifndef CHRYSALIS_ACTIVEPATTERNS_H
-#define CHRYSALIS_ACTIVEPATTERNS_H
+#ifndef CHRYSALIS_SELECTEDPATTERNS_H
+#define CHRYSALIS_SELECTEDPATTERNS_H
 
 #include "PatternSpace.h"
 
@@ -17,4 +17,4 @@ namespace Chrysalis {
     DEFAULT_SERIALIZE_MEMBERS(SelectedPatterns, patterns_)
 }
 
-#endif //CHRYSALIS_ACTIVEPATTERNS_H
+#endif //CHRYSALIS_SELECTEDPATTERNS_H

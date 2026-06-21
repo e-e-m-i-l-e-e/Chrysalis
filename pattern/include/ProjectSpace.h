@@ -17,6 +17,7 @@ namespace Chrysalis {
         Point* addPoint(const CGAL::Point& pointFrom, double angle, double length);
 
         static CGAL::Vector rotate(const CGAL::Vector& vector, double angle);
+        static double angle(const CGAL::Vector& vector1, const CGAL::Vector& vector2);
         static double angle(const CGAL::Point& pointFrom, const CGAL::Point& pointTo);
         static double length(const CGAL::Point& pointFrom, const CGAL::Point& pointTo);
         static boost::optional<CGAL::Point> xIntersection(const CGAL::Point& pointFrom, const CGAL::Point& pointTo);

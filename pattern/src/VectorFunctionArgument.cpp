@@ -7,7 +7,7 @@ boost::optional<double> Chrysalis::VectorFunction::length(const name* pointFrom,
 
 boost::optional<double> Chrysalis::VectorFunction::angle(const name* pointFrom, const pattern* patternFrom,
                                                          const name* pointTo, const pattern* patternTo) {
-    return evaluate(pointFrom, patternFrom, pointTo, patternTo, ProjectSpace::angle);
+    return evaluate(pointFrom, patternFrom, pointTo, patternTo, static_cast<double(*)(const CGAL::Point&, const CGAL::Point&)>(ProjectSpace::angle));
 }
 
 boost::optional<double> Chrysalis::VectorFunction::evaluate(const name* pointFrom, const pattern* patternFrom,

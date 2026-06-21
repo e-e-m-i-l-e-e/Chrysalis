@@ -11,6 +11,8 @@
 namespace Chrysalis {
     class PatternSpaceRendererData: public BaseRendererData<Vertex3f>, public PatternSpaceObserver {
     public:
+        static constexpr float POINT_RADIUS = 0.25f;
+
         void pointAdded(const Point* point) override;
         void relativePointAdded(const Point* from, const Point* to) override;
 
@@ -21,7 +23,7 @@ namespace Chrysalis {
         size_t arrowsSize() const;
         size_t pointsSize() const;
 
-        bool isPointed(float x, float y, float delta) const;
+        bool isPointed(float x, float y) const;
     private:
         std::vector<Vertex3f> lines_;
         std::vector<Vertex3f> arrows_;

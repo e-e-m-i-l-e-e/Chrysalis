@@ -10,10 +10,10 @@ BasePatternInstruction::~BasePatternInstruction() {
     delete selectedPatterns_;
 }
 
-bool BasePatternInstruction::eachPatternHasPoint(const name* point) const {
+bool BasePatternInstruction::eachPatternHasPoint(const std::string& point) const {
     std::unordered_set<const Point*> points;
     for (const auto& patternSpace: patterns()) {
-        points.insert(patternSpace->getPoint(point->getArgument()));
+        points.insert(patternSpace->getPoint(point));
     }
     return points.size() == 1;
 }

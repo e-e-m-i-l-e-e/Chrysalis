@@ -28,7 +28,7 @@ namespace Chrysalis {
         [[nodiscard]] SelectedPatterns& patterns() const {
             return *selectedPatterns_->getArgument();
         }
-        bool eachPatternHasPoint(const name* point) const;
+        bool eachPatternHasPoint(const std::string& point) const;
 
         ProjectSpace* space_;
         /// @uml{composition}

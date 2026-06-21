@@ -1,7 +1,5 @@
 #include "ProjectSpace.h"
 
-#include "CGAL/number_type_config.h"
-
 using namespace Chrysalis;
 
 ProjectSpace::~ProjectSpace() {
@@ -36,8 +34,13 @@ Point* ProjectSpace::addPoint(const CGAL::Point& pointFrom, double angle, const 
     return point;
 }
 
-CGAL::Vector ProjectSpace::rotate(const CGAL::Vector& vector, const double angle) {
+CGAL::Vector ProjectSpace::rotate(const CGAL::Vector& vector, double angle) {
+    angle = angle * CGAL_PI / 180;
     return CGAL::Aff_transformation_2<CGAL::Kernel>(CGAL::ROTATION, sin(angle), cos(angle))(vector);
+}
+
+double ProjectSpace::angle(const CGAL::Vector& vector1, const CGAL::Vector& vector2) {
+    return (std::atan2(vector1.y(), vector1.x()) - std::atan2(vector2.y(), vector2.x())) * 180.0 / CGAL_PI;
 }
 
 double ProjectSpace::angle(const CGAL::Point& pointFrom, const CGAL::Point& pointTo) {

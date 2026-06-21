@@ -19,7 +19,7 @@ RelativePointInstruction::~RelativePointInstruction() {
 
 bool RelativePointInstruction::isValid() {
     if (pointFrom_->hasArgument()) {
-        if (!eachPatternHasPoint(pointFrom_)) return false;
+        if (!eachPatternHasPoint(pointFrom_->getArgument())) return false;
     } else {
         std::unordered_set<const Point*> points;
         for (const auto& patternSpace: patterns()) {
