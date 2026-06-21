@@ -53,11 +53,14 @@ void EdgeDartInstruction::execute() {
         pattern->addPoint(centerPointName, centerPoint);
         pattern->addPoint(leg1PointName, leg1Point);
         pattern->addPoint(leg2PointName, leg2Point);
+
+        pattern->notify(&PatternSpaceObserver::relativePointConnectionRemoved, edgePointFrom, edgePointTo);
+        pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, edgePointFrom, leg1Point);
+        pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, leg1Point, centerPoint);
+        pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, centerPoint, leg2Point);
+        pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, leg2Point, edgePointTo);
     }
     const double dartAngle = ProjectSpace::angle(*leg1Point - *centerPoint, *leg2Point - *centerPoint);
     const auto adjustedVector = ProjectSpace::rotate(*edgePointTo - *leg2Point, -dartAngle);
     const_cast<Point*>(edgePointTo)->move(leg2Point->x() + adjustedVector.x(), leg2Point->y() + adjustedVector.y());
-    // for (const auto& pattern: patterns()) {
-    //     pattern->notify(&PatternSpaceObserver::pointMoved, edgePointTo);
-    // }
 }

@@ -21,7 +21,8 @@ namespace Chrysalis {
 
         void pointMoved(const Point* point) override;
         void pointAdded(const Point* point) override;
-        void relativePointAdded(const Point* from, const Point* to) override;
+        void relativePointConnectionAdded(const Point* from, const Point* to) override;
+        void relativePointConnectionRemoved(const Point* from, const Point* to) override;
 
         size_t size() override;
         std::vector<Vertex3f> vbo() override;
@@ -30,7 +31,7 @@ namespace Chrysalis {
         size_t arrowsSize() const;
         size_t pointsSize() const;
 
-        bool isPointed(float x, float y) const;
+        const Point* pointAtPosition(float x, float y) const;
     private:
         static float length(const CGAL::Point& pointFrom, const CGAL::Point& pointTo);
         static Arrow buildArrow(const CGAL::Point& pointFrom, const CGAL::Point& pointTo);
@@ -41,8 +42,8 @@ namespace Chrysalis {
         std::vector<Vertex3f> points_;
 
         std::unordered_map<const Point*, int> pointIndices_;
-        std::vector<std::forward_list<int>> linesFrom_;
-        std::vector<std::forward_list<int>> linesTo_;
+        std::unordered_map<const Point*, std::unordered_map<const Point*, int>> connectionsMapFrom_; // <from, <to, line index>>
+        std::unordered_map<const Point*, std::unordered_map<const Point*, int>> connectionsMapTo_; // <to, <from, line index>>
     };
 }
 

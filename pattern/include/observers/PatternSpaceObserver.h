@@ -10,7 +10,8 @@ namespace Chrysalis {
         virtual ~PatternSpaceObserver() = default;
     public:
         virtual void pointAdded(const Point* point) = 0;
-        virtual void relativePointAdded(const Point* from, const Point* to) = 0;
+        virtual void relativePointConnectionAdded(const Point* from, const Point* to) = 0;
+        virtual void relativePointConnectionRemoved(const Point* from, const Point* to) = 0;
     };
 }
 

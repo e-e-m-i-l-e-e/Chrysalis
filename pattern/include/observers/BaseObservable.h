@@ -7,6 +7,7 @@ template<typename T>
 class BaseObservable {
 protected:
     explicit BaseObservable() = default;
+    virtual ~BaseObservable() = default;
 public:
     template<typename... Args, typename... CallArgs>
     void notify(void(T::*function)(Args...), CallArgs&&... args) {

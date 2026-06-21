@@ -21,6 +21,6 @@ void PatternSpaceRenderer::scaleChanged(const float scale) {
     pointRadius_ = PatternSpaceRendererData::POINT_RADIUS * scale;
 }
 
-bool PatternSpaceRenderer::isPointed(const float x, const float y) const {
-    return data_->isPointed(x, y);
+const Point* PatternSpaceRenderer::pointAtPosition(const float x, const float y) const {
+    return data_->pointAtPosition(x, y);
 }

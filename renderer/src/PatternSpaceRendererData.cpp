@@ -1,5 +1,7 @@
 #include "PatternSpaceRendererData.h"
 
+#include <ranges>
+
 #include "ProjectSpace.h"
 
 using namespace Chrysalis;
@@ -48,15 +50,13 @@ void PatternSpaceRendererData::pointMoved(const Point* point) {
         arrows_[lineIndex * 2 + 3].move(rightWing);
     };
     points_[pointIndices_[point]].move(*point);
-    for (const auto& idx: linesFrom_[pointIndices_[point]]) {
-        const auto toPoint = CGAL::Point(lines_[idx + 1].x(), lines_[idx + 1].y());
-        positionLine(idx, idx + 1, toPoint);
-        positionArrow(idx, *point, toPoint);
+    for (const auto& [toPoint, idx]: connectionsMapFrom_[point]) {
+        positionLine(idx, idx + 1, *toPoint);
+        positionArrow(idx, *point, *toPoint);
     }
-    for (const auto& idx: linesTo_[pointIndices_[point]]) {
-        const auto fromPoint = CGAL::Point(lines_[idx].x(), lines_[idx].y());
-        positionLine(idx + 1, idx, fromPoint);
-        positionArrow(idx, fromPoint, *point);
+    for (const auto& [fromPoint, idx]: connectionsMapTo_[point]) {
+        positionLine(idx + 1, idx, *fromPoint);
+        positionArrow(idx, *fromPoint, *point);
     }
     updateVBO();
 }
@@ -65,17 +65,15 @@ void PatternSpaceRendererData::pointAdded(const Point* point) {
     observe(point);
     points_.emplace_back(*point);
     pointIndices_.emplace(point, points_.size() - 1);
-    linesFrom_.emplace_back();
-    linesTo_.emplace_back();
     updateVBO();
 }
 
-void PatternSpaceRendererData::relativePointAdded(const Point* from, const Point* to) {
+void PatternSpaceRendererData::relativePointConnectionAdded(const Point* from, const Point* to) {
     const auto intersection = intersectionPoint(*from, *to);
     lines_.emplace_back(*from, length(intersection, *from));
     lines_.emplace_back(*to, length(intersection, *to));
-    linesFrom_[pointIndices_[from]].push_front(lines_.size() - 2);
-    linesTo_[pointIndices_[to]].push_front(lines_.size() - 2);
+    connectionsMapFrom_[from][to] = lines_.size() - 2;
+    connectionsMapTo_[to][from] = lines_.size() - 2;
 
     const auto [baseBegin, baseEnd, leftWing, rightWing] = buildArrow(*from, *to);
 
@@ -87,11 +85,31 @@ void PatternSpaceRendererData::relativePointAdded(const Point* from, const Point
     updateVBO();
 }
 
-bool PatternSpaceRendererData::isPointed(const float x, const float y) const {
-    for (const auto& point: points_) {
-        if (std::sqrt(std::pow(x - point.x(), 2) + std::pow(y - point.y(), 2)) <= POINT_RADIUS) return true;
+void PatternSpaceRendererData::relativePointConnectionRemoved(const Point* from, const Point* to) {
+    if (connectionsMapFrom_[from].contains(to)) {
+        const int lineToRemove = connectionsMapFrom_[from][to];
+        const auto shiftIndicesInMap = [&lineToRemove](std::unordered_map<const Point*, std::unordered_map<const Point*, int>>& connections,
+                                          const Point* first, const Point* second) {
+            connections[first].erase(second);
+            for (auto& points: connections | std::ranges::views::values) {
+                for (auto& index: points | std::ranges::views::values) {
+                    if (index > lineToRemove) index -= 2;
+                }
+            }
+        };
+        lines_.erase(lines_.begin() + lineToRemove, lines_.begin() + (lineToRemove + 2));
+        arrows_.erase(arrows_.begin() + lineToRemove * 2, arrows_.begin() + lineToRemove * 2 + 4);
+        shiftIndicesInMap(connectionsMapFrom_, from, to);
+        shiftIndicesInMap(connectionsMapTo_, to, from);
     }
-    return false;
+    updateVBO();
+}
+
+const Point* PatternSpaceRendererData::pointAtPosition(const float x, const float y) const {
+    for (const auto& point : pointIndices_ | std::views::keys) {
+        if (std::sqrt(std::pow(x - point->x(), 2) + std::pow(y - point->y(), 2)) <= POINT_RADIUS) return point;
+    }
+    return nullptr;
 }
 
 size_t PatternSpaceRendererData::size() {

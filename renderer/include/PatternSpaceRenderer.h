@@ -13,7 +13,7 @@ namespace Chrysalis {
         void draw() override;
         void scaleChanged(float scale);
 
-        bool isPointed(float x, float y) const;
+        const Point* pointAtPosition(float x, float y) const;
     private:
         float pointRadius_ = 2.5f;
 

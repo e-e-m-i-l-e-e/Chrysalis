@@ -58,8 +58,8 @@ void ProjectRenderer::cursorPositionChanged(const float x, const float y) const 
     const float cursorX = x * area_.width() + area_.x();
     const float cursorY = y * area_.height() + area_.y();
     for (const auto& patternRenderer: patternRenderers_) {
-        if (patternRenderer.spaceRenderer()->isPointed(cursorX, cursorY)) {
-            cursorRenderer_->displayCursor(cursorX, cursorY);
+        if (const Point* point = patternRenderer.spaceRenderer()->pointAtPosition(cursorX, cursorY)) {
+            cursorRenderer_->displayCursor(point->x(), point->y());
             return;
         }
     }
