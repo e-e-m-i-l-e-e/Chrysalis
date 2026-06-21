@@ -31,4 +31,5 @@ const std::unordered_map<std::string, const Point*>& PatternSpace::getPoints() c
 void PatternSpace::addPoint(const std::string& name, const Point* point) {
     points_[name] = point;
     lastPoint_ = point;
+    notify(&PatternSpaceObserver::pointAdded, point);
 }

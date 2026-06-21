@@ -9,10 +9,11 @@
 #include "observers/PatternSpaceObserver.h"
 
 namespace Chrysalis {
-    class PatternSpaceRendererData: public BaseRendererData<Vertex3f>, public PatternSpaceObserver {
+    class PatternSpaceRendererData: public BaseRendererData<Vertex3f>, public PatternSpaceObserver, public PointObserver {
     public:
         static constexpr float POINT_RADIUS = 0.25f;
 
+        void pointMoved(const Point* point) override;
         void pointAdded(const Point* point) override;
         void relativePointAdded(const Point* from, const Point* to) override;
 

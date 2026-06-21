@@ -1,5 +1,7 @@
 #include "Point.h"
 
+using namespace Chrysalis;
+
 Point::Point(double x, double y): point_(x, y) {}
 
 Point::Point(const CGAL::Point& point): Point(point.x(), point.y()) {}
@@ -10,6 +12,11 @@ const double& Point::x() const {
 
 const double& Point::y() const {
     return point_.y();
+}
+
+void Point::move(double x, double y) {
+    point_ = CGAL::Point(x, y);
+    notify(&PointObserver::pointMoved, this);
 }
 
 Point::operator const CGAL::Point&() const {

@@ -10,7 +10,7 @@ protected:
 public:
     template<typename... Args, typename... CallArgs>
     void notify(void(T::*function)(Args...), CallArgs&&... args) {
-        for (const auto observer: observers_) {
+        for (const auto& observer: observers_) {
             (observer->*function)(std::forward<CallArgs>(args)...);
         }
     }

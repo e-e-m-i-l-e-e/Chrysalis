@@ -11,7 +11,7 @@ void PatternSpaceRenderer::draw() {
     program_->setPointRadius(pointRadius_);
     glDrawArrays(GL_POINTS, data_->linesSize() + data_->arrowsSize(), data_->pointsSize());
     program_->setPointRadius(0);
-    program_->setColor(60.f / 255.f, 70.f / 255.f, 76.f / 255.f, 0.75f);
+    program_->setColor(40.f / 255.f, 49.f / 255.f, 56.f / 255.f, 1.f);
     for (int i = 0; i < data_->arrowsSize() / 4; i++) {
         glDrawArrays(GL_TRIANGLE_STRIP, data_->linesSize() + i * 4, 4);
     }

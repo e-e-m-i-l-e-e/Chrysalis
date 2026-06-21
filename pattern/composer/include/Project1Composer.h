@@ -80,7 +80,7 @@ namespace Chrysalis {
             {PointName::N1, {6.3333, -2.375}},
             {PointName::N2, {0.0, -2.375}},
             {PointName::N3, {3.1666, -2.375}},
-            {PointName::S2, {16.795, -3.3992}},
+            {PointName::S2, {16.2344, -4.5419}},
             {PointName::AH1, {15.5, -21.0}},
             {PointName::UB1, {15.5, -14.0}},
             {PointName::AH2, {16.5606, -19.9393}},

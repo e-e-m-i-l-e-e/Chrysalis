@@ -4,7 +4,12 @@
 
 using namespace Chrysalis;
 
+void PatternSpaceRendererData::pointMoved(const Point* point) {
+    std::cout << point->x() << " " << point->y() << std::endl;
+}
+
 void PatternSpaceRendererData::pointAdded(const Point* point) {
+    observe(point);
     points_.emplace_back(*point);
     updateVBO();
 }
@@ -14,7 +19,6 @@ void PatternSpaceRendererData::relativePointAdded(const Point* from, const Point
     static constexpr double ARROW_WING_LENGTH = 0.75;
     static constexpr double ARROW_WING_ANGLE = 20;
 
-    pointAdded(to);
     auto intersection = ProjectSpace::xIntersection(*from, *to);
     if (!intersection) intersection = ProjectSpace::yIntersection(*from, *to);
     lines_.emplace_back(*from, static_cast<float>(ProjectSpace::length(*intersection, *from)));
@@ -31,6 +35,8 @@ void PatternSpaceRendererData::relativePointAdded(const Point* from, const Point
     arrows_.emplace_back(*to + shift);
     arrows_.emplace_back(*to + (dir + shift) * ARROW_BASE_FACTOR);
     arrows_.emplace_back(*to + ProjectSpace::rotate(dir + shift, -ARROW_WING_ANGLE));
+
+    updateVBO();
 }
 
 bool PatternSpaceRendererData::isPointed(const float x, const float y) const {

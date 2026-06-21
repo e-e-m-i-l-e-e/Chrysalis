@@ -17,3 +17,7 @@ bool BasePatternInstruction::eachPatternHasPoint(const std::string& point) const
     }
     return points.size() == 1;
 }
+
+const PatternSpace* BasePatternInstruction::anyPattern() const {
+    return *patterns().begin();
+}

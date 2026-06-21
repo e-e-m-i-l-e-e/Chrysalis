@@ -121,9 +121,7 @@ void Project1Composer::fillInstructions() {
                                       biFunc(vecFunc(name(N), pattern(back), name(S2), pattern(back), &V::length),
                                              num(2), &B::divide)));
 
-    const auto selectedPoints = new SelectedNamesArgument();
-    selectedPoints->add(PointName::S2);
-    patternInstructions->add(new D(common, name(D), num(90), num(7), vecFunc(name(N), pattern(back), name(S2), pattern(back), &V::angle), num(2), num(), selectedPoints));
+    patternInstructions->add(new D(common, name(N), name(S2), name(D), num(), num(7), num(2), num()));
 
     selectedPatterns = new SelectedPatterns();
     selectedPatterns->add(front);

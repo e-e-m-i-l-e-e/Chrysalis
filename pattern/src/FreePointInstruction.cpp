@@ -20,6 +20,5 @@ void FreePointInstruction::execute() {
     const auto point = space().addPoint(x_->getArgument(), y_->getArgument());
     for (const auto& pattern: patterns()) {
         pattern->addPoint(pointName_->getArgument(), point);
-        pattern->notify(&PatternSpaceObserver::pointAdded, point);
     }
 }
