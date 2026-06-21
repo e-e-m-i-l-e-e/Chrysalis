@@ -14,6 +14,11 @@ const float& Vertex2f::y() const {
     return y_;
 }
 
+void Vertex2f::move(const Point& point) {
+    x_ = point.x();
+    y_ = point.y();
+}
+
 std::vector<std::pair<int, void*>> Vertex2f::layout() {
     return {{2, nullptr}};
 }

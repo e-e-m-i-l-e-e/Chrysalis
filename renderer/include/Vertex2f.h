@@ -14,6 +14,8 @@ namespace Chrysalis {
         const float& x() const;
         const float& y() const;
 
+        void move(const Point& point);
+
         static std::vector<std::pair<int, void*>> layout();
     private:
         float x_;

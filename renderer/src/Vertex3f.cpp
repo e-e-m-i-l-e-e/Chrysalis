@@ -10,6 +10,10 @@ Vertex3f::Vertex3f(const float x, const float y): Vertex3f(x, y, 0) {}
 
 Vertex3f::Vertex3f(const float x, const float y, const float attribute): Vertex2f(x, y), attribute_(attribute) {}
 
+void Vertex3f::attribute(const float value) {
+    attribute_ = value;
+}
+
 const float& Vertex3f::attribute() const {
     return attribute_;
 }

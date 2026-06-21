@@ -10,6 +10,12 @@
 
 namespace Chrysalis {
     class PatternSpaceRendererData: public BaseRendererData<Vertex3f>, public PatternSpaceObserver, public PointObserver {
+        struct Arrow {
+            CGAL::Point baseBegin;
+            CGAL::Point baseEnd;
+            CGAL::Point leftWing;
+            CGAL::Point rightWing;
+        };
     public:
         static constexpr float POINT_RADIUS = 0.25f;
 
@@ -26,9 +32,17 @@ namespace Chrysalis {
 
         bool isPointed(float x, float y) const;
     private:
+        static float length(const CGAL::Point& pointFrom, const CGAL::Point& pointTo);
+        static Arrow buildArrow(const CGAL::Point& pointFrom, const CGAL::Point& pointTo);
+        static CGAL::Point intersectionPoint(const CGAL::Point& pointFrom, const CGAL::Point& pointTo);
+
         std::vector<Vertex3f> lines_;
         std::vector<Vertex3f> arrows_;
         std::vector<Vertex3f> points_;
+
+        std::unordered_map<const Point*, int> pointIndices_;
+        std::vector<std::forward_list<int>> linesFrom_;
+        std::vector<std::forward_list<int>> linesTo_;
     };
 }
 

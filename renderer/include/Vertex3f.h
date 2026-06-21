@@ -12,6 +12,7 @@ namespace Chrysalis {
         explicit Vertex3f(float x, float y);
         explicit Vertex3f(float x, float y, float attribute);
 
+        void attribute(float value);
         const float& attribute() const;
 
         static std::vector<std::pair<int, void*>> layout();
