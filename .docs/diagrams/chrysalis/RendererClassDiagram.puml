@@ -38,23 +38,24 @@ __
 class "Chrysalis::Vertex2f" as C_0014045523936343269615
 class C_0014045523936343269615 {
 +Vertex2f(float x, float y) : void
++Vertex2f(const Point & point) : void
 ..
-{static} +getLayout() : std::vector<std::pair<int,void *>>
+{static} +layout() : std::vector<std::pair<int,void *>>
 +x() const : const float &
 +y() const : const float &
 __
--x_ : const float
--y_ : const float
+-x_ : float
+-y_ : float
 }
 abstract "Chrysalis::BaseRendererData<V>" as C_0010648050014975774765
 abstract C_0010648050014975774765 {
 #BaseRendererData() = default : void
 +~BaseRendererData() = default : void
 ..
-{abstract} +count() = 0 : size_t
-+shouldUpload() const : bool
++shouldUpload() : bool
+{abstract} +size() = 0 : size_t
 +updateVBO() : void
-{abstract} +vbo() = 0 : V *
+{abstract} +vbo() = 0 : std::vector<V>
 __
 -shouldUpload_ : bool
 }
@@ -79,8 +80,8 @@ __
 class "Chrysalis::CartesianRendererData" as C_0011935714076265489658
 class C_0011935714076265489658 {
 +buildGrid(const Area & area, float gridSize) : void
-+count() : size_t
-+vbo() : Vertex2f *
++size() : size_t
++vbo() : std::vector<Vertex2f>
 __
 -data_ : std::vector<Vertex2f>
 }
@@ -109,9 +110,15 @@ __
 }
 class "Chrysalis::Vertex3f" as C_0014044642128017633618
 class C_0014044642128017633618 {
++Vertex3f(const Point & point) : void
++Vertex3f(const Point & point, float attribute) : void
++Vertex3f(float x, float y) : void
 +Vertex3f(float x, float y, float attribute) : void
+..
++attribute() const : const float &
+{static} +layout() : std::vector<std::pair<int,void *>>
 __
--attribute : float
+-attribute_ : float
 }
 class "Chrysalis::BaseRendererData<Chrysalis::Vertex3f>" as C_0003071611879058204012
 class C_0003071611879058204012 {
@@ -119,9 +126,9 @@ __
 }
 class "Chrysalis::CursorRendererData" as C_0010368778014850136780
 class C_0010368778014850136780 {
-+count() : size_t
-+projectCursor(const Vertex2f & cursor) : void
-+vbo() : Vertex3f *
++projectCursor(float x, float y) : void
++size() : size_t
++vbo() : std::vector<Vertex3f>
 __
 -data_ : std::vector<Vertex3f>
 }
@@ -145,7 +152,7 @@ class "Chrysalis::CursorRenderer" as C_0014720307744216466084
 class C_0014720307744216466084 {
 +CursorRenderer(MainOpenGLProgram * program, CursorRendererData * data) : void
 ..
-+displayCursor(const Vertex2f & cursor) : void
++displayCursor(float x, float y) : void
 +draw() : void
 +hideCursor() : void
 #prepareNextFrame(int64_t startTime, int64_t previousFrameTime, int64_t currentFrameTime) : void
@@ -156,8 +163,8 @@ __
 }
 class "Chrysalis::PatternShapeRendererData" as C_0011694023645327839877
 class C_0011694023645327839877 {
-+count() : size_t
-+vbo() : Vertex2f *
++size() : size_t
++vbo() : std::vector<Vertex2f>
 __
 }
 class "Chrysalis::BaseRenderer<Chrysalis::PatternShapeRendererData>" as C_0015376512757975965057
@@ -174,10 +181,17 @@ __
 }
 class "Chrysalis::PatternSpaceRendererData" as C_0011260122464657857622
 class C_0011260122464657857622 {
-+addPoint(const Point * point) : void
-+count() : size_t
-+vbo() : Vertex3f *
++arrowsSize() const : size_t
++isPointed(float x, float y, float delta) const : bool
++linesSize() const : size_t
++pointAdded(const Point * point) : void
++pointsSize() const : size_t
++relativePointAdded(const Point * from, const Point * to) : void
++size() : size_t
++vbo() : std::vector<Vertex3f>
 __
+-arrows_ : std::vector<Vertex3f>
+-lines_ : std::vector<Vertex3f>
 -points_ : std::vector<Vertex3f>
 }
 class "Chrysalis::BaseRenderer<Chrysalis::PatternSpaceRendererData>" as C_0000794775527725307768
@@ -189,8 +203,7 @@ class C_0008349615279724093078 {
 +PatternSpaceRenderer(MainOpenGLProgram * program, PatternSpaceRendererData * rendererData) : void
 ..
 +draw() : void
-+pointAdded(const Point * point) : void
-+relativePointAdded(const Point * from, const Point * to) : void
++isPointed(float x, float y) const : bool
 +scaleChanged(float scale) : void
 __
 -pointRadius_ : float
@@ -204,6 +217,7 @@ class C_0010886489269060501830 {
 +initialize() const : void
 +render() const : void
 +scaleChanged(float scale) const : void
++spaceRenderer() const : const PatternSpaceRenderer *
 +upload() const : void
 __
 -shapeRenderer_ : PatternShapeRenderer *
@@ -214,9 +228,16 @@ class C_0007088239576659478452 {
 +~ProjectSpace() : void
 ..
 +addPoint(double x, double y) : Point *
-+addPoint(const Point * pointFrom, double angle, double length) : Point *
-{static} +angle(const Point * pointFrom, const Point * pointTo) : double
-{static} +length(const Point * pointFrom, const Point * pointTo) : double
++addPoint(const CGAL::Point & pointFrom, double angle, double length) : Point *
+{static} +angle(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : double
+{static} -cos(double value) : double
+{static} -intersection(const CGAL::Line & line, const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : boost::optional<CGAL::Point>
+{static} +length(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : double
+{static} +rotate(const CGAL::Vector & vector, double angle) : CGAL::Vector
+{static} -round(double value) : double
+{static} -sin(double value) : double
+{static} +xIntersection(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : boost::optional<CGAL::Point>
+{static} +yIntersection(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : boost::optional<CGAL::Point>
 __
 -points_ : std::unordered_set<Point *>
 }
@@ -263,22 +284,23 @@ class C_0006410388496936549037 {
 +PatternSpace(OutlineContainer * outline) : void
 +~PatternSpace() : void
 ..
-+addPoint(const std::string & name, Point * point) : void
-+getLastPoint() const : Point *
++addPoint(const std::string & name, const Point * point) : void
++getLastPoint() const : const Point *
 +getOutline() const : OutlineContainer *
 +getPoint(const std::string & name) const : const Point *
-+getPoints() const : const std::unordered_map<std::string,Point *> &
++getPoints() const : const std::unordered_map<std::string,const Point *> &
 +hasPoint(const std::string & name) const : bool
 __
--lastPoint_ : Point *
+-lastPoint_ : const Point *
 -outline_ : OutlineContainer *
--points_ : std::unordered_map<std::string,Point *>
+-points_ : std::unordered_map<std::string,const Point *>
 }
 class "Chrysalis::Pattern" as C_0005824426893526781565
 class C_0005824426893526781565 {
 +Pattern(const std::string & name, PatternSpace * space) : void
 +~Pattern() : void
 ..
+{static} +create(const std::string & name) : Pattern *
 +getName() const : const std::string &
 +getSpace() const : PatternSpace *
 __
@@ -291,12 +313,17 @@ __
 }
 class "Chrysalis::PatternsContainer" as C_0004298799808645500217
 class C_0004298799808645500217 {
++add(Pattern * item) : void
++get(const std::string & name) const : Pattern *
 __
+-patterns_ : std::unordered_map<std::string,Pattern *>
 }
 class "Chrysalis::Parameter" as C_0012811662139665247956
 class C_0012811662139665247956 {
 +Parameter(std::string name) : void
 ..
+{static} +create(const std::string & name, double value) : Parameter *
+{static} +createDefault(const std::string & name, double defaultValue) : Parameter *
 +getAlias() const : const std::string &
 +getDefaultValue() const : double
 +getName() const : const std::string &
@@ -410,6 +437,7 @@ abstract C_0012361199867370331426 {
 #BasePatternInstruction(ProjectSpace * space, SelectedPatternsArgument * selectedPatterns) : void
 +~BasePatternInstruction() : void
 ..
+#eachPatternHasPoint(const name * point) const : bool
 {abstract} +isValid() = 0 : bool
 #patterns() const : SelectedPatterns &
 #space() const : ProjectSpace &
@@ -442,6 +470,7 @@ class C_0008495545694619727706 {
 +~Project() : void
 ..
 {static} +create() : Project *
+{static} +create(const std::string & name) : Project *
 +getInstructions() const : InstructionsContainer *
 +getName() : std::string
 +getParameters() const : ParametersContainer *
@@ -461,11 +490,12 @@ __
 }
 class "Chrysalis::ProjectRenderer" as C_0014065787526185037529
 class C_0014065787526185037529 {
-+ProjectRenderer(MainOpenGLProgram * program, CartesianRenderer * cartesianRenderer) : void
++ProjectRenderer(MainOpenGLProgram * program, CartesianRenderer * cartesianRenderer, CursorRenderer * cursorRenderer) : void
 +~ProjectRenderer() : void
 ..
 +areaOffsetChanged(float deltaX, float deltaY) : void
 +areaSizeChanged(float width, float height) : void
++cursorPositionChanged(float x, float y) const : void
 +initialize() const : void
 #prepareNextFrame() const : bool
 #render() const : void
@@ -475,11 +505,16 @@ class C_0014065787526185037529 {
 __
 -area_ : Area
 -cartesianRenderer_ : CartesianRenderer *
+-cursorRenderer_ : CursorRenderer *
 -isInitialized_ : bool
 -patternRenderers_ : std::list<PatternRenderer>
 -program_ : MainOpenGLProgram *
 -projection_ : glm::mat4x4
 -scale_ : float
+}
+class "boost::optional<CGAL::Point_2<CGAL::Simple_cartesian<double>>>" as C_0018145733434164561687
+class C_0018145733434164561687 {
+__
 }
 class "boost::optional<double>" as C_0006902435785336449105
 class C_0006902435785336449105 {
@@ -495,10 +530,13 @@ __
 }
 class "Point" as C_0009962967977086807313
 class C_0009962967977086807313 {
++Point(const CGAL::Point & point) : void
 +Point(double x, double y) : void
 ..
++operator+(const CGAL::Vector & vector) const : CGAL::Point
 +operator-(const Point & other) const : CGAL::Vector
 ..
++operator const CGAL::Point_2<CGAL::Simple_cartesian<double> > &() const : const CGAL::Point &
 +x() const : const double &
 +y() const : const double &
 __
@@ -557,12 +595,14 @@ C_0014979996669646431041 <|-- C_0014720307744216466084
 C_0003814330884215016651 <|-- C_0011694023645327839877
 C_0015376512757975965057 ..|> C_0011449526761968468087
 C_0015376512757975965057 <|-- C_0015064054511240045445
+C_0011260122464657857622 o-- C_0014044642128017633618 : -lines_
+C_0011260122464657857622 o-- C_0014044642128017633618 : -arrows_
 C_0011260122464657857622 o-- C_0014044642128017633618 : -points_
 C_0003071611879058204012 <|-- C_0011260122464657857622
+C_0007022500061449675755 <|-- C_0011260122464657857622
 C_0000794775527725307768 ..|> C_0011449526761968468087
 C_0008349615279724093078 --> C_0008404019008873523889 : -program_
 C_0000794775527725307768 <|-- C_0008349615279724093078
-C_0007022500061449675755 <|-- C_0008349615279724093078
 C_0010886489269060501830 *-- C_0008349615279724093078 : -spaceRenderer_
 C_0010886489269060501830 *-- C_0015064054511240045445 : -shapeRenderer_
 C_0007088239576659478452 "1" *-- "*" C_0009962967977086807313 : -points_
@@ -575,6 +615,7 @@ C_0006410388496936549037 --> C_0009962967977086807313 : -points_
 C_0014601572678871443769 <|-- C_0006410388496936549037
 C_0005824426893526781565 *-- C_0006410388496936549037 : -space_
 C_0009354046990169271201 ..|> C_0014718586687870172815
+C_0004298799808645500217 --> C_0005824426893526781565 : -patterns_
 C_0009354046990169271201 <|-- C_0004298799808645500217
 C_0012811662139665247956 o-- C_0006902435785336449105 : -value_
 C_0012811662139665247956 o-- C_0006902435785336449105 : -defaultValue_
@@ -609,6 +650,7 @@ C_0008495545694619727706 *-- C_0017382097479736929272 : -parameters_
 C_0008495545694619727706 *-- C_0005076600185507105511 : -instructions_
 C_0014065787526185037529 o-- C_0017448836424981341256 : -area_
 C_0014065787526185037529 *-- C_0008404019008873523889 : -program_
+C_0014065787526185037529 *-- C_0014720307744216466084 : -cursorRenderer_
 C_0014065787526185037529 *-- C_0012069508297492912490 : -cartesianRenderer_
 C_0014065787526185037529 o-- C_0010886489269060501830 : -patternRenderers_
 C_0014601572678871443769 ..|> C_0002156575163525990045
@@ -637,6 +679,8 @@ skinparam class<<Base>> {
 
 
  class C_0009014904075807390969 <<Base>> 
+
+
 
 
 
@@ -676,9 +720,9 @@ skinparam class<<Base>> {
 
 
 
-
-
  class C_0000794775527725307768 <<Base>> 
+
+
 
 
 

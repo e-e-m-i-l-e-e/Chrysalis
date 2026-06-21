@@ -1,6 +1,4 @@
-#include "../include/instructions/BasePatternInstruction.h"
-
-#include "arguments/SelectedPatternsArgument.h"
+#include "instructions/BasePatternInstruction.h"
 
 using namespace Chrysalis;
 
@@ -10,4 +8,12 @@ BasePatternInstruction::BasePatternInstruction(ProjectSpace* space,
 
 BasePatternInstruction::~BasePatternInstruction() {
     delete selectedPatterns_;
+}
+
+bool BasePatternInstruction::eachPatternHasPoint(const name* point) const {
+    std::unordered_set<const Point*> points;
+    for (const auto& patternSpace: patterns()) {
+        points.insert(patternSpace->getPoint(point->getArgument()));
+    }
+    return points.size() == 1;
 }

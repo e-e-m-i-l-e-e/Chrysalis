@@ -35,6 +35,8 @@ namespace Chrysalis {
 
             static constexpr auto B = "B";
             static constexpr auto D = "D";
+            static constexpr auto D1 = "D1";
+            static constexpr auto D2 = "D2";
             static constexpr auto DA = "DA";
         };
         struct ParameterName {
@@ -85,6 +87,9 @@ namespace Chrysalis {
             {PointName::AH3, {23.0, -21.0}},
             {PointName::AH4, {22.0, -21.0}},
             {PointName::D, {11.5641, -1.6995}},
+            {PointName::DA, {9.401, -8.357}},
+            {PointName::D1, {10.613, -1.3906}},
+            {PointName::D2, {12.5152, -2.0086}},
         };
         inline static const std::unordered_map<std::string, std::pair<double, double>> expectedFront = {
             {PointName::S, {0.0, 0.0}},

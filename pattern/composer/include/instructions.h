@@ -4,12 +4,14 @@
 #include "arguments/BinaryFunctionArgument.h"
 #include "arguments/VectorFunctionArgument.h"
 
+#include "instructions/DartInstruction.h"
 #include "instructions/FreePointInstruction.h"
 #include "instructions/RelativePointInstruction.h"
 
 using B = Chrysalis::BinaryFunction;
 using V = Chrysalis::VectorFunction;
 
+using D = Chrysalis::DartInstruction;
 using P = Chrysalis::FreePointInstruction;
 using RelP = Chrysalis::RelativePointInstruction;
 

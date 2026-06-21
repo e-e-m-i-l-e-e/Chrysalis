@@ -3,7 +3,6 @@
 
 #include "BaseArgument.h"
 #include "SelectedPatterns.h"
-#include "SelectedPatternsArgument.h"
 
 namespace Chrysalis {
     class SERIALIZABLE(SelectedPatternsArgument): public BaseArgument<SelectedPatterns*> {

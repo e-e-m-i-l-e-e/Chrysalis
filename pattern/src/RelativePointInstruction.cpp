@@ -19,11 +19,7 @@ RelativePointInstruction::~RelativePointInstruction() {
 
 bool RelativePointInstruction::isValid() {
     if (pointFrom_->hasArgument()) {
-        std::unordered_set<const Point*> points;
-        for (const auto& patternSpace: patterns()) {
-            points.insert(patternSpace->getPoint(pointFrom_->getArgument()));
-        }
-        if (points.size() != 1) return false;
+        if (!eachPatternHasPoint(pointFrom_)) return false;
     } else {
         std::unordered_set<const Point*> points;
         for (const auto& patternSpace: patterns()) {

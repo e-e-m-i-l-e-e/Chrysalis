@@ -3,7 +3,6 @@
 
 #include "ProjectSpace.h"
 #include "BaseInstruction.h"
-#include "BasePatternInstruction.h"
 
 #include "arguments/NameArgument.h"
 #include "arguments/NumberArgument.h"
@@ -29,6 +28,7 @@ namespace Chrysalis {
         [[nodiscard]] SelectedPatterns& patterns() const {
             return *selectedPatterns_->getArgument();
         }
+        bool eachPatternHasPoint(const name* point) const;
 
         ProjectSpace* space_;
         /// @uml{composition}

@@ -8,7 +8,7 @@ PatternSpace::~PatternSpace() {
     delete outline_;
 }
 
-Point* PatternSpace::getLastPoint() const {
+const Point* PatternSpace::getLastPoint() const {
     return lastPoint_;
 }
 
@@ -24,11 +24,11 @@ const Point* PatternSpace::getPoint(const std::string& name) const {
     return points_.at(name);
 }
 
-const std::unordered_map<std::string, Point*>& PatternSpace::getPoints() const {
+const std::unordered_map<std::string, const Point*>& PatternSpace::getPoints() const {
     return points_;
 }
 
-void PatternSpace::addPoint(const std::string& name, Point* point) {
+void PatternSpace::addPoint(const std::string& name, const Point* point) {
     points_[name] = point;
     lastPoint_ = point;
 }

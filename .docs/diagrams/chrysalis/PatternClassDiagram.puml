@@ -1,10 +1,13 @@
 @startuml
 class "Point" as C_0009962967977086807313
 class C_0009962967977086807313 {
++Point(const CGAL::Point & point) : void
 +Point(double x, double y) : void
 ..
++operator+(const CGAL::Vector & vector) const : CGAL::Point
 +operator-(const Point & other) const : CGAL::Vector
 ..
++operator const CGAL::Point_2<CGAL::Simple_cartesian<double> > &() const : const CGAL::Point &
 +x() const : const double &
 +y() const : const double &
 __
@@ -15,9 +18,16 @@ class C_0007088239576659478452 {
 +~ProjectSpace() : void
 ..
 +addPoint(double x, double y) : Point *
-+addPoint(const Point * pointFrom, double angle, double length) : Point *
-{static} +angle(const Point * pointFrom, const Point * pointTo) : double
-{static} +length(const Point * pointFrom, const Point * pointTo) : double
++addPoint(const CGAL::Point & pointFrom, double angle, double length) : Point *
+{static} +angle(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : double
+{static} -cos(double value) : double
+{static} -intersection(const CGAL::Line & line, const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : boost::optional<CGAL::Point>
+{static} +length(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : double
+{static} +rotate(const CGAL::Vector & vector, double angle) : CGAL::Vector
+{static} -round(double value) : double
+{static} -sin(double value) : double
+{static} +xIntersection(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : boost::optional<CGAL::Point>
+{static} +yIntersection(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : boost::optional<CGAL::Point>
 __
 -points_ : std::unordered_set<Point *>
 }
@@ -107,16 +117,16 @@ class C_0006410388496936549037 {
 +PatternSpace(OutlineContainer * outline) : void
 +~PatternSpace() : void
 ..
-+addPoint(const std::string & name, Point * point) : void
-+getLastPoint() const : Point *
++addPoint(const std::string & name, const Point * point) : void
++getLastPoint() const : const Point *
 +getOutline() const : OutlineContainer *
 +getPoint(const std::string & name) const : const Point *
-+getPoints() const : const std::unordered_map<std::string,Point *> &
++getPoints() const : const std::unordered_map<std::string,const Point *> &
 +hasPoint(const std::string & name) const : bool
 __
--lastPoint_ : Point *
+-lastPoint_ : const Point *
 -outline_ : OutlineContainer *
--points_ : std::unordered_map<std::string,Point *>
+-points_ : std::unordered_map<std::string,const Point *>
 }
 class "Chrysalis::BaseArgument<PatternSpace *>" as C_0011638807436206440807
 class C_0011638807436206440807 {
@@ -151,6 +161,7 @@ abstract C_0012361199867370331426 {
 #BasePatternInstruction(ProjectSpace * space, SelectedPatternsArgument * selectedPatterns) : void
 +~BasePatternInstruction() : void
 ..
+#eachPatternHasPoint(const name * point) const : bool
 {abstract} +isValid() = 0 : bool
 #patterns() const : SelectedPatterns &
 #space() const : ProjectSpace &
@@ -187,6 +198,21 @@ class C_0014956221374281501729 {
 __
 -outlineName_ : name *
 -point_ : name *
+}
+class "Chrysalis::DartInstruction" as C_0018166939826786108876
+class C_0018166939826786108876 {
++DartInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const name * point, const num * angle, const num * length, const num * edgeAngle, const num * leg1Length, const num * leg2Length) : void
++~DartInstruction() : void
+..
++execute() : void
++isValid() : bool
+__
+-angle_ : const num *
+-edgeAngle_ : const num *
+-leg1Length_ : const num *
+-leg2Length_ : const num *
+-length_ : const num *
+-point_ : const name *
 }
 class "Chrysalis::FreePointInstruction" as C_0014778024850504188725
 class C_0014778024850504188725 {
@@ -231,6 +257,8 @@ class "Chrysalis::Parameter" as C_0012811662139665247956
 class C_0012811662139665247956 {
 +Parameter(std::string name) : void
 ..
+{static} +create(const std::string & name, double value) : Parameter *
+{static} +createDefault(const std::string & name, double defaultValue) : Parameter *
 +getAlias() const : const std::string &
 +getDefaultValue() const : double
 +getName() const : const std::string &
@@ -273,6 +301,7 @@ class C_0005824426893526781565 {
 +Pattern(const std::string & name, PatternSpace * space) : void
 +~Pattern() : void
 ..
+{static} +create(const std::string & name) : Pattern *
 +getName() const : const std::string &
 +getSpace() const : PatternSpace *
 __
@@ -285,7 +314,10 @@ __
 }
 class "Chrysalis::PatternsContainer" as C_0004298799808645500217
 class C_0004298799808645500217 {
++add(Pattern * item) : void
++get(const std::string & name) const : Pattern *
 __
+-patterns_ : std::unordered_map<std::string,Pattern *>
 }
 class "Chrysalis::Project" as C_0008495545694619727706
 class C_0008495545694619727706 {
@@ -293,6 +325,7 @@ class C_0008495545694619727706 {
 +~Project() : void
 ..
 {static} +create() : Project *
+{static} +create(const std::string & name) : Project *
 +getInstructions() const : InstructionsContainer *
 +getName() : std::string
 +getParameters() const : ParametersContainer *
@@ -327,7 +360,7 @@ __
 class "Chrysalis::VectorFunction" as C_0007765536925596756322
 class C_0007765536925596756322 {
 +angle(const name * pointFrom, const pattern * patternFrom, const name * pointTo, const pattern * patternTo) : boost::optional<double>
-{static} -evaluate(const name * pointFrom, const pattern * patternFrom, const name * pointTo, const pattern * patternTo, const std::function<double (const Point *,const Point *)> & evaluator) : boost::optional<double>
+{static} -evaluate(const name * pointFrom, const pattern * patternFrom, const name * pointTo, const pattern * patternTo, const std::function<double (const Point &,const Point &)> & evaluator) : boost::optional<double>
 +length(const name * pointFrom, const pattern * patternFrom, const name * pointTo, const pattern * patternTo) : boost::optional<double>
 __
 }
@@ -409,6 +442,13 @@ C_0002470944207325597787 <|-- C_0001365093100257756951
 C_0014956221374281501729 --> C_0002244960169437715781 : -outlineName_
 C_0014956221374281501729 --> C_0002244960169437715781 : -point_
 C_0012361199867370331426 <|-- C_0014956221374281501729
+C_0018166939826786108876 --> C_0002470944207325597787 : -angle_
+C_0018166939826786108876 --> C_0002470944207325597787 : -length_
+C_0018166939826786108876 --> C_0002244960169437715781 : -point_
+C_0018166939826786108876 --> C_0002470944207325597787 : -edgeAngle_
+C_0018166939826786108876 --> C_0002470944207325597787 : -leg1Length_
+C_0018166939826786108876 --> C_0002470944207325597787 : -leg2Length_
+C_0012361199867370331426 <|-- C_0018166939826786108876
 C_0014778024850504188725 --> C_0002244960169437715781 : -pointName_
 C_0014778024850504188725 --> C_0002470944207325597787 : -x_
 C_0014778024850504188725 --> C_0002470944207325597787 : -y_
@@ -429,6 +469,7 @@ C_0017382097479736929272 --> C_0012811662139665247956 : -parametersMap_
 C_0014583015597006537638 <|-- C_0017382097479736929272
 C_0005824426893526781565 *-- C_0006410388496936549037 : -space_
 C_0009354046990169271201 ..|> C_0014718586687870172815
+C_0004298799808645500217 --> C_0005824426893526781565 : -patterns_
 C_0009354046990169271201 <|-- C_0004298799808645500217
 C_0008495545694619727706 *-- C_0007088239576659478452 : -space_
 C_0008495545694619727706 *-- C_0004298799808645500217 : -patterns_
@@ -618,6 +659,10 @@ skinparam class<<Container>> {
   
   
  class C_0014956221374281501729 <<Instruction>> 
+
+  
+  
+ class C_0018166939826786108876 <<Instruction>> 
 
   
   

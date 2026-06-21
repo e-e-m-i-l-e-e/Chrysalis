@@ -18,17 +18,17 @@ namespace Chrysalis {
 
         [[nodiscard]] bool hasPoint(const std::string& name) const;
 
-        [[nodiscard]] Point* getLastPoint() const;
+        [[nodiscard]] const Point* getLastPoint() const;
         [[nodiscard]] OutlineContainer* getOutline() const;
         [[nodiscard]] const Point* getPoint(const std::string& name) const;
-        [[nodiscard]] const std::unordered_map<std::string, Point*>& getPoints() const;
+        [[nodiscard]] const std::unordered_map<std::string, const Point*>& getPoints() const;
 
-        void addPoint(const std::string& name, Point* point);
+        void addPoint(const std::string& name, const Point* point);
     private:
-        Point* lastPoint_ = nullptr;
+        const Point* lastPoint_ = nullptr;
         /// @uml{composition}
         OutlineContainer* outline_;
-        std::unordered_map<std::string, Point*> points_;
+        std::unordered_map<std::string, const Point*> points_;
     };
     SIMPLE_SERIALIZE_MEMBERS(PatternSpace, outline_)
 }
