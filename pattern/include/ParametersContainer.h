@@ -3,18 +3,15 @@
 
 #include "Parameter.h"
 #include "BaseContainer.h"
+#include "BaseInputContainer.h"
 #include "serialization.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(ParametersContainer): public BaseContainer<Parameter> {
-        PROVIDE_SERIALIZATION_ACCESS(ParametersContainer)
+    class SERIALIZABLE(ParametersContainer): public BaseInputContainer<Parameter> {
     public:
         void add(Parameter* item) override;
-        [[nodiscard]] Parameter* get(const std::string& name) const;
-    private:
-        std::unordered_map<std::string, Parameter*> parametersMap_;
     };
-    DEFAULT_SERIALIZE_DERIVED_MEMBERS(ParametersContainer, BaseContainer<Parameter>, parametersMap_)
+    DEFAULT_SERIALIZE_DERIVED_MEMBERS(ParametersContainer, BaseInputContainer<Parameter>)
 }
 
 #endif //CHRYSALIS_PARAMETERSCONTAINER_H
