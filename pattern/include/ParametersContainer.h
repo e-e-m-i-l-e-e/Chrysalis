@@ -2,15 +2,10 @@
 #define CHRYSALIS_PARAMETERSCONTAINER_H
 
 #include "Parameter.h"
-#include "BaseContainer.h"
-#include "BaseInputContainer.h"
-#include "serialization.h"
+#include "BaseNamedInputContainer.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(ParametersContainer): public BaseInputContainer<Parameter> {
-    public:
-        void add(Parameter* item) override;
-    };
+    class SERIALIZABLE(ParametersContainer): public BaseInputContainer<Parameter> {};
     DEFAULT_SERIALIZE_DERIVED_MEMBERS(ParametersContainer, BaseInputContainer<Parameter>)
 }
 

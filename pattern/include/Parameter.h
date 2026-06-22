@@ -1,47 +1,33 @@
 #ifndef CHRYSALIS_PARAMETER_H
 #define CHRYSALIS_PARAMETER_H
 
-#include <string>
-#include <boost/optional/optional.hpp>
-
+#include "BaseNamedInput.h"
 #include "observers/BaseObservable.h"
 #include "observers/ParameterObserver.h"
 
-#include "serialization.h"
-
 namespace Chrysalis {
-    class SERIALIZABLE(Parameter): public BaseObservable<ParameterObserver> {
-        PROVIDE_SERIALIZATION_ACCESS(Parameter)
+    class SERIALIZABLE(Parameter): public BaseNamedInput, public BaseObservable<ParameterObserver> {
+        PROVIDE_DEFAULT_SERIALIZATION_ACCESS(Parameter)
     public:
-        explicit Parameter(std::string name);
+        explicit Parameter(const std::string& name);
 
         static Parameter* create(const std::string& name, double value);
         static Parameter* createDefault(const std::string& name, double defaultValue);
 
         [[nodiscard]] bool isValid() const;
-        [[nodiscard]] bool hasAlias() const;
         [[nodiscard]] bool hasValue() const;
         [[nodiscard]] bool hasDefaultValue() const;
 
         [[nodiscard]] double getValue() const;
         [[nodiscard]] double getDefaultValue() const;
-        [[nodiscard]] const std::string& getName() const;
-        [[nodiscard]] const std::string& getAlias() const;
 
-        void setName(const std::string& name);
-        void setAlias(const std::string& alias);
         void setValue(double value);
         void setDefaultValue(double defaultValue);
-
     private:
         boost::optional<double> value_;
         boost::optional<double> defaultValue_;
-
-        std::string name_;
-        boost::optional<std::string> alias_;
     };
-    SERIALIZE_MEMBERS(Parameter, name_, value_, defaultValue_, alias_)
-    SERIALIZATION_CONSTRUCTOR(Parameter, name_)
+    DEFAULT_SERIALIZE_DERIVED_MEMBERS(Parameter, BaseNamedInput, value_, defaultValue_)
 }
 
 #endif //CHRYSALIS_PARAMETER_H

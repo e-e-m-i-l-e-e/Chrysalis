@@ -1,39 +1,22 @@
 #ifndef CHRYSALIS_VECTORFUNCTIONARGUMENT_H
 #define CHRYSALIS_VECTORFUNCTIONARGUMENT_H
 
-#include "NameArgument.h"
-#include "ProjectSpace.h"
-#include "NumberArgument.h"
-#include "PatternArgument.h"
+#include "arguments/VectorFunction.h"
+#include "arguments/NumberArgument.h"
 
 namespace Chrysalis {
-    using name = NameArgument;
-    using pattern = PatternArgument;
-
-    struct VectorFunction {
-        boost::optional<double> length(const name* pointFrom, const pattern* patternFrom,
-                                       const name* pointTo, const pattern* patternTo);
-        boost::optional<double> angle(const name* pointFrom, const pattern* patternFrom,
-                                      const name* pointTo, const pattern* patternTo);
-    private:
-        static boost::optional<double> evaluate(const name* pointFrom, const pattern* patternFrom,
-                                                const name* pointTo, const pattern* patternTo,
-                                                const std::function<double(const Point& from, const Point& to)>& evaluator);
-    };
     /**
      * @uml{note[top] Syntax samples:
      * (A -> B).length
      * (A ("Pattern 1") -> "A 1").angle
      * }
      */
-    class VectorFunctionArgument: public NumberArgument {
+    class SERIALIZABLE(VectorFunctionArgument): public NumberArgument {
+        PROVIDE_SERIALIZATION_ACCESS(VectorFunctionArgument)
     public:
         explicit VectorFunctionArgument(const name* pointFrom, const pattern* patternFrom,
                                         const name* pointTo, const pattern* patternTo,
-                                        boost::optional<double> (VectorFunction::*function)(
-                                            const name* pointFrom, const pattern* patternFrom,
-                                            const name* pointTo, const pattern* patternTo
-                                        ));
+                                        const VectorFunction* function);
         ~VectorFunctionArgument() override;
     private:
         /// @uml{composition}
@@ -44,10 +27,12 @@ namespace Chrysalis {
         const name* pointTo_;
         /// @uml{composition}
         const pattern* patternTo_;
-        boost::optional<double> (VectorFunction::*function_)(const name* pointFrom, const pattern* patternFrom,
-                                                             const name* pointTo, const pattern* patternTo);
-        static inline VectorFunction evaluator;
+        /// @uml{composition}
+        const VectorFunction* function_;
     };
+    SIMPLE_SERIALIZE_DERIVED_MEMBERS(VectorFunctionArgument, NumberArgument, pointFrom_, patternFrom_, pointTo_, patternTo_, function_)
 }
+
+BOOST_CLASS_EXPORT_KEY(Chrysalis::VectorFunctionArgument)
 
 #endif //CHRYSALIS_VECTORFUNCTIONARGUMENT_H

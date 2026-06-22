@@ -4,20 +4,22 @@
 #include <unordered_map>
 
 #include "BaseContainer.h"
+#include "BaseNamedInput.h"
 
 namespace Chrysalis {
     template<typename T>
-    class SERIALIZABLE_T(BaseInputContainer, T): public BaseContainer<T> {
+    requires std::derived_from<T, BaseNamedInput>
+    class SERIALIZABLE_T_DERIVED_FROM(BaseInputContainer, T, BaseNamedInput): public BaseContainer<T> {
         PROVIDE_SERIALIZATION_ACCESS_T(BaseInputContainer)
     protected:
         explicit BaseInputContainer() = default;
 
-        void add(const std::string& name, T* item) {
-            BaseContainer<T>::add(item);
-            names_[name] = item;
-        }
     public:
-        void add(T* item) override = 0;
+        void add(T* item) override {
+            BaseContainer<T>::add(item);
+            names_[item->getName()] = item;
+            if (item->hasAlias()) names_[item->getAlias()] = item;
+        }
         T* get(const std::string& name) const {
             return names_.at(name);
         }

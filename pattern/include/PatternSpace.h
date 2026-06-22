@@ -14,7 +14,7 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(PatternSpace)
     public:
         explicit PatternSpace(OutlineContainer* outline);
-        ~PatternSpace();
+        ~PatternSpace() override;
 
         [[nodiscard]] bool hasPoint(const std::string& name) const;
 

@@ -5,13 +5,28 @@
 #include <boost/archive/binary_oarchive.hpp>
 
 #include "arguments/ParameterArgument.h"
-#include "instructions/BuildOutlineInstruction.h"
+#include "arguments/BinaryFunctionArgument.h"
+#include "arguments/VectorFunction.h"
+#include "arguments/VectorFunctionArgument.h"
+
+#include "instructions/EdgeDartInstruction.h"
 #include "instructions/FreePointInstruction.h"
+#include "instructions/BuildOutlineInstruction.h"
 #include "instructions/RelativePointInstruction.h"
 
 using namespace Chrysalis;
 
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::ParameterArgument)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BinaryFunction::Add)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BinaryFunction::Subtract)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BinaryFunction::Multiply)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BinaryFunction::Divide)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BinaryFunctionArgument)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::VectorFunction::Length)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::VectorFunction::Angle)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::VectorFunctionArgument)
+
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::EdgeDartInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::FreePointInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BuildOutlineInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::RelativePointInstruction)

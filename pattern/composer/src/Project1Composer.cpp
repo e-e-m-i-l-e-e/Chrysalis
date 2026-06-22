@@ -70,56 +70,56 @@ void Project1Composer::fillInstructions() {
     instructions->add(patternInstructions);
 
     patternInstructions->add(new RelP(common, name(H), pattern(), name(H1), right,
-                                      biFunc(biFunc(param(HIP_CIRCUMFERENCE), num(4), &B::divide),
-                                             num(1), &B::subtract)));
+                                      biFunc(biFunc(param(HIP_CIRCUMFERENCE), num(4), new B::Divide()),
+                                             num(1), new B::Subtract())));
     patternInstructions->add(new RelP(common, name(W), pattern(), name(W1), right,
-                                      vecFunc(name(H), pattern(back), name(H1), pattern(back), &V::length)));
+                                      vecFunc(name(H), pattern(back), name(H1), pattern(back), new V::Length())));
     patternInstructions->add(new RelP(common, name(W), pattern(), name(W2), right,
-                                      biFunc(biFunc(param(BUST_CIRCUMFERENCE), num(4), &B::divide),
-                                             num(1), &B::subtract)));
+                                      biFunc(biFunc(param(BUST_CIRCUMFERENCE), num(4), new B::Divide()),
+                                             num(1), new B::Subtract())));
     patternInstructions->add(new RelP(common, name(S), pattern(), name(S1), right,
-                                      vecFunc(name(W), pattern(back), name(W2), pattern(back), &V::length)));
-
+                                      vecFunc(name(W), pattern(back), name(W2), pattern(back), new V::Length())));
+    
     selectedPatterns = new SelectedPatterns();
     selectedPatterns->add(back);
     selectedPatterns->add(front);
     patternInstructions = new PatternInstructionsContainer(selectedPatterns);
     instructions->add(patternInstructions);
     patternInstructions->add(new RelP(common, name(W), pattern(), name(AH), up,
-                                      biFunc(vecFunc(name(S), pattern(back), name(W), pattern(back), &V::length),
-                                             num(2), &B::divide)));
+                                      biFunc(vecFunc(name(S), pattern(back), name(W), pattern(back), new V::Length()),
+                                             num(2), new B::Divide())));
     patternInstructions->add(new RelP(use_last_point, name(UB), up,
-                                      biFunc(vecFunc(name(S), pattern(back), name(AH), pattern(back), &V::length),
-                                             num(3), &B::divide)));
+                                      biFunc(vecFunc(name(S), pattern(back), name(AH), pattern(back), new V::Length()),
+                                             num(3), new B::Divide())));
     patternInstructions->add(new RelP(common, name(H), pattern(), name(T), up,
-                                      biFunc(vecFunc(name(H), pattern(back), name(W), pattern(back), &V::length),
-                                             num(2), &B::divide)));
+                                      biFunc(vecFunc(name(H), pattern(back), name(W), pattern(back), new V::Length()),
+                                             num(2), new B::Divide())));
 
     selectedPatterns = new SelectedPatterns();
     selectedPatterns->add(back);
     patternInstructions = new PatternInstructionsContainer(selectedPatterns);
     instructions->add(patternInstructions);
     patternInstructions->add(new RelP(common, name(S), pattern(), name(N), right,
-                                      biFunc(param(NECK_CIRCUMFERENCE), num(6), &B::divide)));
+                                      biFunc(param(NECK_CIRCUMFERENCE), num(6), new B::Divide())));
     patternInstructions->add(new RelP(use_last_point, name(N1), down,
-                                      biFunc(param(NECK_CIRCUMFERENCE), num(16), &B::divide)));
+                                      biFunc(param(NECK_CIRCUMFERENCE), num(16), new B::Divide())));
     patternInstructions->add(new RelP(use_last_point, name(N2), left,
-                                      vecFunc(name(N), pattern(back), name(S), pattern(back), &V::length)));
+                                      vecFunc(name(N), pattern(back), name(S), pattern(back), new V::Length())));
     patternInstructions->add(new RelP(common, name(N1), pattern(), name(N3), left,
-                                      biFunc(vecFunc(name(N2), pattern(back), name(N1), pattern(back), &V::length),
-                                             num(2), &B::divide)));
+                                      biFunc(vecFunc(name(N2), pattern(back), name(N1), pattern(back), new V::Length()),
+                                             num(2), new B::Divide())));
     patternInstructions->add(new RelP(common, name(N), pattern(), name(S2), num(-18), param(SHOULDER_LENGTH)));
     patternInstructions->add(new RelP(common, name(UB), pattern(), name(UB1), right,
-                                      biFunc(param(BACK_WIDTH), num(2), &B::divide)));
+                                      biFunc(param(BACK_WIDTH), num(2), new B::Divide())));
     patternInstructions->add(new RelP(common, name(AH), pattern(), name(AH1), right,
-                                      biFunc(param(BACK_WIDTH), num(2), &B::divide)));
+                                      biFunc(param(BACK_WIDTH), num(2), new B::Divide())));
     patternInstructions->add(new RelP(use_last_point, name(AH2), num(45), num(1.5)));
     patternInstructions->add(new RelP(common, name(AH), pattern(), name(AH3), right,
-                                      vecFunc(name(W), pattern(back), name(W2), pattern(back), &V::length)));
+                                      vecFunc(name(W), pattern(back), name(W2), pattern(back), new V::Length())));
     patternInstructions->add(new RelP(use_last_point, name(AH4), left, num(1)));
     patternInstructions->add(new RelP(common, name(N), pattern(), name(D), num(-18),
-                                      biFunc(vecFunc(name(N), pattern(back), name(S2), pattern(back), &V::length),
-                                             num(2), &B::divide)));
+                                      biFunc(vecFunc(name(N), pattern(back), name(S2), pattern(back), new V::Length()),
+                                             num(2), new B::Divide())));
 
     patternInstructions->add(new D(common, name(N), name(S2), name(D), num(), num(7), num(2), num()));
 
@@ -129,39 +129,39 @@ void Project1Composer::fillInstructions() {
     instructions->add(patternInstructions);
 
     patternInstructions->add(new RelP(common, name(H), pattern(), name(H1), left,
-                                      biFunc(biFunc(param(HIP_CIRCUMFERENCE), num(4), &B::divide),
-                                             num(1), &B::add)));
+                                      biFunc(biFunc(param(HIP_CIRCUMFERENCE), num(4), new B::Divide()),
+                                             num(1), new B::Add())));
     patternInstructions->add(new RelP(common, name(W), pattern(), name(W1), left,
-                                      vecFunc(name(H), pattern(front), name(H1), pattern(front), &V::length)));
+                                      vecFunc(name(H), pattern(front), name(H1), pattern(front), new V::Length())));
     patternInstructions->add(new RelP(common, name(W), pattern(), name(W2), left,
-                                      biFunc(biFunc(param(BUST_CIRCUMFERENCE), num(4), &B::divide),
-                                             num(1), &B::add)));
+                                      biFunc(biFunc(param(BUST_CIRCUMFERENCE), num(4), new B::Divide()),
+                                             num(1), new B::Add())));
     patternInstructions->add(new RelP(common, name(S), pattern(), name(S1), left,
-                                      vecFunc(name(W), pattern(front), name(W2), pattern(front), &V::length)));
+                                      vecFunc(name(W), pattern(front), name(W2), pattern(front), new V::Length())));
     patternInstructions->add(new RelP(common, name(S), pattern(), name(N), left,
-                                      biFunc(param(NECK_CIRCUMFERENCE), num(6), &B::divide)));
+                                      biFunc(param(NECK_CIRCUMFERENCE), num(6), new B::Divide())));
     patternInstructions->add(new RelP(use_last_point, name(N1), down,
-                                      biFunc(biFunc(param(NECK_CIRCUMFERENCE), num(6), &B::divide),
-                                             num(2), &B::add)));
+                                      biFunc(biFunc(param(NECK_CIRCUMFERENCE), num(6), new B::Divide()),
+                                             num(2), new B::Add())));
     patternInstructions->add(new RelP(common, name(N), pattern(), name(S2), num(180 + 26), param(SHOULDER_LENGTH)));
     patternInstructions->add(new RelP(common, name(UB), pattern(), name(UB1), left,
-                                      biFunc(param(BACK_WIDTH), num(2), &B::divide)));
+                                      biFunc(param(BACK_WIDTH), num(2), new B::Divide())));
     patternInstructions->add(new RelP(common, name(AH), pattern(), name(AH1), left,
-                                      biFunc(param(BACK_WIDTH), num(2), &B::divide)));
+                                      biFunc(param(BACK_WIDTH), num(2), new B::Divide())));
     patternInstructions->add(new RelP(use_last_point, name(AH2), num(90 + 45), num(2.5)));
     patternInstructions->add(new RelP(common, name(AH), pattern(), name(AH3), left,
-                                      vecFunc(name(W), pattern(front), name(W2), pattern(front), &V::length)));
+                                      vecFunc(name(W), pattern(front), name(W2), pattern(front), new V::Length())));
     patternInstructions->add(new RelP(use_last_point, name(AH4), right, num(1)));
     patternInstructions->add(new RelP(common, name(S), pattern(), name(B), down, param(BUST_HEIGHT)));
     patternInstructions->add(new RelP(use_last_point, name(DA), left,
-                                      biFunc(param(BUST_SPAN), num(2), &B::divide)));
-
+                                      biFunc(param(BUST_SPAN), num(2), new B::Divide())));
+    
     selectedPatterns = new SelectedPatterns();
     selectedPatterns->add(back);
     selectedPatterns->add(front);
     patternInstructions = new PatternInstructionsContainer(selectedPatterns);
     instructions->add(patternInstructions);
-
+    
     patternInstructions->add(new BuildOutlineInstruction(common, no_name, name(AH3)));
     patternInstructions->add(new BuildOutlineInstruction(common, no_name, name(H1)));
     patternInstructions->add(new BuildOutlineInstruction(common, no_name, name(H)));

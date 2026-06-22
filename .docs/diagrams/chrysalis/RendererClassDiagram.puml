@@ -382,6 +382,20 @@ class C_0004298799808645500217 {
 __
 -patterns_ : std::unordered_map<std::string,Pattern *>
 }
+class "Chrysalis::BaseNamedInput" as C_0006310015568615182127
+class C_0006310015568615182127 {
+#BaseNamedInput() = default : void
+#BaseNamedInput(const std::string & name) : void
+..
++getAlias() const : const std::string &
++getName() const : const std::string &
++hasAlias() const : bool
++setAlias(const std::string & alias) : void
++setName(const std::string & name) : void
+__
+-alias_ : boost::optional<std::string>
+-name_ : std::string
+}
 abstract "Chrysalis::ParameterObserver" as C_0000003872413291578334
 abstract C_0000003872413291578334 {
 #ParameterObserver() = default : void
@@ -392,34 +406,27 @@ __
 }
 class "Chrysalis::Parameter" as C_0012811662139665247956
 class C_0012811662139665247956 {
-+Parameter(std::string name) : void
+-Parameter() = default : void
++Parameter(const std::string & name) : void
 ..
 {static} +create(const std::string & name, double value) : Parameter *
 {static} +createDefault(const std::string & name, double defaultValue) : Parameter *
-+getAlias() const : const std::string &
 +getDefaultValue() const : double
-+getName() const : const std::string &
 +getValue() const : double
-+hasAlias() const : bool
 +hasDefaultValue() const : bool
 +hasValue() const : bool
 +isValid() const : bool
-+setAlias(const std::string & alias) : void
 +setDefaultValue(double defaultValue) : void
-+setName(const std::string & name) : void
 +setValue(double value) : void
 __
--alias_ : boost::optional<std::string>
 -defaultValue_ : boost::optional<double>
--name_ : std::string
 -value_ : boost::optional<double>
 }
-abstract "Chrysalis::BaseInputContainer<T>" as C_0008798937783764872755
-abstract C_0008798937783764872755 {
+class "Chrysalis::BaseInputContainer<T>" as C_0008798937783764872755
+class C_0008798937783764872755 {
 #BaseInputContainer() = default : void
 ..
-#add(const std::string & name, T * item) : void
-{abstract} +add(T * item) = 0 : void
++add(T * item) : void
 +get(const std::string & name) const : T *
 __
 -names_ : std::unordered_map<std::string,T *>
@@ -430,7 +437,6 @@ __
 }
 class "Chrysalis::ParametersContainer" as C_0017382097479736929272
 class C_0017382097479736929272 {
-+add(Parameter * item) : void
 __
 }
 abstract "Chrysalis::BaseInstruction" as C_0002610049402694154836
@@ -597,12 +603,12 @@ class "boost::optional<CGAL::Point_2<CGAL::Simple_cartesian<double>>>" as C_0018
 class C_0018145733434164561687 {
 __
 }
-class "boost::optional<double>" as C_0006902435785336449105
-class C_0006902435785336449105 {
-__
-}
 class "boost::optional<std::string>" as C_0015400050296189752630
 class C_0015400050296189752630 {
+__
+}
+class "boost::optional<double>" as C_0006902435785336449105
+class C_0006902435785336449105 {
 __
 }
 class "boost::optional<T>" as C_0003580494981378393278
@@ -680,9 +686,10 @@ C_0005824426893526781565 *-- C_0006410388496936549037 : -space_
 C_0009354046990169271201 ..|> C_0014718586687870172815
 C_0004298799808645500217 --> C_0005824426893526781565 : -patterns_
 C_0009354046990169271201 <|-- C_0004298799808645500217
+C_0006310015568615182127 o-- C_0015400050296189752630 : -alias_
 C_0012811662139665247956 o-- C_0006902435785336449105 : -value_
 C_0012811662139665247956 o-- C_0006902435785336449105 : -defaultValue_
-C_0012811662139665247956 o-- C_0015400050296189752630 : -alias_
+C_0006310015568615182127 <|-- C_0012811662139665247956
 C_0007619089904892218042 <|-- C_0012811662139665247956
 C_0014718586687870172815 <|-- C_0008798937783764872755
 C_0011507131509048045762 ..|> C_0008798937783764872755
@@ -825,6 +832,8 @@ skinparam class<<Base>> {
 
 
 
+
+ class C_0006310015568615182127 <<Base>> 
 
 
 

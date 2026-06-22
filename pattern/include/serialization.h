@@ -48,6 +48,10 @@ friend void save_construct_data(Archive&, const Class*, const unsigned int);    
 template<class Archive>                                                                                                \
 friend void load_construct_data(Archive&, Class*, const unsigned int);
 
+#define PROVIDE_DEFAULT_SERIALIZATION_ACCESS(Class)                                                                    \
+PROVIDE_SERIALIZATION_ACCESS(Class)                                                                                    \
+explicit Class() = default;
+
 #define PROVIDE_SERIALIZATION_ACCESS_T(Class)                                                                          \
 template<class Archive, typename TSerializable>                                                                        \
 friend void serialize(Archive& archive, Class<TSerializable>& project, const unsigned int version);                    \
@@ -161,5 +165,11 @@ SERIALIZATION_CONSTRUCTOR_T(Class, T, __VA_ARGS__)
 #define SIMPLE_SERIALIZE_DERIVED_MEMBERS(Class, Base, ...)                                                             \
 SERIALIZE_DERIVED_MEMBERS(Class, Base, __VA_ARGS__)                                                                    \
 SERIALIZATION_CONSTRUCTOR(Class, __VA_ARGS__)
+
+#define EMPTY_SERIALIZABLE(Class)                                                                                      \
+Class;                                                                                                                 \
+template<class Archive>                                                                                                \
+void serialize(Archive&, Class&, const unsigned int) {}                                                                \
+class Class
 
 #endif //CHRYSALIS_SERIALIZATION_H

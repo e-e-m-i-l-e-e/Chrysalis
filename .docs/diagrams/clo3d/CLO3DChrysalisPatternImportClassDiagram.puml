@@ -2,14 +2,15 @@
 class "BaseObservable<T>" as C_0002156575163525990045
 class C_0002156575163525990045 {
 #BaseObservable() = default : void
+#~BaseObservable() = default : void
 ..
 +addObserver(T * observer) : void
 +notify<Args...,CallArgs...>(void (T::*)(Args...) function, CallArgs &&... args) : void
 __
 -observers_ : std::forward_list<T *>
 }
-abstract "ParameterObserver" as C_0015536097398000309162
-abstract C_0015536097398000309162 {
+abstract "Chrysalis::ParameterObserver" as C_0000003872413291578334
+abstract C_0000003872413291578334 {
 #ParameterObserver() = default : void
 #~ParameterObserver() constexpr = default : void
 ..
@@ -40,12 +41,47 @@ __
 -name_ : std::string
 -value_ : boost::optional<double>
 }
+class "Chrysalis::BaseObserver<T>" as C_0014592205157828846112
+class C_0014592205157828846112 {
+#BaseObserver() = default : void
+#~BaseObserver() = default : void
+..
+#observe(const BaseObservable<T> * observable) : void
+__
+}
+class "Chrysalis::BaseObserver<Chrysalis::PointObserver>" as C_0011714416178498922510
+class C_0011714416178498922510 {
+__
+}
+abstract "Chrysalis::PointObserver" as C_0006271128212356082639
+abstract C_0006271128212356082639 {
+#PointObserver() = default : void
+..
+{abstract} +pointMoved(const Point * point) = 0 : void
+__
+}
+class "Chrysalis::Point" as C_0004642218715827055853
+class C_0004642218715827055853 {
++Point(const CGAL::Point & point) : void
++Point(double x, double y) : void
+..
++operator+(const CGAL::Vector & vector) const : CGAL::Point
++operator-(const Point & other) const : CGAL::Vector
+..
++move(double x, double y) : void
++operator const CGAL::Point_2<CGAL::Simple_cartesian<double> > &() const : const CGAL::Point &
++x() const : const double &
++y() const : const double &
+__
+-point_ : CGAL::Point
+}
 class "Chrysalis::ProjectSpace" as C_0007088239576659478452
 class C_0007088239576659478452 {
 +~ProjectSpace() : void
 ..
 +addPoint(double x, double y) : Point *
 +addPoint(const CGAL::Point & pointFrom, double angle, double length) : Point *
+{static} +angle(const CGAL::Vector & vector1, const CGAL::Vector & vector2) : double
 {static} +angle(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : double
 {static} -cos(double value) : double
 {static} -intersection(const CGAL::Line & line, const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : boost::optional<CGAL::Point>
@@ -77,6 +113,16 @@ class C_0010040553678137761252 {
 +has(const std::string & name) const : bool
 __
 -outlines_ : std::unordered_map<std::string,Outline *>
+}
+abstract "Chrysalis::PatternSpaceObserver" as C_0014124802283436931215
+abstract C_0014124802283436931215 {
+#PatternSpaceObserver() = default : void
+#~PatternSpaceObserver() constexpr = default : void
+..
+{abstract} +pointAdded(const Point * point) = 0 : void
+{abstract} +relativePointConnectionAdded(const Point * from, const Point * to) = 0 : void
+{abstract} +relativePointConnectionRemoved(const Point * from, const Point * to) = 0 : void
+__
 }
 class "Chrysalis::PatternSpace" as C_0006410388496936549037
 class C_0006410388496936549037 {
@@ -113,12 +159,24 @@ class C_0004298799808645500217 {
 __
 -patterns_ : std::unordered_map<std::string,Pattern *>
 }
+abstract "Chrysalis::BaseInputContainer<T>" as C_0008798937783764872755
+abstract C_0008798937783764872755 {
+#BaseInputContainer() = default : void
+..
+#add(const std::string & name, T * item) : void
+{abstract} +add(T * item) = 0 : void
++get(const std::string & name) const : T *
+__
+-names_ : std::unordered_map<std::string,T *>
+}
+class "Chrysalis::BaseInputContainer<Chrysalis::Parameter>" as C_0011507131509048045762
+class C_0011507131509048045762 {
+__
+}
 class "Chrysalis::ParametersContainer" as C_0017382097479736929272
 class C_0017382097479736929272 {
 +add(Parameter * item) : void
-+get(const std::string & name) const : Parameter *
 __
--parametersMap_ : std::unordered_map<std::string,Parameter *>
 }
 abstract "Chrysalis::BaseInstruction" as C_0002610049402694154836
 abstract C_0002610049402694154836 {
@@ -149,7 +207,8 @@ abstract C_0012361199867370331426 {
 #BasePatternInstruction(ProjectSpace * space, SelectedPatternsArgument * selectedPatterns) : void
 +~BasePatternInstruction() : void
 ..
-#eachPatternHasPoint(const name * point) const : bool
+#anyPattern() const : const PatternSpace *
+#eachPatternHasPoint(const std::string & point) const : bool
 {abstract} +isValid() = 0 : bool
 #patterns() const : SelectedPatterns &
 #space() const : ProjectSpace &
@@ -209,8 +268,8 @@ class C_0002206756607826776811 {
 __
 -project_ : Project *
 }
-class "BaseObservable<ParameterObserver>" as C_0008684594381598615658
-class C_0008684594381598615658 {
+class "BaseObservable<Chrysalis::ParameterObserver>" as C_0007619089904892218042
+class C_0007619089904892218042 {
 __
 }
 class "UI::ParameterWidget" as C_0011673986955732978878
@@ -277,43 +336,28 @@ __
 -model_ : ParametersModel *
 -ui : Ui::PatternImportDialog *
 }
-class "Point" as C_0009962967977086807313
-class C_0009962967977086807313 {
-+Point(const CGAL::Point & point) : void
-+Point(double x, double y) : void
-..
-+operator+(const CGAL::Vector & vector) const : CGAL::Point
-+operator-(const Point & other) const : CGAL::Vector
-..
-+operator const CGAL::Point_2<CGAL::Simple_cartesian<double> > &() const : const CGAL::Point &
-+x() const : const double &
-+y() const : const double &
-__
--point_ : CGAL::Point
-}
-abstract "PatternSpaceObserver" as C_0007022500061449675755
-abstract C_0007022500061449675755 {
-#PatternSpaceObserver() = default : void
-#~PatternSpaceObserver() constexpr = default : void
-..
-{abstract} +pointAdded(const Point * point) = 0 : void
-{abstract} +relativePointAdded(const Point * from, const Point * to) = 0 : void
+class "BaseObservable<Chrysalis::PointObserver>" as C_0000658342064330119157
+class C_0000658342064330119157 {
 __
 }
-class "BaseObservable<PatternSpaceObserver>" as C_0014601572678871443769
-class C_0014601572678871443769 {
+class "BaseObservable<Chrysalis::PatternSpaceObserver>" as C_0002692846997820672233
+class C_0002692846997820672233 {
 __
 }
-C_0008684594381598615658 <|-- C_0012811662139665247956
-C_0007088239576659478452 "1" *-- "*" C_0009962967977086807313 : -points_
+C_0007619089904892218042 <|-- C_0012811662139665247956
+C_0011714416178498922510 ..|> C_0014592205157828846112
+C_0011714416178498922510 <|-- C_0006271128212356082639
+C_0000658342064330119157 <|-- C_0004642218715827055853
+C_0007088239576659478452 "1" *-- "*" C_0004642218715827055853 : -points_
 C_0010040553678137761252 --> C_0012923087791918137441 : -outlines_
-C_0006410388496936549037 --> C_0009962967977086807313 : -lastPoint_
+C_0006410388496936549037 --> C_0004642218715827055853 : -lastPoint_
 C_0006410388496936549037 *-- C_0010040553678137761252 : -outline_
-C_0006410388496936549037 --> C_0009962967977086807313 : -points_
-C_0014601572678871443769 <|-- C_0006410388496936549037
+C_0006410388496936549037 --> C_0004642218715827055853 : -points_
+C_0002692846997820672233 <|-- C_0006410388496936549037
 C_0005824426893526781565 *-- C_0006410388496936549037 : -space_
 C_0004298799808645500217 --> C_0005824426893526781565 : -patterns_
-C_0017382097479736929272 --> C_0012811662139665247956 : -parametersMap_
+C_0011507131509048045762 ..|> C_0008798937783764872755
+C_0011507131509048045762 <|-- C_0017382097479736929272
 C_0002610049402694154836 <|-- C_0009832473294063137986
 C_0017992245358367024427 --> C_0006410388496936549037 : -patterns_
 C_0012361199867370331426 --> C_0007088239576659478452 : #space_
@@ -328,7 +372,7 @@ C_0008495545694619727706 *-- C_0004298799808645500217 : -patterns_
 C_0008495545694619727706 *-- C_0017382097479736929272 : -parameters_
 C_0008495545694619727706 *-- C_0005076600185507105511 : -instructions_
 C_0002206756607826776811 *-- C_0008495545694619727706 : -project_
-C_0008684594381598615658 ..|> C_0002156575163525990045
+C_0007619089904892218042 ..|> C_0002156575163525990045
 C_0011673986955732978878 --> C_0012811662139665247956 : -parameter_
 C_0009381834591580468042 ..|> C_0000760598864925262687
 C_0009381834591580468042 <|-- C_0008639774122268316592
@@ -338,7 +382,8 @@ C_0006597931841462278842 *-- C_0002206756607826776811 : -importer_
 C_0006597931841462278842 *-- C_0008639774122268316592 : -model_
 C_0006597931841462278842 *-- C_0015361787604387007109 : -delegate_
 C_0010507882201943938998 <|-- C_0006597931841462278842
-C_0014601572678871443769 ..|> C_0002156575163525990045
+C_0000658342064330119157 ..|> C_0002156575163525990045
+C_0002692846997820672233 ..|> C_0002156575163525990045
 skinparam class {
   BackgroundColor #EAFAF1
   BorderColor #1E8449
@@ -381,15 +426,23 @@ skinparam class<<Model>> {
 
  class C_0002156575163525990045 <<Base>> 
 
+ class C_0000003872413291578334 <<Chrysalis>>  
 
-
- class C_0008684594381598615658 <<Base>> 
+ class C_0007619089904892218042 <<Base>> 
 
  class C_0012811662139665247956 <<Chrysalis>>  
 
  class C_0011673986955732978878 <<UI>>  
 
+ class C_0014592205157828846112 <<Chrysalis>> <<Base>> 
 
+ class C_0011714416178498922510 <<Chrysalis>> <<Base>> 
+
+ class C_0006271128212356082639 <<Chrysalis>>  
+
+ class C_0000658342064330119157 <<Base>> 
+
+ class C_0004642218715827055853 <<Chrysalis>>  
 
  class C_0007088239576659478452 <<Chrysalis>>  
 
@@ -397,15 +450,19 @@ skinparam class<<Model>> {
 
  class C_0010040553678137761252 <<Chrysalis>>  
 
+ class C_0014124802283436931215 <<Chrysalis>>  
 
-
- class C_0014601572678871443769 <<Base>> 
+ class C_0002692846997820672233 <<Base>> 
 
  class C_0006410388496936549037 <<Chrysalis>>  
 
  class C_0005824426893526781565 <<Chrysalis>>  
 
  class C_0004298799808645500217 <<Chrysalis>>  
+
+ class C_0008798937783764872755 <<Chrysalis>> <<Base>> 
+
+ class C_0011507131509048045762 <<Chrysalis>> <<Base>> 
 
  class C_0017382097479736929272 <<Chrysalis>>  
 
