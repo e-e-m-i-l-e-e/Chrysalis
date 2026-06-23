@@ -11,6 +11,13 @@ BasePatternInstruction::~BasePatternInstruction() {
 }
 
 bool BasePatternInstruction::eachPatternHasPoint(const std::string& point) const {
+    for (const auto& patternSpace: patterns()) {
+        if (!patternSpace->hasPoint(point)) return false;
+    }
+    return true;
+}
+
+bool BasePatternInstruction::allPatternsSharePoint(const std::string& point) const {
     std::unordered_set<const Point*> points;
     for (const auto& patternSpace: patterns()) {
         points.insert(patternSpace->getPoint(point));

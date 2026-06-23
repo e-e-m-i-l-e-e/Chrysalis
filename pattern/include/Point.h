@@ -14,9 +14,11 @@ namespace Chrysalis {
         const double& x() const;
         const double& y() const;
 
-        void move(double x, double y);
+        void move(CGAL::Point point);
 
         operator const CGAL::Point&() const;
+        operator const CGAL::CPoint() const;
+
         CGAL::Vector operator-(const Point& other) const;
         CGAL::Point operator+(const CGAL::Vector& vector) const;
     private:

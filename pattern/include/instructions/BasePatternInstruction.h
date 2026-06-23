@@ -29,6 +29,7 @@ namespace Chrysalis {
             return *selectedPatterns_->getArgument();
         }
         bool eachPatternHasPoint(const std::string& point) const;
+        bool allPatternsSharePoint(const std::string& point) const;
         const PatternSpace* anyPattern() const;
 
         ProjectSpace* space_;

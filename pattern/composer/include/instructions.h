@@ -6,6 +6,7 @@
 
 #include "instructions/EdgeDartInstruction.h"
 #include "instructions/FreePointInstruction.h"
+#include "instructions/AdjustPointInstruction.h"
 #include "instructions/RelativePointInstruction.h"
 
 using B = Chrysalis::BinaryFunction;
@@ -13,6 +14,7 @@ using V = Chrysalis::VectorFunction;
 
 using D = Chrysalis::EdgeDartInstruction;
 using P = Chrysalis::FreePointInstruction;
+using Adj = Chrysalis::AdjustPointInstruction;
 using RelP = Chrysalis::RelativePointInstruction;
 
 #define common space, new SelectedPatternsArgument(selectedPatterns)

@@ -8,6 +8,7 @@
 #include "arguments/BinaryFunctionArgument.h"
 #include "arguments/VectorFunction.h"
 #include "arguments/VectorFunctionArgument.h"
+#include "instructions/AdjustPointInstruction.h"
 
 #include "instructions/EdgeDartInstruction.h"
 #include "instructions/FreePointInstruction.h"
@@ -28,6 +29,7 @@ BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::VectorFunctionArgument)
 
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::EdgeDartInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::FreePointInstruction)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::AdjustPointInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BuildOutlineInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::RelativePointInstruction)
 

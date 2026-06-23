@@ -21,6 +21,10 @@ double ProjectSpace::round(const double value) {
     return std::round(value * factor) / factor;
 }
 
+void ProjectSpace::movePoint(const Point* point, const CGAL::Point position) const {
+    if (const auto p = const_cast<Point*>(point); points_.contains(p)) p->move(position);
+}
+
 Point* ProjectSpace::addPoint(const double x, const double y) {
     const auto point = new Point(x, y);
     points_.insert(point);
@@ -36,7 +40,7 @@ Point* ProjectSpace::addPoint(const CGAL::Point& pointFrom, double angle, const 
 
 CGAL::Vector ProjectSpace::rotate(const CGAL::Vector& vector, double angle) {
     angle = angle * CGAL_PI / 180;
-    return CGAL::Aff_transformation_2<CGAL::Kernel>(CGAL::ROTATION, sin(angle), cos(angle))(vector);
+    return CGAL::Aff_transformation_2<CGAL::LinearKernel>(CGAL::ROTATION, sin(angle), cos(angle))(vector);
 }
 
 double ProjectSpace::angle(const CGAL::Vector& vector1, const CGAL::Vector& vector2) {
@@ -68,4 +72,27 @@ boost::optional<CGAL::Point> ProjectSpace::xIntersection(const CGAL::Point& poin
 boost::optional<CGAL::Point> ProjectSpace::yIntersection(const CGAL::Point& pointFrom, const CGAL::Point& pointTo) {
     static CGAL::Line yAxis(CGAL::Point(0, 0), CGAL::Point(0, 1));
     return intersection(yAxis, pointFrom, pointTo);
+}
+
+CGAL::Point ProjectSpace::circlesIntersection(const CGAL::Point& anchor,
+                                              CGAL::CPoint center1, const double radius1,
+                                              CGAL::CPoint center2, const double radius2) {
+    const CGAL::Circle circle1(center1, pow(radius1, 2));
+    const CGAL::Circle circle2(center2, pow(radius2, 2));
+
+    std::vector<CGAL::CCIntersection> intersections;
+    CGAL::intersection(circle1, circle2, std::back_inserter(intersections));
+
+    CGAL::Point intersectionPoint;
+    double minSDistance = std::numeric_limits<double>::max();
+    for (const auto& intersection : intersections) {
+        const auto point = std::get<std::pair<CGAL::CArcPoint, unsigned int>>(intersection).first;
+        const double x = CGAL::to_double(point.x());
+        const double y = CGAL::to_double(point.y());
+        if (const double distance = pow(x - anchor.x(), 2) + pow(y - anchor.y(), 2); distance < minSDistance) {
+            minSDistance = distance;
+            intersectionPoint = CGAL::Point(x, y);
+        }
+    }
+    return intersectionPoint;
 }

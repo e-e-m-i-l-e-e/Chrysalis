@@ -4,20 +4,30 @@
 #ifdef __CLANG_UML__
 #include <CGAL/Simple_cartesian.h>
 namespace CGAL {
-    using Kernel = Simple_cartesian<double>;
+    using LinearKernel = Simple_cartesian<double>;
+    using CircularKernel = Simple_cartesian<double>;
 }
 #else
+
+#include <CGAL/Exact_circular_kernel_2.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 namespace CGAL {
-    using Kernel = Exact_predicates_inexact_constructions_kernel;
+    using LinearKernel = Exact_predicates_inexact_constructions_kernel;
+    using CircularKernel = Exact_circular_kernel_2;
 }
 #endif
 
 namespace CGAL {
     static constexpr auto PRECISION = 15;
-    using Line = Line_2<Kernel>;
-    using Point = Point_2<Kernel>;
-    using Vector = Vector_2<Kernel>;
+    using Line = Line_2<LinearKernel>;
+    using Point = Point_2<LinearKernel>;
+    using Vector = Vector_2<LinearKernel>;
+
+    using CPoint = Point_2<CircularKernel>;
+    using Circle = Circle_2<CircularKernel>;
+    using CArcPoint = Circular_arc_point_2<CircularKernel>;
+
+    using CCIntersection = CK2_Intersection_traits<CircularKernel, Circle, Circle>::type;
 }
 
 #endif //CHRYSALIS_CONFIG_H

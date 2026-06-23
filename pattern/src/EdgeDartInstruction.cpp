@@ -37,7 +37,7 @@ void EdgeDartInstruction::execute() {
     }
 
     const Point* edgePointFrom = anyPattern()->getPoint(edgePointFrom_->getArgument());
-    const Point* edgePointTo = anyPattern()->getPoint(edgePointTo_->getArgument());
+    auto edgePointTo = anyPattern()->getPoint(edgePointTo_->getArgument());
     const double edgeAngle = ProjectSpace::angle(*edgePointFrom, *edgePointTo);
 
     const double angle = angle_->hasArgument() ? angle_->getArgument() : 90;
@@ -62,5 +62,5 @@ void EdgeDartInstruction::execute() {
     }
     const double dartAngle = ProjectSpace::angle(*leg1Point - *centerPoint, *leg2Point - *centerPoint);
     const auto adjustedVector = ProjectSpace::rotate(*edgePointTo - *leg2Point, -dartAngle);
-    const_cast<Point*>(edgePointTo)->move(leg2Point->x() + adjustedVector.x(), leg2Point->y() + adjustedVector.y());
+    space().movePoint(edgePointTo, *leg2Point + adjustedVector);
 }

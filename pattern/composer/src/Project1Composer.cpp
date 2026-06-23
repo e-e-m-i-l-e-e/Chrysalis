@@ -155,6 +155,7 @@ void Project1Composer::fillInstructions() {
     patternInstructions->add(new RelP(common, name(S), pattern(), name(B), down, param(BUST_HEIGHT)));
     patternInstructions->add(new RelP(use_last_point, name(DA), left,
                                       biFunc(param(BUST_SPAN), num(2), new B::Divide())));
+    patternInstructions->add(new Adj(common, name(S2), name(DA), param(APEX_TO_SHOULDER), name(N), param(SHOULDER_LENGTH)));
     
     selectedPatterns = new SelectedPatterns();
     selectedPatterns->add(back);

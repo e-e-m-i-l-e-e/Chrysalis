@@ -13,6 +13,8 @@ namespace Chrysalis {
     public:
         ~ProjectSpace();
 
+        void movePoint(const Point* point, CGAL::Point position) const;
+
         Point* addPoint(double x, double y);
         Point* addPoint(const CGAL::Point& pointFrom, double angle, double length);
 
@@ -22,6 +24,7 @@ namespace Chrysalis {
         static double length(const CGAL::Point& pointFrom, const CGAL::Point& pointTo);
         static boost::optional<CGAL::Point> xIntersection(const CGAL::Point& pointFrom, const CGAL::Point& pointTo);
         static boost::optional<CGAL::Point> yIntersection(const CGAL::Point& pointFrom, const CGAL::Point& pointTo);
+        static CGAL::Point circlesIntersection(const CGAL::Point& anchor, CGAL::CPoint center1, double radius1, CGAL::CPoint center2, double radius2);
     private:
         static double sin(double value);
         static double cos(double value);

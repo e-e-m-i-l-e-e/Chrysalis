@@ -14,13 +14,18 @@ const double& Point::y() const {
     return point_.y();
 }
 
-void Point::move(double x, double y) {
-    point_ = CGAL::Point(x, y);
+void Point::move(CGAL::Point position) {
+    point_ = position;
     notify(&PointObserver::pointMoved, this);
 }
 
 Point::operator const CGAL::Point&() const {
     return point_;
+}
+
+Point::operator const CGAL::CPoint() const {
+    static CGAL::Cartesian_converter<CGAL::LinearKernel, CGAL::CircularKernel> converter;
+    return converter(point_);
 }
 
 CGAL::Vector Point::operator-(const Point& other) const {

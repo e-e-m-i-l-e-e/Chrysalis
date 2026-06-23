@@ -1,4 +1,27 @@
 @startuml
+class "CGAL::Cartesian_converter<From,To>" as C_0010994899591155086284
+class C_0010994899591155086284 {
++operator()(const typename From::Point_2 & p) : typename To::Point_2
+__
+}
+class "CGAL::Circular_arc_point_2<K>" as C_0008326437274721075789
+class C_0008326437274721075789 {
++x() const : double
++y() const : double
+__
+}
+class "CGAL::CK2_Intersection_traits<K,C1,C2>" as C_0007907767382239733268
+class C_0007907767382239733268 {
+__
+}
+class "CGAL::Simple_cartesian<double>" as C_0009189488089133080396
+class C_0009189488089133080396 {
+__
+}
+class "CGAL::Point_2<CGAL::Simple_cartesian<double>>" as C_0002134859323270840320
+class C_0002134859323270840320 {
+__
+}
 class "boost::optional<Project const*>" as C_0016954960473212819266
 class C_0016954960473212819266 {
 __
@@ -345,14 +368,6 @@ class C_0015644395940763327543 {
 __
 -pendingProject_ : boost::optional<const Project *>
 }
-class "CGAL::Simple_cartesian<double>" as C_0009189488089133080396
-class C_0009189488089133080396 {
-__
-}
-class "CGAL::Point_2<CGAL::Simple_cartesian<double>>" as C_0002134859323270840320
-class C_0002134859323270840320 {
-__
-}
 class "glm::mat<4,4,float,defaultp>" as C_0011668248383743793436
 class C_0011668248383743793436 {
 __
@@ -442,6 +457,12 @@ skinparam class<<Model>> {
   FontStyle Italic
 }
 
+
+  
+
+  
+
+  
 
    class C_0006294982762641672186 <<Model>>
   
