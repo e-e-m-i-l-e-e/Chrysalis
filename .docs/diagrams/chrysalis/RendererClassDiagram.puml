@@ -64,7 +64,7 @@ class C_0004642218715827055853 {
 ..
 +move(CGAL::Point point) : void
 +operator Point_2() const : const CGAL::CPoint
-+operator const CGAL::Point_2<CGAL::Simple_cartesian<double> > &() const : const CGAL::Point &
++operator const CGAL::Point_2<CGAL::Epick> &() const : const CGAL::Point &
 +x() const : const double &
 +y() const : const double &
 __
@@ -603,8 +603,8 @@ __
 -projection_ : glm::mat4x4
 -scale_ : float
 }
-class "boost::optional<CGAL::Point_2<CGAL::Simple_cartesian<double>>>" as C_0018145733434164561687
-class C_0018145733434164561687 {
+class "boost::optional<CGAL::Point_2<CGAL::LinearKernel>>" as C_0010156598219667319661
+class C_0010156598219667319661 {
 __
 }
 class "boost::optional<std::string>" as C_0015400050296189752630

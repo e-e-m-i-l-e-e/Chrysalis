@@ -3,8 +3,6 @@ output_directory: .
 add_compile_flags:
   - /clang:-U__llvm__
   - -D_CRT_USE_BUILTIN_OFFSETOF
-  - -D__CLANG_UML__
-  - /FI../../.docs/diagrams/cgal_stubs.h
 diagrams:
   PatternClassDiagram:
     type: class

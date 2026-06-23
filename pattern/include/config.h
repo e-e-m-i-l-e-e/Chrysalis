@@ -1,24 +1,15 @@
 #ifndef CHRYSALIS_CONFIG_H
 #define CHRYSALIS_CONFIG_H
 
-#ifdef __CLANG_UML__
-#include <CGAL/Simple_cartesian.h>
-namespace CGAL {
-    using LinearKernel = Simple_cartesian<double>;
-    using CircularKernel = Simple_cartesian<double>;
-}
-#else
-
 #include <CGAL/Exact_circular_kernel_2.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-namespace CGAL {
-    using LinearKernel = Exact_predicates_inexact_constructions_kernel;
-    using CircularKernel = Exact_circular_kernel_2;
-}
-#endif
 
 namespace CGAL {
     static constexpr auto PRECISION = 15;
+
+    using LinearKernel = Exact_predicates_inexact_constructions_kernel;
+    using CircularKernel = Exact_circular_kernel_2;
+
     using Line = Line_2<LinearKernel>;
     using Point = Point_2<LinearKernel>;
     using Vector = Vector_2<LinearKernel>;
