@@ -156,6 +156,37 @@ void Project1Composer::fillInstructions() {
     patternInstructions->add(new RelP(use_last_point, name(DA), left,
                                       biFunc(param(BUST_SPAN), num(2), new B::Divide())));
     patternInstructions->add(new Adj(common, name(S2), name(DA), param(APEX_TO_SHOULDER), name(N), param(SHOULDER_LENGTH)));
+    patternInstructions->add(new RelP(common, name(N), pattern(), name(D1),
+                                      vecFunc(name(N), pattern(front), name(S2), pattern(front), new V::Angle()),
+                                      biFunc(
+                                          vecFunc(name(N), pattern(front), name(S2), pattern(front), new V::Length()),
+                                          num(2), new B::Divide())));
+    patternInstructions->add(new UD(common, name(N), name(S2), name(DA), name(D1),
+                                    biFunc(biFunc(biFunc(
+                                                   param(BUST_CIRCUMFERENCE), num(20), new B::Divide()),
+                                               num(1), new B::Add()),
+                                           num(2), new B::Multiply())
+    ));
+    patternInstructions->add(new IP(common, name(UB1_1), name(UB), name(UB1), name(D1), name(DA)));
+    patternInstructions->add(new IP(common, name(UB1_2), name(UB), name(UB1), name(D1_1), name(DA)));
+    patternInstructions->add(new IP(common, name(AH1_1), name(AH), name(AH1), name(D1), name(DA)));
+    patternInstructions->add(new IP(common, name(AH1_2), name(AH), name(AH1), name(D1_1), name(DA)));
+    patternInstructions->add(new MP(common, name(UB1),
+                                    vecFunc(name(UB1_1), pattern(front), name(UB1_2), pattern(front), new V::Angle()),
+                                    vecFunc(name(UB1_1), pattern(front), name(UB1_2), pattern(front), new V::Length()))
+    );
+    patternInstructions->add(new MP(common, name(AH1),
+                                    vecFunc(name(AH1_1), pattern(front), name(AH1_2), pattern(front), new V::Angle()),
+                                    vecFunc(name(AH1_1), pattern(front), name(AH1_2), pattern(front), new V::Length()))
+    );
+    patternInstructions->add(new MP(common, name(AH3),
+                                    vecFunc(name(AH1_1), pattern(front), name(AH1_2), pattern(front), new V::Angle()),
+                                    vecFunc(name(AH1_1), pattern(front), name(AH1_2), pattern(front), new V::Length()))
+    );
+    patternInstructions->add(new MP(common, name(AH4),
+                                    vecFunc(name(AH1_1), pattern(front), name(AH1_2), pattern(front), new V::Angle()),
+                                    vecFunc(name(AH1_1), pattern(front), name(AH1_2), pattern(front), new V::Length()))
+    );
     
     selectedPatterns = new SelectedPatterns();
     selectedPatterns->add(back);

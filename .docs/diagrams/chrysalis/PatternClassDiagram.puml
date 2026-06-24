@@ -49,14 +49,15 @@ class C_0007088239576659478452 {
 +~ProjectSpace() : void
 ..
 +addPoint(double x, double y) : Point *
-+addPoint(const CGAL::Point & pointFrom, double angle, double length) : Point *
++addPoint(const CGAL::Point & point) : Point *
 {static} +angle(const CGAL::Vector & vector1, const CGAL::Vector & vector2) : double
 {static} +angle(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : double
 {static} +circlesIntersection(const CGAL::Point & anchor, CGAL::CPoint center1, double radius1, CGAL::CPoint center2, double radius2) : CGAL::Point
 {static} -cos(double value) : double
-{static} -intersection(const CGAL::Line & line, const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : boost::optional<CGAL::Point>
+{static} +intersection(const CGAL::Line & line1, const CGAL::Line & line2) : boost::optional<CGAL::Point>
 {static} +length(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : double
 +movePoint(const Point * point, CGAL::Point position) const : void
+{static} +relativePoint(const CGAL::Point & pointFrom, double angle, double length) : CGAL::Point
 {static} +rotate(const CGAL::Vector & vector, double angle) : CGAL::Vector
 {static} -round(double value) : double
 {static} -sin(double value) : double
@@ -347,6 +348,32 @@ class "Chrysalis::InstructionsContainer" as C_0005076600185507105511
 class C_0005076600185507105511 {
 __
 }
+class "Chrysalis::IntersectionPointInstruction" as C_0007970185002355349518
+class C_0007970185002355349518 {
++IntersectionPointInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const name * pointName, const name * pointFrom1, const name * pointTo1, const name * pointFrom2, const name * pointTo2) : void
++~IntersectionPointInstruction() : void
+..
++execute() : void
++isValid() : bool
+__
+-pointFrom1_ : const name *
+-pointFrom2_ : const name *
+-pointName_ : const name *
+-pointTo1_ : const name *
+-pointTo2_ : const name *
+}
+class "Chrysalis::MovePointInstruction" as C_0017478559692109379194
+class C_0017478559692109379194 {
++MovePointInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const name * pointName, const num * angle, const num * length) : void
++~MovePointInstruction() constexpr = default : void
+..
++execute() : void
++isValid() : bool
+__
+-angle_ : const num *
+-length_ : const num *
+-pointName_ : const name *
+}
 abstract "Chrysalis::ParameterObserver" as C_0000003872413291578334
 abstract C_0000003872413291578334 {
 #ParameterObserver() = default : void
@@ -497,6 +524,20 @@ class C_0010897328373654927103 {
 __
 -names_ : std::list<std::string>
 }
+class "Chrysalis::UnfoldEdgeDartInstruction" as C_0013671800093242345687
+class C_0013671800093242345687 {
++UnfoldEdgeDartInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const name * edgePointFrom, const name * edgePointTo, const name * apexPoint, const name * leg1Point, const num * intake) : void
++~UnfoldEdgeDartInstruction() : void
+..
++execute() : void
++isValid() : bool
+__
+-apexPoint_ : const name *
+-edgePointFrom_ : const name *
+-edgePointTo_ : const name *
+-intake_ : const num *
+-leg1Point_ : const name *
+}
 class "BaseObservable<Chrysalis::PointObserver>" as C_0000658342064330119157
 class C_0000658342064330119157 {
 __
@@ -572,6 +613,16 @@ C_0003800391587746138531 *-- C_0017992245358367024427 : -patterns_
 C_0006776945885242230637 <|-- C_0003800391587746138531
 C_0006377274413643530130 ..|> C_0009832473294063137986
 C_0006377274413643530130 <|-- C_0005076600185507105511
+C_0007970185002355349518 --> C_0002244960169437715781 : -pointName_
+C_0007970185002355349518 --> C_0002244960169437715781 : -pointFrom1_
+C_0007970185002355349518 --> C_0002244960169437715781 : -pointTo1_
+C_0007970185002355349518 --> C_0002244960169437715781 : -pointFrom2_
+C_0007970185002355349518 --> C_0002244960169437715781 : -pointTo2_
+C_0012361199867370331426 <|-- C_0007970185002355349518
+C_0017478559692109379194 --> C_0002244960169437715781 : -pointName_
+C_0017478559692109379194 --> C_0002470944207325597787 : -angle_
+C_0017478559692109379194 --> C_0002470944207325597787 : -length_
+C_0012361199867370331426 <|-- C_0017478559692109379194
 C_0006310015568615182127 <|-- C_0012811662139665247956
 C_0007619089904892218042 <|-- C_0012811662139665247956
 C_0016547166278433300083 --> C_0012811662139665247956 : -parameter_
@@ -604,6 +655,12 @@ C_0004936461079814340647 --> C_0002244960169437715781 : -pointTo_
 C_0004936461079814340647 --> C_0002470944207325597787 : -angle_
 C_0004936461079814340647 --> C_0002470944207325597787 : -distance_
 C_0012361199867370331426 <|-- C_0004936461079814340647
+C_0013671800093242345687 --> C_0002244960169437715781 : -edgePointFrom_
+C_0013671800093242345687 --> C_0002244960169437715781 : -edgePointTo_
+C_0013671800093242345687 --> C_0002244960169437715781 : -apexPoint_
+C_0013671800093242345687 --> C_0002244960169437715781 : -leg1Point_
+C_0013671800093242345687 --> C_0002470944207325597787 : -intake_
+C_0012361199867370331426 <|-- C_0013671800093242345687
 C_0000658342064330119157 ..|> C_0002156575163525990045
 C_0002692846997820672233 ..|> C_0002156575163525990045
 C_0007619089904892218042 ..|> C_0002156575163525990045
@@ -848,6 +905,14 @@ skinparam class<<Container>> {
 
   
   
+ class C_0007970185002355349518 <<Instruction>> 
+
+  
+  
+ class C_0017478559692109379194 <<Instruction>> 
+
+  
+  
 
 
   
@@ -915,6 +980,10 @@ skinparam class<<Container>> {
   
   
  class C_0010897328373654927103 <<Argument>> 
+
+  
+  
+ class C_0013671800093242345687 <<Instruction>> 
 
 
 

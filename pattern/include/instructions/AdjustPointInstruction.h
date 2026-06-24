@@ -9,6 +9,10 @@ namespace Chrysalis {
     class SERIALIZABLE(AdjustPointInstruction): public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(AdjustPointInstruction)
     public:
+        /**
+         * @uml{note[top] Syntax samples:
+         * B -10-> A <-15- C
+         */
         explicit AdjustPointInstruction(ProjectSpace* space, SelectedPatternsArgument* patterns, const name* pointName,
                                         const name* pointName1, const num* length1,
                                         const name* pointName2, const num* length2);

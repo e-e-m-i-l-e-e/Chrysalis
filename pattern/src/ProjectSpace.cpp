@@ -26,16 +26,13 @@ void ProjectSpace::movePoint(const Point* point, const CGAL::Point position) con
 }
 
 Point* ProjectSpace::addPoint(const double x, const double y) {
-    const auto point = new Point(x, y);
-    points_.insert(point);
-    return point;
+    return addPoint({x, y});
 }
 
-Point* ProjectSpace::addPoint(const CGAL::Point& pointFrom, double angle, const double length) {
-    angle = angle * CGAL_PI / 180;
-    const auto point = new Point(pointFrom.x() + length * cos(angle), pointFrom.y() + length * sin(angle));
-    points_.insert(point);
-    return point;
+Point* ProjectSpace::addPoint(const CGAL::Point& point) {
+    const auto p = new Point(point);
+    points_.insert(p);
+    return p;
 }
 
 CGAL::Vector ProjectSpace::rotate(const CGAL::Vector& vector, double angle) {
@@ -44,11 +41,11 @@ CGAL::Vector ProjectSpace::rotate(const CGAL::Vector& vector, double angle) {
 }
 
 double ProjectSpace::angle(const CGAL::Vector& vector1, const CGAL::Vector& vector2) {
-    return (std::atan2(vector1.y(), vector1.x()) - std::atan2(vector2.y(), vector2.x())) * 180.0 / CGAL_PI;
+    return std::abs(std::atan2(vector1.y(), vector1.x()) - std::atan2(vector2.y(), vector2.x())) * 180.0 / CGAL_PI;
 }
 
 double ProjectSpace::angle(const CGAL::Point& pointFrom, const CGAL::Point& pointTo) {
-    const CGAL::Vector v = pointFrom - pointTo;
+    const CGAL::Vector v = pointTo - pointFrom;
     return std::atan2(CGAL::to_double(v.y()), CGAL::to_double(v.x())) * 180.0 / CGAL_PI;
 }
 
@@ -57,8 +54,13 @@ double ProjectSpace::length(const CGAL::Point& pointFrom, const CGAL::Point& poi
     return std::sqrt(CGAL::to_double(v.squared_length()));
 }
 
-boost::optional<CGAL::Point> ProjectSpace::intersection(const CGAL::Line& line, const CGAL::Point& pointFrom, const CGAL::Point& pointTo) {
-    const auto intersection = CGAL::intersection(CGAL::Line(pointFrom, pointTo), line);
+CGAL::Point ProjectSpace::relativePoint(const CGAL::Point& pointFrom, double angle, double length) {
+    angle = angle * CGAL_PI / 180;
+    return CGAL::Point(pointFrom.x() + length * cos(angle), pointFrom.y() + length * sin(angle));
+}
+
+boost::optional<CGAL::Point> ProjectSpace::intersection(const CGAL::Line& line1, const CGAL::Line& line2) {
+    const auto intersection = CGAL::intersection(line1, line2);
     if (!intersection) return boost::none;
     const CGAL::Point* point = std::get_if<CGAL::Point>(&*intersection);
     return point ? boost::optional<CGAL::Point>(*point) : boost::none;
@@ -66,12 +68,12 @@ boost::optional<CGAL::Point> ProjectSpace::intersection(const CGAL::Line& line, 
 
 boost::optional<CGAL::Point> ProjectSpace::xIntersection(const CGAL::Point& pointFrom, const CGAL::Point& pointTo) {
     static CGAL::Line xAxis(Point(0, 0), Point(1, 0));
-    return intersection(xAxis, pointFrom, pointTo);
+    return intersection(xAxis, CGAL::Line(pointFrom, pointTo));
 }
 
 boost::optional<CGAL::Point> ProjectSpace::yIntersection(const CGAL::Point& pointFrom, const CGAL::Point& pointTo) {
     static CGAL::Line yAxis(CGAL::Point(0, 0), CGAL::Point(0, 1));
-    return intersection(yAxis, pointFrom, pointTo);
+    return intersection(yAxis, CGAL::Line(pointFrom, pointTo));
 }
 
 CGAL::Point ProjectSpace::circlesIntersection(const CGAL::Point& anchor,

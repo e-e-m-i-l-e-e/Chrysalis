@@ -20,9 +20,13 @@ namespace Chrysalis {
             static constexpr auto AH2 = "AH2";
             static constexpr auto AH3 = "AH3";
             static constexpr auto AH4 = "AH4";
+            static constexpr auto AH1_1 = "AH1_1";
+            static constexpr auto AH1_2 = "AH1_2";
 
             static constexpr auto UB = "UB";
             static constexpr auto UB1 = "UB1";
+            static constexpr auto UB1_1 = "UB1_1";
+            static constexpr auto UB1_2 = "UB1_2";
 
             static constexpr auto W = "W";
             static constexpr auto W1 = "W1";
@@ -36,6 +40,7 @@ namespace Chrysalis {
             static constexpr auto B = "B";
             static constexpr auto D = "D";
             static constexpr auto D1 = "D1";
+            static constexpr auto D1_1 = "D1_1";
             static constexpr auto D2 = "D2";
             static constexpr auto DA = "DA";
         };
@@ -112,6 +117,7 @@ namespace Chrysalis {
             {PointName::AH4, {-24.0, -21.0}},
             {PointName::B, {0.0, -28.0}},
             {PointName::DA, {-8.5, -28.0}},
+            {PointName::D1, {-11.7013, -1.198}},
         };
     };
 }

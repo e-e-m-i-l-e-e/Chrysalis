@@ -41,9 +41,9 @@ void EdgeDartInstruction::execute() {
     const double edgeAngle = ProjectSpace::angle(*edgePointFrom, *edgePointTo);
 
     const double angle = angle_->hasArgument() ? angle_->getArgument() : 90;
-    const Point* centerPoint = space().addPoint(*point, angle + edgeAngle, length_->getArgument());
-    const Point* leg1Point = space().addPoint(*point, edgeAngle, leg1Intake);
-    const Point* leg2Point = space().addPoint(*point, edgeAngle + 180, leg2Intake);
+    const Point* centerPoint = space().addPoint(ProjectSpace::relativePoint(*point, edgeAngle - angle, length_->getArgument()));
+    const Point* leg1Point = space().addPoint(ProjectSpace::relativePoint(*point, edgeAngle + 180, leg1Intake));
+    const Point* leg2Point = space().addPoint(ProjectSpace::relativePoint(*point, edgeAngle, leg2Intake));
 
     const std::string centerPointName = dartPoint_->getArgument() + "A";
     const std::string leg1PointName = dartPoint_->getArgument() + "1";

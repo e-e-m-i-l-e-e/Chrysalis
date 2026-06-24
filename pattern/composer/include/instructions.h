@@ -5,17 +5,23 @@
 #include "arguments/VectorFunctionArgument.h"
 
 #include "instructions/EdgeDartInstruction.h"
+#include "instructions/MovePointInstruction.h"
 #include "instructions/FreePointInstruction.h"
 #include "instructions/AdjustPointInstruction.h"
 #include "instructions/RelativePointInstruction.h"
+#include "instructions/UnfoldEdgeDartInstruction.h"
+#include "instructions/IntersectionPointInstruction.h"
 
 using B = Chrysalis::BinaryFunction;
 using V = Chrysalis::VectorFunction;
 
 using D = Chrysalis::EdgeDartInstruction;
 using P = Chrysalis::FreePointInstruction;
+using MP = Chrysalis::MovePointInstruction;
 using Adj = Chrysalis::AdjustPointInstruction;
+using UD = Chrysalis::UnfoldEdgeDartInstruction;
 using RelP = Chrysalis::RelativePointInstruction;
+using IP = Chrysalis::IntersectionPointInstruction;
 
 #define common space, new SelectedPatternsArgument(selectedPatterns)
 
