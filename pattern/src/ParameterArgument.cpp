@@ -5,15 +5,12 @@
 
 using namespace Chrysalis;
 
-ParameterArgument::ParameterArgument(Parameter* parameter)
-    : NumberArgument([&] -> boost::optional<double> {
-        if (parameter->hasValue()) return parameter->getValue();
-        if (parameter->hasDefaultValue()) return parameter->getDefaultValue();
-        return boost::none;
-    }()), parameter_(parameter) {
-    parameter->addObserver(this);
+ParameterArgument::ParameterArgument(Parameter* parameter): parameter_(parameter) {}
+
+bool ParameterArgument::hasValue() const {
+    return parameter_->hasValue() || parameter_->hasDefaultValue();
 }
 
-void ParameterArgument::valueChanged(const double value) {
-    setArgument(value);
+double ParameterArgument::get() const {
+    return parameter_->hasValue() ? parameter_->getValue() : parameter_->getDefaultValue();
 }

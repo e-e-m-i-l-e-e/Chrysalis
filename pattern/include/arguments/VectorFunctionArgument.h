@@ -18,6 +18,9 @@ namespace Chrysalis {
                                         const name* pointTo, const pattern* patternTo,
                                         const VectorFunction* function);
         ~VectorFunctionArgument() override;
+
+        double get() const override;
+        bool hasValue() const override;
     private:
         /// @uml{composition}
         const name* pointFrom_;

@@ -14,16 +14,16 @@ BuildOutlineInstruction::~BuildOutlineInstruction() {
 }
 
 bool BuildOutlineInstruction::isValid() {
-    return point_->hasArgument();
+    return point_->hasValue();
 }
 
 void BuildOutlineInstruction::execute() {
     for (const auto& pattern: patterns()) {
-        if (!pattern->hasPoint(point_->getArgument())) return;
+        if (!pattern->hasPoint(point_->get())) return;
     }
     for (const auto& pattern: patterns()) {
-        const auto& pointName = point_->getArgument();
-        const auto& name = outlineName_->hasArgument() ? outlineName_->getArgument() : Outline::DEFAULT;
+        const auto& pointName = point_->get();
+        const auto& name = outlineName_->hasValue() ? outlineName_->get() : Outline::DEFAULT;
         const auto& outline = pattern->getOutline();
         if (outline->has(name)) outline->get(name)->addPoint(pointName);
         else outline->add(new Outline(name, pointName));

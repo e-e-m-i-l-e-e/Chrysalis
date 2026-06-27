@@ -14,7 +14,7 @@ class Name;
 namespace Chrysalis {                                                                                                  \
     class BinaryFunction::Name: public BinaryFunction {                                                                \
     public:                                                                                                            \
-        boost::optional<double> evaluate(const num* operand1, const num* operand2) const override;                     \
+        double evaluate(const num* operand1, const num* operand2) const override;                                      \
     };                                                                                                                 \
     SERIALIZE_DERIVED_MEMBERS(BinaryFunction::Name, BinaryFunction)                                                    \
 }                                                                                                                      \
@@ -30,10 +30,10 @@ namespace Chrysalis {
 
         BOOST_PP_SEQ_FOR_EACH(FORWARD_DECLARE_BINARY_FUNCTION, _, BINARY_FUNCTIONS)
 
-        virtual boost::optional<double> evaluate(const num* operand1, const num* operand2) const = 0;
+        virtual double evaluate(const num* operand1, const num* operand2) const = 0;
     protected:
-        static boost::optional<double> evaluate(const num* operand1, const num* operand2,
-                                                const std::function<double(double a, double b)>& evaluator);
+        static double evaluate(const num* operand1, const num* operand2,
+                               const std::function<double(double a, double b)>& evaluator);
     };
 }
 

@@ -17,22 +17,22 @@ UnfoldEdgeDartInstruction::~UnfoldEdgeDartInstruction() {
 }
 
 bool UnfoldEdgeDartInstruction::isValid() {
-    return edgePointFrom_->hasArgument() && eachPatternHasPoint(edgePointFrom_->getArgument()) &&
-           edgePointTo_->hasArgument() && eachPatternHasPoint(edgePointTo_->getArgument()) &&
-           apexPoint_->hasArgument() && eachPatternHasPoint(apexPoint_->getArgument()) &&
-           leg1Point_->hasArgument() && eachPatternHasPoint(leg1Point_->getArgument()) && intake_->hasArgument();
+    return edgePointFrom_->hasValue() && eachPatternHasPoint(edgePointFrom_->get()) &&
+           edgePointTo_->hasValue() && eachPatternHasPoint(edgePointTo_->get()) &&
+           apexPoint_->hasValue() && eachPatternHasPoint(apexPoint_->get()) &&
+           leg1Point_->hasValue() && eachPatternHasPoint(leg1Point_->get()) && intake_->hasValue();
 }
 
 void UnfoldEdgeDartInstruction::execute() {
-    const auto leg1Point = anyPattern()->getPoint(leg1Point_->getArgument());
-    const auto apexPoint = anyPattern()->getPoint(apexPoint_->getArgument());
-    const auto edgePointFrom = anyPattern()->getPoint(edgePointFrom_->getArgument());
-    const auto edgePointTo = anyPattern()->getPoint(edgePointTo_->getArgument());
+    const auto leg1Point = anyPattern()->getPoint(leg1Point_->get());
+    const auto apexPoint = anyPattern()->getPoint(apexPoint_->get());
+    const auto edgePointFrom = anyPattern()->getPoint(edgePointFrom_->get());
+    const auto edgePointTo = anyPattern()->getPoint(edgePointTo_->get());
     const auto legLength = ProjectSpace::length(*leg1Point, *apexPoint);
     const auto leg2Point = space().addPoint(ProjectSpace::circlesIntersection(
             *edgePointTo,
             *apexPoint, legLength,
-            *leg1Point, intake_->getArgument())
+            *leg1Point, intake_->get())
     );
     const auto edgeAngle = ProjectSpace::angle(*edgePointFrom, *edgePointTo);
     const auto dartAngle = ProjectSpace::angle(*apexPoint - *leg1Point, *apexPoint - *leg2Point);
@@ -45,6 +45,6 @@ void UnfoldEdgeDartInstruction::execute() {
         pattern->notify(&PatternSpaceObserver::relativePointConnectionRemoved, edgePointFrom, leg1Point);
         pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, leg1Point, apexPoint);
         pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, apexPoint, leg2Point);
-        pattern->addPoint(leg1Point_->getArgument() + "_1", leg2Point);
+        pattern->addPoint(leg1Point_->get() + "_1", leg2Point);
     }
 }

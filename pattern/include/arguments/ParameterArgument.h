@@ -8,12 +8,13 @@
 #include "arguments/NumberArgument.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(ParameterArgument): public NumberArgument, public ParameterObserver {
+    class SERIALIZABLE(ParameterArgument): public NumberArgument {
         PROVIDE_SERIALIZATION_ACCESS(ParameterArgument)
     public:
         explicit ParameterArgument(Parameter* parameter);
 
-        void valueChanged(double value) override;
+        double get() const override;
+        bool hasValue() const override;
     private:
         Parameter* parameter_;
     };

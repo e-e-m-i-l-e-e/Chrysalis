@@ -13,3 +13,13 @@ Chrysalis::VectorFunctionArgument::~VectorFunctionArgument() {
     delete patternTo_;
     delete function_;
 }
+
+
+bool Chrysalis::VectorFunctionArgument::hasValue() const {
+    return !pointFrom_->hasValue() || !patternFrom_->hasArgument() || !pointTo_->hasValue() || !patternTo_->hasArgument() ||
+           !patternFrom_->getArgument()->hasPoint(pointFrom_->get()) || !patternTo_->getArgument()->hasPoint(pointTo_->get());
+}
+
+double Chrysalis::VectorFunctionArgument::get() const {
+    return function_->evaluate(pointFrom_, patternFrom_, pointTo_, patternTo_);
+}

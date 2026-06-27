@@ -16,6 +16,8 @@ diagrams:
         - boost
       paths:
         - ../../../.conan
+      elements:
+        - r: ".*Observ.*"
       relationships:
         - dependency
     plantuml:
@@ -87,7 +89,7 @@ diagrams:
         - >
           {% for e in diagram.elements %}
 
-          {% set baseArgument1 = replace(e.full_name, "Chrysalis::BaseArgument<", "") %}
+          {% set baseArgument1 = replace(e.full_name, "Chrysalis::BaseArgumentOld<", "") %}
           {% set baseArgument2 = replace(baseArgument1, " \\*>", "") %}
           {% if baseArgument1 != e.full_name and baseArgument1 != baseArgument2 and baseArgument2 != e.full_name and baseArgument2 != "T" %}
             {{ e.alias }} --> {{ alias("Chrysalis::" + baseArgument2) }}

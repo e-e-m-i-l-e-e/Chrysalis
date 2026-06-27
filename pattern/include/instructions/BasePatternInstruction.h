@@ -5,14 +5,16 @@
 #include "BaseInstruction.h"
 
 #include "arguments/NameArgument.h"
+#include "arguments/PointArgument.h"
+#include "arguments/VectorArgument.h"
 #include "arguments/NumberArgument.h"
-#include "arguments/PatternArgument.h"
 #include "arguments/SelectedPatternsArgument.h"
 
 namespace Chrysalis {
     using name = NameArgument;
     using num = NumberArgument;
-    using pattern = PatternArgument;
+    using point = PointArgument;
+    using vector = VectorArgument;
 
     class SERIALIZABLE(BasePatternInstruction): public BaseInstruction {
         PROVIDE_SERIALIZATION_ACCESS(BasePatternInstruction)

@@ -5,11 +5,11 @@ Chrysalis::MovePointInstruction::MovePointInstruction(ProjectSpace* space, Selec
     : BasePatternInstruction(space, patterns), pointName_(pointName), angle_(angle), length_(length) {}
 
 bool Chrysalis::MovePointInstruction::isValid() {
-    return pointName_->hasArgument() && eachPatternHasPoint(pointName_->getArgument()) &&
-           angle_->hasArgument() && length_->hasArgument();
+    return pointName_->hasValue() && eachPatternHasPoint(pointName_->get()) &&
+           angle_->hasValue() && length_->hasValue();
 }
 
 void Chrysalis::MovePointInstruction::execute() {
-    const Point* point = anyPattern()->getPoint(pointName_->getArgument());
-    space().movePoint(point, ProjectSpace::relativePoint(*point, angle_->getArgument(), length_->getArgument()));
+    const Point* point = anyPattern()->getPoint(pointName_->get());
+    space().movePoint(point, ProjectSpace::relativePoint(*point, angle_->get(), length_->get()));
 }

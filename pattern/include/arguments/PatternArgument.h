@@ -1,16 +1,16 @@
 #ifndef CHRYSALIS_PATTERNARGUMENT_H
 #define CHRYSALIS_PATTERNARGUMENT_H
 
-#include "BaseArgument.h"
+#include "BaseArgumentOld.h"
 #include "PatternSpace.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(PatternArgument): public BaseArgument<PatternSpace*> {
+    class SERIALIZABLE(PatternArgument): public BaseArgumentOld<PatternSpace*> {
     public:
         explicit PatternArgument() = default;
-        explicit PatternArgument(PatternSpace* pattern): BaseArgument(pattern) {}
+        explicit PatternArgument(PatternSpace* pattern): BaseArgumentOld(pattern) {}
     };
-    DEFAULT_SERIALIZE_DERIVED_MEMBERS(PatternArgument, BaseArgument<PatternSpace*>)
+    DEFAULT_SERIALIZE_DERIVED_MEMBERS(PatternArgument, BaseArgumentOld<PatternSpace*>)
 }
 
 #endif //CHRYSALIS_PATTERNARGUMENT_H

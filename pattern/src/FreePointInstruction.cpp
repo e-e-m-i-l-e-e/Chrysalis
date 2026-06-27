@@ -13,12 +13,12 @@ FreePointInstruction::~FreePointInstruction() {
 }
 
 bool FreePointInstruction::isValid() {
-    return pointName_->hasArgument() && x_->hasArgument() && y_->hasArgument();
+    return pointName_->hasValue() && x_->hasValue() && y_->hasValue();
 }
 
 void FreePointInstruction::execute() {
-    const auto point = space().addPoint(x_->getArgument(), y_->getArgument());
+    const auto point = space().addPoint(x_->get(), y_->get());
     for (const auto& pattern: patterns()) {
-        pattern->addPoint(pointName_->getArgument(), point);
+        pattern->addPoint(pointName_->get(), point);
     }
 }

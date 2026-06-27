@@ -467,12 +467,12 @@ class C_0017992245358367024427 {
 __
 -patterns_ : std::list<PatternSpace *>
 }
-class "Chrysalis::BaseArgument<T>" as C_0004566211642871539975
+class "Chrysalis::BaseArgumentOld<T>" as C_0004566211642871539975
 class C_0004566211642871539975 {
-#BaseArgument() = default : void
-#BaseArgument(T argument) : void
-#BaseArgument(boost::optional<T> argument) : void
-+~BaseArgument() = default : void
+#BaseArgumentOld() = default : void
+#BaseArgumentOld(T argument) : void
+#BaseArgumentOld(boost::optional<T> argument) : void
++~BaseArgumentOld() = default : void
 ..
 +getArgument() const : const T &
 +hasArgument() const : bool
@@ -481,7 +481,7 @@ class C_0004566211642871539975 {
 __
 #argument_ : boost::optional<T>
 }
-class "Chrysalis::BaseArgument<std::string>" as C_0005387570045788273291
+class "Chrysalis::BaseArgumentOld<std::string>" as C_0005387570045788273291
 class C_0005387570045788273291 {
 __
 }
@@ -491,7 +491,29 @@ class C_0002244960169437715781 {
 +NameArgument(const std::string & name) : void
 __
 }
-class "Chrysalis::BaseArgument<double>" as C_0001471877624587876994
+class "Chrysalis::BaseArgumentOld<PatternSpace *>" as C_0011638807436206440807
+class C_0011638807436206440807 {
+__
+}
+class "Chrysalis::PatternArgument" as C_0003510744074585417582
+class C_0003510744074585417582 {
++PatternArgument() = default : void
++PatternArgument(PatternSpace * pattern) : void
+__
+}
+class "Chrysalis::PointArgument" as C_0018004126894338009278
+class C_0018004126894338009278 {
++PointArgument(const NameArgument * name, const PatternArgument * pattern) : void
++~PointArgument() : void
+..
++get() const : const Point *
++getName() const : const std::string &
++isValid() const : bool
+__
+-name_ : const NameArgument *
+-pattern_ : const PatternArgument *
+}
+class "Chrysalis::BaseArgumentOld<double>" as C_0001471877624587876994
 class C_0001471877624587876994 {
 __
 }
@@ -502,17 +524,32 @@ class C_0002470944207325597787 {
 #NumberArgument(const boost::optional<double> x) : void
 __
 }
-class "Chrysalis::BaseArgument<PatternSpace *>" as C_0011638807436206440807
-class C_0011638807436206440807 {
+class "Chrysalis::RayArgument" as C_0013359262213725603488
+class C_0013359262213725603488 {
+#RayArgument(const PointArgument * origin, const PointArgument * destination) : void
++RayArgument(const PointArgument * origin, const NumberArgument * angle) : void
++~RayArgument() : void
+..
++getAngle() const : double
++getOrigin() const : const Point *
++getOriginName() const : const std::string &
++isValid() const : bool
 __
+#angle_ : const NumberArgument *
+#origin_ : const PointArgument *
 }
-class "Chrysalis::PatternArgument" as C_0003510744074585417582
-class C_0003510744074585417582 {
-+PatternArgument() = default : void
-+PatternArgument(PatternSpace * pattern) : void
+class "Chrysalis::VectorArgument" as C_0000793764540388360553
+class C_0000793764540388360553 {
+#VectorArgument(const PointArgument * origin, const PointArgument * destination) : void
++VectorArgument(const PointArgument * origin, const NumberArgument * angle, const NumberArgument * length) : void
++~VectorArgument() : void
+..
++getLength() const : double
++isValid() const : bool
 __
+-length_ : const NumberArgument *
 }
-class "Chrysalis::BaseArgument<SelectedPatterns *>" as C_0017878381134947189585
+class "Chrysalis::BaseArgumentOld<SelectedPatterns *>" as C_0017878381134947189585
 class C_0017878381134947189585 {
 __
 }
@@ -705,10 +742,16 @@ C_0017992245358367024427 --> C_0006410388496936549037 : -patterns_
 C_0004566211642871539975 o-- C_0003580494981378393278 : #argument_
 C_0005387570045788273291 ..|> C_0004566211642871539975
 C_0005387570045788273291 <|-- C_0002244960169437715781
-C_0001471877624587876994 ..|> C_0004566211642871539975
-C_0001471877624587876994 <|-- C_0002470944207325597787
 C_0011638807436206440807 ..|> C_0004566211642871539975
 C_0011638807436206440807 <|-- C_0003510744074585417582
+C_0018004126894338009278 *-- C_0002244960169437715781 : -name_
+C_0018004126894338009278 *-- C_0003510744074585417582 : -pattern_
+C_0001471877624587876994 ..|> C_0004566211642871539975
+C_0001471877624587876994 <|-- C_0002470944207325597787
+C_0013359262213725603488 *-- C_0018004126894338009278 : #origin_
+C_0013359262213725603488 *-- C_0002470944207325597787 : #angle_
+C_0000793764540388360553 *-- C_0002470944207325597787 : -length_
+C_0013359262213725603488 <|-- C_0000793764540388360553
 C_0017878381134947189585 ..|> C_0004566211642871539975
 C_0017878381134947189585 <|-- C_0004837404360303133352
 C_0012361199867370331426 --> C_0007088239576659478452 : #space_
@@ -868,11 +911,17 @@ skinparam class<<Base>> {
 
 
 
+ class C_0011638807436206440807 <<Base>> 
+
+
+
+
+
  class C_0001471877624587876994 <<Base>> 
 
 
 
- class C_0011638807436206440807 <<Base>> 
+
 
 
 

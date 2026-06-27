@@ -9,6 +9,9 @@ namespace Chrysalis {
     public:
         explicit BinaryFunctionArgument(const num* operand1, const num* operand2, const BinaryFunction* function);
         ~BinaryFunctionArgument() override;
+
+        double get() const override;
+        bool hasValue() const override;
     private:
         /// @uml{composition}
         const num* operand1_;

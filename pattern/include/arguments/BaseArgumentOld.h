@@ -1,5 +1,5 @@
-#ifndef CHRYSALIS_BASEARGUMENT_H
-#define CHRYSALIS_BASEARGUMENT_H
+#ifndef CHRYSALIS_BASEARGUMENTOLD_H
+#define CHRYSALIS_BASEARGUMENTOLD_H
 
 #include <boost/optional/optional.hpp>
 
@@ -7,14 +7,14 @@
 
 namespace Chrysalis {
     template<typename T>
-    class SERIALIZABLE_T(BaseArgument, T) {
-        PROVIDE_SERIALIZATION_ACCESS_T(BaseArgument)
+    class SERIALIZABLE_T(BaseArgumentOld, T) {
+        PROVIDE_SERIALIZATION_ACCESS_T(BaseArgumentOld)
     protected:
-        explicit BaseArgument() = default;
-        explicit BaseArgument(T argument): argument_(argument) {}
-        explicit BaseArgument(boost::optional<T> argument): argument_(argument) {}
+        explicit BaseArgumentOld() = default;
+        explicit BaseArgumentOld(T argument): argument_(argument) {}
+        explicit BaseArgumentOld(boost::optional<T> argument): argument_(argument) {}
     public:
-        virtual ~BaseArgument() = default;
+        virtual ~BaseArgumentOld() = default;
 
         [[nodiscard]] bool hasArgument() const {
             return argument_.has_value();
@@ -31,7 +31,7 @@ namespace Chrysalis {
     protected:
         boost::optional<T> argument_;
     };
-    SIMPLE_SERIALIZE_MEMBERS_T(BaseArgument, T, argument_)
+    SIMPLE_SERIALIZE_MEMBERS_T(BaseArgumentOld, T, argument_)
 }
 
-#endif //CHRYSALIS_BASEARGUMENT_H
+#endif //CHRYSALIS_BASEARGUMENTOLD_H

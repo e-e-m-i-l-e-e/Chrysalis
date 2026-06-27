@@ -17,21 +17,21 @@ IntersectionPointInstruction::~IntersectionPointInstruction() {
 }
 
 bool IntersectionPointInstruction::isValid() {
-    return pointFrom1_->hasArgument() && eachPatternHasPoint(pointFrom1_->getArgument()) &&
-           pointFrom2_->hasArgument() && eachPatternHasPoint(pointFrom2_->getArgument()) &&
-           pointTo1_->hasArgument() && eachPatternHasPoint(pointTo1_->getArgument()) &&
-           pointTo2_->hasArgument() && eachPatternHasPoint(pointTo2_->getArgument()) &&
-           pointName_->hasArgument();
+    return pointFrom1_->hasValue() && eachPatternHasPoint(pointFrom1_->get()) &&
+           pointFrom2_->hasValue() && eachPatternHasPoint(pointFrom2_->get()) &&
+           pointTo1_->hasValue() && eachPatternHasPoint(pointTo1_->get()) &&
+           pointTo2_->hasValue() && eachPatternHasPoint(pointTo2_->get()) &&
+           pointName_->hasValue();
 }
 
 void IntersectionPointInstruction::execute() {
     const auto intersection = ProjectSpace::intersection(
-        CGAL::Line(*anyPattern()->getPoint(pointFrom1_->getArgument()), *anyPattern()->getPoint(pointTo1_->getArgument())),
-        CGAL::Line(*anyPattern()->getPoint(pointFrom2_->getArgument()), *anyPattern()->getPoint(pointTo2_->getArgument()))
+        CGAL::Line(*anyPattern()->getPoint(pointFrom1_->get()), *anyPattern()->getPoint(pointTo1_->get())),
+        CGAL::Line(*anyPattern()->getPoint(pointFrom2_->get()), *anyPattern()->getPoint(pointTo2_->get()))
     );
     if (intersection) {
         for (const auto pattern: patterns()) {
-            pattern->addPoint(pointName_->getArgument(), space().addPoint(intersection.value()));
+            pattern->addPoint(pointName_->get(), space().addPoint(intersection.value()));
         }
     }
 }
