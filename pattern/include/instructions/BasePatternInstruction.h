@@ -4,15 +4,12 @@
 #include "ProjectSpace.h"
 #include "BaseInstruction.h"
 
-#include "arguments/NameArgument.h"
+#include "arguments/BaseArgument.h"
 #include "arguments/PointArgument.h"
 #include "arguments/VectorArgument.h"
-#include "arguments/NumberArgument.h"
 #include "arguments/SelectedPatternsArgument.h"
 
 namespace Chrysalis {
-    using name = NameArgument;
-    using num = NumberArgument;
     using point = PointArgument;
     using vector = VectorArgument;
 
@@ -28,7 +25,7 @@ namespace Chrysalis {
             return *space_;
         }
         [[nodiscard]] SelectedPatterns& patterns() const {
-            return *selectedPatterns_->getArgument();
+            return *selectedPatterns_->get();
         }
         bool eachPatternHasPoint(const std::string& point) const;
         bool allPatternsSharePoint(const std::string& point) const;

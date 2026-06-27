@@ -4,7 +4,7 @@ using namespace Chrysalis;
 
 EdgeDartInstruction::EdgeDartInstruction(ProjectSpace* space, SelectedPatternsArgument* patterns,
                                          const name* edgePointFrom, const name* edgePointTo, const vector* dartVector,
-                                         const num* leg1Intake, const num* leg2Intake)
+                                         const num* leg1Intake, const OptionalArgument<num>* leg2Intake)
     : BasePatternInstruction(space, patterns), edgePointFrom_(edgePointFrom), edgePointTo_(edgePointTo),
       dartVector_(dartVector), leg1Intake_(leg1Intake), leg2Intake_(leg2Intake) {}
 
@@ -18,17 +18,17 @@ EdgeDartInstruction::~EdgeDartInstruction() {
 
 bool EdgeDartInstruction::isValid() {
     return
-        edgePointFrom_->hasValue() && eachPatternHasPoint(edgePointFrom_->get()) &&
-        edgePointTo_->hasValue() && eachPatternHasPoint(edgePointTo_->get()) &&
-        dartVector_->isValid() && leg1Intake_->hasValue();
+        edgePointFrom_->isValid() && eachPatternHasPoint(edgePointFrom_->get()) &&
+        edgePointTo_->isValid() && eachPatternHasPoint(edgePointTo_->get()) &&
+        dartVector_->isValid() && leg1Intake_->isValid();
 }
 
 void EdgeDartInstruction::execute() {
     const Point* point = dartVector_->getOrigin();
     double leg1Intake, leg2Intake;
-    if (leg2Intake_->hasValue()) {
+    if (leg2Intake_->argument()) {
         leg1Intake = leg1Intake_->get();
-        leg2Intake = leg2Intake_->get();
+        leg2Intake = leg2Intake_->argument()->get();
     } else {
         leg1Intake = leg2Intake = leg1Intake_->get() / 2;
     }

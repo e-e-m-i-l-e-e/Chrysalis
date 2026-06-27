@@ -4,7 +4,7 @@
 #include "VectorArgument.h"
 #include "arguments/RayArgument.h"
 #include "arguments/PointArgument.h"
-#include "arguments/NumberArgument.h"
+#include "arguments/BaseArgument.h"
 
 namespace Chrysalis {
     class SERIALIZABLE(VectorArgument): public RayArgument {
@@ -12,7 +12,7 @@ namespace Chrysalis {
     protected:
         explicit VectorArgument(const PointArgument* origin, const PointArgument* destination);
     public:
-        explicit VectorArgument(const PointArgument* origin, const NumberArgument* angle, const NumberArgument* length);
+        explicit VectorArgument(const PointArgument* origin, const num* angle, const num* length);
 
         ~VectorArgument() override;
 
@@ -21,7 +21,7 @@ namespace Chrysalis {
         double getLength() const;
     private:
         /// @uml{composition}
-        const NumberArgument* length_;
+        const num* length_;
     };
     SIMPLE_SERIALIZE_DERIVED_MEMBERS(VectorArgument, RayArgument, origin_, angle_, length_)
 }

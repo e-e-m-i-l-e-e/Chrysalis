@@ -1,16 +1,14 @@
 #include "arguments/RayArgument.h"
 
+#include "arguments/AngleArgument.h"
+#include "arguments/BaseCalculatedArgument.h"
+
 using namespace Chrysalis;
 
-RayArgument::RayArgument(const PointArgument* origin, const NumberArgument* angle)
+RayArgument::RayArgument(const PointArgument* origin, const num* angle)
     : origin_(origin), angle_(angle) {}
 
-RayArgument::RayArgument(const PointArgument* origin, const PointArgument* destination) : origin_(origin), angle_([&] {
-    if (origin->isValid() && destination->isValid()) {
-        return new NumberArgument(ProjectSpace::angle(*origin->get(), *destination->get()));
-    }
-    return new NumberArgument();
-}()) {}
+RayArgument::RayArgument(const PointArgument* origin, const PointArgument* destination) : origin_(origin), angle_(new AngleArgument(origin, destination)) {}
 
 RayArgument::~RayArgument() {
     delete origin_;
@@ -18,7 +16,7 @@ RayArgument::~RayArgument() {
 }
 
 bool RayArgument::isValid() const {
-    return origin_->isValid() && angle_->hasValue();
+    return origin_->isValid() && angle_->isValid();
 }
 
 double RayArgument::getAngle() const {

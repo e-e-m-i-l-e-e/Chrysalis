@@ -5,8 +5,8 @@ Chrysalis::MovePointInstruction::MovePointInstruction(ProjectSpace* space, Selec
     : BasePatternInstruction(space, patterns), pointName_(pointName), angle_(angle), length_(length) {}
 
 bool Chrysalis::MovePointInstruction::isValid() {
-    return pointName_->hasValue() && eachPatternHasPoint(pointName_->get()) &&
-           angle_->hasValue() && length_->hasValue();
+    return pointName_->isValid() && eachPatternHasPoint(pointName_->get()) &&
+           angle_->isValid() && length_->isValid();
 }
 
 void Chrysalis::MovePointInstruction::execute() {

@@ -3,7 +3,8 @@
 
 #include <boost/serialization/export.hpp>
 
-#include "NumberArgument.h"
+#include "arguments/BaseArgument.h"
+#include "serialization.h"
 
 #define BINARY_FUNCTIONS (Add)(Subtract)(Multiply)(Divide)
 
@@ -21,7 +22,6 @@ namespace Chrysalis {                                                           
 BOOST_CLASS_EXPORT_KEY(Chrysalis::BinaryFunction::Name)
 
 namespace Chrysalis {
-    using num = NumberArgument;
     class EMPTY_SERIALIZABLE(BinaryFunction) {
     protected:
         explicit BinaryFunction() = default;

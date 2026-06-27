@@ -4,10 +4,16 @@
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 
+#include "arguments/BaseArgument.h"
 #include "arguments/ParameterArgument.h"
+#include "arguments/PatternArgument.h"
+#include "arguments/SelectedPatternsArgument.h"
+#include "arguments/BaseValidArgument.h"
+#include "arguments/BaseCalculatedArgument.h"
 #include "arguments/BinaryFunctionArgument.h"
 #include "arguments/VectorFunction.h"
 #include "arguments/VectorFunctionArgument.h"
+#include "arguments/OptionalArgument.h"
 
 #include "instructions/EdgeDartInstruction.h"
 #include "instructions/FreePointInstruction.h"
@@ -31,6 +37,16 @@ BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BinaryFunctionArgument)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::VectorFunction::Length)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::VectorFunction::Angle)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::VectorFunctionArgument)
+
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::PatternArgument)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::NameArgument)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::NumberArgument)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BaseValidArgument<Chrysalis::PatternSpace*>)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BaseValidArgument<Chrysalis::SelectedPatterns*>)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::OptionalArgument<PointArgument>)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BaseValidArgument<std::string>)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BaseValidArgument<double>)
+BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BaseCalculatedArgument<double>)
 
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::EdgeDartInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::FreePointInstruction)

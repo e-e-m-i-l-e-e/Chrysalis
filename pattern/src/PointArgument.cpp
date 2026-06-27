@@ -2,22 +2,22 @@
 
 using namespace Chrysalis;
 
-PointArgument::PointArgument(const NameArgument* name, const PatternArgument* pattern)
-    : name_(name), pattern_(pattern) {}
+PointArgument::PointArgument(const name* pointName, const PatternArgument* pattern)
+    : pointName_(pointName), pattern_(pattern) {}
 
 PointArgument::~PointArgument() {
-    delete name_;
+    delete pointName_;
     delete pattern_;
 }
 
 bool PointArgument::isValid() const {
-    return pattern_->hasArgument() && name_->hasValue() && pattern_->getArgument()->hasPoint(name_->get());
+    return pattern_->isValid() && pointName_->isValid() && pattern_->get()->hasPoint(pointName_->get());
 }
 
 const Point* PointArgument::get() const {
-    return pattern_->getArgument()->getPoint(name_->get());
+    return pattern_->get()->getPoint(pointName_->get());
 }
 
 const std::string& PointArgument::getName() const {
-    return name_->get();
+    return pointName_->get();
 }

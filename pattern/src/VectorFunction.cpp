@@ -15,5 +15,5 @@ double VectorFunction::Angle::evaluate(const name* pointFrom, const pattern* pat
 double VectorFunction::evaluate(const name* pointFrom, const pattern* patternFrom,
                                 const name* pointTo, const pattern* patternTo,
                                 const std::function<double(const Point& from, const Point& to)>& evaluator) {
-    return evaluator(*patternFrom->getArgument()->getPoint(pointFrom->get()), *patternTo->getArgument()->getPoint(pointTo->get()));
+    return evaluator(*patternFrom->get()->getPoint(pointFrom->get()), *patternTo->get()->getPoint(pointTo->get()));
 }

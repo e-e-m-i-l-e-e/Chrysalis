@@ -1,8 +1,9 @@
 #ifndef CHRYSALIS_VECTORFUNCTIONARGUMENT_H
 #define CHRYSALIS_VECTORFUNCTIONARGUMENT_H
 
+#include "BaseCalculatedArgument.h"
 #include "arguments/VectorFunction.h"
-#include "arguments/NumberArgument.h"
+#include "arguments/BaseArgument.h"
 
 namespace Chrysalis {
     /**
@@ -11,7 +12,7 @@ namespace Chrysalis {
      * (A ("Pattern 1") -> "A 1").angle
      * }
      */
-    class SERIALIZABLE(VectorFunctionArgument): public NumberArgument {
+    class SERIALIZABLE(VectorFunctionArgument): public BaseCalculatedArgument<double> {
         PROVIDE_SERIALIZATION_ACCESS(VectorFunctionArgument)
     public:
         explicit VectorFunctionArgument(const name* pointFrom, const pattern* patternFrom,
@@ -19,8 +20,9 @@ namespace Chrysalis {
                                         const VectorFunction* function);
         ~VectorFunctionArgument() override;
 
-        double get() const override;
-        bool hasValue() const override;
+        bool isValid() const override;
+    protected:
+        double calculate() const override;
     private:
         /// @uml{composition}
         const name* pointFrom_;
@@ -33,7 +35,7 @@ namespace Chrysalis {
         /// @uml{composition}
         const VectorFunction* function_;
     };
-    SIMPLE_SERIALIZE_DERIVED_MEMBERS(VectorFunctionArgument, NumberArgument, pointFrom_, patternFrom_, pointTo_, patternTo_, function_)
+    SIMPLE_SERIALIZE_DERIVED_MEMBERS(VectorFunctionArgument, BaseCalculatedArgument<double>, pointFrom_, patternFrom_, pointTo_, patternTo_, function_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::VectorFunctionArgument)

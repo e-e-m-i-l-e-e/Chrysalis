@@ -1,16 +1,13 @@
 #include "arguments/ParameterArgument.h"
 
-#include <iostream>
-#include <ostream>
-
 using namespace Chrysalis;
 
 ParameterArgument::ParameterArgument(Parameter* parameter): parameter_(parameter) {}
 
-bool ParameterArgument::hasValue() const {
+bool ParameterArgument::isValid() const {
     return parameter_->hasValue() || parameter_->hasDefaultValue();
 }
 
-double ParameterArgument::get() const {
+double ParameterArgument::calculate() const {
     return parameter_->hasValue() ? parameter_->getValue() : parameter_->getDefaultValue();
 }

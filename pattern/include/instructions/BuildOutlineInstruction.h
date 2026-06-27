@@ -3,11 +3,11 @@
 
 #include <boost/serialization/export.hpp>
 
+#include "arguments/OptionalArgument.h"
 #include "BasePatternInstruction.h"
 #include "BuildOutlineInstruction.h"
 
 namespace Chrysalis {
-    using name = NameArgument;
     /**
      * @uml{note[top] Syntax samples:
      * out -> A -> B -> C // (3 instructions)
@@ -18,13 +18,13 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(BuildOutlineInstruction)
     public:
         explicit BuildOutlineInstruction(ProjectSpace* space, SelectedPatternsArgument* selectedPatterns,
-                                         name* outlineName, name* point);
+                                         OptionalArgument<name>* outlineName, name* point);
         ~BuildOutlineInstruction() override;
 
         void execute() override;
         bool isValid() override;
     private:
-        name* outlineName_;
+        OptionalArgument<name>* outlineName_;
         name* point_;
     };
     SERIALIZE_DERIVED_MEMBERS(BuildOutlineInstruction, BasePatternInstruction, outlineName_, point_)

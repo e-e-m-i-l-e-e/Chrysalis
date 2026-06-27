@@ -3,6 +3,7 @@
 
 #include "arguments/PointArgument.h"
 #include "arguments/VectorArgument.h"
+#include "arguments/OptionalArgument.h"
 #include "arguments/BinaryFunctionArgument.h"
 #include "arguments/VectorFunctionArgument.h"
 
@@ -35,12 +36,13 @@ using IP = Chrysalis::IntersectionPointInstruction;
 #define left num(180)
 #define down num(270)
 
-#define no_name new NameArgument()
+#define no_num new OptionalArgument<BaseArgument<double>>()
+#define no_name new OptionalArgument<BaseArgument<std::string>>()
 #define name(name) new NameArgument(PointName::name)
 #define param(parameterName) new ParameterArgument(parameters->get(ParameterName::parameterName))
 #define pattern(patternSpace) new PatternArgument(patternSpace)
 
-#define use_last_point common, new PointArgument(no_name, pattern())
+#define use_last_point common, new OptionalArgument<PointArgument>()
 #define biFunc(operator1, operator2, function) new BinaryFunctionArgument(operator1, operator2, function)
 #define vecFunc(pointFrom, patternFrom, pointTo, patternTo, function) new VectorFunctionArgument(pointFrom, patternFrom, pointTo, patternTo, function)
 

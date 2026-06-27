@@ -13,7 +13,7 @@ FreePointInstruction::~FreePointInstruction() {
 }
 
 bool FreePointInstruction::isValid() {
-    return pointName_->hasValue() && x_->hasValue() && y_->hasValue();
+    return pointName_->isValid() && x_->isValid() && y_->isValid();
 }
 
 void FreePointInstruction::execute() {

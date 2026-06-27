@@ -10,10 +10,10 @@ Chrysalis::BinaryFunctionArgument::~BinaryFunctionArgument() {
     delete function_;
 }
 
-bool Chrysalis::BinaryFunctionArgument::hasValue() const {
-    return operand1_->hasValue() && operand2_->hasValue();
+bool Chrysalis::BinaryFunctionArgument::isValid() const {
+    return operand1_->isValid() && operand2_->isValid();
 }
 
-double Chrysalis::BinaryFunctionArgument::get() const {
+double Chrysalis::BinaryFunctionArgument::calculate() const {
     return function_->evaluate(operand1_, operand2_);
 }

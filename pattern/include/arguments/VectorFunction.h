@@ -3,7 +3,7 @@
 
 #include <boost/serialization/export.hpp>
 
-#include "arguments/NameArgument.h"
+#include "arguments/BaseArgument.h"
 #include "arguments/PatternArgument.h"
 
 #define VECTOR_FUNCTIONS (Length)(Angle)
@@ -23,7 +23,6 @@ namespace Chrysalis {                                                           
 BOOST_CLASS_EXPORT_KEY(Chrysalis::VectorFunction::Name)
 
 namespace Chrysalis {
-    using name = NameArgument;
     using pattern = PatternArgument;
 
     class EMPTY_SERIALIZABLE(VectorFunction) {

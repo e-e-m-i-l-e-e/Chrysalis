@@ -17,11 +17,11 @@ IntersectionPointInstruction::~IntersectionPointInstruction() {
 }
 
 bool IntersectionPointInstruction::isValid() {
-    return pointFrom1_->hasValue() && eachPatternHasPoint(pointFrom1_->get()) &&
-           pointFrom2_->hasValue() && eachPatternHasPoint(pointFrom2_->get()) &&
-           pointTo1_->hasValue() && eachPatternHasPoint(pointTo1_->get()) &&
-           pointTo2_->hasValue() && eachPatternHasPoint(pointTo2_->get()) &&
-           pointName_->hasValue();
+    return pointFrom1_->isValid() && eachPatternHasPoint(pointFrom1_->get()) &&
+           pointFrom2_->isValid() && eachPatternHasPoint(pointFrom2_->get()) &&
+           pointTo1_->isValid() && eachPatternHasPoint(pointTo1_->get()) &&
+           pointTo2_->isValid() && eachPatternHasPoint(pointTo2_->get()) &&
+           pointName_->isValid();
 }
 
 void IntersectionPointInstruction::execute() {

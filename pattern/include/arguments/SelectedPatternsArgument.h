@@ -1,17 +1,18 @@
 #ifndef CHRYSALIS_ACTIVEPATTERNSPACES_H
 #define CHRYSALIS_ACTIVEPATTERNSPACES_H
 
-#include "BaseArgumentOld.h"
+#include <boost/serialization/export.hpp>
+
 #include "SelectedPatterns.h"
+#include "arguments/BaseValidArgument.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(SelectedPatternsArgument): public BaseArgumentOld<SelectedPatterns*> {
-        PROVIDE_SERIALIZATION_ACCESS(SelectedPatternsArgument);
-        explicit SelectedPatternsArgument() = default;
+    class SelectedPatternsArgument: public BaseValidArgument<SelectedPatterns*> {
     public:
-        explicit SelectedPatternsArgument(SelectedPatterns* patterns): BaseArgumentOld(patterns) {};
+        explicit SelectedPatternsArgument(): BaseValidArgument<SelectedPatterns*>(nullptr) {}
+        explicit SelectedPatternsArgument(SelectedPatterns* patterns): BaseValidArgument(patterns) {};
     };
-    DEFAULT_SERIALIZE_DERIVED_MEMBERS(SelectedPatternsArgument, BaseArgumentOld<SelectedPatterns*>)
+    SERIALIZE_DERIVED_MEMBERS(SelectedPatternsArgument, BaseValidArgument<SelectedPatterns*>)
 }
 
 #endif //CHRYSALIS_ACTIVEPATTERNSPACES_H

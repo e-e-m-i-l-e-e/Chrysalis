@@ -5,6 +5,7 @@
 
 #include "BasePatternInstruction.h"
 #include "RelativePointInstruction.h"
+#include "arguments/OptionalArgument.h"
 
 namespace Chrysalis {
     /**
@@ -18,13 +19,13 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(RelativePointInstruction)
     public:
         explicit RelativePointInstruction(ProjectSpace* space, SelectedPatternsArgument* selectedPatterns,
-                                          const point* origin, const name* pointTo, const num* angle, const num* distance);
+                                          const OptionalArgument<point>* origin, const name* pointTo, const num* angle, const num* distance);
         ~RelativePointInstruction() override;
 
         bool isValid() override;
         void execute() override;
     private:
-        const point* origin_;
+        const OptionalArgument<point>* origin_;
         const name* pointTo_;
         const num* angle_;
         const num* distance_;

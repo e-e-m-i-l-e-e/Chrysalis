@@ -1,16 +1,21 @@
 #ifndef CHRYSALIS_PATTERNARGUMENT_H
 #define CHRYSALIS_PATTERNARGUMENT_H
 
-#include "BaseArgumentOld.h"
+#include <boost/serialization/export.hpp>
+
 #include "PatternSpace.h"
+#include "arguments/BaseValidArgument.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(PatternArgument): public BaseArgumentOld<PatternSpace*> {
+    class PatternArgument: public BaseValidArgument<PatternSpace*> {
     public:
-        explicit PatternArgument() = default;
-        explicit PatternArgument(PatternSpace* pattern): BaseArgumentOld(pattern) {}
+        explicit PatternArgument(): BaseValidArgument<Chrysalis::PatternSpace*>(nullptr) {}
+        explicit PatternArgument(PatternSpace* pattern): BaseValidArgument(pattern) {}
     };
-    DEFAULT_SERIALIZE_DERIVED_MEMBERS(PatternArgument, BaseArgumentOld<PatternSpace*>)
+    SERIALIZE_DERIVED_MEMBERS(PatternArgument, BaseValidArgument<PatternSpace*>)
 }
+
+// BOOST_CLASS_EXPORT(Chrysalis::BaseValidArgument<Chrysalis::PatternSpace*>)
+// BOOST_CLASS_EXPORT(Chrysalis::PatternArgument)
 
 #endif //CHRYSALIS_PATTERNARGUMENT_H

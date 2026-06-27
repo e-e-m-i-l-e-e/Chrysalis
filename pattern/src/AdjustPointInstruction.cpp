@@ -16,9 +16,9 @@ Chrysalis::AdjustPointInstruction::~AdjustPointInstruction() {
 }
 
 bool Chrysalis::AdjustPointInstruction::isValid() {
-    return pointName_->hasValue() && allPatternsSharePoint(pointName_->get()) &&
-        point1_->isValid() && length1_->hasValue() &&
-        point2_->isValid() && length2_->hasValue();
+    return pointName_->isValid() && allPatternsSharePoint(pointName_->get()) &&
+        point1_->isValid() && length1_->isValid() &&
+        point2_->isValid() && length2_->isValid();
 }
 
 void Chrysalis::AdjustPointInstruction::execute() {

@@ -17,10 +17,10 @@ UnfoldEdgeDartInstruction::~UnfoldEdgeDartInstruction() {
 }
 
 bool UnfoldEdgeDartInstruction::isValid() {
-    return edgePointFrom_->hasValue() && eachPatternHasPoint(edgePointFrom_->get()) &&
-           edgePointTo_->hasValue() && eachPatternHasPoint(edgePointTo_->get()) &&
-           apexPoint_->hasValue() && eachPatternHasPoint(apexPoint_->get()) &&
-           leg1Point_->hasValue() && eachPatternHasPoint(leg1Point_->get()) && intake_->hasValue();
+    return edgePointFrom_->isValid() && eachPatternHasPoint(edgePointFrom_->get()) &&
+           edgePointTo_->isValid() && eachPatternHasPoint(edgePointTo_->get()) &&
+           apexPoint_->isValid() && eachPatternHasPoint(apexPoint_->get()) &&
+           leg1Point_->isValid() && eachPatternHasPoint(leg1Point_->get()) && intake_->isValid();
 }
 
 void UnfoldEdgeDartInstruction::execute() {
