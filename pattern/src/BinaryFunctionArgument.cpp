@@ -1,6 +1,6 @@
 #include "arguments/BinaryFunctionArgument.h"
 
-Chrysalis::BinaryFunctionArgument::BinaryFunctionArgument(const num* operand1, const num* operand2,
+Chrysalis::BinaryFunctionArgument::BinaryFunctionArgument(const args::number* operand1, const args::number* operand2,
                                                           const BinaryFunction* function)
     : operand1_(operand1), operand2_(operand2), function_(function) {}
 

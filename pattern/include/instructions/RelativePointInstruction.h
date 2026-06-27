@@ -19,16 +19,16 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(RelativePointInstruction)
     public:
         explicit RelativePointInstruction(ProjectSpace* space, SelectedPatternsArgument* selectedPatterns,
-                                          const OptionalArgument<point>* origin, const name* pointTo, const num* angle, const num* distance);
+                                          const OptionalArgument<point>* origin, const args::name* pointTo, const args::number* angle, const args::number* distance);
         ~RelativePointInstruction() override;
 
         bool isValid() override;
         void execute() override;
     private:
         const OptionalArgument<point>* origin_;
-        const name* pointTo_;
-        const num* angle_;
-        const num* distance_;
+        const args::name* pointTo_;
+        const args::number* angle_;
+        const args::number* distance_;
     };
     SERIALIZE_DERIVED_MEMBERS(RelativePointInstruction, Chrysalis::BasePatternInstruction, origin_, pointTo_, angle_, distance_)
     SERIALIZATION_CONSTRUCTOR(RelativePointInstruction, space_, selectedPatterns_, origin_, pointTo_, angle_, distance_)

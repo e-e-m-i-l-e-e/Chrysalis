@@ -7,10 +7,11 @@
 namespace Chrysalis {
     class SERIALIZABLE(RayArgument) {
         PROVIDE_SERIALIZATION_ACCESS(RayArgument)
+        class AngleArgument;
     protected:
         explicit RayArgument(const PointArgument* origin, const PointArgument* destination);
     public:
-        explicit RayArgument(const PointArgument* origin, const num* angle);
+        explicit RayArgument(const PointArgument* origin, const args::number* angle);
         virtual ~RayArgument();
 
         virtual bool isValid() const;
@@ -22,7 +23,7 @@ namespace Chrysalis {
         /// @uml{composition}
         const PointArgument* origin_;
         /// @uml{composition}
-        const num* angle_;
+        const args::number* angle_;
     };
     SIMPLE_SERIALIZE_MEMBERS(RayArgument, origin_, angle_)
 }

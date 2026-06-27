@@ -9,19 +9,19 @@
 namespace Chrysalis {
     class SERIALIZABLE(VectorArgument): public RayArgument {
         PROVIDE_SERIALIZATION_ACCESS(VectorArgument)
+        class LengthArgument;
     protected:
         explicit VectorArgument(const PointArgument* origin, const PointArgument* destination);
     public:
-        explicit VectorArgument(const PointArgument* origin, const num* angle, const num* length);
+        explicit VectorArgument(const PointArgument* origin, const args::number* angle, const args::number* length);
 
         ~VectorArgument() override;
 
-        bool isValid() const override;
-
         double getLength() const;
+        bool isValid() const override;
     private:
         /// @uml{composition}
-        const num* length_;
+        const args::number* length_;
     };
     SIMPLE_SERIALIZE_DERIVED_MEMBERS(VectorArgument, RayArgument, origin_, angle_, length_)
 }

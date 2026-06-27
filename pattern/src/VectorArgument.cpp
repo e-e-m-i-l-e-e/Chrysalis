@@ -1,10 +1,26 @@
 #include "arguments/VectorArgument.h"
 
-#include "arguments/LengthArgument.h"
+#include "arguments/BaseCalculatedArgument.h"
 
 using namespace Chrysalis;
 
-VectorArgument::VectorArgument(const PointArgument* origin, const num* angle, const num* length)
+class VectorArgument::LengthArgument: public BaseCalculatedArgument<double> {
+public:
+    explicit LengthArgument(const PointArgument* from, const PointArgument* to): from_(from), to_(to) {}
+
+    bool isValid() const override {
+        return from_->isValid() && to_->isValid();
+    }
+protected:
+    double calculate() const override {
+        return ProjectSpace::length(*from_->get(), *to_->get());
+    }
+private:
+    const PointArgument* from_;
+    const PointArgument* to_;
+};
+
+VectorArgument::VectorArgument(const PointArgument* origin, const args::number* angle, const args::number* length)
     : RayArgument(origin, angle), length_(length) {}
 
 VectorArgument::VectorArgument(const PointArgument* origin, const PointArgument* destination)

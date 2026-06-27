@@ -1,7 +1,7 @@
 #include "instructions/MovePointInstruction.h"
 
 Chrysalis::MovePointInstruction::MovePointInstruction(ProjectSpace* space, SelectedPatternsArgument* patterns,
-                                                      const name* pointName, const num* angle, const num* length)
+                                                      const args::name* pointName, const args::number* angle, const args::number* length)
     : BasePatternInstruction(space, patterns), pointName_(pointName), angle_(angle), length_(length) {}
 
 bool Chrysalis::MovePointInstruction::isValid() {

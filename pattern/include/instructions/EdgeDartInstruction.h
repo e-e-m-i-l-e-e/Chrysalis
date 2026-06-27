@@ -12,18 +12,18 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(EdgeDartInstruction)
     public:
         explicit EdgeDartInstruction(ProjectSpace* space, SelectedPatternsArgument* patterns,
-                                     const name* edgePointFrom, const name* edgePointTo, const vector* dartVector,
-                                     const num* leg1Intake, const OptionalArgument<num>* leg2Intake);
+                                     const args::name* edgePointFrom, const args::name* edgePointTo, const vector* dartVector,
+                                     const args::number* leg1Intake, const OptionalArgument<args::number>* leg2Intake);
         ~EdgeDartInstruction() override;
 
         bool isValid() override;
         void execute() override;
     private:
-        const name* edgePointFrom_;
-        const name* edgePointTo_;
+        const args::name* edgePointFrom_;
+        const args::name* edgePointTo_;
         const vector* dartVector_;
-        const num* leg1Intake_;
-        const OptionalArgument<num>* leg2Intake_;
+        const args::number* leg1Intake_;
+        const OptionalArgument<args::number>* leg2Intake_;
     };
     SERIALIZE_DERIVED_MEMBERS(Chrysalis::EdgeDartInstruction, Chrysalis::BasePatternInstruction, edgePointFrom_, edgePointTo_, dartVector_, leg1Intake_, leg2Intake_)
     SERIALIZATION_CONSTRUCTOR(Chrysalis::EdgeDartInstruction, space_, selectedPatterns_, edgePointFrom_, edgePointTo_, dartVector_, leg1Intake_, leg2Intake_)

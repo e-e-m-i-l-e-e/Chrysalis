@@ -15,8 +15,8 @@ class Name;
 namespace Chrysalis {                                                                                                  \
     class VectorFunction::Name: public VectorFunction {                                                                \
     public:                                                                                                            \
-        double evaluate(const name* pointFrom, const pattern* patternFrom,                                             \
-                        const name* pointTo, const pattern* patternTo) const override;                                 \
+        double evaluate(const args::name* pointFrom, const pattern* patternFrom,                                       \
+                        const args::name* pointTo, const pattern* patternTo) const override;                           \
     };                                                                                                                 \
     SERIALIZE_DERIVED_MEMBERS(VectorFunction::Name, VectorFunction)                                                    \
 }                                                                                                                      \
@@ -33,11 +33,11 @@ namespace Chrysalis {
 
         BOOST_PP_SEQ_FOR_EACH(FORWARD_DECLARE_VECTOR_FUNCTION, _, VECTOR_FUNCTIONS)
 
-        virtual double evaluate(const name* pointFrom, const pattern* patternFrom,
-                                const name* pointTo, const pattern* patternTo) const = 0;
+        virtual double evaluate(const args::name* pointFrom, const pattern* patternFrom,
+                                const args::name* pointTo, const pattern* patternTo) const = 0;
     protected:
-        static double evaluate(const name* pointFrom, const pattern* patternFrom,
-                               const name* pointTo, const pattern* patternTo,
+        static double evaluate(const args::name* pointFrom, const pattern* patternFrom,
+                               const args::name* pointTo, const pattern* patternTo,
                                const std::function<double(const Point& from, const Point& to)>& evaluator);
     };
 }

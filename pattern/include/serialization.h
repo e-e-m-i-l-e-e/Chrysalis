@@ -6,6 +6,40 @@
 #include <boost/serialization/optional.hpp>
 #include <boost/serialization/unordered_map.hpp>
 
+// V2 MACROS
+// --- Intrusive -------------------------------------------------------------------------------------------------------
+#define SERIALIZED                                                                                                     \
+friend boost::serialization::access;                                                                                   \
+template<class Archive>                                                                                                \
+static void serialize(Archive&, const unsigned int) {}                                                                 \
+
+#define SERIALIZE_MEMBER(r, data, field) archive & this->field;
+
+#define SERIALIZE_DERIVED_FROM(Base, ...)                                                                              \
+friend boost::serialization::access;                                                                                   \
+template<class Archive>                                                                                                \
+void serialize(Archive& archive, const unsigned int) {                                                                 \
+  archive & boost::serialization::base_object<Base>(*this);                                                            \
+  __VA_OPT__(                                                                                                          \
+    BOOST_PP_SEQ_FOR_EACH(SERIALIZE_MEMBER, _, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))                                  \
+  )                                                                                                                    \
+}
+// --- Non-intrusive ---------------------------------------------------------------------------------------------------
+#define SERIALIZABLE_T(Class)                                                                                          \
+Class;                                                                                                                 \
+template<class Archive, typename T>                                                                                    \
+void serialize(Archive&, Class<T>&, const unsigned int);                                                               \
+template<class Archive, typename T>                                                                                    \
+void load_construct_data(Archive&, Class<T>*, const unsigned int);                                                     \
+template<class Archive, typename T>                                                                                    \
+void save_construct_data(Archive&, const Class<T>*, const unsigned int);                                               \
+template<typename T>                                                                                                   \
+class Class
+
+#define SERIALIZE_DERIVED_T(Class, Base, ...)                                                                          \
+SERIALIZE_DERIVED_MEMBERS_T(Class, T, Base, __VA_ARGS__)                                                               \
+SERIALIZATION_CONSTRUCTOR_T(Class, T, __VA_ARGS__)
+// ---------------------------------------------------------------------------------------------------------------------
 // --- Forward declarations --------------------------------------------------------------------------------------------
 #define SERIALIZABLE(Class)                                                                                            \
 Class;                                                                                                                 \
@@ -15,17 +49,6 @@ template<class Archive>                                                         
 void load_construct_data(Archive&, Class*, const unsigned int);                                                        \
 template<class Archive>                                                                                                \
 void save_construct_data(Archive&, const Class*, const unsigned int);                                                  \
-class Class
-
-#define SERIALIZABLE_T(Class, T)                                                                                       \
-Class;                                                                                                                 \
-template<class Archive, typename T>                                                                                    \
-void serialize(Archive&, Class<T>&, const unsigned int);                                                               \
-template<class Archive, typename T>                                                                                    \
-void load_construct_data(Archive&, Class<T>*, const unsigned int);                                                     \
-template<class Archive, typename T>                                                                                    \
-void save_construct_data(Archive&, const Class<T>*, const unsigned int);                                               \
-template<typename T>                                                                                                   \
 class Class
 
 #define SERIALIZABLE_T_DERIVED_FROM(Class, T, Base)                                                                    \

@@ -8,7 +8,7 @@ namespace Chrysalis {
     class SERIALIZABLE(PointArgument) {
         PROVIDE_SERIALIZATION_ACCESS(PointArgument)
     public:
-        explicit PointArgument(const name* pointName, const PatternArgument* pattern);
+        explicit PointArgument(const args::name* pointName, const PatternArgument* pattern);
         ~PointArgument();
 
         bool isValid() const;
@@ -16,7 +16,7 @@ namespace Chrysalis {
         const std::string& getName() const;
     private:
         /// @uml{composition}
-        const name* pointName_;
+        const args::name* pointName_;
         /// @uml{composition}
         const PatternArgument* pattern_;
     };

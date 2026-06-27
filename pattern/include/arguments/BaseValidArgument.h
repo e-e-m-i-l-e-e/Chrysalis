@@ -4,12 +4,18 @@
 #include <boost/serialization/export.hpp>
 
 #include "BaseArgument.h"
-#include "serialization.h"
+#include "BaseValidArgument.h"
 
 namespace Chrysalis {
+    class NameArgument;
+    class NumberArgument;
+
     template<typename T>
-    class SERIALIZABLE_T(BaseValidArgument, T): public BaseArgument<T> {
+    class SERIALIZABLE_T(BaseValidArgument): public BaseArgument<T> {
         PROVIDE_SERIALIZATION_ACCESS_T(BaseValidArgument)
+        // SERIALIZE_DERIVED_FROM(BaseArgument<T>)
+        // PROVIDE_SERIALIZATION_ACCESS(NameArgument)
+        // PROVIDE_SERIALIZATION_ACCESS(NumberArgument)
     protected:
         explicit BaseValidArgument(const T& value): value_(value) {}
     public:
@@ -22,8 +28,7 @@ namespace Chrysalis {
     private:
         T value_;
     };
-    SERIALIZATION_CONSTRUCTOR_T(BaseValidArgument, T, value_)
-    SERIALIZE_DERIVED_MEMBERS_T(BaseValidArgument, T, BaseArgument, value_)
+    SERIALIZE_DERIVED_T(BaseValidArgument, BaseArgument, value_)
 
     class NumberArgument: public BaseValidArgument<double> {
     public:
@@ -31,6 +36,7 @@ namespace Chrysalis {
         explicit NumberArgument(const double& value): BaseValidArgument(value) {}
     };
     SERIALIZE_DERIVED_MEMBERS(NumberArgument, BaseValidArgument<double>)
+    // SIMPLE_SERIALIZE_DERIVED_MEMBERS(NumberArgument, BaseValidArgument<double>, value_)
 
     class NameArgument: public BaseValidArgument<std::string> {
     public:
@@ -38,11 +44,10 @@ namespace Chrysalis {
         explicit NameArgument(const std::string& value): BaseValidArgument(value) {}
     };
     SERIALIZE_DERIVED_MEMBERS(NameArgument, BaseValidArgument<std::string>)
+    // SIMPLE_SERIALIZE_DERIVED_MEMBERS(NameArgument, BaseValidArgument<std::string>, value_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::NameArgument)
 BOOST_CLASS_EXPORT_KEY(Chrysalis::NumberArgument)
-BOOST_CLASS_EXPORT_KEY(Chrysalis::BaseValidArgument<std::string>)
-BOOST_CLASS_EXPORT_KEY(Chrysalis::BaseValidArgument<double>)
 
 #endif //CHRYSALIS_BASEVALIDARGUMENT_H

@@ -7,7 +7,7 @@
 
 namespace Chrysalis {
     template <typename T>
-    class SERIALIZABLE_T(BaseContainer, T) {
+    class SERIALIZABLE_T(BaseContainer) {
         PROVIDE_SERIALIZATION_ACCESS_T(BaseContainer)
     protected:
         explicit BaseContainer() = default;

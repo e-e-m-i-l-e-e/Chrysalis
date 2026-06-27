@@ -18,14 +18,14 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(BuildOutlineInstruction)
     public:
         explicit BuildOutlineInstruction(ProjectSpace* space, SelectedPatternsArgument* selectedPatterns,
-                                         OptionalArgument<name>* outlineName, name* point);
+                                         OptionalArgument<args::name>* outlineName, args::name* point);
         ~BuildOutlineInstruction() override;
 
         void execute() override;
         bool isValid() override;
     private:
-        OptionalArgument<name>* outlineName_;
-        name* point_;
+        OptionalArgument<args::name>* outlineName_;
+        args::name* point_;
     };
     SERIALIZE_DERIVED_MEMBERS(BuildOutlineInstruction, BasePatternInstruction, outlineName_, point_)
     SERIALIZATION_CONSTRUCTOR(BuildOutlineInstruction, space_, selectedPatterns_, outlineName_, point_)

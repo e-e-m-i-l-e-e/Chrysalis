@@ -9,12 +9,6 @@ namespace Chrysalis {
     protected:
         explicit BaseContainerArgument() = default;
     public:
-        virtual ~BaseContainerArgument() {
-            for (const auto& item: items_) {
-                delete item;
-            }
-        }
-
         void add(T* item) {
             items_.push_back(item);
         }

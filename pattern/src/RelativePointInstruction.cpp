@@ -3,7 +3,7 @@
 using namespace Chrysalis;
 
 RelativePointInstruction::RelativePointInstruction(ProjectSpace* space, SelectedPatternsArgument* selectedPatterns,
-                                                   const OptionalArgument<point>* origin, const name* pointTo, const num* angle, const num* distance)
+                                                   const OptionalArgument<point>* origin, const args::name* pointTo, const args::number* angle, const args::number* distance)
     : BasePatternInstruction(space, selectedPatterns), origin_(origin), pointTo_(pointTo), angle_(angle),
       distance_(distance) {}
 

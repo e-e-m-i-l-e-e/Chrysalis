@@ -2,11 +2,13 @@
 #define CHRYSALIS_BASEARGUMENT_H
 
 #include <string>
+
 #include "serialization.h"
 
 namespace Chrysalis {
     template<typename T>
-    class SERIALIZABLE_T(BaseArgument, T) {
+    class BaseArgument {
+        SERIALIZED
     protected:
         explicit BaseArgument() = default;
     public:
@@ -15,10 +17,11 @@ namespace Chrysalis {
         virtual bool isValid() const = 0;
         virtual const T& get() const = 0;
     };
-    DEFAULT_SERIALIZE_BASE_MEMBERS_T(BaseArgument, T)
 
-    using num = BaseArgument<double>;
-    using name = BaseArgument<std::string>;
+    namespace args {
+        using number = BaseArgument<double>;
+        using name = BaseArgument<std::string>;
+    }
 }
 
 #endif //CHRYSALIS_BASEARGUMENT_H

@@ -153,7 +153,7 @@ __
 }
 class "Chrysalis::PointArgument" as C_0018004126894338009278
 class C_0018004126894338009278 {
-+PointArgument(const name * pointName, const PatternArgument * pattern) : void
++PointArgument(const args::name * pointName, const PatternArgument * pattern) : void
 +~PointArgument() : void
 ..
 +get() const : const Point *
@@ -161,7 +161,7 @@ class C_0018004126894338009278 {
 +isValid() const : bool
 __
 -pattern_ : const PatternArgument *
--pointName_ : const name *
+-pointName_ : const args::name *
 }
 class "Chrysalis::BaseArgument<double>" as C_0001471877624587876994
 class C_0001471877624587876994 {
@@ -170,7 +170,7 @@ __
 class "Chrysalis::RayArgument" as C_0013359262213725603488
 class C_0013359262213725603488 {
 #RayArgument(const PointArgument * origin, const PointArgument * destination) : void
-+RayArgument(const PointArgument * origin, const num * angle) : void
++RayArgument(const PointArgument * origin, const args::number * angle) : void
 +~RayArgument() : void
 ..
 +getAngle() const : double
@@ -178,19 +178,19 @@ class C_0013359262213725603488 {
 +getOriginName() const : const std::string &
 +isValid() const : bool
 __
-#angle_ : const num *
+#angle_ : const args::number *
 #origin_ : const PointArgument *
 }
 class "Chrysalis::VectorArgument" as C_0000793764540388360553
 class C_0000793764540388360553 {
 #VectorArgument(const PointArgument * origin, const PointArgument * destination) : void
-+VectorArgument(const PointArgument * origin, const num * angle, const num * length) : void
++VectorArgument(const PointArgument * origin, const args::number * angle, const args::number * length) : void
 +~VectorArgument() : void
 ..
 +getLength() const : double
 +isValid() const : bool
 __
--length_ : const num *
+-length_ : const args::number *
 }
 class "Chrysalis::SelectedPatterns" as C_0017992245358367024427
 class C_0017992245358367024427 {
@@ -227,36 +227,30 @@ __
 }
 class "Chrysalis::AdjustPointInstruction" as C_0015207408312915139868
 class C_0015207408312915139868 {
-+AdjustPointInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const name * pointName, const point * point1, const num * length1, const point * point2, const num * length2) : void
++AdjustPointInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const args::name * pointName, const point * point1, const args::number * length1, const point * point2, const args::number * length2) : void
 +~AdjustPointInstruction() : void
 ..
 +execute() : void
 +isValid() : bool
 __
--length1_ : const num *
--length2_ : const num *
+-length1_ : const args::number *
+-length2_ : const args::number *
 -point1_ : const point *
 -point2_ : const point *
--pointName_ : const name *
+-pointName_ : const args::name *
 }
-abstract "Chrysalis::BaseCalculatedArgument<T>" as C_0006837253732787679527
-abstract C_0006837253732787679527 {
-#BaseCalculatedArgument() = default : void
-#BaseCalculatedArgument(const T & value) : void
-..
-{abstract} #calculate() const = 0 : T
-+get() const : const T &
+class "Chrysalis::VectorArgument::LengthArgument" as C_0002143347426146588036
+class C_0002143347426146588036 {
++LengthArgument(const PointArgument * from, const PointArgument * to) : void
+#calculate() const : double
++isValid() const : bool
 __
--value_ : boost::optional<T>
+-from_ : const PointArgument *
+-to_ : const PointArgument *
 }
-class "Chrysalis::BaseCalculatedArgument<double>" as C_0014304995755461162082
-class C_0014304995755461162082 {
-__
-}
-class "Chrysalis::AngleArgument" as C_0016034668052394152315
-class C_0016034668052394152315 {
+class "Chrysalis::RayArgument::AngleArgument" as C_0002732319159080533190
+class C_0002732319159080533190 {
 +AngleArgument(const PointArgument * from, const PointArgument * to) : void
-..
 #calculate() const : double
 +isValid() const : bool
 __
@@ -282,41 +276,55 @@ abstract C_0007965462709904309096 {
 #BinaryFunction() = default : void
 +~BinaryFunction() constexpr = default : void
 ..
-{abstract} +evaluate(const num * operand1, const num * operand2) const = 0 : double
-{static} #evaluate(const num * operand1, const num * operand2, const std::function<double (double,double)> & evaluator) : double
+{abstract} +evaluate(const args::number * operand1, const args::number * operand2) const = 0 : double
+{static} #evaluate(const args::number * operand1, const args::number * operand2, const std::function<double (double,double)> & evaluator) : double
 __
 }
 class "Chrysalis::BinaryFunction::Add" as C_0011428982129595746053
 class C_0011428982129595746053 {
-+evaluate(const num * operand1, const num * operand2) const : double
++evaluate(const args::number * operand1, const args::number * operand2) const : double
 __
 }
 class "Chrysalis::BinaryFunction::Subtract" as C_0013667873678198727522
 class C_0013667873678198727522 {
-+evaluate(const num * operand1, const num * operand2) const : double
++evaluate(const args::number * operand1, const args::number * operand2) const : double
 __
 }
 class "Chrysalis::BinaryFunction::Multiply" as C_0018089401781767894990
 class C_0018089401781767894990 {
-+evaluate(const num * operand1, const num * operand2) const : double
++evaluate(const args::number * operand1, const args::number * operand2) const : double
 __
 }
 class "Chrysalis::BinaryFunction::Divide" as C_0002897019908582465539
 class C_0002897019908582465539 {
-+evaluate(const num * operand1, const num * operand2) const : double
++evaluate(const args::number * operand1, const args::number * operand2) const : double
+__
+}
+abstract "Chrysalis::BaseCalculatedArgument<T>" as C_0006837253732787679527
+abstract C_0006837253732787679527 {
+#BaseCalculatedArgument() = default : void
+#BaseCalculatedArgument(const T & value) : void
+..
+{abstract} #calculate() const = 0 : T
++get() const : const T &
+__
+-value_ : boost::optional<T>
+}
+class "Chrysalis::BaseCalculatedArgument<double>" as C_0014304995755461162082
+class C_0014304995755461162082 {
 __
 }
 class "Chrysalis::BinaryFunctionArgument" as C_0001365093100257756951
 class C_0001365093100257756951 {
-+BinaryFunctionArgument(const num * operand1, const num * operand2, const BinaryFunction * function) : void
++BinaryFunctionArgument(const args::number * operand1, const args::number * operand2, const BinaryFunction * function) : void
 +~BinaryFunctionArgument() : void
 ..
 #calculate() const : double
 +isValid() const : bool
 __
 -function_ : const BinaryFunction *
--operand1_ : const num *
--operand2_ : const num *
+-operand1_ : const args::number *
+-operand2_ : const args::number *
 }
 class "Chrysalis::OptionalArgument<T>" as C_0007143007386227679224
 class C_0007143007386227679224 {
@@ -335,14 +343,14 @@ __
 }
 class "Chrysalis::BuildOutlineInstruction" as C_0014956221374281501729
 class C_0014956221374281501729 {
-+BuildOutlineInstruction(ProjectSpace * space, SelectedPatternsArgument * selectedPatterns, Chrysalis::OptionalArgument<name> * outlineName, name * point) : void
++BuildOutlineInstruction(ProjectSpace * space, SelectedPatternsArgument * selectedPatterns, Chrysalis::OptionalArgument<args::name> * outlineName, args::name * point) : void
 +~BuildOutlineInstruction() : void
 ..
 +execute() : void
 +isValid() : bool
 __
--outlineName_ : OptionalArgument<name> *
--point_ : name *
+-outlineName_ : OptionalArgument<args::name> *
+-point_ : args::name *
 }
 class "Chrysalis::OptionalArgument<Chrysalis::BaseArgument<double>>" as C_0011702185653775348063
 class C_0011702185653775348063 {
@@ -350,29 +358,29 @@ __
 }
 class "Chrysalis::EdgeDartInstruction" as C_0006235137811850856059
 class C_0006235137811850856059 {
-+EdgeDartInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const name * edgePointFrom, const name * edgePointTo, const vector * dartVector, const num * leg1Intake, const Chrysalis::OptionalArgument<num> * leg2Intake) : void
++EdgeDartInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const args::name * edgePointFrom, const args::name * edgePointTo, const vector * dartVector, const args::number * leg1Intake, const Chrysalis::OptionalArgument<args::number> * leg2Intake) : void
 +~EdgeDartInstruction() : void
 ..
 +execute() : void
 +isValid() : bool
 __
 -dartVector_ : const vector *
--edgePointFrom_ : const name *
--edgePointTo_ : const name *
--leg1Intake_ : const num *
--leg2Intake_ : const OptionalArgument<num> *
+-edgePointFrom_ : const args::name *
+-edgePointTo_ : const args::name *
+-leg1Intake_ : const args::number *
+-leg2Intake_ : const OptionalArgument<args::number> *
 }
 class "Chrysalis::FreePointInstruction" as C_0014778024850504188725
 class C_0014778024850504188725 {
-+FreePointInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const name * pointName, const num * x, const num * y) : void
++FreePointInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const args::name * pointName, const args::number * x, const args::number * y) : void
 +~FreePointInstruction() : void
 ..
 +execute() : void
 +isValid() : bool
 __
--pointName_ : const name *
--x_ : const num *
--y_ : const num *
+-pointName_ : const args::name *
+-x_ : const args::number *
+-y_ : const args::number *
 }
 class "Chrysalis::BaseInstructionsContainer<T>" as C_0009832473294063137986
 class C_0009832473294063137986 {
@@ -403,39 +411,29 @@ __
 }
 class "Chrysalis::IntersectionPointInstruction" as C_0007970185002355349518
 class C_0007970185002355349518 {
-+IntersectionPointInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const name * pointName, const name * pointFrom1, const name * pointTo1, const name * pointFrom2, const name * pointTo2) : void
++IntersectionPointInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const args::name * pointName, const args::name * pointFrom1, const args::name * pointTo1, const args::name * pointFrom2, const args::name * pointTo2) : void
 +~IntersectionPointInstruction() : void
 ..
 +execute() : void
 +isValid() : bool
 __
--pointFrom1_ : const name *
--pointFrom2_ : const name *
--pointName_ : const name *
--pointTo1_ : const name *
--pointTo2_ : const name *
-}
-class "Chrysalis::LengthArgument" as C_0011056861833090283034
-class C_0011056861833090283034 {
-+LengthArgument(const PointArgument * from, const PointArgument * to) : void
-..
-#calculate() const : double
-+isValid() const : bool
-__
--from_ : const PointArgument *
--to_ : const PointArgument *
+-pointFrom1_ : const args::name *
+-pointFrom2_ : const args::name *
+-pointName_ : const args::name *
+-pointTo1_ : const args::name *
+-pointTo2_ : const args::name *
 }
 class "Chrysalis::MovePointInstruction" as C_0017478559692109379194
 class C_0017478559692109379194 {
-+MovePointInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const name * pointName, const num * angle, const num * length) : void
++MovePointInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const args::name * pointName, const args::number * angle, const args::number * length) : void
 +~MovePointInstruction() constexpr = default : void
 ..
 +execute() : void
 +isValid() : bool
 __
--angle_ : const num *
--length_ : const num *
--pointName_ : const name *
+-angle_ : const args::number *
+-length_ : const args::number *
+-pointName_ : const args::name *
 }
 class "Chrysalis::Parameter" as C_0012811662139665247956
 class C_0012811662139665247956 {
@@ -533,23 +531,23 @@ abstract C_0007765536925596756322 {
 #VectorFunction() = default : void
 +~VectorFunction() constexpr = default : void
 ..
-{abstract} +evaluate(const name * pointFrom, const pattern * patternFrom, const name * pointTo, const pattern * patternTo) const = 0 : double
-{static} #evaluate(const name * pointFrom, const pattern * patternFrom, const name * pointTo, const pattern * patternTo, const std::function<double (const Point &,const Point &)> & evaluator) : double
+{abstract} +evaluate(const args::name * pointFrom, const pattern * patternFrom, const args::name * pointTo, const pattern * patternTo) const = 0 : double
+{static} #evaluate(const args::name * pointFrom, const pattern * patternFrom, const args::name * pointTo, const pattern * patternTo, const std::function<double (const Point &,const Point &)> & evaluator) : double
 __
 }
 class "Chrysalis::VectorFunction::Length" as C_0002552188195223875084
 class C_0002552188195223875084 {
-+evaluate(const name * pointFrom, const pattern * patternFrom, const name * pointTo, const pattern * patternTo) const : double
++evaluate(const args::name * pointFrom, const pattern * patternFrom, const args::name * pointTo, const pattern * patternTo) const : double
 __
 }
 class "Chrysalis::VectorFunction::Angle" as C_0005052358648474368195
 class C_0005052358648474368195 {
-+evaluate(const name * pointFrom, const pattern * patternFrom, const name * pointTo, const pattern * patternTo) const : double
++evaluate(const args::name * pointFrom, const pattern * patternFrom, const args::name * pointTo, const pattern * patternTo) const : double
 __
 }
 class "Chrysalis::VectorFunctionArgument" as C_0014380000036712777437
 class C_0014380000036712777437 {
-+VectorFunctionArgument(const name * pointFrom, const pattern * patternFrom, const name * pointTo, const pattern * patternTo, const VectorFunction * function) : void
++VectorFunctionArgument(const args::name * pointFrom, const pattern * patternFrom, const args::name * pointTo, const pattern * patternTo, const VectorFunction * function) : void
 +~VectorFunctionArgument() : void
 ..
 #calculate() const : double
@@ -558,8 +556,8 @@ __
 -function_ : const VectorFunction *
 -patternFrom_ : const pattern *
 -patternTo_ : const pattern *
--pointFrom_ : const name *
--pointTo_ : const name *
+-pointFrom_ : const args::name *
+-pointTo_ : const args::name *
 }
 class "Chrysalis::OptionalArgument<Chrysalis::point>" as C_0001482898368832922252
 class C_0001482898368832922252 {
@@ -567,30 +565,30 @@ __
 }
 class "Chrysalis::RelativePointInstruction" as C_0004936461079814340647
 class C_0004936461079814340647 {
-+RelativePointInstruction(ProjectSpace * space, SelectedPatternsArgument * selectedPatterns, const Chrysalis::OptionalArgument<point> * origin, const name * pointTo, const num * angle, const num * distance) : void
++RelativePointInstruction(ProjectSpace * space, SelectedPatternsArgument * selectedPatterns, const Chrysalis::OptionalArgument<point> * origin, const args::name * pointTo, const args::number * angle, const args::number * distance) : void
 +~RelativePointInstruction() : void
 ..
 +execute() : void
 +isValid() : bool
 __
--angle_ : const num *
--distance_ : const num *
+-angle_ : const args::number *
+-distance_ : const args::number *
 -origin_ : const OptionalArgument<point> *
--pointTo_ : const name *
+-pointTo_ : const args::name *
 }
 class "Chrysalis::UnfoldEdgeDartInstruction" as C_0013671800093242345687
 class C_0013671800093242345687 {
-+UnfoldEdgeDartInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const name * edgePointFrom, const name * edgePointTo, const name * apexPoint, const name * leg1Point, const num * intake) : void
++UnfoldEdgeDartInstruction(ProjectSpace * space, SelectedPatternsArgument * patterns, const args::name * edgePointFrom, const args::name * edgePointTo, const args::name * apexPoint, const args::name * leg1Point, const args::number * intake) : void
 +~UnfoldEdgeDartInstruction() : void
 ..
 +execute() : void
 +isValid() : bool
 __
--apexPoint_ : const name *
--edgePointFrom_ : const name *
--edgePointTo_ : const name *
--intake_ : const num *
--leg1Point_ : const name *
+-apexPoint_ : const args::name *
+-edgePointFrom_ : const args::name *
+-edgePointTo_ : const args::name *
+-intake_ : const args::number *
+-leg1Point_ : const args::name *
 }
 class "Chrysalis::SegmentArgument" as C_0002481955606888948453
 class C_0002481955606888948453 {
@@ -648,11 +646,14 @@ C_0015207408312915139868 --> C_0018004126894338009278 : -point2_
 C_0015207408312915139868 --> C_0001471877624587876994 : -length2_
 C_0015207408312915139868 --> C_0004566211642871539975 : -length2_
 C_0012361199867370331426 <|-- C_0015207408312915139868
-C_0004566211642871539975 <|-- C_0006837253732787679527
-C_0014304995755461162082 ..|> C_0006837253732787679527
-C_0016034668052394152315 --> C_0018004126894338009278 : -from_
-C_0016034668052394152315 --> C_0018004126894338009278 : -to_
-C_0014304995755461162082 <|-- C_0016034668052394152315
+C_0002143347426146588036 --+ C_0000793764540388360553
+C_0002143347426146588036 --> C_0018004126894338009278 : -from_
+C_0002143347426146588036 --> C_0018004126894338009278 : -to_
+C_0014304995755461162082 <|-- C_0002143347426146588036
+C_0002732319159080533190 --+ C_0013359262213725603488
+C_0002732319159080533190 --> C_0018004126894338009278 : -from_
+C_0002732319159080533190 --> C_0018004126894338009278 : -to_
+C_0014304995755461162082 <|-- C_0002732319159080533190
 C_0011428982129595746053 --+ C_0007965462709904309096
 C_0007965462709904309096 <|-- C_0011428982129595746053
 C_0013667873678198727522 --+ C_0007965462709904309096
@@ -661,6 +662,8 @@ C_0018089401781767894990 --+ C_0007965462709904309096
 C_0007965462709904309096 <|-- C_0018089401781767894990
 C_0002897019908582465539 --+ C_0007965462709904309096
 C_0007965462709904309096 <|-- C_0002897019908582465539
+C_0004566211642871539975 <|-- C_0006837253732787679527
+C_0014304995755461162082 ..|> C_0006837253732787679527
 C_0001365093100257756951 *-- C_0001471877624587876994 : -operand1_
 C_0001365093100257756951 *-- C_0004566211642871539975 : -operand1_
 C_0001365093100257756951 *-- C_0001471877624587876994 : -operand2_
@@ -713,9 +716,6 @@ C_0007970185002355349518 --> C_0004566211642871539975 : -pointFrom2_
 C_0007970185002355349518 --> C_0005387570045788273291 : -pointTo2_
 C_0007970185002355349518 --> C_0004566211642871539975 : -pointTo2_
 C_0012361199867370331426 <|-- C_0007970185002355349518
-C_0011056861833090283034 --> C_0018004126894338009278 : -from_
-C_0011056861833090283034 --> C_0018004126894338009278 : -to_
-C_0014304995755461162082 <|-- C_0011056861833090283034
 C_0017478559692109379194 --> C_0005387570045788273291 : -pointName_
 C_0017478559692109379194 --> C_0004566211642871539975 : -pointName_
 C_0017478559692109379194 --> C_0001471877624587876994 : -angle_
@@ -947,15 +947,11 @@ skinparam class<<Container>> {
 
   
   
- class C_0006837253732787679527 <<Base>> 
+ class C_0002143347426146588036 <<Argument>> 
 
   
   
- class C_0014304995755461162082 <<Base>> 
-
-  
-  
- class C_0016034668052394152315 <<Argument>> 
+ class C_0002732319159080533190 <<Argument>> 
 
   
   
@@ -980,6 +976,14 @@ skinparam class<<Container>> {
   
   
  class C_0002897019908582465539 <<Function>> 
+
+  
+  
+ class C_0006837253732787679527 <<Base>> 
+
+  
+  
+ class C_0014304995755461162082 <<Base>> 
 
   
   
@@ -1032,10 +1036,6 @@ skinparam class<<Container>> {
   
   
  class C_0007970185002355349518 <<Instruction>> 
-
-  
-  
- class C_0011056861833090283034 <<Argument>> 
 
   
   

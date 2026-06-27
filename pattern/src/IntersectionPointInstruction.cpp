@@ -3,9 +3,9 @@
 using namespace Chrysalis;
 
 IntersectionPointInstruction::IntersectionPointInstruction(ProjectSpace* space, SelectedPatternsArgument* patterns,
-                                                           const name* pointName,
-                                                           const name* pointFrom1, const name* pointTo1,
-                                                           const name* pointFrom2, const name* pointTo2)
+                                                           const args::name* pointName,
+                                                           const args::name* pointFrom1, const args::name* pointTo1,
+                                                           const args::name* pointFrom2, const args::name* pointTo2)
     : BasePatternInstruction(space, patterns), pointName_(pointName), pointFrom1_(pointFrom1), pointTo1_(pointTo1),
                                                pointFrom2_(pointFrom2), pointTo2_(pointTo2) {}
 

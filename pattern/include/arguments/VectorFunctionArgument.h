@@ -15,8 +15,8 @@ namespace Chrysalis {
     class SERIALIZABLE(VectorFunctionArgument): public BaseCalculatedArgument<double> {
         PROVIDE_SERIALIZATION_ACCESS(VectorFunctionArgument)
     public:
-        explicit VectorFunctionArgument(const name* pointFrom, const pattern* patternFrom,
-                                        const name* pointTo, const pattern* patternTo,
+        explicit VectorFunctionArgument(const args::name* pointFrom, const pattern* patternFrom,
+                                        const args::name* pointTo, const pattern* patternTo,
                                         const VectorFunction* function);
         ~VectorFunctionArgument() override;
 
@@ -25,11 +25,11 @@ namespace Chrysalis {
         double calculate() const override;
     private:
         /// @uml{composition}
-        const name* pointFrom_;
+        const args::name* pointFrom_;
         /// @uml{composition}
         const pattern* patternFrom_;
         /// @uml{composition}
-        const name* pointTo_;
+        const args::name* pointTo_;
         /// @uml{composition}
         const pattern* patternTo_;
         /// @uml{composition}

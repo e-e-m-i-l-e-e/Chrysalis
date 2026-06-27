@@ -1,7 +1,7 @@
 #include "arguments/VectorFunctionArgument.h"
 
-Chrysalis::VectorFunctionArgument::VectorFunctionArgument(const name* pointFrom, const pattern* patternFrom,
-                                                          const name* pointTo, const pattern* patternTo,
+Chrysalis::VectorFunctionArgument::VectorFunctionArgument(const args::name* pointFrom, const pattern* patternFrom,
+                                                          const args::name* pointTo, const pattern* patternTo,
                                                           const VectorFunction* function)
     : pointFrom_(pointFrom), patternFrom_(patternFrom), pointTo_(pointTo), patternTo_(patternTo), function_(function) {}
 

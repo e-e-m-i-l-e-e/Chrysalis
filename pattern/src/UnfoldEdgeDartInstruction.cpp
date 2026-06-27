@@ -3,8 +3,8 @@
 using namespace Chrysalis;
 
 UnfoldEdgeDartInstruction::UnfoldEdgeDartInstruction(ProjectSpace* space, SelectedPatternsArgument* patterns,
-                                                     const name* edgePointFrom, const name* edgePointTo,
-                                                     const name* apexPoint, const name* leg1Point, const num* intake)
+                                                     const args::name* edgePointFrom, const args::name* edgePointTo,
+                                                     const args::name* apexPoint, const args::name* leg1Point, const args::number* intake)
     : BasePatternInstruction(space, patterns), edgePointFrom_(edgePointFrom), edgePointTo_(edgePointTo),
       apexPoint_(apexPoint), leg1Point_(leg1Point), intake_(intake) {}
 

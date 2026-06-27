@@ -2,15 +2,13 @@
 #define CHRYSALIS_BASECACHABLEARGUMENT_H
 
 #include <boost/optional/optional.hpp>
-#include <boost/serialization/export.hpp>
 
-#include "BaseArgument.h"
-#include "serialization.h"
+#include "arguments/BaseArgument.h"
 
 namespace Chrysalis {
     template<typename T>
-    class SERIALIZABLE_T(BaseCalculatedArgument, T): public BaseArgument<T> {
-        PROVIDE_SERIALIZATION_ACCESS_T(BaseCalculatedArgument)
+    class BaseCalculatedArgument: public BaseArgument<T> {
+        SERIALIZE_DERIVED_FROM(BaseArgument<T>, value_)
     protected:
         explicit BaseCalculatedArgument() = default;
         explicit BaseCalculatedArgument(const T& value): value_(value) {}
@@ -24,10 +22,6 @@ namespace Chrysalis {
     private:
         mutable boost::optional<T> value_;
     };
-    SERIALIZATION_CONSTRUCTOR_T(BaseCalculatedArgument, T, value_)
-    SERIALIZE_DERIVED_MEMBERS_T(BaseCalculatedArgument, T, BaseArgument, value_)
 }
-
-BOOST_CLASS_EXPORT_KEY(Chrysalis::BaseCalculatedArgument<double>)
 
 #endif //CHRYSALIS_BASECACHABLEARGUMENT_H

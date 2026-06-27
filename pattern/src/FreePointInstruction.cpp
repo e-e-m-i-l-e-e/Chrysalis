@@ -3,7 +3,7 @@
 using namespace Chrysalis;
 
 FreePointInstruction::FreePointInstruction(ProjectSpace* space, SelectedPatternsArgument* patterns,
-                                           const name* pointName, const num* x, const num* y)
+                                           const args::name* pointName, const args::number* x, const args::number* y)
     : BasePatternInstruction(space, patterns), pointName_(pointName), x_(x), y_(y) {}
 
 FreePointInstruction::~FreePointInstruction() {

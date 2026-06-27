@@ -1,9 +1,9 @@
 #include "instructions/AdjustPointInstruction.h"
 
 Chrysalis::AdjustPointInstruction::AdjustPointInstruction(ProjectSpace* space, SelectedPatternsArgument* patterns,
-                                                          const name* pointName,
-                                                          const point* point1, const num* length1,
-                                                          const point* point2, const num* length2)
+                                                          const args::name* pointName,
+                                                          const point* point1, const args::number* length1,
+                                                          const point* point2, const args::number* length2)
     : BasePatternInstruction(space, patterns), pointName_(pointName), point1_(point1), length1_(length1),
       point2_(point2), length2_(length2) {}
 

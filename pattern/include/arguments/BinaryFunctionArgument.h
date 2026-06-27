@@ -8,7 +8,7 @@ namespace Chrysalis {
     class SERIALIZABLE(BinaryFunctionArgument): public BaseCalculatedArgument<double> {
         PROVIDE_SERIALIZATION_ACCESS(BinaryFunctionArgument)
     public:
-        explicit BinaryFunctionArgument(const num* operand1, const num* operand2, const BinaryFunction* function);
+        explicit BinaryFunctionArgument(const args::number* operand1, const args::number* operand2, const BinaryFunction* function);
         ~BinaryFunctionArgument() override;
 
         bool isValid() const override;
@@ -16,9 +16,9 @@ namespace Chrysalis {
         double calculate() const override;
     private:
         /// @uml{composition}
-        const num* operand1_;
+        const args::number* operand1_;
         /// @uml{composition}
-        const num* operand2_;
+        const args::number* operand2_;
         /// @uml{composition}
         const BinaryFunction* function_;
     };

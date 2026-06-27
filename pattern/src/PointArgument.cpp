@@ -2,7 +2,7 @@
 
 using namespace Chrysalis;
 
-PointArgument::PointArgument(const name* pointName, const PatternArgument* pattern)
+PointArgument::PointArgument(const args::name* pointName, const PatternArgument* pattern)
     : pointName_(pointName), pattern_(pattern) {}
 
 PointArgument::~PointArgument() {
