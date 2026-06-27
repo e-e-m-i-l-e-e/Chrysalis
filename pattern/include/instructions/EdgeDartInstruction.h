@@ -6,12 +6,13 @@
 #include "BasePatternInstruction.h"
 #include "EdgeDartInstruction.h"
 #include "arguments/OptionalArgument.h"
+#include "arguments/PatternsContainerArgument.h"
 
 namespace Chrysalis {
     class SERIALIZABLE(EdgeDartInstruction): public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(EdgeDartInstruction)
     public:
-        explicit EdgeDartInstruction(ProjectSpace* space, SelectedPatternsArgument* patterns,
+        explicit EdgeDartInstruction(ProjectSpace* space, args::patterns* patterns,
                                      const args::name* edgePointFrom, const args::name* edgePointTo, const vector* dartVector,
                                      const args::number* leg1Intake, const OptionalArgument<args::number>* leg2Intake);
         ~EdgeDartInstruction() override;
@@ -26,7 +27,7 @@ namespace Chrysalis {
         const OptionalArgument<args::number>* leg2Intake_;
     };
     SERIALIZE_DERIVED_MEMBERS(Chrysalis::EdgeDartInstruction, Chrysalis::BasePatternInstruction, edgePointFrom_, edgePointTo_, dartVector_, leg1Intake_, leg2Intake_)
-    SERIALIZATION_CONSTRUCTOR(Chrysalis::EdgeDartInstruction, space_, selectedPatterns_, edgePointFrom_, edgePointTo_, dartVector_, leg1Intake_, leg2Intake_)
+    SERIALIZATION_CONSTRUCTOR(Chrysalis::EdgeDartInstruction, space_, patterns_, edgePointFrom_, edgePointTo_, dartVector_, leg1Intake_, leg2Intake_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::EdgeDartInstruction)

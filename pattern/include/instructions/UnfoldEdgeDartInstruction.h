@@ -9,7 +9,7 @@ namespace Chrysalis {
     class SERIALIZABLE(UnfoldEdgeDartInstruction): public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(UnfoldEdgeDartInstruction)
     public:
-        explicit UnfoldEdgeDartInstruction(ProjectSpace* space, SelectedPatternsArgument* patterns,
+        explicit UnfoldEdgeDartInstruction(ProjectSpace* space, args::patterns* patterns,
                                            const args::name* edgePointFrom, const args::name* edgePointTo,
                                            const args::name* apexPoint, const args::name* leg1Point, const args::number* intake);
         ~UnfoldEdgeDartInstruction() override;
@@ -24,7 +24,7 @@ namespace Chrysalis {
         const args::number* intake_;
     };
     SERIALIZE_DERIVED_MEMBERS(UnfoldEdgeDartInstruction, BasePatternInstruction, edgePointFrom_, edgePointTo_, apexPoint_, leg1Point_, intake_)
-    SERIALIZATION_CONSTRUCTOR(UnfoldEdgeDartInstruction, space_, selectedPatterns_, edgePointFrom_, edgePointTo_, apexPoint_, leg1Point_, intake_)
+    SERIALIZATION_CONSTRUCTOR(UnfoldEdgeDartInstruction, space_, patterns_, edgePointFrom_, edgePointTo_, apexPoint_, leg1Point_, intake_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::UnfoldEdgeDartInstruction)

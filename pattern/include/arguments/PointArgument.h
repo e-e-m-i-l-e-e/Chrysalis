@@ -2,25 +2,28 @@
 #define CHRYSALIS_POINTARGUMENT_H
 
 #include "arguments/BaseArgument.h"
-#include "PatternArgument.h"
+#include "arguments/PatternsContainerArgument.h"
 
 namespace Chrysalis {
     class SERIALIZABLE(PointArgument) {
         PROVIDE_SERIALIZATION_ACCESS(PointArgument)
     public:
-        explicit PointArgument(const args::name* pointName, const PatternArgument* pattern);
+        explicit PointArgument(const args::name* name, const args::patterns* patterns);
         ~PointArgument();
 
-        bool isValid() const;
-        const Point* get() const;
-        const std::string& getName() const;
+        [[nodiscard]] bool isValid() const;
+        [[nodiscard]]const Point* get() const;
+        [[nodiscard]]const std::string& getName() const;
     private:
         /// @uml{composition}
-        const args::name* pointName_;
+        const args::name* name_;
         /// @uml{composition}
-        const PatternArgument* pattern_;
+        const args::patterns* patterns_;
     };
-    SIMPLE_SERIALIZE_MEMBERS(PointArgument, pointName_, pattern_)
+    SIMPLE_SERIALIZE_MEMBERS(PointArgument, name_, patterns_)
+    namespace args {
+        using point = PointArgument;
+    }
 }
 
 #endif //CHRYSALIS_POINTARGUMENT_H

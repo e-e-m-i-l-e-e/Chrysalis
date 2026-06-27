@@ -2,7 +2,7 @@
 
 using namespace Chrysalis;
 
-FreePointInstruction::FreePointInstruction(ProjectSpace* space, SelectedPatternsArgument* patterns,
+FreePointInstruction::FreePointInstruction(ProjectSpace* space, args::patterns* patterns,
                                            const args::name* pointName, const args::number* x, const args::number* y)
     : BasePatternInstruction(space, patterns), pointName_(pointName), x_(x), y_(y) {}
 
@@ -18,7 +18,7 @@ bool FreePointInstruction::isValid() {
 
 void FreePointInstruction::execute() {
     const auto point = space().addPoint(x_->get(), y_->get());
-    for (const auto& pattern: patterns()) {
+    for (const auto& pattern: *patterns_) {
         pattern->addPoint(pointName_->get(), point);
     }
 }

@@ -3,6 +3,7 @@
 
 #include <boost/preprocessor.hpp>
 #include <boost/serialization/list.hpp>
+#include <boost/serialization/vector.hpp>
 #include <boost/serialization/optional.hpp>
 #include <boost/serialization/unordered_map.hpp>
 
@@ -14,6 +15,15 @@ template<class Archive>                                                         
 static void serialize(Archive&, const unsigned int) {}                                                                 \
 
 #define SERIALIZE_MEMBER(r, data, field) archive & this->field;
+
+#define SERIALIZE(...)                                                                                                 \
+friend boost::serialization::access;                                                                                   \
+template<class Archive>                                                                                                \
+void serialize(Archive& archive, const unsigned int) {                                                                 \
+  __VA_OPT__(                                                                                                          \
+    BOOST_PP_SEQ_FOR_EACH(SERIALIZE_MEMBER, _, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))                                  \
+  )                                                                                                                    \
+}
 
 #define SERIALIZE_DERIVED_FROM(Base, ...)                                                                              \
 friend boost::serialization::access;                                                                                   \

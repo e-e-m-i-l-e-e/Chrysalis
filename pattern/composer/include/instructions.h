@@ -28,7 +28,7 @@ using UD = Chrysalis::UnfoldEdgeDartInstruction;
 using RelP = Chrysalis::RelativePointInstruction;
 using IP = Chrysalis::IntersectionPointInstruction;
 
-#define common space, new SelectedPatternsArgument(selectedPatterns)
+#define common space, new args::patterns(*patterns)
 
 #define num(val) new NumberArgument(val)
 #define up num(90)
@@ -40,6 +40,7 @@ using IP = Chrysalis::IntersectionPointInstruction;
 #define no_name new OptionalArgument<BaseArgument<std::string>>()
 #define name(name) new NameArgument(PointName::name)
 #define param(parameterName) new ParameterArgument(parameters->get(ParameterName::parameterName))
+#define point(pointName) new args::point(name(pointName), new args::patterns(*patterns))
 #define pattern(patternSpace) new PatternArgument(patternSpace)
 
 #define use_last_point common, new OptionalArgument<PointArgument>()

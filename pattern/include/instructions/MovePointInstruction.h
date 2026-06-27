@@ -9,7 +9,7 @@ namespace Chrysalis {
     class SERIALIZABLE(MovePointInstruction): public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(MovePointInstruction)
     public:
-        explicit MovePointInstruction(ProjectSpace* space, SelectedPatternsArgument* patterns, const args::name* pointName,
+        explicit MovePointInstruction(ProjectSpace* space, args::patterns* patterns, const args::name* pointName,
                                       const args::number* angle, const args::number* length);
         ~MovePointInstruction() override = default;
 
@@ -21,7 +21,7 @@ namespace Chrysalis {
         const args::number* length_;
     };
     SERIALIZE_DERIVED_MEMBERS(MovePointInstruction, BasePatternInstruction, pointName_, angle_, length_)
-    SERIALIZATION_CONSTRUCTOR(MovePointInstruction, space_, selectedPatterns_, pointName_, angle_, length_)
+    SERIALIZATION_CONSTRUCTOR(MovePointInstruction, space_, patterns_, pointName_, angle_, length_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::MovePointInstruction)

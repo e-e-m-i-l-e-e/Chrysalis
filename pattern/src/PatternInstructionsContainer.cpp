@@ -1,8 +1,10 @@
-#include "../include/instructions/PatternInstructionsContainer.h"
+#include "instructions/PatternInstructionsContainer.h"
 
-Chrysalis::PatternInstructionsContainer::PatternInstructionsContainer(SelectedPatterns* patterns)
+using namespace Chrysalis;
+
+PatternInstructionsContainer::PatternInstructionsContainer(args::patterns* patterns)
     : patterns_(patterns) {}
 
-Chrysalis::PatternInstructionsContainer::~PatternInstructionsContainer() {
+PatternInstructionsContainer::~PatternInstructionsContainer() {
     delete patterns_;
 }

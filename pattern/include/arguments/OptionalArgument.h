@@ -8,7 +8,7 @@
 
 namespace Chrysalis {
     template<typename T>
-    class SERIALIZABLE_T(OptionalArgument, T) {
+    class SERIALIZABLE_T(OptionalArgument) {
         PROVIDE_SERIALIZATION_ACCESS_T(OptionalArgument)
     public:
         explicit OptionalArgument() = default;

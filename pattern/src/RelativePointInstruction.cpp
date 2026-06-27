@@ -2,8 +2,8 @@
 
 using namespace Chrysalis;
 
-RelativePointInstruction::RelativePointInstruction(ProjectSpace* space, SelectedPatternsArgument* selectedPatterns,
-                                                   const OptionalArgument<point>* origin, const args::name* pointTo, const args::number* angle, const args::number* distance)
+RelativePointInstruction::RelativePointInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
+                                                   const OptionalArgument<args::point>* origin, const args::name* pointTo, const args::number* angle, const args::number* distance)
     : BasePatternInstruction(space, selectedPatterns), origin_(origin), pointTo_(pointTo), angle_(angle),
       distance_(distance) {}
 
@@ -17,7 +17,7 @@ RelativePointInstruction::~RelativePointInstruction() {
 bool RelativePointInstruction::isValid() {
     if (!origin_->argument()) {
         std::unordered_set<const Point*> points;
-        for (const auto& patternSpace: patterns()) {
+        for (const auto& patternSpace: *patterns_) {
             const Point* lastPoint = patternSpace->getPoint(pointTo_->get());
             if (!lastPoint) return false;
             points.insert(lastPoint);
@@ -28,9 +28,9 @@ bool RelativePointInstruction::isValid() {
 }
 
 void RelativePointInstruction::execute() {
-    const Point* pointFrom = origin_->hasArgument() ? origin_->argument()->get() : (*patterns().begin())->getLastPoint();
+    const Point* pointFrom = origin_->hasArgument() ? origin_->argument()->get() : patterns_->onAny(&PatternSpace::getLastPoint);
     Point* point = space().addPoint(ProjectSpace::relativePoint(*pointFrom, angle_->get(), distance_->get()));
-    for (const auto& patternSpace: patterns()) {
+    for (const auto& patternSpace: *patterns_) {
         patternSpace->addPoint(pointTo_->get(), point);
         patternSpace->notify(&PatternSpaceObserver::relativePointConnectionAdded, pointFrom, point);
     }

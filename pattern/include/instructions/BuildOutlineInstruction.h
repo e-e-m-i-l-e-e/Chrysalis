@@ -4,6 +4,7 @@
 #include <boost/serialization/export.hpp>
 
 #include "arguments/OptionalArgument.h"
+#include "arguments/PatternsContainerArgument.h"
 #include "BasePatternInstruction.h"
 #include "BuildOutlineInstruction.h"
 
@@ -17,7 +18,7 @@ namespace Chrysalis {
     class SERIALIZABLE(BuildOutlineInstruction): public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(BuildOutlineInstruction)
     public:
-        explicit BuildOutlineInstruction(ProjectSpace* space, SelectedPatternsArgument* selectedPatterns,
+        explicit BuildOutlineInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
                                          OptionalArgument<args::name>* outlineName, args::name* point);
         ~BuildOutlineInstruction() override;
 
@@ -28,7 +29,7 @@ namespace Chrysalis {
         args::name* point_;
     };
     SERIALIZE_DERIVED_MEMBERS(BuildOutlineInstruction, BasePatternInstruction, outlineName_, point_)
-    SERIALIZATION_CONSTRUCTOR(BuildOutlineInstruction, space_, selectedPatterns_, outlineName_, point_)
+    SERIALIZATION_CONSTRUCTOR(BuildOutlineInstruction, space_, patterns_, outlineName_, point_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::BuildOutlineInstruction)

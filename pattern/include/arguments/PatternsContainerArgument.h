@@ -6,7 +6,11 @@
 
 namespace Chrysalis {
     class PatternsContainerArgument: public BaseContainerArgument<PatternSpace> {
+        SERIALIZE_DERIVED_FROM(BaseContainerArgument)
     };
+    namespace args {
+        using patterns = PatternsContainerArgument;
+    }
 }
 
 #endif //CHRYSALIS_PATTERNSCONTAINERARGUMENT_H

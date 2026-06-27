@@ -2,7 +2,7 @@
 
 using namespace Chrysalis;
 
-EdgeDartInstruction::EdgeDartInstruction(ProjectSpace* space, SelectedPatternsArgument* patterns,
+EdgeDartInstruction::EdgeDartInstruction(ProjectSpace* space, args::patterns* patterns,
                                          const args::name* edgePointFrom, const args::name* edgePointTo, const vector* dartVector,
                                          const args::number* leg1Intake, const OptionalArgument<args::number>* leg2Intake)
     : BasePatternInstruction(space, patterns), edgePointFrom_(edgePointFrom), edgePointTo_(edgePointTo),
@@ -18,8 +18,8 @@ EdgeDartInstruction::~EdgeDartInstruction() {
 
 bool EdgeDartInstruction::isValid() {
     return
-        edgePointFrom_->isValid() && eachPatternHasPoint(edgePointFrom_->get()) &&
-        edgePointTo_->isValid() && eachPatternHasPoint(edgePointTo_->get()) &&
+        edgePointFrom_->isValid() && patterns_->all(&PatternSpace::hasPoint, edgePointFrom_->get()) &&
+        edgePointTo_->isValid() && patterns_->all(&PatternSpace::hasPoint, edgePointTo_->get()) &&
         dartVector_->isValid() && leg1Intake_->isValid();
 }
 
@@ -33,8 +33,8 @@ void EdgeDartInstruction::execute() {
         leg1Intake = leg2Intake = leg1Intake_->get() / 2;
     }
 
-    const Point* edgePointFrom = anyPattern()->getPoint(edgePointFrom_->get());
-    auto edgePointTo = anyPattern()->getPoint(edgePointTo_->get());
+    const Point* edgePointFrom = patterns_->onAny(&PatternSpace::getPoint, edgePointFrom_->get());
+    auto edgePointTo = patterns_->onAny(&PatternSpace::getPoint, edgePointTo_->get());
     const double edgeAngle = ProjectSpace::angle(*edgePointFrom, *edgePointTo);
 
     const double angle = dartVector_->getAngle();
@@ -46,7 +46,7 @@ void EdgeDartInstruction::execute() {
     const std::string leg1PointName = dartVector_->getOriginName() + "1";
     const std::string leg2PointName = dartVector_->getOriginName() + "2";
 
-    for (const auto& pattern: patterns()) {
+    for (const auto& pattern: *patterns_) {
         pattern->addPoint(centerPointName, centerPoint);
         pattern->addPoint(leg1PointName, leg1Point);
         pattern->addPoint(leg2PointName, leg2Point);

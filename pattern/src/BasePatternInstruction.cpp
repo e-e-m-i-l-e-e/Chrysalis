@@ -3,28 +3,9 @@
 using namespace Chrysalis;
 
 BasePatternInstruction::BasePatternInstruction(ProjectSpace* space,
-                                               SelectedPatternsArgument* selectedPatterns)
-    : space_(space), selectedPatterns_(selectedPatterns) {}
+                                               args::patterns* patterns)
+    : space_(space), patterns_(patterns) {}
 
 BasePatternInstruction::~BasePatternInstruction() {
-    delete selectedPatterns_;
-}
-
-bool BasePatternInstruction::eachPatternHasPoint(const std::string& point) const {
-    for (const auto& patternSpace: patterns()) {
-        if (!patternSpace->hasPoint(point)) return false;
-    }
-    return true;
-}
-
-bool BasePatternInstruction::allPatternsSharePoint(const std::string& point) const {
-    std::unordered_set<const Point*> points;
-    for (const auto& patternSpace: patterns()) {
-        points.insert(patternSpace->getPoint(point));
-    }
-    return points.size() == 1;
-}
-
-const PatternSpace* BasePatternInstruction::anyPattern() const {
-    return *patterns().begin();
+    delete patterns_;
 }

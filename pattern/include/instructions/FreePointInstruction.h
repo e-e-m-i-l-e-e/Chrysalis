@@ -18,7 +18,7 @@ namespace Chrysalis {
     class SERIALIZABLE(FreePointInstruction): public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(FreePointInstruction)
     public:
-        explicit FreePointInstruction(ProjectSpace* space, SelectedPatternsArgument* patterns,
+        explicit FreePointInstruction(ProjectSpace* space, args::patterns* patterns,
                                       const args::name* pointName, const args::number* x, const args::number* y);
         ~FreePointInstruction() override;
 
@@ -30,7 +30,7 @@ namespace Chrysalis {
         const args::number* y_;
     };
     SERIALIZE_DERIVED_MEMBERS(Chrysalis::FreePointInstruction, Chrysalis::BasePatternInstruction, pointName_, x_, y_)
-    SERIALIZATION_CONSTRUCTOR(Chrysalis::FreePointInstruction, space_, selectedPatterns_, pointName_, x_, y_)
+    SERIALIZATION_CONSTRUCTOR(Chrysalis::FreePointInstruction, space_, patterns_, pointName_, x_, y_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::FreePointInstruction)
