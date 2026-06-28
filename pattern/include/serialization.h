@@ -205,4 +205,37 @@ template<class Archive>                                                         
 void serialize(Archive&, Class&, const unsigned int) {}                                                                \
 class Class
 
+#include <boost/preprocessor/list/for_each.hpp>
+#include <boost/preprocessor/variadic/to_list.hpp>
+
+// --- Robust Reentrant Helpers using Lists ----------------------------------------------------------------------------
+#define SERIALIZE_DERIVED_MEMBERS_R(r, Class, Base, ...)                                                              \
+template<class Archive>                                                                                                \
+void serialize(Archive& archive, Class& obj, const unsigned int version) {                                             \
+  archive & boost::serialization::base_object<Base>(obj);                                                              \
+  __VA_OPT__(                                                                                                          \
+    BOOST_PP_LIST_FOR_EACH_R(r, ACCESS_FIELD, _, BOOST_PP_VARIADIC_TO_LIST(__VA_ARGS__))                                \
+  )                                                                                                                    \
+}
+
+#define SERIALIZATION_CONSTRUCTOR_R(r, Class, ... )                                                                    \
+template<class Archive>                                                                                                \
+void save_construct_data(Archive& archive, const Class* obj, const unsigned int) {                                     \
+  __VA_OPT__(                                                                                                          \
+    BOOST_PP_LIST_FOR_EACH_R(r, ACCESS_FIELD_PTR, _, BOOST_PP_VARIADIC_TO_LIST(__VA_ARGS__))                            \
+  )                                                                                                                    \
+}                                                                                                                      \
+template<class Archive>                                                                                                \
+void load_construct_data(Archive& archive, Class* obj, const unsigned int) {                                           \
+  __VA_OPT__(                                                                                                          \
+    BOOST_PP_LIST_FOR_EACH_R(r, DECLARE_FIELD, _, BOOST_PP_VARIADIC_TO_LIST(__VA_ARGS__))                               \
+    BOOST_PP_LIST_FOR_EACH_R(r, LOAD_FIELD, _, BOOST_PP_VARIADIC_TO_LIST(__VA_ARGS__))                                  \
+  )                                                                                                                    \
+  ::new(obj) Class(__VA_ARGS__);                                                                                       \
+}
+
+// Combine them into your target macro
+#define SIMPLE_SERIALIZE_DERIVED_MEMBERS_R(r, Class, Base, ...)                                                        \
+SERIALIZE_DERIVED_MEMBERS_R(r, Class, Base, __VA_ARGS__)                                                               \
+SERIALIZATION_CONSTRUCTOR_R(r, Class, __VA_ARGS__)
 #endif //CHRYSALIS_SERIALIZATION_H

@@ -4,7 +4,7 @@
 #include <boost/serialization/export.hpp>
 
 #include "arguments/BaseArgument.h"
-#include "arguments/PatternArgument.h"
+#include "arguments/PointArgument.h"
 
 #define VECTOR_FUNCTIONS (Length)(Angle)
 
@@ -15,16 +15,13 @@ class Name;
 namespace Chrysalis {                                                                                                  \
     class VectorFunction::Name: public VectorFunction {                                                                \
     public:                                                                                                            \
-        double evaluate(const args::name* pointFrom, const pattern* patternFrom,                                       \
-                        const args::name* pointTo, const pattern* patternTo) const override;                           \
+        double evaluate(const args::point* from, const args::point* to) const override;                                \
     };                                                                                                                 \
     SERIALIZE_DERIVED_MEMBERS(VectorFunction::Name, VectorFunction)                                                    \
 }                                                                                                                      \
 BOOST_CLASS_EXPORT_KEY(Chrysalis::VectorFunction::Name)
 
 namespace Chrysalis {
-    using pattern = PatternArgument;
-
     class EMPTY_SERIALIZABLE(VectorFunction) {
     protected:
         explicit VectorFunction() = default;
@@ -33,11 +30,9 @@ namespace Chrysalis {
 
         BOOST_PP_SEQ_FOR_EACH(FORWARD_DECLARE_VECTOR_FUNCTION, _, VECTOR_FUNCTIONS)
 
-        virtual double evaluate(const args::name* pointFrom, const pattern* patternFrom,
-                                const args::name* pointTo, const pattern* patternTo) const = 0;
+        virtual double evaluate(const args::point* from, const args::point* to) const = 0;
     protected:
-        static double evaluate(const args::name* pointFrom, const pattern* patternFrom,
-                               const args::name* pointTo, const pattern* patternTo,
+        static double evaluate(const args::point* from, const args::point* to,
                                const std::function<double(const Point& from, const Point& to)>& evaluator);
     };
 }

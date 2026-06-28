@@ -1,23 +1,18 @@
 #include "arguments/VectorFunctionArgument.h"
 
-Chrysalis::VectorFunctionArgument::VectorFunctionArgument(const args::name* pointFrom, const pattern* patternFrom,
-                                                          const args::name* pointTo, const pattern* patternTo,
+Chrysalis::VectorFunctionArgument::VectorFunctionArgument(const args::point* from, const args::point* to,
                                                           const VectorFunction* function)
-    : pointFrom_(pointFrom), patternFrom_(patternFrom), pointTo_(pointTo), patternTo_(patternTo), function_(function) {}
+    : from_(from), to_(to), function_(function) {}
 
 Chrysalis::VectorFunctionArgument::~VectorFunctionArgument() {
-    delete pointFrom_;
-    delete patternFrom_;
-    delete pointTo_;
-    delete patternTo_;
-    delete function_;
+    delete from_;
+    delete to_;
 }
 
 bool Chrysalis::VectorFunctionArgument::isValid() const {
-    return !pointFrom_->isValid() || !patternFrom_->isValid() || !pointTo_->isValid() || !patternTo_->isValid() ||
-           !patternFrom_->get()->hasPoint(pointFrom_->get()) || !patternTo_->get()->hasPoint(pointTo_->get());
+    return from_->isValid() && to_->isValid();
 }
 
 double Chrysalis::VectorFunctionArgument::calculate() const {
-    return function_->evaluate(pointFrom_, patternFrom_, pointTo_, patternTo_);
+    return function_->evaluate(from_, to_);
 }

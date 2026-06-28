@@ -4,6 +4,7 @@
 #include "BaseCalculatedArgument.h"
 #include "arguments/VectorFunction.h"
 #include "arguments/BaseArgument.h"
+#include "arguments/PointArgument.h"
 
 namespace Chrysalis {
     /**
@@ -15,8 +16,7 @@ namespace Chrysalis {
     class SERIALIZABLE(VectorFunctionArgument): public BaseCalculatedArgument<double> {
         PROVIDE_SERIALIZATION_ACCESS(VectorFunctionArgument)
     public:
-        explicit VectorFunctionArgument(const args::name* pointFrom, const pattern* patternFrom,
-                                        const args::name* pointTo, const pattern* patternTo,
+        explicit VectorFunctionArgument(const args::point* from, const args::point* to,
                                         const VectorFunction* function);
         ~VectorFunctionArgument() override;
 
@@ -25,17 +25,13 @@ namespace Chrysalis {
         double calculate() const override;
     private:
         /// @uml{composition}
-        const args::name* pointFrom_;
+        const args::point* from_;
         /// @uml{composition}
-        const pattern* patternFrom_;
-        /// @uml{composition}
-        const args::name* pointTo_;
-        /// @uml{composition}
-        const pattern* patternTo_;
+        const args::point* to_;
         /// @uml{composition}
         const VectorFunction* function_;
     };
-    SIMPLE_SERIALIZE_DERIVED_MEMBERS(VectorFunctionArgument, BaseCalculatedArgument<double>, pointFrom_, patternFrom_, pointTo_, patternTo_, function_)
+    SIMPLE_SERIALIZE_DERIVED_MEMBERS(VectorFunctionArgument, BaseCalculatedArgument<double>, from_, to_, function_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::VectorFunctionArgument)

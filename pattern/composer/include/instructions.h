@@ -4,6 +4,7 @@
 #include "arguments/PointArgument.h"
 #include "arguments/VectorArgument.h"
 #include "arguments/OptionalArgument.h"
+#include "arguments/BaseValidArgument.h"
 #include "arguments/BinaryFunctionArgument.h"
 #include "arguments/VectorFunctionArgument.h"
 
@@ -45,6 +46,6 @@ using IP = Chrysalis::IntersectionPointInstruction;
 
 #define use_last_point common, new OptionalArgument<PointArgument>()
 #define biFunc(operator1, operator2, function) new BinaryFunctionArgument(operator1, operator2, function)
-#define vecFunc(pointFrom, patternFrom, pointTo, patternTo, function) new VectorFunctionArgument(pointFrom, patternFrom, pointTo, patternTo, function)
+#define vecFunc(from, to, function) new VectorFunctionArgument(from, to, function)
 
 #endif //CHRYSALIS_INSTRUCTIONS_H

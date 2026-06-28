@@ -6,8 +6,6 @@
 
 #include "arguments/BaseArgument.h"
 #include "arguments/ParameterArgument.h"
-#include "arguments/PatternArgument.h"
-#include "arguments/SelectedPatternsArgument.h"
 #include "arguments/BaseValidArgument.h"
 #include "arguments/BaseCalculatedArgument.h"
 #include "arguments/BinaryFunctionArgument.h"
@@ -38,7 +36,6 @@ BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::VectorFunction::Length)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::VectorFunction::Angle)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::VectorFunctionArgument)
 
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::PatternArgument)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::NameArgument)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::NumberArgument)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::OptionalArgument<PointArgument>)
