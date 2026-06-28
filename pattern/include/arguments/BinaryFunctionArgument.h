@@ -22,7 +22,7 @@ namespace Chrysalis {
         /// @uml{composition}
         const BinaryFunction* function_;
     };
-    SIMPLE_SERIALIZE_DERIVED_MEMBERS(BinaryFunctionArgument, BaseCalculatedArgument<double>, operand1_, operand2_, function_)
+    SERIALIZE_DERIVED_CONSTRUCTION(BinaryFunctionArgument, BaseCalculatedArgument<double>, operand1_, operand2_, function_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::BinaryFunctionArgument)

@@ -22,7 +22,7 @@ namespace Chrysalis {
         /// @uml{composition}
         const args::number* length_;
     };
-    SIMPLE_SERIALIZE_DERIVED_MEMBERS(VectorArgument, RayArgument, origin_, angle_, length_)
+    SERIALIZE_DERIVED_CONSTRUCTION(VectorArgument, RayArgument, origin_, angle_, length_)
     namespace args {
         using vector = VectorArgument;
     }

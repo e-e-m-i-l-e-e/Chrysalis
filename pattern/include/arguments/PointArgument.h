@@ -20,7 +20,7 @@ namespace Chrysalis {
         /// @uml{composition}
         const args::patterns* patterns_;
     };
-    SIMPLE_SERIALIZE_MEMBERS(PointArgument, name_, patterns_)
+    SERIALIZE_CONSTRUCTION(PointArgument, name_, patterns_)
     namespace args {
         using point = PointArgument;
     }

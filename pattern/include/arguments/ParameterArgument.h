@@ -18,7 +18,7 @@ namespace Chrysalis {
     private:
         Parameter* parameter_;
     };
-    SIMPLE_SERIALIZE_DERIVED_MEMBERS(ParameterArgument, BaseCalculatedArgument<double>, parameter_)
+    SERIALIZE_DERIVED_CONSTRUCTION(ParameterArgument, BaseCalculatedArgument<double>, parameter_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::ParameterArgument)

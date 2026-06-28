@@ -14,8 +14,8 @@ namespace Chrysalis {
     public:
         virtual ~BaseArgument() = default;
 
-        virtual bool isValid() const = 0;
-        virtual const T& get() const = 0;
+        [[nodiscard]] virtual bool isValid() const = 0;
+        [[nodiscard]] virtual const T& get() const = 0;
     };
 
     namespace args {

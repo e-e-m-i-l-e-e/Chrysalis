@@ -26,7 +26,7 @@ namespace Chrysalis {
         const args::number* leg1Intake_;
         const args::optional<args::number>* leg2Intake_;
     };
-    SIMPLE_SERIALIZE_DERIVED_MEMBERS(EdgeDartInstruction, BasePatternInstruction, space_, patterns_, edgePointFrom_, edgePointTo_, dartVector_, leg1Intake_, leg2Intake_)
+    SERIALIZE_DERIVED_CONSTRUCTION(EdgeDartInstruction, BasePatternInstruction, space_, patterns_, edgePointFrom_, edgePointTo_, dartVector_, leg1Intake_, leg2Intake_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::EdgeDartInstruction)

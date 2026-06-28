@@ -30,7 +30,7 @@ namespace Chrysalis {
         OutlineContainer* outline_;
         std::unordered_map<std::string, const Point*> points_;
     };
-    SIMPLE_SERIALIZE_MEMBERS(PatternSpace, outline_)
+    SERIALIZE_CONSTRUCTION(PatternSpace, outline_)
 }
 
 #endif //CHRYSALIS_PATTERNSPACE_H

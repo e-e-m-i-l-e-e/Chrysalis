@@ -24,7 +24,7 @@ namespace Chrysalis {
         /// @uml{composition}
         const args::number* angle_;
     };
-    SIMPLE_SERIALIZE_MEMBERS(RayArgument, origin_, angle_)
+    SERIALIZE_CONSTRUCTION(RayArgument, origin_, angle_)
 }
 
 #endif //CHRYSALIS_RAYARGUMENT_H

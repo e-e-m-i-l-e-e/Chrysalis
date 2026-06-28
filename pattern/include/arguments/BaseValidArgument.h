@@ -39,7 +39,7 @@ namespace Chrysalis {                                                           
     public:                                                                                                            \
         explicit CLASS(argument)(const TYPE(argument)& value): BaseValidArgument<TYPE(argument)>(value) {}             \
     };                                                                                                                 \
-    SIMPLE_SERIALIZE_DERIVED_MEMBERS_R(r, CLASS(argument), BaseValidArgument<TYPE(argument)>, value_)                  \
+    SERIALIZE_DERIVED_CONSTRUCTION(CLASS(argument), BaseValidArgument<TYPE(argument)>, value_)                         \
 }                                                                                                                      \
 BOOST_CLASS_EXPORT_KEY(Chrysalis::CLASS(argument))
 BOOST_PP_SEQ_FOR_EACH(DEFINE_VALID_ARGUMENT, _, VALID_ARGUMENTS)

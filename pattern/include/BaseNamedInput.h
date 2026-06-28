@@ -9,6 +9,7 @@
 namespace Chrysalis {
     class BaseNamedInput {
     protected:
+        SERIALIZE(name_, alias_)
         PROVIDE_DEFAULT_SERIALIZATION_ACCESS(BaseNamedInput)
         explicit BaseNamedInput(const std::string& name);
     public:
@@ -23,7 +24,6 @@ namespace Chrysalis {
         std::string name_;
         boost::optional<std::string> alias_;
     };
-    DEFAULT_SERIALIZE_MEMBERS(BaseNamedInput, name_, alias_);
 }
 
 #endif //CHRYSALIS_BASENAMEDINPUT_H

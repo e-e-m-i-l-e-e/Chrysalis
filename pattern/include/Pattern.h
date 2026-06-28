@@ -19,7 +19,7 @@ namespace Chrysalis {
         /// @uml{composition[]}
         PatternSpace* space_;
     };
-    SIMPLE_SERIALIZE_MEMBERS(Pattern, name_, space_)
+    SERIALIZE_CONSTRUCTION(Pattern, name_, space_)
 }
 
 #endif //CHRYSALIS_PATTERN_H

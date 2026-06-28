@@ -15,7 +15,7 @@ namespace Chrysalis {
         /// @uml{composition[]}
         args::patterns* patterns_;
     };
-    SIMPLE_SERIALIZE_DERIVED_MEMBERS(PatternInstructionsContainer, BaseInstructionsContainer<BasePatternInstruction>, patterns_)
+    SERIALIZE_DERIVED_CONSTRUCTION(PatternInstructionsContainer, BaseInstructionsContainer<BasePatternInstruction>, patterns_)
 }
 
 #endif //CHRYSALIS_PATTERNINSTRUCTIONSCONTAINER_H

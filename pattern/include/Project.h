@@ -43,7 +43,7 @@ namespace Chrysalis {
         /// @uml{composition[]}
         InstructionsContainer* instructions_;
     };
-    SIMPLE_SERIALIZE_MEMBERS(Project, name_, space_, parameters_, patterns_, instructions_)
+    SERIALIZE_CONSTRUCTION(Project, name_, space_, parameters_, patterns_, instructions_)
 }
 
 #endif //CHRYSALIS_PROJECT_H

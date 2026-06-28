@@ -7,6 +7,7 @@
 
 namespace Chrysalis {
     class Parameter: public BaseNamedInput, public BaseObservable<ParameterObserver> {
+        SERIALIZE(value_, defaultValue_)
         PROVIDE_DEFAULT_SERIALIZATION_ACCESS(Parameter)
     public:
         explicit Parameter(const std::string& name);
@@ -27,7 +28,6 @@ namespace Chrysalis {
         boost::optional<double> value_;
         boost::optional<double> defaultValue_;
     };
-    DEFAULT_SERIALIZE_DERIVED_MEMBERS(Parameter, BaseNamedInput, value_, defaultValue_)
 }
 
 #endif //CHRYSALIS_PARAMETER_H
