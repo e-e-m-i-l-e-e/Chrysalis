@@ -28,8 +28,7 @@ namespace Chrysalis {
         OptionalArgument<args::name>* outlineName_;
         args::name* point_;
     };
-    SERIALIZE_DERIVED_MEMBERS(BuildOutlineInstruction, BasePatternInstruction, outlineName_, point_)
-    SERIALIZATION_CONSTRUCTOR(BuildOutlineInstruction, space_, patterns_, outlineName_, point_)
+    SIMPLE_SERIALIZE_DERIVED_MEMBERS(BuildOutlineInstruction, BasePatternInstruction, space_, patterns_, outlineName_, point_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::BuildOutlineInstruction)

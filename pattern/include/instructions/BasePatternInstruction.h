@@ -9,10 +9,8 @@
 #include "arguments/PatternsContainerArgument.h"
 
 namespace Chrysalis {
-    using vector = VectorArgument;
-
-    class SERIALIZABLE(BasePatternInstruction): public BaseInstruction {
-        PROVIDE_SERIALIZATION_ACCESS(BasePatternInstruction)
+    class BasePatternInstruction: public BaseInstruction {
+        SERIALIZED
     public:
         ~BasePatternInstruction() override;
         virtual bool isValid() = 0;
@@ -27,7 +25,6 @@ namespace Chrysalis {
         /// @uml{composition}
         args::patterns* patterns_;
     };
-    SERIALIZE_MEMBERS(BasePatternInstruction, space_, patterns_);
 };
 
 #endif //CHRYSALIS_BASEPATTERNINSTRUCTION_H

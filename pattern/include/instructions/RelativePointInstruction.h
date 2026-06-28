@@ -32,8 +32,7 @@ namespace Chrysalis {
         const args::number* angle_;
         const args::number* distance_;
     };
-    SERIALIZE_DERIVED_MEMBERS(RelativePointInstruction, Chrysalis::BasePatternInstruction, origin_, pointTo_, angle_, distance_)
-    SERIALIZATION_CONSTRUCTOR(RelativePointInstruction, space_, patterns_, origin_, pointTo_, angle_, distance_)
+    SIMPLE_SERIALIZE_DERIVED_MEMBERS(RelativePointInstruction, Chrysalis::BasePatternInstruction, space_, patterns_, origin_, pointTo_, angle_, distance_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::RelativePointInstruction)

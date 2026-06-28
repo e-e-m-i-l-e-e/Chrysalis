@@ -1,8 +1,8 @@
 #ifndef CHRYSALIS_SEGMENTARGUMENT_H
 #define CHRYSALIS_SEGMENTARGUMENT_H
 
-#include "arguments/VectorArgument.h"
 #include "arguments/PointArgument.h"
+#include "arguments/VectorArgument.h"
 
 namespace Chrysalis {
     class SegmentArgument: public VectorArgument {

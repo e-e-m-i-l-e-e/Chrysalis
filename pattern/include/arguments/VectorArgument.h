@@ -1,7 +1,6 @@
 #ifndef CHRYSALIS_VECTORARGUMENT_H
 #define CHRYSALIS_VECTORARGUMENT_H
 
-#include "VectorArgument.h"
 #include "arguments/RayArgument.h"
 #include "arguments/PointArgument.h"
 #include "arguments/BaseArgument.h"
@@ -17,13 +16,16 @@ namespace Chrysalis {
 
         ~VectorArgument() override;
 
-        double getLength() const;
-        bool isValid() const override;
+        [[nodiscard]] double getLength() const;
+        [[nodiscard]] bool isValid() const override;
     private:
         /// @uml{composition}
         const args::number* length_;
     };
     SIMPLE_SERIALIZE_DERIVED_MEMBERS(VectorArgument, RayArgument, origin_, angle_, length_)
+    namespace args {
+        using vector = VectorArgument;
+    }
 }
 
 #endif //CHRYSALIS_VECTORARGUMENT_H

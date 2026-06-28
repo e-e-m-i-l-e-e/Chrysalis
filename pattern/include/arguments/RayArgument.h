@@ -2,7 +2,6 @@
 #define CHRYSALIS_RAYARGUMENT_H
 
 #include "arguments/PointArgument.h"
-#include "arguments/BaseArgument.h"
 
 namespace Chrysalis {
     class SERIALIZABLE(RayArgument) {
@@ -14,11 +13,11 @@ namespace Chrysalis {
         explicit RayArgument(const PointArgument* origin, const args::number* angle);
         virtual ~RayArgument();
 
-        virtual bool isValid() const;
+        [[nodiscard]] virtual bool isValid() const;
 
-        double getAngle() const;
-        const Point* getOrigin() const;
-        const std::string& getOriginName() const;
+        [[nodiscard]] double getAngle() const;
+        [[nodiscard]] const Point* getOrigin() const;
+        [[nodiscard]] const std::string& getOriginName() const;
     protected:
         /// @uml{composition}
         const PointArgument* origin_;

@@ -23,8 +23,7 @@ namespace Chrysalis {
         const args::name* pointFrom2_;
         const args::name* pointTo2_;
     };
-    SERIALIZE_DERIVED_MEMBERS(IntersectionPointInstruction, BasePatternInstruction, pointName_, pointFrom1_, pointTo1_, pointFrom2_, pointTo2_)
-    SERIALIZATION_CONSTRUCTOR(IntersectionPointInstruction, space_, patterns_, pointName_, pointFrom1_, pointTo1_, pointFrom2_, pointTo2_)
+    SIMPLE_SERIALIZE_DERIVED_MEMBERS(IntersectionPointInstruction, BasePatternInstruction, space_, patterns_, pointName_, pointFrom1_, pointTo1_, pointFrom2_, pointTo2_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::IntersectionPointInstruction)

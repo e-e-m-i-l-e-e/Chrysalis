@@ -12,8 +12,8 @@ namespace Chrysalis {
         ~PointArgument();
 
         [[nodiscard]] bool isValid() const;
-        [[nodiscard]]const Point* get() const;
-        [[nodiscard]]const std::string& getName() const;
+        [[nodiscard]] const Point* get() const;
+        [[nodiscard]] const std::string& getName() const;
     private:
         /// @uml{composition}
         const args::name* name_;

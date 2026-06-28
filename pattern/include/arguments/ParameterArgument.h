@@ -3,10 +3,8 @@
 
 #include <boost/serialization/export.hpp>
 
-#include "BaseCalculatedArgument.h"
 #include "Parameter.h"
-#include "ParameterArgument.h"
-#include "arguments/BaseArgument.h"
+#include "BaseCalculatedArgument.h"
 
 namespace Chrysalis {
     class SERIALIZABLE(ParameterArgument): public BaseCalculatedArgument<double> {

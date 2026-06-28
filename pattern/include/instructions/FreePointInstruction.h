@@ -29,8 +29,7 @@ namespace Chrysalis {
         const args::number* x_;
         const args::number* y_;
     };
-    SERIALIZE_DERIVED_MEMBERS(Chrysalis::FreePointInstruction, Chrysalis::BasePatternInstruction, pointName_, x_, y_)
-    SERIALIZATION_CONSTRUCTOR(Chrysalis::FreePointInstruction, space_, patterns_, pointName_, x_, y_)
+    SIMPLE_SERIALIZE_DERIVED_MEMBERS(Chrysalis::FreePointInstruction, Chrysalis::BasePatternInstruction, space_, patterns_, pointName_, x_, y_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::FreePointInstruction)
