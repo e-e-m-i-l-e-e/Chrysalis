@@ -4,7 +4,7 @@ using namespace Chrysalis;
 
 EdgeDartInstruction::EdgeDartInstruction(ProjectSpace* space, args::patterns* patterns,
                                          const args::name* edgePointFrom, const args::name* edgePointTo, const args::vector* dartVector,
-                                         const args::number* leg1Intake, const OptionalArgument<args::number>* leg2Intake)
+                                         const args::number* leg1Intake, const args::optional<args::number>* leg2Intake)
     : BasePatternInstruction(space, patterns), edgePointFrom_(edgePointFrom), edgePointTo_(edgePointTo),
       dartVector_(dartVector), leg1Intake_(leg1Intake), leg2Intake_(leg2Intake) {}
 
