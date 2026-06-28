@@ -4,7 +4,7 @@
 #include "arguments/PointArgument.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(RayArgument) {
+    class RayArgument {
         PROVIDE_SERIALIZATION_ACCESS(RayArgument)
         class AngleArgument;
     protected:

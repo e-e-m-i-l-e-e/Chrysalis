@@ -15,7 +15,7 @@ namespace Chrysalis {
      * "A 1" (1.0, 2)
      * A (1 * 2 + 3, param("Circumference of something"))}
      */
-    class SERIALIZABLE(FreePointInstruction): public BasePatternInstruction {
+    class FreePointInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(FreePointInstruction)
     public:
         explicit FreePointInstruction(ProjectSpace* space, args::patterns* patterns,

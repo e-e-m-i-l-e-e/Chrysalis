@@ -15,7 +15,7 @@ namespace Chrysalis {
      * out("Name") -> A -> B -> C
      * }
      */
-    class SERIALIZABLE(BuildOutlineInstruction): public BasePatternInstruction {
+    class BuildOutlineInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(BuildOutlineInstruction)
     public:
         explicit BuildOutlineInstruction(ProjectSpace* space, args::patterns* selectedPatterns,

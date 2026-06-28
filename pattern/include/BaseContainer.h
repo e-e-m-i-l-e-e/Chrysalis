@@ -7,8 +7,8 @@
 
 namespace Chrysalis {
     template <typename T>
-    class SERIALIZABLE_T(BaseContainer) {
-        PROVIDE_SERIALIZATION_ACCESS_T(BaseContainer)
+    class BaseContainer {
+        SERIALIZE(data_)
     protected:
         explicit BaseContainer() = default;
 
@@ -41,7 +41,6 @@ namespace Chrysalis {
         ///@uml{composition}
         std::list<T*> data_;
     };
-    DEFAULT_SERIALIZE_BASE_MEMBERS_T(BaseContainer, T, data_)
 }
 
 #endif //CHRYSALIS_BASECONTAINER_H

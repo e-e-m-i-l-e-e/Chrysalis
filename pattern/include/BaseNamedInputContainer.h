@@ -9,11 +9,10 @@
 namespace Chrysalis {
     template<typename T>
     requires std::derived_from<T, BaseNamedInput>
-    class SERIALIZABLE_T_DERIVED_FROM(BaseInputContainer, T, BaseNamedInput): public BaseContainer<T> {
-        PROVIDE_SERIALIZATION_ACCESS_T(BaseInputContainer)
+    class BaseInputContainer: public BaseContainer<T> {
+        SERIALIZE_DERIVED_FROM(BaseContainer<T>, names_)
     protected:
         explicit BaseInputContainer() = default;
-
     public:
         void add(T* item) override {
             BaseContainer<T>::add(item);
@@ -26,7 +25,6 @@ namespace Chrysalis {
     private:
         std::unordered_map<std::string, T*> names_;
     };
-    SERIALIZE_DERIVED_MEMBERS_T(BaseInputContainer, T, BaseContainer, names_)
 }
 
 #endif //CHRYSALIS_BASEINPUTCONTAINER_H

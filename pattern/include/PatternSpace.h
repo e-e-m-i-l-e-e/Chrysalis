@@ -10,7 +10,7 @@
 #include "observers/PatternSpaceObserver.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(PatternSpace): public BaseObservable<PatternSpaceObserver> {
+    class PatternSpace: public BaseObservable<PatternSpaceObserver> {
         PROVIDE_SERIALIZATION_ACCESS(PatternSpace)
     public:
         explicit PatternSpace(OutlineContainer* outline);

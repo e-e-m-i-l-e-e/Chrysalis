@@ -16,6 +16,20 @@ static void serialize(Archive&, const unsigned int) {}                          
 
 #define SERIALIZE_MEMBER(r, data, field) archive & this->field;
 
+#define CONSTRUCTABLE(Class)                                                                                           \
+Class;                                                                                                                 \
+template<class Archive>                                                                                                \
+void load_construct_data(Archive&, Class*, const unsigned int);                                                        \
+template<class Archive>                                                                                                \
+void save_construct_data(Archive&, const Class*, const unsigned int);                                                  \
+class Class
+
+#define PROVIDE_CONSTRUCTION_ACCESS(Class)                                                                             \
+template<class Archive>                                                                                                \
+friend void save_construct_data(Archive&, const Class*, const unsigned int);                                           \
+template<class Archive>                                                                                                \
+friend void load_construct_data(Archive&, Class*, const unsigned int);
+
 #define SERIALIZE(...)                                                                                                 \
 friend boost::serialization::access;                                                                                   \
 template<class Archive>                                                                                                \
@@ -196,7 +210,7 @@ SERIALIZE_MEMBERS_T(Class, T, __VA_ARGS__)                                      
 SERIALIZATION_CONSTRUCTOR_T(Class, T, __VA_ARGS__)
 
 #define SIMPLE_SERIALIZE_DERIVED_MEMBERS(Class, Base, ...)                                                             \
-SERIALIZE_DERIVED_MEMBERS(Class, Base, __VA_ARGS__)                                                                    \
+SERIALIZE_DERIVED_MEMBERS(Class, Base)                                                                                 \
 SERIALIZATION_CONSTRUCTOR(Class, __VA_ARGS__)
 
 #define EMPTY_SERIALIZABLE(Class)                                                                                      \
@@ -236,6 +250,6 @@ void load_construct_data(Archive& archive, Class* obj, const unsigned int) {    
 
 // Combine them into your target macro
 #define SIMPLE_SERIALIZE_DERIVED_MEMBERS_R(r, Class, Base, ...)                                                        \
-SERIALIZE_DERIVED_MEMBERS_R(r, Class, Base, __VA_ARGS__)                                                               \
+SERIALIZE_DERIVED_MEMBERS_R(r, Class, Base)                                                                            \
 SERIALIZATION_CONSTRUCTOR_R(r, Class, __VA_ARGS__)
 #endif //CHRYSALIS_SERIALIZATION_H

@@ -9,7 +9,7 @@
 #include "instructions/InstructionsContainer.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(Project) {
+    class Project {
         PROVIDE_SERIALIZATION_ACCESS(Project)
     public:
         static constexpr auto PROJECT_FILE_SUFFIX = "chrysalis";
@@ -43,7 +43,6 @@ namespace Chrysalis {
         /// @uml{composition[]}
         InstructionsContainer* instructions_;
     };
-
     SIMPLE_SERIALIZE_MEMBERS(Project, name_, space_, parameters_, patterns_, instructions_)
 }
 

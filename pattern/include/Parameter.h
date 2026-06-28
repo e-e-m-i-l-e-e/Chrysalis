@@ -6,7 +6,7 @@
 #include "observers/ParameterObserver.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(Parameter): public BaseNamedInput, public BaseObservable<ParameterObserver> {
+    class Parameter: public BaseNamedInput, public BaseObservable<ParameterObserver> {
         PROVIDE_DEFAULT_SERIALIZATION_ACCESS(Parameter)
     public:
         explicit Parameter(const std::string& name);

@@ -6,7 +6,7 @@
 #include "instructions/BasePatternInstruction.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(UnfoldEdgeDartInstruction): public BasePatternInstruction {
+    class UnfoldEdgeDartInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(UnfoldEdgeDartInstruction)
     public:
         explicit UnfoldEdgeDartInstruction(ProjectSpace* space, args::patterns* patterns,

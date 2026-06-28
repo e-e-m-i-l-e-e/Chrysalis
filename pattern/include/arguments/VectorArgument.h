@@ -6,7 +6,7 @@
 #include "arguments/BaseArgument.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(VectorArgument): public RayArgument {
+    class VectorArgument: public RayArgument {
         PROVIDE_SERIALIZATION_ACCESS(VectorArgument)
         class LengthArgument;
     protected:

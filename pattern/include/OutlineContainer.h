@@ -8,7 +8,8 @@
 #include "BaseContainer.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(OutlineContainer): public BaseContainer<Outline> {
+    class OutlineContainer: public BaseContainer<Outline> {
+        SERIALIZED
     public:
         void add(Outline* item) override;
         [[nodiscard]] bool has(const std::string& name) const;
@@ -16,7 +17,6 @@ namespace Chrysalis {
     private:
         std::unordered_map<std::string, Outline*> outlines_;
     };
-    DEFAULT_SERIALIZE_MEMBERS(OutlineContainer)
 }
 
 #endif //CHRYSALIS_OUTLINECONTAINER_H

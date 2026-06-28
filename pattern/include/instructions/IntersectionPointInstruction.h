@@ -6,7 +6,7 @@
 #include "BasePatternInstruction.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(IntersectionPointInstruction): public BasePatternInstruction {
+    class IntersectionPointInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(IntersectionPointInstruction)
     public:
         explicit IntersectionPointInstruction(ProjectSpace* space, args::patterns* patterns, const args::name* pointName,

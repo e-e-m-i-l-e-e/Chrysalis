@@ -8,8 +8,8 @@
 #include "Point.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(ProjectSpace) {
-        PROVIDE_SERIALIZATION_ACCESS(ProjectSpace)
+    class ProjectSpace {
+        SERIALIZED
     public:
         ~ProjectSpace();
 
@@ -34,7 +34,6 @@ namespace Chrysalis {
         /// @uml{composition[1:*]}
         std::unordered_set<Point*> points_;
     };
-    SIMPLE_SERIALIZE_MEMBERS(ProjectSpace)
 }
 
 #endif //CHRYSALIS_SPACE_H

@@ -7,7 +7,7 @@
 #include "BaseCalculatedArgument.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(ParameterArgument): public BaseCalculatedArgument<double> {
+    class ParameterArgument: public BaseCalculatedArgument<double> {
         PROVIDE_SERIALIZATION_ACCESS(ParameterArgument)
     public:
         explicit ParameterArgument(Parameter* parameter);

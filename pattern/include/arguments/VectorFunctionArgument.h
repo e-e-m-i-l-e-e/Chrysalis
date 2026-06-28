@@ -13,7 +13,7 @@ namespace Chrysalis {
      * (A ("Pattern 1") -> "A 1").angle
      * }
      */
-    class SERIALIZABLE(VectorFunctionArgument): public BaseCalculatedArgument<double> {
+    class VectorFunctionArgument: public BaseCalculatedArgument<double> {
         PROVIDE_SERIALIZATION_ACCESS(VectorFunctionArgument)
     public:
         explicit VectorFunctionArgument(const args::point* from, const args::point* to,

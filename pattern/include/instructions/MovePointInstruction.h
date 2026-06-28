@@ -6,7 +6,7 @@
 #include "BasePatternInstruction.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(MovePointInstruction): public BasePatternInstruction {
+    class MovePointInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(MovePointInstruction)
     public:
         explicit MovePointInstruction(ProjectSpace* space, args::patterns* patterns, const args::name* pointName,

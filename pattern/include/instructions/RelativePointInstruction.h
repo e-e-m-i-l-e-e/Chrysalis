@@ -17,7 +17,7 @@ namespace Chrysalis {
      * A -> B (1 * 2 * 3 * 4) (1 / 2 / param("Circumference of something"))
      * }
      */
-    class SERIALIZABLE(RelativePointInstruction): public BasePatternInstruction {
+    class RelativePointInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(RelativePointInstruction)
     public:
         explicit RelativePointInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
@@ -32,7 +32,6 @@ namespace Chrysalis {
         const args::number* angle_;
         const args::number* distance_;
     };
-    // SERIALIZATION_CONSTRUCTOR(RelativePointInstruction, space_, patterns_, origin_, pointTo_, angle_, distance_)
     SIMPLE_SERIALIZE_DERIVED_MEMBERS(RelativePointInstruction, BasePatternInstruction, space_, patterns_, origin_, pointTo_, angle_, distance_)
 }
 

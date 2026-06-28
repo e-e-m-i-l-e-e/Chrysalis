@@ -7,7 +7,7 @@
 #include <boost/optional/optional.hpp>
 
 namespace Chrysalis {
-    class SERIALIZABLE(BaseNamedInput) {
+    class BaseNamedInput {
     protected:
         PROVIDE_DEFAULT_SERIALIZATION_ACCESS(BaseNamedInput)
         explicit BaseNamedInput(const std::string& name);

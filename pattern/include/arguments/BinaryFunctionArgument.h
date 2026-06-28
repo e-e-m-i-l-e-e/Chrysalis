@@ -5,7 +5,7 @@
 #include "arguments/BaseCalculatedArgument.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(BinaryFunctionArgument): public BaseCalculatedArgument<double> {
+    class BinaryFunctionArgument: public BaseCalculatedArgument<double> {
         PROVIDE_SERIALIZATION_ACCESS(BinaryFunctionArgument)
     public:
         explicit BinaryFunctionArgument(const args::number* operand1, const args::number* operand2, const BinaryFunction* function);

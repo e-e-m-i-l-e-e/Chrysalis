@@ -5,7 +5,7 @@
 #include "arguments/PatternsContainerArgument.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(PointArgument) {
+    class PointArgument {
         PROVIDE_SERIALIZATION_ACCESS(PointArgument)
     public:
         explicit PointArgument(const args::name* name, const args::patterns* patterns);

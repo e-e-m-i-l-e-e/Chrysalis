@@ -6,7 +6,7 @@
 #include "BasePatternInstruction.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(AdjustPointInstruction): public BasePatternInstruction {
+    class AdjustPointInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(AdjustPointInstruction)
     public:
         /**

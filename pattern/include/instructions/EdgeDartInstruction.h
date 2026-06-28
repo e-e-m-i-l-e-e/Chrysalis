@@ -9,7 +9,7 @@
 #include "arguments/PatternsContainerArgument.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(EdgeDartInstruction): public BasePatternInstruction {
+    class EdgeDartInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(EdgeDartInstruction)
     public:
         explicit EdgeDartInstruction(ProjectSpace* space, args::patterns* patterns,
