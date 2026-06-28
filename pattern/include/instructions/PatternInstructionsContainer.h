@@ -6,7 +6,7 @@
 #include "arguments/PatternsContainerArgument.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(PatternInstructionsContainer): public BaseInstructionsContainer<BasePatternInstruction> {
+    class PatternInstructionsContainer: public BaseInstructionsContainer<BasePatternInstruction> {
         PROVIDE_SERIALIZATION_ACCESS(PatternInstructionsContainer)
     public:
         explicit PatternInstructionsContainer(args::patterns* patterns);

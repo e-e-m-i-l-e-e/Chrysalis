@@ -16,14 +16,6 @@ static void serialize(Archive&, const unsigned int) {}                          
 
 #define SERIALIZE_MEMBER(r, data, field) archive & this->field;
 
-#define CONSTRUCTABLE(Class)                                                                                           \
-Class;                                                                                                                 \
-template<class Archive>                                                                                                \
-void load_construct_data(Archive&, Class*, const unsigned int);                                                        \
-template<class Archive>                                                                                                \
-void save_construct_data(Archive&, const Class*, const unsigned int);                                                  \
-class Class
-
 #define PROVIDE_CONSTRUCTION_ACCESS(Class)                                                                             \
 template<class Archive>                                                                                                \
 friend void save_construct_data(Archive&, const Class*, const unsigned int);                                           \
@@ -49,42 +41,11 @@ void serialize(Archive& archive, const unsigned int) {                          
   )                                                                                                                    \
 }
 // --- Non-intrusive ---------------------------------------------------------------------------------------------------
-#define SERIALIZABLE_T(Class)                                                                                          \
-Class;                                                                                                                 \
-template<class Archive, typename T>                                                                                    \
-void serialize(Archive&, Class<T>&, const unsigned int);                                                               \
-template<class Archive, typename T>                                                                                    \
-void load_construct_data(Archive&, Class<T>*, const unsigned int);                                                     \
-template<class Archive, typename T>                                                                                    \
-void save_construct_data(Archive&, const Class<T>*, const unsigned int);                                               \
-template<typename T>                                                                                                   \
-class Class
 
 #define SERIALIZE_DERIVED_T(Class, Base, ...)                                                                          \
 SERIALIZE_DERIVED_MEMBERS_T(Class, T, Base, __VA_ARGS__)                                                               \
 SERIALIZATION_CONSTRUCTOR_T(Class, T, __VA_ARGS__)
 // ---------------------------------------------------------------------------------------------------------------------
-// --- Forward declarations --------------------------------------------------------------------------------------------
-#define SERIALIZABLE(Class)                                                                                            \
-Class;                                                                                                                 \
-template<class Archive>                                                                                                \
-void serialize(Archive&, Class&, const unsigned int);                                                                  \
-template<class Archive>                                                                                                \
-void load_construct_data(Archive&, Class*, const unsigned int);                                                        \
-template<class Archive>                                                                                                \
-void save_construct_data(Archive&, const Class*, const unsigned int);                                                  \
-class Class
-
-#define SERIALIZABLE_T_DERIVED_FROM(Class, T, Base)                                                                    \
-Class;                                                                                                                 \
-template<class Archive, typename T>                                                                                    \
-void serialize(Archive&, Class<T>&, const unsigned int);                                                               \
-template<class Archive, typename T>                                                                                    \
-void load_construct_data(Archive&, Class<T>*, const unsigned int);                                                     \
-template<class Archive, typename T>                                                                                    \
-void save_construct_data(Archive&, const Class<T>*, const unsigned int);                                               \
-template<typename T> requires std::derived_from<T, Base>                                                               \
-class Class
 
 // --- Friends (Optional) ----------------------------------------------------------------------------------------------
 #define PROVIDE_SERIALIZATION_ACCESS(Class)                                                                            \
@@ -212,12 +173,6 @@ SERIALIZATION_CONSTRUCTOR_T(Class, T, __VA_ARGS__)
 #define SIMPLE_SERIALIZE_DERIVED_MEMBERS(Class, Base, ...)                                                             \
 SERIALIZE_DERIVED_MEMBERS(Class, Base)                                                                                 \
 SERIALIZATION_CONSTRUCTOR(Class, __VA_ARGS__)
-
-#define EMPTY_SERIALIZABLE(Class)                                                                                      \
-Class;                                                                                                                 \
-template<class Archive>                                                                                                \
-void serialize(Archive&, Class&, const unsigned int) {}                                                                \
-class Class
 
 #include <boost/preprocessor/list/for_each.hpp>
 #include <boost/preprocessor/variadic/to_list.hpp>

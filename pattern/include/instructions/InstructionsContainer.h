@@ -9,8 +9,9 @@
 #include "PatternInstructionsContainer.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(InstructionsContainer): public BaseInstructionsContainer<PatternInstructionsContainer> {};
-    DEFAULT_SERIALIZE_DERIVED_MEMBERS(InstructionsContainer, BaseInstructionsContainer<PatternInstructionsContainer>)
+    class InstructionsContainer: public BaseInstructionsContainer<PatternInstructionsContainer> {
+        SERIALIZE_DERIVED_FROM(BaseInstructionsContainer)
+    };
 }
 
 #endif //CHRYSALIS_INSTRUCTIONSCONTAINER_H

@@ -4,7 +4,7 @@
 #include "PatternSpace.h"
 
 namespace Chrysalis {
-    class SERIALIZABLE(Pattern) {
+    class Pattern {
         PROVIDE_SERIALIZATION_ACCESS(Pattern)
     public:
         explicit Pattern(const std::string& name, PatternSpace* space);
