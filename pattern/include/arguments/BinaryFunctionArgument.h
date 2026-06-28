@@ -1,8 +1,8 @@
 #ifndef CHRYSALIS_BINARYFUNCTIONARGUMENT_H
 #define CHRYSALIS_BINARYFUNCTIONARGUMENT_H
 
-#include "BinaryFunction.h"
-#include "BaseCalculatedArgument.h"
+#include "arguments/BinaryFunction.h"
+#include "arguments/BaseCalculatedArgument.h"
 
 namespace Chrysalis {
     class SERIALIZABLE(BinaryFunctionArgument): public BaseCalculatedArgument<double> {

@@ -31,7 +31,7 @@ template<class Archive>                                                         
 void serialize(Archive& archive, const unsigned int) {                                                                 \
   archive & boost::serialization::base_object<Base>(*this);                                                            \
   __VA_OPT__(                                                                                                          \
-    BOOST_PP_SEQ_FOR_EACH(SERIALIZE_MEMBER, _, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))                                  \
+    BOOST_PP_LIST_FOR_EACH(SERIALIZE_MEMBER, _, BOOST_PP_VARIADIC_TO_LIST(__VA_ARGS__))                                \
   )                                                                                                                    \
 }
 // --- Non-intrusive ---------------------------------------------------------------------------------------------------
