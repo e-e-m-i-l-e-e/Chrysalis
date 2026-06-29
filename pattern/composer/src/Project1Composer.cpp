@@ -14,17 +14,21 @@ Project* Project1Composer::createProject() {
 }
 
 PatternSpace* Project1Composer::getBack() const {
-    return project_->getPatterns()->at(0)->getSpace();
+    return (*project_->getPatterns())[0]->getSpace();
 }
 
 PatternSpace* Project1Composer::getFront() const {
-    return project_->getPatterns()->at(1)->getSpace();
+    return (*project_->getPatterns())[1]->getSpace();
 }
 
 void Project1Composer::fillPatterns() {
     const auto patterns = project_->getPatterns();
-    patterns->add(Pattern::create("Back"));
-    patterns->add(Pattern::create("Front"));
+    auto back = Pattern::create("Back");
+    back->getSpace()->getOutline()->add(new Outline("main"));
+    auto front = Pattern::create("Front");
+    front->getSpace()->getOutline()->add(new Outline("main"));
+    patterns->add(back);
+    patterns->add(front);
 }
 
 void Project1Composer::fillParameters() {
@@ -206,15 +210,15 @@ void Project1Composer::fillInstructions() {
     patternInstructions = new PatternInstructionsContainer(patterns);
     instructions->add(patternInstructions);
 
-    patternInstructions->add(new BuildOutlineInstruction(common, no_name, name(AH3)));
-    patternInstructions->add(new BuildOutlineInstruction(common, no_name, name(H1)));
-    patternInstructions->add(new BuildOutlineInstruction(common, no_name, name(H)));
+    patternInstructions->add(new BuildOutlineInstruction(common, new Argument<std::string>("main"), name(AH3)));
+    patternInstructions->add(new BuildOutlineInstruction(common, new Argument<std::string>("main"), name(H1)));
+    patternInstructions->add(new BuildOutlineInstruction(common, new Argument<std::string>("main"), name(H)));
 
     patterns = new args::patterns();
     patterns->add(back);
     patternInstructions = new PatternInstructionsContainer(patterns);
     instructions->add(patternInstructions);
-    patternInstructions->add(new BuildOutlineInstruction(common, no_name, name(UB)));
+    patternInstructions->add(new BuildOutlineInstruction(common, new Argument<std::string>("main"), name(UB)));
 
     patterns = new args::patterns();
     patterns->add(back);
@@ -222,6 +226,6 @@ void Project1Composer::fillInstructions() {
     patternInstructions = new PatternInstructionsContainer(patterns);
     instructions->add(patternInstructions);
 
-    patternInstructions->add(new BuildOutlineInstruction(common, no_name, name(N2)));
-    patternInstructions->add(new BuildOutlineInstruction(common, no_name, name(N)));
+    patternInstructions->add(new BuildOutlineInstruction(common, new Argument<std::string>("main"), name(N2)));
+    patternInstructions->add(new BuildOutlineInstruction(common, new Argument<std::string>("main"), name(N)));
 }

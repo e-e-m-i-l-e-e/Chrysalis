@@ -3,6 +3,7 @@
 
 #include <boost/serialization/export.hpp>
 
+#include "arguments/Argument.h"
 #include "BasePatternInstruction.h"
 
 namespace Chrysalis {

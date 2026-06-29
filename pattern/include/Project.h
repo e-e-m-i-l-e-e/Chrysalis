@@ -3,9 +3,9 @@
 
 #include "serialization.h"
 
+#include "Pattern.h"
+#include "Parameter.h"
 #include "ProjectSpace.h"
-#include "PatternsContainer.h"
-#include "ParametersContainer.h"
 #include "instructions/InstructionsContainer.h"
 
 namespace Chrysalis {

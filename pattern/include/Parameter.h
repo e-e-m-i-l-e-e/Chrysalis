@@ -1,13 +1,14 @@
 #ifndef CHRYSALIS_PARAMETER_H
 #define CHRYSALIS_PARAMETER_H
 
-#include "BaseNamedInput.h"
+#include "BaseNamedElement.h"
+#include "NamedElementsContainer.h"
 #include "observers/BaseObservable.h"
 #include "observers/ParameterObserver.h"
 
 namespace Chrysalis {
-    class Parameter: public BaseNamedInput, public BaseObservable<ParameterObserver> {
-        SERIALIZE(value_, defaultValue_)
+    class Parameter: public BaseNamedElement, public BaseObservable<ParameterObserver> {
+        SERIALIZE_DERIVED_FROM(BaseNamedElement, value_, defaultValue_)
         PROVIDE_DEFAULT_SERIALIZATION_ACCESS(Parameter)
     public:
         explicit Parameter(const std::string& name);
@@ -28,6 +29,7 @@ namespace Chrysalis {
         boost::optional<double> value_;
         boost::optional<double> defaultValue_;
     };
+    using ParametersContainer = NamedElementsContainer<Parameter>;
 }
 
 #endif //CHRYSALIS_PARAMETER_H

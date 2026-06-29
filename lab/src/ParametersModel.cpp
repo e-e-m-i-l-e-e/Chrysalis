@@ -26,7 +26,7 @@ Qt::ItemFlags ParametersModel::flags(const QModelIndex& index) const {
 
 QVariant ParametersModel::data(const QModelIndex& index, const int role) const {
     if (!parameters_ || role != Qt::DisplayRole) return {};
-    const auto parameter = parameters_->at(index.row());
+    const auto parameter = (*parameters_)[index.row()];
     if (index.column() == 0) return parameter->getName().data();
     if (index.column() == 1) return parameter->hasValue() ? QVariant(parameter->getValue()) : "";
     if (index.column() == 2) return parameter->hasDefaultValue() ? QVariant(parameter->getDefaultValue()) : "";
@@ -51,7 +51,7 @@ QVariant ParametersModel::headerData(const int section, const Qt::Orientation or
 bool ParametersModel::setData(const QModelIndex& index, const QVariant& value, const int role) {
     if (role == Qt::DisplayRole) {
         if (index.column() == 1) {
-            parameters_->at(index.row())->setValue(value.toDouble());
+            (*parameters_)[index.row()]->setValue(value.toDouble());
             return true;
         }
         return false;

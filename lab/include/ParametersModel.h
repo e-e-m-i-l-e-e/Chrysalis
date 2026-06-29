@@ -3,7 +3,7 @@
 
 #include <QtQmlIntegration/QtQmlIntegration>
 
-#include "ParametersContainer.h"
+#include "Parameter.h"
 
 namespace Chrysalis {
     class ParametersModel: public QAbstractTableModel {

@@ -1,12 +1,11 @@
 #ifndef CHRYSALIS_FREEPOINTINSTRUCTION_H
 #define CHRYSALIS_FREEPOINTINSTRUCTION_H
 
-#include "ProjectSpace.h"
-#include "BasePatternInstruction.h"
-
 #include <boost/serialization/export.hpp>
 
-#include "FreePointInstruction.h"
+#include "ProjectSpace.h"
+#include "arguments/Argument.h"
+#include "BasePatternInstruction.h"
 
 namespace Chrysalis {
     /**

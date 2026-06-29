@@ -7,11 +7,11 @@
 #include <boost/optional/optional.hpp>
 
 namespace Chrysalis {
-    class BaseNamedInput {
+    class BaseNamedElement {
     protected:
         SERIALIZE(name_, alias_)
-        PROVIDE_DEFAULT_SERIALIZATION_ACCESS(BaseNamedInput)
-        explicit BaseNamedInput(const std::string& name);
+        PROVIDE_DEFAULT_SERIALIZATION_ACCESS(BaseNamedElement)
+        explicit BaseNamedElement(const std::string& name);
     public:
         [[nodiscard]] bool hasAlias() const;
 

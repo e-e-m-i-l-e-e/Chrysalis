@@ -4,6 +4,7 @@
 #include <boost/serialization/export.hpp>
 
 #include "BasePatternInstruction.h"
+#include "arguments/PointArgument.h"
 
 namespace Chrysalis {
     class AdjustPointInstruction: public BasePatternInstruction {

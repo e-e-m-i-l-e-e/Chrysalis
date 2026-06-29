@@ -2,18 +2,12 @@
 
 using namespace Chrysalis;
 
-Outline::Outline(const std::string& name, const std::string& firstPoint): name_(name) {
-    points_.push_back(firstPoint);
-}
+Outline::Outline(const std::string& name): BaseNamedElement(name) {}
 
-const std::string& Outline::getName() const{
-    return name_;
-}
-
-const std::list<std::string>& Outline::getPoints() const {
+const std::vector<std::string>& Outline::points() const {
     return points_;
 }
 
-void Outline::addPoint(const std::string& name) {
+void Outline::add(const std::string& name) {
     points_.push_back(name);
 }

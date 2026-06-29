@@ -4,7 +4,6 @@
 #include <unordered_map>
 
 #include "Outline.h"
-#include "OutlineContainer.h"
 #include "ProjectSpace.h"
 #include "observers/BaseObservable.h"
 #include "observers/PatternSpaceObserver.h"

@@ -5,7 +5,7 @@
 
 using namespace Chrysalis;
 
-Parameter::Parameter(const std::string& name): BaseNamedInput(name) {}
+Parameter::Parameter(const std::string& name): BaseNamedElement(name) {}
 
 Parameter* Parameter::create(const std::string& name, const double value) {
     const auto parameter = new Parameter(name);

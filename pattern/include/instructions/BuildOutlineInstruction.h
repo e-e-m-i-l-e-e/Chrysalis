@@ -3,6 +3,7 @@
 
 #include <boost/serialization/export.hpp>
 
+#include "arguments/Argument.h"
 #include "arguments/OptionalArgument.h"
 #include "arguments/PatternsContainerArgument.h"
 #include "BasePatternInstruction.h"
@@ -19,13 +20,13 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(BuildOutlineInstruction)
     public:
         explicit BuildOutlineInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
-                                         args::optional<args::name>* outlineName, args::name* point);
+                                         args::name* outlineName, args::name* point);
         ~BuildOutlineInstruction() override;
 
         void execute() override;
         bool isValid() override;
     private:
-        args::optional<args::name>* outlineName_;
+        args::name* outlineName_;
         args::name* point_;
     };
     SERIALIZE_DERIVED_CONSTRUCTION(BuildOutlineInstruction, BasePatternInstruction, space_, patterns_, outlineName_, point_)

@@ -5,7 +5,6 @@
 #include "BaseInstruction.h"
 
 #include "arguments/BaseArgument.h"
-#include "arguments/VectorArgument.h"
 #include "arguments/PatternsContainerArgument.h"
 
 namespace Chrysalis {

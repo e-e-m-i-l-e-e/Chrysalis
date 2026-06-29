@@ -3,6 +3,7 @@
 
 #include <boost/serialization/export.hpp>
 
+#include "arguments/LineArgument.h"
 #include "arguments/ContainerArgument.h"
 #include "instructions/BasePatternInstruction.h"
 
