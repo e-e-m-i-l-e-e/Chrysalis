@@ -2,10 +2,13 @@
 
 using namespace Chrysalis;
 
-SegmentArgument::SegmentArgument(const PointArgument* pointFrom, const PointArgument* pointTo)
-    : VectorArgument(pointFrom, pointTo), pointFrom_(pointFrom), pointTo_(pointTo) {}
+SegmentArgument::SegmentArgument(const args::point* origin, const args::point* destination)
+    : VectorArgument(origin, destination), destination_(destination) {}
 
 SegmentArgument::~SegmentArgument() {
-    delete pointFrom_;
-    delete pointTo_;
+    delete destination_;
+}
+
+const args::point* SegmentArgument::destination() const {
+    return destination_;
 }

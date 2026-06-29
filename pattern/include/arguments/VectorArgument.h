@@ -18,6 +18,9 @@ namespace Chrysalis {
 
         [[nodiscard]] double getLength() const;
         [[nodiscard]] bool isValid() const override;
+
+        explicit operator CGAL::Vector() const;
+        explicit operator CGAL::Segment() const;
     private:
         /// @uml{composition}
         const args::number* length_;

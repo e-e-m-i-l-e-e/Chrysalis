@@ -296,15 +296,16 @@ class C_0007088239576659478452 {
 {static} +angle(const CGAL::Vector & vector1, const CGAL::Vector & vector2) : double
 {static} +angle(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : double
 {static} +circlesIntersection(const CGAL::Point & anchor, CGAL::CPoint center1, double radius1, CGAL::CPoint center2, double radius2) : CGAL::Point
-{static} -cos(double value) : double
-{static} +intersection(const CGAL::Line & line1, const CGAL::Line & line2) : boost::optional<CGAL::Point>
+{static} +cos(double value) : double
+{static} +intersection<T1,T2>(const T1 & obj1, const T2 & obj2) : boost::optional<CGAL::Point>
 {static} +length(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : double
 +movePoint(const Point * point, CGAL::Point position) const : void
+{static} +radians(double degrees) : double
 {static} +relativePoint(const CGAL::Point & pointFrom, double angle, double length) : CGAL::Point
 {static} +rotate(const CGAL::Vector & vector, double angle) : CGAL::Vector
 {static} -round(double value) : double
 {static} -serialize<Archive>(Archive &, const unsigned int) : void
-{static} -sin(double value) : double
+{static} +sin(double value) : double
 {static} +xIntersection(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : boost::optional<CGAL::Point>
 {static} +yIntersection(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : boost::optional<CGAL::Point>
 __
@@ -398,6 +399,7 @@ class C_0006310015568615182127 {
 +getAlias() const : const std::string &
 +getName() const : const std::string &
 +hasAlias() const : bool
+#serialize<Archive>(Archive & archive, const unsigned int) : void
 +setAlias(const std::string & alias) : void
 +setName(const std::string & name) : void
 __
@@ -424,6 +426,7 @@ class C_0012811662139665247956 {
 +hasDefaultValue() const : bool
 +hasValue() const : bool
 +isValid() const : bool
+-serialize<Archive>(Archive & archive, const unsigned int) : void
 +setDefaultValue(double defaultValue) : void
 +setValue(double value) : void
 __
@@ -463,6 +466,7 @@ class C_0009832473294063137986 {
 ..
 +add(T * item) : void
 +execute() : void
+-serialize<Archive>(Archive & archive, const unsigned int) : void
 __
 }
 abstract "Chrysalis::BaseArgument<T>" as C_0004566211642871539975
@@ -508,8 +512,8 @@ class C_0018004126894338009278 {
 +~PointArgument() : void
 ..
 +get() const : const Point *
-+getName() const : const std::string &
 +isValid() const : bool
++name() const : const args::name *
 __
 -name_ : const args::name *
 -patterns_ : const args::patterns *
@@ -518,19 +522,27 @@ class "Chrysalis::BaseArgument<double>" as C_0001471877624587876994
 class C_0001471877624587876994 {
 __
 }
+class "Chrysalis::LineArgument" as C_0017869509652350831688
+class C_0017869509652350831688 {
+#LineArgument(const PointArgument * origin, const PointArgument * destination) : void
++LineArgument(const PointArgument * origin, const args::number * angle) : void
++~LineArgument() : void
+..
++angle() const : const args::number *
++isValid() const : bool
++operator Line_2() const : CGAL::Line
++origin() const : const args::point *
+__
+#angle_ : const args::number *
+#origin_ : const PointArgument *
+}
 class "Chrysalis::RayArgument" as C_0013359262213725603488
 class C_0013359262213725603488 {
 #RayArgument(const PointArgument * origin, const PointArgument * destination) : void
 +RayArgument(const PointArgument * origin, const args::number * angle) : void
-+~RayArgument() : void
 ..
-+getAngle() const : double
-+getOrigin() const : const Point *
-+getOriginName() const : const std::string &
-+isValid() const : bool
++operator Ray_2() const : CGAL::Ray
 __
-#angle_ : const args::number *
-#origin_ : const PointArgument *
 }
 class "Chrysalis::VectorArgument" as C_0000793764540388360553
 class C_0000793764540388360553 {
@@ -540,6 +552,8 @@ class C_0000793764540388360553 {
 ..
 +getLength() const : double
 +isValid() const : bool
++operator Segment_2() const : CGAL::Segment
++operator Vector_2() const : CGAL::Vector
 __
 -length_ : const args::number *
 }
@@ -572,6 +586,7 @@ __
 }
 class "Chrysalis::InstructionsContainer" as C_0005076600185507105511
 class C_0005076600185507105511 {
+-serialize<Archive>(Archive & archive, const unsigned int) : void
 __
 }
 class "Chrysalis::Project" as C_0008495545694619727706
@@ -626,8 +641,8 @@ class "Chrysalis::VectorArgument::LengthArgument" as C_0002143347426146588036
 class C_0002143347426146588036 {
 __
 }
-class "Chrysalis::RayArgument::AngleArgument" as C_0002732319159080533190
-class C_0002732319159080533190 {
+class "Chrysalis::LineArgument::AngleArgument" as C_0015919401656487760638
+class C_0015919401656487760638 {
 __
 }
 class "boost::optional<CGAL::Point_2<CGAL::LinearKernel>>" as C_0010156598219667319661
@@ -730,9 +745,10 @@ C_0018004126894338009278 *-- C_0005387570045788273291 : -name_
 C_0018004126894338009278 *-- C_0004566211642871539975 : -name_
 C_0018004126894338009278 *-- C_0014927223858222449226 : -patterns_
 C_0001471877624587876994 ..|> C_0004566211642871539975
-C_0013359262213725603488 *-- C_0018004126894338009278 : #origin_
-C_0013359262213725603488 *-- C_0001471877624587876994 : #angle_
-C_0013359262213725603488 *-- C_0004566211642871539975 : #angle_
+C_0017869509652350831688 *-- C_0018004126894338009278 : #origin_
+C_0017869509652350831688 *-- C_0001471877624587876994 : #angle_
+C_0017869509652350831688 *-- C_0004566211642871539975 : #angle_
+C_0017869509652350831688 <|-- C_0013359262213725603488
 C_0000793764540388360553 *-- C_0001471877624587876994 : -length_
 C_0000793764540388360553 *-- C_0004566211642871539975 : -length_
 C_0013359262213725603488 <|-- C_0000793764540388360553
@@ -754,7 +770,7 @@ C_0014065787526185037529 *-- C_0014720307744216466084 : -cursorRenderer_
 C_0014065787526185037529 *-- C_0012069508297492912490 : -cartesianRenderer_
 C_0014065787526185037529 o-- C_0010886489269060501830 : -patternRenderers_
 C_0002143347426146588036 --+ C_0000793764540388360553
-C_0002732319159080533190 --+ C_0013359262213725603488
+C_0015919401656487760638 --+ C_0017869509652350831688
 C_0000658342064330119157 ..|> C_0002156575163525990045
 C_0002692846997820672233 ..|> C_0002156575163525990045
 C_0007619089904892218042 ..|> C_0002156575163525990045
@@ -898,6 +914,8 @@ skinparam class<<Base>> {
 
 
  class C_0001471877624587876994 <<Base>> 
+
+
 
 
 

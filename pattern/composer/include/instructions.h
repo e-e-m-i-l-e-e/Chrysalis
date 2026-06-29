@@ -4,6 +4,7 @@
 #include "arguments/PointArgument.h"
 #include "arguments/VectorArgument.h"
 #include "arguments/OptionalArgument.h"
+#include "arguments/ContainerArgument.h"
 #include "arguments/BaseValidArgument.h"
 #include "arguments/BinaryFunctionArgument.h"
 #include "arguments/VectorFunctionArgument.h"
@@ -42,7 +43,7 @@ using IP = Chrysalis::IntersectionPointInstruction;
 #define name(name) new NameArgument(PointName::name)
 #define param(parameterName) new ParameterArgument(parameters->get(ParameterName::parameterName))
 #define point(pointName) new args::point(name(pointName), new args::patterns(*patterns))
-#define pattern(patternSpace) new PatternArgument(patternSpace)
+#define segment(from, to) new args::segment(point(from), point(to))
 
 #define use_last_point common, new OptionalArgument<PointArgument>()
 #define biFunc(operator1, operator2, function) new BinaryFunctionArgument(operator1, operator2, function)

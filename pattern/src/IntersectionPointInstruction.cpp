@@ -1,37 +1,49 @@
 #include "instructions/IntersectionPointInstruction.h"
 
+#include <ranges>
+
+#include "arguments/SegmentArgument.h"
+
 using namespace Chrysalis;
 
 IntersectionPointInstruction::IntersectionPointInstruction(ProjectSpace* space, args::patterns* patterns,
-                                                           const args::name* pointName,
-                                                           const args::name* pointFrom1, const args::name* pointTo1,
-                                                           const args::name* pointFrom2, const args::name* pointTo2)
-    : BasePatternInstruction(space, patterns), pointName_(pointName), pointFrom1_(pointFrom1), pointTo1_(pointTo1),
-                                               pointFrom2_(pointFrom2), pointTo2_(pointTo2) {}
+                                                           const args::line* line,
+                                                           const args::container<args::name>* names,
+                                                           const args::container<args::line>* targets)
+    : BasePatternInstruction(space, patterns), line_(line), names_(names), targets_(targets) {}
 
 IntersectionPointInstruction::~IntersectionPointInstruction() {
-    delete pointFrom1_;
-    delete pointTo1_;
-    delete pointFrom2_;
-    delete pointTo2_;
+    delete line_;
+    delete names_;
+    delete targets_;
 }
 
 bool IntersectionPointInstruction::isValid() {
-    return pointFrom1_->isValid() && patterns_->all(&PatternSpace::hasPoint, pointFrom1_->get()) &&
-           pointFrom2_->isValid() && patterns_->all(&PatternSpace::hasPoint, pointFrom2_->get()) &&
-           pointTo1_->isValid() && patterns_->all(&PatternSpace::hasPoint, pointTo1_->get()) &&
-           pointTo2_->isValid() && patterns_->all(&PatternSpace::hasPoint, pointTo2_->get()) &&
-           pointName_->isValid();
+    return line_->isValid();
 }
 
 void IntersectionPointInstruction::execute() {
-    const auto intersection = ProjectSpace::intersection(
-        CGAL::Line(*patterns_->onAny(&PatternSpace::getPoint, pointFrom1_->get()), *patterns_->onAny(&PatternSpace::getPoint, pointTo1_->get())),
-        CGAL::Line(*patterns_->onAny(&PatternSpace::getPoint, pointFrom2_->get()), *patterns_->onAny(&PatternSpace::getPoint, pointTo2_->get()))
-    );
-    if (intersection) {
-        for (const auto pattern: *patterns_) {
-            pattern->addPoint(pointName_->get(), space().addPoint(intersection.value()));
+    if (dynamic_cast<const args::segment*>(line_)) {
+
+    } else if (dynamic_cast<const args::vector*>(line_)) {
+
+    } else if (dynamic_cast<const args::ray*>(line_)) {
+
+    } else {
+    }
+    for (auto [name, otherLine] : std::views::zip(*names_, *targets_)) {
+        boost::optional<CGAL::Point> intersection;
+        if (const auto vector = dynamic_cast<const args::vector*>(otherLine)) {
+            intersection = ProjectSpace::intersection(static_cast<CGAL::Line>(*line_), static_cast<CGAL::Segment>(*vector));
+        } else if (const auto ray = dynamic_cast<const args::ray*>(otherLine)) {
+            intersection = ProjectSpace::intersection(static_cast<CGAL::Line>(*line_), static_cast<CGAL::Ray>(*ray));
+        } else {
+            intersection = ProjectSpace::intersection(static_cast<CGAL::Line>(*line_), static_cast<CGAL::Line>(*otherLine));
+        }
+        if (intersection) {
+            for (const auto pattern : *patterns_) {
+                pattern->addPoint(name->get(), space().addPoint(*intersection));
+            }
         }
     }
 }

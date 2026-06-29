@@ -121,7 +121,7 @@ void Project1Composer::fillInstructions() {
                                       biFunc(vecFunc(point(N), point(S2), new V::Length()),
                                              num(2), new B::Divide())));
 
-    patternInstructions->add(new D(common, name(N), name(S2), new Vec(point(D), num(90), num(7)), num(2), no_num));
+    patternInstructions->add(new D(common, segment(N, S2), new Vec(point(D), num(90), num(7)), num(2), no_num));
 
     patterns = new args::patterns();
     patterns->add(front);
@@ -161,16 +161,28 @@ void Project1Composer::fillInstructions() {
                                       biFunc(
                                           vecFunc(point(N), point(S2), new V::Length()),
                                           num(2), new B::Divide())));
-    patternInstructions->add(new UD(common, name(N), name(S2), name(DA), name(D1),
+    patternInstructions->add(new UD(common, segment(N, S2), segment(D1, DA),
                                     biFunc(biFunc(biFunc(
                                                    param(BUST_CIRCUMFERENCE), num(20), new B::Divide()),
                                                num(1), new B::Add()),
                                            num(2), new B::Multiply())
     ));
-    patternInstructions->add(new IP(common, name(UB1_1), name(UB), name(UB1), name(D1), name(DA)));
-    patternInstructions->add(new IP(common, name(UB1_2), name(UB), name(UB1), name(D1_1), name(DA)));
-    patternInstructions->add(new IP(common, name(AH1_1), name(AH), name(AH1), name(D1), name(DA)));
-    patternInstructions->add(new IP(common, name(AH1_2), name(AH), name(AH1), name(D1_1), name(DA)));
+    auto segments = new args::container<args::line>();
+    segments->add(segment(D1, DA));
+    segments->add(segment(D1_1, DA));
+    auto names = new args::container<args::name>();
+    names->add(name(UB1_1));
+    names->add(name(UB1_2));
+    patternInstructions->add(new IP(common, segment(UB, UB1), names, segments));
+
+    segments = new args::container<args::line>();
+    segments->add(segment(D1, DA));
+    segments->add(segment(D1_1, DA));
+    names = new args::container<args::name>();
+    names->add(name(AH1_1));
+    names->add(name(AH1_2));
+    patternInstructions->add(new IP(common, segment(AH, AH1), names, segments));
+
     patternInstructions->add(new MP(common, name(UB1),
                                     vecFunc(point(UB1_1), point(UB1_2), new V::Angle()),
                                     vecFunc(point(UB1_1), point(UB1_2), new V::Length()))

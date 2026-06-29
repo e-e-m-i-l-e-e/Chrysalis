@@ -1,30 +1,22 @@
 #ifndef CHRYSALIS_RAYARGUMENT_H
 #define CHRYSALIS_RAYARGUMENT_H
 
-#include "arguments/PointArgument.h"
+#include "arguments/LineArgument.h"
 
 namespace Chrysalis {
-    class RayArgument {
+    class RayArgument: public LineArgument {
         PROVIDE_SERIALIZATION_ACCESS(RayArgument)
-        class AngleArgument;
     protected:
         explicit RayArgument(const PointArgument* origin, const PointArgument* destination);
     public:
         explicit RayArgument(const PointArgument* origin, const args::number* angle);
-        virtual ~RayArgument();
 
-        [[nodiscard]] virtual bool isValid() const;
-
-        [[nodiscard]] double getAngle() const;
-        [[nodiscard]] const Point* getOrigin() const;
-        [[nodiscard]] const std::string& getOriginName() const;
-    protected:
-        /// @uml{composition}
-        const PointArgument* origin_;
-        /// @uml{composition}
-        const args::number* angle_;
+        explicit operator CGAL::Ray() const;
     };
-    SERIALIZE_CONSTRUCTION(RayArgument, origin_, angle_)
+    SERIALIZE_DERIVED_CONSTRUCTION(RayArgument, LineArgument, origin_, angle_)
+    namespace args {
+        using ray = RayArgument;
+    }
 }
 
 #endif //CHRYSALIS_RAYARGUMENT_H

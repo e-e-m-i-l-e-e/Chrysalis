@@ -3,31 +3,24 @@
 using namespace Chrysalis;
 
 UnfoldEdgeDartInstruction::UnfoldEdgeDartInstruction(ProjectSpace* space, args::patterns* patterns,
-                                                     const args::name* edgePointFrom, const args::name* edgePointTo,
-                                                     const args::name* apexPoint, const args::name* leg1Point, const args::number* intake)
-    : BasePatternInstruction(space, patterns), edgePointFrom_(edgePointFrom), edgePointTo_(edgePointTo),
-      apexPoint_(apexPoint), leg1Point_(leg1Point), intake_(intake) {}
+                                                     const args::segment* edge, const args::segment* leg, const args::number* intake)
+    : BasePatternInstruction(space, patterns), edge_(edge), leg_(leg), intake_(intake) {}
 
 UnfoldEdgeDartInstruction::~UnfoldEdgeDartInstruction() {
-    delete edgePointFrom_;
-    delete edgePointTo_;
-    delete apexPoint_;
-    delete leg1Point_;
+    delete edge_;
+    delete leg_;
     delete intake_;
 }
 
 bool UnfoldEdgeDartInstruction::isValid() {
-    return edgePointFrom_->isValid() && patterns_->all(&PatternSpace::hasPoint, edgePointFrom_->get()) &&
-           edgePointTo_->isValid() && patterns_->all(&PatternSpace::hasPoint, edgePointTo_->get()) &&
-           apexPoint_->isValid() && patterns_->all(&PatternSpace::hasPoint, apexPoint_->get()) &&
-           leg1Point_->isValid() && patterns_->all(&PatternSpace::hasPoint, leg1Point_->get()) && intake_->isValid();
+    return edge_->isValid() && leg_->isValid() && intake_->isValid();
 }
 
 void UnfoldEdgeDartInstruction::execute() {
-    const auto leg1Point = patterns_->onAny(&PatternSpace::getPoint, leg1Point_->get());
-    const auto apexPoint = patterns_->onAny(&PatternSpace::getPoint, apexPoint_->get());
-    const auto edgePointFrom = patterns_->onAny(&PatternSpace::getPoint, edgePointFrom_->get());
-    const auto edgePointTo = patterns_->onAny(&PatternSpace::getPoint, edgePointTo_->get());
+    const auto leg1Point = leg_->origin()->get();
+    const auto apexPoint = leg_->destination()->get();
+    const auto edgePointFrom = edge_->origin()->get();
+    const auto edgePointTo = edge_->destination()->get();
     const auto legLength = ProjectSpace::length(*leg1Point, *apexPoint);
     const auto leg2Point = space().addPoint(ProjectSpace::circlesIntersection(
             *edgePointTo,
@@ -45,6 +38,6 @@ void UnfoldEdgeDartInstruction::execute() {
         pattern->notify(&PatternSpaceObserver::relativePointConnectionRemoved, edgePointFrom, leg1Point);
         pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, leg1Point, apexPoint);
         pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, apexPoint, leg2Point);
-        pattern->addPoint(leg1Point_->get() + "_1", leg2Point);
+        pattern->addPoint(leg_->origin()->name()->get() + "_1", leg2Point);
     }
 }

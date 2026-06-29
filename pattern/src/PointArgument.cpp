@@ -18,6 +18,6 @@ const Point* PointArgument::get() const {
     return patterns_->onAny(&PatternSpace::getPoint, name_->get());
 }
 
-const std::string& PointArgument::getName() const {
-    return name_->get();
+const args::name* PointArgument::name() const {
+    return name_;
 }

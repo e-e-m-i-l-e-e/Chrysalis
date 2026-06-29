@@ -10,9 +10,11 @@ namespace CGAL {
     using LinearKernel = Exact_predicates_inexact_constructions_kernel;
     using CircularKernel = Exact_circular_kernel_2;
 
+    using Ray = Ray_2<LinearKernel>;
     using Line = Line_2<LinearKernel>;
     using Point = Point_2<LinearKernel>;
     using Vector = Vector_2<LinearKernel>;
+    using Segment = Segment_2<LinearKernel>;
 
     using CPoint = Point_2<CircularKernel>;
     using Circle = Circle_2<CircularKernel>;

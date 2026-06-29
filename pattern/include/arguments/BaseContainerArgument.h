@@ -2,6 +2,7 @@
 #define CHRYSALIS_BASECONTAINERARGUMENT_H
 
 #include <vector>
+#include <algorithm>
 
 #include "serialization.h"
 

@@ -37,3 +37,11 @@ bool VectorArgument::isValid() const {
 double VectorArgument::getLength() const {
     return length_->get();
 }
+
+VectorArgument::operator CGAL::Vector() const {
+    return CGAL::Vector(static_cast<CGAL::Segment>(*this));
+}
+
+VectorArgument::operator CGAL::Segment() const {
+    return CGAL::Segment(*origin()->get(), ProjectSpace::relativePoint(*origin()->get(), angle_->get(), length_->get()));
+}

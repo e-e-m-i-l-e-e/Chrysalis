@@ -3,30 +3,32 @@
 
 #include <boost/serialization/export.hpp>
 
-#include "BasePatternInstruction.h"
-#include "EdgeDartInstruction.h"
+#include "arguments/SegmentArgument.h"
 #include "arguments/OptionalArgument.h"
-#include "arguments/PatternsContainerArgument.h"
+#include "instructions/BasePatternInstruction.h"
 
 namespace Chrysalis {
     class EdgeDartInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(EdgeDartInstruction)
     public:
         explicit EdgeDartInstruction(ProjectSpace* space, args::patterns* patterns,
-                                     const args::name* edgePointFrom, const args::name* edgePointTo, const args::vector* dartVector,
+                                     const args::segment* edge, const args::vector* dart,
                                      const args::number* leg1Intake, const args::optional<args::number>* leg2Intake);
         ~EdgeDartInstruction() override;
 
         bool isValid() override;
         void execute() override;
     private:
-        const args::name* edgePointFrom_;
-        const args::name* edgePointTo_;
-        const args::vector* dartVector_;
+        /// @uml{composition}
+        const args::segment* edge_;
+        /// @uml{composition}
+        const args::vector* dart_;
+        /// @uml{composition}
         const args::number* leg1Intake_;
+        /// @uml{composition}
         const args::optional<args::number>* leg2Intake_;
     };
-    SERIALIZE_DERIVED_CONSTRUCTION(EdgeDartInstruction, BasePatternInstruction, space_, patterns_, edgePointFrom_, edgePointTo_, dartVector_, leg1Intake_, leg2Intake_)
+    SERIALIZE_DERIVED_CONSTRUCTION(EdgeDartInstruction, BasePatternInstruction, space_, patterns_, edge_, dart_, leg1Intake_, leg2Intake_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::EdgeDartInstruction)

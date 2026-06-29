@@ -3,27 +3,27 @@
 
 #include <boost/serialization/export.hpp>
 
-#include "BasePatternInstruction.h"
+#include "arguments/ContainerArgument.h"
+#include "instructions/BasePatternInstruction.h"
 
 namespace Chrysalis {
     class IntersectionPointInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(IntersectionPointInstruction)
     public:
-        explicit IntersectionPointInstruction(ProjectSpace* space, args::patterns* patterns, const args::name* pointName,
-                                              const args::name* pointFrom1, const args::name* pointTo1,
-                                              const args::name* pointFrom2, const args::name* pointTo2);
+        explicit IntersectionPointInstruction(ProjectSpace* space, args::patterns* patterns,
+                                              const args::line* line,
+                                              const args::container<args::name>* names,
+                                              const args::container<args::line>* targets);
         ~IntersectionPointInstruction() override;
 
         bool isValid() override;
         void execute() override;
     private:
-        const args::name* pointName_;
-        const args::name* pointFrom1_;
-        const args::name* pointTo1_;
-        const args::name* pointFrom2_;
-        const args::name* pointTo2_;
+        const args::line* line_;
+        const args::container<args::name>* names_;
+        const args::container<args::line>* targets_;
     };
-    SERIALIZE_DERIVED_CONSTRUCTION(IntersectionPointInstruction, BasePatternInstruction, space_, patterns_, pointName_, pointFrom1_, pointTo1_, pointFrom2_, pointTo2_)
+    SERIALIZE_DERIVED_CONSTRUCTION(IntersectionPointInstruction, BasePatternInstruction, space_, patterns_, line_, names_, targets_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::IntersectionPointInstruction)

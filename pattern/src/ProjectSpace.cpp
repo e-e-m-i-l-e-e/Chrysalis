@@ -16,6 +16,10 @@ double ProjectSpace::cos(const double value) {
     return round(std::cos(value));
 }
 
+double ProjectSpace::radians(const double degrees) {
+    return degrees * CGAL_PI / 180;
+}
+
 double ProjectSpace::round(const double value) {
     static double factor = std::pow(10.0, CGAL::PRECISION);
     return std::round(value * factor) / factor;
@@ -57,13 +61,6 @@ double ProjectSpace::length(const CGAL::Point& pointFrom, const CGAL::Point& poi
 CGAL::Point ProjectSpace::relativePoint(const CGAL::Point& pointFrom, double angle, double length) {
     angle = angle * CGAL_PI / 180;
     return CGAL::Point(pointFrom.x() + length * cos(angle), pointFrom.y() + length * sin(angle));
-}
-
-boost::optional<CGAL::Point> ProjectSpace::intersection(const CGAL::Line& line1, const CGAL::Line& line2) {
-    const auto intersection = CGAL::intersection(line1, line2);
-    if (!intersection) return boost::none;
-    const CGAL::Point* point = std::get_if<CGAL::Point>(&*intersection);
-    return point ? boost::optional<CGAL::Point>(*point) : boost::none;
 }
 
 boost::optional<CGAL::Point> ProjectSpace::xIntersection(const CGAL::Point& pointFrom, const CGAL::Point& pointTo) {

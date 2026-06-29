@@ -6,15 +6,20 @@
 
 namespace Chrysalis {
     class SegmentArgument: public VectorArgument {
+        PROVIDE_SERIALIZATION_ACCESS(SegmentArgument)
     public:
-        explicit SegmentArgument(const PointArgument* pointFrom, const PointArgument* pointTo);
+        explicit SegmentArgument(const args::point* origin, const args::point* destination);
         ~SegmentArgument() override;
+
+        const args::point* destination() const;
     private:
         /// @uml{composition}
-        const PointArgument* pointFrom_;
-        /// @uml{composition}
-        const PointArgument* pointTo_;
+        const args::point* destination_;
     };
+    SERIALIZE_DERIVED_CONSTRUCTION(SegmentArgument, VectorArgument, origin_, destination_)
+    namespace args {
+        using segment = SegmentArgument;
+    }
 }
 
 #endif //CHRYSALIS_SEGMENTARGUMENT_H
