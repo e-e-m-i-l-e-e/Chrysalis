@@ -21,16 +21,16 @@ void UnfoldEdgeDartInstruction::execute() {
     const auto apexPoint = leg_->destination()->get();
     const auto edgePointFrom = edge_->origin()->get();
     const auto edgePointTo = edge_->destination()->get();
-    const auto legLength = ProjectSpace::length(*leg1Point, *apexPoint);
-    const auto leg2Point = space().addPoint(ProjectSpace::circlesIntersection(
+    const auto legLength = CG::length(*leg1Point, *apexPoint);
+    const auto leg2Point = space().addPoint(CG::circlesIntersection(
             *edgePointTo,
             *apexPoint, legLength,
             *leg1Point, intake_->get())
     );
-    const auto edgeAngle = ProjectSpace::angle(*edgePointFrom, *edgePointTo);
-    const auto dartAngle = ProjectSpace::angle(*apexPoint - *leg1Point, *apexPoint - *leg2Point);
+    const auto edgeAngle = CG::angle(*edgePointFrom, *edgePointTo);
+    const auto dartAngle = CG::angle(*apexPoint - *leg1Point, *apexPoint - *leg2Point);
 
-    space().movePoint(edgePointTo, ProjectSpace::relativePoint(*leg2Point, edgeAngle + dartAngle, ProjectSpace::length(*leg1Point, *edgePointTo)));
+    space().movePoint(edgePointTo, CG::relativePoint(*leg2Point, edgeAngle + dartAngle, CG::length(*leg1Point, *edgePointTo)));
     for (const auto& pattern: *patterns_) {
         pattern->notify(&PatternSpaceObserver::relativePointConnectionRemoved, edgePointFrom, edgePointTo);
         pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, edgePointFrom, leg1Point);

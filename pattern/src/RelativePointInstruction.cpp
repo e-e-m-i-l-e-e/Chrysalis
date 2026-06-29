@@ -29,7 +29,7 @@ bool RelativePointInstruction::isValid() {
 
 void RelativePointInstruction::execute() {
     const Point* pointFrom = origin_->hasArgument() ? origin_->argument()->get() : patterns_->onAny(&PatternSpace::getLastPoint);
-    Point* point = space().addPoint(ProjectSpace::relativePoint(*pointFrom, angle_->get(), distance_->get()));
+    Point* point = space().addPoint(CG::relativePoint(*pointFrom, angle_->get(), distance_->get()));
     for (const auto& patternSpace: *patterns_) {
         patternSpace->addPoint(pointTo_->get(), point);
         patternSpace->notify(&PatternSpaceObserver::relativePointConnectionAdded, pointFrom, point);

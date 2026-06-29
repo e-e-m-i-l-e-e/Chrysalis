@@ -28,12 +28,12 @@ void EdgeDartInstruction::execute() {
         leg1Intake = leg2Intake = leg1Intake_->get() / 2;
     }
 
-    const double edgeAngle = ProjectSpace::angle(*edge_->origin()->get(), *edge_->destination()->get());
+    const double edgeAngle = CG::angle(*edge_->origin()->get(), *edge_->destination()->get());
 
     const double angle = dart_->angle()->get();
-    const Point* centerPoint = space().addPoint(ProjectSpace::relativePoint(*point, edgeAngle - angle, dart_->getLength()));
-    const Point* leg1Point = space().addPoint(ProjectSpace::relativePoint(*point, edgeAngle + 180, leg1Intake));
-    const Point* leg2Point = space().addPoint(ProjectSpace::relativePoint(*point, edgeAngle, leg2Intake));
+    const Point* centerPoint = space().addPoint(CG::relativePoint(*point, edgeAngle - angle, dart_->getLength()));
+    const Point* leg1Point = space().addPoint(CG::relativePoint(*point, edgeAngle + 180, leg1Intake));
+    const Point* leg2Point = space().addPoint(CG::relativePoint(*point, edgeAngle, leg2Intake));
 
     const std::string centerPointName = dart_->origin()->name()->get() + "A";
     const std::string leg1PointName = dart_->origin()->name()->get() + "1";
@@ -50,7 +50,7 @@ void EdgeDartInstruction::execute() {
         pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, centerPoint, leg2Point);
         pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, leg2Point, edge_->destination()->get());
     }
-    const double dartAngle = ProjectSpace::angle(*leg1Point - *centerPoint, *leg2Point - *centerPoint);
-    const auto adjustedVector = ProjectSpace::rotate(*edge_->destination()->get() - *leg2Point, -dartAngle);
+    const double dartAngle = CG::angle(*leg1Point - *centerPoint, *leg2Point - *centerPoint);
+    const auto adjustedVector = CG::rotate(*edge_->destination()->get() - *leg2Point, -dartAngle);
     space().movePoint(edge_->destination()->get(), *leg2Point + adjustedVector);
 }

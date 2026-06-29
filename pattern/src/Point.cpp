@@ -4,7 +4,7 @@ using namespace Chrysalis;
 
 Point::Point(double x, double y): point_(x, y) {}
 
-Point::Point(const CGAL::Point& point): Point(point.x(), point.y()) {}
+Point::Point(const CG::Point& point): Point(point.x(), point.y()) {}
 
 const double& Point::x() const {
     return point_.x();
@@ -14,24 +14,24 @@ const double& Point::y() const {
     return point_.y();
 }
 
-void Point::move(CGAL::Point position) {
+void Point::move(CG::Point position) {
     point_ = position;
     notify(&PointObserver::pointMoved, this);
 }
 
-Point::operator const CGAL::Point&() const {
+Point::operator const CG::Point&() const {
     return point_;
 }
 
-Point::operator const CGAL::CPoint() const {
-    static CGAL::Cartesian_converter<CGAL::LinearKernel, CGAL::CircularKernel> converter;
+Point::operator const CG::CPoint() const {
+    static CGAL::Cartesian_converter<CG::LinearKernel, CG::CircularKernel> converter;
     return converter(point_);
 }
 
-CGAL::Vector Point::operator-(const Point& other) const {
+CG::Vector Point::operator-(const Point& other) const {
     return point_ - other.point_;
 }
 
-CGAL::Point Point::operator+(const CGAL::Vector& vector) const {
+CG::Point Point::operator+(const CG::Vector& vector) const {
     return point_ + vector;
 }

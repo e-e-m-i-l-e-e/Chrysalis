@@ -11,7 +11,7 @@ namespace Chrysalis {
     public:
         explicit RayArgument(const PointArgument* origin, const args::number* angle);
 
-        explicit operator CGAL::Ray() const;
+        explicit operator CG::Ray() const;
     };
     SERIALIZE_DERIVED_CONSTRUCTION(RayArgument, LineArgument, origin_, angle_)
     namespace args {

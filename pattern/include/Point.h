@@ -1,28 +1,28 @@
 #ifndef CHRYSALIS_POINT_H
 #define CHRYSALIS_POINT_H
 
-#include "config.h"
+#include "CGAL.h"
 #include "observers/PointObserver.h"
 #include "observers/BaseObservable.h"
 
 namespace Chrysalis {
     class Point: public BaseObservable<PointObserver> {
     public:
-        Point(const CGAL::Point& point);
+        Point(const CG::Point& point);
         explicit Point(double x, double y);
 
         const double& x() const;
         const double& y() const;
 
-        void move(CGAL::Point point);
+        void move(CG::Point point);
 
-        operator const CGAL::Point&() const;
-        operator const CGAL::CPoint() const;
+        operator const CG::Point&() const;
+        operator const CG::CPoint() const;
 
-        CGAL::Vector operator-(const Point& other) const;
-        CGAL::Point operator+(const CGAL::Vector& vector) const;
+        CG::Vector operator-(const Point& other) const;
+        CG::Point operator+(const CG::Vector& vector) const;
     private:
-        CGAL::Point point_;
+        CG::Point point_;
     };
 }
 

@@ -1,41 +1,28 @@
 @startuml
 class "Chrysalis::Point" as C_0004642218715827055853
 class C_0004642218715827055853 {
-+Point(const CGAL::Point & point) : void
++Point(const CG::Point & point) : void
 +Point(double x, double y) : void
 ..
-+operator+(const CGAL::Vector & vector) const : CGAL::Point
-+operator-(const Point & other) const : CGAL::Vector
++operator+(const CG::Vector & vector) const : CG::Point
++operator-(const Point & other) const : CG::Vector
 ..
-+move(CGAL::Point point) : void
-+operator Point_2() const : const CGAL::CPoint
-+operator const CGAL::Point_2<CGAL::Epick> &() const : const CGAL::Point &
++move(CG::Point point) : void
++operator Point_2() const : const CG::CPoint
++operator const CGAL::Point_2<CGAL::Epick> &() const : const CG::Point &
 +x() const : const double &
 +y() const : const double &
 __
--point_ : CGAL::Point
+-point_ : CG::Point
 }
 class "Chrysalis::ProjectSpace" as C_0007088239576659478452
 class C_0007088239576659478452 {
 +~ProjectSpace() : void
 ..
 +addPoint(double x, double y) : Point *
-+addPoint(const CGAL::Point & point) : Point *
-{static} +angle(const CGAL::Vector & vector1, const CGAL::Vector & vector2) : double
-{static} +angle(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : double
-{static} +circlesIntersection(const CGAL::Point & anchor, CGAL::CPoint center1, double radius1, CGAL::CPoint center2, double radius2) : CGAL::Point
-{static} +cos(double value) : double
-{static} +intersection<T1,T2>(const T1 & obj1, const T2 & obj2) : boost::optional<CGAL::Point>
-{static} +length(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : double
-+movePoint(const Point * point, CGAL::Point position) const : void
-{static} +radians(double degrees) : double
-{static} +relativePoint(const CGAL::Point & pointFrom, double angle, double length) : CGAL::Point
-{static} +rotate(const CGAL::Vector & vector, double angle) : CGAL::Vector
-{static} -round(double value) : double
++addPoint(const CG::Point & point) : Point *
++movePoint(const Point * point, CG::Point position) const : void
 {static} -serialize<Archive>(Archive &, const unsigned int) : void
-{static} +sin(double value) : double
-{static} +xIntersection(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : boost::optional<CGAL::Point>
-{static} +yIntersection(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : boost::optional<CGAL::Point>
 __
 -points_ : std::unordered_set<Point *>
 }
@@ -45,6 +32,27 @@ abstract C_0002610049402694154836 {
 #~BaseInstruction() constexpr = default : void
 ..
 {abstract} +execute() = 0 : void
+__
+}
+class "Chrysalis::AssociativeContainer<T>" as C_0008219096566301061159
+class C_0008219096566301061159 {
++~AssociativeContainer() = default : void
+..
++operator[](size_t index) const : T *
+..
++add(T * item) : void
++begin() const : typename std::vector<T *>::const_iterator
++count() const : size_t
++end() const : typename std::vector<T *>::const_iterator
+-serialize<Archive>(Archive & archive, const unsigned int) : void
+__
+-items_ : std::vector<T *>
+}
+class "Chrysalis::CompositiveContainer<T>" as C_0005688742674269325206
+class C_0005688742674269325206 {
++~CompositiveContainer() : void
+..
+-serialize<Archive>(Archive & archive, const unsigned int) : void
 __
 }
 abstract "Chrysalis::BaseArgument<T>" as C_0004566211642871539975
@@ -71,27 +79,6 @@ class C_0005941615759101781899 {
 __
 -alias_ : boost::optional<std::string>
 -name_ : std::string
-}
-class "Chrysalis::AssociativeContainer<T>" as C_0008219096566301061159
-class C_0008219096566301061159 {
-+~AssociativeContainer() = default : void
-..
-+operator[](size_t index) const : T *
-..
-+add(T * item) : void
-+begin() const : typename std::vector<T *>::const_iterator
-+count() const : size_t
-+end() const : typename std::vector<T *>::const_iterator
--serialize<Archive>(Archive & archive, const unsigned int) : void
-__
--items_ : std::vector<T *>
-}
-class "Chrysalis::CompositiveContainer<T>" as C_0005688742674269325206
-class C_0005688742674269325206 {
-+~CompositiveContainer() : void
-..
--serialize<Archive>(Archive & archive, const unsigned int) : void
-__
 }
 class "Chrysalis::NamedElementsContainer<T>" as C_0004278681173875969640
 class C_0004278681173875969640 {
@@ -132,26 +119,15 @@ __
 -outline_ : OutlineContainer *
 -points_ : std::unordered_map<std::string,const Point *>
 }
-class "Chrysalis::BaseContainerArgument<T>" as C_0006175962668641305930
-class C_0006175962668641305930 {
-#BaseContainerArgument() = default : void
-..
-+add(T * item) : void
-+all<Args...>(bool (T::*)(Args...) const check, typename type_identity<Args>... args) const : _Bool
-+begin() const : typename std::vector<T *>::const_iterator
-+empty() const : bool
-+end() const : typename std::vector<T *>::const_iterator
-+onAny<R,Args...>(R (T::*)(Args...) const method, typename type_identity<Args>... args) const : R
--serialize<Archive>(Archive & archive, const unsigned int) : void
-__
--items_ : std::vector<T *>
-}
-class "Chrysalis::BaseContainerArgument<Chrysalis::PatternSpace>" as C_0009578261159616515276
-class C_0009578261159616515276 {
+class "Chrysalis::AssociativeContainer<Chrysalis::PatternSpace>" as C_0001047017953527499081
+class C_0001047017953527499081 {
 __
 }
 class "Chrysalis::PatternsContainerArgument" as C_0014927223858222449226
 class C_0014927223858222449226 {
++all<Args...>(bool (PatternSpace::*)(Args...) const check, typename type_identity<Args>... args) const : _Bool
++empty() const : bool
++onAny<R,Args...>(R (PatternSpace::*)(Args...) const method, typename type_identity<Args>... args) const : R
 -serialize<Archive>(Archive & archive, const unsigned int) : void
 __
 }
@@ -307,7 +283,7 @@ class C_0017869509652350831688 {
 ..
 +angle() const : const args::number *
 +isValid() const : bool
-+operator Line_2() const : CGAL::Line
++operator Line_2() const : CG::Line
 +origin() const : const args::point *
 __
 #angle_ : const args::number *
@@ -318,7 +294,7 @@ class C_0013359262213725603488 {
 #RayArgument(const PointArgument * origin, const PointArgument * destination) : void
 +RayArgument(const PointArgument * origin, const args::number * angle) : void
 ..
-+operator Ray_2() const : CGAL::Ray
++operator Ray_2() const : CG::Ray
 __
 }
 class "Chrysalis::VectorArgument" as C_0000793764540388360553
@@ -329,8 +305,8 @@ class C_0000793764540388360553 {
 ..
 +getLength() const : double
 +isValid() const : bool
-+operator Segment_2() const : CGAL::Segment
-+operator Vector_2() const : CGAL::Vector
++operator Segment_2() const : CG::Segment
++operator Vector_2() const : CG::Vector
 __
 -length_ : const args::number *
 }
@@ -396,23 +372,17 @@ Syntax samples:
  "A 1" (1.0, 2)
  A (1 * 2 + 3, param("Circumference of something"))
 end note
-class "Chrysalis::ContainerArgument<T>" as C_0007494989236519127279
-class C_0007494989236519127279 {
-+ContainerArgument() = default : void
-+~ContainerArgument() : void
+class "Chrysalis::CompositiveContainer<Chrysalis::Argument<std::string>>" as C_0009351507539470283885
+class C_0009351507539470283885 {
 __
 }
-class "Chrysalis::ContainerArgument<Chrysalis::Argument<std::string>>" as C_0001157220125275224306
-class C_0001157220125275224306 {
-__
-}
-class "Chrysalis::ContainerArgument<Chrysalis::args::line>" as C_0015422875618798892088
-class C_0015422875618798892088 {
+class "Chrysalis::CompositiveContainer<Chrysalis::args::line>" as C_0016195743882894131013
+class C_0016195743882894131013 {
 __
 }
 class "Chrysalis::IntersectionPointInstruction" as C_0007970185002355349518
 class C_0007970185002355349518 {
-+IntersectionPointInstruction(ProjectSpace * space, args::patterns * patterns, const args::line * line, const Chrysalis::ContainerArgument<args::name> * names, const Chrysalis::ContainerArgument<args::line> * targets) : void
++IntersectionPointInstruction(ProjectSpace * space, args::patterns * patterns, const args::line * line, const Chrysalis::CompositiveContainer<args::name> * names, const Chrysalis::CompositiveContainer<args::line> * targets) : void
 +~IntersectionPointInstruction() : void
 ..
 +execute() : void
@@ -612,8 +582,8 @@ C_0006410388496936549037 *-- C_0012923087791918137441 : -outline_
 C_0006410388496936549037 *-- C_0011346594566273340276 : -outline_
 C_0006410388496936549037 *-- C_0004278681173875969640 : -outline_
 C_0006410388496936549037 --> C_0004642218715827055853 : -points_
-C_0009578261159616515276 ..|> C_0006175962668641305930
-C_0009578261159616515276 <|-- C_0014927223858222449226
+C_0001047017953527499081 ..|> C_0008219096566301061159
+C_0001047017953527499081 <|-- C_0014927223858222449226
 C_0012361199867370331426 --> C_0007088239576659478452 : #space_
 C_0012361199867370331426 *-- C_0014927223858222449226 : #patterns_
 C_0002610049402694154836 <|-- C_0012361199867370331426
@@ -686,14 +656,13 @@ C_0014778024850504188725 --> C_0004566211642871539975 : -x_
 C_0014778024850504188725 --> C_0001471877624587876994 : -y_
 C_0014778024850504188725 --> C_0004566211642871539975 : -y_
 C_0012361199867370331426 <|-- C_0014778024850504188725
-C_0006175962668641305930 <|-- C_0007494989236519127279
-C_0001157220125275224306 ..|> C_0007494989236519127279
-C_0015422875618798892088 ..|> C_0007494989236519127279
+C_0009351507539470283885 ..|> C_0005688742674269325206
+C_0016195743882894131013 ..|> C_0005688742674269325206
 C_0007970185002355349518 --> C_0017869509652350831688 : -line_
 C_0007970185002355349518 --> C_0016949743096485278048 : -names_
-C_0007970185002355349518 --> C_0001157220125275224306 : -names_
+C_0007970185002355349518 --> C_0009351507539470283885 : -names_
 C_0007970185002355349518 --> C_0000892009465423237500 : -names_
-C_0007970185002355349518 --> C_0015422875618798892088 : -targets_
+C_0007970185002355349518 --> C_0016195743882894131013 : -targets_
 C_0007970185002355349518 --> C_0017869509652350831688 : -targets_
 C_0012361199867370331426 <|-- C_0007970185002355349518
 C_0017478559692109379194 --> C_0016949743096485278048 : -pointName_
@@ -820,13 +789,13 @@ skinparam class<<Container>> {
 
  class C_0002610049402694154836 <<Base>> 
 
- class C_0004566211642871539975 <<Base>> 
-
- class C_0005941615759101781899 <<Base>> 
-
  class C_0008219096566301061159 <<Container>> 
 
  class C_0005688742674269325206 <<Container>> 
+
+ class C_0004566211642871539975 <<Base>> 
+
+ class C_0005941615759101781899 <<Base>> 
 
  class C_0004278681173875969640 <<Container>> 
 
@@ -836,9 +805,7 @@ skinparam class<<Container>> {
 
 
 
- class C_0006175962668641305930 <<Base>> 
-
- class C_0009578261159616515276 <<Base>> 
+ class C_0001047017953527499081 <<Container>> 
 
  class C_0014927223858222449226 <<Container>> 
 
@@ -892,11 +859,9 @@ skinparam class<<Container>> {
 
  class C_0014778024850504188725 <<Instruction>> 
 
- class C_0007494989236519127279 <<Container>> 
+ class C_0009351507539470283885 <<Container>> 
 
- class C_0001157220125275224306 <<Container>> 
-
- class C_0015422875618798892088 <<Container>> 
+ class C_0016195743882894131013 <<Container>> 
 
  class C_0007970185002355349518 <<Instruction>> 
 

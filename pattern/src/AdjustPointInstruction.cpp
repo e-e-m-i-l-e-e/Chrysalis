@@ -23,7 +23,7 @@ bool Chrysalis::AdjustPointInstruction::isValid() {
 
 void Chrysalis::AdjustPointInstruction::execute() {
     const auto point = patterns_->onAny(&PatternSpace::getPoint, pointName_->get());
-    space().movePoint(point, ProjectSpace::circlesIntersection(
+    space().movePoint(point, CG::circlesIntersection(
         *point,
         *point1_->get(), length1_->get(),
         *point2_->get(), length2_->get()

@@ -32,13 +32,13 @@ void IntersectionPointInstruction::execute() {
     } else {
     }
     for (auto [name, otherLine] : std::views::zip(*names_, *targets_)) {
-        boost::optional<CGAL::Point> intersection;
+        std::optional<CG::Point> intersection;
         if (const auto vector = dynamic_cast<const args::vector*>(otherLine)) {
-            intersection = ProjectSpace::intersection(static_cast<CGAL::Line>(*line_), static_cast<CGAL::Segment>(*vector));
+            intersection = CG::intersection(static_cast<CG::Line>(*line_), static_cast<CG::Segment>(*vector));
         } else if (const auto ray = dynamic_cast<const args::ray*>(otherLine)) {
-            intersection = ProjectSpace::intersection(static_cast<CGAL::Line>(*line_), static_cast<CGAL::Ray>(*ray));
+            intersection = CG::intersection(static_cast<CG::Line>(*line_), static_cast<CG::Ray>(*ray));
         } else {
-            intersection = ProjectSpace::intersection(static_cast<CGAL::Line>(*line_), static_cast<CGAL::Line>(*otherLine));
+            intersection = CG::intersection(static_cast<CG::Line>(*line_), static_cast<CG::Line>(*otherLine));
         }
         if (intersection) {
             for (const auto pattern : *patterns_) {

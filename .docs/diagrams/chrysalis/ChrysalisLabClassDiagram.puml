@@ -239,9 +239,9 @@ __
 class "Chrysalis::PatternSpaceRendererData" as C_0011260122464657857622
 class C_0011260122464657857622 {
 +arrowsSize() const : size_t
-{static} -buildArrow(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : Arrow
-{static} -intersectionPoint(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : CGAL::Point
-{static} -length(const CGAL::Point & pointFrom, const CGAL::Point & pointTo) : float
+{static} -buildArrow(const CG::Point & pointFrom, const CG::Point & pointTo) : Arrow
+{static} -intersectionPoint(const CG::Point & pointFrom, const CG::Point & pointTo) : CG::Point
+{static} -length(const CG::Point & pointFrom, const CG::Point & pointTo) : float
 +linesSize() const : size_t
 +pointAdded(const Point * point) : void
 +pointAtPosition(float x, float y) const : const Point *
@@ -263,10 +263,10 @@ __
 class "Chrysalis::PatternSpaceRendererData::Arrow" as C_0012563006101612362629
 class C_0012563006101612362629 {
 __
-+baseBegin : CGAL::Point
-+baseEnd : CGAL::Point
-+leftWing : CGAL::Point
-+rightWing : CGAL::Point
++baseBegin : CG::Point
++baseEnd : CG::Point
++leftWing : CG::Point
++rightWing : CG::Point
 }
 class "Chrysalis::BaseRenderer<Chrysalis::PatternSpaceRendererData>" as C_0000794775527725307768
 class C_0000794775527725307768 {
@@ -349,8 +349,8 @@ class C_0015644395940763327543 {
 __
 -pendingProject_ : boost::optional<const Project *>
 }
-class "CGAL::Point_2<CGAL::LinearKernel>" as C_0008514880682195124098
-class C_0008514880682195124098 {
+class "CGAL::Point_2<Chrysalis::CG::LinearKernel>" as C_0003407114271749040649
+class C_0003407114271749040649 {
 __
 }
 class "glm::mat<4,4,float,defaultp>" as C_0011668248383743793436
@@ -385,10 +385,10 @@ C_0011260122464657857622 o-- C_0014044642128017633618 : -arrows_
 C_0011260122464657857622 o-- C_0014044642128017633618 : -points_
 C_0003071611879058204012 <|-- C_0011260122464657857622
 C_0012563006101612362629 --+ C_0011260122464657857622
-C_0012563006101612362629 o-- C_0008514880682195124098 : +baseBegin
-C_0012563006101612362629 o-- C_0008514880682195124098 : +baseEnd
-C_0012563006101612362629 o-- C_0008514880682195124098 : +leftWing
-C_0012563006101612362629 o-- C_0008514880682195124098 : +rightWing
+C_0012563006101612362629 o-- C_0003407114271749040649 : +baseBegin
+C_0012563006101612362629 o-- C_0003407114271749040649 : +baseEnd
+C_0012563006101612362629 o-- C_0003407114271749040649 : +leftWing
+C_0012563006101612362629 o-- C_0003407114271749040649 : +rightWing
 C_0000794775527725307768 ..|> C_0011449526761968468087
 C_0008349615279724093078 --> C_0008404019008873523889 : -program_
 C_0000794775527725307768 <|-- C_0008349615279724093078

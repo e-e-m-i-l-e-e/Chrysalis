@@ -6,43 +6,43 @@
 
 using namespace Chrysalis;
 
-PatternSpaceRendererData::Arrow PatternSpaceRendererData::buildArrow(const CGAL::Point& pointFrom, const CGAL::Point& pointTo) {
+PatternSpaceRendererData::Arrow PatternSpaceRendererData::buildArrow(const CG::Point& pointFrom, const CG::Point& pointTo) {
     static constexpr double ARROW_BASE_FACTOR = 0.75;
     static constexpr double ARROW_WING_LENGTH = 0.75;
     static constexpr double ARROW_WING_ANGLE = 20;
 
-    CGAL::Vector dir = pointFrom - pointTo;
+    CG::Vector dir = pointFrom - pointTo;
     dir /= std::sqrt(dir.squared_length());
 
-    const CGAL::Vector shift = dir * POINT_RADIUS;
+    const CG::Vector shift = dir * POINT_RADIUS;
 
     dir *= ARROW_WING_LENGTH;
     return Arrow(
         pointTo + shift,
         pointTo + (dir + shift) * ARROW_BASE_FACTOR,
-        pointTo + ProjectSpace::rotate(dir + shift, ARROW_WING_ANGLE),
-        pointTo + ProjectSpace::rotate(dir + shift, -ARROW_WING_ANGLE)
+        pointTo + CG::rotate(dir + shift, ARROW_WING_ANGLE),
+        pointTo + CG::rotate(dir + shift, -ARROW_WING_ANGLE)
     );
 }
 
-float PatternSpaceRendererData::length(const CGAL::Point& pointFrom, const CGAL::Point& pointTo) {
-    return static_cast<float>(ProjectSpace::length(pointFrom, pointTo));
+float PatternSpaceRendererData::length(const CG::Point& pointFrom, const CG::Point& pointTo) {
+    return static_cast<float>(CG::length(pointFrom, pointTo));
 }
 
-CGAL::Point PatternSpaceRendererData::intersectionPoint(const CGAL::Point& pointFrom, const CGAL::Point& pointTo) {
-    auto intersection = ProjectSpace::xIntersection(pointFrom, pointTo);
-    if (!intersection) intersection = ProjectSpace::yIntersection(pointFrom, pointTo);
+CG::Point PatternSpaceRendererData::intersectionPoint(const CG::Point& pointFrom, const CG::Point& pointTo) {
+    auto intersection = CG::xIntersection(pointFrom, pointTo);
+    if (!intersection) intersection = CG::yIntersection(pointFrom, pointTo);
     return intersection.value();
 }
 
 void PatternSpaceRendererData::pointMoved(const Point* point) {
-    const auto positionLine = [&](const int pointIndex, const int existingPointIndex, const CGAL::Point& existingPoint) {
+    const auto positionLine = [&](const int pointIndex, const int existingPointIndex, const CG::Point& existingPoint) {
         const auto intersection = intersectionPoint(*point, existingPoint);
         lines_[pointIndex].move(*point);
         lines_[pointIndex].attribute(length(intersection, *point));
         lines_[existingPointIndex].attribute(length(intersection, existingPoint));
     };
-    const auto positionArrow = [&](const int lineIndex, const CGAL::Point& pointFrom, const CGAL::Point& pointTo) {
+    const auto positionArrow = [&](const int lineIndex, const CG::Point& pointFrom, const CG::Point& pointTo) {
         auto [baseBegin, baseEnd, leftWing, rightWing] = buildArrow(pointFrom, pointTo);
         arrows_[lineIndex * 2].move(leftWing);
         arrows_[lineIndex * 2 + 1].move(baseBegin);

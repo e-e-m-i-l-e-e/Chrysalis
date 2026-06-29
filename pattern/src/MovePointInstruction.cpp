@@ -11,5 +11,5 @@ bool Chrysalis::MovePointInstruction::isValid() {
 
 void Chrysalis::MovePointInstruction::execute() {
     const Point* point = patterns_->onAny(&PatternSpace::getPoint, pointName_->get());
-    space().movePoint(point, ProjectSpace::relativePoint(*point, angle_->get(), length_->get()));
+    space().movePoint(point, CG::relativePoint(*point, angle_->get(), length_->get()));
 }

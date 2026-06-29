@@ -13,7 +13,7 @@ public:
     }
 protected:
     double calculate() const override {
-        return ProjectSpace::length(*from_->get(), *to_->get());
+        return CG::length(*from_->get(), *to_->get());
     }
 private:
     const PointArgument* from_;
@@ -38,10 +38,10 @@ double VectorArgument::getLength() const {
     return length_->get();
 }
 
-VectorArgument::operator CGAL::Vector() const {
-    return CGAL::Vector(static_cast<CGAL::Segment>(*this));
+VectorArgument::operator CG::Vector() const {
+    return CG::Vector(static_cast<CG::Segment>(*this));
 }
 
-VectorArgument::operator CGAL::Segment() const {
-    return CGAL::Segment(*origin()->get(), ProjectSpace::relativePoint(*origin()->get(), angle_->get(), length_->get()));
+VectorArgument::operator CG::Segment() const {
+    return CG::Segment(*origin()->get(), CG::relativePoint(*origin()->get(), angle_->get(), length_->get()));
 }

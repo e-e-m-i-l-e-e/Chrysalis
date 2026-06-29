@@ -18,7 +18,7 @@ namespace Chrysalis {
         [[nodiscard]] const args::number* angle() const;
         [[nodiscard]] const args::point* origin() const;
 
-        explicit operator CGAL::Line() const;
+        explicit operator CG::Line() const;
     protected:
         /// @uml{composition}
         const PointArgument* origin_;
