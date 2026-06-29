@@ -2,12 +2,24 @@
 #define CHRYSALIS_PATTERNSCONTAINERARGUMENT_H
 
 #include "PatternSpace.h"
-#include "arguments/BaseContainerArgument.h"
 
 namespace Chrysalis {
-    class PatternsContainerArgument: public BaseContainerArgument<PatternSpace> {
-        SERIALIZE_DERIVED_FROM(BaseContainerArgument)
-
+    class PatternsContainerArgument: public AssociativeContainer<PatternSpace> {
+        SERIALIZE_DERIVED_FROM(AssociativeContainer)
+    public:
+        [[nodiscard]] bool empty() const {
+            return count() == 0;
+        }
+        template<typename... Args>
+        bool all(bool (PatternSpace::* check)(Args...) const, std::type_identity_t<Args>... args) const {
+            return std::all_of(begin(), end(), [&](const PatternSpace* item) {
+                return (item->*check)(args...);
+            });
+        }
+        template<typename R, typename... Args>
+        R onAny(R (PatternSpace::* method)(Args...) const, std::type_identity_t<Args>... args) const {
+            return (*begin()->*method)(args...);
+        }
     };
     namespace args {
         using patterns = PatternsContainerArgument;

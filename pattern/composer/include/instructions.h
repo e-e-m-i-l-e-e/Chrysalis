@@ -4,7 +4,6 @@
 #include "arguments/PointArgument.h"
 #include "arguments/VectorArgument.h"
 #include "arguments/OptionalArgument.h"
-#include "arguments/ContainerArgument.h"
 #include "arguments/Argument.h"
 #include "arguments/BinaryFunctionArgument.h"
 #include "arguments/VectorFunctionArgument.h"

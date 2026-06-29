@@ -9,8 +9,6 @@ namespace Chrysalis {
     requires std::derived_from<T, BaseInstruction>
     class BaseInstructionsContainer: public BaseInstruction, public CompositiveContainer<T> {
         SERIALIZE_DERIVED_FROM(CompositiveContainer<T>)
-    protected:
-        explicit BaseInstructionsContainer() = default;
     public:
         void add(T* item) override {
             CompositiveContainer<T>::add(item);

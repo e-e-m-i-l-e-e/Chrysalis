@@ -1,7 +1,7 @@
 #ifndef CHRYSALIS_BASEARGUMENT_H
 #define CHRYSALIS_BASEARGUMENT_H
 
-#include "serialization.h"
+#include "CompositiveContainer.h"
 
 namespace Chrysalis {
     template<typename T>
@@ -17,6 +17,8 @@ namespace Chrysalis {
     };
     namespace args {
         using number = BaseArgument<double>;
+        template<typename T>
+        using container = CompositiveContainer<T>;
     }
 }
 

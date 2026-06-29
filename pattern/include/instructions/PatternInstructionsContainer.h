@@ -16,6 +16,7 @@ namespace Chrysalis {
         args::patterns* patterns_;
     };
     SERIALIZE_DERIVED_CONSTRUCTION(PatternInstructionsContainer, BaseInstructionsContainer<BasePatternInstruction>, patterns_)
+    using InstructionsContainer = BaseInstructionsContainer<PatternInstructionsContainer>;
 }
 
 #endif //CHRYSALIS_PATTERNINSTRUCTIONSCONTAINER_H

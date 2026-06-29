@@ -6,7 +6,7 @@
 #include "Pattern.h"
 #include "Parameter.h"
 #include "ProjectSpace.h"
-#include "instructions/InstructionsContainer.h"
+#include "instructions/PatternInstructionsContainer.h"
 
 namespace Chrysalis {
     class Project {

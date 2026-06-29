@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include "serialization.h"
+
 namespace Chrysalis {
     template<typename T>
     class AssociativeContainer {
