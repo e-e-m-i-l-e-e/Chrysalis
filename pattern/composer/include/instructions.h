@@ -5,7 +5,7 @@
 #include "arguments/VectorArgument.h"
 #include "arguments/OptionalArgument.h"
 #include "arguments/ContainerArgument.h"
-#include "arguments/BaseValidArgument.h"
+#include "arguments/Argument.h"
 #include "arguments/BinaryFunctionArgument.h"
 #include "arguments/VectorFunctionArgument.h"
 
@@ -32,15 +32,15 @@ using IP = Chrysalis::IntersectionPointInstruction;
 
 #define common space, new args::patterns(*patterns)
 
-#define num(val) new NumberArgument(val)
+#define num(val) new Argument<double>(val)
 #define up num(90)
 #define right num(0)
 #define left num(180)
 #define down num(270)
 
 #define no_num new OptionalArgument<BaseArgument<double>>()
-#define no_name new OptionalArgument<BaseArgument<std::string>>()
-#define name(name) new NameArgument(PointName::name)
+#define no_name new OptionalArgument<Argument<std::string>>()
+#define name(name) new Argument<std::string>(PointName::name)
 #define param(parameterName) new ParameterArgument(parameters->get(ParameterName::parameterName))
 #define point(pointName) new args::point(name(pointName), new args::patterns(*patterns))
 #define segment(from, to) new args::segment(point(from), point(to))

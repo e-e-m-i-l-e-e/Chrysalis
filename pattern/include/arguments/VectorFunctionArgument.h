@@ -34,6 +34,4 @@ namespace Chrysalis {
     SERIALIZE_DERIVED_CONSTRUCTION(VectorFunctionArgument, BaseCalculatedArgument<double>, from_, to_, function_)
 }
 
-BOOST_CLASS_EXPORT_KEY(Chrysalis::VectorFunctionArgument)
-
 #endif //CHRYSALIS_VECTORFUNCTIONARGUMENT_H

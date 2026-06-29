@@ -31,6 +31,14 @@ friend void save_construct_data(Archive&, const Class*, const unsigned int);    
 template<class Archive>                                                                                                \
 friend void load_construct_data(Archive&, Class*, const unsigned int);
 
+#define PROVIDE_SERIALIZATION_ACCESS_T(Class)                                                                          \
+template<class Archive, typename Type>                                                                                 \
+friend void serialize(Archive& archive, Class<Type>& project, const unsigned int version);                             \
+template<class Archive, typename Type>                                                                                 \
+friend void save_construct_data(Archive&, const Class<Type>*, const unsigned int);                                     \
+template<class Archive, typename Type>                                                                                 \
+friend void load_construct_data(Archive&, Class<Type>*, const unsigned int);
+
 #define PROVIDE_DEFAULT_SERIALIZATION_ACCESS(Class) explicit Class() = default;
 
 // --- Intrusive serialization -----------------------------------------------------------------------------------------
@@ -82,6 +90,22 @@ void load_construct_data(Archive& archive, Class* obj, const unsigned int) {    
   ::new(obj) Class(__VA_ARGS__);                                                                                       \
 }
 
+#define SERIALIZATION_CONSTRUCTOR_T(Class, ...)                                                                        \
+template<class Archive, typename T>                                                                                    \
+void save_construct_data(Archive& archive, const Class<T>* obj, const unsigned int) {                                  \
+  __VA_OPT__(                                                                                                          \
+    BOOST_PP_LIST_FOR_EACH(ACCESS_FIELD_PTR, _, BOOST_PP_VARIADIC_TO_LIST(__VA_ARGS__))                                \
+  )                                                                                                                    \
+}                                                                                                                      \
+template<class Archive, typename T>                                                                                    \
+void load_construct_data(Archive& archive, Class<T>* obj, const unsigned int) {                                        \
+  __VA_OPT__(                                                                                                          \
+    BOOST_PP_LIST_FOR_EACH(DECLARE_FIELD, _, BOOST_PP_VARIADIC_TO_LIST(__VA_ARGS__))                                   \
+    BOOST_PP_LIST_FOR_EACH(LOAD_FIELD, _, BOOST_PP_VARIADIC_TO_LIST(__VA_ARGS__))                                      \
+  )                                                                                                                    \
+  ::new(obj) Class<T>(__VA_ARGS__);                                                                                    \
+}
+
 // --- Specify members to serialize and use same members in constructor ------------------------------------------------
 
 #define SERIALIZE_CONSTRUCTION(Class, ...)                                                                             \
@@ -95,5 +119,12 @@ void serialize(Archive& archive, Class& obj, const unsigned int version) {      
   archive & boost::serialization::base_object<Base>(obj);                                                              \
 }                                                                                                                      \
 SERIALIZATION_CONSTRUCTOR(Class, __VA_ARGS__)
+
+#define SERIALIZE_DERIVED_CONSTRUCTION_T(Class, Base, ...)                                                             \
+template<class Archive, typename T>                                                                                    \
+void serialize(Archive& archive, Class<T>& obj, const unsigned int version) {                                          \
+  archive & boost::serialization::base_object<Base<T>>(obj);                                                           \
+}                                                                                                                      \
+SERIALIZATION_CONSTRUCTOR_T(Class, __VA_ARGS__)
 
 #endif //CHRYSALIS_SERIALIZATION_H

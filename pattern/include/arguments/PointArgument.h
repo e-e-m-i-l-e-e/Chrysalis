@@ -1,7 +1,7 @@
 #ifndef CHRYSALIS_POINTARGUMENT_H
 #define CHRYSALIS_POINTARGUMENT_H
 
-#include "arguments/BaseArgument.h"
+#include "arguments/Argument.h"
 #include "arguments/PatternsContainerArgument.h"
 
 namespace Chrysalis {
