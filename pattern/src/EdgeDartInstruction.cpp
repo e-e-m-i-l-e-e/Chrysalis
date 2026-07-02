@@ -31,7 +31,7 @@ void EdgeDartInstruction::execute() {
     const double edgeAngle = CG::angle(*edge_->origin()->get(), *edge_->destination()->get());
 
     const double angle = dart_->angle()->get();
-    const Point* centerPoint = space().addPoint(CG::relativePoint(*point, edgeAngle - angle, dart_->getLength()));
+    const Point* centerPoint = space().addPoint(CG::relativePoint(*point, edgeAngle - angle, dart_->length()->get()));
     const Point* leg1Point = space().addPoint(CG::relativePoint(*point, edgeAngle + 180, leg1Intake));
     const Point* leg2Point = space().addPoint(CG::relativePoint(*point, edgeAngle, leg2Intake));
 

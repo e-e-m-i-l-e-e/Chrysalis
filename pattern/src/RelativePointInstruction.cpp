@@ -3,35 +3,34 @@
 using namespace Chrysalis;
 
 RelativePointInstruction::RelativePointInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
-                                                   const OptionalArgument<args::point>* origin, const args::name* pointTo, const args::number* angle, const args::number* distance)
-    : BasePatternInstruction(space, selectedPatterns), origin_(origin), pointTo_(pointTo), angle_(angle),
-      distance_(distance) {}
+                                                   const args::optional<args::point>* origin, const args::name* name,
+                                                   const args::vector* vector)
+    : BasePatternInstruction(space, selectedPatterns), origin_(origin), name_(name), vector_(vector) {}
 
 RelativePointInstruction::~RelativePointInstruction() {
     delete origin_;
-    delete pointTo_;
-    delete angle_;
-    delete distance_;
+    delete name_;
+    delete vector_;
 }
 
 bool RelativePointInstruction::isValid() {
     if (!origin_->argument()) {
         std::unordered_set<const Point*> points;
         for (const auto& patternSpace: *patterns_) {
-            const Point* lastPoint = patternSpace->getPoint(pointTo_->get());
+            const Point* lastPoint = patternSpace->getPoint(name_->get());
             if (!lastPoint) return false;
             points.insert(lastPoint);
         }
         if (points.size() != 1) return false;
     }
-    return pointTo_->isValid() && angle_->isValid() && distance_->isValid();
+    return vector_->isValid();
 }
 
 void RelativePointInstruction::execute() {
     const Point* pointFrom = origin_->hasArgument() ? origin_->argument()->get() : patterns_->onAny(&PatternSpace::getLastPoint);
-    Point* point = space().addPoint(CG::relativePoint(*pointFrom, angle_->get(), distance_->get()));
+    Point* point = space().addPoint(CG::relativePoint(*pointFrom, vector_->angle()->get(), vector_->length()->get()));
     for (const auto& patternSpace: *patterns_) {
-        patternSpace->addPoint(pointTo_->get(), point);
+        patternSpace->addPoint(name_->get(), point);
         patternSpace->notify(&PatternSpaceObserver::relativePointConnectionAdded, pointFrom, point);
     }
 }

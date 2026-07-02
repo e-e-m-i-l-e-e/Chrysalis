@@ -1,29 +1,14 @@
 #include "arguments/LineArgument.h"
-#include "arguments/BaseCalculatedArgument.h"
+
+#include "arguments/VectorFunctionArgument.h"
 
 using namespace Chrysalis;
 
-class LineArgument::AngleArgument: public BaseCalculatedArgument<double> {
-public:
-    explicit AngleArgument(const PointArgument* from, const PointArgument* to): from_(from), to_(to) {}
-
-    bool isValid() const override {
-        return from_->isValid() && to_->isValid();
-    }
-protected:
-    double calculate() const override {
-        return CG::angle(*from_->get(), *to_->get());
-    }
-private:
-    const PointArgument* from_;
-    const PointArgument* to_;
-};
-
-LineArgument::LineArgument(const PointArgument* origin, const args::number* angle)
+LineArgument::LineArgument(const args::point* origin, const args::number* angle)
     : origin_(origin), angle_(angle) {}
 
-LineArgument::LineArgument(const PointArgument* origin, const PointArgument* destination)
-    : origin_(origin), angle_(new AngleArgument(origin, destination)) {}
+LineArgument::LineArgument(const args::point* origin, const args::point* destination)
+    : origin_(origin), angle_(new VectorFunctionArgument(origin->clone(), destination->clone(), new VectorFunction::Angle)) {}
 
 LineArgument::~LineArgument() {
     delete origin_;

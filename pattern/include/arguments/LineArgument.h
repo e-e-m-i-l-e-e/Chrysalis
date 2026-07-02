@@ -1,16 +1,15 @@
 #ifndef CHRYSALIS_LINEARGUMENT_H
 #define CHRYSALIS_LINEARGUMENT_H
 
-#include "arguments/PointArgument.h"
+#include "arguments/PatternPointArgument.h"
 
 namespace Chrysalis {
     class LineArgument {
         PROVIDE_SERIALIZATION_ACCESS(LineArgument)
-        class AngleArgument;
     protected:
-        explicit LineArgument(const PointArgument* origin, const PointArgument* destination);
+        explicit LineArgument(const args::point* origin, const args::point* destination);
     public:
-        explicit LineArgument(const PointArgument* origin, const args::number* angle);
+        explicit LineArgument(const args::point* origin, const args::number* angle);
         virtual ~LineArgument();
 
         [[nodiscard]] virtual bool isValid() const;
@@ -21,7 +20,7 @@ namespace Chrysalis {
         explicit operator CG::Line() const;
     protected:
         /// @uml{composition}
-        const PointArgument* origin_;
+        const args::point* origin_;
         /// @uml{composition}
         const args::number* angle_;
     };

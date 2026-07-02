@@ -1,30 +1,18 @@
 #include "arguments/VectorArgument.h"
 
-#include "arguments/BaseCalculatedArgument.h"
+#include "arguments/VectorFunction.h"
+#include "arguments/OriginPointArgument.h"
+#include "arguments/VectorFunctionArgument.h"
 
 using namespace Chrysalis;
 
-class VectorArgument::LengthArgument: public BaseCalculatedArgument<double> {
-public:
-    explicit LengthArgument(const PointArgument* from, const PointArgument* to): from_(from), to_(to) {}
+VectorArgument::VectorArgument(const args::number* angle, const args::number* length): VectorArgument(new args::origin(), angle, length) {}
 
-    bool isValid() const override {
-        return from_->isValid() && to_->isValid();
-    }
-protected:
-    double calculate() const override {
-        return CG::length(*from_->get(), *to_->get());
-    }
-private:
-    const PointArgument* from_;
-    const PointArgument* to_;
-};
-
-VectorArgument::VectorArgument(const PointArgument* origin, const args::number* angle, const args::number* length)
+VectorArgument::VectorArgument(const args::point* origin, const args::number* angle, const args::number* length)
     : RayArgument(origin, angle), length_(length) {}
 
-VectorArgument::VectorArgument(const PointArgument* origin, const PointArgument* destination)
-: RayArgument(origin, destination), length_(new LengthArgument(origin, destination)) {}
+VectorArgument::VectorArgument(const args::point* origin, const args::point* destination)
+    : RayArgument(origin, destination), length_(new VectorFunctionArgument(origin->clone(), destination->clone(), new VectorFunction::Length)) {}
 
 VectorArgument::~VectorArgument() {
     delete length_;
@@ -34,8 +22,8 @@ bool VectorArgument::isValid() const {
     return RayArgument::isValid() && length_->isValid();
 }
 
-double VectorArgument::getLength() const {
-    return length_->get();
+const args::number* VectorArgument::length() const {
+    return length_;
 }
 
 VectorArgument::operator CG::Vector() const {

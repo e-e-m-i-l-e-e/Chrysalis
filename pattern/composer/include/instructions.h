@@ -1,7 +1,7 @@
 #ifndef CHRYSALIS_INSTRUCTIONS_H
 #define CHRYSALIS_INSTRUCTIONS_H
 
-#include "arguments/PointArgument.h"
+#include "arguments/PatternPointArgument.h"
 #include "arguments/VectorArgument.h"
 #include "arguments/OptionalArgument.h"
 #include "arguments/Argument.h"
@@ -19,7 +19,6 @@
 using B = Chrysalis::BinaryFunction;
 using V = Chrysalis::VectorFunction;
 
-using P = Chrysalis::PointArgument;
 using Vec = Chrysalis::VectorArgument;
 using D = Chrysalis::EdgeDartInstruction;
 using FP = Chrysalis::FreePointInstruction;
@@ -41,10 +40,12 @@ using IP = Chrysalis::IntersectionPointInstruction;
 #define no_name new OptionalArgument<Argument<std::string>>()
 #define name(name) new Argument<std::string>(PointName::name)
 #define param(parameterName) new ParameterArgument(parameters->get(ParameterName::parameterName))
-#define point(pointName) new args::point(name(pointName), new args::patterns(*patterns))
+#define point(pointName) new PatternPointArgument(name(pointName), new args::patterns(*patterns))
 #define segment(from, to) new args::segment(point(from), point(to))
+#define vector_(origin, angle, length) new args::vector(point(origin), angle, length)
+#define vector_0(angle, length) new args::vector(angle, length)
 
-#define use_last_point common, new OptionalArgument<PointArgument>()
+#define use_last_point common, new OptionalArgument<args::point>()
 #define biFunc(operator1, operator2, function) new BinaryFunctionArgument(operator1, operator2, function)
 #define vecFunc(from, to, function) new VectorFunctionArgument(from, to, function)
 

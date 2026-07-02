@@ -11,6 +11,7 @@
 #include "arguments/VectorFunction.h"
 #include "arguments/VectorFunctionArgument.h"
 #include "arguments/OptionalArgument.h"
+#include "arguments/OriginPointArgument.h"
 
 #include "instructions/EdgeDartInstruction.h"
 #include "instructions/FreePointInstruction.h"
@@ -36,8 +37,9 @@ BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::VectorFunction::Angle)
 BOOST_CLASS_EXPORT(Chrysalis::VectorFunctionArgument)
 
 BOOST_CLASS_EXPORT(Chrysalis::Argument<double>)
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::OptionalArgument<PointArgument>)
-
+// BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::OptionalArgument<PointArgument>)
+BOOST_CLASS_EXPORT(Chrysalis::OriginPointArgument)
+BOOST_CLASS_EXPORT(Chrysalis::PatternPointArgument)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::EdgeDartInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::FreePointInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::MovePointInstruction)

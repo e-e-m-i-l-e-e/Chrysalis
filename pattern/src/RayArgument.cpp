@@ -2,10 +2,10 @@
 
 using namespace Chrysalis;
 
-RayArgument::RayArgument(const PointArgument* origin, const PointArgument* destination)
+RayArgument::RayArgument(const args::point* origin, const args::point* destination)
     : LineArgument(origin, destination) {}
 
-RayArgument::RayArgument(const PointArgument* origin, const args::number* angle)
+RayArgument::RayArgument(const args::point* origin, const args::number* angle)
     : LineArgument(origin, angle) {}
 
 RayArgument::operator CG::Ray() const {

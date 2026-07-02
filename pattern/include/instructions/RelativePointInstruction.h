@@ -3,11 +3,11 @@
 
 #include <boost/serialization/export.hpp>
 
-#include "BasePatternInstruction.h"
-#include "RelativePointInstruction.h"
+#include "arguments/VectorArgument.h"
 #include "arguments/OptionalArgument.h"
-#include "arguments/PointArgument.h"
+#include "arguments/PatternPointArgument.h"
 #include "arguments/PatternsContainerArgument.h"
+#include "instructions/BasePatternInstruction.h"
 
 namespace Chrysalis {
     /**
@@ -21,19 +21,18 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(RelativePointInstruction)
     public:
         explicit RelativePointInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
-                                          const args::optional<args::point>* origin, const args::name* pointTo,
-                                          const args::number* angle, const args::number* distance);
+                                          const args::optional<args::point>* origin, const args::name* name,
+                                          const args::vector* vector);
         ~RelativePointInstruction() override;
 
         bool isValid() override;
         void execute() override;
     private:
         const args::optional<args::point>* origin_;
-        const args::name* pointTo_;
-        const args::number* angle_;
-        const args::number* distance_;
+        const args::name* name_;
+        const args::vector* vector_;
     };
-    SERIALIZE_DERIVED_CONSTRUCTION(RelativePointInstruction, BasePatternInstruction, space_, patterns_, origin_, pointTo_, angle_, distance_)
+    SERIALIZE_DERIVED_CONSTRUCTION(RelativePointInstruction, BasePatternInstruction, space_, patterns_, origin_, name_, vector_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::RelativePointInstruction)

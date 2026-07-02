@@ -7,9 +7,9 @@ namespace Chrysalis {
     class RayArgument: public LineArgument {
         PROVIDE_SERIALIZATION_ACCESS(RayArgument)
     protected:
-        explicit RayArgument(const PointArgument* origin, const PointArgument* destination);
+        explicit RayArgument(const args::point* origin, const args::point* destination);
     public:
-        explicit RayArgument(const PointArgument* origin, const args::number* angle);
+        explicit RayArgument(const args::point* origin, const args::number* angle);
 
         explicit operator CG::Ray() const;
     };

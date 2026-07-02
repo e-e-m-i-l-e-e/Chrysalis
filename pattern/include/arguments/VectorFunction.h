@@ -3,7 +3,7 @@
 
 #include <boost/serialization/export.hpp>
 
-#include "arguments/PointArgument.h"
+#include "arguments/PatternPointArgument.h"
 
 #define VECTOR_FUNCTIONS (Length)(Angle)
 

@@ -3,8 +3,7 @@
 
 #include "BaseCalculatedArgument.h"
 #include "arguments/VectorFunction.h"
-#include "arguments/BaseArgument.h"
-#include "arguments/PointArgument.h"
+#include "arguments/PatternPointArgument.h"
 
 namespace Chrysalis {
     /**
