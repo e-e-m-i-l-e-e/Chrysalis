@@ -187,21 +187,21 @@ void Project1Composer::fillInstructions() {
     names->add(name(AH1_2));
     patternInstructions->add(new IP(common, segment(AH, AH1), names, segments));
 
-    patternInstructions->add(new MP(common, name(UB1),
+    patternInstructions->add(new MP(common, vector_(UB1,
                                     vecFunc(point(UB1_1), point(UB1_2), new V::Angle()),
-                                    vecFunc(point(UB1_1), point(UB1_2), new V::Length()))
+                                    vecFunc(point(UB1_1), point(UB1_2), new V::Length())))
     );
-    patternInstructions->add(new MP(common, name(AH1),
+    patternInstructions->add(new MP(common, vector_(AH1,
                                     vecFunc(point(AH1_1), point(AH1_2), new V::Angle()),
-                                    vecFunc(point(AH1_1), point(AH1_2), new V::Length()))
+                                    vecFunc(point(AH1_1), point(AH1_2), new V::Length())))
     );
-    patternInstructions->add(new MP(common, name(AH3),
+    patternInstructions->add(new MP(common, vector_(AH3,
                                     vecFunc(point(AH1_1), point(AH1_2), new V::Angle()),
-                                    vecFunc(point(AH1_1), point(AH1_2), new V::Length()))
+                                    vecFunc(point(AH1_1), point(AH1_2), new V::Length())))
     );
-    patternInstructions->add(new MP(common, name(AH4),
+    patternInstructions->add(new MP(common, vector_(AH4,
                                     vecFunc(point(AH1_1), point(AH1_2), new V::Angle()),
-                                    vecFunc(point(AH1_1), point(AH1_2), new V::Length()))
+                                    vecFunc(point(AH1_1), point(AH1_2), new V::Length())))
     );
 
     patterns = new args::patterns();

@@ -1,15 +1,14 @@
 #include "instructions/MovePointInstruction.h"
 
 Chrysalis::MovePointInstruction::MovePointInstruction(ProjectSpace* space, args::patterns* patterns,
-                                                      const args::name* pointName, const args::number* angle, const args::number* length)
-    : BasePatternInstruction(space, patterns), pointName_(pointName), angle_(angle), length_(length) {}
+                                                      const args::vector* vector)
+    : BasePatternInstruction(space, patterns), vector_(vector) {}
 
 bool Chrysalis::MovePointInstruction::isValid() {
-    return pointName_->isValid() && patterns_->all(&PatternSpace::hasPoint, pointName_->get()) &&
-           angle_->isValid() && length_->isValid();
+    return vector_->isValid();
 }
 
 void Chrysalis::MovePointInstruction::execute() {
-    const Point* point = patterns_->onAny(&PatternSpace::getPoint, pointName_->get());
-    space().movePoint(point, CG::relativePoint(*point, angle_->get(), length_->get()));
+    const Point* point = vector_->origin()->get();
+    space().movePoint(point, CG::relativePoint(*point, vector_->angle()->get(), vector_->length()->get()));
 }
