@@ -159,7 +159,7 @@ void Project1Composer::fillInstructions() {
     patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(S)), name(B), vector_0(down, param(BUST_HEIGHT))));
     patternInstructions->add(new RelP(use_last_point, name(DA), vector_0(left,
                                       biFunc(param(BUST_SPAN), num(2), new B::Divide()))));
-    patternInstructions->add(new Adj(common, point(S2), point(DA), param(APEX_TO_SHOULDER), point(N), param(SHOULDER_LENGTH)));
+    patternInstructions->add(new Adj(common, point(S2), vector_no_angle(DA, param(APEX_TO_SHOULDER)), vector_no_angle(N, param(SHOULDER_LENGTH))));
     patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(N)), name(D1),
                                       vector_0(vecFunc(point(N), point(S2), new V::Angle()),
                                       biFunc(

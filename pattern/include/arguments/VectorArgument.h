@@ -12,6 +12,7 @@ namespace Chrysalis {
         explicit VectorArgument(const args::point* origin, const args::point* destination);
     public:
         explicit VectorArgument(const args::number* angle, const args::number* length);
+        explicit VectorArgument(const args::point* origin, const args::number* length);
         explicit VectorArgument(const args::point* origin, const args::number* angle, const args::number* length);
 
         ~VectorArgument() override;

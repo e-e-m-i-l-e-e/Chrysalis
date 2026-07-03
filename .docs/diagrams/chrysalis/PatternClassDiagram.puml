@@ -186,19 +186,54 @@ class "Chrysalis::BaseArgument<double>" as C_0001471877624587876994
 class C_0001471877624587876994 {
 __
 }
+class "Chrysalis::LineArgument" as C_0017869509652350831688
+class C_0017869509652350831688 {
+#LineArgument(const args::point * origin, const args::point * destination) : void
++LineArgument(const args::point * origin, const args::number * angle) : void
++~LineArgument() : void
+..
++angle() const : const args::number *
++isValid() const : bool
++operator Line_2() const : CG::Line
++origin() const : const args::point *
+__
+#angle_ : const args::number *
+#origin_ : const args::point *
+}
+class "Chrysalis::RayArgument" as C_0013359262213725603488
+class C_0013359262213725603488 {
+#RayArgument(const args::point * origin, const args::point * destination) : void
++RayArgument(const args::point * origin, const args::number * angle) : void
+..
++operator Ray_2() const : CG::Ray
+__
+}
+class "Chrysalis::VectorArgument" as C_0000793764540388360553
+class C_0000793764540388360553 {
+#VectorArgument(const args::point * origin, const args::point * destination) : void
++VectorArgument(const args::number * angle, const args::number * length) : void
++VectorArgument(const args::point * origin, const args::number * length) : void
++VectorArgument(const args::point * origin, const args::number * angle, const args::number * length) : void
++~VectorArgument() : void
+..
++isValid() const : bool
++length() const : const args::number *
++operator Segment_2() const : CG::Segment
++operator Vector_2() const : CG::Vector
+__
+-length_ : const args::number *
+}
 class "Chrysalis::AdjustPointInstruction" as C_0015207408312915139868
 class C_0015207408312915139868 {
-+AdjustPointInstruction(ProjectSpace * space, args::patterns * patterns, const args::point * target, const args::point * point1, const args::number * length1, const args::point * point2, const args::number * length2) : void
++AdjustPointInstruction(ProjectSpace * space, args::patterns * patterns, const args::point * target, const args::vector * vector1, const args::vector * vector2) : void
 +~AdjustPointInstruction() : void
 ..
 +execute() : void
 +isValid() : bool
 __
--length1_ : const args::number *
--length2_ : const args::number *
--point1_ : const args::point *
--point2_ : const args::point *
 -target_ : const args::point *
+-vector1_ : const args::vector *
+-vector2_ : const args::vector *
 }
 abstract "Chrysalis::BinaryFunction" as C_0007965462709904309096
 abstract C_0007965462709904309096 {
@@ -289,42 +324,6 @@ Syntax samples:
  out -> A -> B -> C // (3 instructions)
  out("Name") -> A -> B -> C
 end note
-class "Chrysalis::LineArgument" as C_0017869509652350831688
-class C_0017869509652350831688 {
-#LineArgument(const args::point * origin, const args::point * destination) : void
-+LineArgument(const args::point * origin, const args::number * angle) : void
-+~LineArgument() : void
-..
-+angle() const : const args::number *
-+isValid() const : bool
-+operator Line_2() const : CG::Line
-+origin() const : const args::point *
-__
-#angle_ : const args::number *
-#origin_ : const args::point *
-}
-class "Chrysalis::RayArgument" as C_0013359262213725603488
-class C_0013359262213725603488 {
-#RayArgument(const args::point * origin, const args::point * destination) : void
-+RayArgument(const args::point * origin, const args::number * angle) : void
-..
-+operator Ray_2() const : CG::Ray
-__
-}
-class "Chrysalis::VectorArgument" as C_0000793764540388360553
-class C_0000793764540388360553 {
-#VectorArgument(const args::point * origin, const args::point * destination) : void
-+VectorArgument(const args::number * angle, const args::number * length) : void
-+VectorArgument(const args::point * origin, const args::number * angle, const args::number * length) : void
-+~VectorArgument() : void
-..
-+isValid() const : bool
-+length() const : const args::number *
-+operator Segment_2() const : CG::Segment
-+operator Vector_2() const : CG::Vector
-__
--length_ : const args::number *
-}
 class "Chrysalis::SegmentArgument" as C_0002481955606888948453
 class C_0002481955606888948453 {
 +SegmentArgument(const args::point * origin, const args::point * destination) : void
@@ -411,18 +410,19 @@ class C_0005052358648474368195 {
 -serialize<Archive>(Archive & archive, const unsigned int) : void
 __
 }
-class "Chrysalis::VectorFunctionArgument<Function>" as C_0014113986968579557175
-class C_0014113986968579557175 {
-+VectorFunctionArgument(const args::point * from, const args::point * to) : void
+class "Chrysalis::VectorFunctionArgument" as C_0014380000036712777437
+class C_0014380000036712777437 {
++VectorFunctionArgument(const args::point * from, const args::point * to, const VectorFunction * function) : void
 +~VectorFunctionArgument() : void
 ..
 #calculate() const : double
 +isValid() const : bool
 __
 -from_ : const args::point *
+-function_ : const VectorFunction *
 -to_ : const args::point *
 }
-note top of C_0014113986968579557175
+note top of C_0014380000036712777437
 Syntax samples:
  (A -> B).length
  (A ("Pattern 1") -> "A 1").angle
@@ -595,13 +595,16 @@ C_0010060974190162873338 *-- C_0000892009465423237500 : -name_
 C_0010060974190162873338 *-- C_0014927223858222449226 : -patterns_
 C_0013206232820539036909 <|-- C_0010060974190162873338
 C_0001471877624587876994 ..|> C_0004566211642871539975
+C_0017869509652350831688 *-- C_0013206232820539036909 : #origin_
+C_0017869509652350831688 *-- C_0001471877624587876994 : #angle_
+C_0017869509652350831688 *-- C_0004566211642871539975 : #angle_
+C_0017869509652350831688 <|-- C_0013359262213725603488
+C_0000793764540388360553 *-- C_0001471877624587876994 : -length_
+C_0000793764540388360553 *-- C_0004566211642871539975 : -length_
+C_0013359262213725603488 <|-- C_0000793764540388360553
 C_0015207408312915139868 --> C_0013206232820539036909 : -target_
-C_0015207408312915139868 --> C_0013206232820539036909 : -point1_
-C_0015207408312915139868 --> C_0001471877624587876994 : -length1_
-C_0015207408312915139868 --> C_0004566211642871539975 : -length1_
-C_0015207408312915139868 --> C_0013206232820539036909 : -point2_
-C_0015207408312915139868 --> C_0001471877624587876994 : -length2_
-C_0015207408312915139868 --> C_0004566211642871539975 : -length2_
+C_0015207408312915139868 --> C_0000793764540388360553 : -vector1_
+C_0015207408312915139868 --> C_0000793764540388360553 : -vector2_
 C_0012361199867370331426 <|-- C_0015207408312915139868
 C_0011428982129595746053 --+ C_0007965462709904309096
 C_0007965462709904309096 <|-- C_0011428982129595746053
@@ -624,13 +627,6 @@ C_0014956221374281501729 --> C_0000892009465423237500 : -outlineName_
 C_0014956221374281501729 --> C_0016949743096485278048 : -point_
 C_0014956221374281501729 --> C_0000892009465423237500 : -point_
 C_0012361199867370331426 <|-- C_0014956221374281501729
-C_0017869509652350831688 *-- C_0013206232820539036909 : #origin_
-C_0017869509652350831688 *-- C_0001471877624587876994 : #angle_
-C_0017869509652350831688 *-- C_0004566211642871539975 : #angle_
-C_0017869509652350831688 <|-- C_0013359262213725603488
-C_0000793764540388360553 *-- C_0001471877624587876994 : -length_
-C_0000793764540388360553 *-- C_0004566211642871539975 : -length_
-C_0013359262213725603488 <|-- C_0000793764540388360553
 C_0002481955606888948453 *-- C_0013206232820539036909 : -destination_
 C_0000793764540388360553 <|-- C_0002481955606888948453
 C_0011702185653775348063 ..|> C_0007143007386227679224
@@ -662,9 +658,10 @@ C_0002552188195223875084 --+ C_0007765536925596756322
 C_0007765536925596756322 <|-- C_0002552188195223875084
 C_0005052358648474368195 --+ C_0007765536925596756322
 C_0007765536925596756322 <|-- C_0005052358648474368195
-C_0014113986968579557175 *-- C_0013206232820539036909 : -from_
-C_0014113986968579557175 *-- C_0013206232820539036909 : -to_
-C_0014304995755461162082 <|-- C_0014113986968579557175
+C_0014380000036712777437 *-- C_0013206232820539036909 : -from_
+C_0014380000036712777437 *-- C_0013206232820539036909 : -to_
+C_0014380000036712777437 *-- C_0007765536925596756322 : -function_
+C_0014304995755461162082 <|-- C_0014380000036712777437
 C_0017478559692109379194 --> C_0000793764540388360553 : -vector_
 C_0012361199867370331426 <|-- C_0017478559692109379194
 C_0013206232820539036909 <|-- C_0017376794233664256424
@@ -806,6 +803,12 @@ skinparam class<<Container>> {
 
  class C_0001471877624587876994 <<Base>> 
 
+ class C_0017869509652350831688 <<Argument>> 
+
+ class C_0013359262213725603488 <<Argument>> 
+
+ class C_0000793764540388360553 <<Argument>> 
+
  class C_0015207408312915139868 <<Instruction>> 
 
  class C_0007965462709904309096 <<Function>> 
@@ -828,12 +831,6 @@ skinparam class<<Container>> {
 
  class C_0014956221374281501729 <<Instruction>> 
 
- class C_0017869509652350831688 <<Argument>> 
-
- class C_0013359262213725603488 <<Argument>> 
-
- class C_0000793764540388360553 <<Argument>> 
-
  class C_0002481955606888948453 <<Argument>> 
 
  class C_0011702185653775348063 <<Argument>> 
@@ -854,7 +851,7 @@ skinparam class<<Container>> {
 
  class C_0005052358648474368195 <<Function>> 
 
- class C_0014113986968579557175 <<Argument>> 
+ class C_0014380000036712777437 <<Argument>> 
 
  class C_0017478559692109379194 <<Instruction>> 
 

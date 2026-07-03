@@ -8,6 +8,8 @@ using namespace Chrysalis;
 
 VectorArgument::VectorArgument(const args::number* angle, const args::number* length): VectorArgument(new args::origin(), angle, length) {}
 
+VectorArgument::VectorArgument(const args::point* origin, const args::number* length): VectorArgument(origin, new Argument<double>(0), length) {}
+
 VectorArgument::VectorArgument(const args::point* origin, const args::number* angle, const args::number* length)
     : RayArgument(origin, angle), length_(length) {}
 
