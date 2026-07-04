@@ -5,7 +5,7 @@
 #include "arguments/BaseCalculatedArgument.h"
 
 namespace Chrysalis {
-    class BinaryFunctionArgument: public BaseCalculatedArgument<double> {
+    class BinaryFunctionArgument: public BaseCalculatedArgument {
         PROVIDE_SERIALIZATION_ACCESS(BinaryFunctionArgument)
     public:
         explicit BinaryFunctionArgument(const args::number* operand1, const args::number* operand2, const BinaryFunction* function);
@@ -22,7 +22,7 @@ namespace Chrysalis {
         /// @uml{composition}
         const BinaryFunction* function_;
     };
-    SERIALIZE_DERIVED_CONSTRUCTION(BinaryFunctionArgument, BaseCalculatedArgument<double>, operand1_, operand2_, function_)
+    SERIALIZE_DERIVED_CONSTRUCTION(BinaryFunctionArgument, BaseCalculatedArgument, operand1_, operand2_, function_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::BinaryFunctionArgument)

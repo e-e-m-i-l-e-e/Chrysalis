@@ -7,7 +7,7 @@
 #include "BaseCalculatedArgument.h"
 
 namespace Chrysalis {
-    class ParameterArgument: public BaseCalculatedArgument<double> {
+    class ParameterArgument: public BaseCalculatedArgument {
         PROVIDE_SERIALIZATION_ACCESS(ParameterArgument)
     public:
         explicit ParameterArgument(Parameter* parameter);
@@ -18,7 +18,7 @@ namespace Chrysalis {
     private:
         Parameter* parameter_;
     };
-    SERIALIZE_DERIVED_CONSTRUCTION(ParameterArgument, BaseCalculatedArgument<double>, parameter_)
+    SERIALIZE_DERIVED_CONSTRUCTION(ParameterArgument, BaseCalculatedArgument, parameter_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::ParameterArgument)

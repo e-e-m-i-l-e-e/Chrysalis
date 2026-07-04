@@ -1,14 +1,29 @@
 #include "instructions/MovePointInstruction.h"
 
 Chrysalis::MovePointInstruction::MovePointInstruction(ProjectSpace* space, args::patterns* patterns,
-                                                      const args::vector* vector)
-    : BasePatternInstruction(space, patterns), vector_(vector) {}
+                                                          const PatternPointArgument* point,
+                                                          const args::vector* vector1,
+                                                          const args::optional<args::vector>* vector2)
+    : BasePatternInstruction(space, patterns), point_(point), vector1_(vector1), vector2_(vector2) {}
+
+Chrysalis::MovePointInstruction::~MovePointInstruction() {
+    delete point_;
+    delete vector1_;
+    delete vector2_;
+}
 
 bool Chrysalis::MovePointInstruction::isValid() {
-    return vector_->isValid();
+    return point_->isValid() && vector1_->isValid();
 }
 
 void Chrysalis::MovePointInstruction::execute() {
-    const Point* point = vector_->origin()->get();
-    space().movePoint(point, CG::relativePoint(*point, vector_->angle()->get(), vector_->length()->get()));
+    if (vector2_->hasArgument()) {
+        space().movePoint(point_->get(), CG::circlesIntersection(
+                              *point_->get(),
+                              *vector1_->origin()->get(), vector1_->length()->get(),
+                              *vector2_->argument()->origin()->get(), vector2_->argument()->length()->get()
+                          ));
+    } else {
+        space().movePoint(point_->get(), CG::relativePoint(*point_->get(), vector1_->angle()->get(), vector1_->length()->get()));
+    }
 }

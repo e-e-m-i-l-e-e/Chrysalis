@@ -11,7 +11,6 @@
 #include "instructions/EdgeDartInstruction.h"
 #include "instructions/MovePointInstruction.h"
 #include "instructions/FreePointInstruction.h"
-#include "instructions/AdjustPointInstruction.h"
 #include "instructions/RelativePointInstruction.h"
 #include "instructions/UnfoldEdgeDartInstruction.h"
 #include "instructions/IntersectionPointInstruction.h"
@@ -23,7 +22,6 @@ using Vec = Chrysalis::VectorArgument;
 using D = Chrysalis::EdgeDartInstruction;
 using FP = Chrysalis::FreePointInstruction;
 using MP = Chrysalis::MovePointInstruction;
-using Adj = Chrysalis::AdjustPointInstruction;
 using UD = Chrysalis::UnfoldEdgeDartInstruction;
 using RelP = Chrysalis::RelativePointInstruction;
 using IP = Chrysalis::IntersectionPointInstruction;

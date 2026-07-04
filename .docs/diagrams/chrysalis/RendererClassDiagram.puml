@@ -434,14 +434,6 @@ __
 -defaultValue_ : boost::optional<double>
 -value_ : boost::optional<double>
 }
-abstract "Chrysalis::BaseInstruction" as C_0002610049402694154836
-abstract C_0002610049402694154836 {
-#BaseInstruction() = default : void
-#~BaseInstruction() constexpr = default : void
-..
-{abstract} +execute() = 0 : void
-__
-}
 abstract "Chrysalis::BaseArgument<T>" as C_0004566211642871539975
 abstract C_0004566211642871539975 {
 #BaseArgument() = default : void
@@ -451,6 +443,33 @@ abstract C_0004566211642871539975 {
 {abstract} +isValid() const = 0 : bool
 {static} -serialize<Archive>(Archive &, const unsigned int) : void
 __
+}
+class "Chrysalis::BaseArgument<double>" as C_0001471877624587876994
+class C_0001471877624587876994 {
+__
+}
+abstract "Chrysalis::BaseCalculatedArgument" as C_0012937012691713881979
+abstract C_0012937012691713881979 {
+#BaseCalculatedArgument() = default : void
+#BaseCalculatedArgument(const double & value) : void
+..
+{abstract} #calculate() const = 0 : double
++get() const : const double &
+-serialize<Archive>(Archive & archive, const unsigned int) : void
+__
+-value_ : boost::optional<double>
+}
+class "Chrysalis::Expression" as C_0016508219162996417863
+class C_0016508219162996417863 {
+-Expression() = default : void
++Expression(const std::string & name, const args::number * expression) : void
++~Expression() : void
+..
+#calculate() const : double
++isValid() const : bool
+-serialize<Archive>(Archive & archive, const unsigned int) : void
+__
+-expression_ : const args::number *
 }
 class "Chrysalis::AssociativeContainer<Chrysalis::PatternSpace>" as C_0001047017953527499081
 class C_0001047017953527499081 {
@@ -462,6 +481,14 @@ class C_0014927223858222449226 {
 +empty() const : bool
 +onAny<R,Args...>(R (PatternSpace::*)(Args...) const method, typename type_identity<Args>... args) const : R
 -serialize<Archive>(Archive & archive, const unsigned int) : void
+__
+}
+abstract "Chrysalis::BaseInstruction" as C_0002610049402694154836
+abstract C_0002610049402694154836 {
+#BaseInstruction() = default : void
+#~BaseInstruction() constexpr = default : void
+..
+{abstract} +execute() = 0 : void
 __
 }
 abstract "Chrysalis::BasePatternInstruction" as C_0012361199867370331426
@@ -502,13 +529,17 @@ class "Chrysalis::NamedElementsContainer<Chrysalis::Parameter>" as C_00097995155
 class C_0009799515597078618207 {
 __
 }
+class "Chrysalis::NamedElementsContainer<Chrysalis::Expression>" as C_0012591562113019642600
+class C_0012591562113019642600 {
+__
+}
 class "Chrysalis::BaseInstructionsContainer<Chrysalis::PatternInstructionsContainer>" as C_0006377274413643530130
 class C_0006377274413643530130 {
 __
 }
 class "Chrysalis::Project" as C_0008495545694619727706
 class C_0008495545694619727706 {
-+Project(std::string name, ProjectSpace * space, ParametersContainer * parameters, PatternsContainer * patterns, InstructionsContainer * instructions) : void
++Project(std::string name, ProjectSpace * space, ParametersContainer * parameters, ExpressionsContainer * expressions, PatternsContainer * patterns, InstructionsContainer * instructions) : void
 +~Project() : void
 ..
 {static} +create() : Project *
@@ -524,6 +555,7 @@ class C_0008495545694619727706 {
 __
 {static} +PROJECT_FILE_SUFFIX : const char *const
 {static} +PROJECT_NAME_FILTER : const char *const
+-expressions_ : ExpressionsContainer *
 -instructions_ : InstructionsContainer *
 -name_ : std::string
 -parameters_ : ParametersContainer *
@@ -641,6 +673,13 @@ C_0012811662139665247956 o-- C_0006902435785336449105 : -value_
 C_0012811662139665247956 o-- C_0006902435785336449105 : -defaultValue_
 C_0005941615759101781899 <|-- C_0012811662139665247956
 C_0007619089904892218042 <|-- C_0012811662139665247956
+C_0001471877624587876994 ..|> C_0004566211642871539975
+C_0012937012691713881979 o-- C_0006902435785336449105 : -value_
+C_0001471877624587876994 <|-- C_0012937012691713881979
+C_0016508219162996417863 --> C_0001471877624587876994 : -expression_
+C_0016508219162996417863 --> C_0004566211642871539975 : -expression_
+C_0005941615759101781899 <|-- C_0016508219162996417863
+C_0012937012691713881979 <|-- C_0016508219162996417863
 C_0001047017953527499081 ..|> C_0008219096566301061159
 C_0001047017953527499081 <|-- C_0014927223858222449226
 C_0012361199867370331426 --> C_0007088239576659478452 : #space_
@@ -653,6 +692,7 @@ C_0003800391587746138531 *-- C_0014927223858222449226 : -patterns_
 C_0006776945885242230637 <|-- C_0003800391587746138531
 C_0000137605349055924040 ..|> C_0004278681173875969640
 C_0009799515597078618207 ..|> C_0004278681173875969640
+C_0012591562113019642600 ..|> C_0004278681173875969640
 C_0006377274413643530130 ..|> C_0009832473294063137986
 C_0008495545694619727706 *-- C_0007088239576659478452 : -space_
 C_0008495545694619727706 *-- C_0005824426893526781565 : -patterns_
@@ -661,6 +701,9 @@ C_0008495545694619727706 *-- C_0004278681173875969640 : -patterns_
 C_0008495545694619727706 *-- C_0012811662139665247956 : -parameters_
 C_0008495545694619727706 *-- C_0009799515597078618207 : -parameters_
 C_0008495545694619727706 *-- C_0004278681173875969640 : -parameters_
+C_0008495545694619727706 *-- C_0016508219162996417863 : -expressions_
+C_0008495545694619727706 *-- C_0012591562113019642600 : -expressions_
+C_0008495545694619727706 *-- C_0004278681173875969640 : -expressions_
 C_0008495545694619727706 *-- C_0003800391587746138531 : -instructions_
 C_0008495545694619727706 *-- C_0006377274413643530130 : -instructions_
 C_0008495545694619727706 *-- C_0009832473294063137986 : -instructions_
@@ -789,19 +832,27 @@ skinparam class<<Base>> {
 
 
 
- class C_0002610049402694154836 <<Base>> 
-
  class C_0004566211642871539975 <<Base>> 
 
+ class C_0001471877624587876994 <<Base>> 
+
+ class C_0012937012691713881979 <<Base>> 
 
 
 
+
+
+
+
+ class C_0002610049402694154836 <<Base>> 
 
  class C_0012361199867370331426 <<Base>> 
 
  class C_0009832473294063137986 <<Base>> 
 
  class C_0006776945885242230637 <<Base>> 
+
+
 
 
 

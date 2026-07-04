@@ -164,7 +164,7 @@ void Project1Composer::fillInstructions() {
     patternInstructions->add(new RelP(common, name(N1), vector_0(left, vecFunc(point(S), point(N), new V::Length)), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(N3), vector_(N, down, biFunc(vecFunc(point(N1), point(N), new V::Length), num(3), new B::Divide())), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(N4), vector_(N2, left, biFunc(vecFunc(point(N1), point(N2), new V::Length), num(3), new B::Divide())), new args::optional<args::line>()));
-    patternInstructions->add(new Adj(common, point(S2), vector_no_angle(DA, param(APEX_TO_SHOULDER)), vector_no_angle(N, param(SHOULDER_LENGTH))));
+    patternInstructions->add(new MP(common, point(S2), vector_no_angle(DA, param(APEX_TO_SHOULDER)), new args::optional(vector_no_angle(N, param(SHOULDER_LENGTH)))));
     patternInstructions->add(new RelP(common, name(D1),
                                       vector_(N, vecFunc(point(N), point(S2), new V::Angle()),
                                       biFunc(
@@ -192,21 +192,25 @@ void Project1Composer::fillInstructions() {
     names->add(name(AH1_2));
     patternInstructions->add(new IP(common, segment(AH, AH1), names, segments));
 
-    patternInstructions->add(new MP(common, vector_(UB1,
+    patternInstructions->add(new MP(common, point(UB1), vector_0(
                                     vecFunc(point(UB1_1), point(UB1_2), new V::Angle()),
-                                    vecFunc(point(UB1_1), point(UB1_2), new V::Length())))
+                                    vecFunc(point(UB1_1), point(UB1_2), new V::Length())),
+                                    new args::optional<args::vector>())
     );
-    patternInstructions->add(new MP(common, vector_(AH1,
+    patternInstructions->add(new MP(common, point(AH1), vector_0(
                                     vecFunc(point(AH1_1), point(AH1_2), new V::Angle()),
-                                    vecFunc(point(AH1_1), point(AH1_2), new V::Length())))
+                                    vecFunc(point(AH1_1), point(AH1_2), new V::Length())),
+                                    new args::optional<args::vector>())
     );
-    patternInstructions->add(new MP(common, vector_(AH3,
+    patternInstructions->add(new MP(common, point(AH3), vector_0(
                                     vecFunc(point(AH1_1), point(AH1_2), new V::Angle()),
-                                    vecFunc(point(AH1_1), point(AH1_2), new V::Length())))
+                                    vecFunc(point(AH1_1), point(AH1_2), new V::Length())),
+                                    new args::optional<args::vector>())
     );
-    patternInstructions->add(new MP(common, vector_(AH4,
+    patternInstructions->add(new MP(common, point(AH4), vector_0(
                                     vecFunc(point(AH1_1), point(AH1_2), new V::Angle()),
-                                    vecFunc(point(AH1_1), point(AH1_2), new V::Length())))
+                                    vecFunc(point(AH1_1), point(AH1_2), new V::Length())),
+                                    new args::optional<args::vector>())
     );
     patternInstructions->add(new CurveInstruction(common, segment(N, N3), segment(N2, N4), new args::container<PatternPointArgument>()));
 

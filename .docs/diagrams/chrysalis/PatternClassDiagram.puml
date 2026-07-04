@@ -1,4 +1,19 @@
 @startuml
+class "Chrysalis::BaseNamedElement" as C_0005941615759101781899
+class C_0005941615759101781899 {
+#BaseNamedElement() = default : void
+#BaseNamedElement(const std::string & name) : void
+..
++getAlias() const : const std::string &
++getName() const : const std::string &
++hasAlias() const : bool
+#serialize<Archive>(Archive & archive, const unsigned int) : void
++setAlias(const std::string & alias) : void
++setName(const std::string & name) : void
+__
+-alias_ : boost::optional<std::string>
+-name_ : std::string
+}
 class "Chrysalis::Curve" as C_0018156493150910561312
 class C_0018156493150910561312 {
 +Curve(CG::Point handleFrom, CG::Point handleTo, const std::vector<CG::Point> & points) : void
@@ -74,21 +89,6 @@ abstract C_0004566211642871539975 {
 {abstract} +isValid() const = 0 : bool
 {static} -serialize<Archive>(Archive &, const unsigned int) : void
 __
-}
-class "Chrysalis::BaseNamedElement" as C_0005941615759101781899
-class C_0005941615759101781899 {
-#BaseNamedElement() = default : void
-#BaseNamedElement(const std::string & name) : void
-..
-+getAlias() const : const std::string &
-+getName() const : const std::string &
-+hasAlias() const : bool
-#serialize<Archive>(Archive & archive, const unsigned int) : void
-+setAlias(const std::string & alias) : void
-+setName(const std::string & name) : void
-__
--alias_ : boost::optional<std::string>
--name_ : std::string
 }
 class "Chrysalis::NamedElementsContainer<T>" as C_0004278681173875969640
 class C_0004278681173875969640 {
@@ -174,10 +174,99 @@ abstract C_0013206232820539036909 {
 {static} -serialize<Archive>(Archive &, const unsigned int) : void
 __
 }
+abstract "Chrysalis::BinaryFunction" as C_0007965462709904309096
+abstract C_0007965462709904309096 {
+#BinaryFunction() = default : void
++~BinaryFunction() constexpr = default : void
+..
+{abstract} +evaluate(const args::number * operand1, const args::number * operand2) const = 0 : double
+{static} #evaluate(const args::number * operand1, const args::number * operand2, const std::function<double (double,double)> & evaluator) : double
+{static} -serialize<Archive>(Archive &, const unsigned int) : void
+__
+}
+class "Chrysalis::BinaryFunction::Add" as C_0011428982129595746053
+class C_0011428982129595746053 {
++evaluate(const args::number * operand1, const args::number * operand2) const : double
+-serialize<Archive>(Archive & archive, const unsigned int) : void
+__
+}
+class "Chrysalis::BinaryFunction::Subtract" as C_0013667873678198727522
+class C_0013667873678198727522 {
++evaluate(const args::number * operand1, const args::number * operand2) const : double
+-serialize<Archive>(Archive & archive, const unsigned int) : void
+__
+}
+class "Chrysalis::BinaryFunction::Multiply" as C_0018089401781767894990
+class C_0018089401781767894990 {
++evaluate(const args::number * operand1, const args::number * operand2) const : double
+-serialize<Archive>(Archive & archive, const unsigned int) : void
+__
+}
+class "Chrysalis::BinaryFunction::Divide" as C_0002897019908582465539
+class C_0002897019908582465539 {
++evaluate(const args::number * operand1, const args::number * operand2) const : double
+-serialize<Archive>(Archive & archive, const unsigned int) : void
+__
+}
+class "Chrysalis::BaseArgument<double>" as C_0001471877624587876994
+class C_0001471877624587876994 {
+__
+}
+abstract "Chrysalis::BaseCalculatedArgument" as C_0012937012691713881979
+abstract C_0012937012691713881979 {
+#BaseCalculatedArgument() = default : void
+#BaseCalculatedArgument(const double & value) : void
+..
+{abstract} #calculate() const = 0 : double
++get() const : const double &
+-serialize<Archive>(Archive & archive, const unsigned int) : void
+__
+-value_ : boost::optional<double>
+}
+class "Chrysalis::BinaryFunctionArgument" as C_0001365093100257756951
+class C_0001365093100257756951 {
++BinaryFunctionArgument(const args::number * operand1, const args::number * operand2, const BinaryFunction * function) : void
++~BinaryFunctionArgument() : void
+..
+#calculate() const : double
++isValid() const : bool
+__
+-function_ : const BinaryFunction *
+-operand1_ : const args::number *
+-operand2_ : const args::number *
+}
+class "Chrysalis::OptionalArgument<T>" as C_0007143007386227679224
+class C_0007143007386227679224 {
++OptionalArgument() = default : void
++OptionalArgument(const T * argument) : void
++~OptionalArgument() : void
+..
++argument() const : const T *
++hasArgument() const : bool
+-serialize<Archive>(Archive & archive, const unsigned int) : void
+__
+-argument_ : const T *
+}
 class "Chrysalis::Argument<std::string>" as C_0016949743096485278048
 class C_0016949743096485278048 {
 __
 }
+class "Chrysalis::BuildOutlineInstruction" as C_0014956221374281501729
+class C_0014956221374281501729 {
++BuildOutlineInstruction(ProjectSpace * space, args::patterns * selectedPatterns, args::name * outlineName, args::name * point) : void
++~BuildOutlineInstruction() : void
+..
++execute() : void
++isValid() : bool
+__
+-outlineName_ : args::name *
+-point_ : args::name *
+}
+note top of C_0014956221374281501729
+Syntax samples:
+ out -> A -> B -> C // (3 instructions)
+ out("Name") -> A -> B -> C
+end note
 class "Chrysalis::PatternPointArgument" as C_0010060974190162873338
 class C_0010060974190162873338 {
 +PatternPointArgument(const args::name * name, const args::patterns * patterns) : void
@@ -191,10 +280,6 @@ class C_0010060974190162873338 {
 __
 -name_ : const args::name *
 -patterns_ : const args::patterns *
-}
-class "Chrysalis::BaseArgument<double>" as C_0001471877624587876994
-class C_0001471877624587876994 {
-__
 }
 class "Chrysalis::LineArgument" as C_0017869509652350831688
 class C_0017869509652350831688 {
@@ -233,107 +318,6 @@ class C_0000793764540388360553 {
 __
 -length_ : const args::number *
 }
-class "Chrysalis::AdjustPointInstruction" as C_0015207408312915139868
-class C_0015207408312915139868 {
-+AdjustPointInstruction(ProjectSpace * space, args::patterns * patterns, const args::point * target, const args::vector * vector1, const args::vector * vector2) : void
-+~AdjustPointInstruction() : void
-..
-+execute() : void
-+isValid() : bool
-__
--target_ : const args::point *
--vector1_ : const args::vector *
--vector2_ : const args::vector *
-}
-abstract "Chrysalis::BinaryFunction" as C_0007965462709904309096
-abstract C_0007965462709904309096 {
-#BinaryFunction() = default : void
-+~BinaryFunction() constexpr = default : void
-..
-{abstract} +evaluate(const args::number * operand1, const args::number * operand2) const = 0 : double
-{static} #evaluate(const args::number * operand1, const args::number * operand2, const std::function<double (double,double)> & evaluator) : double
-{static} -serialize<Archive>(Archive &, const unsigned int) : void
-__
-}
-class "Chrysalis::BinaryFunction::Add" as C_0011428982129595746053
-class C_0011428982129595746053 {
-+evaluate(const args::number * operand1, const args::number * operand2) const : double
--serialize<Archive>(Archive & archive, const unsigned int) : void
-__
-}
-class "Chrysalis::BinaryFunction::Subtract" as C_0013667873678198727522
-class C_0013667873678198727522 {
-+evaluate(const args::number * operand1, const args::number * operand2) const : double
--serialize<Archive>(Archive & archive, const unsigned int) : void
-__
-}
-class "Chrysalis::BinaryFunction::Multiply" as C_0018089401781767894990
-class C_0018089401781767894990 {
-+evaluate(const args::number * operand1, const args::number * operand2) const : double
--serialize<Archive>(Archive & archive, const unsigned int) : void
-__
-}
-class "Chrysalis::BinaryFunction::Divide" as C_0002897019908582465539
-class C_0002897019908582465539 {
-+evaluate(const args::number * operand1, const args::number * operand2) const : double
--serialize<Archive>(Archive & archive, const unsigned int) : void
-__
-}
-abstract "Chrysalis::BaseCalculatedArgument<T>" as C_0006837253732787679527
-abstract C_0006837253732787679527 {
-#BaseCalculatedArgument() = default : void
-#BaseCalculatedArgument(const T & value) : void
-..
-{abstract} #calculate() const = 0 : T
-+get() const : const T &
--serialize<Archive>(Archive & archive, const unsigned int) : void
-__
--value_ : boost::optional<T>
-}
-class "Chrysalis::BaseCalculatedArgument<double>" as C_0014304995755461162082
-class C_0014304995755461162082 {
-__
-}
-class "Chrysalis::BinaryFunctionArgument" as C_0001365093100257756951
-class C_0001365093100257756951 {
-+BinaryFunctionArgument(const args::number * operand1, const args::number * operand2, const BinaryFunction * function) : void
-+~BinaryFunctionArgument() : void
-..
-#calculate() const : double
-+isValid() const : bool
-__
--function_ : const BinaryFunction *
--operand1_ : const args::number *
--operand2_ : const args::number *
-}
-class "Chrysalis::OptionalArgument<T>" as C_0007143007386227679224
-class C_0007143007386227679224 {
-+OptionalArgument() = default : void
-+OptionalArgument(const T * argument) : void
-+~OptionalArgument() : void
-..
-+argument() const : const T *
-+hasArgument() const : bool
--serialize<Archive>(Archive & archive, const unsigned int) : void
-__
--argument_ : const T *
-}
-class "Chrysalis::BuildOutlineInstruction" as C_0014956221374281501729
-class C_0014956221374281501729 {
-+BuildOutlineInstruction(ProjectSpace * space, args::patterns * selectedPatterns, args::name * outlineName, args::name * point) : void
-+~BuildOutlineInstruction() : void
-..
-+execute() : void
-+isValid() : bool
-__
--outlineName_ : args::name *
--point_ : args::name *
-}
-note top of C_0014956221374281501729
-Syntax samples:
- out -> A -> B -> C // (3 instructions)
- out("Name") -> A -> B -> C
-end note
 class "Chrysalis::CompositiveContainer<Chrysalis::PatternPointArgument>" as C_0004440488307830833957
 class C_0004440488307830833957 {
 __
@@ -375,6 +359,18 @@ __
 -edge_ : const args::segment *
 -leg1Intake_ : const args::number *
 -leg2Intake_ : const args::optional<args::number> *
+}
+class "Chrysalis::Expression" as C_0016508219162996417863
+class C_0016508219162996417863 {
+-Expression() = default : void
++Expression(const std::string & name, const args::number * expression) : void
++~Expression() : void
+..
+#calculate() const : double
++isValid() const : bool
+-serialize<Archive>(Archive & archive, const unsigned int) : void
+__
+-expression_ : const args::number *
 }
 class "Chrysalis::FreePointInstruction" as C_0014778024850504188725
 class C_0014778024850504188725 {
@@ -453,15 +449,21 @@ Syntax samples:
  (A -> B).length
  (A ("Pattern 1") -> "A 1").angle
 end note
+class "Chrysalis::OptionalArgument<Chrysalis::args::vector>" as C_0000683932820629931208
+class C_0000683932820629931208 {
+__
+}
 class "Chrysalis::MovePointInstruction" as C_0017478559692109379194
 class C_0017478559692109379194 {
-+MovePointInstruction(ProjectSpace * space, args::patterns * patterns, const args::vector * vector) : void
-+~MovePointInstruction() constexpr = default : void
++MovePointInstruction(ProjectSpace * space, args::patterns * patterns, const PatternPointArgument * point, const args::vector * vector1, const Chrysalis::OptionalArgument<args::vector> * vector2) : void
++~MovePointInstruction() : void
 ..
 +execute() : void
 +isValid() : bool
 __
--vector_ : const args::vector *
+-point_ : const PatternPointArgument *
+-vector1_ : const args::vector *
+-vector2_ : const args::optional<args::vector> *
 }
 class "Chrysalis::OriginPointArgument" as C_0017376794233664256424
 class C_0017376794233664256424 {
@@ -537,13 +539,17 @@ class "Chrysalis::NamedElementsContainer<Chrysalis::Parameter>" as C_00097995155
 class C_0009799515597078618207 {
 __
 }
+class "Chrysalis::NamedElementsContainer<Chrysalis::Expression>" as C_0012591562113019642600
+class C_0012591562113019642600 {
+__
+}
 class "Chrysalis::BaseInstructionsContainer<Chrysalis::PatternInstructionsContainer>" as C_0006377274413643530130
 class C_0006377274413643530130 {
 __
 }
 class "Chrysalis::Project" as C_0008495545694619727706
 class C_0008495545694619727706 {
-+Project(std::string name, ProjectSpace * space, ParametersContainer * parameters, PatternsContainer * patterns, InstructionsContainer * instructions) : void
++Project(std::string name, ProjectSpace * space, ParametersContainer * parameters, ExpressionsContainer * expressions, PatternsContainer * patterns, InstructionsContainer * instructions) : void
 +~Project() : void
 ..
 {static} +create() : Project *
@@ -559,6 +565,7 @@ class C_0008495545694619727706 {
 __
 {static} +PROJECT_FILE_SUFFIX : const char *const
 {static} +PROJECT_NAME_FILTER : const char *const
+-expressions_ : ExpressionsContainer *
 -instructions_ : InstructionsContainer *
 -name_ : std::string
 -parameters_ : ParametersContainer *
@@ -617,23 +624,6 @@ C_0012361199867370331426 --> C_0007088239576659478452 : #space_
 C_0012361199867370331426 *-- C_0014927223858222449226 : #patterns_
 C_0002610049402694154836 <|-- C_0012361199867370331426
 C_0004566211642871539975 <|-- C_0000892009465423237500
-C_0016949743096485278048 ..|> C_0000892009465423237500
-C_0010060974190162873338 *-- C_0016949743096485278048 : -name_
-C_0010060974190162873338 *-- C_0000892009465423237500 : -name_
-C_0010060974190162873338 *-- C_0014927223858222449226 : -patterns_
-C_0013206232820539036909 <|-- C_0010060974190162873338
-C_0001471877624587876994 ..|> C_0004566211642871539975
-C_0017869509652350831688 *-- C_0013206232820539036909 : #origin_
-C_0017869509652350831688 *-- C_0001471877624587876994 : #angle_
-C_0017869509652350831688 *-- C_0004566211642871539975 : #angle_
-C_0017869509652350831688 <|-- C_0013359262213725603488
-C_0000793764540388360553 *-- C_0001471877624587876994 : -length_
-C_0000793764540388360553 *-- C_0004566211642871539975 : -length_
-C_0013359262213725603488 <|-- C_0000793764540388360553
-C_0015207408312915139868 --> C_0013206232820539036909 : -target_
-C_0015207408312915139868 --> C_0000793764540388360553 : -vector1_
-C_0015207408312915139868 --> C_0000793764540388360553 : -vector2_
-C_0012361199867370331426 <|-- C_0015207408312915139868
 C_0011428982129595746053 --+ C_0007965462709904309096
 C_0007965462709904309096 <|-- C_0011428982129595746053
 C_0013667873678198727522 --+ C_0007965462709904309096
@@ -642,19 +632,31 @@ C_0018089401781767894990 --+ C_0007965462709904309096
 C_0007965462709904309096 <|-- C_0018089401781767894990
 C_0002897019908582465539 --+ C_0007965462709904309096
 C_0007965462709904309096 <|-- C_0002897019908582465539
-C_0004566211642871539975 <|-- C_0006837253732787679527
-C_0014304995755461162082 ..|> C_0006837253732787679527
+C_0001471877624587876994 ..|> C_0004566211642871539975
+C_0001471877624587876994 <|-- C_0012937012691713881979
 C_0001365093100257756951 *-- C_0001471877624587876994 : -operand1_
 C_0001365093100257756951 *-- C_0004566211642871539975 : -operand1_
 C_0001365093100257756951 *-- C_0001471877624587876994 : -operand2_
 C_0001365093100257756951 *-- C_0004566211642871539975 : -operand2_
 C_0001365093100257756951 *-- C_0007965462709904309096 : -function_
-C_0014304995755461162082 <|-- C_0001365093100257756951
+C_0012937012691713881979 <|-- C_0001365093100257756951
+C_0016949743096485278048 ..|> C_0000892009465423237500
 C_0014956221374281501729 --> C_0016949743096485278048 : -outlineName_
 C_0014956221374281501729 --> C_0000892009465423237500 : -outlineName_
 C_0014956221374281501729 --> C_0016949743096485278048 : -point_
 C_0014956221374281501729 --> C_0000892009465423237500 : -point_
 C_0012361199867370331426 <|-- C_0014956221374281501729
+C_0010060974190162873338 *-- C_0016949743096485278048 : -name_
+C_0010060974190162873338 *-- C_0000892009465423237500 : -name_
+C_0010060974190162873338 *-- C_0014927223858222449226 : -patterns_
+C_0013206232820539036909 <|-- C_0010060974190162873338
+C_0017869509652350831688 *-- C_0013206232820539036909 : #origin_
+C_0017869509652350831688 *-- C_0001471877624587876994 : #angle_
+C_0017869509652350831688 *-- C_0004566211642871539975 : #angle_
+C_0017869509652350831688 <|-- C_0013359262213725603488
+C_0000793764540388360553 *-- C_0001471877624587876994 : -length_
+C_0000793764540388360553 *-- C_0004566211642871539975 : -length_
+C_0013359262213725603488 <|-- C_0000793764540388360553
 C_0004440488307830833957 ..|> C_0005688742674269325206
 C_0012572252923833400704 *-- C_0000793764540388360553 : -from_
 C_0012572252923833400704 *-- C_0000793764540388360553 : -to_
@@ -672,6 +674,10 @@ C_0006235137811850856059 *-- C_0001471877624587876994 : -leg2Intake_
 C_0006235137811850856059 *-- C_0011702185653775348063 : -leg2Intake_
 C_0006235137811850856059 *-- C_0004566211642871539975 : -leg2Intake_
 C_0012361199867370331426 <|-- C_0006235137811850856059
+C_0016508219162996417863 --> C_0001471877624587876994 : -expression_
+C_0016508219162996417863 --> C_0004566211642871539975 : -expression_
+C_0005941615759101781899 <|-- C_0016508219162996417863
+C_0012937012691713881979 <|-- C_0016508219162996417863
 C_0014778024850504188725 --> C_0016949743096485278048 : -pointName_
 C_0014778024850504188725 --> C_0000892009465423237500 : -pointName_
 C_0014778024850504188725 --> C_0001471877624587876994 : -x_
@@ -695,13 +701,17 @@ C_0007765536925596756322 <|-- C_0005052358648474368195
 C_0014380000036712777437 *-- C_0013206232820539036909 : -from_
 C_0014380000036712777437 *-- C_0013206232820539036909 : -to_
 C_0014380000036712777437 *-- C_0007765536925596756322 : -function_
-C_0014304995755461162082 <|-- C_0014380000036712777437
-C_0017478559692109379194 --> C_0000793764540388360553 : -vector_
+C_0012937012691713881979 <|-- C_0014380000036712777437
+C_0000683932820629931208 ..|> C_0007143007386227679224
+C_0017478559692109379194 --> C_0010060974190162873338 : -point_
+C_0017478559692109379194 --> C_0000793764540388360553 : -vector1_
+C_0017478559692109379194 --> C_0000683932820629931208 : -vector2_
+C_0017478559692109379194 --> C_0000793764540388360553 : -vector2_
 C_0012361199867370331426 <|-- C_0017478559692109379194
 C_0013206232820539036909 <|-- C_0017376794233664256424
 C_0005941615759101781899 <|-- C_0012811662139665247956
 C_0016547166278433300083 --> C_0012811662139665247956 : -parameter_
-C_0014304995755461162082 <|-- C_0016547166278433300083
+C_0012937012691713881979 <|-- C_0016547166278433300083
 C_0005824426893526781565 *-- C_0006410388496936549037 : -space_
 C_0005941615759101781899 <|-- C_0005824426893526781565
 C_0002610049402694154836 <|-- C_0009832473294063137986
@@ -711,6 +721,7 @@ C_0003800391587746138531 *-- C_0014927223858222449226 : -patterns_
 C_0006776945885242230637 <|-- C_0003800391587746138531
 C_0000137605349055924040 ..|> C_0004278681173875969640
 C_0009799515597078618207 ..|> C_0004278681173875969640
+C_0012591562113019642600 ..|> C_0004278681173875969640
 C_0006377274413643530130 ..|> C_0009832473294063137986
 C_0008495545694619727706 *-- C_0007088239576659478452 : -space_
 C_0008495545694619727706 *-- C_0005824426893526781565 : -patterns_
@@ -719,6 +730,9 @@ C_0008495545694619727706 *-- C_0004278681173875969640 : -patterns_
 C_0008495545694619727706 *-- C_0012811662139665247956 : -parameters_
 C_0008495545694619727706 *-- C_0009799515597078618207 : -parameters_
 C_0008495545694619727706 *-- C_0004278681173875969640 : -parameters_
+C_0008495545694619727706 *-- C_0016508219162996417863 : -expressions_
+C_0008495545694619727706 *-- C_0012591562113019642600 : -expressions_
+C_0008495545694619727706 *-- C_0004278681173875969640 : -expressions_
 C_0008495545694619727706 *-- C_0003800391587746138531 : -instructions_
 C_0008495545694619727706 *-- C_0006377274413643530130 : -instructions_
 C_0008495545694619727706 *-- C_0009832473294063137986 : -instructions_
@@ -799,6 +813,8 @@ skinparam class<<Container>> {
 }
 
 
+ class C_0005941615759101781899 <<Base>> 
+
 
 
 
@@ -812,8 +828,6 @@ skinparam class<<Container>> {
  class C_0005688742674269325206 <<Container>> 
 
  class C_0004566211642871539975 <<Base>> 
-
- class C_0005941615759101781899 <<Base>> 
 
  class C_0004278681173875969640 <<Container>> 
 
@@ -833,20 +847,6 @@ skinparam class<<Container>> {
 
  class C_0013206232820539036909 <<Base>> 
 
- class C_0016949743096485278048 <<Argument>> 
-
- class C_0010060974190162873338 <<Argument>> 
-
- class C_0001471877624587876994 <<Base>> 
-
- class C_0017869509652350831688 <<Argument>> 
-
- class C_0013359262213725603488 <<Argument>> 
-
- class C_0000793764540388360553 <<Argument>> 
-
- class C_0015207408312915139868 <<Instruction>> 
-
  class C_0007965462709904309096 <<Function>> 
 
  class C_0011428982129595746053 <<Function>> 
@@ -857,15 +857,25 @@ skinparam class<<Container>> {
 
  class C_0002897019908582465539 <<Function>> 
 
- class C_0006837253732787679527 <<Base>> 
+ class C_0001471877624587876994 <<Base>> 
 
- class C_0014304995755461162082 <<Base>> 
+ class C_0012937012691713881979 <<Base>> 
 
  class C_0001365093100257756951 <<Argument>> 
 
  class C_0007143007386227679224 <<Argument>> 
 
+ class C_0016949743096485278048 <<Argument>> 
+
  class C_0014956221374281501729 <<Instruction>> 
+
+ class C_0010060974190162873338 <<Argument>> 
+
+ class C_0017869509652350831688 <<Argument>> 
+
+ class C_0013359262213725603488 <<Argument>> 
+
+ class C_0000793764540388360553 <<Argument>> 
 
  class C_0004440488307830833957 <<Container>> 
 
@@ -876,6 +886,8 @@ skinparam class<<Container>> {
  class C_0011702185653775348063 <<Argument>> 
 
  class C_0006235137811850856059 <<Instruction>> 
+
+
 
  class C_0014778024850504188725 <<Instruction>> 
 
@@ -892,6 +904,8 @@ skinparam class<<Container>> {
  class C_0005052358648474368195 <<Function>> 
 
  class C_0014380000036712777437 <<Argument>> 
+
+ class C_0000683932820629931208 <<Argument>> 
 
  class C_0017478559692109379194 <<Instruction>> 
 
@@ -912,6 +926,8 @@ skinparam class<<Container>> {
  class C_0000137605349055924040 <<Container>> 
 
  class C_0009799515597078618207 <<Container>> 
+
+ class C_0012591562113019642600 <<Container>> 
 
  class C_0006377274413643530130 <<Base>> 
 

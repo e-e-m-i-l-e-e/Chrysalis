@@ -13,10 +13,10 @@
 #include "arguments/OptionalArgument.h"
 #include "arguments/OriginPointArgument.h"
 
+#include "instructions/CurveInstruction.h"
 #include "instructions/EdgeDartInstruction.h"
 #include "instructions/FreePointInstruction.h"
 #include "instructions/MovePointInstruction.h"
-#include "instructions/AdjustPointInstruction.h"
 #include "instructions/BuildOutlineInstruction.h"
 #include "instructions/RelativePointInstruction.h"
 #include "instructions/UnfoldEdgeDartInstruction.h"
@@ -40,23 +40,27 @@ BOOST_CLASS_EXPORT(Chrysalis::Argument<double>)
 // BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::OptionalArgument<PointArgument>)
 BOOST_CLASS_EXPORT(Chrysalis::OriginPointArgument)
 BOOST_CLASS_EXPORT(Chrysalis::PatternPointArgument)
+
+BOOST_CLASS_EXPORT(Chrysalis::CurveInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::EdgeDartInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::FreePointInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::MovePointInstruction)
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::AdjustPointInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BuildOutlineInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::RelativePointInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::UnfoldEdgeDartInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::IntersectionPointInstruction)
 
 Project::Project(std::string name, ProjectSpace* space, ParametersContainer* parameters,
-                 PatternsContainer* patterns, InstructionsContainer* instructions)
-    : name_(std::move(name)), space_(space), patterns_(patterns), parameters_(parameters), instructions_(instructions) {}
+                 ExpressionsContainer* expressions, PatternsContainer* patterns,
+                 InstructionsContainer* instructions)
+    : name_(std::move(name)), space_(space), patterns_(patterns), parameters_(parameters), expressions_(expressions),
+      instructions_(instructions) {}
 
 Project::~Project() {
     delete space_;
     delete patterns_;
     delete parameters_;
+    delete expressions_;
     delete instructions_;
 }
 
@@ -65,7 +69,8 @@ Project* Project::create() {
 }
 
 Project* Project::create(const std::string& name) {
-    return new Project(name, new ProjectSpace(), new ParametersContainer(), new PatternsContainer(), new InstructionsContainer());
+    return new Project(name, new ProjectSpace(), new ParametersContainer(), new ExpressionsContainer(),
+                       new PatternsContainer(), new InstructionsContainer());
 }
 
 Project* Project::read(const std::string& filePath) {

@@ -8,8 +8,8 @@
 
 namespace Chrysalis {
     class Parameter: public BaseNamedElement, public BaseObservable<ParameterObserver> {
-        SERIALIZE_DERIVED_FROM(BaseNamedElement, value_, defaultValue_)
         PROVIDE_DEFAULT_SERIALIZATION_ACCESS(Parameter)
+        SERIALIZE_DERIVED_FROM(BaseNamedElement, value_, defaultValue_)
     public:
         explicit Parameter(const std::string& name);
 

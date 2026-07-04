@@ -5,6 +5,7 @@
 
 #include "Pattern.h"
 #include "Parameter.h"
+#include "Expression.h"
 #include "ProjectSpace.h"
 #include "instructions/PatternInstructionsContainer.h"
 
@@ -16,7 +17,8 @@ namespace Chrysalis {
         static constexpr auto PROJECT_NAME_FILTER = "Chrysalis Project (*.chrysalis)";
 
         explicit Project(std::string name, ProjectSpace* space, ParametersContainer* parameters,
-                         PatternsContainer* patterns, InstructionsContainer* instructions);
+                         ExpressionsContainer* expressions, PatternsContainer* patterns,
+                         InstructionsContainer* instructions);
         ~Project();
 
         static Project* create();
@@ -34,16 +36,18 @@ namespace Chrysalis {
         [[nodiscard]] InstructionsContainer* getInstructions() const;
     private:
         std::string name_;
-        /// @uml{composition[]}
+        /// @uml{composition}
         ProjectSpace* space_;
-        /// @uml{composition[]}
+        /// @uml{composition}
         PatternsContainer* patterns_;
-        /// @uml{composition[]}
+        /// @uml{composition}
         ParametersContainer* parameters_;
-        /// @uml{composition[]}
+        /// @uml{composition}
+        ExpressionsContainer* expressions_;
+        /// @uml{composition}
         InstructionsContainer* instructions_;
     };
-    SERIALIZE_CONSTRUCTION(Project, name_, space_, parameters_, patterns_, instructions_)
+    SERIALIZE_CONSTRUCTION(Project, name_, space_, parameters_, expressions_, patterns_, instructions_)
 }
 
 #endif //CHRYSALIS_PROJECT_H

@@ -12,7 +12,7 @@ namespace Chrysalis {
      * (A ("Pattern 1") -> "A 1").angle
      * }
      */
-    class VectorFunctionArgument: public BaseCalculatedArgument<double> {
+    class VectorFunctionArgument: public BaseCalculatedArgument {
         PROVIDE_SERIALIZATION_ACCESS(VectorFunctionArgument)
     public:
         explicit VectorFunctionArgument(const args::point* from, const args::point* to,
@@ -30,7 +30,7 @@ namespace Chrysalis {
         /// @uml{composition}
         const VectorFunction* function_;
     };
-    SERIALIZE_DERIVED_CONSTRUCTION(VectorFunctionArgument, BaseCalculatedArgument<double>, from_, to_, function_)
+    SERIALIZE_DERIVED_CONSTRUCTION(VectorFunctionArgument, BaseCalculatedArgument, from_, to_, function_)
 }
 
 #endif //CHRYSALIS_VECTORFUNCTIONARGUMENT_H
