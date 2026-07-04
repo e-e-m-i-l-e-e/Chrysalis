@@ -21,6 +21,7 @@ namespace Chrysalis {
 
         void pointMoved(const Point* point) override;
         void pointAdded(const Point* point) override;
+        void curveAdded(const Curve* curve) override;
         void relativePointConnectionAdded(const Point* from, const Point* to) override;
         void relativePointConnectionRemoved(const Point* from, const Point* to) override;
 

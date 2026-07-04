@@ -3,6 +3,7 @@
 
 #include <unordered_set>
 
+#include "Curve.h"
 #include "serialization.h"
 
 #include "Point.h"
@@ -17,9 +18,14 @@ namespace Chrysalis {
 
         Point* addPoint(double x, double y);
         Point* addPoint(const CG::Point& point);
+        Curve* addCurve(const Point* from, const Point* to,
+                        const CG::Segment& segmentFrom, const CG::Segment& segmentTo,
+                        const std::vector<CG::Point>& points);
     private:
-        /// @uml{composition[1:*]}
+        /// @uml{composition}
         std::unordered_set<Point*> points_;
+        /// @uml{composition}
+        std::unordered_map<const Point*, std::unordered_map<const Point*, Curve*>> curves_;
     };
 }
 

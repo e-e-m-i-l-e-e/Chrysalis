@@ -68,6 +68,12 @@ void PatternSpaceRendererData::pointAdded(const Point* point) {
     updateVBO();
 }
 
+void PatternSpaceRendererData::curveAdded(const Curve* curve) {
+    for (const auto& p: curve->curvePoints()) {
+        pointAdded(new Point(p));
+    }
+}
+
 void PatternSpaceRendererData::relativePointConnectionAdded(const Point* from, const Point* to) {
     const auto intersection = intersectionPoint(*from, *to);
     lines_.emplace_back(*from, length(intersection, *from));

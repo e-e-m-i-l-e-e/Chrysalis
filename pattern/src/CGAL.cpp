@@ -38,6 +38,10 @@ double CG::length(const Point& pointFrom, const Point& pointTo) {
     return std::sqrt(CGAL::to_double(v.squared_length()));
 }
 
+CG::Point CG::mirror(const Point& point, const Point& center) {
+    return center + (center - point);
+}
+
 CG::Point CG::relativePoint(const Point& pointFrom, double angle, double length) {
     angle = angle * CGAL_PI / 180;
     return Point(pointFrom.x() + length * cos(angle), pointFrom.y() + length * sin(angle));

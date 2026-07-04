@@ -2,6 +2,7 @@
 #define CHRYSALIS_PATTERNSPACEOBSERVER_H
 
 #include "Point.h"
+#include "Curve.h"
 
 namespace Chrysalis {
     class PatternSpaceObserver {
@@ -10,6 +11,7 @@ namespace Chrysalis {
         virtual ~PatternSpaceObserver() = default;
     public:
         virtual void pointAdded(const Point* point) = 0;
+        virtual void curveAdded(const Curve* curve) = 0;
         virtual void relativePointConnectionAdded(const Point* from, const Point* to) = 0;
         virtual void relativePointConnectionRemoved(const Point* from, const Point* to) = 0;
     };

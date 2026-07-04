@@ -21,3 +21,11 @@ Point* ProjectSpace::addPoint(const CG::Point& point) {
     points_.insert(p);
     return p;
 }
+
+Curve* ProjectSpace::addCurve(const Point* from, const Point* to,
+                              const CG::Segment& segmentFrom, const CG::Segment& segmentTo,
+                              const std::vector<CG::Point>& points) {
+    const auto handleFrom = CG::mirror(segmentFrom.start(), segmentFrom.end());
+    const auto handleTo = CG::mirror(segmentTo.start(), segmentTo.end());
+    return curves_[from][to] = new Curve(handleFrom, handleTo, points);
+}
