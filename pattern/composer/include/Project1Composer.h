@@ -14,6 +14,7 @@ namespace Chrysalis {
             static constexpr auto N1 = "N1";
             static constexpr auto N2 = "N2";
             static constexpr auto N3 = "N3";
+            static constexpr auto N4 = "N4";
 
             static constexpr auto AH = "AH";
             static constexpr auto AH1 = "AH1";

@@ -324,6 +324,22 @@ Syntax samples:
  out -> A -> B -> C // (3 instructions)
  out("Name") -> A -> B -> C
 end note
+class "Chrysalis::CompositiveContainer<Chrysalis::PatternPointArgument>" as C_0004440488307830833957
+class C_0004440488307830833957 {
+__
+}
+class "Chrysalis::CurveInstruction" as C_0012572252923833400704
+class C_0012572252923833400704 {
++CurveInstruction(ProjectSpace * space, args::patterns * patterns, const args::vector * from, const args::vector * to, const Chrysalis::CompositiveContainer<PatternPointArgument> * points) : void
++~CurveInstruction() : void
+..
++execute() : void
++isValid() : bool
+__
+-from_ : const args::vector *
+-points_ : const args::container<PatternPointArgument> *
+-to_ : const args::vector *
+}
 class "Chrysalis::SegmentArgument" as C_0002481955606888948453
 class C_0002481955606888948453 {
 +SegmentArgument(const args::point * origin, const args::point * destination) : void
@@ -539,20 +555,20 @@ __
 -patterns_ : PatternsContainer *
 -space_ : ProjectSpace *
 }
-class "Chrysalis::OptionalArgument<Chrysalis::args::point>" as C_0004646226110917108657
-class C_0004646226110917108657 {
+class "Chrysalis::OptionalArgument<Chrysalis::args::line>" as C_0017781249159351516039
+class C_0017781249159351516039 {
 __
 }
 class "Chrysalis::RelativePointInstruction" as C_0004936461079814340647
 class C_0004936461079814340647 {
-+RelativePointInstruction(ProjectSpace * space, args::patterns * selectedPatterns, const Chrysalis::OptionalArgument<args::point> * origin, const args::name * name, const args::vector * vector) : void
++RelativePointInstruction(ProjectSpace * space, args::patterns * selectedPatterns, const args::name * name, const args::vector * vector, const Chrysalis::OptionalArgument<args::line> * line) : void
 +~RelativePointInstruction() : void
 ..
 +execute() : void
 +isValid() : bool
 __
+-line_ : const args::optional<args::line> *
 -name_ : const args::name *
--origin_ : const args::optional<args::point> *
 -vector_ : const args::vector *
 }
 note top of C_0004936461079814340647
@@ -627,6 +643,12 @@ C_0014956221374281501729 --> C_0000892009465423237500 : -outlineName_
 C_0014956221374281501729 --> C_0016949743096485278048 : -point_
 C_0014956221374281501729 --> C_0000892009465423237500 : -point_
 C_0012361199867370331426 <|-- C_0014956221374281501729
+C_0004440488307830833957 ..|> C_0005688742674269325206
+C_0012572252923833400704 *-- C_0000793764540388360553 : -from_
+C_0012572252923833400704 *-- C_0000793764540388360553 : -to_
+C_0012572252923833400704 *-- C_0010060974190162873338 : -points_
+C_0012572252923833400704 *-- C_0004440488307830833957 : -points_
+C_0012361199867370331426 <|-- C_0012572252923833400704
 C_0002481955606888948453 *-- C_0013206232820539036909 : -destination_
 C_0000793764540388360553 <|-- C_0002481955606888948453
 C_0011702185653775348063 ..|> C_0007143007386227679224
@@ -688,12 +710,12 @@ C_0008495545694619727706 *-- C_0004278681173875969640 : -parameters_
 C_0008495545694619727706 *-- C_0003800391587746138531 : -instructions_
 C_0008495545694619727706 *-- C_0006377274413643530130 : -instructions_
 C_0008495545694619727706 *-- C_0009832473294063137986 : -instructions_
-C_0004646226110917108657 ..|> C_0007143007386227679224
-C_0004936461079814340647 --> C_0004646226110917108657 : -origin_
-C_0004936461079814340647 --> C_0013206232820539036909 : -origin_
+C_0017781249159351516039 ..|> C_0007143007386227679224
 C_0004936461079814340647 --> C_0016949743096485278048 : -name_
 C_0004936461079814340647 --> C_0000892009465423237500 : -name_
 C_0004936461079814340647 --> C_0000793764540388360553 : -vector_
+C_0004936461079814340647 --> C_0017781249159351516039 : -line_
+C_0004936461079814340647 --> C_0017869509652350831688 : -line_
 C_0012361199867370331426 <|-- C_0004936461079814340647
 C_0013671800093242345687 --> C_0002481955606888948453 : -edge_
 C_0013671800093242345687 --> C_0002481955606888948453 : -leg_
@@ -831,6 +853,10 @@ skinparam class<<Container>> {
 
  class C_0014956221374281501729 <<Instruction>> 
 
+ class C_0004440488307830833957 <<Container>> 
+
+ class C_0012572252923833400704 <<Instruction>> 
+
  class C_0002481955606888948453 <<Argument>> 
 
  class C_0011702185653775348063 <<Argument>> 
@@ -877,7 +903,7 @@ skinparam class<<Container>> {
 
 
 
- class C_0004646226110917108657 <<Argument>> 
+ class C_0017781249159351516039 <<Argument>> 
 
  class C_0004936461079814340647 <<Instruction>> 
 

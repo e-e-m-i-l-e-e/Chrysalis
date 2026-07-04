@@ -40,6 +40,7 @@ namespace Chrysalis::CG {
     double angle(const Point& pointFrom, const Point& pointTo);
     double length(const Point& pointFrom, const Point& pointTo);
     Point relativePoint(const Point& pointFrom, double angle, double length);
+    Point projection(const Point& point, const Line& line);
     template<typename T1, typename T2>
     std::optional<Point> intersection(const T1& obj1, const T2& obj2) {
         const auto intersection = CGAL::intersection(obj1, obj2);

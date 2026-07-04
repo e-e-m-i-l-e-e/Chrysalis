@@ -10,6 +10,7 @@ class FashionDesignAppsConan(ConanFile):
 
     # Common
     requires = [
+        "tinyspline/0.6.0",
         "spdlog/1.17.0",
         "gtest/1.17.0",
         "cgal/6.1.1",

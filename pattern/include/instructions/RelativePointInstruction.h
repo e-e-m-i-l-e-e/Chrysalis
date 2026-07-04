@@ -21,18 +21,18 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(RelativePointInstruction)
     public:
         explicit RelativePointInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
-                                          const args::optional<args::point>* origin, const args::name* name,
-                                          const args::vector* vector);
+                                          const args::name* name, const args::vector* vector,
+                                          const args::optional<args::line>* line);
         ~RelativePointInstruction() override;
 
         bool isValid() override;
         void execute() override;
     private:
-        const args::optional<args::point>* origin_;
         const args::name* name_;
         const args::vector* vector_;
+        const args::optional<args::line>* line_;
     };
-    SERIALIZE_DERIVED_CONSTRUCTION(RelativePointInstruction, BasePatternInstruction, space_, patterns_, origin_, name_, vector_)
+    SERIALIZE_DERIVED_CONSTRUCTION(RelativePointInstruction, BasePatternInstruction, space_, patterns_, name_, vector_, line_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::RelativePointInstruction)

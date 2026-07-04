@@ -4,6 +4,7 @@
 #include "instructions/BuildOutlineInstruction.h"
 
 #include "arguments/ParameterArgument.h"
+#include "instructions/CurveInstruction.h"
 
 using namespace Chrysalis;
 
@@ -65,65 +66,65 @@ void Project1Composer::fillInstructions() {
     instructions->add(patternInstructions);
 
     patternInstructions->add(new FP(common, name(S), num(0.0), num(0.0)));
-    patternInstructions->add(new RelP(use_last_point, name(W), vector_0(down, param(BACK_WAIST_LENGTH))));
-    patternInstructions->add(new RelP(use_last_point, name(H), vector_0(down, param(HIP_DEPTH))));
+    patternInstructions->add(new RelP(common, name(W), vector_0(down, param(BACK_WAIST_LENGTH)), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(H), vector_0(down, param(HIP_DEPTH)), new args::optional<args::line>()));
 
     patterns = new args::patterns();
     patterns->add(back);
     patternInstructions = new PatternInstructionsContainer(patterns);
     instructions->add(patternInstructions);
 
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(H)), name(H1), vector_0(right,
+    patternInstructions->add(new RelP(common, name(H1), vector_(H, right,
                                       biFunc(biFunc(param(HIP_CIRCUMFERENCE), num(4), new B::Divide()),
-                                             num(1), new B::Subtract()))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(W)), name(W1), vector_0(right,
-                                      vecFunc(point(H), point(H1), new V::Length()))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(W)), name(W2), vector_0(right,
+                                             num(1), new B::Subtract())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(W1), vector_(H, right,
+                                      vecFunc(point(H), point(H1), new V::Length())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(W2), vector_(W, right,
                                       biFunc(biFunc(param(BUST_CIRCUMFERENCE), num(4), new B::Divide()),
-                                             num(1), new B::Subtract()))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(S)), name(S1), vector_0(right,
-                                      vecFunc(point(W), point(W2), new V::Length()))));
+                                             num(1), new B::Subtract())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(S1), vector_(S, right,
+                                      vecFunc(point(W), point(W2), new V::Length())), new args::optional<args::line>()));
 
     patterns = new args::patterns();
     patterns->add(back);
     patterns->add(front);
     patternInstructions = new PatternInstructionsContainer(patterns);
     instructions->add(patternInstructions);
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(W)), name(AH), vector_0(up,
+    patternInstructions->add(new RelP(common, name(AH), vector_(W, up,
                                       biFunc(vecFunc(point(S), point(W), new V::Length()),
-                                             num(2), new B::Divide()))));
-    patternInstructions->add(new RelP(use_last_point, name(UB), vector_0(up,
+                                             num(2), new B::Divide())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(UB), vector_0(up,
                                       biFunc(vecFunc(point(S), point(AH), new V::Length()),
-                                             num(3), new B::Divide()))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(H)), name(T), vector_0(up,
+                                             num(3), new B::Divide())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(T), vector_(H, up,
                                       biFunc(vecFunc(point(H), point(W), new V::Length()),
-                                             num(2), new B::Divide()))));
+                                             num(2), new B::Divide())), new args::optional<args::line>()));
 
     patterns = new args::patterns();
     patterns->add(back);
     patternInstructions = new PatternInstructionsContainer(patterns);
     instructions->add(patternInstructions);
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(S)), name(N), vector_0(right,
-                                      biFunc(param(NECK_CIRCUMFERENCE), num(6), new B::Divide()))));
-    patternInstructions->add(new RelP(use_last_point, name(N1), vector_0(down,
-                                      biFunc(param(NECK_CIRCUMFERENCE), num(16), new B::Divide()))));
-    patternInstructions->add(new RelP(use_last_point, name(N2), vector_0(left,
-                                      vecFunc(point(N), point(S), new V::Length()))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(N1)), name(N3), vector_0(left,
+    patternInstructions->add(new RelP(common, name(N), vector_(S, right,
+                                      biFunc(param(NECK_CIRCUMFERENCE), num(6), new B::Divide())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(N1), vector_0(down,
+                                      biFunc(param(NECK_CIRCUMFERENCE), num(16), new B::Divide())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(N2), vector_0(left,
+                                      vecFunc(point(N), point(S), new V::Length())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(N3), vector_(N1, left,
                                       biFunc(vecFunc(point(N2), point(N1), new V::Length()),
-                                             num(2), new B::Divide()))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(N)), name(S2), vector_0(num(-18), param(SHOULDER_LENGTH))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(UB)), name(UB1), vector_0(right,
-                                      biFunc(param(BACK_WIDTH), num(2), new B::Divide()))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(AH)), name(AH1), vector_0(right,
-                                      biFunc(param(BACK_WIDTH), num(2), new B::Divide()))));
-    patternInstructions->add(new RelP(use_last_point, name(AH2), vector_0(num(45), num(1.5))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(AH)), name(AH3), vector_0(right,
-                                      vecFunc(point(W), point(W2), new V::Length()))));
-    patternInstructions->add(new RelP(use_last_point, name(AH4), vector_0(left, num(1))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(N)), name(D), vector_0(num(-18),
+                                             num(2), new B::Divide())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(S2), vector_(N, num(-18), param(SHOULDER_LENGTH)), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(UB1), vector_(UB, right,
+                                      biFunc(param(BACK_WIDTH), num(2), new B::Divide())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(AH1), vector_(AH, right,
+                                      biFunc(param(BACK_WIDTH), num(2), new B::Divide())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(AH2), vector_0(num(45), num(1.5)), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(AH3), vector_(AH, right,
+                                      vecFunc(point(W), point(W2), new V::Length())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(AH4), vector_0(left, num(1)), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(D), vector_(N, num(-18),
                                       biFunc(vecFunc(point(N), point(S2), new V::Length()),
-                                             num(2), new B::Divide()))));
+                                             num(2), new B::Divide())), new args::optional<args::line>()));
 
     patternInstructions->add(new D(common, segment(N, S2), new Vec(point(D), num(90), num(7)), num(2), no_num));
 
@@ -132,39 +133,43 @@ void Project1Composer::fillInstructions() {
     patternInstructions = new PatternInstructionsContainer(patterns);
     instructions->add(patternInstructions);
 
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(H)), name(H1), vector_0(left,
+    patternInstructions->add(new RelP(common, name(H1), vector_(H, left,
                                       biFunc(biFunc(param(HIP_CIRCUMFERENCE), num(4), new B::Divide()),
-                                             num(1), new B::Add()))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(W)), name(W1), vector_0(left,
-                                      vecFunc(point(H), point(H1), new V::Length()))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(W)), name(W2), vector_0(left,
+                                             num(1), new B::Add())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(W1), vector_(W, left,
+                                      vecFunc(point(H), point(H1), new V::Length())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(W2), vector_(W, left,
                                       biFunc(biFunc(param(BUST_CIRCUMFERENCE), num(4), new B::Divide()),
-                                             num(1), new B::Add()))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(S)), name(S1), vector_0(left,
-                                      vecFunc(point(W), point(W2), new V::Length()))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(S)), name(N), vector_0(left,
-                                      biFunc(param(NECK_CIRCUMFERENCE), num(6), new B::Divide()))));
-    patternInstructions->add(new RelP(use_last_point, name(N1), vector_0(down,
+                                             num(1), new B::Add())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(S1), vector_(S, left,
+                                      vecFunc(point(W), point(W2), new V::Length())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(N), vector_(S, left,
+                                      biFunc(param(NECK_CIRCUMFERENCE), num(6), new B::Divide())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(N1), vector_0(down,
                                       biFunc(biFunc(param(NECK_CIRCUMFERENCE), num(6), new B::Divide()),
-                                             num(2), new B::Add()))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(N)), name(S2), vector_0(num(180 + 26), param(SHOULDER_LENGTH))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(UB)), name(UB1), vector_0(left,
-                                      biFunc(param(BACK_WIDTH), num(2), new B::Divide()))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(AH)), name(AH1), vector_0(left,
-                                      biFunc(param(BACK_WIDTH), num(2), new B::Divide()))));
-    patternInstructions->add(new RelP(use_last_point, name(AH2), vector_0(num(90 + 45), num(2.5))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(AH)), name(AH3), vector_0(left,
-                                      vecFunc(point(W), point(W2), new V::Length()))));
-    patternInstructions->add(new RelP(use_last_point, name(AH4), vector_0(right, num(1))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(S)), name(B), vector_0(down, param(BUST_HEIGHT))));
-    patternInstructions->add(new RelP(use_last_point, name(DA), vector_0(left,
-                                      biFunc(param(BUST_SPAN), num(2), new B::Divide()))));
+                                             num(2), new B::Add())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(S2), vector_(N, num(180 + 26), param(SHOULDER_LENGTH)), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(UB1), vector_(UB, left,
+                                      biFunc(param(BACK_WIDTH), num(2), new B::Divide())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(AH1), vector_(AH, left,
+                                      biFunc(param(BACK_WIDTH), num(2), new B::Divide())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(AH2), vector_0(num(90 + 45), num(2.5)), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(AH3), vector_(AH, left,
+                                      vecFunc(point(W), point(W2), new V::Length())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(AH4), vector_0(right, num(1)), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(B), vector_(S, down, param(BUST_HEIGHT)), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(DA), vector_0(left,
+                                      biFunc(param(BUST_SPAN), num(2), new B::Divide())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(N2), vector_(DA, num(0), param(APEX_TO_CENTER_FRONT)), new args::optional<args::line>(segment(H, S))));
+    patternInstructions->add(new RelP(common, name(N1), vector_0(left, vecFunc(point(S), point(N), new V::Length)), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(N3), vector_(N, down, biFunc(vecFunc(point(N1), point(N), new V::Length), num(3), new B::Divide())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(N4), vector_(N2, left, biFunc(vecFunc(point(N1), point(N2), new V::Length), num(3), new B::Divide())), new args::optional<args::line>()));
     patternInstructions->add(new Adj(common, point(S2), vector_no_angle(DA, param(APEX_TO_SHOULDER)), vector_no_angle(N, param(SHOULDER_LENGTH))));
-    patternInstructions->add(new RelP(common, new OptionalArgument<args::point>(point(N)), name(D1),
-                                      vector_0(vecFunc(point(N), point(S2), new V::Angle()),
+    patternInstructions->add(new RelP(common, name(D1),
+                                      vector_(N, vecFunc(point(N), point(S2), new V::Angle()),
                                       biFunc(
                                           vecFunc(point(N), point(S2), new V::Length()),
-                                          num(2), new B::Divide()))));
+                                          num(2), new B::Divide())), new args::optional<args::line>()));
     patternInstructions->add(new UD(common, segment(N, S2), segment(D1, DA),
                                     biFunc(biFunc(biFunc(
                                                    param(BUST_CIRCUMFERENCE), num(20), new B::Divide()),
@@ -203,6 +208,7 @@ void Project1Composer::fillInstructions() {
                                     vecFunc(point(AH1_1), point(AH1_2), new V::Angle()),
                                     vecFunc(point(AH1_1), point(AH1_2), new V::Length())))
     );
+    patternInstructions->add(new CurveInstruction(common, segment(N, N3), segment(N2, N4), new args::container<PatternPointArgument>()));
 
     patterns = new args::patterns();
     patterns->add(back);

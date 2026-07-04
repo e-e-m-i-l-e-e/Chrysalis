@@ -43,6 +43,10 @@ CG::Point CG::relativePoint(const Point& pointFrom, double angle, double length)
     return Point(pointFrom.x() + length * cos(angle), pointFrom.y() + length * sin(angle));
 }
 
+CG::Point CG::projection(const Point& point, const Line& line) {
+    return line.projection(point);
+}
+
 std::optional<CG::Point> CG::xIntersection(const Point& pointFrom, const Point& pointTo) {
     static Line xAxis(Point(0, 0), Point(1, 0));
     return CG::intersection(xAxis, Line(pointFrom, pointTo));
