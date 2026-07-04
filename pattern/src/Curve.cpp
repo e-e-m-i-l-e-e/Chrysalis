@@ -23,9 +23,8 @@ Curve::Curve(const CG::Point handleFrom, const CG::Point handleTo, const std::ve
         return spline;
     }()) {}
 
-std::vector<CG::Point> Curve::curvePoints() const {
-    static constexpr double DISTANCE = 0.5;
-    const int n = static_cast<int>(std::ceil(spline_.chordLengths().arcLength() / DISTANCE));
+std::vector<CG::Point> Curve::curvePoints(const double distance) const {
+    const int n = static_cast<int>(std::ceil(spline_.chordLengths().arcLength() / distance));
     std::vector<CG::Point> points(n + 1);
     for (int i = 0; i <= n; i++) {
         const auto res = spline_.eval(static_cast<double>(i) / n).resultVec2();

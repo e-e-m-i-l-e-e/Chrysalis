@@ -1,4 +1,12 @@
 @startuml
+class "Chrysalis::Curve" as C_0018156493150910561312
+class C_0018156493150910561312 {
++Curve(CG::Point handleFrom, CG::Point handleTo, const std::vector<CG::Point> & points) : void
+..
++curvePoints(double distance) const : std::vector<CG::Point>
+__
+-spline_ : tinyspline::BSpline
+}
 class "Chrysalis::Point" as C_0004642218715827055853
 class C_0004642218715827055853 {
 +Point(const CG::Point & point) : void
@@ -19,11 +27,13 @@ class "Chrysalis::ProjectSpace" as C_0007088239576659478452
 class C_0007088239576659478452 {
 +~ProjectSpace() : void
 ..
++addCurve(const Point * from, const Point * to, const CG::Segment & segmentFrom, const CG::Segment & segmentTo, const std::vector<CG::Point> & points) : Curve *
 +addPoint(double x, double y) : Point *
 +addPoint(const CG::Point & point) : Point *
 +movePoint(const Point * point, CG::Point position) const : void
 {static} -serialize<Archive>(Archive &, const unsigned int) : void
 __
+-curves_ : std::unordered_map<const Point *,std::unordered_map<const Point *,Curve *>>
 -points_ : std::unordered_set<Point *>
 }
 abstract "Chrysalis::BaseInstruction" as C_0002610049402694154836
@@ -589,7 +599,9 @@ __
 -intake_ : const args::number *
 -leg_ : const args::segment *
 }
-C_0007088239576659478452 "1" *-- "*" C_0004642218715827055853 : -points_
+C_0007088239576659478452 *-- C_0004642218715827055853 : -points_
+C_0007088239576659478452 *-- C_0004642218715827055853 : -curves_
+C_0007088239576659478452 *-- C_0018156493150910561312 : -curves_
 C_0008219096566301061159 <|-- C_0005688742674269325206
 C_0005688742674269325206 <|-- C_0004278681173875969640
 C_0005941615759101781899 <|-- C_0012923087791918137441
@@ -785,6 +797,8 @@ skinparam class<<Container>> {
   StereotypeFontColor #0096B7
   FontStyle Italic
 }
+
+
 
 
 

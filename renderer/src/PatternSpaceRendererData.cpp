@@ -36,26 +36,28 @@ CG::Point PatternSpaceRendererData::intersectionPoint(const CG::Point& pointFrom
 }
 
 void PatternSpaceRendererData::pointMoved(const Point* point) {
-    const auto positionLine = [&](const int pointIndex, const int existingPointIndex, const CG::Point& existingPoint) {
+    const auto positionLine = [&](const int lineIndex, const bool editFrom, const CG::Point& existingPoint) {
         const auto intersection = intersectionPoint(*point, existingPoint);
-        lines_[pointIndex].move(*point);
-        lines_[pointIndex].attribute(length(intersection, *point));
-        lines_[existingPointIndex].attribute(length(intersection, existingPoint));
+        const int pointIndex = editFrom ? 0 : (lines_[lineIndex].size() - 1);
+        const int existingPointIndex = editFrom ? (lines_[lineIndex].size() - 1) : 0;
+        lines_[lineIndex][pointIndex].move(*point);
+        lines_[lineIndex][pointIndex].attribute(length(intersection, *point));
+        lines_[lineIndex][existingPointIndex].attribute(length(intersection, existingPoint));
     };
     const auto positionArrow = [&](const int lineIndex, const CG::Point& pointFrom, const CG::Point& pointTo) {
         auto [baseBegin, baseEnd, leftWing, rightWing] = buildArrow(pointFrom, pointTo);
-        arrows_[lineIndex * 2].move(leftWing);
-        arrows_[lineIndex * 2 + 1].move(baseBegin);
-        arrows_[lineIndex * 2 + 2].move(baseEnd);
-        arrows_[lineIndex * 2 + 3].move(rightWing);
+        arrows_[lineIndex * 4].move(leftWing);
+        arrows_[lineIndex * 4 + 1].move(baseBegin);
+        arrows_[lineIndex * 4 + 2].move(baseEnd);
+        arrows_[lineIndex * 4 + 3].move(rightWing);
     };
     points_[pointIndices_[point]].move(*point);
     for (const auto& [toPoint, idx]: connectionsMapFrom_[point]) {
-        positionLine(idx, idx + 1, *toPoint);
+        positionLine(idx, true, *toPoint);
         positionArrow(idx, *point, *toPoint);
     }
     for (const auto& [fromPoint, idx]: connectionsMapTo_[point]) {
-        positionLine(idx + 1, idx, *fromPoint);
+        positionLine(idx, false, *fromPoint);
         positionArrow(idx, *fromPoint, *point);
     }
     updateVBO();
@@ -69,17 +71,22 @@ void PatternSpaceRendererData::pointAdded(const Point* point) {
 }
 
 void PatternSpaceRendererData::curveAdded(const Curve* curve) {
-    for (const auto& p: curve->curvePoints()) {
-        pointAdded(new Point(p));
+    static constexpr double DISTANCE = 0.25;
+    lines_.emplace_back();
+    const auto curvePoints = curve->curvePoints(DISTANCE);
+    for (int i = 0; i < curvePoints.size(); i++) {
+        lines_.back().emplace_back(curvePoints[i], 0);
     }
+    updateVBO();
 }
 
 void PatternSpaceRendererData::relativePointConnectionAdded(const Point* from, const Point* to) {
     const auto intersection = intersectionPoint(*from, *to);
-    lines_.emplace_back(*from, length(intersection, *from));
-    lines_.emplace_back(*to, length(intersection, *to));
-    connectionsMapFrom_[from][to] = lines_.size() - 2;
-    connectionsMapTo_[to][from] = lines_.size() - 2;
+    lines_.emplace_back();
+    lines_.back().emplace_back(*from, length(intersection, *from));
+    lines_.back().emplace_back(*to, length(intersection, *to));
+    connectionsMapFrom_[from][to] = lines_.size() - 1;
+    connectionsMapTo_[to][from] = lines_.size() - 1;
 
     const auto [baseBegin, baseEnd, leftWing, rightWing] = buildArrow(*from, *to);
 
@@ -99,12 +106,13 @@ void PatternSpaceRendererData::relativePointConnectionRemoved(const Point* from,
             connections[first].erase(second);
             for (auto& points: connections | std::ranges::views::values) {
                 for (auto& index: points | std::ranges::views::values) {
-                    if (index > lineToRemove) index -= 2;
+                    if (index > lineToRemove) index--;
                 }
             }
         };
-        lines_.erase(lines_.begin() + lineToRemove, lines_.begin() + (lineToRemove + 2));
-        arrows_.erase(arrows_.begin() + lineToRemove * 2, arrows_.begin() + lineToRemove * 2 + 4);
+        lines_.erase(lines_.begin() + lineToRemove);
+        const auto it = arrows_.begin() + lineToRemove * 4;
+        arrows_.erase(it, it + 4);
         shiftIndicesInMap(connectionsMapFrom_, from, to);
         shiftIndicesInMap(connectionsMapTo_, to, from);
     }
@@ -119,24 +127,45 @@ const Point* PatternSpaceRendererData::pointAtPosition(const float x, const floa
 }
 
 size_t PatternSpaceRendererData::size() {
-    return lines_.size() + arrows_.size() + points_.size();
+    size_t size = arrows_.size() + points_.size();
+    for (const auto& line: lines_) {
+        size += line.size();
+    }
+    return size;
 }
 
 std::vector<Vertex3f> PatternSpaceRendererData::vbo() {
-    std::vector<Vertex3f> vbo = lines_;
-    vbo.insert(vbo.end(), arrows_.begin(), arrows_.end());
+    std::vector<Vertex3f> vbo;
     vbo.insert(vbo.end(), points_.begin(), points_.end());
+    vbo.insert(vbo.end(), arrows_.begin(), arrows_.end());
+    for (const auto& line: lines_) {
+        vbo.insert(vbo.end(), line.begin(), line.end());
+    }
     return vbo;
 }
 
-size_t PatternSpaceRendererData::linesSize() const {
-    return lines_.size();
+Layout PatternSpaceRendererData::pointsLayout() const {
+    return Layout(0, points_.size());
 }
 
-size_t PatternSpaceRendererData::arrowsSize() const {
-    return arrows_.size();
+std::vector<Layout> PatternSpaceRendererData::linesLayout() const {
+    size_t offset = points_.size() + arrows_.size();
+    std::vector<Layout> layout {};
+    layout.reserve(lines_.size());
+    for (const auto& line: lines_) {
+        layout.emplace_back(offset, line.size());
+        offset += line.size();
+    }
+    return layout;
 }
 
-size_t PatternSpaceRendererData::pointsSize() const {
-    return points_.size();
+std::vector<Layout> PatternSpaceRendererData::arrowsLayout() const {
+    size_t offset = points_.size();
+    std::vector<Layout> layout {};
+    layout.reserve(arrows_.size() / 4);
+    for (int i = 0; i < arrows_.size(); i += 4) {
+        layout.emplace_back(offset, 4);
+        offset += 4;
+    }
+    return layout;
 }

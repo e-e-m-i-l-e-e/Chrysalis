@@ -8,7 +8,7 @@ namespace Chrysalis {
     class Curve {
     public:
         explicit Curve(CG::Point handleFrom, CG::Point handleTo, const std::vector<CG::Point>& points);
-        [[nodiscard]] std::vector<CG::Point> curvePoints() const;
+        [[nodiscard]] std::vector<CG::Point> curvePoints(double distance) const;
     private:
         tinyspline::BSpline spline_;
     };

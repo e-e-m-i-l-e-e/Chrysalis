@@ -236,17 +236,28 @@ class C_0015064054511240045445 {
 +scaleChanged(float scale) : void
 __
 }
+class "Chrysalis::Layout" as C_0012203734606017441483
+class C_0012203734606017441483 {
++Layout(size_t offset, size_t count) : void
+..
++count() const : const size_t &
++offset() const : const size_t &
+__
+-count_ : const size_t
+-offset_ : const size_t
+}
 class "Chrysalis::PatternSpaceRendererData" as C_0011260122464657857622
 class C_0011260122464657857622 {
-+arrowsSize() const : size_t
++arrowsLayout() const : std::vector<Layout>
 {static} -buildArrow(const CG::Point & pointFrom, const CG::Point & pointTo) : Arrow
++curveAdded(const Curve * curve) : void
 {static} -intersectionPoint(const CG::Point & pointFrom, const CG::Point & pointTo) : CG::Point
 {static} -length(const CG::Point & pointFrom, const CG::Point & pointTo) : float
-+linesSize() const : size_t
++linesLayout() const : std::vector<Layout>
 +pointAdded(const Point * point) : void
 +pointAtPosition(float x, float y) const : const Point *
 +pointMoved(const Point * point) : void
-+pointsSize() const : size_t
++pointsLayout() const : Layout
 +relativePointConnectionAdded(const Point * from, const Point * to) : void
 +relativePointConnectionRemoved(const Point * from, const Point * to) : void
 +size() : size_t
@@ -256,7 +267,7 @@ __
 -arrows_ : std::vector<Vertex3f>
 -connectionsMapFrom_ : std::unordered_map<const Point *,std::unordered_map<const Point *,int>>
 -connectionsMapTo_ : std::unordered_map<const Point *,std::unordered_map<const Point *,int>>
--lines_ : std::vector<Vertex3f>
+-lines_ : std::vector<std::vector<Vertex3f>>
 -pointIndices_ : std::unordered_map<const Point *,int>
 -points_ : std::vector<Vertex3f>
 }
@@ -380,9 +391,9 @@ C_0014979996669646431041 <|-- C_0014720307744216466084
 C_0003814330884215016651 <|-- C_0011694023645327839877
 C_0015376512757975965057 ..|> C_0011449526761968468087
 C_0015376512757975965057 <|-- C_0015064054511240045445
-C_0011260122464657857622 o-- C_0014044642128017633618 : -lines_
-C_0011260122464657857622 o-- C_0014044642128017633618 : -arrows_
 C_0011260122464657857622 o-- C_0014044642128017633618 : -points_
+C_0011260122464657857622 o-- C_0014044642128017633618 : -arrows_
+C_0011260122464657857622 o-- C_0014044642128017633618 : -lines_
 C_0003071611879058204012 <|-- C_0011260122464657857622
 C_0012563006101612362629 --+ C_0011260122464657857622
 C_0012563006101612362629 o-- C_0003407114271749040649 : +baseBegin
@@ -502,6 +513,8 @@ skinparam class<<Model>> {
   
 
    class C_0015376512757975965057 <<Base>>
+  
+
   
 
   

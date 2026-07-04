@@ -198,6 +198,16 @@ __
 -opacity_ : float
 -program_ : MainOpenGLProgram *
 }
+class "Chrysalis::Layout" as C_0012203734606017441483
+class C_0012203734606017441483 {
++Layout(size_t offset, size_t count) : void
+..
++count() const : const size_t &
++offset() const : const size_t &
+__
+-count_ : const size_t
+-offset_ : const size_t
+}
 class "Chrysalis::PatternShapeRendererData" as C_0011694023645327839877
 class C_0011694023645327839877 {
 +size() : size_t
@@ -216,11 +226,20 @@ class C_0015064054511240045445 {
 +scaleChanged(float scale) : void
 __
 }
+class "Chrysalis::Curve" as C_0018156493150910561312
+class C_0018156493150910561312 {
++Curve(CG::Point handleFrom, CG::Point handleTo, const std::vector<CG::Point> & points) : void
+..
++curvePoints(double distance) const : std::vector<CG::Point>
+__
+-spline_ : tinyspline::BSpline
+}
 abstract "Chrysalis::PatternSpaceObserver" as C_0014124802283436931215
 abstract C_0014124802283436931215 {
 #PatternSpaceObserver() = default : void
 #~PatternSpaceObserver() constexpr = default : void
 ..
+{abstract} +curveAdded(const Curve * curve) = 0 : void
 {abstract} +pointAdded(const Point * point) = 0 : void
 {abstract} +relativePointConnectionAdded(const Point * from, const Point * to) = 0 : void
 {abstract} +relativePointConnectionRemoved(const Point * from, const Point * to) = 0 : void
@@ -228,15 +247,16 @@ __
 }
 class "Chrysalis::PatternSpaceRendererData" as C_0011260122464657857622
 class C_0011260122464657857622 {
-+arrowsSize() const : size_t
++arrowsLayout() const : std::vector<Layout>
 {static} -buildArrow(const CG::Point & pointFrom, const CG::Point & pointTo) : Arrow
++curveAdded(const Curve * curve) : void
 {static} -intersectionPoint(const CG::Point & pointFrom, const CG::Point & pointTo) : CG::Point
 {static} -length(const CG::Point & pointFrom, const CG::Point & pointTo) : float
-+linesSize() const : size_t
++linesLayout() const : std::vector<Layout>
 +pointAdded(const Point * point) : void
 +pointAtPosition(float x, float y) const : const Point *
 +pointMoved(const Point * point) : void
-+pointsSize() const : size_t
++pointsLayout() const : Layout
 +relativePointConnectionAdded(const Point * from, const Point * to) : void
 +relativePointConnectionRemoved(const Point * from, const Point * to) : void
 +size() : size_t
@@ -246,7 +266,7 @@ __
 -arrows_ : std::vector<Vertex3f>
 -connectionsMapFrom_ : std::unordered_map<const Point *,std::unordered_map<const Point *,int>>
 -connectionsMapTo_ : std::unordered_map<const Point *,std::unordered_map<const Point *,int>>
--lines_ : std::vector<Vertex3f>
+-lines_ : std::vector<std::vector<Vertex3f>>
 -pointIndices_ : std::unordered_map<const Point *,int>
 -points_ : std::vector<Vertex3f>
 }
@@ -291,11 +311,13 @@ class "Chrysalis::ProjectSpace" as C_0007088239576659478452
 class C_0007088239576659478452 {
 +~ProjectSpace() : void
 ..
++addCurve(const Point * from, const Point * to, const CG::Segment & segmentFrom, const CG::Segment & segmentTo, const std::vector<CG::Point> & points) : Curve *
 +addPoint(double x, double y) : Point *
 +addPoint(const CG::Point & point) : Point *
 +movePoint(const Point * point, CG::Point position) const : void
 {static} -serialize<Archive>(Archive &, const unsigned int) : void
 __
+-curves_ : std::unordered_map<const Point *,std::unordered_map<const Point *,Curve *>>
 -points_ : std::unordered_set<Point *>
 }
 class "Chrysalis::BaseNamedElement" as C_0005941615759101781899
@@ -584,9 +606,9 @@ C_0014979996669646431041 <|-- C_0014720307744216466084
 C_0003814330884215016651 <|-- C_0011694023645327839877
 C_0015376512757975965057 ..|> C_0011449526761968468087
 C_0015376512757975965057 <|-- C_0015064054511240045445
-C_0011260122464657857622 o-- C_0014044642128017633618 : -lines_
-C_0011260122464657857622 o-- C_0014044642128017633618 : -arrows_
 C_0011260122464657857622 o-- C_0014044642128017633618 : -points_
+C_0011260122464657857622 o-- C_0014044642128017633618 : -arrows_
+C_0011260122464657857622 o-- C_0014044642128017633618 : -lines_
 C_0011260122464657857622 --> C_0004642218715827055853 : -pointIndices_
 C_0011260122464657857622 --> C_0004642218715827055853 : -connectionsMapFrom_
 C_0011260122464657857622 --> C_0004642218715827055853 : -connectionsMapTo_
@@ -599,7 +621,9 @@ C_0008349615279724093078 --> C_0008404019008873523889 : -program_
 C_0000794775527725307768 <|-- C_0008349615279724093078
 C_0010886489269060501830 *-- C_0008349615279724093078 : -spaceRenderer_
 C_0010886489269060501830 *-- C_0015064054511240045445 : -shapeRenderer_
-C_0007088239576659478452 "1" *-- "*" C_0004642218715827055853 : -points_
+C_0007088239576659478452 *-- C_0004642218715827055853 : -points_
+C_0007088239576659478452 *-- C_0004642218715827055853 : -curves_
+C_0007088239576659478452 *-- C_0018156493150910561312 : -curves_
 C_0005941615759101781899 o-- C_0015400050296189752630 : -alias_
 C_0008219096566301061159 <|-- C_0005688742674269325206
 C_0005688742674269325206 <|-- C_0004278681173875969640
@@ -715,7 +739,11 @@ skinparam class<<Base>> {
 
 
 
+
+
  class C_0015376512757975965057 <<Base>> 
+
+
 
 
 

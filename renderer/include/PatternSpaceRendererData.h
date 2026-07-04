@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Point.h"
+#include "Layout.h"
 #include "Vertex3f.h"
 #include "BaseRendererData.h"
 #include "observers/PatternSpaceObserver.h"
@@ -28,9 +29,9 @@ namespace Chrysalis {
         size_t size() override;
         std::vector<Vertex3f> vbo() override;
 
-        size_t linesSize() const;
-        size_t arrowsSize() const;
-        size_t pointsSize() const;
+        Layout pointsLayout() const;
+        std::vector<Layout> linesLayout() const;
+        std::vector<Layout> arrowsLayout() const;
 
         const Point* pointAtPosition(float x, float y) const;
     private:
@@ -38,9 +39,9 @@ namespace Chrysalis {
         static Arrow buildArrow(const CG::Point& pointFrom, const CG::Point& pointTo);
         static CG::Point intersectionPoint(const CG::Point& pointFrom, const CG::Point& pointTo);
 
-        std::vector<Vertex3f> lines_;
-        std::vector<Vertex3f> arrows_;
         std::vector<Vertex3f> points_;
+        std::vector<Vertex3f> arrows_;
+        std::vector<std::vector<Vertex3f>> lines_;
 
         std::unordered_map<const Point*, int> pointIndices_;
         std::unordered_map<const Point*, std::unordered_map<const Point*, int>> connectionsMapFrom_; // <from, <to, line index>>

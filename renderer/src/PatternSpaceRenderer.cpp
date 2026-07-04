@@ -1,5 +1,7 @@
 #include "PatternSpaceRenderer.h"
 
+#include "Layout.h"
+
 using namespace Chrysalis;
 
 PatternSpaceRenderer::PatternSpaceRenderer(MainOpenGLProgram* program, PatternSpaceRendererData* rendererData)
@@ -7,13 +9,18 @@ PatternSpaceRenderer::PatternSpaceRenderer(MainOpenGLProgram* program, PatternSp
 
 void PatternSpaceRenderer::draw() {
     program_->setColor(50.f / 255.f, 59.f / 255.f, 66.f / 255.f, 1.f);
-    glDrawArrays(GL_LINES, 0, data_->linesSize());
+    for (const auto& layout: data_->linesLayout()) {
+        glDrawArrays(GL_LINES, layout.offset(), layout.count());
+    }
+
     program_->setPointRadius(pointRadius_);
-    glDrawArrays(GL_POINTS, data_->linesSize() + data_->arrowsSize(), data_->pointsSize());
+    const auto pointsLayout = data_->pointsLayout();
+    glDrawArrays(GL_POINTS, pointsLayout.offset(), pointsLayout.count());
     program_->setPointRadius(0);
+
     program_->setColor(40.f / 255.f, 49.f / 255.f, 56.f / 255.f, 1.f);
-    for (int i = 0; i < data_->arrowsSize() / 4; i++) {
-        glDrawArrays(GL_TRIANGLE_STRIP, data_->linesSize() + i * 4, 4);
+    for (const auto& layout: data_->arrowsLayout()) {
+        glDrawArrays(GL_TRIANGLE_STRIP, layout.offset(), layout.count());
     }
 }
 
