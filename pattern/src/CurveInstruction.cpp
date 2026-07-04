@@ -32,48 +32,79 @@ static Vec2 normalize(const Vec2& v) {
     return { v.x / len, v.y / len };
 }
 
+#include <tinysplinecxx.h>
+#include <boost/math/quadrature/gauss_kronrod.hpp>
+#include <cmath>
+#include <limits>
+#include <algorithm>
+
 void CurveInstruction::execute() {
     const auto segmentFrom = static_cast<CG::Segment>(*from_);
     const auto segmentTo = static_cast<CG::Segment>(*to_);
 
-    std::vector<tinyspline::real> points;
-    points.reserve((points_->count() + 4) * 2);
-    points.push_back(segmentFrom.end().x());
-    points.push_back(segmentFrom.end().y());
-    points.push_back(segmentFrom.end().x());
-    points.push_back(segmentFrom.end().y() - 0.1);
-    for (const auto& point: *points_) {
-        points.push_back(point->get()->x());
-        points.push_back(point->get()->y());
-    }
-    points.push_back(segmentTo.end().x() - 0.1);
-    points.push_back(segmentTo.end().y());
-    points.push_back(segmentTo.end().x());
-    points.push_back(segmentTo.end().y());
+    // Attachment points: where the curve actually starts/ends
+    const double A0x = segmentFrom.end().x(), A0y = segmentFrom.end().y();
+    const double ANx = segmentTo.end().x(),   ANy = segmentTo.end().y();   // <- was segmentTo.start()
 
-    const auto spline = tinyspline::BSpline::interpolateCubicNatural(points, 2);
+    // Far points: define direction + weight (length) of the tangent handle
+    const double B0x = segmentFrom.start().x(), B0y = segmentFrom.start().y();
+    const double BNx = segmentTo.start().x(),   BNy = segmentTo.start().y(); // <- was segmentTo.end()
+
+    // Mirror-reflect each segment about its attachment point
+    const double H0x = 2 * A0x - B0x, H0y = 2 * A0y - B0y;
+    const double HNx = 2 * ANx - BNx, HNy = 2 * ANy - BNy;
+
+    // Build the anchor list: ONLY real points the curve must pass through
+    std::vector<tinyspline::real> flat;
+    flat.push_back(A0x); flat.push_back(A0y);
+    for (const auto& point : *points_) {
+        flat.push_back(point->get()->x());
+        flat.push_back(point->get()->y());
+    }
+    flat.push_back(ANx); flat.push_back(ANy);
+
+    const size_t numAnchors = flat.size() / 2;
+    const size_t numSegments = numAnchors - 1;
+
+    tinyspline::BSpline spline = tinyspline::BSpline::interpolateCubicNatural(flat, 2);
+
+    // Override the boundary handles (P1 of first segment, P2 of last segment)
+    // Layout per segment i: [P0x,P0y, P1x,P1y, P2x,P2y, P3x,P3y] at flat offset i*8
+    std::vector<tinyspline::real> ctrlp = spline.controlPoints();
+
+    ctrlp[2] = static_cast<tinyspline::real>(H0x);  // P1.x of segment 0
+    ctrlp[3] = static_cast<tinyspline::real>(H0y);  // P1.y of segment 0
+
+    const size_t lastBase = (numSegments - 1) * 8;
+    ctrlp[lastBase + 4] = static_cast<tinyspline::real>(HNx);  // P2.x of last segment
+    ctrlp[lastBase + 5] = static_cast<tinyspline::real>(HNy);  // P2.y of last segment
+
+    spline.setControlPoints(ctrlp);
+
+    // Recompute derivative AFTER editing control points
     const auto derivative = spline.derive();
 
-    auto evalPoint = [&](const double u) {
+    auto evalPoint = [&](double u) {
         tinyspline::Vec2 v = spline.eval(u).resultVec2();
         return std::pair<double,double>{v.x(), v.y()};
     };
-
-    auto evalDeriv = [&](const double u) {
-        tinyspline::Vec2 v = derivative.eval(static_cast<tinyspline::real>(u)).resultVec2();
+    auto evalDeriv = [&](double u) {
+        tinyspline::Vec2 v = derivative.eval(u).resultVec2();
         return std::pair<double,double>{v.x(), v.y()};
     };
-    auto arcSpeed = [&](const double u) {
+    auto arcSpeed = [&](double u) {
         auto [dx, dy] = evalDeriv(u);
         return std::sqrt(dx * dx + dy * dy);
     };
 
-    // Find parameter u where the spline passes through (tx, ty) — coarse scan + Newton refine
-    auto solveParam = [&](double tx, double ty, double lo) {
+    const double uMin = spline.domain().min();
+    const double uMax = spline.domain().max();
+
+    auto solveParam = [&](double tx, double ty, double lo, double hi) {
         constexpr int kSamples = 40;
         double bestU = lo, bestD = std::numeric_limits<double>::max();
         for (int s = 0; s <= kSamples; ++s) {
-            double u = lo + (1 - lo) * s / kSamples;
+            double u = lo + (hi - lo) * s / kSamples;
             auto [px, py] = evalPoint(u);
             double d = (px - tx) * (px - tx) + (py - ty) * (py - ty);
             if (d < bestD) { bestD = d; bestU = u; }
@@ -86,30 +117,30 @@ void CurveInstruction::execute() {
             double denom = vx * vx + vy * vy;
             if (denom < 1e-14) break;
             double du = (fx * vx + fy * vy) / denom;
-            double newU = std::clamp(u - du, lo, 1.);
+            double newU = std::clamp(u - du, lo, hi);
             if (std::abs(newU - u) < 1e-12) { u = newU; break; }
             u = newU;
         }
         return u;
     };
 
-    // Arc-length resampling between each pair of consecutive real anchor points
     std::vector<std::pair<double,double>> anchors;
-    for (int i = 0; i < points.size(); i += 2) {
-        anchors.emplace_back(points[i], points[i + 1]);
+    for (size_t i = 0; i < flat.size(); i += 2) {
+        anchors.emplace_back(flat[i], flat[i + 1]);
     }
+
     std::vector<std::pair<double,double>> curvePoints = anchors;
-    double start = solveParam(anchors.front().first, anchors.front().second, 0);
+    double start = uMin;
     size_t insertOffset = 0;
 
     for (size_t i = 1; i < anchors.size(); ++i) {
         auto [tx, ty] = anchors[i];
-        double intersection = solveParam(tx, ty, start);
+        double intersection = solveParam(tx, ty, start, uMax);
 
         double length = std::abs(boost::math::quadrature::gauss_kronrod<double, 15>::integrate(
             arcSpeed, start, intersection));
 
-        int count = static_cast<int>(length / 0.5);   // <-- confirm this member name
+        int count = static_cast<int>(length / 0.5);
         if (count > 2) {
             std::vector<std::pair<double,double>> extra;
             extra.reserve(count - 2);
@@ -123,10 +154,10 @@ void CurveInstruction::execute() {
         }
         start = intersection;
     }
-    for (const auto& [x, y]: curvePoints) {
-        for (const auto& p: *patterns_) {
+
+    for (const auto& [x, y] : curvePoints) {
+        for (const auto& p : *patterns_) {
             p->notify(&PatternSpaceObserver::pointAdded, new Point(x, y));
         }
-        std::cout << x << " " << y << std::endl;
     }
 }
