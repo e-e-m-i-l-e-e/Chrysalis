@@ -8,8 +8,18 @@ namespace Chrysalis {
     template<typename T>
     requires std::derived_from<T, BaseInstruction>
     class BaseInstructionsContainer: public BaseInstruction, public CompositiveContainer<T> {
-        SERIALIZE_DERIVED_FROM(CompositiveContainer<T>)
+        friend boost::serialization::access;
+
+        template <class Archive>
+        void serialize(Archive& archive, const unsigned int)
+        {
+            archive & boost::serialization::base_object<BaseInstruction>(*this);
+            archive & boost::serialization::base_object<CompositiveContainer<T>>(*this);
+        }
     public:
+        bool isValid() override {
+            return true;
+        }
         void add(T* item) override {
             CompositiveContainer<T>::add(item);
             item->execute();
@@ -20,6 +30,7 @@ namespace Chrysalis {
             }
         }
     };
+    using InstructionsContainer = BaseInstructionsContainer<BaseInstruction>;
 }
 
 #endif //CHRYSALIS_BASEINSTRUCTIONSCONTAINER_H

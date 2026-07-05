@@ -5,6 +5,7 @@
 
 #include "arguments/ParameterArgument.h"
 #include "instructions/CurveInstruction.h"
+#include "instructions/ExpressionInstruction.h"
 
 using namespace Chrysalis;
 
@@ -127,6 +128,8 @@ void Project1Composer::fillInstructions() {
                                              num(2), new B::Divide())), new args::optional<args::line>()));
 
     patternInstructions->add(new D(common, segment(N, S2), new Vec(point(D), num(90), num(7)), num(2), no_num));
+
+    instructions->add(new ExpressionInstruction(project_->getExpressions(), new args::expr("Intake", biFunc(param(BUST_CIRCUMFERENCE), param(HIP_CIRCUMFERENCE), new B::Add()))));
 
     patterns = new args::patterns();
     patterns->add(front);

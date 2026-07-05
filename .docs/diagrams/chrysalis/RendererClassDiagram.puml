@@ -360,6 +360,7 @@ class "Chrysalis::NamedElementsContainer<T>" as C_0004278681173875969640
 class C_0004278681173875969640 {
 +add(T * item) : void
 +get(const std::string & name) const : T *
++has(const std::string & name) const : bool
 -serialize<Archive>(Archive & archive, const unsigned int) : void
 __
 -names_ : std::unordered_map<std::string,T *>
@@ -486,17 +487,18 @@ __
 abstract "Chrysalis::BaseInstruction" as C_0002610049402694154836
 abstract C_0002610049402694154836 {
 #BaseInstruction() = default : void
-#~BaseInstruction() constexpr = default : void
++~BaseInstruction() constexpr = default : void
 ..
 {abstract} +execute() = 0 : void
+{abstract} +isValid() = 0 : bool
+{static} -serialize<Archive>(Archive &, const unsigned int) : void
 __
 }
-abstract "Chrysalis::BasePatternInstruction" as C_0012361199867370331426
-abstract C_0012361199867370331426 {
+class "Chrysalis::BasePatternInstruction" as C_0012361199867370331426
+class C_0012361199867370331426 {
 #BasePatternInstruction(ProjectSpace * space, args::patterns * patterns) : void
 +~BasePatternInstruction() : void
 ..
-{abstract} +isValid() = 0 : bool
 {static} -serialize<Archive>(Archive &, const unsigned int) : void
 #space() const : ProjectSpace &
 __
@@ -507,6 +509,7 @@ class "Chrysalis::BaseInstructionsContainer<T>" as C_0009832473294063137986
 class C_0009832473294063137986 {
 +add(T * item) : void
 +execute() : void
++isValid() : bool
 -serialize<Archive>(Archive & archive, const unsigned int) : void
 __
 }
@@ -518,6 +521,8 @@ class "Chrysalis::PatternInstructionsContainer" as C_0003800391587746138531
 class C_0003800391587746138531 {
 +PatternInstructionsContainer(args::patterns * patterns) : void
 +~PatternInstructionsContainer() : void
+..
++isValid() : bool
 __
 -patterns_ : args::patterns *
 }
@@ -533,8 +538,8 @@ class "Chrysalis::NamedElementsContainer<Chrysalis::Expression>" as C_0012591562
 class C_0012591562113019642600 {
 __
 }
-class "Chrysalis::BaseInstructionsContainer<Chrysalis::PatternInstructionsContainer>" as C_0006377274413643530130
-class C_0006377274413643530130 {
+class "Chrysalis::BaseInstructionsContainer<Chrysalis::BaseInstruction>" as C_0006795609084469128677
+class C_0006795609084469128677 {
 __
 }
 class "Chrysalis::Project" as C_0008495545694619727706
@@ -544,6 +549,7 @@ class C_0008495545694619727706 {
 ..
 {static} +create() : Project *
 {static} +create(const std::string & name) : Project *
++getExpressions() const : ExpressionsContainer *
 +getInstructions() const : InstructionsContainer *
 +getName() : std::string
 +getParameters() const : ParametersContainer *
@@ -693,7 +699,7 @@ C_0006776945885242230637 <|-- C_0003800391587746138531
 C_0000137605349055924040 ..|> C_0004278681173875969640
 C_0009799515597078618207 ..|> C_0004278681173875969640
 C_0012591562113019642600 ..|> C_0004278681173875969640
-C_0006377274413643530130 ..|> C_0009832473294063137986
+C_0006795609084469128677 ..|> C_0009832473294063137986
 C_0008495545694619727706 *-- C_0007088239576659478452 : -space_
 C_0008495545694619727706 *-- C_0005824426893526781565 : -patterns_
 C_0008495545694619727706 *-- C_0000137605349055924040 : -patterns_
@@ -704,8 +710,8 @@ C_0008495545694619727706 *-- C_0004278681173875969640 : -parameters_
 C_0008495545694619727706 *-- C_0016508219162996417863 : -expressions_
 C_0008495545694619727706 *-- C_0012591562113019642600 : -expressions_
 C_0008495545694619727706 *-- C_0004278681173875969640 : -expressions_
-C_0008495545694619727706 *-- C_0003800391587746138531 : -instructions_
-C_0008495545694619727706 *-- C_0006377274413643530130 : -instructions_
+C_0008495545694619727706 *-- C_0002610049402694154836 : -instructions_
+C_0008495545694619727706 *-- C_0006795609084469128677 : -instructions_
 C_0008495545694619727706 *-- C_0009832473294063137986 : -instructions_
 C_0014065787526185037529 o-- C_0017448836424981341256 : -area_
 C_0014065787526185037529 *-- C_0008404019008873523889 : -program_
@@ -860,7 +866,7 @@ skinparam class<<Base>> {
 
 
 
- class C_0006377274413643530130 <<Base>> 
+ class C_0006795609084469128677 <<Base>> 
 
 
 

@@ -19,6 +19,9 @@ namespace Chrysalis {
     private:
         const args::number* expression_;
     };
+    namespace args {
+        using expr = Expression;
+    }
     using ExpressionsContainer = NamedElementsContainer<Expression>;
 }
 

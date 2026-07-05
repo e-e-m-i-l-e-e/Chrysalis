@@ -11,12 +11,13 @@ namespace Chrysalis {
     public:
         explicit PatternInstructionsContainer(args::patterns* patterns);
         ~PatternInstructionsContainer() override;
+
+        bool isValid() override;
     private:
         /// @uml{composition}
         args::patterns* patterns_;
     };
     SERIALIZE_DERIVED_CONSTRUCTION(PatternInstructionsContainer, BaseInstructionsContainer<BasePatternInstruction>, patterns_)
-    using InstructionsContainer = BaseInstructionsContainer<PatternInstructionsContainer>;
 }
 
 #endif //CHRYSALIS_PATTERNINSTRUCTIONSCONTAINER_H

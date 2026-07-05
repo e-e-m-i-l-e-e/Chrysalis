@@ -33,6 +33,7 @@ namespace Chrysalis {
         [[nodiscard]] ProjectSpace* getSpace() const;
         [[nodiscard]] PatternsContainer* getPatterns() const;
         [[nodiscard]] ParametersContainer* getParameters() const;
+        [[nodiscard]] ExpressionsContainer* getExpressions() const;
         [[nodiscard]] InstructionsContainer* getInstructions() const;
     private:
         std::string name_;

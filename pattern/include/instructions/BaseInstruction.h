@@ -3,10 +3,13 @@
 
 namespace Chrysalis {
     class BaseInstruction {
+        SERIALIZED
     protected:
         explicit BaseInstruction() = default;
-        virtual ~BaseInstruction() = default;
     public:
+        virtual ~BaseInstruction() = default;
+
+        virtual bool isValid() = 0;
         virtual void execute() = 0;
     };
 }

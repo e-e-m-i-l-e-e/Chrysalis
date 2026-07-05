@@ -4,7 +4,8 @@
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 
-#include "arguments/BaseArgument.h"
+#include "Expression.h"
+
 #include "arguments/ParameterArgument.h"
 #include "arguments/BaseCalculatedArgument.h"
 #include "arguments/BinaryFunctionArgument.h"
@@ -17,10 +18,12 @@
 #include "instructions/EdgeDartInstruction.h"
 #include "instructions/FreePointInstruction.h"
 #include "instructions/MovePointInstruction.h"
+#include "instructions/ExpressionInstruction.h"
 #include "instructions/BuildOutlineInstruction.h"
 #include "instructions/RelativePointInstruction.h"
 #include "instructions/UnfoldEdgeDartInstruction.h"
 #include "instructions/IntersectionPointInstruction.h"
+#include "instructions/PatternInstructionsContainer.h"
 
 using namespace Chrysalis;
 
@@ -36,12 +39,15 @@ BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::VectorFunction::Length)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::VectorFunction::Angle)
 BOOST_CLASS_EXPORT(Chrysalis::VectorFunctionArgument)
 
+BOOST_CLASS_EXPORT(Chrysalis::Expression)
 BOOST_CLASS_EXPORT(Chrysalis::Argument<double>)
 // BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::OptionalArgument<PointArgument>)
 BOOST_CLASS_EXPORT(Chrysalis::OriginPointArgument)
 BOOST_CLASS_EXPORT(Chrysalis::PatternPointArgument)
 
 BOOST_CLASS_EXPORT(Chrysalis::CurveInstruction)
+BOOST_CLASS_EXPORT(Chrysalis::ExpressionInstruction)
+BOOST_CLASS_EXPORT(Chrysalis::PatternInstructionsContainer)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::EdgeDartInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::FreePointInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::MovePointInstruction)
@@ -131,6 +137,10 @@ PatternsContainer* Project::getPatterns() const {
 
 ParametersContainer* Project::getParameters() const {
     return parameters_;
+}
+
+ExpressionsContainer* Project::getExpressions() const {
+    return expressions_;
 }
 
 InstructionsContainer* Project::getInstructions() const {

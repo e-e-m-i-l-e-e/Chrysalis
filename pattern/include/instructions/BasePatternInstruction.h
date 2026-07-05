@@ -12,7 +12,6 @@ namespace Chrysalis {
         SERIALIZED
     public:
         ~BasePatternInstruction() override;
-        virtual bool isValid() = 0;
     protected:
         explicit BasePatternInstruction(ProjectSpace* space, args::patterns* patterns);
 
