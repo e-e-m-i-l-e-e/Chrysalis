@@ -17,6 +17,7 @@ namespace Chrysalis {
     };
     namespace args {
         using number = BaseArgument<double>;
+        using condition = BaseArgument<bool>;
         template<typename T>
         using container = CompositiveContainer<T>;
     }

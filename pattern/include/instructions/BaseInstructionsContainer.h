@@ -20,17 +20,12 @@ namespace Chrysalis {
         bool isValid() override {
             return true;
         }
-        void add(T* item) override {
-            CompositiveContainer<T>::add(item);
-            item->execute();
-        }
         void execute() override {
             for (const auto& instruction: *this) {
                 instruction->execute();
             }
         }
     };
-    using InstructionsContainer = BaseInstructionsContainer<BaseInstruction>;
 }
 
 #endif //CHRYSALIS_BASEINSTRUCTIONSCONTAINER_H

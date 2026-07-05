@@ -13,7 +13,7 @@ namespace Chrysalis {
      * (A ("Pattern 1") -> "A 1").angle
      * }
      */
-    class VectorFunctionArgument: public BaseCalculatedArgument {
+    class VectorFunctionArgument: public BaseCalculatedArgument<double> {
         SERIALIZE_DERIVED_FROM(BaseCalculatedArgument)
     protected:
         explicit VectorFunctionArgument(const args::point* from, const args::point* to);

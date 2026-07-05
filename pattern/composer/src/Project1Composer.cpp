@@ -3,9 +3,12 @@
 #include "instructions.h"
 #include "instructions/BuildOutlineInstruction.h"
 
+#include "arguments/ComparisonArgument.h"
 #include "arguments/ParameterArgument.h"
+#include "instructions/ConditionalInstructionsContainer.h"
 #include "instructions/CurveInstruction.h"
 #include "instructions/ExpressionInstruction.h"
+#include "instructions/PatternInstructionsContainer.h"
 
 using namespace Chrysalis;
 
@@ -21,6 +24,11 @@ PatternSpace* Project1Composer::getBack() const {
 
 PatternSpace* Project1Composer::getFront() const {
     return (*project_->getPatterns())[1]->getSpace();
+}
+
+void Project1Composer::fillOptions() {
+    const auto options = project_->getOptions();
+    options->add(Option::createDefault(Options::HAS_CENTER_BACK_DART, true));
 }
 
 void Project1Composer::fillPatterns() {
@@ -127,7 +135,28 @@ void Project1Composer::fillInstructions() {
 
     patternInstructions->add(new D(common, segment(N, S2), new Vec(point(D), num(90), num(7)), num(2), no_num));
 
-    instructions->add(new ExpressionInstruction(project_->getExpressions(), new args::expr("Intake", *param(BUST_CIRCUMFERENCE) + *param(HIP_CIRCUMFERENCE))));
+    instructions->add(new ExpressionInstruction(project_->getInstructions()->expressions(),
+                                                new args::expr(Expressions::INTAKE, *param(BUST_CIRCUMFERENCE) + *param(HIP_CIRCUMFERENCE))));
+    instructions->add(new ExpressionInstruction(project_->getInstructions()->expressions(),
+                                                new args::expr(Expressions::MAX_INTAKE, *(*num(2) + *num(4)) + *(new args::conditional(option(HAS_CENTER_BACK_DART), num(2), num(0))))));
+
+    const auto positive = new BaseInstructionsContainer<BaseInstruction>();
+    const auto negative = new BaseInstructionsContainer<BaseInstruction>();
+    instructions->add(new ConditionalInstructionsContainer(new args::compare::Less(expression(MAX_INTAKE), expression(INTAKE)), positive, negative));
+
+    positive->add(new ExpressionInstruction(project_->getInstructions()->expressions(),
+        new args::expr(Expressions::COEFFICIENT, biFunc(Min, num(1), *expression(INTAKE) / *(*expression(MAX_INTAKE) + *(*(*num(2) / *num(3)) * *num(2)))))));
+
+    negative->add(new ExpressionInstruction(project_->getInstructions()->expressions(),
+        new args::expr(Expressions::COEFFICIENT, *expression(INTAKE) / *expression(MAX_INTAKE))));
+
+    patterns = new args::patterns();
+    patterns->add(back);
+    patternInstructions = new PatternInstructionsContainer(patterns);
+    instructions->add(patternInstructions);
+
+    patternInstructions->add(new RelP(common, name(W3), vector_(W, right, *num(2) * *expression(COEFFICIENT))));
+    patternInstructions->add(new RelP(common, name(W4), vector_(W2, left, *num(4) * *expression(COEFFICIENT))));
 
     patterns = new args::patterns();
     patterns->add(front);

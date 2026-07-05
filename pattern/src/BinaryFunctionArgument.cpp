@@ -49,3 +49,11 @@ double BinaryFunctionArgument::Multiply::evaluate(const double a, const double b
 double BinaryFunctionArgument::Divide::evaluate(const double a, const double b) const {
     return a / b;
 }
+
+double BinaryFunctionArgument::Min::evaluate(const double a, const double b) const {
+    return a < b ? a : b;
+}
+
+double BinaryFunctionArgument::Max::evaluate(const double a, const double b) const {
+    return a > b ? a : b;
+}

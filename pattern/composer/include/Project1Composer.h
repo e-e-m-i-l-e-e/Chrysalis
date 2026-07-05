@@ -32,6 +32,8 @@ namespace Chrysalis {
             static constexpr auto W = "W";
             static constexpr auto W1 = "W1";
             static constexpr auto W2 = "W2";
+            static constexpr auto W3 = "W3";
+            static constexpr auto W4 = "W4";
 
             static constexpr auto T = "T";
 
@@ -59,14 +61,23 @@ namespace Chrysalis {
             static constexpr auto WAIST_CIRCUMFERENCE = "Waist Circumference";
             static constexpr auto APEX_TO_CENTER_FRONT = "Apex to center-front";
         };
+        struct Options {
+            static constexpr auto HAS_CENTER_BACK_DART = "Has center back dart";
+        };
+        struct Expressions {
+            static constexpr auto INTAKE = "Intake";
+            static constexpr auto MAX_INTAKE = "Max intake";
+            static constexpr auto COEFFICIENT = "Coefficient";
+        };
     public:
         explicit Project1Composer(Project* project);
 
         static Project* createProject();
 
-        PatternSpace* getBack() const;
-        PatternSpace* getFront() const;
+        [[nodiscard]] PatternSpace* getBack() const;
+        [[nodiscard]] PatternSpace* getFront() const;
 
+        void fillOptions() override;
         void fillPatterns() override;
         void fillParameters() override;
         void fillInstructions() override;

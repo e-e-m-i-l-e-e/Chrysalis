@@ -3,10 +3,10 @@
 
 #include "arguments/BaseCalculatedArgument.h"
 
-#define BINARY_FUNCTIONS (Add)(Subtract)(Multiply)(Divide)
+#define BINARY_FUNCTIONS (Add)(Subtract)(Multiply)(Divide)(Min)(Max)
 
 namespace Chrysalis {
-    class BinaryFunctionArgument: public BaseCalculatedArgument {
+    class BinaryFunctionArgument: public BaseCalculatedArgument<double> {
         SERIALIZE_DERIVED_FROM(BaseCalculatedArgument)
     protected:
         explicit BinaryFunctionArgument(const args::number* operand1, const args::number* operand2);

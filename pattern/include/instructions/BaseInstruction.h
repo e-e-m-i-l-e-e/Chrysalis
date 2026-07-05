@@ -1,6 +1,8 @@
 #ifndef CHRYSALIS_BASEINSTRUCTION_H
 #define CHRYSALIS_BASEINSTRUCTION_H
 
+#include "serialization.h"
+
 namespace Chrysalis {
     class BaseInstruction {
         SERIALIZED

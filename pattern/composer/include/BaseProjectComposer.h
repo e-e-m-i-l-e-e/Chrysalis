@@ -11,6 +11,7 @@ namespace Chrysalis {
 
     public:
         void fill();
+        virtual void fillOptions() = 0;
         virtual void fillPatterns() = 0;
         virtual void fillParameters() = 0;
         virtual void fillInstructions() = 0;

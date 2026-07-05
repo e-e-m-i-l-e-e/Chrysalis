@@ -1,12 +1,14 @@
 #ifndef CHRYSALIS_INSTRUCTIONS_H
 #define CHRYSALIS_INSTRUCTIONS_H
 
+#include "arguments/ExpressionArgument.h"
 #include "arguments/PatternPointArgument.h"
 #include "arguments/VectorArgument.h"
 #include "arguments/OptionalArgument.h"
 #include "arguments/Argument.h"
 #include "arguments/BinaryFunctionArgument.h"
 #include "arguments/VectorFunctionArgument.h"
+#include "arguments/ConditionalArgument.h"
 
 #include "instructions/EdgeDartInstruction.h"
 #include "instructions/MovePointInstruction.h"
@@ -35,11 +37,15 @@ using IP = Chrysalis::IntersectionPointInstruction;
 #define no_name new OptionalArgument<Argument<std::string>>()
 #define name(name) new Argument<std::string>(PointName::name)
 #define param(parameterName) (new ParameterArgument(parameters->get(ParameterName::parameterName)))
+#define option(optionName) project_->getOptions()->get(Options::optionName)
+#define expression(expressionName) new ExpressionArgument(project_->getInstructions()->expressions(), new Argument<std::string>(Expressions::expressionName))
 #define point(pointName) new PatternPointArgument(name(pointName), new args::patterns(*patterns))
 #define segment(from, to) new args::segment(point(from), point(to))
 #define vector_no_angle(origin, length) new args::vector(point(origin), length)
 #define vector_(origin, angle, length) new args::vector(point(origin), angle, length)
 #define vector_0(angle, length) new args::vector(angle, length)
+
 #define vecFunc(function, from, to) new VectorFunctionArgument::function(from, to)
+#define biFunc(function, operand1, operand2) new BinaryFunctionArgument::function(operand1, operand2)
 
 #endif //CHRYSALIS_INSTRUCTIONS_H

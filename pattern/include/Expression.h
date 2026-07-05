@@ -6,7 +6,7 @@
 #include "arguments/BaseCalculatedArgument.h"
 
 namespace Chrysalis {
-    class Expression: public BaseNamedElement, public BaseCalculatedArgument {
+    class Expression: public BaseNamedElement, public BaseCalculatedArgument<double> {
         PROVIDE_DEFAULT_SERIALIZATION_ACCESS(Expression)
         SERIALIZE_DERIVED_FROM(BaseNamedElement, expression_)
     public:

@@ -6,20 +6,21 @@
 #include "arguments/BaseArgument.h"
 
 namespace Chrysalis {
-    class BaseCalculatedArgument: public BaseArgument<double> {
-        SERIALIZE_DERIVED_FROM(BaseArgument, value_)
+    template<typename T>
+    class BaseCalculatedArgument: public BaseArgument<T> {
+        SERIALIZE_DERIVED_FROM(BaseArgument<T>, value_)
     protected:
         explicit BaseCalculatedArgument() = default;
-        explicit BaseCalculatedArgument(const double& value): value_(value) {}
+        explicit BaseCalculatedArgument(const T& value): value_(value) {}
 
-        virtual double calculate() const = 0;
+        virtual T calculate() const = 0;
     public:
-        const double& get() const override {
+        const T& get() const override {
             value_ = calculate();
             return value_.get();
         }
     private:
-        mutable boost::optional<double> value_;
+        mutable boost::optional<T> value_;
     };
 }
 

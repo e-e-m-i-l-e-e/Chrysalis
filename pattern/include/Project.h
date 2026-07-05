@@ -3,11 +3,12 @@
 
 #include "serialization.h"
 
+#include "Option.h"
 #include "Pattern.h"
 #include "Parameter.h"
 #include "Expression.h"
 #include "ProjectSpace.h"
-#include "instructions/PatternInstructionsContainer.h"
+#include "instructions/InstructionsContainer.h"
 
 namespace Chrysalis {
     class Project {
@@ -16,9 +17,9 @@ namespace Chrysalis {
         static constexpr auto PROJECT_FILE_SUFFIX = "chrysalis";
         static constexpr auto PROJECT_NAME_FILTER = "Chrysalis Project (*.chrysalis)";
 
-        explicit Project(std::string name, ProjectSpace* space, ParametersContainer* parameters,
-                         ExpressionsContainer* expressions, PatternsContainer* patterns,
-                         InstructionsContainer* instructions);
+        explicit Project(std::string name, ProjectSpace* space, PatternsContainer* patterns,
+                         ParametersContainer* parameters, OptionsContainer* options,
+                         ExpressionsContainer* expressions, InstructionsContainer* instructions);
         ~Project();
 
         static Project* create();
@@ -31,6 +32,7 @@ namespace Chrysalis {
         void setName(const std::string& name);
 
         [[nodiscard]] ProjectSpace* getSpace() const;
+        [[nodiscard]] OptionsContainer* getOptions() const;
         [[nodiscard]] PatternsContainer* getPatterns() const;
         [[nodiscard]] ParametersContainer* getParameters() const;
         [[nodiscard]] ExpressionsContainer* getExpressions() const;
@@ -40,6 +42,8 @@ namespace Chrysalis {
         /// @uml{composition}
         ProjectSpace* space_;
         /// @uml{composition}
+        OptionsContainer* options_;
+        /// @uml{composition}
         PatternsContainer* patterns_;
         /// @uml{composition}
         ParametersContainer* parameters_;
@@ -48,7 +52,7 @@ namespace Chrysalis {
         /// @uml{composition}
         InstructionsContainer* instructions_;
     };
-    SERIALIZE_CONSTRUCTION(Project, name_, space_, parameters_, expressions_, patterns_, instructions_)
+    SERIALIZE_CONSTRUCTION(Project, name_, space_, patterns_, parameters_, options_, expressions_, instructions_)
 }
 
 #endif //CHRYSALIS_PROJECT_H
