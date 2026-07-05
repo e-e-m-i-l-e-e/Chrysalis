@@ -176,40 +176,6 @@ abstract C_0013206232820539036909 {
 {static} -serialize<Archive>(Archive &, const unsigned int) : void
 __
 }
-abstract "Chrysalis::BinaryFunction" as C_0007965462709904309096
-abstract C_0007965462709904309096 {
-#BinaryFunction() = default : void
-+~BinaryFunction() constexpr = default : void
-..
-{abstract} +evaluate(const args::number * operand1, const args::number * operand2) const = 0 : double
-{static} #evaluate(const args::number * operand1, const args::number * operand2, const std::function<double (double,double)> & evaluator) : double
-{static} -serialize<Archive>(Archive &, const unsigned int) : void
-__
-}
-class "Chrysalis::BinaryFunction::Add" as C_0011428982129595746053
-class C_0011428982129595746053 {
-+evaluate(const args::number * operand1, const args::number * operand2) const : double
--serialize<Archive>(Archive & archive, const unsigned int) : void
-__
-}
-class "Chrysalis::BinaryFunction::Subtract" as C_0013667873678198727522
-class C_0013667873678198727522 {
-+evaluate(const args::number * operand1, const args::number * operand2) const : double
--serialize<Archive>(Archive & archive, const unsigned int) : void
-__
-}
-class "Chrysalis::BinaryFunction::Multiply" as C_0018089401781767894990
-class C_0018089401781767894990 {
-+evaluate(const args::number * operand1, const args::number * operand2) const : double
--serialize<Archive>(Archive & archive, const unsigned int) : void
-__
-}
-class "Chrysalis::BinaryFunction::Divide" as C_0002897019908582465539
-class C_0002897019908582465539 {
-+evaluate(const args::number * operand1, const args::number * operand2) const : double
--serialize<Archive>(Archive & archive, const unsigned int) : void
-__
-}
 class "Chrysalis::BaseArgument<double>" as C_0001471877624587876994
 class C_0001471877624587876994 {
 __
@@ -225,17 +191,42 @@ abstract C_0012937012691713881979 {
 __
 -value_ : boost::optional<double>
 }
-class "Chrysalis::BinaryFunctionArgument" as C_0001365093100257756951
-class C_0001365093100257756951 {
-+BinaryFunctionArgument(const args::number * operand1, const args::number * operand2, const BinaryFunction * function) : void
+abstract "Chrysalis::BinaryFunctionArgument" as C_0001365093100257756951
+abstract C_0001365093100257756951 {
+#BinaryFunctionArgument(const args::number * operand1, const args::number * operand2) : void
 +~BinaryFunctionArgument() : void
 ..
 #calculate() const : double
+{abstract} #evaluate(double a, double b) const = 0 : double
 +isValid() const : bool
+-serialize<Archive>(Archive & archive, const unsigned int) : void
 __
--function_ : const BinaryFunction *
--operand1_ : const args::number *
--operand2_ : const args::number *
+#operand1_ : const args::number *
+#operand2_ : const args::number *
+}
+class "Chrysalis::BinaryFunctionArgument::Add" as C_0014087117419452374380
+class C_0014087117419452374380 {
++Add(const args::number * operand1, const args::number * operand2) : void
+#evaluate(double a, double b) const : double
+__
+}
+class "Chrysalis::BinaryFunctionArgument::Subtract" as C_0014531108691559918537
+class C_0014531108691559918537 {
++Subtract(const args::number * operand1, const args::number * operand2) : void
+#evaluate(double a, double b) const : double
+__
+}
+class "Chrysalis::BinaryFunctionArgument::Multiply" as C_0008794678997563482301
+class C_0008794678997563482301 {
++Multiply(const args::number * operand1, const args::number * operand2) : void
+#evaluate(double a, double b) const : double
+__
+}
+class "Chrysalis::BinaryFunctionArgument::Divide" as C_0011584929275101058424
+class C_0011584929275101058424 {
++Divide(const args::number * operand1, const args::number * operand2) : void
+#evaluate(double a, double b) const : double
+__
 }
 class "Chrysalis::OptionalArgument<T>" as C_0007143007386227679224
 class C_0007143007386227679224 {
@@ -631,22 +622,21 @@ C_0012361199867370331426 --> C_0007088239576659478452 : #space_
 C_0012361199867370331426 *-- C_0014927223858222449226 : #patterns_
 C_0002610049402694154836 <|-- C_0012361199867370331426
 C_0004566211642871539975 <|-- C_0000892009465423237500
-C_0011428982129595746053 --+ C_0007965462709904309096
-C_0007965462709904309096 <|-- C_0011428982129595746053
-C_0013667873678198727522 --+ C_0007965462709904309096
-C_0007965462709904309096 <|-- C_0013667873678198727522
-C_0018089401781767894990 --+ C_0007965462709904309096
-C_0007965462709904309096 <|-- C_0018089401781767894990
-C_0002897019908582465539 --+ C_0007965462709904309096
-C_0007965462709904309096 <|-- C_0002897019908582465539
 C_0001471877624587876994 ..|> C_0004566211642871539975
 C_0001471877624587876994 <|-- C_0012937012691713881979
-C_0001365093100257756951 *-- C_0001471877624587876994 : -operand1_
-C_0001365093100257756951 *-- C_0004566211642871539975 : -operand1_
-C_0001365093100257756951 *-- C_0001471877624587876994 : -operand2_
-C_0001365093100257756951 *-- C_0004566211642871539975 : -operand2_
-C_0001365093100257756951 *-- C_0007965462709904309096 : -function_
+C_0001365093100257756951 *-- C_0001471877624587876994 : #operand1_
+C_0001365093100257756951 *-- C_0004566211642871539975 : #operand1_
+C_0001365093100257756951 *-- C_0001471877624587876994 : #operand2_
+C_0001365093100257756951 *-- C_0004566211642871539975 : #operand2_
 C_0012937012691713881979 <|-- C_0001365093100257756951
+C_0014087117419452374380 --+ C_0001365093100257756951
+C_0001365093100257756951 <|-- C_0014087117419452374380
+C_0014531108691559918537 --+ C_0001365093100257756951
+C_0001365093100257756951 <|-- C_0014531108691559918537
+C_0008794678997563482301 --+ C_0001365093100257756951
+C_0001365093100257756951 <|-- C_0008794678997563482301
+C_0011584929275101058424 --+ C_0001365093100257756951
+C_0001365093100257756951 <|-- C_0011584929275101058424
 C_0016949743096485278048 ..|> C_0000892009465423237500
 C_0014956221374281501729 --> C_0016949743096485278048 : -outlineName_
 C_0014956221374281501729 --> C_0000892009465423237500 : -outlineName_
@@ -858,21 +848,19 @@ skinparam class<<Container>> {
 
  class C_0013206232820539036909 <<Base>> 
 
- class C_0007965462709904309096 <<Function>> 
-
- class C_0011428982129595746053 <<Function>> 
-
- class C_0013667873678198727522 <<Function>> 
-
- class C_0018089401781767894990 <<Function>> 
-
- class C_0002897019908582465539 <<Function>> 
-
  class C_0001471877624587876994 <<Base>> 
 
  class C_0012937012691713881979 <<Base>> 
 
  class C_0001365093100257756951 <<Argument>> 
+
+ class C_0014087117419452374380 <<Argument>> 
+
+ class C_0014531108691559918537 <<Argument>> 
+
+ class C_0008794678997563482301 <<Argument>> 
+
+ class C_0011584929275101058424 <<Argument>> 
 
  class C_0007143007386227679224 <<Argument>> 
 

@@ -3,6 +3,10 @@
 using namespace Chrysalis;
 
 RelativePointInstruction::RelativePointInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
+                                                   const args::name* name, const args::vector* vector)
+    : RelativePointInstruction(space, selectedPatterns, name, vector, new args::optional<args::line>()) {}
+
+RelativePointInstruction::RelativePointInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
                                                    const args::name* name, const args::vector* vector,
                                                    const args::optional<args::line>* line)
     : BasePatternInstruction(space, selectedPatterns), name_(name), vector_(vector), line_(line) {}

@@ -21,6 +21,8 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(RelativePointInstruction)
     public:
         explicit RelativePointInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
+                                          const args::name* name, const args::vector* vector);
+        explicit RelativePointInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
                                           const args::name* name, const args::vector* vector,
                                           const args::optional<args::line>* line);
         ~RelativePointInstruction() override;

@@ -28,11 +28,10 @@ using namespace Chrysalis;
 
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::ParameterArgument)
 
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BinaryFunction::Add)
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BinaryFunction::Subtract)
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BinaryFunction::Multiply)
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BinaryFunction::Divide)
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BinaryFunctionArgument)
+BOOST_CLASS_EXPORT(Chrysalis::BinaryFunctionArgument::Add)
+BOOST_CLASS_EXPORT(Chrysalis::BinaryFunctionArgument::Subtract)
+BOOST_CLASS_EXPORT(Chrysalis::BinaryFunctionArgument::Multiply)
+BOOST_CLASS_EXPORT(Chrysalis::BinaryFunctionArgument::Divide)
 
 BOOST_CLASS_EXPORT(Chrysalis::VectorFunctionArgument::Length)
 BOOST_CLASS_EXPORT(Chrysalis::VectorFunctionArgument::Angle)

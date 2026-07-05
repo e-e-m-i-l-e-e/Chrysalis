@@ -1,8 +1,15 @@
 #include "ProjectSpace.h"
 
+#include <ranges>
+
 using namespace Chrysalis;
 
 ProjectSpace::~ProjectSpace() {
+    for (const auto& curves: curves_ | std::views::values) {
+        for (const auto& curve: curves | std::views::values) {
+            delete curve;
+        }
+    }
     for (auto& point : points_) {
         delete point;
     }

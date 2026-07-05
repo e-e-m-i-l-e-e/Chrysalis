@@ -15,8 +15,6 @@
 #include "instructions/UnfoldEdgeDartInstruction.h"
 #include "instructions/IntersectionPointInstruction.h"
 
-using B = Chrysalis::BinaryFunction;
-
 using Vec = Chrysalis::VectorArgument;
 using D = Chrysalis::EdgeDartInstruction;
 using FP = Chrysalis::FreePointInstruction;
@@ -36,15 +34,12 @@ using IP = Chrysalis::IntersectionPointInstruction;
 #define no_num new OptionalArgument<BaseArgument<double>>()
 #define no_name new OptionalArgument<Argument<std::string>>()
 #define name(name) new Argument<std::string>(PointName::name)
-#define param(parameterName) new ParameterArgument(parameters->get(ParameterName::parameterName))
+#define param(parameterName) (new ParameterArgument(parameters->get(ParameterName::parameterName)))
 #define point(pointName) new PatternPointArgument(name(pointName), new args::patterns(*patterns))
 #define segment(from, to) new args::segment(point(from), point(to))
 #define vector_no_angle(origin, length) new args::vector(point(origin), length)
 #define vector_(origin, angle, length) new args::vector(point(origin), angle, length)
 #define vector_0(angle, length) new args::vector(angle, length)
-
-#define use_last_point common, new OptionalArgument<args::point>()
-#define biFunc(operator1, operator2, function) new BinaryFunctionArgument(operator1, operator2, function)
 #define vecFunc(function, from, to) new VectorFunctionArgument::function(from, to)
 
 #endif //CHRYSALIS_INSTRUCTIONS_H
