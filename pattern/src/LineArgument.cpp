@@ -8,7 +8,7 @@ LineArgument::LineArgument(const args::point* origin, const args::number* angle)
     : origin_(origin), angle_(angle) {}
 
 LineArgument::LineArgument(const args::point* origin, const args::point* destination)
-    : origin_(origin), angle_(new VectorFunctionArgument(origin->clone(), destination->clone(), new VectorFunction::Angle)) {}
+    : origin_(origin), angle_(new VectorFunctionArgument::Angle(origin->clone(), destination->clone())) {}
 
 LineArgument::~LineArgument() {
     delete origin_;

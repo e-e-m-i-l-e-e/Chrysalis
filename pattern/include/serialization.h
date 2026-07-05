@@ -43,11 +43,6 @@ friend void load_construct_data(Archive&, Class<Type>*, const unsigned int);
 
 // --- Intrusive serialization -----------------------------------------------------------------------------------------
 
-#define HELPER_SERIALIZE_SIGNATURE                                                                                     \
-friend boost::serialization::access;                                                                                   \
-template<class Archive>                                                                                                \
-void serialize(Archive& archive, const unsigned int)
-
 #define SERIALIZED                                                                                                     \
 friend boost::serialization::access;                                                                                   \
 template<class Archive>                                                                                                \

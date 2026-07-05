@@ -426,45 +426,36 @@ __
 -names_ : const args::container<args::name> *
 -targets_ : const args::container<args::line> *
 }
-abstract "Chrysalis::VectorFunction" as C_0007765536925596756322
-abstract C_0007765536925596756322 {
-#VectorFunction() = default : void
-+~VectorFunction() constexpr = default : void
-..
-{abstract} +evaluate(const args::point * from, const args::point * to) const = 0 : double
-{static} #evaluate(const args::point * from, const args::point * to, const std::function<double (const Point &,const Point &)> & evaluator) : double
-{static} -serialize<Archive>(Archive &, const unsigned int) : void
-__
-}
-class "Chrysalis::VectorFunction::Length" as C_0002552188195223875084
-class C_0002552188195223875084 {
-+evaluate(const args::point * from, const args::point * to) const : double
--serialize<Archive>(Archive & archive, const unsigned int) : void
-__
-}
-class "Chrysalis::VectorFunction::Angle" as C_0005052358648474368195
-class C_0005052358648474368195 {
-+evaluate(const args::point * from, const args::point * to) const : double
--serialize<Archive>(Archive & archive, const unsigned int) : void
-__
-}
-class "Chrysalis::VectorFunctionArgument" as C_0014380000036712777437
-class C_0014380000036712777437 {
-+VectorFunctionArgument(const args::point * from, const args::point * to, const VectorFunction * function) : void
+abstract "Chrysalis::VectorFunctionArgument" as C_0014380000036712777437
+abstract C_0014380000036712777437 {
+#VectorFunctionArgument(const args::point * from, const args::point * to) : void
 +~VectorFunctionArgument() : void
 ..
 #calculate() const : double
+{abstract} #evaluate(const CG::Point & from, const CG::Point & to) const = 0 : double
 +isValid() const : bool
+-serialize<Archive>(Archive & archive, const unsigned int) : void
 __
--from_ : const args::point *
--function_ : const VectorFunction *
--to_ : const args::point *
+#from_ : const args::point *
+#to_ : const args::point *
 }
 note top of C_0014380000036712777437
 Syntax samples:
  (A -> B).length
  (A ("Pattern 1") -> "A 1").angle
 end note
+class "Chrysalis::VectorFunctionArgument::Length" as C_0009825877545976859219
+class C_0009825877545976859219 {
++Length(const args::point * from, const args::point * to) : void
+#evaluate(const CG::Point & from, const CG::Point & to) const : double
+__
+}
+class "Chrysalis::VectorFunctionArgument::Angle" as C_0003998340548139129738
+class C_0003998340548139129738 {
++Angle(const args::point * from, const args::point * to) : void
+#evaluate(const CG::Point & from, const CG::Point & to) const : double
+__
+}
 class "Chrysalis::OptionalArgument<Chrysalis::args::vector>" as C_0000683932820629931208
 class C_0000683932820629931208 {
 __
@@ -716,14 +707,13 @@ C_0007970185002355349518 --> C_0000892009465423237500 : -names_
 C_0007970185002355349518 --> C_0016195743882894131013 : -targets_
 C_0007970185002355349518 --> C_0017869509652350831688 : -targets_
 C_0012361199867370331426 <|-- C_0007970185002355349518
-C_0002552188195223875084 --+ C_0007765536925596756322
-C_0007765536925596756322 <|-- C_0002552188195223875084
-C_0005052358648474368195 --+ C_0007765536925596756322
-C_0007765536925596756322 <|-- C_0005052358648474368195
-C_0014380000036712777437 *-- C_0013206232820539036909 : -from_
-C_0014380000036712777437 *-- C_0013206232820539036909 : -to_
-C_0014380000036712777437 *-- C_0007765536925596756322 : -function_
+C_0014380000036712777437 *-- C_0013206232820539036909 : #from_
+C_0014380000036712777437 *-- C_0013206232820539036909 : #to_
 C_0012937012691713881979 <|-- C_0014380000036712777437
+C_0009825877545976859219 --+ C_0014380000036712777437
+C_0014380000036712777437 <|-- C_0009825877545976859219
+C_0003998340548139129738 --+ C_0014380000036712777437
+C_0014380000036712777437 <|-- C_0003998340548139129738
 C_0000683932820629931208 ..|> C_0007143007386227679224
 C_0017478559692109379194 --> C_0010060974190162873338 : -point_
 C_0017478559692109379194 --> C_0000793764540388360553 : -vector1_
@@ -922,13 +912,11 @@ skinparam class<<Container>> {
 
  class C_0007970185002355349518 <<Instruction>> 
 
- class C_0007765536925596756322 <<Function>> 
-
- class C_0002552188195223875084 <<Function>> 
-
- class C_0005052358648474368195 <<Function>> 
-
  class C_0014380000036712777437 <<Argument>> 
+
+ class C_0009825877545976859219 <<Argument>> 
+
+ class C_0003998340548139129738 <<Argument>> 
 
  class C_0000683932820629931208 <<Argument>> 
 

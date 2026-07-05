@@ -1,8 +1,7 @@
 #include "arguments/VectorFunctionArgument.h"
 
-Chrysalis::VectorFunctionArgument::VectorFunctionArgument(const args::point* from, const args::point* to,
-                                                          const VectorFunction* function)
-    : from_(from), to_(to), function_(function) {}
+Chrysalis::VectorFunctionArgument::VectorFunctionArgument(const args::point* from, const args::point* to)
+    : from_(from), to_(to) {}
 
 Chrysalis::VectorFunctionArgument::~VectorFunctionArgument() {
     delete from_;
@@ -14,5 +13,13 @@ bool Chrysalis::VectorFunctionArgument::isValid() const {
 }
 
 double Chrysalis::VectorFunctionArgument::calculate() const {
-    return function_->evaluate(from_, to_);
+    return evaluate(*from_->get(), *to_->get());
+}
+
+double Chrysalis::VectorFunctionArgument::Length::evaluate(const CG::Point& from, const CG::Point& to) const {
+    return CG::length(from, to);
+}
+
+double Chrysalis::VectorFunctionArgument::Angle::evaluate(const CG::Point& from, const CG::Point& to) const {
+    return CG::angle(from, to);
 }

@@ -9,7 +9,6 @@
 #include "arguments/ParameterArgument.h"
 #include "arguments/BaseCalculatedArgument.h"
 #include "arguments/BinaryFunctionArgument.h"
-#include "arguments/VectorFunction.h"
 #include "arguments/VectorFunctionArgument.h"
 #include "arguments/OptionalArgument.h"
 #include "arguments/OriginPointArgument.h"
@@ -35,8 +34,8 @@ BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BinaryFunction::Multiply)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BinaryFunction::Divide)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BinaryFunctionArgument)
 
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::VectorFunction::Length)
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::VectorFunction::Angle)
+BOOST_CLASS_EXPORT(Chrysalis::VectorFunctionArgument::Length)
+BOOST_CLASS_EXPORT(Chrysalis::VectorFunctionArgument::Angle)
 BOOST_CLASS_EXPORT(Chrysalis::VectorFunctionArgument)
 
 BOOST_CLASS_EXPORT(Chrysalis::Expression)

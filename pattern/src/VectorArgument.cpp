@@ -1,6 +1,5 @@
 #include "arguments/VectorArgument.h"
 
-#include "arguments/VectorFunction.h"
 #include "arguments/OriginPointArgument.h"
 #include "arguments/VectorFunctionArgument.h"
 
@@ -14,7 +13,7 @@ VectorArgument::VectorArgument(const args::point* origin, const args::number* an
     : RayArgument(origin, angle), length_(length) {}
 
 VectorArgument::VectorArgument(const args::point* origin, const args::point* destination)
-    : RayArgument(origin, destination), length_(new VectorFunctionArgument(origin->clone(), destination->clone(), new VectorFunction::Length)) {}
+    : RayArgument(origin, destination), length_(new VectorFunctionArgument::Length(origin->clone(), destination->clone())) {}
 
 VectorArgument::~VectorArgument() {
     delete length_;

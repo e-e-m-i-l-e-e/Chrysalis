@@ -16,7 +16,6 @@
 #include "instructions/IntersectionPointInstruction.h"
 
 using B = Chrysalis::BinaryFunction;
-using V = Chrysalis::VectorFunction;
 
 using Vec = Chrysalis::VectorArgument;
 using D = Chrysalis::EdgeDartInstruction;
@@ -46,6 +45,6 @@ using IP = Chrysalis::IntersectionPointInstruction;
 
 #define use_last_point common, new OptionalArgument<args::point>()
 #define biFunc(operator1, operator2, function) new BinaryFunctionArgument(operator1, operator2, function)
-#define vecFunc(from, to, function) new VectorFunctionArgument(from, to, function)
+#define vecFunc(function, from, to) new VectorFunctionArgument::function(from, to)
 
 #endif //CHRYSALIS_INSTRUCTIONS_H

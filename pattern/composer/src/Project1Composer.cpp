@@ -79,12 +79,12 @@ void Project1Composer::fillInstructions() {
                                       biFunc(biFunc(param(HIP_CIRCUMFERENCE), num(4), new B::Divide()),
                                              num(1), new B::Subtract())), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(W1), vector_(H, right,
-                                      vecFunc(point(H), point(H1), new V::Length())), new args::optional<args::line>()));
+                                      vecFunc(Length, point(H), point(H1))), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(W2), vector_(W, right,
                                       biFunc(biFunc(param(BUST_CIRCUMFERENCE), num(4), new B::Divide()),
                                              num(1), new B::Subtract())), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(S1), vector_(S, right,
-                                      vecFunc(point(W), point(W2), new V::Length())), new args::optional<args::line>()));
+                                      vecFunc(Length, point(W), point(W2))), new args::optional<args::line>()));
 
     patterns = new args::patterns();
     patterns->add(back);
@@ -92,13 +92,13 @@ void Project1Composer::fillInstructions() {
     patternInstructions = new PatternInstructionsContainer(patterns);
     instructions->add(patternInstructions);
     patternInstructions->add(new RelP(common, name(AH), vector_(W, up,
-                                      biFunc(vecFunc(point(S), point(W), new V::Length()),
+                                      biFunc(vecFunc(Length, point(S), point(W)),
                                              num(2), new B::Divide())), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(UB), vector_0(up,
-                                      biFunc(vecFunc(point(S), point(AH), new V::Length()),
+                                      biFunc(vecFunc(Length, point(S), point(AH)),
                                              num(3), new B::Divide())), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(T), vector_(H, up,
-                                      biFunc(vecFunc(point(H), point(W), new V::Length()),
+                                      biFunc(vecFunc(Length, point(H), point(W)),
                                              num(2), new B::Divide())), new args::optional<args::line>()));
 
     patterns = new args::patterns();
@@ -110,9 +110,9 @@ void Project1Composer::fillInstructions() {
     patternInstructions->add(new RelP(common, name(N1), vector_0(down,
                                       biFunc(param(NECK_CIRCUMFERENCE), num(16), new B::Divide())), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(N2), vector_0(left,
-                                      vecFunc(point(N), point(S), new V::Length())), new args::optional<args::line>()));
+                                      vecFunc(Length, point(N), point(S))), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(N3), vector_(N1, left,
-                                      biFunc(vecFunc(point(N2), point(N1), new V::Length()),
+                                      biFunc(vecFunc(Length, point(N2), point(N1)),
                                              num(2), new B::Divide())), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(S2), vector_(N, num(-18), param(SHOULDER_LENGTH)), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(UB1), vector_(UB, right,
@@ -121,10 +121,10 @@ void Project1Composer::fillInstructions() {
                                       biFunc(param(BACK_WIDTH), num(2), new B::Divide())), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(AH2), vector_0(num(45), num(1.5)), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(AH3), vector_(AH, right,
-                                      vecFunc(point(W), point(W2), new V::Length())), new args::optional<args::line>()));
+                                      vecFunc(Length, point(W), point(W2))), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(AH4), vector_0(left, num(1)), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(D), vector_(N, num(-18),
-                                      biFunc(vecFunc(point(N), point(S2), new V::Length()),
+                                      biFunc(vecFunc(Length, point(N), point(S2)),
                                              num(2), new B::Divide())), new args::optional<args::line>()));
 
     patternInstructions->add(new D(common, segment(N, S2), new Vec(point(D), num(90), num(7)), num(2), no_num));
@@ -140,12 +140,12 @@ void Project1Composer::fillInstructions() {
                                       biFunc(biFunc(param(HIP_CIRCUMFERENCE), num(4), new B::Divide()),
                                              num(1), new B::Add())), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(W1), vector_(W, left,
-                                      vecFunc(point(H), point(H1), new V::Length())), new args::optional<args::line>()));
+                                      vecFunc(Length, point(H), point(H1))), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(W2), vector_(W, left,
                                       biFunc(biFunc(param(BUST_CIRCUMFERENCE), num(4), new B::Divide()),
                                              num(1), new B::Add())), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(S1), vector_(S, left,
-                                      vecFunc(point(W), point(W2), new V::Length())), new args::optional<args::line>()));
+                                      vecFunc(Length, point(W), point(W2))), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(N), vector_(S, left,
                                       biFunc(param(NECK_CIRCUMFERENCE), num(6), new B::Divide())), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(N1), vector_0(down,
@@ -158,20 +158,20 @@ void Project1Composer::fillInstructions() {
                                       biFunc(param(BACK_WIDTH), num(2), new B::Divide())), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(AH2), vector_0(num(90 + 45), num(2.5)), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(AH3), vector_(AH, left,
-                                      vecFunc(point(W), point(W2), new V::Length())), new args::optional<args::line>()));
+                                      vecFunc(Length, point(W), point(W2))), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(AH4), vector_0(right, num(1)), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(B), vector_(S, down, param(BUST_HEIGHT)), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(DA), vector_0(left,
                                       biFunc(param(BUST_SPAN), num(2), new B::Divide())), new args::optional<args::line>()));
     patternInstructions->add(new RelP(common, name(N2), vector_(DA, num(0), param(APEX_TO_CENTER_FRONT)), new args::optional<args::line>(segment(H, S))));
-    patternInstructions->add(new RelP(common, name(N1), vector_0(left, vecFunc(point(S), point(N), new V::Length)), new args::optional<args::line>()));
-    patternInstructions->add(new RelP(common, name(N3), vector_(N, down, biFunc(vecFunc(point(N1), point(N), new V::Length), num(3), new B::Divide())), new args::optional<args::line>()));
-    patternInstructions->add(new RelP(common, name(N4), vector_(N2, left, biFunc(vecFunc(point(N1), point(N2), new V::Length), num(3), new B::Divide())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(N1), vector_0(left, vecFunc(Length, point(S), point(N))), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(N3), vector_(N, down, biFunc(vecFunc(Length, point(N1), point(N)), num(3), new B::Divide())), new args::optional<args::line>()));
+    patternInstructions->add(new RelP(common, name(N4), vector_(N2, left, biFunc(vecFunc(Length, point(N1), point(N2)), num(3), new B::Divide())), new args::optional<args::line>()));
     patternInstructions->add(new MP(common, point(S2), vector_no_angle(DA, param(APEX_TO_SHOULDER)), new args::optional(vector_no_angle(N, param(SHOULDER_LENGTH)))));
     patternInstructions->add(new RelP(common, name(D1),
-                                      vector_(N, vecFunc(point(N), point(S2), new V::Angle()),
+                                      vector_(N, vecFunc(Angle, point(N), point(S2)),
                                       biFunc(
-                                          vecFunc(point(N), point(S2), new V::Length()),
+                                          vecFunc(Length, point(N), point(S2)),
                                           num(2), new B::Divide())), new args::optional<args::line>()));
     patternInstructions->add(new UD(common, segment(N, S2), segment(D1, DA),
                                     biFunc(biFunc(biFunc(
@@ -196,23 +196,23 @@ void Project1Composer::fillInstructions() {
     patternInstructions->add(new IP(common, segment(AH, AH1), names, segments));
 
     patternInstructions->add(new MP(common, point(UB1), vector_0(
-                                    vecFunc(point(UB1_1), point(UB1_2), new V::Angle()),
-                                    vecFunc(point(UB1_1), point(UB1_2), new V::Length())),
+                                    vecFunc(Angle, point(UB1_1), point(UB1_2)),
+                                    vecFunc(Length, point(UB1_1), point(UB1_2))),
                                     new args::optional<args::vector>())
     );
     patternInstructions->add(new MP(common, point(AH1), vector_0(
-                                    vecFunc(point(AH1_1), point(AH1_2), new V::Angle()),
-                                    vecFunc(point(AH1_1), point(AH1_2), new V::Length())),
+                                    vecFunc(Angle, point(AH1_1), point(AH1_2)),
+                                    vecFunc(Length, point(AH1_1), point(AH1_2))),
                                     new args::optional<args::vector>())
     );
     patternInstructions->add(new MP(common, point(AH3), vector_0(
-                                    vecFunc(point(AH1_1), point(AH1_2), new V::Angle()),
-                                    vecFunc(point(AH1_1), point(AH1_2), new V::Length())),
+                                    vecFunc(Angle, point(AH1_1), point(AH1_2)),
+                                    vecFunc(Length, point(AH1_1), point(AH1_2))),
                                     new args::optional<args::vector>())
     );
     patternInstructions->add(new MP(common, point(AH4), vector_0(
-                                    vecFunc(point(AH1_1), point(AH1_2), new V::Angle()),
-                                    vecFunc(point(AH1_1), point(AH1_2), new V::Length())),
+                                    vecFunc(Angle, point(AH1_1), point(AH1_2)),
+                                    vecFunc(Length, point(AH1_1), point(AH1_2))),
                                     new args::optional<args::vector>())
     );
     patternInstructions->add(new CurveInstruction(common, segment(N, N3), segment(N2, N4), new args::container<PatternPointArgument>()));
