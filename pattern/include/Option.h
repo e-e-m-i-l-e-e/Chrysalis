@@ -7,7 +7,7 @@
 
 namespace Chrysalis {
     class Option: public BaseNamedElement, public Argument<bool> {
-        explicit Option(): BaseNamedElement(), Argument(false) {};
+        explicit Option(): Argument(false) {};
         friend boost::serialization::access;
         template <class Archive>
         void serialize(Archive& archive, const unsigned int) {

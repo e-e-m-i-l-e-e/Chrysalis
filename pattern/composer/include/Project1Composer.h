@@ -85,7 +85,10 @@ namespace Chrysalis {
         void fillPatterns() override;
         void fillParameters() override;
         void fillInstructions() override;
-
+    private:
+        Pattern* back_;
+        Pattern* front_;
+    public:
         inline static const std::unordered_map<std::string, std::pair<double, double>> expectedBack = {
             {PointName::S, {0.0, 0.0}},
             {PointName::W, {0.0, -42.0}},

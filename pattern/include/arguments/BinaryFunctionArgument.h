@@ -28,11 +28,6 @@ namespace Chrysalis {
         const args::number* operand2_;
     };
 
-    const BinaryFunctionArgument* operator+(const args::number& operand1, const args::number& operand2);
-    const BinaryFunctionArgument* operator-(const args::number& operand1, const args::number& operand2);
-    const BinaryFunctionArgument* operator*(const args::number& operand1, const args::number& operand2);
-    const BinaryFunctionArgument* operator/(const args::number& operand1, const args::number& operand2);
-
     #define DECLARE_BINARY_FUNCTION(r, data, Name)                                                                     \
     class BinaryFunctionArgument::Name: public BinaryFunctionArgument {                                                \
         PROVIDE_SERIALIZATION_ACCESS(BinaryFunctionArgument::Name)                                                     \
