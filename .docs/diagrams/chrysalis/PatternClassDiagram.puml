@@ -63,6 +63,8 @@ __
 }
 class "Chrysalis::AssociativeContainer<T>" as C_0008219096566301061159
 class C_0008219096566301061159 {
++AssociativeContainer() = default : void
++AssociativeContainer(std::initializer_list<T *> items) : void
 +~AssociativeContainer() = default : void
 ..
 +operator[](size_t index) const : T *
@@ -76,6 +78,8 @@ __
 }
 class "Chrysalis::CompositiveContainer<T>" as C_0005688742674269325206
 class C_0005688742674269325206 {
++CompositiveContainer() = default : void
++CompositiveContainer(const std::initializer_list<T *> & items) : void
 +~CompositiveContainer() : void
 __
 }
@@ -482,6 +486,19 @@ __
 -points_ : const args::container<PatternPointArgument> *
 -to_ : const args::vector *
 }
+class "Chrysalis::DartInstruction" as C_0018166939826786108876
+class C_0018166939826786108876 {
++DartInstruction(ProjectSpace * space, args::patterns * patterns, const PatternPointArgument * point, const args::number * intake, const args::vector * top, const args::vector * bottom) : void
++~DartInstruction() : void
+..
++execute() : void
++isValid() : bool
+__
+-bottom_ : const args::vector *
+-intake_ : const args::number *
+-point_ : const PatternPointArgument *
+-top_ : const args::vector *
+}
 class "Chrysalis::SegmentArgument" as C_0002481955606888948453
 class C_0002481955606888948453 {
 +SegmentArgument(const args::point * origin, const args::point * destination) : void
@@ -860,6 +877,12 @@ C_0012572252923833400704 *-- C_0000793764540388360553 : -to_
 C_0012572252923833400704 *-- C_0010060974190162873338 : -points_
 C_0012572252923833400704 *-- C_0004440488307830833957 : -points_
 C_0012361199867370331426 <|-- C_0012572252923833400704
+C_0018166939826786108876 *-- C_0010060974190162873338 : -point_
+C_0018166939826786108876 *-- C_0001471877624587876994 : -intake_
+C_0018166939826786108876 *-- C_0004566211642871539975 : -intake_
+C_0018166939826786108876 *-- C_0000793764540388360553 : -top_
+C_0018166939826786108876 *-- C_0000793764540388360553 : -bottom_
+C_0012361199867370331426 <|-- C_0018166939826786108876
 C_0002481955606888948453 *-- C_0013206232820539036909 : -destination_
 C_0000793764540388360553 <|-- C_0002481955606888948453
 C_0011702185653775348063 ..|> C_0007143007386227679224
@@ -1124,6 +1147,8 @@ skinparam class<<Container>> {
  class C_0004440488307830833957 <<Container>> 
 
  class C_0012572252923833400704 <<Instruction>> 
+
+ class C_0018166939826786108876 <<Instruction>> 
 
  class C_0002481955606888948453 <<Argument>> 
 

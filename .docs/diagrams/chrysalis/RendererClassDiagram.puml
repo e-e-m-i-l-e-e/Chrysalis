@@ -337,6 +337,8 @@ __
 }
 class "Chrysalis::AssociativeContainer<T>" as C_0008219096566301061159
 class C_0008219096566301061159 {
++AssociativeContainer() = default : void
++AssociativeContainer(std::initializer_list<T *> items) : void
 +~AssociativeContainer() = default : void
 ..
 +operator[](size_t index) const : T *
@@ -350,6 +352,8 @@ __
 }
 class "Chrysalis::CompositiveContainer<T>" as C_0005688742674269325206
 class C_0005688742674269325206 {
++CompositiveContainer() = default : void
++CompositiveContainer(const std::initializer_list<T *> & items) : void
 +~CompositiveContainer() : void
 __
 }

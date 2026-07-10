@@ -1,5 +1,5 @@
-#ifndef CHRYSALIS_DARTINSTRUCTION_H
-#define CHRYSALIS_DARTINSTRUCTION_H
+#ifndef CHRYSALIS_EDGEDARTINSTRUCTION_H
+#define CHRYSALIS_EDGEDARTINSTRUCTION_H
 
 #include <boost/serialization/export.hpp>
 
@@ -33,4 +33,4 @@ namespace Chrysalis {
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::EdgeDartInstruction)
 
-#endif //CHRYSALIS_DARTINSTRUCTION_H
+#endif //CHRYSALIS_EDGEDARTINSTRUCTION_H

@@ -42,6 +42,7 @@ using IP = Chrysalis::IntersectionPointInstruction;
 #define point(pointName) new PatternPointArgument(name(pointName), new args::patterns(*patterns))
 #define segment(from, to) new args::segment(point(from), point(to))
 #define vector_no_angle(origin, length) new args::vector(point(origin), length)
+#define ray(origin, angle) new args::ray(point(origin), angle)
 #define vector_(origin, angle, length) new args::vector(point(origin), angle, length)
 #define vector_0(angle, length) new args::vector(angle, length)
 

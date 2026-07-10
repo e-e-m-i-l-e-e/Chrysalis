@@ -23,6 +23,8 @@ namespace Chrysalis {
             static constexpr auto AH4 = "AH4";
             static constexpr auto AH1_1 = "AH1_1";
             static constexpr auto AH1_2 = "AH1_2";
+            static constexpr auto AH1_3 = "AH1_3";
+            static constexpr auto AH1_4 = "AH1_4";
 
             static constexpr auto UB = "UB";
             static constexpr auto UB1 = "UB1";
@@ -46,6 +48,8 @@ namespace Chrysalis {
             static constexpr auto D1_1 = "D1_1";
             static constexpr auto D2 = "D2";
             static constexpr auto DA = "DA";
+            static constexpr auto DW1 = "DW1";
+            static constexpr auto DW2 = "DW2";
         };
         struct ParameterName {
             static constexpr auto HIP_DEPTH = "Hip Depth";

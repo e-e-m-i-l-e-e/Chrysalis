@@ -28,6 +28,7 @@
 #include "instructions/IntersectionPointInstruction.h"
 #include "instructions/PatternInstructionsContainer.h"
 #include "instructions/ConditionalInstructionsContainer.h"
+#include "instructions/DartInstruction.h"
 
 using namespace Chrysalis;
 
@@ -52,6 +53,11 @@ BOOST_CLASS_EXPORT(Chrysalis::ComparisonArgument::Less)
 BOOST_CLASS_EXPORT(Chrysalis::ComparisonArgument::LessEqual)
 BOOST_CLASS_EXPORT(Chrysalis::ComparisonArgument)
 
+BOOST_CLASS_EXPORT(Chrysalis::LineArgument)
+BOOST_CLASS_EXPORT(Chrysalis::RayArgument)
+BOOST_CLASS_EXPORT(Chrysalis::VectorArgument)
+BOOST_CLASS_EXPORT(Chrysalis::SegmentArgument)
+
 BOOST_CLASS_EXPORT(Chrysalis::Option)
 BOOST_CLASS_EXPORT(Chrysalis::Expression)
 BOOST_CLASS_EXPORT(Chrysalis::OptionsContainer)
@@ -63,6 +69,7 @@ BOOST_CLASS_EXPORT(Chrysalis::OriginPointArgument)
 BOOST_CLASS_EXPORT(Chrysalis::PatternPointArgument)
 BOOST_CLASS_EXPORT(Chrysalis::ConditionalArgument)
 
+BOOST_CLASS_EXPORT(Chrysalis::DartInstruction)
 BOOST_CLASS_EXPORT(Chrysalis::CurveInstruction)
 BOOST_CLASS_EXPORT(Chrysalis::ExpressionInstruction)
 BOOST_CLASS_EXPORT(Chrysalis::PatternInstructionsContainer)

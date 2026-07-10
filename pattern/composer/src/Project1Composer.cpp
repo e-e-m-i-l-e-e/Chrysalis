@@ -7,6 +7,7 @@
 #include "arguments/ParameterArgument.h"
 #include "instructions/ConditionalInstructionsContainer.h"
 #include "instructions/CurveInstruction.h"
+#include "instructions/DartInstruction.h"
 #include "instructions/ExpressionInstruction.h"
 #include "instructions/PatternInstructionsContainer.h"
 
@@ -27,7 +28,7 @@ PatternSpace* Project1Composer::getFront() const {
 }
 
 void Project1Composer::fillOptions() {
-    const auto options = project_->getInstructions()->options();
+    const auto options = project_->getOptions();
     options->add(Option::createDefault(Options::HAS_CENTER_BACK_DART, true));
 }
 
@@ -140,8 +141,8 @@ void Project1Composer::fillInstructions() {
     instructions->add(new ExpressionInstruction(project_->getInstructions()->expressions(),
                                                 new args::expr(Expressions::MAX_INTAKE, *(*num(2) + *num(4)) + *(new args::conditional(option(HAS_CENTER_BACK_DART), num(2), num(0))))));
 
-    const auto positive = new BaseInstructionsContainer<BaseInstruction>(project_->getInstructions()->options(), project_->getInstructions()->expressions());
-    const auto negative = new BaseInstructionsContainer<BaseInstruction>(project_->getInstructions()->options(), project_->getInstructions()->expressions());
+    auto positive = new BaseInstructionsContainer<BaseInstruction>(project_->getInstructions()->options(), project_->getInstructions()->expressions());
+    auto negative = new BaseInstructionsContainer<BaseInstruction>(project_->getInstructions()->options(), project_->getInstructions()->expressions());
     instructions->add(new ConditionalInstructionsContainer(new args::compare::Less(expression(MAX_INTAKE), expression(INTAKE)), positive, negative));
 
     positive->add(new ExpressionInstruction(project_->getInstructions()->expressions(),
@@ -157,6 +158,36 @@ void Project1Composer::fillInstructions() {
 
     patternInstructions->add(new RelP(common, name(W3), vector_(W, right, *num(2) * *expression(COEFFICIENT))));
     patternInstructions->add(new RelP(common, name(W4), vector_(W2, left, *num(4) * *expression(COEFFICIENT))));
+
+    positive = new BaseInstructionsContainer<BaseInstruction>(project_->getInstructions()->options(), project_->getInstructions()->expressions());
+    negative = new BaseInstructionsContainer<BaseInstruction>(project_->getInstructions()->options(), project_->getInstructions()->expressions());
+    instructions->add(new ConditionalInstructionsContainer(project_->getOptions()->get(Options::HAS_CENTER_BACK_DART), positive, negative));
+
+    patterns = new args::patterns();
+    patterns->add(back);
+    patternInstructions = new PatternInstructionsContainer(project_->getInstructions()->options(), project_->getInstructions()->expressions(), patterns);
+    positive->add(patternInstructions);
+    patternInstructions->add(new RelP(common, name(DW1), vector_(W3, right, *vecFunc(Length, point(W3), point(W4)) / *num(3))));
+    patternInstructions->add(new RelP(common, name(DW2), vector_(W4, left, *vecFunc(Length, point(W3), point(W4)) / *num(3))));
+    patternInstructions->add(new DartInstruction(common, point(DW2),
+                                                 *(*(*num(2) / *num(3)) * *num(2)) * *expression(COEFFICIENT),
+                                                 vector_0(num(90), *vecFunc(Length, point(AH), point(W)) - *num(2)),
+                                                 vector_0(num(-90), num(9))));
+
+    patterns = new args::patterns();
+    patterns->add(back);
+    patternInstructions = new PatternInstructionsContainer(project_->getInstructions()->options(), project_->getInstructions()->expressions(), patterns);
+    negative->add(patternInstructions);
+    patternInstructions->add(new RelP(common, name(DW1), vector_(W3, right, *vecFunc(Length, point(W3), point(W4)) / *num(2))));
+
+    patterns = new args::patterns();
+    patterns->add(back);
+    patternInstructions = new PatternInstructionsContainer(project_->getInstructions()->options(), project_->getInstructions()->expressions(), patterns);
+    instructions->add(patternInstructions);
+
+    patternInstructions->add(new DartInstruction(common, point(DW1), *num(2) * *expression(COEFFICIENT),
+        vector_0(num(90), vecFunc(Length, point(AH), point(W))),
+        vector_0(num(-90), num(11))));
 
     patterns = new args::patterns();
     patterns->add(front);
@@ -202,21 +233,15 @@ void Project1Composer::fillInstructions() {
     patternInstructions->add(new UD(common, segment(N, S2), segment(D1, DA),
                                     *(*(*param(BUST_CIRCUMFERENCE) / *num(20)) + *num(1)) * *num(2))
     );
-    auto segments = new args::container<args::line>();
-    segments->add(segment(D1, DA));
-    segments->add(segment(D1_1, DA));
-    auto names = new args::container<args::name>();
-    names->add(name(UB1_1));
-    names->add(name(UB1_2));
-    patternInstructions->add(new IP(common, segment(UB, UB1), names, segments));
-
-    segments = new args::container<args::line>();
-    segments->add(segment(D1, DA));
-    segments->add(segment(D1_1, DA));
-    names = new args::container<args::name>();
-    names->add(name(AH1_1));
-    names->add(name(AH1_2));
-    patternInstructions->add(new IP(common, segment(AH, AH1), names, segments));
+    patternInstructions->add(new IP(common, segment(UB, UB1),
+                                    new args::container({name(UB1_1), name(UB1_2)}),
+                                    new args::container<args::line>({segment(D1, DA), segment(D1_1, DA)})));
+    patternInstructions->add(new IP(common, segment(AH, AH1),
+                                    new args::container({name(AH1_1), name(AH1_2)}),
+                                    new args::container<args::line>({segment(D1, DA), segment(D1_1, DA)})));
+    patternInstructions->add(new IP(common, ray(AH2, num(0)),
+                                    new args::container({name(AH1_3), name(AH1_4)}),
+                                    new args::container<args::line>({segment(D1, DA), segment(D1_1, DA)})));
 
     patternInstructions->add(new MP(common, point(UB1), vector_0(
                                     vecFunc(Angle, point(UB1_1), point(UB1_2)),
@@ -238,7 +263,14 @@ void Project1Composer::fillInstructions() {
                                     vecFunc(Length, point(AH1_1), point(AH1_2))),
                                     new args::optional<args::vector>())
     );
+    patternInstructions->add(new MP(common, point(AH2), vector_0(
+                                vecFunc(Angle, point(AH1_3), point(AH1_4)),
+                                vecFunc(Length, point(AH1_3), point(AH1_4))),
+                                new args::optional<args::vector>())
+    );
     patternInstructions->add(new CurveInstruction(common, segment(N, N3), segment(N2, N4), new args::container<PatternPointArgument>()));
+    instructions->add(new ExpressionInstruction(patternInstructions->expressions(), new Expression(Expressions::INTAKE, *(*(*(*param(BUST_CIRCUMFERENCE) + *param(HIP_CIRCUMFERENCE)) / *num(2)) - *param(WAIST_CIRCUMFERENCE)) / *num(4))));
+    instructions->add(new ExpressionInstruction(patternInstructions->expressions(), new Expression(Expressions::MAX_INTAKE, *num(3) + *num(4))));
 
     patterns = new args::patterns();
     patterns->add(back);

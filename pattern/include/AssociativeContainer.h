@@ -10,6 +10,9 @@ namespace Chrysalis {
     class AssociativeContainer {
         PROVIDE_SERIALIZATION_ACCESS_T(AssociativeContainer)
     public:
+        explicit AssociativeContainer() = default;
+        explicit AssociativeContainer(std::initializer_list<T*> items): items_(items) {}
+
         virtual ~AssociativeContainer() = default;
 
         virtual void add(T* item) {
