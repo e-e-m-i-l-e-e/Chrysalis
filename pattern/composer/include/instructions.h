@@ -37,7 +37,7 @@ using IP = Chrysalis::IntersectionPointInstruction;
 #define no_name new OptionalArgument<Argument<std::string>>()
 #define name(name) new Argument<std::string>(PointName::name)
 #define param(parameterName) (new ParameterArgument(parameters->get(ParameterName::parameterName)))
-#define option(optionName) project_->getOptions()->get(Options::optionName)
+#define option(optionName) project_->getInstructions()->options()->get(Options::optionName)
 #define expression(expressionName) new ExpressionArgument(project_->getInstructions()->expressions(), new Argument<std::string>(Expressions::expressionName))
 #define point(pointName) new PatternPointArgument(name(pointName), new args::patterns(*patterns))
 #define segment(from, to) new args::segment(point(from), point(to))

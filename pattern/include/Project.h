@@ -1,14 +1,12 @@
 #ifndef CHRYSALIS_PROJECT_H
 #define CHRYSALIS_PROJECT_H
 
-#include "serialization.h"
-
 #include "Option.h"
 #include "Pattern.h"
 #include "Parameter.h"
 #include "Expression.h"
 #include "ProjectSpace.h"
-#include "instructions/InstructionsContainer.h"
+#include "instructions/BaseInstructionsContainer.h"
 
 namespace Chrysalis {
     class Project {

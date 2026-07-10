@@ -2,8 +2,8 @@
 #define CHRYSALIS_OPTION_H
 
 #include "BaseNamedElement.h"
-#include "NamedElementsContainer.h"
 #include "arguments/Argument.h"
+#include "ScopedNamedElementsContainer.h"
 
 namespace Chrysalis {
     class Option: public BaseNamedElement, public Argument<bool> {
@@ -20,7 +20,7 @@ namespace Chrysalis {
 
         void toggle();
     };
-    using OptionsContainer = NamedElementsContainer<Option>;
+    using OptionsContainer = ScopedNamedElementsContainer<Option>;
 }
 
 #endif //CHRYSALIS_OPTION_H

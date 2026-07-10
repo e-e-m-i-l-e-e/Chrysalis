@@ -54,6 +54,8 @@ BOOST_CLASS_EXPORT(Chrysalis::ComparisonArgument)
 
 BOOST_CLASS_EXPORT(Chrysalis::Option)
 BOOST_CLASS_EXPORT(Chrysalis::Expression)
+BOOST_CLASS_EXPORT(Chrysalis::OptionsContainer)
+BOOST_CLASS_EXPORT(Chrysalis::ExpressionsContainer)
 BOOST_CLASS_EXPORT(Chrysalis::Argument<double>)
 // BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::OptionalArgument<PointArgument>)
 BOOST_CLASS_EXPORT(Chrysalis::ExpressionArgument)
@@ -64,6 +66,7 @@ BOOST_CLASS_EXPORT(Chrysalis::ConditionalArgument)
 BOOST_CLASS_EXPORT(Chrysalis::CurveInstruction)
 BOOST_CLASS_EXPORT(Chrysalis::ExpressionInstruction)
 BOOST_CLASS_EXPORT(Chrysalis::PatternInstructionsContainer)
+BOOST_CLASS_EXPORT(Chrysalis::BaseInstructionsContainer<BaseInstruction>)
 BOOST_CLASS_EXPORT(Chrysalis::ConditionalInstructionsContainer)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::EdgeDartInstruction)
 BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::FreePointInstruction)
@@ -93,9 +96,15 @@ Project* Project::create() {
 }
 
 Project* Project::create(const std::string& name) {
+    const auto globalOptions = new OptionsContainer();
+    const auto globalExpressions = new ExpressionsContainer();
     return new Project(name, new ProjectSpace(), new PatternsContainer(), new ParametersContainer(),
-                       new OptionsContainer(), new ExpressionsContainer(),
-                       new InstructionsContainer(new ExpressionsContainer()));
+                       globalOptions, globalExpressions,
+                       new InstructionsContainer(
+                           new OptionsContainer(globalOptions),
+                           new ExpressionsContainer(globalExpressions)
+                       )
+    );
 }
 
 Project* Project::read(const std::string& filePath) {

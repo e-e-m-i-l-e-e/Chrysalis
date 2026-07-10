@@ -27,7 +27,7 @@ PatternSpace* Project1Composer::getFront() const {
 }
 
 void Project1Composer::fillOptions() {
-    const auto options = project_->getOptions();
+    const auto options = project_->getInstructions()->options();
     options->add(Option::createDefault(Options::HAS_CENTER_BACK_DART, true));
 }
 
@@ -71,7 +71,7 @@ void Project1Composer::fillInstructions() {
     patterns = new args::patterns();
     patterns->add(back);
     patterns->add(front);
-    patternInstructions = new PatternInstructionsContainer(patterns);
+    patternInstructions = new PatternInstructionsContainer(project_->getInstructions()->options(), project_->getInstructions()->expressions(), patterns);
     instructions->add(patternInstructions);
 
     patternInstructions->add(new FP(common, name(S), num(0.0), num(0.0)));
@@ -80,7 +80,7 @@ void Project1Composer::fillInstructions() {
 
     patterns = new args::patterns();
     patterns->add(back);
-    patternInstructions = new PatternInstructionsContainer(patterns);
+    patternInstructions = new PatternInstructionsContainer(project_->getInstructions()->options(), project_->getInstructions()->expressions(), patterns);
     instructions->add(patternInstructions);
 
     patternInstructions->add(new RelP(common, name(H1), vector_(H, right,
@@ -97,7 +97,7 @@ void Project1Composer::fillInstructions() {
     patterns = new args::patterns();
     patterns->add(back);
     patterns->add(front);
-    patternInstructions = new PatternInstructionsContainer(patterns);
+    patternInstructions = new PatternInstructionsContainer(project_->getInstructions()->options(), project_->getInstructions()->expressions(), patterns);
     instructions->add(patternInstructions);
     patternInstructions->add(new RelP(common, name(AH), vector_(W, up,
                                       *vecFunc(Length, point(S), point(W)) / *num(2))));
@@ -110,7 +110,7 @@ void Project1Composer::fillInstructions() {
 
     patterns = new args::patterns();
     patterns->add(back);
-    patternInstructions = new PatternInstructionsContainer(patterns);
+    patternInstructions = new PatternInstructionsContainer(project_->getInstructions()->options(), project_->getInstructions()->expressions(), patterns);
     instructions->add(patternInstructions);
     patternInstructions->add(new RelP(common, name(N), vector_(S, right, *param(NECK_CIRCUMFERENCE) / *num(6))));
     patternInstructions->add(new RelP(common, name(N1), vector_0(down,
@@ -140,8 +140,8 @@ void Project1Composer::fillInstructions() {
     instructions->add(new ExpressionInstruction(project_->getInstructions()->expressions(),
                                                 new args::expr(Expressions::MAX_INTAKE, *(*num(2) + *num(4)) + *(new args::conditional(option(HAS_CENTER_BACK_DART), num(2), num(0))))));
 
-    const auto positive = new BaseInstructionsContainer<BaseInstruction>();
-    const auto negative = new BaseInstructionsContainer<BaseInstruction>();
+    const auto positive = new BaseInstructionsContainer<BaseInstruction>(project_->getInstructions()->options(), project_->getInstructions()->expressions());
+    const auto negative = new BaseInstructionsContainer<BaseInstruction>(project_->getInstructions()->options(), project_->getInstructions()->expressions());
     instructions->add(new ConditionalInstructionsContainer(new args::compare::Less(expression(MAX_INTAKE), expression(INTAKE)), positive, negative));
 
     positive->add(new ExpressionInstruction(project_->getInstructions()->expressions(),
@@ -152,7 +152,7 @@ void Project1Composer::fillInstructions() {
 
     patterns = new args::patterns();
     patterns->add(back);
-    patternInstructions = new PatternInstructionsContainer(patterns);
+    patternInstructions = new PatternInstructionsContainer(project_->getInstructions()->options(), project_->getInstructions()->expressions(), patterns);
     instructions->add(patternInstructions);
 
     patternInstructions->add(new RelP(common, name(W3), vector_(W, right, *num(2) * *expression(COEFFICIENT))));
@@ -160,7 +160,7 @@ void Project1Composer::fillInstructions() {
 
     patterns = new args::patterns();
     patterns->add(front);
-    patternInstructions = new PatternInstructionsContainer(patterns);
+    patternInstructions = new PatternInstructionsContainer(project_->getInstructions()->options(), project_->getInstructions()->expressions(), patterns);
     instructions->add(patternInstructions);
 
     patternInstructions->add(new RelP(common, name(H1), vector_(H, left,
@@ -243,7 +243,7 @@ void Project1Composer::fillInstructions() {
     patterns = new args::patterns();
     patterns->add(back);
     patterns->add(front);
-    patternInstructions = new PatternInstructionsContainer(patterns);
+    patternInstructions = new PatternInstructionsContainer(project_->getInstructions()->options(), project_->getInstructions()->expressions(), patterns);
     instructions->add(patternInstructions);
 
     patternInstructions->add(new BuildOutlineInstruction(common, new Argument<std::string>("main"), name(AH3)));
@@ -252,14 +252,14 @@ void Project1Composer::fillInstructions() {
 
     patterns = new args::patterns();
     patterns->add(back);
-    patternInstructions = new PatternInstructionsContainer(patterns);
+    patternInstructions = new PatternInstructionsContainer(project_->getInstructions()->options(), project_->getInstructions()->expressions(), patterns);
     instructions->add(patternInstructions);
     patternInstructions->add(new BuildOutlineInstruction(common, new Argument<std::string>("main"), name(UB)));
 
     patterns = new args::patterns();
     patterns->add(back);
     patterns->add(front);
-    patternInstructions = new PatternInstructionsContainer(patterns);
+    patternInstructions = new PatternInstructionsContainer(project_->getInstructions()->options(), project_->getInstructions()->expressions(), patterns);
     instructions->add(patternInstructions);
 
     patternInstructions->add(new BuildOutlineInstruction(common, new Argument<std::string>("main"), name(N2)));

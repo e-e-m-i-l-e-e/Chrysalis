@@ -2,7 +2,7 @@
 #define CHRYSALIS_EXPRESSION_H
 
 #include "BaseNamedElement.h"
-#include "NamedElementsContainer.h"
+#include "ScopedNamedElementsContainer.h"
 #include "arguments/BaseCalculatedArgument.h"
 
 namespace Chrysalis {
@@ -22,7 +22,7 @@ namespace Chrysalis {
     namespace args {
         using expr = Expression;
     }
-    using ExpressionsContainer = NamedElementsContainer<Expression>;
+    using ExpressionsContainer = ScopedNamedElementsContainer<Expression>;
 }
 
 #endif //CHRYSALIS_EXPRESSION_H

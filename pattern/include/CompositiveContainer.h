@@ -6,12 +6,12 @@
 namespace Chrysalis {
     template<typename T>
     class CompositiveContainer: public AssociativeContainer<T> {
-        SERIALIZE_DERIVED_FROM(AssociativeContainer<T>)
     public:
         ~CompositiveContainer() override {
             for (const auto& item: *this) delete item;
         }
     };
+    SERIALIZE_DERIVED_CONSTRUCTION_T(CompositiveContainer, AssociativeContainer)
 }
 
 #endif //CHRYSALIS_COMPOSITIVECONTAINER_H

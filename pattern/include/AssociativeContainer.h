@@ -8,7 +8,7 @@
 namespace Chrysalis {
     template<typename T>
     class AssociativeContainer {
-        SERIALIZE(items_)
+        PROVIDE_SERIALIZATION_ACCESS_T(AssociativeContainer)
     public:
         virtual ~AssociativeContainer() = default;
 
@@ -30,6 +30,25 @@ namespace Chrysalis {
     private:
         std::vector<T*> items_;
     };
+    template <class Archive, typename T>
+    void serialize(Archive& archive, AssociativeContainer<T>& obj, const unsigned int version)
+    {
+        archive & obj.items_;
+    }
+
+    template <class Archive, typename T>
+    void save_construct_data(Archive& archive, const AssociativeContainer<T>* obj, const unsigned int)
+    {
+        archive & obj->items_;
+    }
+
+    template <class Archive, typename T>
+    void load_construct_data(Archive& archive, AssociativeContainer<T>* obj, const unsigned int)
+    {
+        decltype(obj->items_) items_;
+        archive >> items_;
+        ::new(obj) AssociativeContainer<T>();
+    }
 }
 
 #endif //CHRYSALIS_ASSOCIATIVECONTAINER_H

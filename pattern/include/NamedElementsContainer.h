@@ -12,7 +12,7 @@ namespace Chrysalis {
     class NamedElementsContainer: public CompositiveContainer<T> {
         SERIALIZE_DERIVED_FROM(CompositiveContainer<T>, names_)
     public:
-        [[nodiscard]] bool has(const std::string& name) const {
+        [[nodiscard]] virtual bool has(const std::string& name) const {
             return names_.contains(name);
         }
         void add(T* item) override {
@@ -20,7 +20,7 @@ namespace Chrysalis {
             names_[item->getName()] = item;
             if (item->hasAlias()) names_[item->getAlias()] = item;
         }
-        T* get(const std::string& name) const {
+        virtual T* get(const std::string& name) const {
             return names_.at(name);
         }
     private:

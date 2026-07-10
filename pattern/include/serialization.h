@@ -14,6 +14,7 @@
 #define ACCESS_MEMBER(r, data, field) archive & this->field;
 #define ACCESS_FIELD_PTR(r, data, field) archive & obj->field;
 #define DECLARE_FIELD(r, data, field) decltype(obj->field) field;
+#define LOAD_BASE(r, data, base) archive & boost::serialization::base_object<base>(obj);
 
 // --- Friends for constructors ----------------------------------------------------------------------------------------
 
@@ -42,6 +43,14 @@ friend void load_construct_data(Archive&, Class<Type>*, const unsigned int);
 #define PROVIDE_DEFAULT_SERIALIZATION_ACCESS(Class) explicit Class() = default;
 
 // --- Intrusive serialization -----------------------------------------------------------------------------------------
+
+#define SERIALIZE_BASE_T(Class, ...)                                                                                   \
+template <class Archive, typename T>                                                                                   \
+void serialize_base(Archive& archive, Class<T>& obj) {                                                                 \
+  __VA_OPT__(                                                                                                          \
+    BOOST_PP_SEQ_FOR_EACH(LOAD_BASE, _, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__))                                         \
+  )                                                                                                                    \
+}
 
 #define SERIALIZED                                                                                                     \
 friend boost::serialization::access;                                                                                   \

@@ -2,8 +2,9 @@
 
 using namespace Chrysalis;
 
-PatternInstructionsContainer::PatternInstructionsContainer(args::patterns* patterns)
-    : patterns_(patterns) {}
+PatternInstructionsContainer::PatternInstructionsContainer(OptionsContainer* options, ExpressionsContainer* expressions,
+                                                           args::patterns* patterns)
+    : BaseInstructionsContainer(options, expressions), patterns_(patterns) {}
 
 PatternInstructionsContainer::~PatternInstructionsContainer() {
     delete patterns_;
