@@ -89,33 +89,33 @@ project_->getInstructions()->add(Constructs::patternInstructions); Constructs::P
 
 void Project1Composer::fillInstructions() {
     Use(back, front) {
-        new FP(common, new Argument<std::string>(PointName::S), num(0.0), num(0.0)),
+        addPoint(S)(0, 0),
         vector(down, &param(BACK_WAIST_LENGTH)) -> name(W),
         vector(down, &param(HIP_DEPTH)) -> name(H)
     };
     Use(back) {
-        vector(H, right, &((param(HIP_CIRCUMFERENCE) / 4) - 1)) -> name(H1),
-        vector(W, right, vecFunc(Length, point(H), point(H1))) -> name(W1),
-        vector(W, right, &((param(BUST_CIRCUMFERENCE) / 4) - 1)) -> name(W2),
-        vector(S, right, vecFunc(Length, point(W), point(W2))) -> name(S1)
+        vector(H, right, &(param(HIP_CIRCUMFERENCE) / 4 - 1)) -> name(H1),
+        vector(W, right, length(H, H1)) -> name(W1),
+        vector(W, right, &(param(BUST_CIRCUMFERENCE) / 4 - 1)) -> name(W2),
+        vector(S, right, length(W, W2)) -> name(S1)
     };
     Use(back, front) {
-        vector(W, up, &(*vecFunc(Length, point(S), point(W)) / 2)) -> name(AH),
-        vector(up, &(*vecFunc(Length, point(S), point(AH)) / 3)) -> name(UB),
-        vector(H, up, &(*vecFunc(Length, point(H), point(W)) / 2)) -> name(T)
+        vector(W, up, &(*length(S, W) / 2)) -> name(AH),
+        vector(up, &(*length(S, AH) / 3)) -> name(UB),
+        vector(H, up, &(*length(H, W) / 2)) -> name(T)
     };
     Use(back) {
         vector(S, right, &(param(NECK_CIRCUMFERENCE) / 6)) -> name(N),
         vector(down, &(param(NECK_CIRCUMFERENCE) / 16)) -> name(N1),
-        vector(left, vecFunc(Length, point(N), point(S))) -> name(N2),
-        vector(N1, left, &(*vecFunc(Length, point(N2), point(N1)) / 2)) -> name(N3),
+        vector(left, length(N, S)) -> name(N2),
+        vector(N1, left, &(*length(N2, N1) / 2)) -> name(N3),
         vector(N, num(-18), &param(SHOULDER_LENGTH)) -> name(S2),
         vector(UB, right, &(param(BACK_WIDTH) / 2)) -> name(UB1),
         vector(AH, right, &(param(BACK_WIDTH) / 2)) -> name(AH1),
         vector(num(45), num(1.5)) -> name(AH2),
-        vector(AH, right, vecFunc(Length, point(W), point(W2))) -> name(AH3),
+        vector(AH, right, length(W, W2)) -> name(AH3),
         vector(left, num(1)) -> name(AH4),
-        vector(N, num(-18), &(*vecFunc(Length, point(N), point(S2)) / 2)) -> name(D),
+        vector(N, num(-18), &(*length(N, S2) / 2)) -> name(D),
         new D(common, segment(N, S2), new Vec(point(D), num(90), num(7)), num(2), no_num)
     };
     project_->getInstructions()->add(new ExpressionInstruction(project_->getInstructions()->expressions(),
@@ -235,6 +235,5 @@ void Project1Composer::fillInstructions() {
     Use(back, front) {
         new BuildOutlineInstruction(common, new Argument<std::string>("main"), new Argument<std::string>(PointName::N2)),
         new BuildOutlineInstruction(common, new Argument<std::string>("main"), new Argument<std::string>(PointName::N))
-
     };
 }

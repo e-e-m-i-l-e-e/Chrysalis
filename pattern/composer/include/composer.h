@@ -26,6 +26,7 @@
 #define left num(180)
 #define down num(270)
 
+#define addPoint(pointName) Constructs::FreePointInstructionProxy(new Argument<std::string>(PointName::pointName))
 #define no_num new OptionalArgument<BaseArgument<double>>()
 #define no_name new OptionalArgument<Argument<std::string>>()
 #define name(name) pointName(new Argument<std::string>(PointName::name))
@@ -42,6 +43,7 @@
 
 #define vector(...) BOOST_PP_OVERLOAD(VECTOR_, __VA_ARGS__)(__VA_ARGS__)
 
+#define length(from, to) new VectorFunctionArgument::Length(point(from), point(to))
 #define vecFunc(function, from, to) new VectorFunctionArgument::function(from, to)
 #define biFunc(function, operand1, operand2) new BinaryFunctionArgument::function(operand1, operand2)
 
@@ -72,6 +74,12 @@ namespace Chrysalis {
                     patternInstructions->add(instruction);
                 }
             }
+        };
+        struct FreePointInstructionProxy {
+            FreePointInstruction* operator()(const double x, const double y) const {
+                return new FreePointInstruction(common, name_, num(x), num(y));
+            }
+            const args::name* name_;
         };
         struct RelativePointInstructionProxy {
             RelativePointInstructionProxy* operator->() {
