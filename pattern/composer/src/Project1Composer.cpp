@@ -75,156 +75,135 @@ void Project1Composer::fillParameters() {
 #define GET_PATTERN_NAME(r, data, i, elem) BOOST_PP_COMMA_IF(i) BOOST_PP_CAT(elem, _)->getSpace()
 
 #define Use(...)                                                                                                       \
-Constructs::space = project_->getSpace();                                                                              \
-Constructs::patterns = new args::patterns({                                                                            \
+Constructs::PatternInstructionsInitializer(new args::patterns({                                                        \
     BOOST_PP_SEQ_FOR_EACH_I(                                                                                           \
         GET_PATTERN_NAME, _,                                                                                           \
         BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__)                                                                          \
     )                                                                                                                  \
-});                                                                                                                    \
-Constructs::patternInstructions = new PatternInstructionsContainer(project_->getInstructions()->options(),             \
-                                                                   project_->getInstructions()->expressions(),         \
-                                                                   Constructs::patterns);                              \
-project_->getInstructions()->add(Constructs::patternInstructions); Constructs::PatternInstructionsInitializer
+})) << std::initializer_list<BasePatternInstruction*>                                                                  \
 
+#define Instructions Constructs::InstructionsInitializer(project_) << std::initializer_list<BaseInstruction*>
+#define If(condition) Constructs::ConditionalInstructionsContainerInitializer(condition) << std::initializer_list<BaseInstruction*>
+#define Else << std::initializer_list<BaseInstruction*>
 void Project1Composer::fillInstructions() {
-    Use(back, front) {
-        addPoint(S)(0, 0),
-        vector(down, param(BACK_WAIST_LENGTH)) -> name(W),
-        vector(down, param(HIP_DEPTH)) -> name(H)
-    };
-    Use(back) {
-        vector(H, right, param(HIP_CIRCUMFERENCE) / 4 - 1) -> name(H1),
-        vector(W, right, length(H, H1)) -> name(W1),
-        vector(W, right, param(BUST_CIRCUMFERENCE) / 4 - 1) -> name(W2),
-        vector(S, right, length(W, W2)) -> name(S1)
-    };
-    Use(back, front) {
-        vector(W, up, length(S, W) / 2) -> name(AH),
-        vector(up, length(S, AH) / 3) -> name(UB),
-        vector(H, up, length(H, W) / 2) -> name(T)
-    };
-    Use(back) {
-        vector(S, right, param(NECK_CIRCUMFERENCE) / 6) -> name(N),
-        vector(down, param(NECK_CIRCUMFERENCE) / 16) -> name(N1),
-        vector(left, length(N, S)) -> name(N2),
-        vector(N1, left, length(N2, N1) / 2) -> name(N3),
-        vector(N, -18, param(SHOULDER_LENGTH)) -> name(S2),
-        vector(UB, right, param(BACK_WIDTH) / 2) -> name(UB1),
-        vector(AH, right, param(BACK_WIDTH) / 2) -> name(AH1),
-        vector(45, 1.5) -> name(AH2),
-        vector(AH, right, length(W, W2)) -> name(AH3),
-        vector(left, 1) -> name(AH4),
-        vector(N, -18, length(N, S2) / 2) -> name(D),
-        edge(N, S2) -> dart(D, 90, 7)(2)
-    };
-    // expression(INTAKE) = &(param(BUST_CIRCUMFERENCE) + param(HIP_CIRCUMFERENCE));
-    project_->getInstructions()->add(new ExpressionInstruction(project_->getInstructions()->expressions(),
-                                                new args::expr(Expressions::INTAKE,
-                                                               &(param(BUST_CIRCUMFERENCE) + param(
-                                                                   HIP_CIRCUMFERENCE)))));
-    project_->getInstructions()->add(new ExpressionInstruction(project_->getInstructions()->expressions(),
-                                                new args::expr(Expressions::MAX_INTAKE,
-                                                               &(2 + 4 + *(new args::conditional(
-                                                                   option(HAS_CENTER_BACK_DART), num(2), num(0)))))));
-
-    auto positive = new BaseInstructionsContainer<BaseInstruction>(project_->getInstructions()->options(), project_->getInstructions()->expressions());
-    auto negative = new BaseInstructionsContainer<BaseInstruction>(project_->getInstructions()->options(), project_->getInstructions()->expressions());
-    project_->getInstructions()->add(new ConditionalInstructionsContainer(new args::compare::Less(&expression(MAX_INTAKE), &expression(INTAKE)), positive, negative));
-
-    positive->add(new ExpressionInstruction(project_->getInstructions()->expressions(),
-        new args::expr(Expressions::COEFFICIENT, biFunc(Min, num(1), &(expression(INTAKE) / (expression(MAX_INTAKE) + (2 / 3) * 2))))));
-
-    negative->add(new ExpressionInstruction(project_->getInstructions()->expressions(),
-        new args::expr(Expressions::COEFFICIENT, &(expression(INTAKE) / expression(MAX_INTAKE)))));
-
-    Use(back) {
-        vector(W, right, 2 * expression(COEFFICIENT)) -> name(W3),
-        vector(W2, left, 4 * expression(COEFFICIENT)) -> name(W4)
-    };
-    positive = new BaseInstructionsContainer<BaseInstruction>(project_->getInstructions()->options(), project_->getInstructions()->expressions());
-    negative = new BaseInstructionsContainer<BaseInstruction>(project_->getInstructions()->options(), project_->getInstructions()->expressions());
-    project_->getInstructions()->add(new ConditionalInstructionsContainer(project_->getOptions()->get(Options::HAS_CENTER_BACK_DART), positive, negative));
-
-    auto patterns = new args::patterns({back_->getSpace()});
-    auto patternInstructions = new PatternInstructionsContainer(project_->getInstructions()->options(), project_->getInstructions()->expressions(), patterns);
-    positive->add(patternInstructions);
-    patternInstructions->add(vector(W3, right, (length(W3, W4) / 3)) -> name(DW1));
-    patternInstructions->add(vector(W4, left, (length(W3, W4) / 3)) -> name(DW2));
-    patternInstructions->add(new DartInstruction(common, point(DW2),
-                                                 &(((2 / 3.) * 2) * expression(COEFFICIENT)),
-                                                 vector(90, length(AH, W) - 2),
-                                                 vector(90, 9)));
-
-    patterns = new args::patterns({back_->getSpace()});
-    patternInstructions = new PatternInstructionsContainer(project_->getInstructions()->options(), project_->getInstructions()->expressions(), patterns);
-    negative->add(patternInstructions);
-    patternInstructions->add(vector(W3, right, length(W3, W4) / 2) -> name(DW1));
-
-    Use(back) {
-        new DartInstruction(common, point(DW1), &(2 * expression(COEFFICIENT)),
-                            vector(90, length(AH, W)),
-                            vector(-90, 11)
-        )
-    };
-    Use(front) {
-        vector(H, left, param(HIP_CIRCUMFERENCE) / 4 + 1) -> name(H1),
-        vector(W, left, length(H, H1)) -> name(W1),
-        vector(W, left, param(BUST_CIRCUMFERENCE) / 4 + 1) -> name(W2),
-        vector(S, left, length(W, W2)) -> name(S1),
-        vector(S, left, param(NECK_CIRCUMFERENCE) / 6) -> name(N),
-        vector(down, param(NECK_CIRCUMFERENCE) / 6 + 2) -> name(N1),
-        vector(N, 180 + 26, param(SHOULDER_LENGTH)) -> name(S2),
-        vector(UB, left, param(BACK_WIDTH) / 2) -> name(UB1),
-        vector(AH, left, param(BACK_WIDTH) / 2) -> name(AH1),
-        vector(90 + 45, 2.5) -> name(AH2),
-        vector(AH, left, length(W, W2)) -> name(AH3),
-        vector(right, 1) -> name(AH4),
-        vector(S, down, param(BUST_HEIGHT)) -> name(B),
-        vector(left, param(BUST_SPAN) / 2) -> name(DA),
-        new RelP(common, new Argument<std::string>(PointName::N2), vector(DA, 0, param(APEX_TO_CENTER_FRONT)), new args::optional<args::line>(segment(H, S))),
-        vector(left, length(S, N)) -> name(N1),
-        vector(N, down, length(N1, N) / 3) -> name(N3),
-        vector(N2, left, length(N1, N2) / 3) -> name(N4),
-        new MP(common, point(S2), vector_no_angle(DA, &param(APEX_TO_SHOULDER)), new args::optional(vector_no_angle(N, &param(SHOULDER_LENGTH)))),
-        vector(N, angle(N, S2), length(N, S2) / 2) -> name(D1),
-        new UD(common, segment(N, S2), segment(D1, DA),
-                                    &(((param(BUST_CIRCUMFERENCE) / 20) + 1) * 2)),
-        new IP(common, segment(UB, UB1),
-                                    new args::container({new Argument<std::string>(PointName::UB1_1), new Argument<std::string>(PointName::UB1_2)}),
-                                    new args::container<args::line>({segment(D1, DA), segment(D1_1, DA)})),
-        new IP(common, segment(AH, AH1),
-                                    new args::container({new Argument<std::string>(PointName::AH1_1), new Argument<std::string>(PointName::AH1_2)}),
-                                    new args::container<args::line>({segment(D1, DA), segment(D1_1, DA)})),
-        new IP(common, ray(AH2, num(0)),
-                                    new args::container({new Argument<std::string>(PointName::AH1_3), new Argument<std::string>(PointName::AH1_4)}),
-                                    new args::container<args::line>({segment(D1, DA), segment(D1_1, DA)})),
-        new MP(common, point(UB1), segment(UB1_1, UB1_2),
+    Instructions {
+        Use(back, front) {
+            addPoint(S)(0, 0),
+            vector(down, param(BACK_WAIST_LENGTH))              -> name(W),
+            vector(down, param(HIP_DEPTH))                      -> name(H)
+        },
+        Use(back) {
+            vector(H, right, param(HIP_CIRCUMFERENCE) / 4 - 1)  -> name(H1),
+            vector(W, right, length(H, H1))                     -> name(W1),
+            vector(W, right, param(BUST_CIRCUMFERENCE) / 4 - 1) -> name(W2),
+            vector(S, right, length(W, W2))                     -> name(S1)
+        },
+        Use(back, front) {
+            vector(W, up, length(S, W) / 2)                     -> name(AH),
+            vector(up, length(S, AH) / 3)                       -> name(UB),
+            vector(H, up, length(H, W) / 2)                     -> name(T)
+        },
+        Use(back) {
+            vector(S, right, param(NECK_CIRCUMFERENCE) / 6)     -> name(N),
+            vector(down, param(NECK_CIRCUMFERENCE) / 16)        -> name(N1),
+            vector(left, length(N, S))                          -> name(N2),
+            vector(N1, left, length(N2, N1) / 2)                -> name(N3),
+            vector(N, -18, param(SHOULDER_LENGTH))              -> name(S2),
+            vector(UB, right, param(BACK_WIDTH) / 2)            -> name(UB1),
+            vector(AH, right, param(BACK_WIDTH) / 2)            -> name(AH1),
+            vector(45, 1.5)                                     -> name(AH2),
+            vector(AH, right, length(W, W2))                    -> name(AH3),
+            vector(left, 1)                                     -> name(AH4),
+            vector(N, -18, length(N, S2) / 2)                   -> name(D),
+            edge(N, S2) -> dart(D, 90, 7)(2)
+        },
+        expression(INTAKE) = param(BUST_CIRCUMFERENCE) + param(HIP_CIRCUMFERENCE),
+        expression(MAX_INTAKE) = 2 + 4 + (2 << option(HAS_CENTER_BACK_DART) >> 0),
+        If(expression(MAX_INTAKE) < expression(INTAKE)) {
+            expression(COEFFICIENT) = *biFunc(Min, num(1), &(expression(INTAKE) / (expression(MAX_INTAKE) + 2 / 3 * 2)))
+        } Else {
+            expression(COEFFICIENT) = expression(INTAKE) / expression(MAX_INTAKE)
+        },
+        Use(back) {
+            vector(W, right, 2 * expression(COEFFICIENT))   -> name(W3),
+            vector(W2, left, 4 * expression(COEFFICIENT))   -> name(W4)
+        },
+        If(option(HAS_CENTER_BACK_DART)) {
+            Use(back) {
+                vector(W3, right, (length(W3, W4) / 3))         -> name(DW1),
+                vector(W4, left, (length(W3, W4) / 3))          -> name(DW2),
+                new DartInstruction(common, point(DW2),
+                                    &(2. / 3 * 2 * expression(COEFFICIENT)),
+                                    vector(90, length(AH, W) - 2),
+                                    vector(-90, 9))
+            }
+        } Else {
+            Use(back) {
+                vector(W3, right, length(W3, W4) / 2)           -> name(DW1)
+            }
+        },
+        Use(back) {
+            new DartInstruction(common, point(DW1), &(2 * expression(COEFFICIENT)),
+                                vector(90, length(AH, W)),
+                                vector(-90, 11)
+            )
+        },
+        Use(front) {
+            vector(H, left, param(HIP_CIRCUMFERENCE) / 4 + 1)   -> name(H1),
+            vector(W, left, length(H, H1))                      -> name(W1),
+            vector(W, left, param(BUST_CIRCUMFERENCE) / 4 + 1)  -> name(W2),
+            vector(S, left, length(W, W2))                      -> name(S1),
+            vector(S, left, param(NECK_CIRCUMFERENCE) / 6)      -> name(N),
+            vector(down, param(NECK_CIRCUMFERENCE) / 6 + 2)     -> name(N1),
+            vector(N, 180 + 26, param(SHOULDER_LENGTH))         -> name(S2),
+            vector(UB, left, param(BACK_WIDTH) / 2)             -> name(UB1),
+            vector(AH, left, param(BACK_WIDTH) / 2)             -> name(AH1),
+            vector(90 + 45, 2.5)                                -> name(AH2),
+            vector(AH, left, length(W, W2))                     -> name(AH3),
+            vector(right, 1)                                    -> name(AH4),
+            vector(S, down, param(BUST_HEIGHT))                 -> name(B),
+            vector(left, param(BUST_SPAN) / 2)                  -> name(DA),
+            new RelP(common, new Argument<std::string>(PointName::N2), vector(DA, 0, param(APEX_TO_CENTER_FRONT)), new args::optional<args::line>(segment(H, S))),
+            vector(left, length(S, N))                          -> name(N1),
+            vector(N, down, length(N1, N) / 3)                  -> name(N3),
+            vector(N2, left, length(N1, N2) / 3)                -> name(N4),
+            new MP(common, point(S2), vector_no_angle(DA, &param(APEX_TO_SHOULDER)), new args::optional(vector_no_angle(N, &param(SHOULDER_LENGTH)))),
+            vector(N, angle(N, S2), length(N, S2) / 2)          -> name(D1),
+            edge(N, S2) -> dart(D1, DA)((param(BUST_CIRCUMFERENCE) / 20 + 1) * 2),
+            new IP(common, segment(UB, UB1),
+                                        new args::container({new Argument<std::string>(PointName::UB1_1), new Argument<std::string>(PointName::UB1_2)}),
+                                        new args::container<args::line>({segment(D1, DA), segment(D1_1, DA)})),
+            new IP(common, segment(AH, AH1),
+                                        new args::container({new Argument<std::string>(PointName::AH1_1), new Argument<std::string>(PointName::AH1_2)}),
+                                        new args::container<args::line>({segment(D1, DA), segment(D1_1, DA)})),
+            new IP(common, ray(AH2, num(0)),
+                                        new args::container({new Argument<std::string>(PointName::AH1_3), new Argument<std::string>(PointName::AH1_4)}),
+                                        new args::container<args::line>({segment(D1, DA), segment(D1_1, DA)})),
+            new MP(common, point(UB1), segment(UB1_1, UB1_2),
+                                        new args::optional<args::vector>()),
+            new MP(common, point(AH1), segment(AH1_1, AH1_2),
+                                        new args::optional<args::vector>()),
+            new MP(common, point(AH3), segment(AH1_1, AH1_2),
+                                        new args::optional<args::vector>()),
+            new MP(common, point(AH4), segment(AH1_1, AH1_2),
+                                        new args::optional<args::vector>()),
+            new MP(common, point(AH2), segment(AH1_3, AH1_4),
                                     new args::optional<args::vector>()),
-        new MP(common, point(AH1), segment(AH1_1, AH1_2),
-                                    new args::optional<args::vector>()),
-        new MP(common, point(AH3), segment(AH1_1, AH1_2),
-                                    new args::optional<args::vector>()),
-        new MP(common, point(AH4), segment(AH1_1, AH1_2),
-                                    new args::optional<args::vector>()),
-        new MP(common, point(AH2), segment(AH1_3, AH1_4),
-                                new args::optional<args::vector>()),
-        new CurveInstruction(common, segment(N, N3), segment(N2, N4), new args::container<PatternPointArgument>())
-    };
-    project_->getInstructions()->add(new ExpressionInstruction(project_->getInstructions()->expressions(), new Expression(Expressions::INTAKE, &((((param(BUST_CIRCUMFERENCE) + param(HIP_CIRCUMFERENCE)) / 2) - param(WAIST_CIRCUMFERENCE)) / 4))));
-    project_->getInstructions()->add(new ExpressionInstruction(project_->getInstructions()->expressions(), new Expression(Expressions::MAX_INTAKE, &(3 + *num(4)))));
-
-    Use(back, front) {
-        new BuildOutlineInstruction(common, new Argument<std::string>("main"), new Argument<std::string>(PointName::AH3)),
-        new BuildOutlineInstruction(common, new Argument<std::string>("main"), new Argument<std::string>(PointName::H1)),
-        new BuildOutlineInstruction(common, new Argument<std::string>("main"), new Argument<std::string>(PointName::H))
-    };
-
-    Use(back) {
-        new BuildOutlineInstruction(common, new Argument<std::string>("main"), new Argument<std::string>(PointName::UB))
-    };
-    Use(back, front) {
-        new BuildOutlineInstruction(common, new Argument<std::string>("main"), new Argument<std::string>(PointName::N2)),
-        new BuildOutlineInstruction(common, new Argument<std::string>("main"), new Argument<std::string>(PointName::N))
+            new CurveInstruction(common, segment(N, N3), segment(N2, N4), new args::container<PatternPointArgument>())
+        },
+        expression(INTAKE) = ((param(BUST_CIRCUMFERENCE) + param(HIP_CIRCUMFERENCE)) / 2 - param(WAIST_CIRCUMFERENCE)) / 4,
+        expression(MAX_INTAKE) = 3 + 4,
+        Use(back, front) {
+            new BuildOutlineInstruction(common, new Argument<std::string>("main"), new Argument<std::string>(PointName::AH3)),
+            new BuildOutlineInstruction(common, new Argument<std::string>("main"), new Argument<std::string>(PointName::H1)),
+            new BuildOutlineInstruction(common, new Argument<std::string>("main"), new Argument<std::string>(PointName::H))
+        },
+        Use(back) {
+            new BuildOutlineInstruction(common, new Argument<std::string>("main"), new Argument<std::string>(PointName::UB))
+        },
+        Use(back, front) {
+            new BuildOutlineInstruction(common, new Argument<std::string>("main"), new Argument<std::string>(PointName::N2)),
+            new BuildOutlineInstruction(common, new Argument<std::string>("main"), new Argument<std::string>(PointName::N))
+        }
     };
 }

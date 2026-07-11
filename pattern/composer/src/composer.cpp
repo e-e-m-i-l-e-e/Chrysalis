@@ -1,5 +1,7 @@
 #include "composer.h"
 
+#include "arguments/ComparisonArgument.h"
+
 using namespace Chrysalis;
 
 const BinaryFunctionArgument& Chrysalis::operator+(const args::number& operand1, const args::number& operand2) {
@@ -48,4 +50,8 @@ const BinaryFunctionArgument& Chrysalis::operator*(const double a, const args::n
 
 const BinaryFunctionArgument& Chrysalis::operator/(const double a, const args::number& b) {
     return *new BinaryFunctionArgument::Divide(new Argument(a), &b);
+}
+
+const args::condition* Chrysalis::operator<(const args::number& a, const args::number& b) {
+    return new args::compare::Less(&a, &b);
 }

@@ -29,13 +29,6 @@ namespace Chrysalis {
         using compare = ComparisonArgument;
     }
 
-    const ComparisonArgument* operator==(const args::number& value1, const args::number& value2);
-    const ComparisonArgument* operator!=(const args::number& value1, const args::number& value2);
-    const ComparisonArgument* operator>(const args::number& value1, const args::number& value2);
-    const ComparisonArgument* operator>=(const args::number& value1, const args::number& value2);
-    const ComparisonArgument* operator<(const args::number& value1, const args::number& value2);
-    const ComparisonArgument* operator<=(const args::number& value1, const args::number& value2);
-
     #define DECLARE_COMPARISON(r, data, Name)                                                                          \
     class ComparisonArgument::Name: public ComparisonArgument {                                                        \
         PROVIDE_SERIALIZATION_ACCESS(ComparisonArgument::Name)                                                         \
