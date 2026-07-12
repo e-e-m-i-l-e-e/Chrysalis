@@ -1,24 +1,22 @@
-#include "../include/projects/Project1Composer.h"
+#include "projects/Project1Composer.h"
 
 #include "composer.h"
-#include "instructions/BuildOutlineInstruction.h"
 
-#include "AssociativeContainer.h"
-#include "CompositiveContainer.h"
-
-#include "Option.h"
-#include "Outline.h"
-#include "Pattern.h"
-
-#include "instructions/BaseInstruction.h"
-#include "instructions/BasePatternInstruction.h"
-#include "arguments/ComparisonArgument.h"
 #include "arguments/ParameterArgument.h"
-#include "instructions/ConditionalInstructionsContainer.h"
-#include "instructions/CurveInstruction.h"
-#include "instructions/DartInstruction.h"
-#include "instructions/ExpressionInstruction.h"
-#include "instructions/PatternInstructionsContainer.h"
+#include "arguments/VectorFunctionArgument.h"
+
+#include "initializers/Instructions.h"
+#include "initializers/PatternInstructions.h"
+#include "initializers/ConditionalInstructionsContainerInitializer.h"
+
+#include "proxies/RayProxy.h"
+#include "proxies/NameProxy.h"
+#include "proxies/LineProxy.h"
+#include "proxies/PointProxy.h"
+#include "proxies/VectorProxy.h"
+#include "proxies/SegmentProxy.h"
+#include "proxies/OutlineProxy.h"
+#include "proxies/ConditionProxy.h"
 
 using namespace Chrysalis;
 
@@ -82,9 +80,15 @@ Composer::PatternInstructions(new args::patterns({                              
     )                                                                                                                  \
 })) << std::initializer_list<std::vector<BasePatternInstruction*>>                                                                  \
 
-#define Block Composer::Instructions(project_) << std::initializer_list<BaseInstruction*>
-#define If(condition) Constructs::ConditionalInstructionsContainerInitializer(condition) << std::initializer_list<BaseInstruction*>
-#define Else << std::initializer_list<BaseInstruction*>
+#define Block Composer::Instructions(project_) << std::initializer_list<std::vector<BaseInstruction*>>
+#define If(condition) Composer::ConditionalInstructionsContainerInitializer(condition) << std::initializer_list<std::vector<BaseInstruction*>>
+#define Else << std::initializer_list<std::vector<BaseInstruction*>>
+
+#define REPEAT_NAMES(d, data, elem) new Argument<std::string>(PointName::elem)
+#define names(...) names(new args::container<Argument<std::string>>({BOOST_PP_SEQ_ENUM(BOOST_PP_SEQ_TRANSFORM(REPEAT_NAMES, ~, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__)))}))
+
+#define name(arg) name(new Argument<std::string>(PointName::arg))
+
 void Project1Composer::fillInstructions() {
     Block {
         Use(back, front) {

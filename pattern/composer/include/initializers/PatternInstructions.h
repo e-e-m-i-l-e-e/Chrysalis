@@ -9,7 +9,7 @@ namespace Chrysalis::Composer {
         explicit PatternInstructions(args::patterns* selectedPatterns);
         ~PatternInstructions();
 
-        BaseInstruction* operator<<(const std::initializer_list<std::vector<BasePatternInstruction*>>& patternInstructions) const;
+        std::vector<BaseInstruction*> operator<<(const std::initializer_list<std::vector<BasePatternInstruction*>>& patternInstructions) const;
 
         static inline args::patterns* patterns = nullptr;
         static inline PatternInstructionsContainer* instructions = nullptr;

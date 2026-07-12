@@ -12,8 +12,10 @@ Instructions::~Instructions() {
     instructionsContainer = outerInstructionsContainer_;
 }
 
-void Instructions::operator<<(const std::initializer_list<BaseInstruction*>& instructions) const {
-    for (const auto& instruction : instructions) {
-        instructionsContainer->add(instruction);
+void Instructions::operator<<(const std::initializer_list<std::vector<BaseInstruction*>>& instructionBlocks) const {
+    for (const auto& instructions : instructionBlocks) {
+        for (const auto& instruction : instructions) {
+            instructionsContainer->add(instruction);
+        }
     }
 }

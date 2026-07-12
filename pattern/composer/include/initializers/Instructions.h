@@ -10,7 +10,7 @@ namespace Chrysalis::Composer {
         explicit Instructions(const Project* project);
         ~Instructions();
 
-        void operator<<(const std::initializer_list<BaseInstruction*>& instructions) const;
+        void operator<<(const std::initializer_list<std::vector<BaseInstruction*>>& instructionBlocks) const;
 
         static inline ProjectSpace* space = nullptr;
         static inline InstructionsContainer* instructionsContainer = nullptr;

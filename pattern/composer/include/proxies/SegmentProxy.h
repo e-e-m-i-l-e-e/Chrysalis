@@ -11,6 +11,12 @@
 })
 #define segment(from, to) Proxy::Segment(new args::segment(point(from), point(to)))
 
+#define DART_2(from, to) seg(segment(from, to))
+#define DART_3(origin, angle, length) vec(vector(origin, angle, length))
+
+#define dart(...) BOOST_PP_OVERLOAD(DART_, __VA_ARGS__)(__VA_ARGS__)
+#define edge(from, to) Proxy::Segment(segment(from, to))
+
 namespace Chrysalis::Proxy {
     class Segment {
     public:

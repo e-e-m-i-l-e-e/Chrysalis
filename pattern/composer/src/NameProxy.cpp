@@ -1,7 +1,10 @@
 #include "proxies/NameProxy.h"
 
+#include "arguments/ComparisonArgument.h"
+
 #include "initializers/Instructions.h"
 #include "initializers/PatternInstructions.h"
+#include "instructions/ExpressionInstruction.h"
 #include "instructions/FreePointInstruction.h"
 #include "instructions/RelativePointInstruction.h"
 
@@ -15,8 +18,19 @@ Proxy::Name::Vector::Vector(const args::name* name, const args::vector* vector)
 Proxy::Name::Vector::Line::Line(const args::name* name, const args::vector* vector, const args::line* line)
     : name_(name), line_(line), vector_(vector) {}
 
+Proxy::Name::Number::Number(const args::name* name, const args::number* number)
+    : name_(name), number_(number) {}
+
+Proxy::Name::operator const Option*() const {
+    return Composer::Instructions::instructionsContainer->options()->get(name_->get());
+}
+
 Proxy::Name::operator const Argument<std::string>*() const {
     return name_;
+}
+
+Proxy::Name::operator const BaseArgument<double>&() const {
+    return *new ExpressionArgument(Composer::Instructions::instructionsContainer->expressions(), name_);
 }
 
 Proxy::Name::operator const PatternPointArgument*() const {
@@ -24,7 +38,7 @@ Proxy::Name::operator const PatternPointArgument*() const {
 }
 
 Proxy::Number::Point Proxy::Name::operator()(const args::number& number) const {
-    return Number::Point(&number, *this);
+    return Proxy::Number::Point(&number, *this);
 }
 Proxy::Name::Vector::Line Proxy::Name::Vector::operator|(const args::line* line) const {
     return Line(name_, vector_, line);
@@ -40,4 +54,27 @@ Proxy::Name::Vector::operator std::vector<BasePatternInstruction*>() const {
 
 Proxy::Name::Vector::Line::operator std::vector<BasePatternInstruction*>() const {
     return {new RelativePointInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), name_, vector_, new args::optional(line_))};
+}
+
+Proxy::Condition::Number Proxy::operator<<(const double value, const Name& name) {
+    return Condition::Number(name, new Argument(value));
+}
+
+Proxy::Name::Number Proxy::Name::operator=(const double value) const {
+    return Number(name_, new Argument(value));
+}
+
+Proxy::Name::Number Proxy::Name::operator=(const args::number& number) const {
+    return Number(*this, &number);
+}
+
+const args::condition* Proxy::Name::operator<(const Name& other) const {
+    return new args::compare::Less(
+        &static_cast<const args::number&>(*this),
+        &static_cast<const args::number&>(other)
+    );
+}
+
+Proxy::Name::Number::operator std::vector<BaseInstruction*>() const {
+    return {new ExpressionInstruction(Composer::Instructions::instructionsContainer->expressions(), new Expression(name_->get(), number_))};
 }
