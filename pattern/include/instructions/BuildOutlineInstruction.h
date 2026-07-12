@@ -8,6 +8,7 @@
 #include "arguments/PatternsContainerArgument.h"
 #include "BasePatternInstruction.h"
 #include "BuildOutlineInstruction.h"
+#include "arguments/PatternPointArgument.h"
 
 namespace Chrysalis {
     /**
@@ -20,14 +21,14 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(BuildOutlineInstruction)
     public:
         explicit BuildOutlineInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
-                                         args::name* outlineName, args::name* point);
+                                         const args::name* outlineName, const PatternPointArgument* point);
         ~BuildOutlineInstruction() override;
 
         void execute() override;
         bool isValid() override;
     private:
-        args::name* outlineName_;
-        args::name* point_;
+        const args::name* outlineName_;
+        const PatternPointArgument* point_;
     };
     SERIALIZE_DERIVED_CONSTRUCTION(BuildOutlineInstruction, BasePatternInstruction, space_, patterns_, outlineName_, point_)
 }

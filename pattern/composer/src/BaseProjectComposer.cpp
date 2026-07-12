@@ -1,4 +1,4 @@
-#include "BaseProjectComposer.h"
+#include "projects/BaseProjectComposer.h"
 
 using namespace Chrysalis;
 

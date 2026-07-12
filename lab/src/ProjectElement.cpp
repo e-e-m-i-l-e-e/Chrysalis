@@ -1,6 +1,6 @@
 #include "ProjectElement.h"
 
-#include "Project1Composer.h"
+#include "../../pattern/composer/include/projects/Project1Composer.h"
 
 using namespace Chrysalis;
 

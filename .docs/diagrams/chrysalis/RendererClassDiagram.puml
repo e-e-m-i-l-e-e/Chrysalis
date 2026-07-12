@@ -415,11 +415,11 @@ class C_0012923087791918137441 {
 -Outline() = default : void
 +Outline(const std::string & name) : void
 ..
-+add(const std::string & name) : void
-+points() const : const std::vector<std::string> &
++add(const Point * point) : void
++points() const : const std::vector<const Point *> &
 -serialize<Archive>(Archive & archive, const unsigned int) : void
 __
--points_ : std::vector<std::string>
+-points_ : std::vector<const Point *>
 }
 class "Chrysalis::NamedElementsContainer<Chrysalis::Outline>" as C_0011346594566273340276
 class C_0011346594566273340276 {
@@ -687,6 +687,7 @@ C_0004278681173875969640 <|-- C_0013689811739584759896
 C_0013902376426351804888 ..|> C_0000892009465423237500
 C_0005941615759101781899 <|-- C_0018272832358235078784
 C_0013902376426351804888 <|-- C_0018272832358235078784
+C_0012923087791918137441 --> C_0004642218715827055853 : -points_
 C_0005941615759101781899 <|-- C_0012923087791918137441
 C_0011346594566273340276 ..|> C_0004278681173875969640
 C_0006410388496936549037 --> C_0004642218715827055853 : -lastPoint_

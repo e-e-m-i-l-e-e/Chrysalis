@@ -5,7 +5,7 @@
 using namespace Chrysalis;
 
 BuildOutlineInstruction::BuildOutlineInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
-                                                 args::name* outlineName, args::name* point)
+                                                 const args::name* outlineName, const PatternPointArgument* point)
     : BasePatternInstruction(space, selectedPatterns), outlineName_(outlineName), point_(point) {}
 
 BuildOutlineInstruction::~BuildOutlineInstruction() {
@@ -18,10 +18,9 @@ bool BuildOutlineInstruction::isValid() {
 }
 
 void BuildOutlineInstruction::execute() {
-    if (!patterns_->all(&PatternSpace::hasPoint, point_->get())) return;
     for (const auto& pattern: *patterns_) {
-        const auto& pointName = point_->get();
+        const auto& point = point_->get();
         const auto& name = outlineName_->get();
-        pattern->getOutline()->get(name)->add(pointName);
+        pattern->getOutline()->get(name)->add(point);
     }
 }

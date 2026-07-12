@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "Project.h"
-#include "Project1Composer.h"
+#include "../../composer/include/projects/Project1Composer.h"
 
 #include "arguments/ParameterArgument.h"
 #include "arguments/VectorFunctionArgument.h"

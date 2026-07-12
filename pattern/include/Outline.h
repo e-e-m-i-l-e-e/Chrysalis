@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "Point.h"
 #include "NamedElementsContainer.h"
 
 namespace Chrysalis {
@@ -12,10 +13,10 @@ namespace Chrysalis {
     public:
         explicit Outline(const std::string& name);
 
-        void add(const std::string& name);
-        [[nodiscard]] const std::vector<std::string>& points() const;
+        void add(const Point* point);
+        [[nodiscard]] const std::vector<const Point*>& points() const;
     private:
-        std::vector<std::string> points_;
+        std::vector<const Point*> points_;
     };
     using OutlineContainer = NamedElementsContainer<Outline>;
 }

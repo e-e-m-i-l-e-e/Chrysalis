@@ -73,6 +73,9 @@ namespace Chrysalis {
             static constexpr auto MAX_INTAKE = "Max intake";
             static constexpr auto COEFFICIENT = "Coefficient";
         };
+        struct OutlineName {
+            static constexpr auto MAIN = "main";
+        };
     public:
         explicit Project1Composer(Project* project);
 
