@@ -16,6 +16,9 @@ namespace Chrysalis {
 
         void movePoint(const Point* point, CG::Point position) const;
 
+        bool hasCurve(const Point* from, const Point* to) const;
+        const Curve* getCurve(const Point* from, const Point* to) const;
+
         Point* addPoint(double x, double y);
         Point* addPoint(const CG::Point& point);
         Curve* addCurve(const Point* from, const Point* to,

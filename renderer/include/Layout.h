@@ -1,6 +1,8 @@
 #ifndef CHRYSALIS_LAYOUT_H
 #define CHRYSALIS_LAYOUT_H
 
+#include <cstddef>
+
 namespace Chrysalis {
     class Layout {
     public:

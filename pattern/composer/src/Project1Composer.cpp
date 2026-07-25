@@ -197,14 +197,14 @@ void Project1Composer::fillInstructions() {
                 _vector_(90, _length_(DA, DW1) - 2) << _point_(DW2)(2. / 3. * 3. * _expression_(COEFFICIENT)) >> _vector_(-90, 7)
             }
         },
-        Use(back, front) {
-            _outline_(MAIN) >> _point_(AH3) >> _point_(H1) >> _point_(H)
-        },
         Use(back) {
-            _outline_(MAIN) >> _point_(UB)
+            _outline_(MAIN) >> _point_(S2) >> _point_(AH3)
+                               >> _point_(W4) >> _point_(H1) >> _point_(H) >> _point_(W3) >> _point_(UB)
+                               >> _point_(N2) >> _point_(N) >> _point_(D1) >> _point_(DA) >> _point_(D2)
         },
-        Use(back, front) {
-            _outline_(MAIN) >> _point_(N2) >> _point_(N)
+        Use(front) {
+            _outline_(MAIN) >> _point_(S2) >> _point_(AH3) >> _point_(W3) >> _point_(H1) >> _point_(H)
+                               >> _point_(N2) >> _point_(N) >> _point_(D1) >> _point_(DA) >> _point_(D1_1)
         }
     };
 }

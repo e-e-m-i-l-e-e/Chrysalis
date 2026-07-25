@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "Project.h"
-#include "../../composer/include/projects/Project1Composer.h"
+#include "projects/Project1Composer.h"
 
 #include "arguments/ParameterArgument.h"
 #include "arguments/VectorFunctionArgument.h"
@@ -16,6 +16,8 @@ protected:
         project_ = Project1Composer::createProject();
         composer_ = new Project1Composer(project_);
         composer_->fill();
+
+        project_->getInstructions()->execute();
         
         back_ = composer_->getBack();
         front_ = composer_->getFront();

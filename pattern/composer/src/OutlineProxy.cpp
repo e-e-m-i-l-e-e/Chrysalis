@@ -10,7 +10,9 @@ Proxy::Outline::Outline(const std::string& name)
     : name_(new Argument(name)) {}
 
 Proxy::Outline::Point::Point(const args::name* name, const PatternPointArgument* point)
-    : name_(name), point_(point) {}
+    : name_(name) {
+    instructions_.push_back(new BuildOutlineInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), new Argument(*name_), point));
+}
 
 Proxy::Outline::Point Proxy::Outline::operator>>(const PatternPointArgument* point) const {
     return Point(name_, point);

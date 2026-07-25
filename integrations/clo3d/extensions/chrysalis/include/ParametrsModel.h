@@ -1,8 +1,8 @@
 #ifndef CHRYSALIS_PARAMETRSMODEL_H
 #define CHRYSALIS_PARAMETRSMODEL_H
 
+#include "ParameterWidget.h"
 #include "BaseListModel.h"
-#include "ParametersContainer.h"
 
 namespace UI {
     class ParametersModel: public BaseModel<Chrysalis::ParametersContainer> {

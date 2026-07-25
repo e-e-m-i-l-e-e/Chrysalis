@@ -2,11 +2,8 @@
 #define CHRYSALIS_PARAMETERWIDGET_H
 
 #include <QWidget>
-#include <QMetaType>
 
 #include "Parameter.h"
-
-Q_DECLARE_METATYPE(Chrysalis::Parameter*)
 
 namespace UI {
     QT_BEGIN_NAMESPACE

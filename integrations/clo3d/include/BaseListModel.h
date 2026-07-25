@@ -1,7 +1,12 @@
 #ifndef CHRYSALIS_BASEMODEL_H
 #define CHRYSALIS_BASEMODEL_H
 
+#include <QMetaType>
 #include <QAbstractListModel>
+
+#include "Parameter.h"
+
+Q_DECLARE_METATYPE(Chrysalis::Parameter*)
 
 namespace UI {
     template<typename T>
@@ -14,7 +19,7 @@ namespace UI {
         }
         QVariant data(const QModelIndex& index, const int role) const override {
             if (role != Qt::UserRole) return {};
-            return QVariant::fromValue(data_->at(index.row()));
+            return QVariant::fromValue((*data_)[index.row()]);
         }
     private:
         T* data_;

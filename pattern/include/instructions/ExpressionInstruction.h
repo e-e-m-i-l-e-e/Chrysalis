@@ -14,6 +14,7 @@ namespace Chrysalis {
         void execute() override;
     private:
         ExpressionsContainer* expressions_;
+        // TODO: ownership ?
         args::expr* expression_;
     };
     SERIALIZE_DERIVED_CONSTRUCTION(ExpressionInstruction, BaseInstruction, expressions_, expression_)

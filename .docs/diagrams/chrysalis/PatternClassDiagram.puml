@@ -45,6 +45,8 @@ class C_0007088239576659478452 {
 +addCurve(const Point * from, const Point * to, const CG::Segment & segmentFrom, const CG::Segment & segmentTo, const std::vector<CG::Point> & points) : Curve *
 +addPoint(double x, double y) : Point *
 +addPoint(const CG::Point & point) : Point *
++getCurve(const Point * from, const Point * to) const : const Curve *
++hasCurve(const Point * from, const Point * to) const : bool
 +movePoint(const Point * point, CG::Point position) const : void
 {static} -serialize<Archive>(Archive &, const unsigned int) : void
 __
@@ -140,7 +142,7 @@ __
 class "Chrysalis::PatternsContainerArgument" as C_0014927223858222449226
 class C_0014927223858222449226 {
 +PatternsContainerArgument() = default : void
-+PatternsContainerArgument(const std::initializer_list<PatternSpace *> & items) : void
++PatternsContainerArgument(std::initializer_list<PatternSpace *> && items) : void
 ..
 +all<Args...>(bool (PatternSpace::*)(Args...) const check, typename type_identity<Args>... args) const : _Bool
 +empty() const : bool

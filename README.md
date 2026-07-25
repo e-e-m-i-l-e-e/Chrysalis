@@ -15,6 +15,8 @@ Does similar work as parametric CAD systems, however provides some fashion desig
 
 **CLO3D Integration** (`integrations/clo3d`) — produces dynamic library and CLO3D launcher which injects this library on startup. Uses PolyHook2, official CLO3D API and Qt metadata system to extend app with new features.
 
+Right now development is focused on main app. CLO3D part enables import of the pattern exported from "Chrysalis Lab" and adds development tools like UI exporter and logging.
+
 ### Other modules
 
 | Module | Purpose                                                                                                                                                                                                                                                                              |
@@ -26,6 +28,20 @@ Does similar work as parametric CAD systems, however provides some fashion desig
 | `logging/` | Shared logging used across all modules.                                                                                                                                                                                                                                              |
 
 Class diagrams are located in [`.docs/diagrams`](.docs/diagrams).
+
+## Status
+
+The main focus is collecting and implementing all required instructions which might be used for pattern creation. Scripting is not supported, but can be substituted by `pattern/composer` module. 
+
+Examples (pattern/composer/src/Project1Composer.cpp `fillInstructions()`):
+
+`_vector_(down, _param_(BACK_WAIST_LENGTH)) -> name(W)` - Add a new point "W" starting from last added point at distance equal to parameter "Back Waist Length" in down direction.
+
+`_vector_(W, up, _length_(S, W) / 2) -> name(AH)` - Add a new point "AH" which is located at distance same as half of the distance between points "S" and "H" in upward direction.
+
+`_expression_(MAX_INTAKE) = 2 + 4 + (2 << _option_(HAS_CENTER_BACK_DART) >> 0)` - Create a variable called "Max Intake" and assign 2 + 4 + 2 to it if "Has center back dart" option is enabled or 2 + 4 + 0 otherwise.
+
+`edge(N, S2) -> dart(D, 90, 7)(2)` - Add perpendicular dart on the "N" - "S2" edge with length equal to 7 and intake equal to 2.
 
 ## Building
 

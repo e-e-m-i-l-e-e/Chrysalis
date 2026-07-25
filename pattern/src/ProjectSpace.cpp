@@ -19,6 +19,14 @@ void ProjectSpace::movePoint(const Point* point, const CG::Point position) const
     if (const auto p = const_cast<Point*>(point); points_.contains(p)) p->move(position);
 }
 
+bool ProjectSpace::hasCurve(const Point* from, const Point* to) const {
+    return curves_.contains(from) && curves_.at(from).contains(to);
+}
+
+const Curve* ProjectSpace::getCurve(const Point* from, const Point* to) const {
+    return curves_.at(from).at(to);
+}
+
 Point* ProjectSpace::addPoint(const double x, const double y) {
     return addPoint({x, y});
 }

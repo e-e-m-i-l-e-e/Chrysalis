@@ -22,7 +22,6 @@ namespace Chrysalis::Proxy {
         operator const std::vector<BasePatternInstruction*>&() const;
     private:
         const args::name* name_;
-        const PatternPointArgument* point_;
         std::vector<BasePatternInstruction*> instructions_;
     };
 }
