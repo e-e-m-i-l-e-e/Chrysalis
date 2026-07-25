@@ -45,10 +45,6 @@ Examples (pattern/composer/src/Project1Composer.cpp `fillInstructions()`):
 
 ## Testing
 
-
-
-## Testing
-
 Tests use **GoogleTest**, wired into CTest. On Linux, builds are compiled with **ASan/UBSan** and code coverage.
 
 Current coverage on `pattern` (latest local run): **77.0% line coverage**, 52.3% function coverage. Coverage is uneven by design right now -- tests currently focus on verifying **point positions** produced by pattern instructions (the highest-risk area). Broader coverage of the remaining code is planned once input validation is implemented and the full set of required instructions/arguments is collected.
