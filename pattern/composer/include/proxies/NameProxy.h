@@ -9,9 +9,6 @@
 #include "arguments/VectorArgument.h"
 #include "instructions/BasePatternInstruction.h"
 
-#define option(optionName) Proxy::Name(Options::optionName)
-#define expression(expressionName) Proxy::Name(Expressions::expressionName)
-
 namespace Chrysalis::Proxy {
     class Name {
     public:

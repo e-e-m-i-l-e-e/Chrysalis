@@ -37,6 +37,7 @@ PatternSpace* Project1Composer::getFront() const {
 void Project1Composer::fillOptions() {
     const auto options = project_->getOptions();
     options->add(Option::createDefault(Options::HAS_CENTER_BACK_DART, true));
+    options->add(Option::createDefault(Options::HAS_ADDITIONAL_FRONT_DARTS, true));
 }
 
 void Project1Composer::fillPatterns() {
@@ -92,102 +93,118 @@ Composer::PatternInstructions(new args::patterns({                              
 void Project1Composer::fillInstructions() {
     Block {
         Use(back, front) {
-            point(S)(0, 0),
-            vector(down, param(BACK_WAIST_LENGTH))              -> name(W),
-            vector(down, param(HIP_DEPTH))                      -> name(H)
+            _point_(S)(0, 0),
+            _vector_(down, _param_(BACK_WAIST_LENGTH))              -> name(W),
+            _vector_(down, _param_(HIP_DEPTH))                      -> name(H)
         },
         Use(back) {
-            vector(H, right, param(HIP_CIRCUMFERENCE) / 4 - 1)  -> name(H1),
-            vector(W, right, length(H, H1))                     -> name(W1),
-            vector(W, right, param(BUST_CIRCUMFERENCE) / 4 - 1) -> name(W2),
-            vector(S, right, length(W, W2))                     -> name(S1)
+            _vector_(H, right, _param_(HIP_CIRCUMFERENCE) / 4 - 1)  -> name(H1),
+            _vector_(W, right, _length_(H, H1))                     -> name(W1),
+            _vector_(W, right, _param_(BUST_CIRCUMFERENCE) / 4 - 1) -> name(W2),
+            _vector_(S, right, _length_(W, W2))                     -> name(S1)
         },
         Use(back, front) {
-            vector(W, up, length(S, W) / 2)                     -> name(AH),
-            vector(up, length(S, AH) / 3)                       -> name(UB),
-            vector(H, up, length(H, W) / 2)                     -> name(T)
+            _vector_(W, up, _length_(S, W) / 2)                     -> name(AH),
+            _vector_(up, _length_(S, AH) / 3)                       -> name(UB),
+            _vector_(H, up, _length_(H, W) / 2)                     -> name(T)
         },
         Use(back) {
-            vector(S, right, param(NECK_CIRCUMFERENCE) / 6)     -> name(N),
-            vector(down, param(NECK_CIRCUMFERENCE) / 16)        -> name(N1),
-            vector(left, length(N, S))                          -> name(N2),
-            vector(N1, left, length(N2, N1) / 2)                -> name(N3),
-            vector(N, -18, param(SHOULDER_LENGTH))              -> name(S2),
-            vector(UB, right, param(BACK_WIDTH) / 2)            -> name(UB1),
-            vector(AH, right, param(BACK_WIDTH) / 2)            -> name(AH1),
-            vector(45, 1.5)                                     -> name(AH2),
-            vector(AH, right, length(W, W2))                    -> name(AH3),
-            vector(left, 1)                                     -> name(AH4),
-            vector(N, -18, length(N, S2) / 2)                   -> name(D),
+            _vector_(S, right, _param_(NECK_CIRCUMFERENCE) / 6)     -> name(N),
+            _vector_(down, _param_(NECK_CIRCUMFERENCE) / 16)        -> name(N1),
+            _vector_(left, _length_(N, S))                          -> name(N2),
+            _vector_(N1, left, _length_(N2, N1) / 2)                -> name(N3),
+            _vector_(N, -18, _param_(SHOULDER_LENGTH))              -> name(S2),
+            _vector_(UB, right, _param_(BACK_WIDTH) / 2)            -> name(UB1),
+            _vector_(AH, right, _param_(BACK_WIDTH) / 2)            -> name(AH1),
+            _vector_(45, 1.5)                                     -> name(AH2),
+            _vector_(AH, right, _length_(W, W2))                    -> name(AH3),
+            _vector_(left, 1)                                     -> name(AH4),
+            _vector_(N, -18, _length_(N, S2) / 2)                   -> name(D),
             edge(N, S2) -> dart(D, 90, 7)(2)
         },
-        expression(INTAKE) = param(BUST_CIRCUMFERENCE) + param(HIP_CIRCUMFERENCE),
-        expression(MAX_INTAKE) = 2 + 4 + (2 << option(HAS_CENTER_BACK_DART) >> 0),
-        If(expression(MAX_INTAKE) < expression(INTAKE)) {
-            expression(COEFFICIENT) = *biFunc(Min, new Argument(1.), &(expression(INTAKE) / (expression(MAX_INTAKE) + 2. / 3 * 2)))
+        _expression_(INTAKE) = _param_(BUST_CIRCUMFERENCE) + _param_(HIP_CIRCUMFERENCE),
+        _expression_(MAX_INTAKE) = 2 + 4 + (2 << _option_(HAS_CENTER_BACK_DART) >> 0),
+        If(_expression_(MAX_INTAKE) < _expression_(INTAKE)) {
+            _expression_(COEFFICIENT) = _min_(1._, (_expression_(INTAKE) / (_expression_(MAX_INTAKE) + 2. / 3 * 2)))
         } Else {
-            expression(COEFFICIENT) = expression(INTAKE) / expression(MAX_INTAKE)
+            _expression_(COEFFICIENT) = _expression_(INTAKE) / _expression_(MAX_INTAKE)
         },
         Use(back) {
-            vector(W, right, 2 * expression(COEFFICIENT))   -> name(W3),
-            vector(W2, left, 4 * expression(COEFFICIENT))   -> name(W4)
+            _vector_(W, right, 2 * _expression_(COEFFICIENT))   -> name(W3),
+            _vector_(W2, left, 4 * _expression_(COEFFICIENT))   -> name(W4)
         },
-        If(option(HAS_CENTER_BACK_DART)) {
+        If(_option_(HAS_CENTER_BACK_DART)) {
             Use(back) {
-                vector(W3, right, (length(W3, W4) / 3))         -> name(DW1),
-                vector(W4, left, (length(W3, W4) / 3))          -> name(DW2),
-                vector(90, length(AH, W) - 2) << point(DW2)(2. / 3 * 2 * expression(COEFFICIENT)) >> vector(-90, 9)
+                _vector_(W3, right, (_length_(W3, W4) / 3))         -> name(DW1),
+                _vector_(W4, left, (_length_(W3, W4) / 3))          -> name(DW2),
+                _vector_(90, _length_(AH, W) - 2) << _point_(DW2)(2. / 3 * 2 * _expression_(COEFFICIENT)) >> _vector_(-90, 9)
             }
         } Else {
             Use(back) {
-                vector(W3, right, length(W3, W4) / 2)           -> name(DW1)
+                _vector_(W3, right, _length_(W3, W4) / 2)           -> name(DW1)
             }
         },
         Use(back) {
-            vector(90, length(AH, W)) << point(DW1)(2 * expression(COEFFICIENT)) >> vector(-90, 11)
+            _vector_(90, _length_(AH, W)) << _point_(DW1)(2 * _expression_(COEFFICIENT)) >> _vector_(-90, 11)
         },
         Use(front) {
-            vector(H, left, param(HIP_CIRCUMFERENCE) / 4 + 1)   -> name(H1),
-            vector(W, left, length(H, H1))                      -> name(W1),
-            vector(W, left, param(BUST_CIRCUMFERENCE) / 4 + 1)  -> name(W2),
-            vector(S, left, length(W, W2))                      -> name(S1),
-            vector(S, left, param(NECK_CIRCUMFERENCE) / 6)      -> name(N),
-            vector(down, param(NECK_CIRCUMFERENCE) / 6 + 2)     -> name(N1),
-            vector(N, 180 + 26, param(SHOULDER_LENGTH))         -> name(S2),
-            vector(UB, left, param(BACK_WIDTH) / 2)             -> name(UB1),
-            vector(AH, left, param(BACK_WIDTH) / 2)             -> name(AH1),
-            vector(90 + 45, 2.5)                                -> name(AH2),
-            vector(AH, left, length(W, W2))                     -> name(AH3),
-            vector(right, 1)                                    -> name(AH4),
-            vector(S, down, param(BUST_HEIGHT))                 -> name(B),
-            vector(left, param(BUST_SPAN) / 2)                  -> name(DA),
-            vector(DA, 0, param(APEX_TO_CENTER_FRONT)) -> name(N2) | segment(H, S),
-            vector(left, length(S, N))                          -> name(N1),
-            vector(N, down, length(N1, N) / 3)                  -> name(N3),
-            vector(N2, left, length(N1, N2) / 3)                -> name(N4),
-            vector_no_angle(DA, param(APEX_TO_SHOULDER)) >> point(S2) << vector_no_angle(N, param(SHOULDER_LENGTH)),
-            vector(N, angle(N, S2), length(N, S2) / 2)          -> name(D1),
-            edge(N, S2) -> dart(D1, DA)((param(BUST_CIRCUMFERENCE) / 20 + 1) * 2),
-            (segment(UB, UB1) | segments((D1, DA), (D1_1, DA))) -> names(UB1_1, UB1_2),
-            (segment(AH, AH1) | segments((D1, DA), (D1_1, DA))) -> names(AH1_1, AH1_2),
-            (ray(AH2, 0) | segments((D1, DA), (D1_1, DA))) -> names(AH1_3, AH1_4),
-            segment(UB1_1, UB1_2) >> point(UB1),
-            segment(AH1_1, AH1_2) >> point(AH1),
-            segment(AH1_1, AH1_2) >> point(AH3),
-            segment(AH1_1, AH1_2) >> point(AH4),
-            segment(AH1_3, AH1_4) >> point(AH2),
-            segment(N, N3) & segment(N2, N4)
+            _vector_(H, left, _param_(HIP_CIRCUMFERENCE) / 4 + 1)   -> name(H1),
+            _vector_(W, left, _length_(H, H1))                      -> name(W1),
+            _vector_(W, left, _param_(BUST_CIRCUMFERENCE) / 4 + 1)  -> name(W2),
+            _vector_(S, left, _length_(W, W2))                      -> name(S1),
+            _vector_(S, left, _param_(NECK_CIRCUMFERENCE) / 6)      -> name(N),
+            _vector_(down, _param_(NECK_CIRCUMFERENCE) / 6 + 2)     -> name(N1),
+            _vector_(N, 180 + 26, _param_(SHOULDER_LENGTH))         -> name(S2),
+            _vector_(UB, left, _param_(BACK_WIDTH) / 2)             -> name(UB1),
+            _vector_(AH, left, _param_(BACK_WIDTH) / 2)             -> name(AH1),
+            _vector_(90 + 45, 2.5)                                -> name(AH2),
+            _vector_(AH, left, _length_(W, W2))                     -> name(AH3),
+            _vector_(right, 1)                                    -> name(AH4),
+            _vector_(S, down, _param_(BUST_HEIGHT))                 -> name(B),
+            _vector_(left, _param_(BUST_SPAN) / 2)                  -> name(DA),
+            _vector_(DA, 0, _param_(APEX_TO_CENTER_FRONT)) -> name(N2) | _segment_(H, S),
+            _vector_(left, _length_(S, N))                          -> name(N1),
+            _vector_(N, down, _length_(N1, N) / 3)                  -> name(N3),
+            _vector_(N2, left, _length_(N1, N2) / 3)                -> name(N4),
+            _vector_(DA, 0, _param_(APEX_TO_SHOULDER)) >> _point_(S2) << _vector_(N, 0, _param_(SHOULDER_LENGTH)),
+            _vector_(N, _angle_(N, S2), _length_(N, S2) / 2)          -> name(D1),
+            edge(N, S2) -> dart(D1, DA)((_param_(BUST_CIRCUMFERENCE) / 20 + 1) * 2),
+            (_segment_(UB, UB1) | segments((D1, DA), (D1_1, DA))) -> names(UB1_1, UB1_2),
+            (_segment_(AH, AH1) | segments((D1, DA), (D1_1, DA))) -> names(AH1_1, AH1_2),
+            (_ray_(AH2, 0) | segments((D1, DA), (D1_1, DA))) -> names(AH1_3, AH1_4),
+            _segment_(UB1_1, UB1_2) >> _point_(UB1),
+            _segment_(AH1_1, AH1_2) >> _point_(AH1),
+            _segment_(AH1_1, AH1_2) >> _point_(AH3),
+            _segment_(AH1_1, AH1_2) >> _point_(AH4),
+            _segment_(AH1_3, AH1_4) >> _point_(AH2),
+            _segment_(N, N3) & _segment_(N2, N4)
         },
-        expression(INTAKE) = ((param(BUST_CIRCUMFERENCE) + param(HIP_CIRCUMFERENCE)) / 2 - param(WAIST_CIRCUMFERENCE)) / 4,
-        expression(MAX_INTAKE) = 3 + 4,
+        _expression_(INTAKE) = ((_param_(BUST_CIRCUMFERENCE) + _param_(HIP_CIRCUMFERENCE)) / 2 - _param_(WAIST_CIRCUMFERENCE)) / 4,
+        _expression_(MAX_INTAKE) = 3 + 4,
+        If (_expression_(MAX_INTAKE) < _expression_(INTAKE)) {
+            _expression_(COEFFICIENT) = _min_(1._, (_expression_(INTAKE) / (_expression_(MAX_INTAKE) + 2. / 3. * 3.)))
+        } Else {
+            _expression_(COEFFICIENT) = _expression_(INTAKE) / _expression_(MAX_INTAKE)
+        },
+        Use(front) {
+            _vector_(W2, right, 4 * _expression_(COEFFICIENT))                     -> name(W3),
+            _vector_(DA, down, _length_(B, W))                     -> name(DW1),
+            _vector_(90, _length_(DA, DW1)) << _point_(DW1)(3 * _expression_(COEFFICIENT)) >> _vector_(-90, 9)
+        },
+        If(_option_(HAS_ADDITIONAL_FRONT_DARTS)) {
+            Use(front) {
+                _vector_(W3, right, _length_(W3, DW1) / 2)                                    -> name(DW2),
+                _vector_(90, _length_(DA, DW1) - 2) << _point_(DW2)(2. / 3. * 3. * _expression_(COEFFICIENT)) >> _vector_(-90, 7)
+            }
+        },
         Use(back, front) {
-            outline(MAIN) >> point(AH3) >> point(H1) >> point(H)
+            _outline_(MAIN) >> _point_(AH3) >> _point_(H1) >> _point_(H)
         },
         Use(back) {
-            outline(MAIN) >> point(UB)
+            _outline_(MAIN) >> _point_(UB)
         },
         Use(back, front) {
-            outline(MAIN) >> point(N2) >> point(N)
+            _outline_(MAIN) >> _point_(N2) >> _point_(N)
         }
     };
 }

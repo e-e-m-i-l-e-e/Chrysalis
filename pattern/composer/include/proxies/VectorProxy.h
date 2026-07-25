@@ -7,19 +7,6 @@
 #include "proxies/PointProxy.h"
 #include "arguments/SegmentArgument.h"
 
-#define up 90
-#define right 0
-#define left 180
-#define down 270
-
-#define angle(from, to) *new VectorFunctionArgument::Angle(point(from), point(to))
-#define length(from, to) *new VectorFunctionArgument::Length(point(from), point(to))
-
-#define VECTOR_2(angle, length) Proxy::Vector(angle, length)
-#define VECTOR_3(origin, angle, length) Proxy::Vector(point(origin), angle, length)
-
-#define vector(...) BOOST_PP_OVERLOAD(VECTOR_, __VA_ARGS__)(__VA_ARGS__)
-
 namespace Chrysalis::Proxy {
     class Vector {
     public:

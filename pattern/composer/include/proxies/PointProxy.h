@@ -3,8 +3,6 @@
 
 #include "proxies/NumberProxy.h"
 
-#define point(pointName) Proxy::Name(PointName::pointName)
-
 namespace Chrysalis::Proxy {
     class Point {
     public:

@@ -18,7 +18,7 @@ Composer::PatternInstructions::~PatternInstructions() {
     instructions = nullptr;
 }
 
-std::vector<BaseInstruction*> Composer::PatternInstructions::operator<<(const std::initializer_list<std::vector<BasePatternInstruction*>>& patternInstructions) const {
+std::vector<BaseInstruction*> Composer::PatternInstructions::operator<<(std::initializer_list<std::vector<BasePatternInstruction*>>&& patternInstructions) const {
     for (const auto& instructionsContainer: patternInstructions) {
         for (const auto& instruction: instructionsContainer) {
             instructions->add(instruction);

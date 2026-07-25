@@ -8,7 +8,7 @@ namespace Chrysalis {
         SERIALIZE_DERIVED_FROM(AssociativeContainer)
     public:
         explicit PatternsContainerArgument() = default;
-        explicit PatternsContainerArgument(const std::initializer_list<PatternSpace*>& items): AssociativeContainer(items) {}
+        explicit PatternsContainerArgument(std::initializer_list<PatternSpace*>&& items): AssociativeContainer(items) {}
 
         [[nodiscard]] bool empty() const {
             return count() == 0;

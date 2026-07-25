@@ -4,6 +4,10 @@
 
 using namespace Chrysalis;
 
+const Argument<double>& Chrysalis::operator ""_(const long double number) {
+    return *new Argument(static_cast<double>(number));
+}
+
 const BinaryFunctionArgument& Chrysalis::operator+(const args::number& operand1, const args::number& operand2) {
     return *new BinaryFunctionArgument::Add(&operand1, &operand2);
 }

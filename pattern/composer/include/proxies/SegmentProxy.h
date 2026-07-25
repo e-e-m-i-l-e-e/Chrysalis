@@ -5,18 +5,6 @@
 #include "VectorProxy.h"
 #include "arguments/SegmentArgument.h"
 
-#define REPEAT_SEGMENT(d, data, elem) segment elem
-#define segments(...) new args::container(std::initializer_list<args::line*>{                                          \
-    BOOST_PP_SEQ_ENUM(BOOST_PP_SEQ_TRANSFORM(REPEAT_SEGMENT, ~, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__)))                \
-})
-#define segment(from, to) Proxy::Segment(new args::segment(point(from), point(to)))
-
-#define DART_2(from, to) seg(segment(from, to))
-#define DART_3(origin, angle, length) vec(vector(origin, angle, length))
-
-#define dart(...) BOOST_PP_OVERLOAD(DART_, __VA_ARGS__)(__VA_ARGS__)
-#define edge(from, to) Proxy::Segment(segment(from, to))
-
 namespace Chrysalis::Proxy {
     class Segment {
     public:

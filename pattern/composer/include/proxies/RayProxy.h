@@ -4,8 +4,6 @@
 #include "LineProxy.h"
 #include "arguments/RayArgument.h"
 
-#define ray(origin, angle) Proxy::Ray(point(origin), angle)
-
 namespace Chrysalis::Proxy {
     class Ray {
     public:

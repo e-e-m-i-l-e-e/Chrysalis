@@ -6,8 +6,6 @@
 #include "arguments/PatternPointArgument.h"
 #include "instructions/BasePatternInstruction.h"
 
-#define outline(outlineName) Proxy::Outline(OutlineName::outlineName)
-
 namespace Chrysalis::Proxy {
     class Outline {
     public:

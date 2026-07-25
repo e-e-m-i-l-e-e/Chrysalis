@@ -67,6 +67,7 @@ namespace Chrysalis {
         };
         struct Options {
             static constexpr auto HAS_CENTER_BACK_DART = "Has center back dart";
+            static constexpr auto HAS_ADDITIONAL_FRONT_DARTS = "Has additional front darts";
         };
         struct Expressions {
             static constexpr auto INTAKE = "Intake";
