@@ -27,6 +27,8 @@ Right now development is focused on main app. CLO3D part enables import of the p
 | `integrations/hooks/` | Library wrapped around PolyHook2. Currently it's functional header only library, but will be refactored into static library in future.                                |
 | `logging/` | Shared logging used across all modules.                                                                                                                                                                                                                                              |
 
+![Chrysalis Dependency Diagram](.docs/diagrams/Dependency_Graph.svg)
+
 Class diagrams are located in [`.docs/diagrams`](.docs/diagrams).
 
 ## Status
