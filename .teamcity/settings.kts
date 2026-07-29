@@ -32,7 +32,7 @@ object Pre_Build_Dependencies : BuildType({
             scriptContent = """
                 set -e
                 . .python/venv/bin/activate
-                conan install . --build=missing --output-folder=.conan -o app=Chrysalis -s build_type=Debug -pr:h wsl -pr:b wsl
+                conan install . --build=missing --output-folder=.conan -o app=Chrysalis -s build_type=Debug -pr:h linux -pr:b linux
                 conan upload "*" -r chrysalis-conan --confirm
             """.trimIndent()
         }
@@ -65,7 +65,7 @@ object Build_2 : BuildType({
             scriptContent = """
                 set -e
                 . .python/venv/bin/activate
-                conan install . --output-folder=.conan -o app=Chrysalis -s build_type=Debug -pr:h wsl -pr:b wsl
+                conan install . --output-folder=.conan -o app=Chrysalis -s build_type=Debug -pr:h linux -pr:b linux
             """.trimIndent()
         }
         script {

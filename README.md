@@ -61,10 +61,10 @@ See build instructions below.
 python -m venv .python/venv
 .python\venv\Scripts\activate
 ```
-**Linux (WSL)**
+**Linux**
 ```
-python3 -m venv .python/venv-wsl
-source .python/venv-wsl/bin/activate
+python3 -m venv .python/venv-linux
+source .python/venv-linux/bin/activate
 ```
 
 ### 2. Install requirements and custom Conan recipes
@@ -88,6 +88,6 @@ conan install . --build=missing --output-folder=.conan -o app=CLO3D -s build_typ
 ```
 **Linux**
 ```
-conan install . --build=missing --output-folder=.conan -o app=Chrysalis -s build_type=Debug -pr:h wsl -pr:b wsl
-conan install . --build=missing --output-folder=.conan -o app=CLO3D -s build_type=RelWithDebInfo -pr:h wsl -pr:b wsl
+conan install . --build=missing --output-folder=.conan -o app=Chrysalis -s build_type=Debug -pr:h linux -pr:b linux
+conan install . --build=missing --output-folder=.conan -o app=CLO3D -s build_type=RelWithDebInfo -pr:h linux -pr:b linux
 ```
