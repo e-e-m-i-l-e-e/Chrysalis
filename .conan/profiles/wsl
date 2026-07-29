@@ -9,3 +9,5 @@ os=Linux
 
 [conf]
 tools.build:jobs=6
+tools.system.package_manager:sudo=True
+tools.system.package_manager:mode=install
