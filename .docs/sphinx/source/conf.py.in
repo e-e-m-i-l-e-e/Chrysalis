@@ -1,12 +1,16 @@
-import os
+import os, sys
 
 project = 'Chrysalis'
 copyright = '2026, emilyyy0621@gmail.com'
 author = 'emilyyy0621@gmail.com'
 release = '1.0'
 
+sys.path.insert(0, os.path.join("@SPHINX_SOURCE@", "_ext"))
+documentation_root = "@DOCUMENTATION_DIR@"
+
 extensions = [
     "breathe",
+    "rstjinja",
     "sphinxcontrib.plantuml"
 ]
 
@@ -34,6 +38,10 @@ html_static_path = [
 
 html_css_files = [
     'custom.css'
+]
+
+html_js_files = [
+    'plantuml-zoom.js'
 ]
 
 html_sidebars = {

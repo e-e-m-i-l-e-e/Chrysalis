@@ -19,14 +19,28 @@ header {
   flex-shrink: 0;
 }
 
-footer {
-  flex-shrink: 0;
-}
-
-/* Direct wrapper between header and footer becomes the scroll container */
+/* Direct wrapper between header and footer becomes the scroll container.
+   Footer lives inside this wrapper (after the sidebar+content container),
+   so it scrolls away with the rest of the content instead of staying
+   pinned - its space gets reclaimed for content once a scrollbar is
+   needed. min-height (not height) on the inner container below is what
+   makes this work correctly in both directions. */
 #page > .flex-1 {
   min-height: 0;
   overflow-y: auto;
+}
+
+/* <main> always carries xl:grid xl:grid-cols-[1fr_300px], reserving a
+   300px column for the on-page "On this page" TOC (rendered by the
+   theme's toc.html as <aside id="right-sidebar">). When a page has no
+   such TOC (too few headings, or a page like module/pattern.html),
+   that column is simply empty, leaving the content column stuck at
+   "main width minus 300px" instead of using the full width. Collapse
+   to a single column whenever #right-sidebar isn't present. */
+@media (min-width: 80rem) {
+  main:not(:has(#right-sidebar)) {
+    grid-template-columns: 1fr;
+  }
 }
 
 .chrysalis-main-nav {
@@ -39,14 +53,38 @@ footer {
   font-weight: 500;
 }
 
-/* Only the sidebar+content grid container should lose its gutter, so the
-   sidebar sits flush left under the header. Pages without a sidebar (e.g.
-   search, index) use a plain .container and must keep Tailwind's normal
-   padding/centering. */
+/* Sidebar+content container: at least fill the space between header and
+   footer (so short content still pins the footer to the bottom of the
+   viewport, and the sidebar's border still runs full height), but grow
+   beyond that when content is taller, pushing the footer past the fold
+   so it only reappears once the user actually scrolls down to it. */
+.flex-1 > .container {
+  min-height: 100%;
+}
+
 .flex-1 > .container.md\:grid {
   margin-left: 0;
   padding-left: 0;
-  height: 100%;
+}
+
+/* Smaller footer */
+footer.py-6 {
+  padding-top: 0.65rem;
+  padding-bottom: 0.65rem;
+}
+
+footer > .container {
+  gap: 0.35rem;
+}
+
+footer p.text-sm {
+  font-size: 0.75rem;
+}
+
+@media (min-width: 48rem) {
+  footer > .container {
+    height: 2.5rem;
+  }
 }
 
 header > .container {
@@ -244,4 +282,66 @@ header > .container > div:last-child {
 div.plantuml object[data*=".svg"] {
   fill: none !important;
   background: transparent !important;
+}
+
+/* PlantUML diagrams: scrollable + zoomable viewport (see
+   plantuml-zoom.js, which wraps every .plantuml diagram in this
+   structure at runtime). */
+.chrysalis-diagram-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.chrysalis-diagram-toolbar button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--color-foreground);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1;
+}
+
+.chrysalis-diagram-toolbar button:hover {
+  background: var(--color-accent);
+}
+
+.chrysalis-diagram-toolbar button:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.chrysalis-diagram-toolbar .chrysalis-diagram-reset {
+  width: auto;
+  padding: 0 0.6rem;
+  font-size: 0.8125rem;
+}
+
+.chrysalis-diagram-toolbar .chrysalis-diagram-zoom-level {
+  min-width: 3.5ch;
+  text-align: center;
+  font-size: 0.8125rem;
+  color: var(--color-foreground);
+  opacity: 0.75;
+}
+
+.chrysalis-diagram-viewport {
+  overflow: auto;
+  max-height: 70vh;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+
+.chrysalis-diagram-viewport object,
+.chrysalis-diagram-viewport img {
+  display: block;
+  max-width: none !important;
 }
