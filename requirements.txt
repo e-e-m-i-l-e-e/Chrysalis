@@ -1,2 +1,5 @@
 conan==2.26.1
 ninja==1.13.0
+sphinx==9.1.0
+breathe==4.36.0
+sphinxawesome-theme==6.0.5

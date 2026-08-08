@@ -1,0 +1,4 @@
+Pattern
+=======
+
+Pattern module documentation.

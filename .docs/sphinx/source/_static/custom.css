@@ -1,0 +1,230 @@
+/* App-shell layout: header and footer stay put, only the
+   content area between them scrolls, and only when it needs to. */
+html,
+body {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+}
+
+#page {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+header {
+  flex-shrink: 0;
+}
+
+footer {
+  flex-shrink: 0;
+}
+
+/* Direct wrapper between header and footer becomes the scroll container */
+#page > .flex-1 {
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.chrysalis-main-nav {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 1.5rem;
+  gap: 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Only the sidebar+content grid container should lose its gutter, so the
+   sidebar sits flush left under the header. Pages without a sidebar (e.g.
+   search, index) use a plain .container and must keep Tailwind's normal
+   padding/centering. */
+.flex-1 > .container.md\:grid {
+  margin-left: 0;
+  padding-left: 0;
+  height: 100%;
+}
+
+header > .container {
+  max-width: none;
+}
+
+header > .container > div:first-child {
+  flex: 1;
+}
+
+header > .container > div:last-child {
+  flex: none;
+}
+
+.chrysalis-nav-menu {
+  position: relative;
+}
+
+.chrysalis-nav-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: color-mix(in srgb, var(--color-foreground) 60%, transparent);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+}
+
+.chrysalis-nav-trigger:hover,
+.chrysalis-nav-trigger:focus-visible {
+  color: var(--color-foreground);
+}
+
+.chrysalis-nav-link {
+  color: color-mix(in srgb, var(--color-foreground) 60%, transparent);
+  text-decoration: none;
+}
+
+.chrysalis-nav-link:hover,
+.chrysalis-nav-link:focus-visible {
+  color: var(--color-foreground);
+}
+
+.chrysalis-nav-trigger:focus-visible,
+.chrysalis-nav-dropdown a:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+}
+
+.chrysalis-nav-dropdown {
+  position: absolute;
+  top: calc(100% + 0.7rem);
+  left: -0.75rem;
+  z-index: 50;
+  display: grid;
+  min-width: 11rem;
+  padding: 0.4rem;
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 12%);
+}
+
+.chrysalis-nav-dropdown a {
+  padding: 0.45rem 0.6rem;
+  color: var(--color-foreground);
+  border-radius: 0.25rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.chrysalis-nav-dropdown a:hover {
+  background: var(--color-accent);
+}
+
+@media (min-width: 48rem) {
+  #left-sidebar {
+    margin-left: 0;
+    /* Sidebar now sticks relative to #page > .flex-1 (the new scroll
+       container) instead of the viewport, so it no longer needs to
+       offset for the header height. */
+    top: 0;
+    height: 100%;
+  }
+
+  #left-sidebar .chrysalis-sidebar-scroll {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+}
+
+#left-sidebar .chrysalis-section-nav {
+  display: grid;
+  gap: 0.2rem;
+  margin-block: 1.5rem;
+  font-size: 0.875rem;
+}
+
+#left-sidebar .chrysalis-section-nav a {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.45rem 0.75rem;
+  color: var(--color-foreground);
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  text-align: center;
+}
+
+#left-sidebar .chrysalis-section-nav a:hover {
+  background: var(--color-accent);
+  text-decoration: none;
+}
+
+#left-sidebar .chrysalis-section-nav a.current {
+  background: var(--color-accent);
+  border-color: var(--color-border);
+  font-weight: 500;
+}
+
+/* Tree / nested sub-items support for the section nav (e.g. CLO3D's
+   Interfaces > Commands / Extensions). A parent item and its
+   .chrysalis-nav-children wrapper participate in the same nav grid,
+   so gaps stay consistent with the flat items above them. */
+#left-sidebar .chrysalis-nav-branch {
+  display: grid;
+  gap: 0.2rem;
+}
+
+#left-sidebar .chrysalis-nav-children {
+  display: grid;
+  gap: 0.2rem;
+  margin-top: 0.2rem;
+  margin-left: 0.9rem;
+  padding-left: 0.65rem;
+  border-left: 1px solid var(--color-border);
+}
+
+#left-sidebar .chrysalis-nav-children a {
+  text-align: left;
+  font-size: 0.8125rem;
+  padding: 0.4rem 0.65rem;
+}
+
+/* Row pairing a branch's own link with its expand/collapse toggle */
+#left-sidebar .chrysalis-nav-branch-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0.2rem;
+}
+
+#left-sidebar .chrysalis-nav-branch-row .chrysalis-nav-branch-link {
+  flex: 1;
+  min-width: 0;
+}
+
+#left-sidebar .chrysalis-nav-branch-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 1.75rem;
+  color: color-mix(in srgb, var(--color-foreground) 60%, transparent);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font: inherit;
+}
+
+#left-sidebar .chrysalis-nav-branch-toggle:hover {
+  color: var(--color-foreground);
+  background: var(--color-accent);
+}
+
+#left-sidebar .chrysalis-nav-branch-toggle:focus-visible {
+  color: var(--color-foreground);
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}

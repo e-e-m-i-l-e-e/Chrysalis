@@ -28,3 +28,7 @@ const Point* PatternPointArgument::get() const {
 const args::name* PatternPointArgument::name() const {
     return name_;
 }
+
+PatternPointArgument::operator CG::Point() const {
+    return patterns_->onAny(&PatternSpace::getTransformation).apply(*this->get());
+}

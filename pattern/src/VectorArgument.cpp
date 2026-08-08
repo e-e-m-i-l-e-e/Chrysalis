@@ -32,5 +32,5 @@ VectorArgument::operator CG::Vector() const {
 }
 
 VectorArgument::operator CG::Segment() const {
-    return CG::Segment(*origin()->get(), CG::relativePoint(*origin()->get(), angle_->get(), length_->get()));
+    return CG::Segment(*origin(), CG::relativePoint(*origin(), angle_->get(), length_->get()));
 }

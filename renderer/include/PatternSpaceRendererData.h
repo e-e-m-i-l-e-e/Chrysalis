@@ -23,17 +23,18 @@ namespace Chrysalis {
         void pointMoved(const Point* point) override;
         void pointAdded(const Point* point) override;
         void curveAdded(const Curve* curve) override;
+        void transformed(const Transformation& transformation) override;
         void relativePointConnectionAdded(const Point* from, const Point* to) override;
         void relativePointConnectionRemoved(const Point* from, const Point* to) override;
 
         size_t size() override;
         std::vector<Vertex3f> vbo() override;
 
-        Layout pointsLayout() const;
-        std::vector<Layout> linesLayout() const;
-        std::vector<Layout> arrowsLayout() const;
+        [[nodiscard]] Layout pointsLayout() const;
+        [[nodiscard]] std::vector<Layout> linesLayout() const;
+        [[nodiscard]] std::vector<Layout> arrowsLayout() const;
 
-        const Point* pointAtPosition(float x, float y) const;
+        [[nodiscard]] const Point* pointAtPosition(float x, float y) const;
     private:
         static float length(const CG::Point& pointFrom, const CG::Point& pointTo);
         static Arrow buildArrow(const CG::Point& pointFrom, const CG::Point& pointTo);

@@ -33,3 +33,12 @@ void PatternSpace::addPoint(const std::string& name, const Point* point) {
     lastPoint_ = point;
     notify(&PatternSpaceObserver::pointAdded, point);
 }
+
+void PatternSpace::transform(const Transformation& transformation) {
+    transformation_ = transformation;
+    notify(&PatternSpaceObserver::transformed, transformation_);
+}
+
+const Transformation& PatternSpace::getTransformation() const {
+    return transformation_;
+}

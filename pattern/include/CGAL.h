@@ -17,6 +17,8 @@ namespace Chrysalis::CG {
     using LinearKernel = CGAL::Exact_predicates_inexact_constructions_kernel;
     using CircularKernel = CGAL::Exact_circular_kernel_2;
 
+    using Transformation = CGAL::Aff_transformation_2<LinearKernel>;
+
     using Ray = CGAL::Ray_2<LinearKernel>;
     using Line = CGAL::Line_2<LinearKernel>;
     using Point = CGAL::Point_2<LinearKernel>;

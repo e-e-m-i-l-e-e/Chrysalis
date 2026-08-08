@@ -12,6 +12,8 @@ namespace Chrysalis {
         ~SegmentArgument() override;
 
         const args::point* destination() const;
+
+        explicit operator CG::Segment() const override;
     private:
         /// @uml{composition}
         const args::point* destination_;

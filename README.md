@@ -83,8 +83,8 @@ git restore .conan/p
 ```
 mklink /J C:\Chrysalis "%CD%"
 cd C:\Chrysalis
-conan install . --build=missing --output-folder=.conan -o app=Chrysalis -s build_type=Debug
-conan install . --build=missing --output-folder=.conan -o app=CLO3D -s build_type=RelWithDebInfo
+conan install . --build=missing --output-folder=.conan -o app=Chrysalis -s build_type=Debug -pr:b default-build
+conan install . --build=missing --output-folder=.conan -o app=CLO3D -s build_type=RelWithDebInfo -pr:b default-build
 ```
 **Linux**
 ```

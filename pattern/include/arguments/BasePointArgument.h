@@ -16,6 +16,8 @@ namespace Chrysalis {
         [[nodiscard]] virtual const Point* get() const = 0;
         [[nodiscard]] virtual const args::name* name() const = 0;
         [[nodiscard]] virtual BasePointArgument* clone() const = 0;
+
+        [[nodiscard]] virtual operator CG::Point() const;
     };
     namespace args {
         using point = BasePointArgument;

@@ -1,6 +1,7 @@
 #ifndef CHRYSALIS_POINTARGUMENT_H
 #define CHRYSALIS_POINTARGUMENT_H
 
+#include "CGAL.h"
 #include "arguments/Argument.h"
 #include "arguments/BasePointArgument.h"
 #include "arguments/PatternsContainerArgument.h"
@@ -17,6 +18,8 @@ namespace Chrysalis {
         [[nodiscard]] const Point* get() const override;
         [[nodiscard]] const args::name* name() const override;
         [[nodiscard]] BasePointArgument* clone() const override;
+
+        [[nodiscard]] operator CG::Point() const override;
     private:
         /// @uml{composition}
         const args::name* name_;

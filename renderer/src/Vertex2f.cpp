@@ -19,6 +19,12 @@ void Vertex2f::move(const Point& point) {
     y_ = point.y();
 }
 
+void Vertex2f::transform(const Transformation& transformation) {
+    const auto point = transformation.apply(CG::Point(x_, y_));
+    x_ = point.x();
+    y_ = point.y();
+}
+
 std::vector<std::pair<int, void*>> Vertex2f::layout() {
     return {{2, nullptr}};
 }

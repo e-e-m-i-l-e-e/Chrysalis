@@ -1,0 +1,4 @@
+Renderer
+========
+
+Renderer module documentation.

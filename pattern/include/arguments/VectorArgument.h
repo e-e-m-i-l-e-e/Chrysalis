@@ -21,7 +21,7 @@ namespace Chrysalis {
         [[nodiscard]] const args::number* length() const;
 
         explicit operator CG::Vector() const;
-        explicit operator CG::Segment() const;
+        explicit virtual operator CG::Segment() const;
     private:
         /// @uml{composition}
         const args::number* length_;

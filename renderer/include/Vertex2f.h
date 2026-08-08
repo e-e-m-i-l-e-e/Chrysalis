@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Point.h"
+#include "Transformation.h"
 
 namespace Chrysalis {
     class Vertex2f {
@@ -15,6 +16,7 @@ namespace Chrysalis {
         const float& y() const;
 
         void move(const Point& point);
+        void transform(const Transformation& transformation);
 
         static std::vector<std::pair<int, void*>> layout();
     private:

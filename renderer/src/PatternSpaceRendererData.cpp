@@ -80,6 +80,21 @@ void PatternSpaceRendererData::curveAdded(const Curve* curve) {
     updateVBO();
 }
 
+void PatternSpaceRendererData::transformed(const Transformation& transformation) {
+    for (auto& point: points_) {
+        point.transform(transformation);
+    }
+    for (auto& line: lines_) {
+        for (auto& point: line) {
+            point.transform(transformation);
+        }
+    }
+    for (auto& point: arrows_) {
+        point.transform(transformation);
+    }
+    updateVBO();
+}
+
 void PatternSpaceRendererData::relativePointConnectionAdded(const Point* from, const Point* to) {
     const auto intersection = intersectionPoint(*from, *to);
     lines_.emplace_back();

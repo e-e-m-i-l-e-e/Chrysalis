@@ -12,3 +12,7 @@ SegmentArgument::~SegmentArgument() {
 const args::point* SegmentArgument::destination() const {
     return destination_;
 }
+
+SegmentArgument::operator CG::Segment() const {
+    return CG::Segment(*origin(), *destination());
+}

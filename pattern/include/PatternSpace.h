@@ -5,6 +5,7 @@
 
 #include "Outline.h"
 #include "ProjectSpace.h"
+#include "Transformation.h"
 #include "observers/BaseObservable.h"
 #include "observers/PatternSpaceObserver.h"
 
@@ -19,11 +20,15 @@ namespace Chrysalis {
 
         [[nodiscard]] const Point* getLastPoint() const;
         [[nodiscard]] OutlineContainer* getOutline() const;
+        [[nodiscard]] const Transformation& getTransformation() const;
         [[nodiscard]] const Point* getPoint(const std::string& name) const;
         [[nodiscard]] const std::unordered_map<std::string, const Point*>& getPoints() const;
 
+        void transform(const Transformation& transformation);
         void addPoint(const std::string& name, const Point* point);
     private:
+        Transformation transformation_;
+
         const Point* lastPoint_ = nullptr;
         /// @uml{composition}
         OutlineContainer* outline_;

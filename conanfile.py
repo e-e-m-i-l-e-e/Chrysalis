@@ -32,6 +32,9 @@ class FashionDesignAppsConan(ConanFile):
         elif self.options.app == "Chrysalis":
             self.requires("qt/6.8.3")
 
+    def build_requirements(self):
+        self.tool_requires("doxygen/1.17.0")
+
     def configure(self):
         self.options["boost"].without_test = True
         self.options["boost"].without_stacktrace_basic = True

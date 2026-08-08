@@ -1,0 +1,38 @@
+{% extends "!header.html" %}
+
+{% block header_main_nav %}
+<nav class="chrysalis-main-nav" x-data="{ openMenu: null }" @keydown.escape.window="openMenu = null">
+  <a class="chrysalis-nav-link" href="{{ pathto('index') }}">Overview</a>
+  <div class="chrysalis-nav-menu">
+    <button class="chrysalis-nav-trigger" type="button"
+      @click="openMenu = openMenu === 'applications' ? null : 'applications'"
+      :aria-expanded="openMenu === 'applications'" aria-controls="applications-menu">
+      Applications
+      <span aria-hidden="true">&#9662;</span>
+    </button>
+    <div id="applications-menu" class="chrysalis-nav-dropdown" x-cloak
+      x-show="openMenu === 'applications'" @click.outside="openMenu = null">
+      <a href="{{ pathto('app/chrysalis') }}">Chrysalis Lab</a>
+      <a href="{{ pathto('app/clo3d') }}">CLO3D</a>
+      <a href="{{ pathto('app/valentina') }}">Valentina</a>
+    </div>
+  </div>
+
+  <div class="chrysalis-nav-menu">
+    <button class="chrysalis-nav-trigger" type="button"
+      @click="openMenu = openMenu === 'modules' ? null : 'modules'"
+      :aria-expanded="openMenu === 'modules'" aria-controls="modules-menu">
+      Modules
+      <span aria-hidden="true">&#9662;</span>
+    </button>
+    <div id="modules-menu" class="chrysalis-nav-dropdown" x-cloak
+      x-show="openMenu === 'modules'" @click.outside="openMenu = null">
+      <a href="{{ pathto('module/pattern') }}">Pattern</a>
+      <a href="{{ pathto('module/renderer') }}">Renderer</a>
+      <a href="{{ pathto('module/hooks') }}">Hooks</a>
+    </div>
+  </div>
+
+  <a class="chrysalis-nav-link" href="{{ pathto('development/index') }}">Development</a>
+</nav>
+{% endblock header_main_nav %}

@@ -1,0 +1,47 @@
+{% if pagename.startswith('app/chrysalis') %}
+<nav class="chrysalis-section-nav" aria-label="Chrysalis Lab">
+  <a href="{{ pathto('app/chrysalis') }}"{% if pagename == 'app/chrysalis' %} class="current"{% endif %}>Overview</a>
+</nav>
+{% elif pagename.startswith('app/clo3d') %}
+{% set clo3d_open = pagename in ['app/clo3d/interfaces', 'app/clo3d/commands', 'app/clo3d/extensions'] %}
+<nav class="chrysalis-section-nav" aria-label="CLO3D">
+  <a href="{{ pathto('app/clo3d') }}"{% if pagename == 'app/clo3d' %} class="current"{% endif %}>Overview</a>
+  <div class="chrysalis-nav-branch" x-data="{ open: {{ 'true' if clo3d_open else 'false' }} }">
+    <div class="chrysalis-nav-branch-row">
+      <a class="chrysalis-nav-branch-link{% if pagename == 'app/clo3d/interfaces' %} current{% endif %}"
+         href="{{ pathto('app/clo3d/interfaces') }}">Interfaces</a>
+      <button type="button" class="chrysalis-nav-branch-toggle" @click="open = !open"
+              :aria-expanded="open.toString()" aria-controls="clo3d-interfaces-children"
+              aria-label="Toggle Interfaces section">
+        <span aria-hidden="true" class="transform transition duration-100" :class="open ? 'rotate-90' : 'rotate-0'">&#9656;</span>
+      </button>
+    </div>
+    <div id="clo3d-interfaces-children" class="chrysalis-nav-children" x-show="open" x-cloak
+         x-transition:enter="transition-opacity duration-100" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+         x-transition:leave="transition-opacity duration-100" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+      <a href="{{ pathto('app/clo3d/commands') }}"{% if pagename == 'app/clo3d/commands' %} class="current"{% endif %}>Commands</a>
+      <a href="{{ pathto('app/clo3d/extensions') }}"{% if pagename == 'app/clo3d/extensions' %} class="current"{% endif %}>Extensions</a>
+    </div>
+  </div>
+</nav>
+{% elif pagename.startswith('app/valentina') %}
+<nav class="chrysalis-section-nav" aria-label="Valentina">
+  <a href="{{ pathto('app/valentina') }}"{% if pagename == 'app/valentina' %} class="current"{% endif %}>Overview</a>
+</nav>
+{% elif pagename.startswith('module/pattern') %}
+<nav class="chrysalis-section-nav" aria-label="Pattern">
+  <a href="{{ pathto('module/pattern') }}"{% if pagename == 'module/pattern' %} class="current"{% endif %}>Overview</a>
+</nav>
+{% elif pagename.startswith('module/renderer') %}
+<nav class="chrysalis-section-nav" aria-label="Renderer">
+  <a href="{{ pathto('module/renderer') }}"{% if pagename == 'module/renderer' %} class="current"{% endif %}>Overview</a>
+</nav>
+{% elif pagename.startswith('module/hooks') %}
+<nav class="chrysalis-section-nav" aria-label="Hooks">
+  <a href="{{ pathto('module/hooks') }}"{% if pagename == 'module/hooks' %} class="current"{% endif %}>Overview</a>
+</nav>
+{% elif pagename.startswith('development/') %}
+<nav class="chrysalis-section-nav" aria-label="Development">
+  <a href="{{ pathto('development/index') }}" class="current">Overview</a>
+</nav>
+{% endif %}

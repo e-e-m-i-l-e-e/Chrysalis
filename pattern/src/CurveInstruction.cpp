@@ -27,7 +27,7 @@ void CurveInstruction::execute() {
     points.reserve(points_->count() + 2);
     points.push_back(segmentFrom.end());
     for (const auto& point : *points_) {
-        points.push_back(*point->get());
+        points.push_back(*point);
     }
     points.push_back(segmentTo.end());
     const auto curve = space().addCurve(from_->origin()->get(), to_->origin()->get(), segmentFrom, segmentTo, points);

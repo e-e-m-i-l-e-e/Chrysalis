@@ -24,6 +24,7 @@ include(CTest)
 enable_testing()
 find_package(GTest REQUIRED)
 
+add_subdirectory(.docs)
 add_subdirectory(logging)
 add_subdirectory(pattern)
 add_subdirectory(renderer)

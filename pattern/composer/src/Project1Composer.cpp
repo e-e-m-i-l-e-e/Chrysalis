@@ -8,6 +8,9 @@
 #include "initializers/Instructions.h"
 #include "initializers/PatternInstructions.h"
 #include "initializers/ConditionalInstructionsContainerInitializer.h"
+#include "instructions/CurveInstruction.h"
+#include "instructions/ResetTransformationInstruction.h"
+#include "instructions/TransformInstruction.h"
 
 #include "proxies/RayProxy.h"
 #include "proxies/NameProxy.h"
@@ -195,6 +198,52 @@ void Project1Composer::fillInstructions() {
             Use(front) {
                 _vector_(W3, right, _length_(W3, DW1) / 2)                                    -> name(DW2),
                 _vector_(90, _length_(DA, DW1) - 2) << _point_(DW2)(2. / 3. * 3. * _expression_(COEFFICIENT)) >> _vector_(-90, 7)
+            }
+        },
+        Use(back) {
+            {
+                new TransformInstruction(Composer::Instructions::space,
+                                         new args::patterns(*Composer::PatternInstructions::patterns),
+                                         _segment_(S2, D2),
+                                         new SegmentArgument(new PatternPointArgument(new Argument<std::string>(PointName::S2), new args::patterns{front_->getSpace()}), new PatternPointArgument(new Argument<std::string>(PointName::D1_1), new args::patterns{front_->getSpace()}))
+                )
+            }
+        },
+        Use(back, front) {
+            {
+                new CurveInstruction(Composer::Instructions::space,
+                                     new args::patterns(*Composer::PatternInstructions::patterns),
+                                     new SegmentArgument(
+                                         new PatternPointArgument(new Argument<std::string>(PointName::AH4),
+                                                                  new PatternsContainerArgument{back_->getSpace()}),
+                                         new PatternPointArgument(new Argument<std::string>(PointName::AH3),
+                                                                  new PatternsContainerArgument{back_->getSpace()})
+                                     ),
+                                     new SegmentArgument(
+                                         new PatternPointArgument(new Argument<std::string>(PointName::AH3),
+                                                                  new PatternsContainerArgument{front_->getSpace()}),
+                                         new PatternPointArgument(new Argument<std::string>(PointName::AH4),
+                                                                  new PatternsContainerArgument{front_->getSpace()})
+                                     ),
+                                     new args::container({
+                                         new PatternPointArgument(new Argument<std::string>(PointName::AH2),
+                                                                  new PatternsContainerArgument{back_->getSpace()}),
+                                         new PatternPointArgument(new Argument<std::string>(PointName::UB1),
+                                                                  new PatternsContainerArgument{back_->getSpace()}),
+                                         new PatternPointArgument(new Argument<std::string>(PointName::S2),
+                                                                  new PatternsContainerArgument{back_->getSpace()}),
+                                         new PatternPointArgument(new Argument<std::string>(PointName::UB1),
+                                                                  new PatternsContainerArgument{front_->getSpace()}),
+                                         new PatternPointArgument(new Argument<std::string>(PointName::AH2),
+                                                                  new PatternsContainerArgument{front_->getSpace()}),
+                                     })
+                )
+            }
+        },
+        Use(back) {
+            {
+                new ResetTransformationInstruction(Composer::Instructions::space,
+                                               new args::patterns(*Composer::PatternInstructions::patterns))
             }
         },
         Use(back) {
