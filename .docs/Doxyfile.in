@@ -26,8 +26,4 @@ ALIASES += "uml{1}="
 
 ENABLE_PREPROCESSING   = YES
 MACRO_EXPANSION        = YES
-EXPAND_ONLY_PREDEF     = YES
-
-# Generic Boost.Preprocessor sequence expansion for Doxygen
-PREDEFINED             = "BOOST_PP_SEQ_FOR_EACH(macro, data, seq)=BOOST_PP_SEQ_FOR_EACH_R(1, macro, data, seq)" \
-                         "BOOST_PP_SEQ_FOR_EACH_R(r, macro, data, seq)=macro(r, data, Add) macro(r, data, Subtract) macro(r, data, Multiply) macro(r, data, Divide) macro(r, data, Min) macro(r, data, Max)"
+EXPAND_ONLY_PREDEF     = NO

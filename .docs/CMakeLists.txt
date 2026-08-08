@@ -1,6 +1,6 @@
 # ----- Load tools -----------------------------------------------------------------------------------------------------
 
-set(DOCUMENTS_DIR ${CMAKE_BINARY_DIR}/docs)
+set(DOCUMENTATION_DIR ${CMAKE_BINARY_DIR}/docs)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -20,7 +20,7 @@ else ()
     )
     FetchContent_MakeAvailable(plantuml)
     FetchContent_GetProperties(plantuml SOURCE_DIR PLANTUML_DIR)
-    set(PLANTUML "${PLANTUML_DIR}/plantuml.jar")
+    set(PLANTUML "java -jar ${PLANTUML_DIR}/plantuml.jar")
 
     find_program(CLANG_UML NAMES clang-uml.exe)
 endif ()
@@ -29,8 +29,8 @@ endif ()
 
 if(CLANG_UML)
     add_custom_target(GenerateUML
-            COMMAND ${CLANG_UML} -c .docs/diagrams/chrysalis/.clang-uml -o ${DOCUMENTS_DIR}/diagrams/chrysalis
-            COMMAND ${CLANG_UML} -c .docs/diagrams/clo3d/.clang-uml -o ${DOCUMENTS_DIR}/diagrams/clo3d
+            COMMAND ${CLANG_UML} -c .docs/diagrams/chrysalis/.clang-uml -o ${DOCUMENTATION_DIR}/diagrams/chrysalis
+            COMMAND ${CLANG_UML} -c .docs/diagrams/clo3d/.clang-uml -o ${DOCUMENTATION_DIR}/diagrams/clo3d
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
             COMMENT "Generating Chrysalis UML diagrams" USES_TERMINAL VERBATIM
     )
@@ -46,12 +46,12 @@ set(DOXYGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
 
 set(DOXYGEN_HTML_OUTPUT doxygen)
 set(DOXYGEN_XML_OUTPUT doxygen/xml)
-set(DOXYGEN_XML_DIR ${DOCUMENTS_DIR}/${DOXYGEN_XML_OUTPUT})
+set(DOXYGEN_XML_DIR ${DOCUMENTATION_DIR}/${DOXYGEN_XML_OUTPUT})
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${DOXYGEN_FILE} @ONLY)
 add_custom_target(GenerateDoxygen
         COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_FILE}
-        WORKING_DIRECTORY ${DOCUMENTS_DIR}
+        WORKING_DIRECTORY ${DOCUMENTATION_DIR}
         COMMENT "Generating Chrysalis Doxygen documentation" VERBATIM
 )
 
@@ -66,6 +66,6 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sphinx/source/conf.py.in ${CMAKE_CURR
 
 add_custom_target(Documentation
         COMMAND ${SPHINX_EXECUTABLE} -c ${CMAKE_CURRENT_BINARY_DIR} -b html ${SPHINX_SOURCE} ${SPHINX_BUILD}
-        WORKING_DIRECTORY ${DOCUMENTS_DIR}
+        WORKING_DIRECTORY ${DOCUMENTATION_DIR}
         COMMENT "Generating Chrysalis documentation" VERBATIM
 )
