@@ -228,3 +228,20 @@ header > .container > div:last-child {
   outline: 2px solid var(--color-brand);
   outline-offset: 2px;
 }
+
+/* 1. Target the PlantUML wrapper */
+.plantuml,
+.plantuml object,
+.plantuml img,
+.plantuml svg {
+  background: none !important;
+  background-color: transparent !important;
+}
+
+/* 2. Target the root canvas rectangle inside the generated SVG */
+.plantuml object svg rect:first-child,
+.plantuml svg > rect:first-of-type,
+div.plantuml object[data*=".svg"] {
+  fill: none !important;
+  background: transparent !important;
+}

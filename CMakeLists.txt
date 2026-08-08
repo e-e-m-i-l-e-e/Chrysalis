@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 23)
 
 set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/BuildArtifacts")
 set(LOGS_DIR "${CMAKE_SOURCE_DIR}/.logs" CACHE PATH "Directory for log files")
+list(APPEND CMAKE_PROGRAM_PATH "${CMAKE_SOURCE_DIR}/.misc")
 
 if (LINUX)
     set(PYTHON "${CMAKE_SOURCE_DIR}/.python/venv-linux/bin/python" CACHE FILEPATH "Python interpreter" FORCE)

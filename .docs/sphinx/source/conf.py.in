@@ -1,26 +1,43 @@
+import os
+
 project = 'Chrysalis'
 copyright = '2026, emilyyy0621@gmail.com'
 author = 'emilyyy0621@gmail.com'
 release = '1.0'
 
+DOCS_SOURCE_DIR = "@CMAKE_CURRENT_SOURCE_DIR@/sphinx/source"
+
 extensions = [
-    "breathe"
+    "breathe",
+    "sphinxcontrib.plantuml"
 ]
 
 breathe_projects = {
-    "Chrysalis": "../../.build"
+    "Chrysalis": "@DOXYGEN_XML_DIR@"
 }
-
 breathe_default_project = "Chrysalis"
 
-templates_path = ['_templates']
+plantuml_output_format = 'svg'
+plantuml = r'java -jar C:/Life/Design/Apps/Chrysalis/.build/Debug/_deps/plantuml_jar-src/plantuml.jar'
+
+templates_path = [
+    os.path.join(DOCS_SOURCE_DIR, "_templates")
+]
+
 exclude_patterns = []
 
 html_theme = 'sphinxawesome_theme'
 html_title = 'Chrysalis'
 html_permalinks = False
-html_static_path = ['_static']
-html_css_files = ['custom.css']
+
+html_static_path = [
+    os.path.join(DOCS_SOURCE_DIR, "_static")
+]
+
+html_css_files = [
+    'custom.css'
+]
+
 html_sidebars = {
     'index': [],
     'search': [],

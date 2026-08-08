@@ -14,7 +14,7 @@ namespace Chrysalis {
     public:
         /**
          * @uml{note[top] Syntax samples:
-         * B -10-> A <-15- C
+         * B -10-> A <-15- C}
          */
         explicit MovePointInstruction(ProjectSpace* space, args::patterns* patterns, const PatternPointArgument* point,
                                         const args::vector* vector1, const args::optional<args::vector>* vector2);

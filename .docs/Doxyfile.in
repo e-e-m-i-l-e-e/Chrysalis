@@ -1,14 +1,14 @@
 PROJECT_NAME = Chrysalis
 
-OUTPUT_DIRECTORY = @CMAKE_BINARY_DIR@/docs
+OUTPUT_DIRECTORY = @DOCUMENTS_DIR@
 
 INPUT = @CMAKE_SOURCE_DIR@/pattern/include \
         @CMAKE_SOURCE_DIR@/pattern/src
 
 HTML_EXTRA_STYLESHEET  = @AWESOME_CSS_DIR@/doxygen-awesome.css
 
-HTML_OUTPUT = doxygen
-XML_OUTPUT = ../.docs/xml
+HTML_OUTPUT = @DOXYGEN_HTML_OUTPUT@
+XML_OUTPUT = @DOXYGEN_XML_OUTPUT@
 
 RECURSIVE = YES
 
@@ -21,3 +21,13 @@ EXTRACT_ALL = YES
 GENERATE_TREEVIEW = YES
 DISABLE_INDEX = NO
 FULL_SIDEBAR = NO
+
+ALIASES += "uml{1}="
+
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
+EXPAND_ONLY_PREDEF     = YES
+
+# Generic Boost.Preprocessor sequence expansion for Doxygen
+PREDEFINED             = "BOOST_PP_SEQ_FOR_EACH(macro, data, seq)=BOOST_PP_SEQ_FOR_EACH_R(1, macro, data, seq)" \
+                         "BOOST_PP_SEQ_FOR_EACH_R(r, macro, data, seq)=macro(r, data, Add) macro(r, data, Subtract) macro(r, data, Multiply) macro(r, data, Divide) macro(r, data, Min) macro(r, data, Max)"
