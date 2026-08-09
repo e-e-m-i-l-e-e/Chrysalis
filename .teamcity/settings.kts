@@ -107,7 +107,8 @@ object Build : BuildType({
             id = "Upload_Documentation"
             scriptContent = """
                 set -ex
-                tar -czvf documentation.tar.gz .conan/build/Debug/docs
+                cd .conan/build/Debug/docs
+                tar -czvf documentation.tar.gz --exclude=documentation.tar.gz .
                 curl --fail-with-body -X POST \
                   -H "Authorization: Bearer %filebrowser.api.key%" \
                   --data-binary @documentation.tar.gz \
