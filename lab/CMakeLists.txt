@@ -29,7 +29,6 @@ qt_add_qml_module(ChrysalisLab URI PatternBuilder VERSION 1.0
         qml/FigmaStyle/dark/images/busyindicator-indicator.png)
 target_include_directories(ChrysalisLab PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(ChrysalisLab PRIVATE PatternRendererLibrary ProjectComposerLibrary FigmaStyle Qt6::Core Qt6::Gui Qt6::Qml Qt6::OpenGL)
-qt_import_qml_plugins(ChrysalisLab)
 
 add_custom_command(TARGET ChrysalisLab POST_BUILD
         COMMAND "${WINDEPLOYQT_EXECUTABLE}"
