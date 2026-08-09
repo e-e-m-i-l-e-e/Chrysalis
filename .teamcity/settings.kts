@@ -75,7 +75,7 @@ object Build : BuildType({
                 . .python/venv-linux/bin/activate
 
                 conan install . --build=missing --output-folder=.conan -o app=Chrysalis -s build_type=Debug
-                conan upload "*" --confirm
+                conan upload "*" --confirm -r chrysalis-conan
             """.trimIndent()
         }
         script {
@@ -87,7 +87,7 @@ object Build : BuildType({
                 . .python/venv-linux/bin/activate
 
                 conan install . --build=missing --output-folder=.conan -o app=CLO3D -s build_type=RelWithDebInfo
-                conan upload "*" --confirm
+                conan upload "*" --confirm -r chrysalis-conan
             """.trimIndent()
         }
         script {
