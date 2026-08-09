@@ -60,8 +60,8 @@ object Build : BuildType({
                 conan export .recipes/polyhook2
                 conan export .recipes/clo-sdk
 
-                conan download "qt/6.8.3" --only-recipe
-                conan download "qt/5.15.16" --only-recipe
+                conan download "qt/6.8.3" --only-recipe -r chrysalis-conan
+                conan download "qt/5.15.16" --only-recipe -r chrysalis-conan
 
                 git restore .conan/p
             """.trimIndent()
