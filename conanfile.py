@@ -52,7 +52,6 @@ class FashionDesignAppsConan(ConanFile):
             self.options["qt/5.15.16"].with_mysql = False
             self.options["qt/5.15.16"].with_libjpeg = False
             self.options["qt/5.15.16"].with_sqlite3 = False
-            self.options["qt/5.15.16"].with_freetype = False
 
         elif self.options.app == "Chrysalis":
             self.options["qt/6.8.3"].shared = True

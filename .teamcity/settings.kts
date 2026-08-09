@@ -79,24 +79,21 @@ object Build : BuildType({
             """.trimIndent()
         }
         script {
-            name = "CLO3D: Conan Install And Push Dependencies"
-            id = "CLO3D_Conan_Install_And_Push_Dependencies"
-            scriptContent = """
-                set -ex
-
-                . .python/venv-linux/bin/activate
-
-                conan install . --build=missing --output-folder=.conan -o app=CLO3D -s build_type=RelWithDebInfo
-                conan upload "*" --confirm -r chrysalis-conan
-            """.trimIndent()
-        }
-        script {
             name = "CMake Build"
             id = "CMake_Build"
             scriptContent = """
                 set -ex
-                cmake --preset conan-debug
                 cmake --build --preset conan-debug
+            """.trimIndent()
+        }
+        script {
+            name = "Generate Documentation"
+            id = "Generate_Documentation"
+            scriptContent = """
+                set -ex
+                cmake --build --preset conan-debug --target GenerateUML
+                cmake --build --preset conan-debug --target GenerateDoxygen
+                cmake --build --preset conan-debug --target Documentation
             """.trimIndent()
         }
         script {
