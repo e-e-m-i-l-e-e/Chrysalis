@@ -109,8 +109,7 @@ object Build : BuildType({
                 set -ex
 
                 cd .conan/build/Debug
-                tar -czvf ../documentation.tar.gz .
-                cd ..
+                tar -czvf documentation.tar.gz docs
 
                 curl --fail-with-body -X POST \
                   -H "Authorization: Bearer %filebrowser.api.key%" \
@@ -123,7 +122,7 @@ object Build : BuildType({
                   -d '{
                     "fromSource": "RootFS",
                     "path": "/temp/documentation.tar.gz",
-                    "destination": "/static/chrysalis/docs",
+                    "destination": "/static/chrysalis",
                     "deleteAfter": false
                   }' \
                   "https://filebrowser.lab.eemilee.me/api/resources/unarchive"
