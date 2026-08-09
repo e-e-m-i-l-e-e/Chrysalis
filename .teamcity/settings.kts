@@ -14,6 +14,8 @@ object Build : BuildType({
     params {
         password("artifactory.api.key", "credentialsJSON:2811189a-9381-40ae-b4f7-e33e32bd5784")
         param("artifactory.user", "admin")
+
+        password("filebrowser.api.key", "credentialsJSON:a25a4bd9-18c8-4ed8-87ce-4c12970ffb25")
     }
 
     vcs {
@@ -102,7 +104,15 @@ object Build : BuildType({
             id = "Upload_Documentation"
             scriptContent = """
                 set -ex
-                tar -czf documentation.tar.gz docs/
+                tar -czf documentation.tar.gz .conan/build/Debug/docs
+                curl -X POST -H "X-API-Key: %filebrowser.api.key%" --data-binary @documentation.tar.gz "https://filebrowser.lab.eemilee.me/api/resources?path=%2Fdocumentation.tar.gz&source=temp&override=true"
+                curl -X POST -H "X-API-Key: %filebrowser.api.key%" -H "Content-Type: application/json" "https://filebrowser.lab.eemilee.me/api/resources/unarchive" \
+                  -d '{
+                    "fromSource": "temp",
+                    "path": "/documentation.tar.gz",
+                    "destination": "/static/chrysalis/docs",
+                    "deleteAfter": true
+                  }'
             """.trimIndent()
         }
         script {
