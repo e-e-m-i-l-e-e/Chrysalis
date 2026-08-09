@@ -51,7 +51,7 @@ object Build : BuildType({
 
                 . .python/venv-linux/bin/activate
 
-                cp .conan/linux-global.conf .conan/global.conf"
+                cp .conan/linux-global.conf .conan/global.conf
 
                 conan remote add chrysalis-conan https://artifactory.lab.eemilee.me/artifactory/api/conan/chrysalis-conan --force
                 conan remote login chrysalis-conan %artifactory.user% -p %artifactory.api.key%
