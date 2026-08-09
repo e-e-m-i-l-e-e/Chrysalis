@@ -28,7 +28,7 @@ object Build : BuildType({
                 set -ex
 
                 sudo apt update
-                sudo apt install -y cmake build-essential pkg-config
+                sudo apt install -y cmake build-essential pkg-config clang-uml
             """.trimIndent()
         }
         script {
