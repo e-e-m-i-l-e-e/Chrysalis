@@ -61,7 +61,7 @@ object Build : BuildType({
             scriptContent = """
                 set -e
                 . .python/venv-linux/bin/activate
-                conan install . --build=missing --output-folder=.conan -o app=Chrysalis -s build_type=Debug -pr:h linux -pr:b linux -c tools.system.package_manager:mode=install -c tools.system.package_manager:sudo=True
+                conan install . --build=missing --output-folder=.conan -o app=Chrysalis -s build_type=Debug -pr:h linux-host -pr:b linux-build
                 conan upload "*" -r chrysalis-conan --confirm
             """.trimIndent()
         }
