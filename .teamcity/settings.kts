@@ -107,8 +107,11 @@ object Build : BuildType({
             id = "Upload_Documentation"
             scriptContent = """
                 set -ex
+
                 cd .conan/build/Debug
-                tar -czvf documentation.tar.gz docs
+                tar -czvf ../documentation.tar.gz .
+                cd ..
+
                 curl --fail-with-body -X POST \
                   -H "Authorization: Bearer %filebrowser.api.key%" \
                   --data-binary @documentation.tar.gz \
