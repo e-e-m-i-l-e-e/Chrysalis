@@ -1,0 +1,6 @@
+[settings]
+
+build_type=Release
+
+doxygen/*:compiler.cppstd=17
+xapian-core/*:compiler.cppstd=14

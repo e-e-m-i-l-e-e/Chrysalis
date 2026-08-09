@@ -1,8 +1,9 @@
-compilation_database_dir: ../../../.build/Debug
-output_directory: .
 add_compile_flags:
-  - /clang:-U__llvm__
+  - -U__llvm__
   - -D_CRT_USE_BUILTIN_OFFSETOF
+  - -DCGAL_DISABLE_ROUNDING_MATH_CACHE
+  - -DCGAL_NO_VECTOR_EXTENSIONS
+  - -D__builtin_shuffle=__builtin_shufflevector
 diagrams:
   PatternClassDiagram:
     type: class

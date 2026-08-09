@@ -1,0 +1,2 @@
+include(win-host)
+include(common-build)

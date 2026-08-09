@@ -29,8 +29,8 @@ endif ()
 
 if(CLANG_UML)
     add_custom_target(GenerateUML
-            COMMAND ${CLANG_UML} -c .docs/diagrams/chrysalis/.clang-uml -o ${DOCUMENTATION_DIR}/diagrams/chrysalis
-            COMMAND ${CLANG_UML} -c .docs/diagrams/clo3d/.clang-uml -o ${DOCUMENTATION_DIR}/diagrams/clo3d
+            COMMAND ${CLANG_UML} -c .docs/diagrams/chrysalis/.clang-uml -o ${DOCUMENTATION_DIR}/diagrams/chrysalis -d ${CMAKE_BINARY_DIR}
+            COMMAND ${CLANG_UML} -c .docs/diagrams/clo3d/.clang-uml -o ${DOCUMENTATION_DIR}/diagrams/clo3d -d ${CMAKE_BINARY_DIR}
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
             COMMENT "Generating Chrysalis UML diagrams" USES_TERMINAL VERBATIM
     )
@@ -42,27 +42,42 @@ endif()
 
 find_package(Doxygen REQUIRED)
 
-set(DOXYGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
+set(ALL_DOXYGEN_TARGETS "")
+set(BREATHE_PROJECTS_LIST "")
 
-set(DOXYGEN_HTML_OUTPUT doxygen)
-set(DOXYGEN_XML_OUTPUT doxygen/xml)
-set(DOXYGEN_XML_DIR ${DOCUMENTATION_DIR}/${DOXYGEN_XML_OUTPUT})
+function(document_module)
+    cmake_parse_arguments(MODULE "" "NAME;SOURCE;OUTPUT" "" ${ARGN})
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${DOXYGEN_FILE} @ONLY)
-add_custom_target(GenerateDoxygen
-        COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_FILE}
-        WORKING_DIRECTORY ${DOCUMENTATION_DIR}
-        COMMENT "Generating Chrysalis Doxygen documentation" VERBATIM
-)
+    set(DOXYGEN_FILE ${CMAKE_CURRENT_BINARY_DIR}/${MODULE_OUTPUT}/Doxyfile)
+    set(DOXYGEN_HTML_OUTPUT doxygen/${MODULE_OUTPUT})
+    set(DOXYGEN_XML_OUTPUT doxygen/${MODULE_OUTPUT}/xml)
+    set(DOXYGEN_XML_DIR ${DOCUMENTATION_DIR}/${DOXYGEN_XML_OUTPUT})
+
+    file(MAKE_DIRECTORY ${DOCUMENTATION_DIR}/${DOXYGEN_HTML_OUTPUT})
+
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile.in ${DOXYGEN_FILE} @ONLY)
+    add_custom_target(GenerateDoxygen_${MODULE_OUTPUT}
+            COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_FILE}
+            WORKING_DIRECTORY ${DOCUMENTATION_DIR}
+            COMMENT "Generating Chrysalis Doxygen documentation for ${MODULE_NAME}" VERBATIM
+    )
+    set(ALL_DOXYGEN_TARGETS ${ALL_DOXYGEN_TARGETS} GenerateDoxygen_${MODULE_OUTPUT} PARENT_SCOPE)
+    set(BREATHE_PROJECTS_LIST "${BREATHE_PROJECTS_LIST}  \"${MODULE_NAME}\": \"${DOXYGEN_XML_DIR}\"," PARENT_SCOPE)
+endfunction()
+
+document_module(NAME "Pattern" SOURCE "pattern" OUTPUT "pattern")
+document_module(NAME "Renderer" SOURCE "renderer" OUTPUT "renderer")
+
+add_custom_target(GenerateDoxygen DEPENDS ${ALL_DOXYGEN_TARGETS} COMMENT "Building all module documentation...")
 
 # ----- Sphynx Documentation -------------------------------------------------------------------------------------------
 
-find_program(SPHINX_EXECUTABLE NAMES sphinx-build REQUIRED)
+find_program(SPHINX_EXECUTABLE NAMES sphinx-build HINTS ${PYTHON_VENV_BIN} REQUIRED)
 
 set(SPHINX_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/sphinx/source)
 set(SPHINX_BUILD ${CMAKE_BINARY_DIR}/docs)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sphinx/source/conf.py.in ${CMAKE_CURRENT_BINARY_DIR}/conf.py @ONLY )
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sphinx/source/conf.py.in ${CMAKE_CURRENT_BINARY_DIR}/conf.py @ONLY)
 
 add_custom_target(Documentation
         COMMAND ${SPHINX_EXECUTABLE} -c ${CMAKE_CURRENT_BINARY_DIR} -b html ${SPHINX_SOURCE} ${SPHINX_BUILD}

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="CMakeSharedSettings">
     <configurations>
-      <configuration PROFILE_NAME="Debug-WSL" ENABLED="true" GENERATION_DIR=".build/Debug-WSL" CONFIG_NAME="Debug" TOOLCHAIN_NAME="WSL" GENERATION_OPTIONS="-DCMAKE_TOOLCHAIN_FILE=.conan/build/Debug/generators/conan_toolchain.cmake" BUILD_OPTIONS="-- -j 6" />
+      <configuration PROFILE_NAME="Debug-WSL" ENABLED="true" GENERATION_DIR=".build/Debug-WSL" CONFIG_NAME="Debug" TOOLCHAIN_NAME="WSL" GENERATION_OPTIONS="-DCMAKE_TOOLCHAIN_FILE=.conan/build/Debug/generators/conan_toolchain.cmake -DPython_EXECUTABLE=$ProjectFileDir$/.python/venv-linux/bin/python" BUILD_OPTIONS="-- -j 6" />
       <configuration PROFILE_NAME="RelWithDebInfo-Visual Studio" ENABLED="true" GENERATION_DIR=".build/RelWithDebInfo" CONFIG_NAME="RelWithDebInfo" TOOLCHAIN_NAME="Visual Studio" GENERATION_OPTIONS="-G Ninja -DCMAKE_TOOLCHAIN_FILE=.conan/build/RelWithDebInfo/generators/conan_toolchain.cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON" />
       <configuration PROFILE_NAME="Debug-Visual Studio" ENABLED="true" GENERATION_DIR=".build/Debug" CONFIG_NAME="Debug" TOOLCHAIN_NAME="Visual Studio" GENERATION_OPTIONS="-G Ninja -DCMAKE_TOOLCHAIN_FILE=.conan/build/Debug/generators/conan_toolchain.cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON" />
       <configuration PROFILE_NAME="Release-Visual Studio" ENABLED="false" GENERATION_DIR=".build/Release" CONFIG_NAME="Release" TOOLCHAIN_NAME="Visual Studio" GENERATION_OPTIONS="-G Ninja -DCMAKE_TOOLCHAIN_FILE=.conan/build/Release/generators/conan_toolchain.cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON" />

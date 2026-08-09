@@ -1,8 +1,6 @@
-compilation_database_dir: ../../../.build/RelWithDebInfo
-output_directory: .
 add_compile_flags:
-  - /clang:-U__llvm__
-  - /clang:-fparse-all-comments
+  - -U__llvm__
+  - -fparse-all-comments
   - -D_CRT_USE_BUILTIN_OFFSETOF
   - -D__CLANG_UML__
 diagrams:

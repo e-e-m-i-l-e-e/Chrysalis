@@ -15,9 +15,8 @@ extensions = [
 ]
 
 breathe_projects = {
-    "Chrysalis": "@DOXYGEN_XML_DIR@"
+    @BREATHE_PROJECTS_LIST@
 }
-breathe_default_project = "Chrysalis"
 
 plantuml = "@PLANTUML@"
 plantuml_output_format = "svg"

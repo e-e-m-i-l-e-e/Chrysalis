@@ -9,7 +9,9 @@ set(LOGS_DIR "${CMAKE_SOURCE_DIR}/.logs" CACHE PATH "Directory for log files")
 list(APPEND CMAKE_PROGRAM_PATH "${CMAKE_SOURCE_DIR}/.misc")
 
 if (LINUX)
-    set(PYTHON "${CMAKE_SOURCE_DIR}/.python/venv-linux/bin/python" CACHE FILEPATH "Python interpreter" FORCE)
+    set(PYTHON_VENV_DIR "${CMAKE_SOURCE_DIR}/.python/venv-linux")
+    set(PYTHON_VENV_BIN "${PYTHON_VENV_DIR}/bin")
+    set(PYTHON "${PYTHON_VENV_BIN}/python" CACHE FILEPATH "Python interpreter" FORCE)
 
     add_compile_options(-fsanitize=address,undefined -fno-omit-frame-pointer -g)
     add_link_options(-fsanitize=address,undefined)
@@ -17,7 +19,10 @@ if (LINUX)
     add_compile_options(--coverage -fprofile-arcs -ftest-coverage)
     add_link_options(--coverage)
 else ()
-    set(PYTHON "${CMAKE_SOURCE_DIR}/.python/venv/Scripts/python.exe" CACHE FILEPATH "Python interpreter" FORCE)
+    set(PYTHON_VENV_DIR "${CMAKE_SOURCE_DIR}/.python/venv")
+    set(PYTHON_VENV_BIN "${PYTHON_VENV_DIR}/Scripts")
+    set(PYTHON "${PYTHON_VENV_BIN}/python.exe" CACHE FILEPATH "Python interpreter" FORCE)
+
     add_compile_options(/Zc:preprocessor)
 endif ()
 
