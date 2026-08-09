@@ -11,7 +11,7 @@ accordingly, and delete the patch script.
 changeBuildType(RelativeId("Build")) {
     params {
         add {
-            checkbox("generate.diagrams", "false", label = "Generate Diagrams",
+            checkbox("skip.diagrams", "false", label = "Skip Diagrams Generation",
                       checked = "true", unchecked = "false")
         }
     }
