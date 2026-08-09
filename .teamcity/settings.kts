@@ -55,7 +55,7 @@ object Build : BuildType({
 
                 conan remote add chrysalis-conan https://artifactory.lab.eemilee.me/artifactory/api/conan/chrysalis-conan --force
                 conan remote login chrysalis-conan %artifactory.user% -p %artifactory.api.key%
-                conan remote move chrysalis-conan 0
+                conan remote update --index 0 chrysalis-conan
 
                 conan export .recipes/polyhook2
                 conan export .recipes/clo-sdk
