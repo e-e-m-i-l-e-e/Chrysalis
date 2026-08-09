@@ -15,7 +15,7 @@ object Build : BuildType({
         param("artifactory.user", "admin")
         password("artifactory.api.key", "credentialsJSON:2811189a-9381-40ae-b4f7-e33e32bd5784")
 
-        password("filebrowser.api.key", "credentialsJSON:a25a4bd9-18c8-4ed8-87ce-4c12970ffb25")
+        password("filebrowser.api.key", "credentialsJSON:253bb83e-c3ba-4fb1-a712-2062d9c25331")
 
         checkbox("skip.tests", "true", label = "Skip Tests", checked = "true", unchecked = "false")
         checkbox("skip.diagrams", "true", label = "Skip Diagrams Generation", checked = "true", unchecked = "false")
@@ -114,16 +114,16 @@ object Build : BuildType({
                 curl --fail-with-body -X POST \
                   -H "Authorization: Bearer %filebrowser.api.key%" \
                   --data-binary @documentation.tar.gz \
-                  "https://filebrowser.lab.eemilee.me/api/resources?path=%2Ftemp%2Fdocumentation.tar.gz&source=RootFS&override=true"
+                  "https://filebrowser.lab.eemilee.me/api/resources?path=%2Ftemp%2Fdocumentation.tar.gz&source=srv&override=true"
 
                 curl --fail-with-body -X POST \
                   -H "Authorization: Bearer %filebrowser.api.key%" \
                   -H "Content-Type: application/json" \
                   -d '{
-                    "fromSource": "RootFS",
+                    "fromSource": "srv",
                     "path": "/temp/documentation.tar.gz",
                     "destination": "/static/chrysalis",
-                    "deleteAfter": false
+                    "deleteAfter": true
                   }' \
                   "https://filebrowser.lab.eemilee.me/api/resources/unarchive"
             """.trimIndent()
