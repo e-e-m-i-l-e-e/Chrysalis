@@ -18,7 +18,7 @@ object Build : BuildType({
         password("filebrowser.api.key", "credentialsJSON:a25a4bd9-18c8-4ed8-87ce-4c12970ffb25")
 
         checkbox("skip.tests", "true", label = "Skip Tests", checked = "true", unchecked = "false")
-        checkbox("skip.diagrams", "false", label = "Skip Diagrams Generation", checked = "true", unchecked = "false")
+        checkbox("skip.diagrams", "true", label = "Skip Diagrams Generation", checked = "true", unchecked = "false")
     }
 
     vcs {
@@ -97,7 +97,7 @@ object Build : BuildType({
             id = "Generate_Documentation"
             scriptContent = """
                 set -ex
-                cmake --build --preset conan-debug --target GenerateUML
+                [ "%skip.diagrams%" = "false" ] && cmake --build --preset conan-debug --target GenerateUML
                 cmake --build --preset conan-debug --target GenerateDoxygen
                 cmake --build --preset conan-debug --target Documentation
             """.trimIndent()
@@ -125,6 +125,10 @@ object Build : BuildType({
                 set -ex
                 ctest --preset conan-debug --output-on-failure
             """.trimIndent()
+
+            conditions {
+                equals("skip.tests", "false")
+            }
         }
     }
 
