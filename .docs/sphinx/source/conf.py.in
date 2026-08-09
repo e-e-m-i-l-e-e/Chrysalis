@@ -5,9 +5,10 @@ copyright = '2026, emilyyy0621@gmail.com'
 author = 'emilyyy0621@gmail.com'
 release = '1.0'
 
-sys.path.insert(0, os.path.join("@SPHINX_SOURCE@", "_ext"))
-documentation_root = "@DOCUMENTATION_DIR@"
+documentation_dir = "@DOCUMENTATION_DIR@"
+documentation_dir_relative = os.path.relpath(documentation_dir, "@SPHINX_SOURCE@")
 
+sys.path.insert(0, os.path.join("@SPHINX_SOURCE@", "_ext"))
 extensions = [
     "breathe",
     "rstjinja",

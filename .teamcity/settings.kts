@@ -25,6 +25,8 @@ object Build : BuildType({
             name = "Install Required Packages"
             id = "Install_Required_Packages"
             scriptContent = """
+                set -ex
+
                 sudo apt update
                 sudo apt install -y cmake build-essential pkg-config
             """.trimIndent()
@@ -33,7 +35,8 @@ object Build : BuildType({
             name = "Setup Python Virtual Environment"
             id = "Setup_Python_Virtual_Environment"
             scriptContent = """
-                set -e
+                set -ex
+
                 python3 -m venv .python/venv-linux
                 . .python/venv-linux/bin/activate
                 python -m pip install --upgrade pip
@@ -44,32 +47,55 @@ object Build : BuildType({
             name = "Setup Conan"
             id = "Setup_Conan"
             scriptContent = """
-                set -e
+                set -ex
+
                 . .python/venv-linux/bin/activate
+
+                conan config set core:default_profile=linux-host
+                conan config set core:default_build_profile=linux-build
+
                 conan remote add chrysalis-conan https://artifactory.lab.eemilee.me/artifactory/api/conan/chrysalis-conan --force
                 conan remote login chrysalis-conan %artifactory.user% -p %artifactory.api.key%
+                conan remote move chrysalis-conan 0
+
                 conan export .recipes/polyhook2
                 conan export .recipes/clo-sdk
-                conan download "qt/5.15.16" -r conancenter --only-recipe
-                conan download "qt/6.8.3" -r conancenter --only-recipe
+
+                conan download "qt/6.8.3" --only-recipe
+                conan download "qt/5.15.16" --only-recipe
+
                 git restore .conan/p
             """.trimIndent()
         }
         script {
-            name = "Conan Install And Push Dependencies"
-            id = "Conan_Install_And_Push_Dependencies"
+            name = "Chrysalis: Conan Install And Push Dependencies"
+            id = "Chrysalis_Conan_Install_And_Push_Dependencies"
             scriptContent = """
-                set -e
+                set -ex
+
                 . .python/venv-linux/bin/activate
-                conan install . --build=missing --output-folder=.conan -o app=Chrysalis -s build_type=Debug -pr:h linux-host -pr:b linux-build
-                conan upload "*" -r chrysalis-conan --confirm
+
+                conan install . --build=missing --output-folder=.conan -o app=Chrysalis -s build_type=Debug
+                conan upload "*" --confirm
+            """.trimIndent()
+        }
+        script {
+            name = "CLO3D: Conan Install And Push Dependencies"
+            id = "CLO3D_Conan_Install_And_Push_Dependencies"
+            scriptContent = """
+                set -ex
+
+                . .python/venv-linux/bin/activate
+
+                conan install . --build=missing --output-folder=.conan -o app=CLO3D -s build_type=RelWithDebInfo
+                conan upload "*" --confirm
             """.trimIndent()
         }
         script {
             name = "CMake Build"
             id = "CMake_Build"
             scriptContent = """
-                set -e
+                set -ex
                 cmake --preset conan-debug
                 cmake --build --preset conan-debug
             """.trimIndent()
@@ -78,7 +104,7 @@ object Build : BuildType({
             name = "Run Tests"
             id = "Run_Tests"
             scriptContent = """
-                set -e
+                set -ex
                 ctest --preset conan-debug --output-on-failure
             """.trimIndent()
         }

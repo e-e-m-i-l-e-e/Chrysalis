@@ -2,7 +2,7 @@ Chrysalis
 =========
 
 .. doxygenclass:: Chrysalis::Pattern
-   :project: Chrysalis
+   :project: Pattern
    :members:
    :protected-members:
    :private-members:
