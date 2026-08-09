@@ -51,8 +51,7 @@ object Build : BuildType({
 
                 . .python/venv-linux/bin/activate
 
-                conan config set core:default_profile=linux-host
-                conan config set core:default_build_profile=linux-build
+                cp .conan/linux-global.conf .conan/global.conf"
 
                 conan remote add chrysalis-conan https://artifactory.lab.eemilee.me/artifactory/api/conan/chrysalis-conan --force
                 conan remote login chrysalis-conan %artifactory.user% -p %artifactory.api.key%
