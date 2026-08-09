@@ -98,6 +98,14 @@ object Build : BuildType({
             """.trimIndent()
         }
         script {
+            name = "Upload Documentation"
+            id = "Upload_Documentation"
+            scriptContent = """
+                set -ex
+                tar -czf documentation.tar.gz docs/
+            """.trimIndent()
+        }
+        script {
             name = "Run Tests"
             id = "Run_Tests"
             scriptContent = """

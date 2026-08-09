@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.28.3)
 project(Chrysalis)
 
 set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE BOOL "Export compile_commands.json" FORCE)
 
 set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/BuildArtifacts")
 set(LOGS_DIR "${CMAKE_SOURCE_DIR}/.logs" CACHE PATH "Directory for log files")
