@@ -108,21 +108,21 @@ object Build : BuildType({
             scriptContent = """
                 set -ex
                 tar -czf documentation.tar.gz .conan/build/Debug/docs
-                curl -X POST \
+                curl --fail-with-body -X POST \
                   -H "Authorization: Bearer %filebrowser.api.key%" \
                   --data-binary @documentation.tar.gz \
                   "https://filebrowser.lab.eemilee.me/api/resources?path=%2Ftemp%2Fdocumentation.tar.gz&source=RootFS&override=true"
 
-                curl -X POST \
+                curl --fail-with-body -X POST \
                   -H "Authorization: Bearer %filebrowser.api.key%" \
                   -H "Content-Type: application/json" \
-                  "https://filebrowser.lab.eemilee.me/api/resources/unarchive" \
                   -d '{
                     "fromSource": "RootFS",
                     "path": "/temp/documentation.tar.gz",
                     "destination": "/static/chrysalis/docs",
                     "deleteAfter": true
-                  }'
+                  }' \
+                  "https://filebrowser.lab.eemilee.me/api/resources/unarchive"
             """.trimIndent()
         }
         script {

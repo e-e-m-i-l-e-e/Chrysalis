@@ -2,8 +2,8 @@ from conan import ConanFile
 from conan.tools.cmake import cmake_layout
 from conan.tools.cmake import CMakeToolchain, CMakeDeps
 
-class FashionDesignAppsConan(ConanFile):
-    name = "FashionDesignApps"
+class ChrysalisConan(ConanFile):
+    name = "Chrysalis"
     version = "1.0.0"
 
     settings = "os", "arch", "compiler", "build_type"
