@@ -34,7 +34,7 @@ object Build : BuildType({
 
                 sudo add-apt-repository ppa:bkryza/clang-uml
                 sudo apt update
-                sudo apt install -y cmake build-essential pkg-config clang-uml
+                sudo apt install -y cmake build-essential pkg-config clang-uml gcovr
             """.trimIndent()
         }
         script {
