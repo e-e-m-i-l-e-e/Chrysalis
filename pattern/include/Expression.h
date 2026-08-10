@@ -6,7 +6,11 @@
 #include "arguments/BaseCalculatedArgument.h"
 
 namespace Chrysalis {
-    class Expression: public BaseNamedElement, public BaseCalculatedArgument<double> {
+    struct ExpressionValue {
+        operator double() const;
+        double value;
+    };
+    class Expression: public BaseNamedElement, public BaseCalculatedArgument<ExpressionValue> {
         PROVIDE_DEFAULT_SERIALIZATION_ACCESS(Expression)
         SERIALIZE_DERIVED_FROM(BaseNamedElement, expression_)
     public:
@@ -15,13 +19,10 @@ namespace Chrysalis {
 
         [[nodiscard]] bool isValid() const override;
     protected:
-        double calculate() const override;
+        ExpressionValue calculate() const override;
     private:
         const args::number* expression_;
     };
-    namespace args {
-        using expr = Expression;
-    }
     using ExpressionsContainer = ScopedNamedElementsContainer<Expression>;
 }
 

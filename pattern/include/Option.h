@@ -6,8 +6,12 @@
 #include "ScopedNamedElementsContainer.h"
 
 namespace Chrysalis {
-    class Option: public BaseNamedElement, public Argument<bool> {
-        explicit Option(): Argument(false) {};
+    struct OptionValue {
+        operator bool() const;
+        bool value;
+    };
+    class Option: public BaseNamedElement, public Argument<OptionValue> {
+        explicit Option(): Argument({false}) {};
         friend boost::serialization::access;
         template <class Archive>
         void serialize(Archive& archive, const unsigned int) {

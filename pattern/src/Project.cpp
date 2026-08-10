@@ -15,6 +15,7 @@
 #include "arguments/ExpressionArgument.h"
 #include "arguments/VectorFunctionArgument.h"
 #include "arguments/OptionalArgument.h"
+#include "arguments/OptionArgument.h"
 #include "arguments/OriginPointArgument.h"
 
 #include "instructions/CurveInstruction.h"
@@ -63,7 +64,7 @@ BOOST_CLASS_EXPORT(Chrysalis::Expression)
 BOOST_CLASS_EXPORT(Chrysalis::OptionsContainer)
 BOOST_CLASS_EXPORT(Chrysalis::ExpressionsContainer)
 BOOST_CLASS_EXPORT(Chrysalis::Argument<double>)
-// BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::OptionalArgument<PointArgument>)
+BOOST_CLASS_EXPORT(Chrysalis::OptionArgument)
 BOOST_CLASS_EXPORT(Chrysalis::ExpressionArgument)
 BOOST_CLASS_EXPORT(Chrysalis::OriginPointArgument)
 BOOST_CLASS_EXPORT(Chrysalis::PatternPointArgument)
@@ -92,6 +93,7 @@ Project::Project(std::string name, ProjectSpace* space, PatternsContainer* patte
 
 Project::~Project() {
     delete space_;
+    delete options_;
     delete patterns_;
     delete parameters_;
     delete expressions_;

@@ -14,5 +14,5 @@ bool ExpressionArgument::isValid() const {
 }
 
 double ExpressionArgument::calculate() const {
-    return expressions_->get(name_->get())->get();
+    return expressions_->get(name_->get())->get().value;
 }

@@ -7,8 +7,8 @@ using namespace Chrysalis;
 Composer::PatternInstructions::PatternInstructions(args::patterns* selectedPatterns) {
     patterns = selectedPatterns;
     instructions = new PatternInstructionsContainer(
-        Instructions::instructionsContainer->options(),
-        Instructions::instructionsContainer->expressions(),
+        new OptionsContainer(Instructions::instructionsContainer->options()),
+        new ExpressionsContainer(Instructions::instructionsContainer->expressions()),
         patterns
     );
 }

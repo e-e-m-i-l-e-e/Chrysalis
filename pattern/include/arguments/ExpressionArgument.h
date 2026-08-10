@@ -20,6 +20,9 @@ namespace Chrysalis {
         /// @uml{composition}
         const args::name* name_;
     };
+    namespace args {
+        using expr = Expression;
+    }
     SERIALIZE_DERIVED_CONSTRUCTION(ExpressionArgument, BaseCalculatedArgument<double>, expressions_, name_)
 }
 

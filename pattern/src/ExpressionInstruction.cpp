@@ -1,12 +1,23 @@
 #include "instructions/ExpressionInstruction.h"
+#include <iostream>
 
-Chrysalis::ExpressionInstruction::ExpressionInstruction(ExpressionsContainer* expressions, args::expr* expression)
-    : expressions_(expressions), expression_(expression) {}
+using namespace Chrysalis;
 
-bool Chrysalis::ExpressionInstruction::isValid() {
-    return expression_->isValid();
+ExpressionInstruction::ExpressionInstruction(ExpressionsContainer* expressions, const args::name* name, const args::number* value)
+    : expressions_(expressions), name_(name), value_(value) {}
+
+ExpressionInstruction::~ExpressionInstruction() {
+    delete name_;
+    delete value_;
 }
 
-void Chrysalis::ExpressionInstruction::execute() {
-    if (!expressions_->has(expression_->getName())) expressions_->add(expression_);
+bool ExpressionInstruction::isValid() {
+    return value_->isValid();
+}
+
+void ExpressionInstruction::execute() {
+    if (!expressions_->has(name_->get())) {
+        expressions_->add(new Expression(name_->get(), value_));
+        value_ = nullptr;
+    }
 }

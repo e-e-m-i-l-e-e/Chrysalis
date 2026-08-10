@@ -14,6 +14,10 @@ namespace Chrysalis {
     public:
         explicit BaseInstructionsContainer(OptionsContainer* options, ExpressionsContainer* expressions)
             : options_(options), expressions_(expressions) {}
+        ~BaseInstructionsContainer() override {
+            delete options_;
+            delete expressions_;
+        }
         bool isValid() override {
             return true;
         }

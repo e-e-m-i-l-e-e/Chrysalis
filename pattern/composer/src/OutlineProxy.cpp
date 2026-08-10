@@ -7,11 +7,11 @@
 using namespace Chrysalis;
 
 Proxy::Outline::Outline(const std::string& name)
-    : name_(new Argument(name)) {}
+    : name_(name) {}
 
-Proxy::Outline::Point::Point(const args::name* name, const PatternPointArgument* point)
+Proxy::Outline::Point::Point(const std::string& name, const PatternPointArgument* point)
     : name_(name) {
-    instructions_.push_back(new BuildOutlineInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), new Argument(*name_), point));
+    instructions_.push_back(new BuildOutlineInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), new Argument(name_), point));
 }
 
 Proxy::Outline::Point Proxy::Outline::operator>>(const PatternPointArgument* point) const {
@@ -19,7 +19,7 @@ Proxy::Outline::Point Proxy::Outline::operator>>(const PatternPointArgument* poi
 }
 
 Proxy::Outline::Point& Proxy::Outline::Point::operator>>(const PatternPointArgument* point) {
-    instructions_.push_back(new BuildOutlineInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), new Argument(*name_), point));
+    instructions_.push_back(new BuildOutlineInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), new Argument(name_), point));
     return *this;
 }
 

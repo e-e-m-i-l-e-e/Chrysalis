@@ -13,15 +13,15 @@ namespace Chrysalis::Proxy {
         explicit Outline(const std::string& name);
         Point operator>>(const PatternPointArgument* point) const;
     private:
-        const args::name* name_;
+        const std::string name_;
     };
     class Outline::Point {
     public:
-        explicit Point(const args::name* name, const PatternPointArgument* point);
+        explicit Point(const std::string& name, const PatternPointArgument* point);
         Point& operator>>(const PatternPointArgument* point);
         operator const std::vector<BasePatternInstruction*>&() const;
     private:
-        const args::name* name_;
+        const std::string name_;
         std::vector<BasePatternInstruction*> instructions_;
     };
 }

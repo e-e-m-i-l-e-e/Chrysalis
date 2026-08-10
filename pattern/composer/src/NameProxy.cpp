@@ -1,6 +1,7 @@
 #include "proxies/NameProxy.h"
 
 #include "arguments/ComparisonArgument.h"
+#include "arguments/OptionArgument.h"
 
 #include "initializers/Instructions.h"
 #include "initializers/PatternInstructions.h"
@@ -21,8 +22,8 @@ Proxy::Name::Vector::Line::Line(const args::name* name, const args::vector* vect
 Proxy::Name::Number::Number(const args::name* name, const args::number* number)
     : name_(name), number_(number) {}
 
-Proxy::Name::operator const Option*() const {
-    return Composer::Instructions::instructionsContainer->options()->get(name_->get());
+Proxy::Name::operator const OptionArgument*() const {
+    return new OptionArgument(Composer::Instructions::instructionsContainer->options(), name_);
 }
 
 Proxy::Name::operator const Argument<std::string>*() const {
@@ -57,7 +58,7 @@ Proxy::Name::Vector::Line::operator std::vector<BasePatternInstruction*>() const
 }
 
 Proxy::Condition::Number Proxy::operator<<(const double value, const Name& name) {
-    return Condition::Number(name, new Argument(value));
+    return Condition::Number(new OptionArgument(Composer::Instructions::instructionsContainer->options(), name), new Argument(value));
 }
 
 Proxy::Name::Number Proxy::Name::operator=(const double value) const {
@@ -76,5 +77,5 @@ const args::condition* Proxy::Name::operator<(const Name& other) const {
 }
 
 Proxy::Name::Number::operator std::vector<BaseInstruction*>() const {
-    return {new ExpressionInstruction(Composer::Instructions::instructionsContainer->expressions(), new Expression(name_->get(), number_))};
+    return {new ExpressionInstruction(Composer::Instructions::instructionsContainer->expressions(), name_, number_)};
 }

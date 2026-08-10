@@ -6,6 +6,7 @@
 #include "ConditionProxy.h"
 #include "arguments/ConditionalArgument.h"
 #include "arguments/ExpressionArgument.h"
+#include "arguments/OptionArgument.h"
 #include "arguments/VectorArgument.h"
 #include "instructions/BasePatternInstruction.h"
 
@@ -16,9 +17,9 @@ namespace Chrysalis::Proxy {
         class Number;
         explicit Name(const std::string& name);
 
-        operator const Option*() const;
         operator const args::name*() const;
         operator const args::number&() const;
+        operator const OptionArgument*() const;
         operator const PatternPointArgument*() const;
 
         Number operator=(double value) const;

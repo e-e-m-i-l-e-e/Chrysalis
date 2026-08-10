@@ -9,13 +9,13 @@
 #include "arguments/PatternPointArgument.h"
 
 namespace Chrysalis {
+    /**
+     * @uml{note[top] Syntax samples:
+     * B -10-> A <-15- C}
+     */
     class MovePointInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(MovePointInstruction)
     public:
-        /**
-         * @uml{note[top] Syntax samples:
-         * B -10-> A <-15- C}
-         */
         explicit MovePointInstruction(ProjectSpace* space, args::patterns* patterns, const PatternPointArgument* point,
                                         const args::vector* vector1, const args::optional<args::vector>* vector2);
         ~MovePointInstruction() override;

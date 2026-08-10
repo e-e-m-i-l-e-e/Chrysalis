@@ -17,7 +17,7 @@ object Build : BuildType({
 
         password("filebrowser.api.key", "credentialsJSON:11fe4b58-4972-4bd2-9b84-f87664304acc")
 
-        checkbox("skip.tests", "true", label = "Skip Tests", checked = "true", unchecked = "false")
+        checkbox("skip.tests", "false", label = "Skip Tests", checked = "true", unchecked = "false")
         checkbox("skip.diagrams", "true", label = "Skip Diagrams Generation", checked = "true", unchecked = "false")
     }
 
@@ -94,12 +94,25 @@ object Build : BuildType({
             """.trimIndent()
         }
         script {
+            name = "Run Tests"
+            id = "Run_Tests"
+            scriptContent = """
+                set -ex
+                ctest --preset conan-debug --output-on-failure
+            """.trimIndent()
+
+            conditions {
+                equals("skip.tests", "false")
+            }
+        }
+        script {
             name = "Generate Documentation"
             id = "Generate_Documentation"
             scriptContent = """
                 set -ex
                 [ "%skip.diagrams%" = "false" ] && cmake --build --preset conan-debug --target GenerateUML
                 cmake --build --preset conan-debug --target GenerateDoxygen
+                gcovr --root . --build-dir .conan/build/Debug --html-details .conan/build/Debug/docs/index.html --print-summary
                 cmake --build --preset conan-debug --target Documentation
             """.trimIndent()
         }
@@ -128,18 +141,6 @@ object Build : BuildType({
                   }' \
                   "https://filebrowser.lab.eemilee.me/api/resources/unarchive"
             """.trimIndent()
-        }
-        script {
-            name = "Run Tests"
-            id = "Run_Tests"
-            scriptContent = """
-                set -ex
-                ctest --preset conan-debug --output-on-failure
-            """.trimIndent()
-
-            conditions {
-                equals("skip.tests", "false")
-            }
         }
     }
 

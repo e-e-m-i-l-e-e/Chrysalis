@@ -17,24 +17,24 @@ ConditionalInstructionsContainerInitializer::True::True(const args::condition* c
     : condition_(condition), instructions_(instructions) {}
 
 ConditionalInstructionsContainerInitializer::True::operator std::vector<Chrysalis::BaseInstruction*>() const {
-    const auto trueInstructions = new BaseInstructionsContainer<BaseInstruction>(Instructions::instructionsContainer->options(), Instructions::instructionsContainer->expressions());
+    const auto trueInstructions = new BaseInstructionsContainer<BaseInstruction>(new OptionsContainer(Instructions::instructionsContainer->options()), new ExpressionsContainer(Instructions::instructionsContainer->expressions()));
     for (const auto& instructions: instructions_) {
         for (const auto& instruction: instructions) {
             trueInstructions->add(instruction);
         }
     }
-    const auto falseInstructions = new BaseInstructionsContainer<BaseInstruction>(Instructions::instructionsContainer->options(), Instructions::instructionsContainer->expressions());
+    const auto falseInstructions = new BaseInstructionsContainer<BaseInstruction>(new OptionsContainer(Instructions::instructionsContainer->options()), new ExpressionsContainer(Instructions::instructionsContainer->expressions()));
     return {new ConditionalInstructionsContainer(condition_, trueInstructions, falseInstructions)};
 }
 
 std::vector<Chrysalis::BaseInstruction*> ConditionalInstructionsContainerInitializer::True::operator<<(std::initializer_list<std::vector<BaseInstruction*>>&& instructionBlocks) const {
-    const auto trueInstructions = new BaseInstructionsContainer<BaseInstruction>(Instructions::instructionsContainer->options(), Instructions::instructionsContainer->expressions());
+    const auto trueInstructions = new BaseInstructionsContainer<BaseInstruction>(new OptionsContainer(Instructions::instructionsContainer->options()), new ExpressionsContainer(Instructions::instructionsContainer->expressions()));
     for (const auto& instructions: instructions_) {
         for (const auto& instruction: instructions) {
             trueInstructions->add(instruction);
         }
     }
-    const auto falseInstructions = new BaseInstructionsContainer<BaseInstruction>(Instructions::instructionsContainer->options(), Instructions::instructionsContainer->expressions());
+    const auto falseInstructions = new BaseInstructionsContainer<BaseInstruction>(new OptionsContainer(Instructions::instructionsContainer->options()), new ExpressionsContainer(Instructions::instructionsContainer->expressions()));
     for (const auto& instructions: instructionBlocks) {
         for (auto& instruction: instructions) {
             falseInstructions->add(instruction);
