@@ -113,7 +113,7 @@ object Build : BuildType({
                 [ "%skip.diagrams%" = "false" ] && cmake --build --preset conan-debug --target GenerateUML
                 cmake --build --preset conan-debug --target GenerateDoxygen
                 mkdir -p .conan/build/Debug/docs/coverage
-                gcovr --root . .conan/build/Debug --html-details .conan/build/Debug/docs/coverage/index.html --print-summary
+                gcovr --root . .conan/build/Debug --html-details .conan/build/Debug/docs/coverage/index.html --print-summary --exclude '.*\.qt/.*'
                 cmake --build --preset conan-debug --target Documentation
             """.trimIndent()
         }
