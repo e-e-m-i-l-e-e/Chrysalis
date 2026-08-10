@@ -89,6 +89,7 @@ object Build : BuildType({
             id = "CMake_Build"
             scriptContent = """
                 set -ex
+                cmake --preset conan-debug
                 cmake --build --preset conan-debug
             """.trimIndent()
         }
