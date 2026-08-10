@@ -30,6 +30,8 @@
 #include "instructions/PatternInstructionsContainer.h"
 #include "instructions/ConditionalInstructionsContainer.h"
 #include "instructions/DartInstruction.h"
+#include "instructions/ResetTransformationInstruction.h"
+#include "instructions/TransformInstruction.h"
 
 using namespace Chrysalis;
 
@@ -70,6 +72,8 @@ BOOST_CLASS_EXPORT(Chrysalis::OriginPointArgument)
 BOOST_CLASS_EXPORT(Chrysalis::PatternPointArgument)
 BOOST_CLASS_EXPORT(Chrysalis::ConditionalArgument)
 
+BOOST_CLASS_EXPORT(Chrysalis::TransformInstruction)
+BOOST_CLASS_EXPORT(Chrysalis::ResetTransformationInstruction)
 BOOST_CLASS_EXPORT(Chrysalis::DartInstruction)
 BOOST_CLASS_EXPORT(Chrysalis::CurveInstruction)
 BOOST_CLASS_EXPORT(Chrysalis::ExpressionInstruction)
