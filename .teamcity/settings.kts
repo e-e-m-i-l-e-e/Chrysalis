@@ -15,7 +15,7 @@ object Build : BuildType({
         param("artifactory.user", "admin")
         password("artifactory.api.key", "credentialsJSON:2811189a-9381-40ae-b4f7-e33e32bd5784")
 
-        password("filebrowser.api.key", "credentialsJSON:909f2589-4026-4488-ad1f-3415b94b1ac7")
+        password("filebrowser.api.key", "credentialsJSON:424472cb-bb09-4125-8846-5a9100d7a57a")
 
         checkbox("skip.tests", "true", label = "Skip Tests", checked = "true", unchecked = "false")
         checkbox("skip.diagrams", "true", label = "Skip Diagrams Generation", checked = "true", unchecked = "false")
