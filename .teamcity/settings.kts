@@ -112,6 +112,7 @@ object Build : BuildType({
                 set -ex
                 [ "%skip.diagrams%" = "false" ] && cmake --build --preset conan-debug --target GenerateUML
                 cmake --build --preset conan-debug --target GenerateDoxygen
+                mkdir -p .conan/build/Debug/docs/coverage
                 gcovr --root . --build-dir .conan/build/Debug --html-details .conan/build/Debug/docs/coverage/index.html --print-summary
                 cmake --build --preset conan-debug --target Documentation
             """.trimIndent()
