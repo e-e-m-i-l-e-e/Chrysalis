@@ -11,10 +11,8 @@ namespace Chrysalis {
     public:
         explicit ExpressionArgument(const ExpressionsContainer* expressions, const args::name* name);
         ~ExpressionArgument() override;
-
-        [[nodiscard]] bool isValid() const override;
     protected:
-        double calculate() const override;
+        std::expected<double, Error> calculate() const override;
     private:
         const ExpressionsContainer* expressions_;
         /// @uml{composition}

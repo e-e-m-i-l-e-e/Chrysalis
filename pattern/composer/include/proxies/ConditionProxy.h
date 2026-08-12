@@ -9,11 +9,11 @@ namespace Chrysalis::Proxy {
     };
     class Condition::Number {
     public:
-        explicit Number(const args::condition* condition, const args::number* number);
-        const args::conditional& operator>>(double value) const;
+        explicit Number(const args::condition* condition, args::number&& number);
+        args::number operator>>(double value);
     private:
         const args::condition* condition_;
-        const args::number* number_;
+        args::number number_;
     };
 }
 

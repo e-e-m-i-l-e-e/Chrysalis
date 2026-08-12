@@ -10,10 +10,7 @@ namespace Chrysalis {
     public:
         explicit Argument(const T& value): value_(value) {}
 
-        [[nodiscard]] bool isValid() const override {
-            return true;
-        }
-        [[nodiscard]] const T& get() const override {
+        [[nodiscard]] std::expected<T, Error> get() const override {
             return value_;
         }
         void set(const T& value) {

@@ -10,17 +10,16 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(DartInstruction)
     public:
         explicit DartInstruction(ProjectSpace* space, args::patterns* patterns,
-                                 const PatternPointArgument* point, const args::number* intake,
+                                 const PatternPointArgument* point, args::number&& intake,
                                  const args::vector* top, const args::vector* bottom);
         ~DartInstruction() override;
 
-        bool isValid() override;
         void execute() override;
     private:
         /// @uml{composition}
         const PatternPointArgument* point_;
         /// @uml{composition}
-        const args::number* intake_;
+        args::number intake_;
         /// @uml{composition}
         const args::vector* top_;
         /// @uml{composition}

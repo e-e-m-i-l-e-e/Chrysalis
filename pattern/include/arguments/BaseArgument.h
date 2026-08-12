@@ -1,6 +1,10 @@
 #ifndef CHRYSALIS_BASEARGUMENT_H
 #define CHRYSALIS_BASEARGUMENT_H
 
+#include <memory>
+#include <expected>
+
+#include "Error.h"
 #include "CompositiveContainer.h"
 
 namespace Chrysalis {
@@ -12,11 +16,10 @@ namespace Chrysalis {
     public:
         virtual ~BaseArgument() = default;
 
-        [[nodiscard]] virtual bool isValid() const = 0;
-        [[nodiscard]] virtual const T& get() const = 0;
+        [[nodiscard]] virtual std::expected<T, Error> get() const = 0;
     };
     namespace args {
-        using number = BaseArgument<double>;
+        using number = std::unique_ptr<const BaseArgument<double>>;
         using condition = BaseArgument<bool>;
         template<typename T>
         using container = CompositiveContainer<T>;

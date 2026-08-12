@@ -2,42 +2,37 @@
 
 using namespace Chrysalis;
 
-BinaryFunctionArgument::BinaryFunctionArgument(const args::number* operand1, const args::number* operand2)
-    : operand1_(operand1), operand2_(operand2) {}
+BinaryFunctionArgument::BinaryFunctionArgument(args::number&& operand1, args::number&& operand2)
+    : operand1_(std::move(operand1)), operand2_(std::move(operand2)) {}
 
-BinaryFunctionArgument::~BinaryFunctionArgument() {
-    delete operand1_;
-    delete operand2_;
+std::expected<double, Error> BinaryFunctionArgument::calculate() const {
+    return operand1_->get().and_then([this](const double a) {
+        return operand2_->get().and_then([this, &a](const double b) {
+            return evaluate(a, b);
+        });
+    });
 }
 
-bool BinaryFunctionArgument::isValid() const {
-    return operand1_->isValid() && operand2_->isValid();
-}
-
-double BinaryFunctionArgument::calculate() const {
-    return evaluate(operand1_->get(), operand2_->get());
-}
-
-double BinaryFunctionArgument::Add::evaluate(const double a, const double b) const {
+std::expected<double, Error> BinaryFunctionArgument::Add::evaluate(const double a, const double b) const {
     return a + b;
 }
 
-double BinaryFunctionArgument::Subtract::evaluate(const double a, const double b) const {
+std::expected<double, Error> BinaryFunctionArgument::Subtract::evaluate(const double a, const double b) const {
     return a - b;
 }
 
-double BinaryFunctionArgument::Multiply::evaluate(const double a, const double b) const {
+std::expected<double, Error> BinaryFunctionArgument::Multiply::evaluate(const double a, const double b) const {
     return a * b;
 }
 
-double BinaryFunctionArgument::Divide::evaluate(const double a, const double b) const {
+std::expected<double, Error> BinaryFunctionArgument::Divide::evaluate(const double a, const double b) const {
     return a / b;
 }
 
-double BinaryFunctionArgument::Min::evaluate(const double a, const double b) const {
+std::expected<double, Error> BinaryFunctionArgument::Min::evaluate(const double a, const double b) const {
     return a < b ? a : b;
 }
 
-double BinaryFunctionArgument::Max::evaluate(const double a, const double b) const {
+std::expected<double, Error> BinaryFunctionArgument::Max::evaluate(const double a, const double b) const {
     return a > b ? a : b;
 }

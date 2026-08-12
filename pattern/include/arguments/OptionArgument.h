@@ -11,10 +11,8 @@ namespace Chrysalis {
     public:
         explicit OptionArgument(const OptionsContainer* options, const args::name* name);
         ~OptionArgument() override;
-
-        [[nodiscard]] bool isValid() const override;
     protected:
-        bool calculate() const override;
+        std::expected<bool, Error> calculate() const override;
     private:
         const OptionsContainer* options_;
         /// @uml{composition}

@@ -25,8 +25,8 @@ Proxy::Segment::And* Proxy::Segment::And::operator->() {
     return this;
 }
 
-Proxy::Number::Segment::And::Segment Proxy::Segment::And::Segment::operator()(const args::number& number) const {
-    return Number::Segment::And::Segment(&number, segment1_, segment2_);
+Proxy::Number::Segment::And::Segment Proxy::Segment::And::Segment::operator()(args::number&& number) const {
+    return Number::Segment::And::Segment(std::move(number), segment1_, segment2_);
 }
 
 Proxy::Line::Lines Proxy::Segment::operator|(const args::container<args::line>* lines) const {

@@ -25,7 +25,6 @@ namespace Chrysalis {
         ~BuildOutlineInstruction() override;
 
         void execute() override;
-        bool isValid() override;
     private:
         const args::name* outlineName_;
         const PatternPointArgument* point_;

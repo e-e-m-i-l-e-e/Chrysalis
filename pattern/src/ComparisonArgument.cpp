@@ -1,41 +1,38 @@
 #include "arguments/ComparisonArgument.h"
 
-Chrysalis::ComparisonArgument::ComparisonArgument(const args::number* value1, const args::number* value2)
-    : value1_(value1), value2_(value2) {}
+using namespace Chrysalis;
 
-Chrysalis::ComparisonArgument::~ComparisonArgument() {
-    delete value1_;
-    delete value2_;
+ComparisonArgument::ComparisonArgument(args::number&& value1, args::number&& value2)
+    : value1_(std::move(value1)), value2_(std::move(value2)) {}
+
+std::expected<bool, Error> ComparisonArgument::calculate() const {
+    return value1_.get()->get().and_then([this](const bool value1) {
+        return value2_.get()->get().transform([this, value1](const bool value2) {
+            return evaluate(value1, value2);
+        });
+    });
 }
 
-bool Chrysalis::ComparisonArgument::isValid() const {
-    return value1_->isValid() && value2_->isValid();
-}
-
-bool Chrysalis::ComparisonArgument::calculate() const {
-    return evaluate(value1_->get(), value2_->get());
-}
-
-bool Chrysalis::ComparisonArgument::Equal::evaluate(const double a, const double b) const {
+bool ComparisonArgument::Equal::evaluate(const double a, const double b) const {
     return a == b;
 }
 
-bool Chrysalis::ComparisonArgument::NotEqual::evaluate(const double a, const double b) const {
+bool ComparisonArgument::NotEqual::evaluate(const double a, const double b) const {
     return a != b;
 }
 
-bool Chrysalis::ComparisonArgument::Greater::evaluate(const double a, const double b) const {
+bool ComparisonArgument::Greater::evaluate(const double a, const double b) const {
     return a > b;
 }
 
-bool Chrysalis::ComparisonArgument::GreaterEqual::evaluate(const double a, const double b) const {
+bool ComparisonArgument::GreaterEqual::evaluate(const double a, const double b) const {
     return a >= b;
 }
 
-bool Chrysalis::ComparisonArgument::Less::evaluate(const double a, const double b) const {
+bool ComparisonArgument::Less::evaluate(const double a, const double b) const {
     return a < b;
 }
 
-bool Chrysalis::ComparisonArgument::LessEqual::evaluate(const double a, const double b) const {
+bool ComparisonArgument::LessEqual::evaluate(const double a, const double b) const {
     return a <= b;
 }

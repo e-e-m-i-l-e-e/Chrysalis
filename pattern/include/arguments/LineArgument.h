@@ -9,12 +9,12 @@ namespace Chrysalis {
     protected:
         explicit LineArgument(const args::point* origin, const args::point* destination);
     public:
-        explicit LineArgument(const args::point* origin, const args::number* angle);
+        explicit LineArgument(const args::point* origin, args::number&& angle);
         virtual ~LineArgument();
 
         [[nodiscard]] virtual bool isValid() const;
 
-        [[nodiscard]] const args::number* angle() const;
+        [[nodiscard]] const args::number& angle() const;
         [[nodiscard]] const args::point* origin() const;
 
         explicit operator CG::Line() const;
@@ -22,7 +22,7 @@ namespace Chrysalis {
         /// @uml{composition}
         const args::point* origin_;
         /// @uml{composition}
-        const args::number* angle_;
+        args::number angle_;
     };
     SERIALIZE_CONSTRUCTION(LineArgument, origin_, angle_)
     namespace args {

@@ -2,20 +2,17 @@
 
 using namespace Chrysalis;
 
-ConditionalArgument::ConditionalArgument(const args::condition* condition, const args::number* positive,
-                                         const args::number* negative)
-    : condition_(condition), positive_(positive), negative_(negative) {}
+ConditionalArgument::ConditionalArgument(const args::condition* condition, args::number&& positive,
+                                         args::number&& negative)
+    : condition_(condition), positive_(std::move(positive)), negative_(std::move(negative)) {}
 
 ConditionalArgument::~ConditionalArgument() {
     delete condition_;
-    delete positive_;
-    delete negative_;
 }
 
-bool ConditionalArgument::isValid() const {
-    return condition_->isValid() && positive_->isValid() && negative_->isValid();
-}
-
-double ConditionalArgument::calculate() const {
-    return condition_->get() ? positive_->get() : negative_->get();
+std::expected<double, Error> ConditionalArgument::calculate() const {
+    return condition_->get().and_then([this](const bool condition) {
+        const auto& result = condition ? positive_ : negative_;
+        return result.get()->get();
+    });
 }

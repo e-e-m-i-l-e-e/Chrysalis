@@ -11,12 +11,8 @@ TransformInstruction::~TransformInstruction() {
     delete to_;
 }
 
-bool TransformInstruction::isValid() {
-    return true;
-}
-
 void TransformInstruction::execute() {
     for (const auto pattern: *patterns_) {
-        pattern->transform(Transformation(from_->origin()->get(), *to_->origin()->get() - *from_->origin()->get(), to_->angle()->get() - from_->angle()->get()));
+        pattern->transform(Transformation(from_->origin()->get(), *to_->origin()->get() - *from_->origin()->get(), to_->angle()->get().value() - from_->angle()->get().value()));
     }
 }

@@ -42,6 +42,10 @@ CG::Point CG::mirror(const Point& point, const Point& center) {
     return center + (center - point);
 }
 
+CG::Point CG::relativePoint(const Point& pointFrom, const Vector& vector) {
+    return Point(pointFrom.x() + vector.x(), pointFrom.y() + vector.y());
+}
+
 CG::Point CG::relativePoint(const Point& pointFrom, double angle, double length) {
     angle = angle * CGAL_PI / 180;
     return Point(pointFrom.x() + length * cos(angle), pointFrom.y() + length * sin(angle));

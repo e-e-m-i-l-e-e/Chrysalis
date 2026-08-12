@@ -5,6 +5,7 @@
 #include <boost/serialization/list.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/serialization/optional.hpp>
+#include <boost/serialization/unique_ptr.hpp>
 #include <boost/serialization/unordered_map.hpp>
 
 // --- Helpers ---------------------------------------------------------------------------------------------------------
@@ -15,6 +16,7 @@
 #define ACCESS_FIELD_PTR(r, data, field) archive & obj->field;
 #define DECLARE_FIELD(r, data, field) decltype(obj->field) field;
 #define LOAD_BASE(r, data, base) archive & boost::serialization::base_object<base>(obj);
+#define FORWARD_MEMBER(r, data, field) std::forward<decltype((obj)->field)>(field)
 
 // --- Friends for constructors ----------------------------------------------------------------------------------------
 
@@ -91,7 +93,9 @@ void load_construct_data(Archive& archive, Class* obj, const unsigned int) {    
     BOOST_PP_LIST_FOR_EACH(DECLARE_FIELD, _, BOOST_PP_VARIADIC_TO_LIST(__VA_ARGS__))                                   \
     BOOST_PP_LIST_FOR_EACH(LOAD_FIELD, _, BOOST_PP_VARIADIC_TO_LIST(__VA_ARGS__))                                      \
   )                                                                                                                    \
-  ::new(obj) Class(__VA_ARGS__);                                                                                       \
+  ::new(obj) Class(                                                                                                    \
+      BOOST_PP_SEQ_ENUM(BOOST_PP_SEQ_TRANSFORM(FORWARD_MEMBER, _, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__)))              \
+  );                                                                                                                   \
 }
 
 #define SERIALIZATION_CONSTRUCTOR_T(Class, ...)                                                                        \

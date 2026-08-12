@@ -19,45 +19,45 @@ namespace Chrysalis::Proxy {
             };
         };
         explicit Number(double value);
-        explicit Number(const args::number* number);
-        operator const args::number*() const;
+        explicit Number(args::number&& number);
+        operator args::number&&();
     private:
-        const args::number* number_;
+        args::number number_;
     };
     class Number::Point {
     public:
         class Vector;
-        explicit Point(const args::number* number, const PatternPointArgument* point);
-        operator const args::number*() const;
+        explicit Point(args::number&& number, const PatternPointArgument* point);
+        operator args::number&&();
         operator const PatternPointArgument*() const;
     private:
-        const args::number* number_;
+        args::number number_;
         const PatternPointArgument* point_;
     };
     class Number::Point::Vector {
     public:
-        explicit Vector(const args::number* number, const PatternPointArgument* point, const args::vector* vector);
-        std::vector<BasePatternInstruction*> operator>>(const args::vector* vector) const;
+        explicit Vector(args::number&& number, const PatternPointArgument* point, const args::vector* vector);
+        std::vector<BasePatternInstruction*> operator>>(const args::vector* vector);
     private:
-        const args::number* number_;
+        args::number number_;
         const args::vector* vector_;
         const PatternPointArgument* point_;
     };
     class Number::Vector::Segment {
     public:
-        explicit Segment(const args::number* number, const args::vector* vector, const args::segment* segment);
-        operator std::vector<BasePatternInstruction*>() const;
+        explicit Segment(args::number&& number, const args::vector* vector, const args::segment* segment);
+        operator std::vector<BasePatternInstruction*>();
     private:
-        const args::number* number_;
+        args::number number_;
         const args::vector* vector_;
         const args::segment* segment_;
     };
     class Number::Segment::And::Segment {
     public:
-        explicit Segment(const args::number* number, const args::segment* segment1, const args::segment* segment2);
-        operator std::vector<BasePatternInstruction*>() const;
+        explicit Segment(args::number&& number, const args::segment* segment1, const args::segment* segment2);
+        operator std::vector<BasePatternInstruction*>();
     private:
-        const args::number* number_;
+        args::number number_;
         const args::segment* segment1_;
         const args::segment* segment2_;
     };

@@ -9,16 +9,14 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(ConditionalArgument)
     public:
         explicit ConditionalArgument(const args::condition* condition,
-                                     const args::number* positive, const args::number* negative);
+                                     args::number&& positive, args::number&& negative);
         ~ConditionalArgument() override;
-
-        [[nodiscard]] bool isValid() const override;
     protected:
-        double calculate() const override;
+        std::expected<double, Error> calculate() const override;
     private:
         const args::condition* condition_;
-        const args::number* positive_;
-        const args::number* negative_;
+        args::number positive_;
+        args::number negative_;
     };
     SERIALIZE_DERIVED_CONSTRUCTION(ConditionalArgument, BaseCalculatedArgument<double>, condition_, positive_, negative_)
     namespace args {

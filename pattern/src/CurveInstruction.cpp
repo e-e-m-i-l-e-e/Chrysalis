@@ -15,10 +15,6 @@ CurveInstruction::~CurveInstruction() {
     delete points_;
 }
 
-bool CurveInstruction::isValid() {
-    return from_->isValid() && to_->isValid();
-}
-
 void CurveInstruction::execute() {
     const auto segmentFrom = static_cast<CG::Segment>(*from_);
     const auto segmentTo = static_cast<CG::Segment>(*to_);

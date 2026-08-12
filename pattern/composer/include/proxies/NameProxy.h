@@ -18,14 +18,14 @@ namespace Chrysalis::Proxy {
         explicit Name(const std::string& name);
 
         operator const args::name*() const;
-        operator const args::number&() const;
+        operator args::number();
         operator const OptionArgument*() const;
         operator const PatternPointArgument*() const;
 
         Number operator=(double value) const;
-        Number operator=(const args::number& number) const;
-        const args::condition* operator<(const Name& other) const;
-        Proxy::Number::Point operator()(const args::number& number) const;
+        Number operator=(args::number&& number) const;
+        const args::condition* operator<(Name&& other);
+        Proxy::Number::Point operator()(args::number&& number) const;
         std::vector<BasePatternInstruction*> operator()(double x, double y) const;
     private:
         const args::name* name_;
@@ -52,11 +52,11 @@ namespace Chrysalis::Proxy {
     };
     class Name::Number {
     public:
-        explicit Number(const args::name* name, const args::number* number);
-        operator std::vector<BaseInstruction*>() const;
+        explicit Number(const args::name* name, args::number&& number);
+        operator std::vector<BaseInstruction*>();
     private:
         const args::name* name_;
-        const args::number* number_;
+        args::number number_;
     };
 }
 

@@ -18,9 +18,6 @@ namespace Chrysalis {
             delete options_;
             delete expressions_;
         }
-        bool isValid() override {
-            return true;
-        }
         void execute() override {
             for (const auto& instruction: *this) {
                 instruction->execute();

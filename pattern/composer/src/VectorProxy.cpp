@@ -7,26 +7,26 @@
 
 using namespace Chrysalis;
 
-Proxy::Vector::Vector(const args::point* origin, const args::number& angle, const args::number& length)
-    : vector_(new VectorArgument(origin, &angle, &length)) {}
+Proxy::Vector::Vector(const args::point* origin, args::number&& angle, args::number&& length)
+    : vector_(new VectorArgument(origin, std::move(angle), std::move(length))) {}
 
-Proxy::Vector::Vector(const args::point* origin, const args::number* angle, const double length)
-    : vector_(new VectorArgument(origin, angle, new Argument(length))) {}
+Proxy::Vector::Vector(const args::point* origin, args::number&& angle, const double length)
+    : vector_(new VectorArgument(origin, std::move(angle), std::make_unique<const Argument<double>>(length))) {}
 
-Proxy::Vector::Vector(const args::point* origin, const double angle, const args::number& length)
-    : vector_(new VectorArgument(origin, new Argument(angle), &length)) {}
+Proxy::Vector::Vector(const args::point* origin, const double angle, args::number&& length)
+    : vector_(new VectorArgument(origin, std::make_unique<const Argument<double>>(angle), std::move(length))) {}
 
 Proxy::Vector::Vector(const args::point* origin, const double angle, const double length)
-    : vector_(new VectorArgument(origin, new Argument(angle), new Argument(length))) {}
+    : vector_(new VectorArgument(origin, std::make_unique<const Argument<double>>(angle), std::make_unique<const Argument<double>>(length))) {}
 
-Proxy::Vector::Vector(const args::number& angle, const args::number& length)
-    : vector_(new VectorArgument(&angle, &length)) {}
+Proxy::Vector::Vector(args::number&& angle, args::number&& length)
+    : vector_(new VectorArgument(std::move(angle), std::move(length))) {}
 
-Proxy::Vector::Vector(const double angle, const args::number& length)
-    : vector_(new VectorArgument(new Argument(angle), &length)) {}
+Proxy::Vector::Vector(const double angle, args::number&& length)
+    : vector_(new VectorArgument(std::make_unique<const Argument<double>>(angle), std::move(length))) {}
 
 Proxy::Vector::Vector(const double angle, const double length)
-    : vector_(new VectorArgument(new Argument(angle), new Argument(length))) {}
+    : vector_(new VectorArgument(std::make_unique<const Argument<double>>(angle), std::make_unique<const Argument<double>>(length))) {}
 
 Proxy::Vector::And::And(const VectorArgument* vector): vector_(vector) {}
 
@@ -52,7 +52,7 @@ Proxy::Vector::And* Proxy::Vector::And::operator->() {
     return this;
 }
 
-Proxy::Number::Point::Vector Proxy::Vector::operator<<(const Number::Point args) const {
+Proxy::Number::Point::Vector Proxy::Vector::operator<<(Number::Point&& args) const {
     return Number::Point::Vector(args, args, *this);
 }
 
@@ -61,7 +61,7 @@ Proxy::Point::Vector Proxy::Vector::operator>>(const PatternPointArgument* point
 }
 
 Proxy::Number::Vector::Segment Proxy::Vector::Segment::operator()(const double number) const {
-    return Number::Vector::Segment(new Argument(number), vector_, segment_);
+    return Number::Vector::Segment(std::make_unique<const Argument<double>>(number), vector_, segment_);
 }
 
 Proxy::Vector::And::Vector::operator std::vector<BasePatternInstruction*>() const {

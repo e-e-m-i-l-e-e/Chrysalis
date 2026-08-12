@@ -4,58 +4,58 @@
 
 using namespace Chrysalis;
 
-const Argument<double>& Chrysalis::operator ""_(const long double number) {
-    return *new Argument(static_cast<double>(number));
+args::number Chrysalis::operator ""_(const long double number) {
+    return std::make_unique<const Argument<double>>(static_cast<double>(number));
 }
 
-const BinaryFunctionArgument& Chrysalis::operator+(const args::number& operand1, const args::number& operand2) {
-    return *new BinaryFunctionArgument::Add(&operand1, &operand2);
+std::unique_ptr<BinaryFunctionArgument> Chrysalis::operator+(args::number&& a, args::number&& b) {
+    return std::make_unique<BinaryFunctionArgument::Add>(std::move(a), std::move(b));
 }
 
-const BinaryFunctionArgument& Chrysalis::operator-(const args::number& operand1, const args::number& operand2) {
-    return *new BinaryFunctionArgument::Subtract(&operand1, &operand2);
+std::unique_ptr<BinaryFunctionArgument> Chrysalis::operator-(args::number&& a, args::number&& b) {
+    return std::make_unique<BinaryFunctionArgument::Subtract>(std::move(a), std::move(b));
 }
 
-const BinaryFunctionArgument& Chrysalis::operator*(const args::number& operand1, const args::number& operand2) {
-    return *new BinaryFunctionArgument::Multiply(&operand1, &operand2);
+std::unique_ptr<BinaryFunctionArgument> Chrysalis::operator*(args::number&& a, args::number&& b) {
+    return std::make_unique<BinaryFunctionArgument::Multiply>(std::move(a), std::move(b));
 }
 
-const BinaryFunctionArgument& Chrysalis::operator/(const args::number& operand1, const args::number& operand2) {
-    return *new BinaryFunctionArgument::Divide(&operand1, &operand2);
+std::unique_ptr<BinaryFunctionArgument> Chrysalis::operator/(args::number&& a, args::number&& b) {
+    return std::make_unique<BinaryFunctionArgument::Divide>(std::move(a), std::move(b));
 }
 
-const BinaryFunctionArgument& Chrysalis::operator+(const args::number& a, const double b) {
-    return *new BinaryFunctionArgument::Add(&a, new Argument(b));
+std::unique_ptr<BinaryFunctionArgument> Chrysalis::operator+(args::number&& a, const double b) {
+    return std::make_unique<BinaryFunctionArgument::Add>(std::move(a), std::make_unique<const Argument<double>>(b));
 }
 
-const BinaryFunctionArgument& Chrysalis::operator-(const args::number& a, const double b) {
-    return *new BinaryFunctionArgument::Subtract(&a, new Argument(b));
+std::unique_ptr<BinaryFunctionArgument> Chrysalis::operator-(args::number&& a, const double b) {
+    return std::make_unique<BinaryFunctionArgument::Subtract>(std::move(a), std::make_unique<const Argument<double>>(b));
 }
 
-const BinaryFunctionArgument& Chrysalis::operator*(const args::number& a, const double b) {
-    return *new BinaryFunctionArgument::Multiply(&a, new Argument(b));
+std::unique_ptr<BinaryFunctionArgument> Chrysalis::operator*(args::number&& a, const double b) {
+    return std::make_unique<BinaryFunctionArgument::Multiply>(std::move(a), std::make_unique<const Argument<double>>(b));
 }
 
-const BinaryFunctionArgument& Chrysalis::operator/(const args::number& a, const double b) {
-    return *new BinaryFunctionArgument::Divide(&a, new Argument(b));
+std::unique_ptr<BinaryFunctionArgument> Chrysalis::operator/(args::number&& a, const double b) {
+    return std::make_unique<BinaryFunctionArgument::Divide>(std::move(a), std::make_unique<const Argument<double>>(b));
 }
 
-const BinaryFunctionArgument& Chrysalis::operator+(const double a, const args::number& b) {
-    return *new BinaryFunctionArgument::Add(new Argument(a), &b);
+std::unique_ptr<BinaryFunctionArgument> Chrysalis::operator+(const double a, args::number&& b) {
+    return std::make_unique<BinaryFunctionArgument::Add>(std::make_unique<const Argument<double>>(a), std::move(b));
 }
 
-const BinaryFunctionArgument& Chrysalis::operator-(const double a, const args::number& b) {
-    return *new BinaryFunctionArgument::Subtract(new Argument(a), &b);
+std::unique_ptr<BinaryFunctionArgument> Chrysalis::operator-(const double a, args::number&& b) {
+    return std::make_unique<BinaryFunctionArgument::Subtract>(std::make_unique<const Argument<double>>(a), std::move(b));
 }
 
-const BinaryFunctionArgument& Chrysalis::operator*(const double a, const args::number& b) {
-    return *new BinaryFunctionArgument::Multiply(new Argument(a), &b);
+std::unique_ptr<BinaryFunctionArgument> Chrysalis::operator*(const double a, args::number&& b) {
+    return std::make_unique<BinaryFunctionArgument::Multiply>(std::make_unique<const Argument<double>>(a), std::move(b));
 }
 
-const BinaryFunctionArgument& Chrysalis::operator/(const double a, const args::number& b) {
-    return *new BinaryFunctionArgument::Divide(new Argument(a), &b);
+std::unique_ptr<BinaryFunctionArgument> Chrysalis::operator/(const double a, args::number&& b) {
+    return std::make_unique<BinaryFunctionArgument::Divide>(std::make_unique<const Argument<double>>(a), std::move(b));
 }
 
-const args::condition* Chrysalis::operator<(const args::number& a, const args::number& b) {
-    return new args::compare::Less(&a, &b);
+const args::condition* Chrysalis::operator<(args::number&& a, args::number&& b) {
+    return new args::compare::Less(std::move(a), std::move(b));
 }

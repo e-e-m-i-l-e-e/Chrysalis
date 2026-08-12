@@ -14,7 +14,6 @@ namespace Chrysalis {
                                                   const BaseInstructionsContainer<BaseInstruction>* negative);
         ~ConditionalInstructionsContainer() override;
 
-        bool isValid() override;
         void execute() override;
     private:
         const args::condition* condition_;

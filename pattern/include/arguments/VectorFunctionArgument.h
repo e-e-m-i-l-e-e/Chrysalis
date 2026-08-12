@@ -23,11 +23,9 @@ namespace Chrysalis {
 #define FORWARD_DECLARE(r, data, Name) class Name;
         BOOST_PP_SEQ_FOR_EACH(FORWARD_DECLARE, _, VECTOR_FUNCTIONS)
 #undef FORWARD_DECLARE
-
-        bool isValid() const override;
     protected:
-        double calculate() const override;
-        virtual double evaluate(const CG::Point& from, const CG::Point& to) const = 0;
+        std::expected<double, Error> calculate() const override;
+        virtual std::expected<double, Error> evaluate(const CG::Point& from, const CG::Point& to) const = 0;
 
         /// @uml{composition}
         const args::point* from_;
@@ -41,7 +39,7 @@ namespace Chrysalis {
     public:                                                                                                            \
         explicit Name(const args::point* from, const args::point* to): VectorFunctionArgument(from, to) {}             \
     protected:                                                                                                         \
-        double evaluate(const CG::Point& from, const CG::Point& to) const override;                                    \
+        std::expected<double, Error> evaluate(const CG::Point& from, const CG::Point& to) const override;                                    \
     };                                                                                                                 \
     SERIALIZE_DERIVED_CONSTRUCTION(VectorFunctionArgument::Name, VectorFunctionArgument, from_, to_);
     BOOST_PP_SEQ_FOR_EACH(DECLARE_VECTOR_FUNCTION, _, VECTOR_FUNCTIONS)

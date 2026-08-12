@@ -20,7 +20,6 @@ namespace Chrysalis {
                                         const args::vector* vector1, const args::optional<args::vector>* vector2);
         ~MovePointInstruction() override;
 
-        bool isValid() override;
         void execute() override;
     private:
         const PatternPointArgument* point_;

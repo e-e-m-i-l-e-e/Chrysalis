@@ -11,20 +11,18 @@ namespace Chrysalis {
     protected:
         explicit VectorArgument(const args::point* origin, const args::point* destination);
     public:
-        explicit VectorArgument(const args::number* angle, const args::number* length);
-        explicit VectorArgument(const args::point* origin, const args::number* length);
-        explicit VectorArgument(const args::point* origin, const args::number* angle, const args::number* length);
-
-        ~VectorArgument() override;
+        explicit VectorArgument(args::number&& angle, args::number&& length);
+        explicit VectorArgument(const args::point* origin, args::number&& length);
+        explicit VectorArgument(const args::point* origin, args::number&& angle, args::number&& length);
 
         [[nodiscard]] bool isValid() const override;
-        [[nodiscard]] const args::number* length() const;
+        [[nodiscard]] const args::number& length() const;
 
         explicit operator CG::Vector() const;
         explicit virtual operator CG::Segment() const;
     private:
         /// @uml{composition}
-        const args::number* length_;
+        args::number length_;
     };
     SERIALIZE_DERIVED_CONSTRUCTION(VectorArgument, RayArgument, origin_, angle_, length_)
     namespace args {

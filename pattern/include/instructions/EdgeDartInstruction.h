@@ -13,10 +13,9 @@ namespace Chrysalis {
     public:
         explicit EdgeDartInstruction(ProjectSpace* space, args::patterns* patterns,
                                      const args::segment* edge, const args::vector* dart,
-                                     const args::number* leg1Intake, const args::optional<args::number>* leg2Intake);
+                                     args::number&& leg1Intake, const args::optional<args::number>* leg2Intake);
         ~EdgeDartInstruction() override;
 
-        bool isValid() override;
         void execute() override;
     private:
         /// @uml{composition}
@@ -24,7 +23,7 @@ namespace Chrysalis {
         /// @uml{composition}
         const args::vector* dart_;
         /// @uml{composition}
-        const args::number* leg1Intake_;
+        args::number leg1Intake_;
         /// @uml{composition}
         const args::optional<args::number>* leg2Intake_;
     };

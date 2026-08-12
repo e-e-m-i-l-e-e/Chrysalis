@@ -10,7 +10,7 @@ namespace Chrysalis::Proxy {
         class Vector;
         explicit Point(const PatternPointArgument* point);
         operator const PatternPointArgument*() const;
-        Proxy::Number operator()(const args::number& number) const;
+        Proxy::Number operator()(args::number&& number) const;
     private:
         const PatternPointArgument* point_;
     };

@@ -9,7 +9,6 @@ namespace Chrysalis {
     public:
         explicit ResetTransformationInstruction(ProjectSpace* space, args::patterns* patterns);
 
-        bool isValid() override;
         void execute() override;
     };
     SERIALIZE_DERIVED_CONSTRUCTION(ResetTransformationInstruction, BasePatternInstruction, space_, patterns_);

@@ -14,14 +14,11 @@ namespace Chrysalis {
         PROVIDE_DEFAULT_SERIALIZATION_ACCESS(Expression)
         SERIALIZE_DERIVED_FROM(BaseNamedElement, expression_)
     public:
-        explicit Expression(const std::string& name, const args::number* expression);
-        ~Expression() override;
-
-        [[nodiscard]] bool isValid() const override;
+        explicit Expression(const std::string& name, args::number&& expression);
     protected:
-        ExpressionValue calculate() const override;
+        std::expected<ExpressionValue, Error> calculate() const override;
     private:
-        const args::number* expression_;
+        args::number expression_;
     };
     using ExpressionsContainer = ScopedNamedElementsContainer<Expression>;
 }

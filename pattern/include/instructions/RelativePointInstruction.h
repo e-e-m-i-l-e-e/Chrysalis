@@ -27,7 +27,6 @@ namespace Chrysalis {
                                           const args::optional<args::line>* line);
         ~RelativePointInstruction() override;
 
-        bool isValid() override;
         void execute() override;
     private:
         const args::name* name_;

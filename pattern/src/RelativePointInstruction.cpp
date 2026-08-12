@@ -17,31 +17,18 @@ RelativePointInstruction::~RelativePointInstruction() {
     delete line_;
 }
 
-bool RelativePointInstruction::isValid() {
-    if (!dynamic_cast<const PatternPointArgument*>(vector_->origin())) {
-        std::unordered_set<const Point*> points;
-        for (const auto& patternSpace: *patterns_) {
-            const Point* lastPoint = patternSpace->getPoint(name_->get());
-            if (!lastPoint) return false;
-            points.insert(lastPoint);
-        }
-        if (points.size() != 1) return false;
-    }
-    return vector_->isValid();
-}
-
 void RelativePointInstruction::execute() {
     Point* point;
     const Point* pointFrom = dynamic_cast<const PatternPointArgument*>(vector_->origin()) ? dynamic_cast<const PatternPointArgument*>(vector_->origin())->get() : patterns_->onAny(&PatternSpace::getLastPoint);
     if (line_->hasArgument()) {
         const auto projection = CG::projection(*pointFrom, static_cast<CG::Line>(*line_->argument()));
-        const double distance = sqrt(pow(vector_->length()->get(), 2) + CGAL::squared_distance<CG::LinearKernel>(*pointFrom, projection));
-        point = space().addPoint(CG::relativePoint(projection, line_->argument()->angle()->get(), distance));
+        const double distance = sqrt(pow(vector_->length()->get().value(), 2) + CGAL::squared_distance<CG::LinearKernel>(*pointFrom, projection));
+        point = space().addPoint(CG::relativePoint(projection, line_->argument()->angle()->get().value(), distance));
     } else {
-        point = space().addPoint(CG::relativePoint(*pointFrom, vector_->angle()->get(), vector_->length()->get()));
+        point = space().addPoint(CG::relativePoint(*pointFrom, vector_->angle()->get().value(), vector_->length()->get().value()));
     }
     for (const auto& patternSpace: *patterns_) {
-        patternSpace->addPoint(name_->get(), point);
+        patternSpace->addPoint(name_->get().value(), point);
         patternSpace->notify(&PatternSpaceObserver::relativePointConnectionAdded, pointFrom, point);
     }
 }

@@ -4,10 +4,10 @@
 #include "Project.h"
 #include "arguments/BinaryFunctionArgument.h"
 
-#define _min_(operand1, operand2) *new BinaryFunctionArgument::Min(&operand1, &operand2)
+#define _min_(operand1, operand2) std::make_unique<BinaryFunctionArgument::Min>(operand1, operand2)
 #define _ray_(origin, angle) Proxy::Ray(_point_(origin), angle)
 #define _point_(pointName) Proxy::Name(PointName::pointName)
-#define _param_(parameterName) *new ParameterArgument(project_->getParameters()->get(ParameterName::parameterName))
+#define _param_(parameterName) std::make_unique<ParameterArgument>(project_->getParameters()->get(ParameterName::parameterName))
 #define _option_(optionName) Proxy::Name(Options::optionName)
 #define _outline_(outlineName) Proxy::Outline(OutlineName::outlineName)
 #define _expression_(expressionName) Proxy::Name(Expressions::expressionName)
@@ -17,8 +17,8 @@
 #define left 180
 #define down 270
 
-#define _angle_(from, to) *new VectorFunctionArgument::Angle(_point_(from), _point_(to))
-#define _length_(from, to) *new VectorFunctionArgument::Length(_point_(from), _point_(to))
+#define _angle_(from, to) std::make_unique<VectorFunctionArgument::Angle>(_point_(from), _point_(to))
+#define _length_(from, to) std::make_unique<VectorFunctionArgument::Length>(_point_(from), _point_(to))
 
 #define VECTOR_2(angle, length) Proxy::Vector(angle, length)
 #define VECTOR_3(origin, angle, length) Proxy::Vector(_point_(origin), angle, length)
@@ -38,24 +38,24 @@ BOOST_PP_SEQ_ENUM(BOOST_PP_SEQ_TRANSFORM(REPEAT_SEGMENT, ~, BOOST_PP_VARIADIC_TO
 #define edge(from, to) Proxy::Segment(_segment_(from, to))
 
 namespace Chrysalis {
-    const Argument<double>& operator""_(long double number);
+    args::number operator""_(long double number);
 
-    const BinaryFunctionArgument& operator+(const args::number& a, const args::number& b);
-    const BinaryFunctionArgument& operator-(const args::number& a, const args::number& b);
-    const BinaryFunctionArgument& operator*(const args::number& a, const args::number& b);
-    const BinaryFunctionArgument& operator/(const args::number& a, const args::number& b);
+    std::unique_ptr<BinaryFunctionArgument> operator+(args::number&& a, args::number&& b);
+    std::unique_ptr<BinaryFunctionArgument> operator-(args::number&& a, args::number&& b);
+    std::unique_ptr<BinaryFunctionArgument> operator*(args::number&& a, args::number&& b);
+    std::unique_ptr<BinaryFunctionArgument> operator/(args::number&& a, args::number&& b);
 
-    const BinaryFunctionArgument& operator+(const args::number& a, double b);
-    const BinaryFunctionArgument& operator-(const args::number& a, double b);
-    const BinaryFunctionArgument& operator*(const args::number& a, double b);
-    const BinaryFunctionArgument& operator/(const args::number& a, double b);
+    std::unique_ptr<BinaryFunctionArgument> operator+(args::number&& a, double b);
+    std::unique_ptr<BinaryFunctionArgument> operator-(args::number&& a, double b);
+    std::unique_ptr<BinaryFunctionArgument> operator*(args::number&& a, double b);
+    std::unique_ptr<BinaryFunctionArgument> operator/(args::number&& a, double b);
 
-    const BinaryFunctionArgument& operator+(double a, const args::number& b);
-    const BinaryFunctionArgument& operator-(double a, const args::number& b);
-    const BinaryFunctionArgument& operator*(double a, const args::number& b);
-    const BinaryFunctionArgument& operator/(double a, const args::number& b);
+    std::unique_ptr<BinaryFunctionArgument> operator+(double a, args::number&& b);
+    std::unique_ptr<BinaryFunctionArgument> operator-(double a, args::number&& b);
+    std::unique_ptr<BinaryFunctionArgument> operator*(double a, args::number&& b);
+    std::unique_ptr<BinaryFunctionArgument> operator/(double a, args::number&& b);
 
-    const args::condition* operator<(const args::number& a, const args::number& b);
+    const args::condition* operator<(args::number&& a, args::number&& b);
 }
 
 #endif //CHRYSALIS_COMPOSER_H

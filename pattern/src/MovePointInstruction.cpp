@@ -12,18 +12,14 @@ Chrysalis::MovePointInstruction::~MovePointInstruction() {
     delete vector2_;
 }
 
-bool Chrysalis::MovePointInstruction::isValid() {
-    return point_->isValid() && vector1_->isValid();
-}
-
 void Chrysalis::MovePointInstruction::execute() {
     if (vector2_->hasArgument()) {
         space().movePoint(point_->get(), CG::circlesIntersection(
                               *point_->get(),
-                              *vector1_->origin()->get(), vector1_->length()->get(),
-                              *vector2_->argument()->origin()->get(), vector2_->argument()->length()->get()
+                              *vector1_->origin()->get(), vector1_->length()->get().value(),
+                              *vector2_->argument()->origin()->get(), vector2_->argument()->length()->get().value()
                           ));
     } else {
-        space().movePoint(point_->get(), CG::relativePoint(*point_->get(), vector1_->angle()->get(), vector1_->length()->get()));
+        space().movePoint(point_->get(), CG::relativePoint(*point_->get(), vector1_->angle()->get().value(), vector1_->length()->get().value()));
     }
 }

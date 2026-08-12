@@ -36,7 +36,7 @@ namespace Chrysalis::Proxy {
             class Number;
         };
         explicit Segment(const args::segment* segment1, const args::segment* segment2);
-        Number::Segment::And::Segment operator()(const args::number& number) const;
+        Number::Segment::And::Segment operator()(args::number&& number) const;
     private:
         const args::segment* segment1_;
         const args::segment* segment2_;

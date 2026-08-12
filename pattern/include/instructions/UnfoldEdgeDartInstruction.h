@@ -11,15 +11,14 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(UnfoldEdgeDartInstruction)
     public:
         explicit UnfoldEdgeDartInstruction(ProjectSpace* space, args::patterns* patterns,
-                                           const args::segment* edge, const args::segment* leg, const args::number* intake);
+                                           const args::segment* edge, const args::segment* leg, args::number&& intake);
         ~UnfoldEdgeDartInstruction() override;
 
-        bool isValid() override;
         void execute() override;
     private:
         const args::segment* edge_;
         const args::segment* leg_;
-        const args::number* intake_;
+        args::number intake_;
     };
     SERIALIZE_DERIVED_CONSTRUCTION(UnfoldEdgeDartInstruction, BasePatternInstruction, space_, patterns_, edge_, leg_, intake_)
 }

@@ -3,17 +3,12 @@
 using namespace Chrysalis;
 
 UnfoldEdgeDartInstruction::UnfoldEdgeDartInstruction(ProjectSpace* space, args::patterns* patterns,
-                                                     const args::segment* edge, const args::segment* leg, const args::number* intake)
-    : BasePatternInstruction(space, patterns), edge_(edge), leg_(leg), intake_(intake) {}
+                                                     const args::segment* edge, const args::segment* leg, args::number&& intake)
+    : BasePatternInstruction(space, patterns), edge_(edge), leg_(leg), intake_(std::move(intake)) {}
 
 UnfoldEdgeDartInstruction::~UnfoldEdgeDartInstruction() {
     delete edge_;
     delete leg_;
-    delete intake_;
-}
-
-bool UnfoldEdgeDartInstruction::isValid() {
-    return edge_->isValid() && leg_->isValid() && intake_->isValid();
 }
 
 void UnfoldEdgeDartInstruction::execute() {
@@ -25,7 +20,7 @@ void UnfoldEdgeDartInstruction::execute() {
     const auto leg2Point = space().addPoint(CG::circlesIntersection(
             *edgePointTo,
             *apexPoint, legLength,
-            *leg1Point, intake_->get())
+            *leg1Point, intake_->get().value())
     );
     const auto edgeAngle = CG::angle(*edgePointFrom, *edgePointTo);
     const auto dartAngle = CG::angle(*apexPoint - *leg1Point, *apexPoint - *leg2Point);
@@ -38,6 +33,6 @@ void UnfoldEdgeDartInstruction::execute() {
         pattern->notify(&PatternSpaceObserver::relativePointConnectionRemoved, edgePointFrom, leg1Point);
         pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, leg1Point, apexPoint);
         pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, apexPoint, leg2Point);
-        pattern->addPoint(leg_->origin()->name()->get() + "_1", leg2Point);
+        pattern->addPoint(leg_->origin()->name()->get().value() + "_1", leg2Point);
     }
 }

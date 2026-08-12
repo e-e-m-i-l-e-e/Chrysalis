@@ -15,7 +15,6 @@ namespace Chrysalis {
                                   const args::container<PatternPointArgument>* points);
         ~CurveInstruction() override;
 
-        bool isValid() override;
         void execute() override;
     private:
         /// @uml{composition}

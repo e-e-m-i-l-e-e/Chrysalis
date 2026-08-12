@@ -13,10 +13,6 @@ ConditionalInstructionsContainer::~ConditionalInstructionsContainer() {
     delete negative_;
 }
 
-bool ConditionalInstructionsContainer::isValid() {
-    return condition_->isValid();
-}
-
 void ConditionalInstructionsContainer::execute() {
     if (condition_->get()) {
         for (const auto& instruction: *positive_) {

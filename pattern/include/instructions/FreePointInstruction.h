@@ -1,11 +1,8 @@
 #ifndef CHRYSALIS_FREEPOINTINSTRUCTION_H
 #define CHRYSALIS_FREEPOINTINSTRUCTION_H
 
-#include <boost/serialization/export.hpp>
-
-#include "ProjectSpace.h"
 #include "arguments/Argument.h"
-#include "BasePatternInstruction.h"
+#include "instructions/BasePatternInstruction.h"
 
 namespace Chrysalis {
     /**
@@ -18,19 +15,16 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(FreePointInstruction)
     public:
         explicit FreePointInstruction(ProjectSpace* space, args::patterns* patterns,
-                                      const args::name* pointName, const args::number* x, const args::number* y);
+                                      const args::name* pointName, args::number&& x, args::number&& y);
         ~FreePointInstruction() override;
 
-        bool isValid() override;
         void execute() override;
     private:
         const args::name* pointName_;
-        const args::number* x_;
-        const args::number* y_;
+        args::number x_;
+        args::number y_;
     };
     SERIALIZE_DERIVED_CONSTRUCTION(FreePointInstruction, BasePatternInstruction, space_, patterns_, pointName_, x_, y_)
 }
-
-BOOST_CLASS_EXPORT_KEY(Chrysalis::FreePointInstruction)
 
 #endif //CHRYSALIS_FREEPOINTINSTRUCTION_H

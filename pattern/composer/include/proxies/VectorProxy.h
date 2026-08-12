@@ -21,17 +21,17 @@ namespace Chrysalis::Proxy {
         };
         class Segment;
 
-        explicit Vector(const args::point* origin, const args::number& angle, const args::number& length);
-        explicit Vector(const args::point* origin, const args::number* angle, double length);
-        explicit Vector(const args::point* origin, double angle, const args::number& length);
+        explicit Vector(const args::point* origin, args::number&& angle, args::number&& length);
+        explicit Vector(const args::point* origin, args::number&& angle, double length);
+        explicit Vector(const args::point* origin, double angle, args::number&& length);
         explicit Vector(const args::point* origin, double angle, double length);
 
-        explicit Vector(const args::number& angle, const args::number& length);
-        explicit Vector(double angle, const args::number& length);
+        explicit Vector(args::number&& angle, args::number&& length);
+        explicit Vector(double angle, args::number&& length);
         explicit Vector(double angle, double length);
 
         operator const args::vector*() const;
-        Number::Point::Vector operator<<(Number::Point args) const;
+        Number::Point::Vector operator<<(Number::Point&& args) const;
 
         And operator->() const;
         Point::Vector operator>>(const PatternPointArgument* point) const;

@@ -24,8 +24,8 @@ Proxy::Point::Vector::And::Vector Proxy::Point::Vector::operator<<(const args::v
     return And::Vector(point_, vector_, vector);
 }
 
-Proxy::Number Proxy::Point::operator()(const args::number& number) const {
-    return Proxy::Number(&number);
+Proxy::Number Proxy::Point::operator()(args::number&& number) const {
+    return Proxy::Number(std::move(number));
 }
 
 Proxy::Point::Vector::operator std::vector<BasePatternInstruction*>() const {

@@ -9,7 +9,7 @@ namespace Chrysalis {
     protected:
         explicit RayArgument(const args::point* origin, const args::point* destination);
     public:
-        explicit RayArgument(const args::point* origin, const args::number* angle);
+        explicit RayArgument(const args::point* origin, args::number&& angle);
 
         explicit operator CG::Ray() const;
     };

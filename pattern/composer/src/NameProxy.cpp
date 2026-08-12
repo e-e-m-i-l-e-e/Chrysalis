@@ -19,8 +19,8 @@ Proxy::Name::Vector::Vector(const args::name* name, const args::vector* vector)
 Proxy::Name::Vector::Line::Line(const args::name* name, const args::vector* vector, const args::line* line)
     : name_(name), line_(line), vector_(vector) {}
 
-Proxy::Name::Number::Number(const args::name* name, const args::number* number)
-    : name_(name), number_(number) {}
+Proxy::Name::Number::Number(const args::name* name, args::number&& number)
+    : name_(name), number_(std::move(number)) {}
 
 Proxy::Name::operator const OptionArgument*() const {
     return new OptionArgument(Composer::Instructions::instructionsContainer->options(), name_);
@@ -30,23 +30,23 @@ Proxy::Name::operator const Argument<std::string>*() const {
     return name_;
 }
 
-Proxy::Name::operator const BaseArgument<double>&() const {
-    return *new ExpressionArgument(Composer::Instructions::instructionsContainer->expressions(), name_);
+Proxy::Name::operator args::number() {
+    return std::make_unique<ExpressionArgument>(Composer::Instructions::instructionsContainer->expressions(), name_);
 }
 
 Proxy::Name::operator const PatternPointArgument*() const {
     return new PatternPointArgument(name_, new args::patterns(*Composer::PatternInstructions::patterns));
 }
 
-Proxy::Number::Point Proxy::Name::operator()(const args::number& number) const {
-    return Proxy::Number::Point(&number, *this);
+Proxy::Number::Point Proxy::Name::operator()(args::number&& number) const {
+    return Proxy::Number::Point(std::move(number), *this);
 }
 Proxy::Name::Vector::Line Proxy::Name::Vector::operator|(const args::line* line) const {
     return Line(name_, vector_, line);
 }
 
 std::vector<BasePatternInstruction*> Proxy::Name::operator()(const double x, const double y) const {
-    return {new FreePointInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), name_, new Argument(x), new Argument(y))};
+    return {new FreePointInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), name_, std::make_unique<const Argument<double>>(x), std::make_unique<const Argument<double>>(y))};
 }
 
 Proxy::Name::Vector::operator std::vector<BasePatternInstruction*>() const {
@@ -58,24 +58,21 @@ Proxy::Name::Vector::Line::operator std::vector<BasePatternInstruction*>() const
 }
 
 Proxy::Condition::Number Proxy::operator<<(const double value, const Name& name) {
-    return Condition::Number(new OptionArgument(Composer::Instructions::instructionsContainer->options(), name), new Argument(value));
+    return Condition::Number(new OptionArgument(Composer::Instructions::instructionsContainer->options(), name), std::make_unique<const Argument<double>>(value));
 }
 
 Proxy::Name::Number Proxy::Name::operator=(const double value) const {
-    return Number(name_, new Argument(value));
+    return Number(name_, std::make_unique<const Argument<double>>(value));
 }
 
-Proxy::Name::Number Proxy::Name::operator=(const args::number& number) const {
-    return Number(*this, &number);
+Proxy::Name::Number Proxy::Name::operator=(args::number&& number) const {
+    return Number(*this, std::move(number));
 }
 
-const args::condition* Proxy::Name::operator<(const Name& other) const {
-    return new args::compare::Less(
-        &static_cast<const args::number&>(*this),
-        &static_cast<const args::number&>(other)
-    );
+const args::condition* Proxy::Name::operator<(Name&& other) {
+    return new args::compare::Less(*this, other);
 }
 
-Proxy::Name::Number::operator std::vector<BaseInstruction*>() const {
-    return {new ExpressionInstruction(Composer::Instructions::instructionsContainer->expressions(), name_, number_)};
+Proxy::Name::Number::operator std::vector<BaseInstruction*>() {
+    return {new ExpressionInstruction(Composer::Instructions::instructionsContainer->expressions(), name_, std::move(number_))};
 }

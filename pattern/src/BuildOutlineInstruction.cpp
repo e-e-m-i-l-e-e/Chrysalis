@@ -13,14 +13,11 @@ BuildOutlineInstruction::~BuildOutlineInstruction() {
     delete point_;
 }
 
-bool BuildOutlineInstruction::isValid() {
-    return point_->isValid();
-}
-
 void BuildOutlineInstruction::execute() {
-    for (const auto& pattern: *patterns_) {
-        const auto& point = point_->get();
-        const auto& name = outlineName_->get();
-        pattern->getOutline()->get(name)->add(point);
+    if (const auto name = outlineName_->get()) {
+        for (const auto& pattern: *patterns_) {
+            const auto& point = point_->get();
+            pattern->getOutline()->get(name.value())->add(point);
+        }
     }
 }

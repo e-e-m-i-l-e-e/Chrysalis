@@ -18,10 +18,6 @@ IntersectionPointInstruction::~IntersectionPointInstruction() {
     delete targets_;
 }
 
-bool IntersectionPointInstruction::isValid() {
-    return line_->isValid();
-}
-
 void IntersectionPointInstruction::execute() {
     if (dynamic_cast<const args::segment*>(line_)) {
 
@@ -42,7 +38,7 @@ void IntersectionPointInstruction::execute() {
         }
         if (intersection) {
             for (const auto pattern : *patterns_) {
-                pattern->addPoint(name->get(), space().addPoint(*intersection));
+                pattern->addPoint(name->get().value(), space().addPoint(*intersection));
             }
         }
     }

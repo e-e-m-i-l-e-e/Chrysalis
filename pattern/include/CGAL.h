@@ -42,6 +42,7 @@ namespace Chrysalis::CG {
     double angle(const Point& pointFrom, const Point& pointTo);
     double length(const Point& pointFrom, const Point& pointTo);
     Point mirror(const Point& point, const Point& center);
+    Point relativePoint(const Point& pointFrom, const Vector& vector);
     Point relativePoint(const Point& pointFrom, double angle, double length);
     Point projection(const Point& point, const Line& line);
     template<typename T1, typename T2>

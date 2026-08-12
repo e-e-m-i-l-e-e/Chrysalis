@@ -18,11 +18,11 @@ BasePointArgument* PatternPointArgument::clone() const {
 }
 
 bool PatternPointArgument::isValid() const {
-    return !patterns_->empty() && patterns_->all(&PatternSpace::hasPoint, name_->get());
+    return !patterns_->empty() && patterns_->all(&PatternSpace::hasPoint, name_->get().value());
 }
 
 const Point* PatternPointArgument::get() const {
-    return patterns_->onAny(&PatternSpace::getPoint, name_->get());
+    return patterns_->onAny(&PatternSpace::getPoint, name_->get().value());
 }
 
 const args::name* PatternPointArgument::name() const {

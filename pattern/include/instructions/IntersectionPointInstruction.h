@@ -17,7 +17,6 @@ namespace Chrysalis {
                                               const args::container<args::line>* targets);
         ~IntersectionPointInstruction() override;
 
-        bool isValid() override;
         void execute() override;
     private:
         const args::line* line_;

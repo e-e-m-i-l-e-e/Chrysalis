@@ -13,10 +13,16 @@ namespace Chrysalis {
         explicit BaseCalculatedArgument() = default;
         explicit BaseCalculatedArgument(const T& value): value_(value) {}
 
-        virtual T calculate() const = 0;
+        virtual std::expected<T, Error> calculate() const = 0;
     public:
-        const T& get() const override {
-            value_ = calculate();
+        std::expected<T, Error> get() const override {
+            if (!value_.has_value()) {
+                std::expected<T, Error> value = calculate();
+                return value.transform([&](T t) {
+                    value_ = t;
+                    return t;
+                });
+            }
             return value_.get();
         }
     private:

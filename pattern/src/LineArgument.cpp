@@ -4,22 +4,21 @@
 
 using namespace Chrysalis;
 
-LineArgument::LineArgument(const args::point* origin, const args::number* angle)
-    : origin_(origin), angle_(angle) {}
+LineArgument::LineArgument(const args::point* origin, args::number&& angle)
+    : origin_(origin), angle_(std::move(angle)) {}
 
 LineArgument::LineArgument(const args::point* origin, const args::point* destination)
     : origin_(origin), angle_(new VectorFunctionArgument::Angle(origin->clone(), destination->clone())) {}
 
 LineArgument::~LineArgument() {
     delete origin_;
-    delete angle_;
 }
 
 bool LineArgument::isValid() const {
-    return origin_->isValid() && angle_->isValid();
+    return origin_->isValid();
 }
 
-const args::number* LineArgument::angle() const {
+const args::number& LineArgument::angle() const {
     return angle_;
 }
 
@@ -28,5 +27,5 @@ const args::point* LineArgument::origin() const {
 }
 
 LineArgument::operator CG::Line() const {
-    return CG::Line(*origin_->get(), CG::Vector(CG::cos(CG::radians(angle_->get())), CG::sin(CG::radians(angle_->get()))));
+    return CG::Line(*origin_->get(), CG::Vector(CG::cos(CG::radians(angle_->get().value())), CG::sin(CG::radians(angle_->get().value()))));
 }

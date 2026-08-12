@@ -4,9 +4,9 @@
 
 using namespace Chrysalis;
 
-Proxy::Condition::Number::Number(const args::condition* condition, const args::number* number)
-    : condition_(condition), number_(number) {}
+Proxy::Condition::Number::Number(const args::condition* condition, args::number&& number)
+    : condition_(condition), number_(std::move(number)) {}
 
-const args::conditional& Proxy::Condition::Number::operator>>(const double value) const {
-    return *new args::conditional(condition_, number_, new Argument(value));
+args::number Proxy::Condition::Number::operator>>(const double value) {
+    return std::make_unique<args::conditional>(condition_, std::move(number_), std::make_unique<Argument<double>>(value));
 }

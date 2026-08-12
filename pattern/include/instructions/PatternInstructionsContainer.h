@@ -11,8 +11,6 @@ namespace Chrysalis {
     public:
         explicit PatternInstructionsContainer(OptionsContainer* options, ExpressionsContainer* expressions, args::patterns* patterns);
         ~PatternInstructionsContainer() override;
-
-        bool isValid() override;
     private:
         /// @uml{composition}
         args::patterns* patterns_;

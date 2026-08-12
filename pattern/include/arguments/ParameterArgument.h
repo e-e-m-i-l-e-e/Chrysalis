@@ -11,10 +11,8 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(ParameterArgument)
     public:
         explicit ParameterArgument(Parameter* parameter);
-
-        bool isValid() const override;
     protected:
-        double calculate() const override;
+        std::expected<double, Error> calculate() const override;
     private:
         Parameter* parameter_;
     };

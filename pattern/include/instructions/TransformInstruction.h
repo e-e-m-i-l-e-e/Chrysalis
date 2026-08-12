@@ -12,7 +12,6 @@ namespace Chrysalis {
                                       const args::vector* from, const args::vector* to);
         ~TransformInstruction() override;
 
-        bool isValid() override;
         void execute() override;
     private:
         /// @uml{composition}
