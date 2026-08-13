@@ -28,7 +28,7 @@ namespace Chrysalis::Proxy {
     public:
         class Names;
         explicit And(const args::line* line, const args::container<args::line>* lines);
-        Names names(const args::container<args::name>* names) const;
+        Names names(const args::container<Argument<std::string>>* names) const;
         And* operator->();
     private:
         const args::line* line_;
@@ -36,12 +36,12 @@ namespace Chrysalis::Proxy {
     };
     class Line::Lines::And::Names {
     public:
-        explicit Names(const args::line* line, const args::container<args::line>* lines, const args::container<args::name>* names);
+        explicit Names(const args::line* line, const args::container<args::line>* lines, const args::container<Argument<std::string>>* names);
         operator std::vector<BasePatternInstruction*>() const;
     private:
         const args::line* line_;
         const args::container<args::line>* lines_;
-        const args::container<args::name>* names_;
+        const args::container<Argument<std::string>>* names_;
     };
 }
 

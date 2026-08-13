@@ -1,3 +1,4 @@
+add_subdirectory(test)
 file(GLOB_RECURSE DEV_TOOLS_EXTENSION_SOURCES CONFIGURE_DEPENDS
         ${CMAKE_CURRENT_SOURCE_DIR}/src/*
         ${CMAKE_CURRENT_SOURCE_DIR}/include/*

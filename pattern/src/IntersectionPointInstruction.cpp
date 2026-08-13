@@ -8,7 +8,7 @@ using namespace Chrysalis;
 
 IntersectionPointInstruction::IntersectionPointInstruction(ProjectSpace* space, args::patterns* patterns,
                                                            const args::line* line,
-                                                           const args::container<args::name>* names,
+                                                           const args::container<Argument<std::string>>* names,
                                                            const args::container<args::line>* targets)
     : BasePatternInstruction(space, patterns), line_(line), names_(names), targets_(targets) {}
 

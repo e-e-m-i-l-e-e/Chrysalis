@@ -28,7 +28,8 @@ class ChrysalisConan(ConanFile):
         if self.options.app == "CLO3D":
             self.requires("qt/5.15.16")
             self.requires("clo-sdk/9.1.0")
-            self.requires("polyhook2/2.0")
+            if self.settings.os == "Windows":
+                self.requires("polyhook2/2.0")
         elif self.options.app == "Chrysalis":
             self.requires("qt/6.8.3")
 

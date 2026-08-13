@@ -18,7 +18,7 @@ namespace Chrysalis {
     private:
         std::vector<const Point*> points_;
     };
-    using OutlineContainer = NamedElementsContainer<Outline>;
+    using OutlineContainer = std::unique_ptr<NamedElementsContainer<Outline>>;
 }
 
 #endif //CHRYSALIS_OUTLINE_H

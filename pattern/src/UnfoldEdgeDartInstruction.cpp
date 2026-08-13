@@ -27,12 +27,12 @@ void UnfoldEdgeDartInstruction::execute() {
 
     space().movePoint(edgePointTo, CG::relativePoint(*leg2Point, edgeAngle + dartAngle, CG::length(*leg1Point, *edgePointTo)));
     for (const auto& pattern: *patterns_) {
-        pattern->notify(&PatternSpaceObserver::relativePointConnectionRemoved, edgePointFrom, edgePointTo);
-        pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, edgePointFrom, leg1Point);
-        pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, leg2Point, edgePointTo);
-        pattern->notify(&PatternSpaceObserver::relativePointConnectionRemoved, edgePointFrom, leg1Point);
-        pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, leg1Point, apexPoint);
-        pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, apexPoint, leg2Point);
+        pattern->trace::notify(&PatternTraceObserver::relativePointConnectionRemoved, edgePointFrom, edgePointTo);
+        pattern->trace::notify(&PatternTraceObserver::relativePointConnectionAdded, edgePointFrom, leg1Point);
+        pattern->trace::notify(&PatternTraceObserver::relativePointConnectionAdded, leg2Point, edgePointTo);
+        pattern->trace::notify(&PatternTraceObserver::relativePointConnectionRemoved, edgePointFrom, leg1Point);
+        pattern->trace::notify(&PatternTraceObserver::relativePointConnectionAdded, leg1Point, apexPoint);
+        pattern->trace::notify(&PatternTraceObserver::relativePointConnectionAdded, apexPoint, leg2Point);
         pattern->addPoint(leg_->origin()->name()->get().value() + "_1", leg2Point);
     }
 }

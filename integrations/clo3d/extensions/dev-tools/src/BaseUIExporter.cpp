@@ -17,7 +17,7 @@ void BaseUIExporter::exportUI() {
             widgets.push_front(widget);
         }
     }
-    exportUI(widgets);
+    exportUI(std::move(widgets));
 }
 
 void BaseUIExporter::exportUI(QWidget* widget) {

@@ -1,13 +1,13 @@
-#include "PatternSpaceRenderer.h"
+#include "PatternTraceRenderer.h"
 
 #include "Layout.h"
 
 using namespace Chrysalis;
 
-PatternSpaceRenderer::PatternSpaceRenderer(MainOpenGLProgram* program, PatternSpaceRendererData* rendererData)
+PatternTraceRenderer::PatternTraceRenderer(MainOpenGLProgram* program, PatternTraceRendererData* rendererData)
     : BaseRenderer(rendererData), program_(program) {}
 
-void PatternSpaceRenderer::draw() {
+void PatternTraceRenderer::draw() {
     program_->setColor(50.f / 255.f, 59.f / 255.f, 66.f / 255.f, 1.f);
     for (const auto& layout: data_->linesLayout()) {
         glDrawArrays(GL_LINES, layout.offset(), layout.count());
@@ -24,10 +24,10 @@ void PatternSpaceRenderer::draw() {
     }
 }
 
-void PatternSpaceRenderer::scaleChanged(const float scale) {
-    pointRadius_ = PatternSpaceRendererData::POINT_RADIUS * scale;
+void PatternTraceRenderer::scaleChanged(const float scale) {
+    pointRadius_ = PatternTraceRendererData::POINT_RADIUS * scale;
 }
 
-const Point* PatternSpaceRenderer::pointAtPosition(const float x, const float y) const {
+const Point* PatternTraceRenderer::pointAtPosition(const float x, const float y) const {
     return data_->pointAtPosition(x, y);
 }

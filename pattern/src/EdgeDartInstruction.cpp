@@ -39,11 +39,11 @@ void EdgeDartInstruction::execute() {
         pattern->addPoint(leg1PointName, leg1Point);
         pattern->addPoint(leg2PointName, leg2Point);
 
-        pattern->notify(&PatternSpaceObserver::relativePointConnectionRemoved, edge_->origin()->get(), edge_->destination()->get());
-        pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, edge_->origin()->get(), leg1Point);
-        pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, leg1Point, centerPoint);
-        pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, centerPoint, leg2Point);
-        pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, leg2Point, edge_->destination()->get());
+        pattern->trace::notify(&PatternTraceObserver::relativePointConnectionRemoved, edge_->origin()->get(), edge_->destination()->get());
+        pattern->trace::notify(&PatternTraceObserver::relativePointConnectionAdded, edge_->origin()->get(), leg1Point);
+        pattern->trace::notify(&PatternTraceObserver::relativePointConnectionAdded, leg1Point, centerPoint);
+        pattern->trace::notify(&PatternTraceObserver::relativePointConnectionAdded, centerPoint, leg2Point);
+        pattern->trace::notify(&PatternTraceObserver::relativePointConnectionAdded, leg2Point, edge_->destination()->get());
     }
     const double dartAngle = CG::angle(*leg1Point - *centerPoint, *leg2Point - *centerPoint);
     const auto adjustedVector = CG::rotate(*edge_->destination()->get() - *leg2Point, -dartAngle);

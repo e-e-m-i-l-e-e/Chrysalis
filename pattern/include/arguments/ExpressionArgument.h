@@ -9,14 +9,13 @@ namespace Chrysalis {
     class ExpressionArgument: public BaseCalculatedArgument<double> {
         PROVIDE_SERIALIZATION_ACCESS(ExpressionArgument)
     public:
-        explicit ExpressionArgument(const ExpressionsContainer* expressions, const args::name* name);
-        ~ExpressionArgument() override;
+        explicit ExpressionArgument(const ExpressionsContainer* expressions, args::name&& name);
     protected:
         std::expected<double, Error> calculate() const override;
     private:
         const ExpressionsContainer* expressions_;
         /// @uml{composition}
-        const args::name* name_;
+        args::name name_;
     };
     namespace args {
         using expr = Expression;

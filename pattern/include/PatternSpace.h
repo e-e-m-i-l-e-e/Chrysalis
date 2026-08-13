@@ -7,19 +7,24 @@
 #include "ProjectSpace.h"
 #include "Transformation.h"
 #include "observers/BaseObservable.h"
-#include "observers/PatternSpaceObserver.h"
+#include "observers/PatternShapeObserver.h"
+#include "observers/PatternTraceObserver.h"
 
 namespace Chrysalis {
-    class PatternSpace: public BaseObservable<PatternSpaceObserver> {
+    class PatternSpace: public BaseObservable<PatternTraceObserver>, public BaseObservable<PatternShapeObserver> {
         PROVIDE_SERIALIZATION_ACCESS(PatternSpace)
     public:
-        explicit PatternSpace(OutlineContainer* outline);
-        ~PatternSpace() override;
+        using trace = BaseObservable<PatternTraceObserver>;
+        using shape = BaseObservable<PatternShapeObserver>;
+
+        explicit PatternSpace(OutlineContainer outline);
+        static PatternSpace* create();
 
         [[nodiscard]] bool hasPoint(const std::string& name) const;
+        [[nodiscard]] bool hasOutline(const std::string& name) const;
 
         [[nodiscard]] const Point* getLastPoint() const;
-        [[nodiscard]] OutlineContainer* getOutline() const;
+        [[nodiscard]] const OutlineContainer& getOutline() const;
         [[nodiscard]] const Transformation& getTransformation() const;
         [[nodiscard]] const Point* getPoint(const std::string& name) const;
         [[nodiscard]] const std::unordered_map<std::string, const Point*>& getPoints() const;
@@ -31,7 +36,7 @@ namespace Chrysalis {
 
         const Point* lastPoint_ = nullptr;
         /// @uml{composition}
-        OutlineContainer* outline_;
+        OutlineContainer outline_;
         std::unordered_map<std::string, const Point*> points_;
     };
     SERIALIZE_CONSTRUCTION(PatternSpace, outline_)

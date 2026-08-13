@@ -7,7 +7,7 @@
 #include "arguments/BinaryFunctionArgument.h"
 
 #include "mocks/NumberMock.h"
-#include "ArgumentEvaluationData.h"
+#include "data/ArgumentEvaluationData.h"
 
 using namespace Chrysalis;
 

@@ -23,11 +23,13 @@ void ProjectRenderer::initialize() const {
 void ProjectRenderer::useProject(const Project* project) {
     patternRenderers_.clear();
     for (const auto& pattern: *project->getPatterns()) {
-        const auto patternSpaceRendererData = new PatternSpaceRendererData();
-        pattern->getSpace()->addObserver(patternSpaceRendererData);
+        const auto patternTraceRendererData = new PatternTraceRendererData();
+        pattern->getSpace()->trace::addObserver(patternTraceRendererData);
+        const auto patternShapeRendererData = new PatternShapeRendererData();
+        pattern->getSpace()->shape::addObserver(patternShapeRendererData);
         patternRenderers_.emplace_back(
-            new PatternSpaceRenderer(program_, patternSpaceRendererData),
-            new PatternShapeRenderer(new PatternShapeRendererData())
+            new PatternTraceRenderer(program_, patternTraceRendererData),
+            new PatternShapeRenderer(program_, patternShapeRendererData)
         );
         patternRenderers_.back().initialize();
     }
@@ -58,7 +60,7 @@ void ProjectRenderer::cursorPositionChanged(const float x, const float y) const 
     const float cursorX = x * area_.width() + area_.x();
     const float cursorY = y * area_.height() + area_.y();
     for (const auto& patternRenderer: patternRenderers_) {
-        if (const Point* point = patternRenderer.spaceRenderer()->pointAtPosition(cursorX, cursorY)) {
+        if (const Point* point = patternRenderer.traceRenderer()->pointAtPosition(cursorX, cursorY)) {
             cursorRenderer_->displayCursor(point->x(), point->y());
             return;
         }

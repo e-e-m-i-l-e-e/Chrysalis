@@ -5,7 +5,6 @@
 
 namespace Chrysalis {
     class Point;
-
     class PointObserver: public BaseObserver<PointObserver> {
     protected:
         explicit PointObserver() = default;

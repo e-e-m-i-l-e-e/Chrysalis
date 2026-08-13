@@ -21,7 +21,7 @@ namespace Chrysalis {
 
         ProjectSpace* space_;
         /// @uml{composition}
-        args::patterns* patterns_;
+        args::patterns* patterns_; // TODO: instructions container should own and validate this
     };
 };
 

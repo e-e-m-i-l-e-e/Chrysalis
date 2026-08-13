@@ -2,12 +2,8 @@
 
 using namespace Chrysalis;
 
-ExpressionArgument::ExpressionArgument(const ExpressionsContainer* expressions, const args::name* name)
-    : expressions_(expressions), name_(name) {}
-
-ExpressionArgument::~ExpressionArgument() {
-    delete name_;
-}
+ExpressionArgument::ExpressionArgument(const ExpressionsContainer* expressions, args::name&& name)
+    : expressions_(expressions), name_(std::move(name)) {}
 
 std::expected<double, Error> ExpressionArgument::calculate() const {
     return name_->get().and_then([this](const std::string& name) -> std::expected<double, Error> {

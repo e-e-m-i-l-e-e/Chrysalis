@@ -14,7 +14,7 @@ namespace Chrysalis::Proxy {
         public:
             class Vector;
             explicit And(const args::vector* vector);
-            Name::Vector name(const args::name* name) const;
+            Name::Vector name(args::name&& name) const;
             And* operator->();
         private:
             const args::vector* vector_;

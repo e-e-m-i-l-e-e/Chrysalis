@@ -19,7 +19,7 @@ namespace Chrysalis {
         [[nodiscard]] virtual std::expected<T, Error> get() const = 0;
     };
     namespace args {
-        using number = std::unique_ptr<const BaseArgument<double>>;
+        using number = std::unique_ptr<BaseArgument<double>>;
         using condition = BaseArgument<bool>;
         template<typename T>
         using container = CompositiveContainer<T>;

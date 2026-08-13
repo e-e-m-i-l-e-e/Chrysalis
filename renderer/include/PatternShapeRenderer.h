@@ -2,15 +2,17 @@
 #define CHRYSALIS_PATTERNSHAPERENDERER_H
 
 #include "BaseRenderer.h"
+#include "MainOpenGLProgram.h"
 #include "PatternShapeRendererData.h"
 
 namespace Chrysalis {
     class PatternShapeRenderer: public BaseRenderer<PatternShapeRendererData> {
     public:
-        explicit PatternShapeRenderer(PatternShapeRendererData* data);
+        explicit PatternShapeRenderer(MainOpenGLProgram* program, PatternShapeRendererData* data);
 
         void draw() override;
-        void scaleChanged(float scale);
+    private:
+        MainOpenGLProgram* program_;
     };
 }
 

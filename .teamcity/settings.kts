@@ -80,7 +80,19 @@ object Build : BuildType({
 
                 . .python/venv-linux/bin/activate
 
-                conan install . --build=missing --output-folder=.conan -o app=Chrysalis -s build_type=Debug
+                conan install . --build=missing --output-folder=.conan -o '&:app=Chrysalis' -s build_type=Debug
+                conan upload "*" --confirm -r chrysalis-conan
+            """.trimIndent()
+        }
+        script {
+            name = "CLO3D: Conan Install And Push Dependencies"
+            id = "CLO3D_Conan_Install_And_Push_Dependencies"
+            scriptContent = """
+                set -ex
+
+                . .python/venv-linux/bin/activate
+
+                conan install . --build=missing --output-folder=.conan -o '&:app=CLO3D' -s build_type=RelWithDebInfo
                 conan upload "*" --confirm -r chrysalis-conan
             """.trimIndent()
         }
@@ -89,6 +101,9 @@ object Build : BuildType({
             id = "CMake_Build"
             scriptContent = """
                 set -ex
+
+                conan install . --build=missing --output-folder=.conan -o '&:app=Chrysalis' -s build_type=Debug
+                
                 cmake --preset conan-debug
                 cmake --build --preset conan-debug
             """.trimIndent()
@@ -112,10 +127,7 @@ object Build : BuildType({
                 set -ex
                 [ "%skip.diagrams%" = "false" ] && cmake --build --preset conan-debug --target GenerateUML
                 cmake --build --preset conan-debug --target GenerateDoxygen
-                rm -rf .conan/build/Debug/docs/coverage
-                mkdir -p .conan/build/Debug/docs/coverage
-                gcovr --root . .conan/build/Debug --html-details .conan/build/Debug/docs/coverage/index.html --print-summary --exclude '.*\.qt/.*'
-                cmake --build --preset conan-debug --target Documentation
+                cmake --build --preset conan-debug --target GenerateCoverageReport
             """.trimIndent()
         }
         script {

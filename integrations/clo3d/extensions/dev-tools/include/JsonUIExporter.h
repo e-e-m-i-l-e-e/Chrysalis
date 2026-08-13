@@ -6,18 +6,17 @@
 
 class JsonUIExporter: public BaseUIExporter {
 public:
-    explicit JsonUIExporter(JsonUIExporterOptions* options);
-    ~JsonUIExporter() override;
+    explicit JsonUIExporter(std::unique_ptr<JsonUIExporterOptions> options);
 
     static JsonUIExporter* create();
 
-    void exportUI(std::forward_list<QWidget*> widgets) override;
+    void exportUI(std::forward_list<QWidget*>&& widgets) override;
     BaseUIExporterOptions* getOptions() override;
 private:
     QJsonObject getWidgetJson(const QWidget* widget);
     static QJsonObject getObjectJson(const QObject* object);
 
-    JsonUIExporterOptions* options_;
+    std::unique_ptr<JsonUIExporterOptions> options_;
 };
 
 #endif //CHRYSALIS_JSONUIEXPORTER_H

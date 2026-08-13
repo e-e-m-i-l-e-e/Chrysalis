@@ -6,6 +6,7 @@ import os
 class CloSdkConan(ConanFile):
     name = "clo-sdk"
     version = "9.1.0"
+    package_type = "shared-library"
     description = "CLO3D official API/SDK for building C++ plugins (Windows, v2025.2.236)"
     url = "https://developer.clo3d.com"
 

@@ -2,34 +2,33 @@
 
 using namespace Chrysalis;
 
-PatternRenderer::PatternRenderer(PatternSpaceRenderer* spaceRenderer, PatternShapeRenderer* shapeRenderer)
-    : spaceRenderer_(spaceRenderer), shapeRenderer_(shapeRenderer) {}
+PatternRenderer::PatternRenderer(PatternTraceRenderer* traceRenderer, PatternShapeRenderer* shapeRenderer)
+    : traceRenderer_(traceRenderer), shapeRenderer_(shapeRenderer) {}
 
 PatternRenderer::~PatternRenderer() {
-    delete spaceRenderer_;
+    delete traceRenderer_;
     delete shapeRenderer_;
 }
 
 void PatternRenderer::initialize() const {
-    spaceRenderer_->initialize();
+    traceRenderer_->initialize();
     shapeRenderer_->initialize();
 }
 
 void PatternRenderer::upload() const {
-    spaceRenderer_->upload();
+    traceRenderer_->upload();
     shapeRenderer_->upload();
 }
 
 void PatternRenderer::render() const {
-    spaceRenderer_->render();
+    traceRenderer_->render();
     shapeRenderer_->render();
 }
 
 void PatternRenderer::scaleChanged(const float scale) const {
-    spaceRenderer_->scaleChanged(scale);
-    shapeRenderer_->scaleChanged(scale);
+    traceRenderer_->scaleChanged(scale);
 }
 
-const PatternSpaceRenderer* PatternRenderer::spaceRenderer() const {
-    return spaceRenderer_;
+const PatternTraceRenderer* PatternRenderer::traceRenderer() const {
+    return traceRenderer_;
 }

@@ -46,10 +46,8 @@ void Project1Composer::fillOptions() {
 void Project1Composer::fillPatterns() {
     const auto patterns = project_->getPatterns();
     back_ = Pattern::create("Back");
-    back_->getSpace()->getOutline()->add(new Outline("main"));
     patterns->add(back_);
     front_ = Pattern::create("Front");
-    front_->getSpace()->getOutline()->add(new Outline("main"));
     patterns->add(front_);
 }
 
@@ -91,7 +89,7 @@ Composer::PatternInstructions(new args::patterns({                              
 #define REPEAT_NAMES(d, data, elem) new Argument<std::string>(PointName::elem)
 #define names(...) names(new args::container<Argument<std::string>>({BOOST_PP_SEQ_ENUM(BOOST_PP_SEQ_TRANSFORM(REPEAT_NAMES, ~, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__)))}))
 
-#define name(arg) name(new Argument<std::string>(PointName::arg))
+#define name(arg) name(std::make_unique<Argument<std::string>>(PointName::arg))
 
 void Project1Composer::fillInstructions() {
     Block {
@@ -205,7 +203,7 @@ void Project1Composer::fillInstructions() {
                 new TransformInstruction(Composer::Instructions::space,
                                          new args::patterns(*Composer::PatternInstructions::patterns),
                                          _segment_(S2, D2),
-                                         new SegmentArgument(new PatternPointArgument(new Argument<std::string>(PointName::S2), new args::patterns{front_->getSpace()}), new PatternPointArgument(new Argument<std::string>(PointName::D1_1), new args::patterns{front_->getSpace()}))
+                                         new SegmentArgument(new PatternPointArgument(std::make_unique<Argument<std::string>>(PointName::S2), new args::patterns{front_->getSpace()}), new PatternPointArgument(std::make_unique<Argument<std::string>>(PointName::D1_1), new args::patterns{front_->getSpace()}))
                 )
             }
         },
@@ -214,27 +212,27 @@ void Project1Composer::fillInstructions() {
                 new CurveInstruction(Composer::Instructions::space,
                                      new args::patterns(*Composer::PatternInstructions::patterns),
                                      new SegmentArgument(
-                                         new PatternPointArgument(new Argument<std::string>(PointName::AH4),
+                                         new PatternPointArgument(std::make_unique<Argument<std::string>>(PointName::AH4),
                                                                   new PatternsContainerArgument{back_->getSpace()}),
-                                         new PatternPointArgument(new Argument<std::string>(PointName::AH3),
+                                         new PatternPointArgument(std::make_unique<Argument<std::string>>(PointName::AH3),
                                                                   new PatternsContainerArgument{back_->getSpace()})
                                      ),
                                      new SegmentArgument(
-                                         new PatternPointArgument(new Argument<std::string>(PointName::AH3),
+                                         new PatternPointArgument(std::make_unique<Argument<std::string>>(PointName::AH3),
                                                                   new PatternsContainerArgument{front_->getSpace()}),
-                                         new PatternPointArgument(new Argument<std::string>(PointName::AH4),
+                                         new PatternPointArgument(std::make_unique<Argument<std::string>>(PointName::AH4),
                                                                   new PatternsContainerArgument{front_->getSpace()})
                                      ),
                                      new args::container({
-                                         new PatternPointArgument(new Argument<std::string>(PointName::AH2),
+                                         new PatternPointArgument(std::make_unique<Argument<std::string>>(PointName::AH2),
                                                                   new PatternsContainerArgument{back_->getSpace()}),
-                                         new PatternPointArgument(new Argument<std::string>(PointName::UB1),
+                                         new PatternPointArgument(std::make_unique<Argument<std::string>>(PointName::UB1),
                                                                   new PatternsContainerArgument{back_->getSpace()}),
-                                         new PatternPointArgument(new Argument<std::string>(PointName::S2),
+                                         new PatternPointArgument(std::make_unique<Argument<std::string>>(PointName::S2),
                                                                   new PatternsContainerArgument{back_->getSpace()}),
-                                         new PatternPointArgument(new Argument<std::string>(PointName::UB1),
+                                         new PatternPointArgument(std::make_unique<Argument<std::string>>(PointName::UB1),
                                                                   new PatternsContainerArgument{front_->getSpace()}),
-                                         new PatternPointArgument(new Argument<std::string>(PointName::AH2),
+                                         new PatternPointArgument(std::make_unique<Argument<std::string>>(PointName::AH2),
                                                                   new PatternsContainerArgument{front_->getSpace()}),
                                      })
                 )

@@ -11,22 +11,22 @@ Proxy::Vector::Vector(const args::point* origin, args::number&& angle, args::num
     : vector_(new VectorArgument(origin, std::move(angle), std::move(length))) {}
 
 Proxy::Vector::Vector(const args::point* origin, args::number&& angle, const double length)
-    : vector_(new VectorArgument(origin, std::move(angle), std::make_unique<const Argument<double>>(length))) {}
+    : vector_(new VectorArgument(origin, std::move(angle), std::make_unique<Argument<double>>(length))) {}
 
 Proxy::Vector::Vector(const args::point* origin, const double angle, args::number&& length)
-    : vector_(new VectorArgument(origin, std::make_unique<const Argument<double>>(angle), std::move(length))) {}
+    : vector_(new VectorArgument(origin, std::make_unique<Argument<double>>(angle), std::move(length))) {}
 
 Proxy::Vector::Vector(const args::point* origin, const double angle, const double length)
-    : vector_(new VectorArgument(origin, std::make_unique<const Argument<double>>(angle), std::make_unique<const Argument<double>>(length))) {}
+    : vector_(new VectorArgument(origin, std::make_unique<Argument<double>>(angle), std::make_unique<Argument<double>>(length))) {}
 
 Proxy::Vector::Vector(args::number&& angle, args::number&& length)
     : vector_(new VectorArgument(std::move(angle), std::move(length))) {}
 
 Proxy::Vector::Vector(const double angle, args::number&& length)
-    : vector_(new VectorArgument(std::make_unique<const Argument<double>>(angle), std::move(length))) {}
+    : vector_(new VectorArgument(std::make_unique<Argument<double>>(angle), std::move(length))) {}
 
 Proxy::Vector::Vector(const double angle, const double length)
-    : vector_(new VectorArgument(std::make_unique<const Argument<double>>(angle), std::make_unique<const Argument<double>>(length))) {}
+    : vector_(new VectorArgument(std::make_unique<Argument<double>>(angle), std::make_unique<Argument<double>>(length))) {}
 
 Proxy::Vector::And::And(const VectorArgument* vector): vector_(vector) {}
 
@@ -44,8 +44,8 @@ Proxy::Vector::And Proxy::Vector::operator->() const {
     return And(vector_);
 }
 
-Proxy::Name::Vector Proxy::Vector::And::name(const args::name* name) const {
-    return Name::Vector(name, vector_);
+Proxy::Name::Vector Proxy::Vector::And::name(args::name&& name) const {
+    return Name::Vector(std::move(name), vector_);
 }
 
 Proxy::Vector::And* Proxy::Vector::And::operator->() {
@@ -61,7 +61,7 @@ Proxy::Point::Vector Proxy::Vector::operator>>(const PatternPointArgument* point
 }
 
 Proxy::Number::Vector::Segment Proxy::Vector::Segment::operator()(const double number) const {
-    return Number::Vector::Segment(std::make_unique<const Argument<double>>(number), vector_, segment_);
+    return Number::Vector::Segment(std::make_unique<Argument<double>>(number), vector_, segment_);
 }
 
 Proxy::Vector::And::Vector::operator std::vector<BasePatternInstruction*>() const {

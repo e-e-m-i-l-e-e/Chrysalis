@@ -3,12 +3,8 @@
 
 using namespace Chrysalis;
 
-ExpressionInstruction::ExpressionInstruction(ExpressionsContainer* expressions, const args::name* name, args::number&& value)
-    : expressions_(expressions), name_(name), value_(std::move(value)) {}
-
-ExpressionInstruction::~ExpressionInstruction() {
-    delete name_;
-}
+ExpressionInstruction::ExpressionInstruction(ExpressionsContainer* expressions, args::name&& name, args::number&& value)
+    : expressions_(expressions), name_(std::move(name)), value_(std::move(value)) {}
 
 void ExpressionInstruction::execute() {
     if (const auto name = name_->get()) {

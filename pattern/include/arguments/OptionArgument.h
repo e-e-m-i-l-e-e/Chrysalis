@@ -9,14 +9,13 @@ namespace Chrysalis {
     class OptionArgument: public BaseCalculatedArgument<bool> {
         PROVIDE_SERIALIZATION_ACCESS(OptionArgument)
     public:
-        explicit OptionArgument(const OptionsContainer* options, const args::name* name);
-        ~OptionArgument() override;
+        explicit OptionArgument(const OptionsContainer* options, args::name&& name);
     protected:
         std::expected<bool, Error> calculate() const override;
     private:
         const OptionsContainer* options_;
         /// @uml{composition}
-        const args::name* name_;
+        args::name name_;
     };
     SERIALIZE_DERIVED_CONSTRUCTION(OptionArgument, BaseCalculatedArgument<bool>, options_, name_)
 }

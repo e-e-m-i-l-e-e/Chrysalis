@@ -77,7 +77,7 @@ void UIExporterTool::handle() {
                     foundWidgets[className][objectName].push_front(widget);
                 }
             }
-            exporter->exportUI(foundWidgets[className][objectName]);
+            exporter->exportUI(std::move(foundWidgets[className][objectName]));
         }
     }
     ExtensionsManager::clearMessage();

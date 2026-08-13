@@ -1,4 +1,4 @@
-#include "PatternSpaceRendererData.h"
+#include "PatternTraceRendererData.h"
 
 #include <ranges>
 
@@ -6,7 +6,7 @@
 
 using namespace Chrysalis;
 
-PatternSpaceRendererData::Arrow PatternSpaceRendererData::buildArrow(const CG::Point& pointFrom, const CG::Point& pointTo) {
+PatternTraceRendererData::Arrow PatternTraceRendererData::buildArrow(const CG::Point& pointFrom, const CG::Point& pointTo) {
     static constexpr double ARROW_BASE_FACTOR = 0.75;
     static constexpr double ARROW_WING_LENGTH = 0.75;
     static constexpr double ARROW_WING_ANGLE = 20;
@@ -25,17 +25,17 @@ PatternSpaceRendererData::Arrow PatternSpaceRendererData::buildArrow(const CG::P
     );
 }
 
-float PatternSpaceRendererData::length(const CG::Point& pointFrom, const CG::Point& pointTo) {
+float PatternTraceRendererData::length(const CG::Point& pointFrom, const CG::Point& pointTo) {
     return static_cast<float>(CG::length(pointFrom, pointTo));
 }
 
-CG::Point PatternSpaceRendererData::intersectionPoint(const CG::Point& pointFrom, const CG::Point& pointTo) {
+CG::Point PatternTraceRendererData::intersectionPoint(const CG::Point& pointFrom, const CG::Point& pointTo) {
     auto intersection = CG::xIntersection(pointFrom, pointTo);
     if (!intersection) intersection = CG::yIntersection(pointFrom, pointTo);
     return intersection.value();
 }
 
-void PatternSpaceRendererData::pointMoved(const Point* point) {
+void PatternTraceRendererData::pointMoved(const Point* point) {
     const auto positionLine = [&](const int lineIndex, const bool editFrom, const CG::Point& existingPoint) {
         const auto intersection = intersectionPoint(*point, existingPoint);
         const int pointIndex = editFrom ? 0 : (lines_[lineIndex].size() - 1);
@@ -63,14 +63,14 @@ void PatternSpaceRendererData::pointMoved(const Point* point) {
     updateVBO();
 }
 
-void PatternSpaceRendererData::pointAdded(const Point* point) {
+void PatternTraceRendererData::pointAdded(const Point* point) {
     observe(point);
     points_.emplace_back(*point);
     pointIndices_.emplace(point, points_.size() - 1);
     updateVBO();
 }
 
-void PatternSpaceRendererData::curveAdded(const Curve* curve) {
+void PatternTraceRendererData::curveAdded(const Curve* curve) {
     static constexpr double DISTANCE = 0.25;
     lines_.emplace_back();
     const auto curvePoints = curve->curvePoints(DISTANCE);
@@ -80,7 +80,7 @@ void PatternSpaceRendererData::curveAdded(const Curve* curve) {
     updateVBO();
 }
 
-void PatternSpaceRendererData::transformed(const Transformation& transformation) {
+void PatternTraceRendererData::transformed(const Transformation& transformation) {
     for (auto& point: points_) {
         point.transform(transformation);
     }
@@ -95,7 +95,7 @@ void PatternSpaceRendererData::transformed(const Transformation& transformation)
     updateVBO();
 }
 
-void PatternSpaceRendererData::relativePointConnectionAdded(const Point* from, const Point* to) {
+void PatternTraceRendererData::relativePointConnectionAdded(const Point* from, const Point* to) {
     const auto intersection = intersectionPoint(*from, *to);
     lines_.emplace_back();
     lines_.back().emplace_back(*from, length(intersection, *from));
@@ -113,7 +113,7 @@ void PatternSpaceRendererData::relativePointConnectionAdded(const Point* from, c
     updateVBO();
 }
 
-void PatternSpaceRendererData::relativePointConnectionRemoved(const Point* from, const Point* to) {
+void PatternTraceRendererData::relativePointConnectionRemoved(const Point* from, const Point* to) {
     if (connectionsMapFrom_[from].contains(to)) {
         const int lineToRemove = connectionsMapFrom_[from][to];
         const auto shiftIndicesInMap = [&lineToRemove](std::unordered_map<const Point*, std::unordered_map<const Point*, int>>& connections,
@@ -134,14 +134,14 @@ void PatternSpaceRendererData::relativePointConnectionRemoved(const Point* from,
     updateVBO();
 }
 
-const Point* PatternSpaceRendererData::pointAtPosition(const float x, const float y) const {
+const Point* PatternTraceRendererData::pointAtPosition(const float x, const float y) const {
     for (const auto& point : pointIndices_ | std::views::keys) {
         if (std::sqrt(std::pow(x - point->x(), 2) + std::pow(y - point->y(), 2)) <= POINT_RADIUS) return point;
     }
     return nullptr;
 }
 
-size_t PatternSpaceRendererData::size() {
+size_t PatternTraceRendererData::size() {
     size_t size = arrows_.size() + points_.size();
     for (const auto& line: lines_) {
         size += line.size();
@@ -149,7 +149,7 @@ size_t PatternSpaceRendererData::size() {
     return size;
 }
 
-std::vector<Vertex3f> PatternSpaceRendererData::vbo() {
+std::vector<Vertex3f> PatternTraceRendererData::vbo() {
     std::vector<Vertex3f> vbo;
     vbo.insert(vbo.end(), points_.begin(), points_.end());
     vbo.insert(vbo.end(), arrows_.begin(), arrows_.end());
@@ -159,11 +159,11 @@ std::vector<Vertex3f> PatternSpaceRendererData::vbo() {
     return vbo;
 }
 
-Layout PatternSpaceRendererData::pointsLayout() const {
+Layout PatternTraceRendererData::pointsLayout() const {
     return Layout(0, points_.size());
 }
 
-std::vector<Layout> PatternSpaceRendererData::linesLayout() const {
+std::vector<Layout> PatternTraceRendererData::linesLayout() const {
     size_t offset = points_.size() + arrows_.size();
     std::vector<Layout> layout {};
     layout.reserve(lines_.size());
@@ -174,7 +174,7 @@ std::vector<Layout> PatternSpaceRendererData::linesLayout() const {
     return layout;
 }
 
-std::vector<Layout> PatternSpaceRendererData::arrowsLayout() const {
+std::vector<Layout> PatternTraceRendererData::arrowsLayout() const {
     size_t offset = points_.size();
     std::vector<Layout> layout {};
     layout.reserve(arrows_.size() / 4);

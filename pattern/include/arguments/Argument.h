@@ -21,7 +21,7 @@ namespace Chrysalis {
     };
     SERIALIZE_DERIVED_CONSTRUCTION_T(Argument, BaseArgument, value_)
     namespace args {
-        using name = Argument<std::string>;
+        using name = std::unique_ptr<Argument<std::string>>;
     }
 }
 

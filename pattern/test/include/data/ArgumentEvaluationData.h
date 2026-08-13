@@ -6,13 +6,13 @@
 namespace Chrysalis {
     class ArgumentEvaluationData {
     public:
-        explicit ArgumentEvaluationData(const BaseArgument<double>* expression, std::string&& expressionText, double expected);
+        explicit ArgumentEvaluationData(BaseArgument<double>* expression, std::string&& expressionText, double expected);
 
-        [[nodiscard]] const BaseArgument<double>* expression() const;
+        [[nodiscard]] BaseArgument<double>* expression() const;
         [[nodiscard]] const std::string& expressionText() const;
         [[nodiscard]] double expected() const;
     private:
-        const BaseArgument<double>* expression_;
+        BaseArgument<double>* expression_;
         std::string expressionText_;
         double expected_;
     };

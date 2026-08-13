@@ -3,16 +3,15 @@
 using namespace Chrysalis;
 
 RelativePointInstruction::RelativePointInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
-                                                   const args::name* name, const args::vector* vector)
-    : RelativePointInstruction(space, selectedPatterns, name, vector, new args::optional<args::line>()) {}
+                                                   args::name&& name, const args::vector* vector)
+    : RelativePointInstruction(space, selectedPatterns, std::move(name), vector, new args::optional<args::line>()) {}
 
 RelativePointInstruction::RelativePointInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
-                                                   const args::name* name, const args::vector* vector,
+                                                   args::name&& name, const args::vector* vector,
                                                    const args::optional<args::line>* line)
-    : BasePatternInstruction(space, selectedPatterns), name_(name), vector_(vector), line_(line) {}
+    : BasePatternInstruction(space, selectedPatterns), name_(std::move(name)), vector_(vector), line_(line) {}
 
 RelativePointInstruction::~RelativePointInstruction() {
-    delete name_;
     delete vector_;
     delete line_;
 }
@@ -29,6 +28,6 @@ void RelativePointInstruction::execute() {
     }
     for (const auto& patternSpace: *patterns_) {
         patternSpace->addPoint(name_->get().value(), point);
-        patternSpace->notify(&PatternSpaceObserver::relativePointConnectionAdded, pointFrom, point);
+        patternSpace->trace::notify(&PatternTraceObserver::relativePointConnectionAdded, pointFrom, point);
     }
 }

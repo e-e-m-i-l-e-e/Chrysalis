@@ -15,7 +15,7 @@ Proxy::Line::Lines::And::And(const args::line* line, const args::container<args:
     : line_(line), lines_(lines) {}
 
 Proxy::Line::Lines::And::Names::Names(const args::line* line, const args::container<args::line>* lines,
-                                           const args::container<args::name>* names)
+                                           const args::container<Argument<std::string>>* names)
     : line_(line), lines_(lines), names_(names) {}
 
 Proxy::Line::Lines Proxy::Line::operator|(const args::container<args::line>* lines) const {
@@ -27,7 +27,7 @@ Proxy::Line::Lines::And Proxy::Line::Lines::operator->() const {
 }
 
 Proxy::Line::Lines::And::Names Proxy::Line::Lines::And::names(
-    const args::container<args::name>* names) const {
+    const args::container<Argument<std::string>>* names) const {
     return Names(line_, lines_, names);
 }
 

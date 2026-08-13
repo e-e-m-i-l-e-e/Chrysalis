@@ -6,7 +6,7 @@ Pattern::Pattern(const std::string& name, PatternSpace* space)
     : BaseNamedElement(name), space_(space) {}
 
 Pattern* Pattern::create(const std::string& name) {
-    return new Pattern(name, new PatternSpace(new OutlineContainer()));
+    return new Pattern(name, new PatternSpace(std::make_unique<NamedElementsContainer<Outline>>()));
 }
 
 Pattern::~Pattern() {

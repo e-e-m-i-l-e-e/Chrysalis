@@ -1,15 +1,15 @@
-#ifndef CHRYSALIS_PATTERNSPACEOBSERVER_H
-#define CHRYSALIS_PATTERNSPACEOBSERVER_H
+#ifndef CHRYSALIS_PATTERNTRACEOBSERVER_H
+#define CHRYSALIS_PATTERNTRACEOBSERVER_H
 
 #include "Point.h"
 #include "Curve.h"
 #include "Transformation.h"
 
 namespace Chrysalis {
-    class PatternSpaceObserver {
+    class PatternTraceObserver {
     protected:
-        explicit PatternSpaceObserver() = default;
-        virtual ~PatternSpaceObserver() = default;
+        explicit PatternTraceObserver() = default;
+        virtual ~PatternTraceObserver() = default;
     public:
         virtual void pointAdded(const Point* point) = 0;
         virtual void curveAdded(const Curve* curve) = 0;
@@ -19,4 +19,4 @@ namespace Chrysalis {
     };
 }
 
-#endif //CHRYSALIS_PATTERNSPACEOBSERVER_H
+#endif //CHRYSALIS_PATTERNTRACEOBSERVER_H

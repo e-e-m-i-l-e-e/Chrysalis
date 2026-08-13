@@ -13,14 +13,14 @@ namespace Chrysalis {
     public:
         explicit IntersectionPointInstruction(ProjectSpace* space, args::patterns* patterns,
                                               const args::line* line,
-                                              const args::container<args::name>* names,
+                                              const args::container<Argument<std::string>>* names,
                                               const args::container<args::line>* targets);
         ~IntersectionPointInstruction() override;
 
         void execute() override;
     private:
         const args::line* line_;
-        const args::container<args::name>* names_;
+        const args::container<Argument<std::string>>* names_;
         const args::container<args::line>* targets_;
     };
     SERIALIZE_DERIVED_CONSTRUCTION(IntersectionPointInstruction, BasePatternInstruction, space_, patterns_, line_, names_, targets_)

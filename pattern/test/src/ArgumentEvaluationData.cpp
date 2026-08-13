@@ -1,11 +1,11 @@
-#include "ArgumentEvaluationData.h"
+#include "../include/data/ArgumentEvaluationData.h"
 
 using namespace Chrysalis;
 
-ArgumentEvaluationData::ArgumentEvaluationData(const BaseArgument<double>* expression, std::string&& expressionText, double expected)
+ArgumentEvaluationData::ArgumentEvaluationData(BaseArgument<double>* expression, std::string&& expressionText, double expected)
     : expression_(expression), expressionText_(std::move(expressionText)), expected_(expected) {}
 
-const BaseArgument<double>* ArgumentEvaluationData::expression() const {
+BaseArgument<double>* ArgumentEvaluationData::expression() const {
     return expression_;
 }
 

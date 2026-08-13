@@ -38,11 +38,13 @@ else()
     message(WARNING "clang-uml was not found.")
 endif()
 
-# ----- Doxygen --------------------------------------------------------------------------------------------------------
+# ----- Doxygen + Coverage Reports -------------------------------------------------------------------------------------
 
 find_package(Doxygen REQUIRED)
 
 set(ALL_DOXYGEN_TARGETS "")
+set(ALL_COVERAGE_TARGETS "")
+
 set(BREATHE_PROJECTS_LIST "")
 
 function(document_module)
@@ -63,12 +65,22 @@ function(document_module)
     )
     set(ALL_DOXYGEN_TARGETS ${ALL_DOXYGEN_TARGETS} GenerateDoxygen_${MODULE_OUTPUT} PARENT_SCOPE)
     set(BREATHE_PROJECTS_LIST "${BREATHE_PROJECTS_LIST}  \"${MODULE_NAME}\": \"${DOXYGEN_XML_DIR}\"," PARENT_SCOPE)
+
+    set(GCOVR_FILE ${CMAKE_CURRENT_BINARY_DIR}/${MODULE_OUTPUT}/.gcovr.cfg)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/.gcovr.cfg.in ${GCOVR_FILE} @ONLY)
+    add_custom_target(GenerateCoverageReport_${MODULE_OUTPUT}
+            COMMAND gcovr --config ${GCOVR_FILE}
+            WORKING_DIRECTORY ${DOCUMENTATION_DIR}
+            COMMENT "Generating coverage report for ${MODULE_NAME}" VERBATIM
+    )
+    set(ALL_COVERAGE_TARGETS ${ALL_COVERAGE_TARGETS} GenerateCoverageReport_${MODULE_OUTPUT} PARENT_SCOPE)
 endfunction()
 
 document_module(NAME "Pattern" SOURCE "pattern" OUTPUT "pattern")
 document_module(NAME "Renderer" SOURCE "renderer" OUTPUT "renderer")
 
-add_custom_target(GenerateDoxygen DEPENDS ${ALL_DOXYGEN_TARGETS} COMMENT "Building all module documentation...")
+add_custom_target(GenerateDoxygen DEPENDS ${ALL_DOXYGEN_TARGETS} COMMENT "Building all modules' documentation...")
+add_custom_target(GenerateCoverageReport DEPENDS ${ALL_COVERAGE_TARGETS} COMMENT "Generating coverage reports...")
 
 # ----- Sphynx Documentation -------------------------------------------------------------------------------------------
 

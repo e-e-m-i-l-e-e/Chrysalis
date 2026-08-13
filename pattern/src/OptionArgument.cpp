@@ -2,12 +2,8 @@
 
 using namespace Chrysalis;
 
-OptionArgument::OptionArgument(const OptionsContainer* options, const args::name* name)
-    : options_(options), name_(name) {}
-
-OptionArgument::~OptionArgument() {
-    delete name_;
-}
+OptionArgument::OptionArgument(const OptionsContainer* options, args::name&& name)
+    : options_(options), name_(std::move(name)) {}
 
 std::expected<bool, Error> OptionArgument::calculate() const {
     return name_->get().transform([this](const std::string& name) {

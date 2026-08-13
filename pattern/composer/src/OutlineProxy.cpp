@@ -11,7 +11,7 @@ Proxy::Outline::Outline(const std::string& name)
 
 Proxy::Outline::Point::Point(const std::string& name, const PatternPointArgument* point)
     : name_(name) {
-    instructions_.push_back(new BuildOutlineInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), new Argument(name_), point));
+    points_.push_back(point);
 }
 
 Proxy::Outline::Point Proxy::Outline::operator>>(const PatternPointArgument* point) const {
@@ -19,10 +19,21 @@ Proxy::Outline::Point Proxy::Outline::operator>>(const PatternPointArgument* poi
 }
 
 Proxy::Outline::Point& Proxy::Outline::Point::operator>>(const PatternPointArgument* point) {
-    instructions_.push_back(new BuildOutlineInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), new Argument(name_), point));
+    points_.push_back(point);
     return *this;
 }
 
-Proxy::Outline::Point::operator const std::vector<BasePatternInstruction*>&() const {
-    return instructions_;
+Proxy::Outline::Point::operator const std::vector<BasePatternInstruction*>() const {
+    const auto pointsContainer = new args::container<const PatternPointArgument>();
+    for (const auto& point: points_) {
+        pointsContainer->add(point);
+    }
+    return std::vector<BasePatternInstruction*>{
+        new BuildOutlineInstruction(
+            Composer::Instructions::space,
+            new args::patterns(*Composer::PatternInstructions::patterns),
+            std::make_unique<Argument<std::string>>(name_),
+            pointsContainer
+        )
+    };
 }

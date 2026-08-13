@@ -15,12 +15,10 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(FreePointInstruction)
     public:
         explicit FreePointInstruction(ProjectSpace* space, args::patterns* patterns,
-                                      const args::name* pointName, args::number&& x, args::number&& y);
-        ~FreePointInstruction() override;
-
+                                      args::name&& pointName, args::number&& x, args::number&& y);
         void execute() override;
     private:
-        const args::name* pointName_;
+        args::name pointName_;
         args::number x_;
         args::number y_;
     };

@@ -19,10 +19,10 @@ namespace Chrysalis::Proxy {
     public:
         explicit Point(const std::string& name, const PatternPointArgument* point);
         Point& operator>>(const PatternPointArgument* point);
-        operator const std::vector<BasePatternInstruction*>&() const;
+        operator const std::vector<BasePatternInstruction*>() const;
     private:
         const std::string name_;
-        std::vector<BasePatternInstruction*> instructions_;
+        std::vector<const PatternPointArgument*> points_;
     };
 }
 

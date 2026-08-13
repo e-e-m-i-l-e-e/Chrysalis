@@ -8,14 +8,12 @@ namespace Chrysalis {
     class ExpressionInstruction: public BaseInstruction {
         PROVIDE_SERIALIZATION_ACCESS(ExpressionInstruction)
     public:
-        explicit ExpressionInstruction(ExpressionsContainer* expressions, const args::name* name, args::number&& value);
-        ~ExpressionInstruction() override;
-
+        explicit ExpressionInstruction(ExpressionsContainer* expressions, args::name&& name, args::number&& value);
         void execute() override;
     private:
         ExpressionsContainer* expressions_;
         /// @uml{composition}
-        const args::name* name_;
+        args::name name_;
         args::number value_;
     };
     SERIALIZE_DERIVED_CONSTRUCTION(ExpressionInstruction, BaseInstruction, expressions_, name_, value_)

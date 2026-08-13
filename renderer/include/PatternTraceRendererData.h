@@ -7,10 +7,10 @@
 #include "Layout.h"
 #include "Vertex3f.h"
 #include "BaseRendererData.h"
-#include "observers/PatternSpaceObserver.h"
+#include "observers/PatternTraceObserver.h"
 
 namespace Chrysalis {
-    class PatternSpaceRendererData: public BaseRendererData<Vertex3f>, public PatternSpaceObserver, public PointObserver {
+    class PatternTraceRendererData: public BaseRendererData<Vertex3f>, public PatternTraceObserver, public PointObserver {
         struct Arrow {
             CG::Point baseBegin;
             CG::Point baseEnd;

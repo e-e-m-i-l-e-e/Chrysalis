@@ -7,7 +7,7 @@ using namespace Chrysalis;
 
 VectorArgument::VectorArgument(args::number&& angle, args::number&& length): VectorArgument(new args::origin(), std::move(angle), std::move(length)) {}
 
-VectorArgument::VectorArgument(const args::point* origin, args::number&& length): VectorArgument(origin, std::make_unique<const Argument<double>>(0), std::move(length)) {}
+VectorArgument::VectorArgument(const args::point* origin, args::number&& length): VectorArgument(origin, std::make_unique<Argument<double>>(0), std::move(length)) {}
 
 VectorArgument::VectorArgument(const args::point* origin, args::number&& angle, args::number&& length)
     : RayArgument(std::move(origin), std::move(angle)), length_(std::move(length)) {}

@@ -7,9 +7,9 @@ const Point* OriginPointArgument::get() const {
     return &point;
 }
 
-const args::name* OriginPointArgument::name() const {
-    static const args::name name("O");
-    return &name;
+const args::name& OriginPointArgument::name() const {
+    static const auto name = std::make_unique<Argument<std::string>>("O");
+    return name;
 }
 
 BasePointArgument* OriginPointArgument::clone() const {

@@ -1,0 +1,8 @@
+[gcovr]
+root = @CMAKE_SOURCE_DIR@
+filter = @CMAKE_SOURCE_DIR@/@MODULE_SOURCE@/*
+exclude = @CMAKE_SOURCE_DIR@/.conan/.*
+
+html-details = @DOCUMENTS_DIR@/coverage/index.html
+html-title = Chrysalis - @MODULE_NAME@ Test Coverage
+print-summary = true

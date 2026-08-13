@@ -2,14 +2,13 @@
 
 using namespace Chrysalis;
 
-PatternPointArgument::PatternPointArgument(const args::name* name, const args::patterns* patterns)
-    : name_(name), patterns_(patterns) {}
+PatternPointArgument::PatternPointArgument(args::name&& name, const args::patterns* patterns)
+    : name_(std::move(name)), patterns_(patterns) {}
 
 PatternPointArgument::PatternPointArgument(const PatternPointArgument& other)
-    : name_(new args::name(*other.name())), patterns_(new args::patterns(*other.patterns_)) {}
+    : name_(std::make_unique<Argument<std::string>>(*other.name())), patterns_(new args::patterns(*other.patterns_)) {}
 
 PatternPointArgument::~PatternPointArgument() {
-    delete name_;
     delete patterns_;
 }
 
@@ -25,7 +24,7 @@ const Point* PatternPointArgument::get() const {
     return patterns_->onAny(&PatternSpace::getPoint, name_->get().value());
 }
 
-const args::name* PatternPointArgument::name() const {
+const args::name& PatternPointArgument::name() const {
     return name_;
 }
 

@@ -21,15 +21,15 @@ namespace Chrysalis {
         PROVIDE_SERIALIZATION_ACCESS(BuildOutlineInstruction)
     public:
         explicit BuildOutlineInstruction(ProjectSpace* space, args::patterns* selectedPatterns,
-                                         const args::name* outlineName, const PatternPointArgument* point);
+                                         args::name&& outlineName, const args::container<const PatternPointArgument>* points);
         ~BuildOutlineInstruction() override;
 
         void execute() override;
     private:
-        const args::name* outlineName_;
-        const PatternPointArgument* point_;
+        args::name outlineName_;
+        const args::container<const PatternPointArgument>* points_;
     };
-    SERIALIZE_DERIVED_CONSTRUCTION(BuildOutlineInstruction, BasePatternInstruction, space_, patterns_, outlineName_, point_)
+    SERIALIZE_DERIVED_CONSTRUCTION(BuildOutlineInstruction, BasePatternInstruction, space_, patterns_, outlineName_, points_)
 }
 
 BOOST_CLASS_EXPORT_KEY(Chrysalis::BuildOutlineInstruction)

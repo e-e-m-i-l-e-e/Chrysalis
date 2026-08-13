@@ -4,6 +4,9 @@
 #include "ExtensionsManager.h"
 
 class BaseUIExporterOptions {
+protected:
+    virtual ~BaseUIExporterOptions() = default;
+public:
     struct Keys {
         inline static const QString ROOT_FOLDER = "rootFolder";
         inline static const QString FILE_NAME = "fileName";
@@ -16,9 +19,6 @@ class BaseUIExporterOptions {
         inline static const QString OBJECT_NAME = "";
         inline static const QString CLASS_NAME = "";
     };
-protected:
-    virtual ~BaseUIExporterOptions() = default;
-public:
     virtual bool isEnabled();
 
     virtual void read(const QSettings* settings);

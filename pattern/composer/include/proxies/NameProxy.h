@@ -17,45 +17,45 @@ namespace Chrysalis::Proxy {
         class Number;
         explicit Name(const std::string& name);
 
-        operator const args::name*() const;
+        operator args::name();
         operator args::number();
-        operator const OptionArgument*() const;
-        operator const PatternPointArgument*() const;
+        operator const OptionArgument*();
+        operator const PatternPointArgument*();
 
-        Number operator=(double value) const;
-        Number operator=(args::number&& number) const;
+        Number operator=(double value);
+        Number operator=(args::number&& number);
         const args::condition* operator<(Name&& other);
-        Proxy::Number::Point operator()(args::number&& number) const;
-        std::vector<BasePatternInstruction*> operator()(double x, double y) const;
+        Proxy::Number::Point operator()(args::number&& number);
+        std::vector<BasePatternInstruction*> operator()(double x, double y);
     private:
-        const args::name* name_;
+        args::name name_;
     };
-    Condition::Number operator<<(double value, const Name& name);
+    Condition::Number operator<<(double value, Name&& name);
     class Name::Vector {
     public:
         class Line;
-        explicit Vector(const args::name* name, const args::vector* vector);
-        operator std::vector<BasePatternInstruction*>() const;
-        Line operator|(const args::line* line) const;
+        explicit Vector(args::name&& name, const args::vector* vector);
+        operator std::vector<BasePatternInstruction*>();
+        Line operator|(const args::line* line);
     private:
-        const args::name* name_;
+        args::name name_;
         const args::vector* vector_;
     };
     class Name::Vector::Line {
     public:
-        explicit Line(const args::name* name, const args::vector* vector, const args::line* line);
-        operator std::vector<BasePatternInstruction*>() const;
+        explicit Line(args::name&& name, const args::vector* vector, const args::line* line);
+        operator std::vector<BasePatternInstruction*>();
     private:
-        const args::name* name_;
+        args::name name_;
         const args::line* line_;
         const args::vector* vector_;
     };
     class Name::Number {
     public:
-        explicit Number(const args::name* name, args::number&& number);
+        explicit Number(args::name&& name, args::number&& number);
         operator std::vector<BaseInstruction*>();
     private:
-        const args::name* name_;
+        args::name name_;
         args::number number_;
     };
 }

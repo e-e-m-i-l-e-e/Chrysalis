@@ -24,10 +24,10 @@ void Chrysalis::DartInstruction::execute() {
             pattern->addPoint(name.value() + "A", bottom);
             pattern->addPoint(name.value() + "1", leg1);
             pattern->addPoint(name.value() + "2", leg2);
-            pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, point_->get(), top);
-            pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, point_->get(), bottom);
-            pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, point_->get(), leg1);
-            pattern->notify(&PatternSpaceObserver::relativePointConnectionAdded, point_->get(), leg2);
+            pattern->trace::notify(&PatternTraceObserver::relativePointConnectionAdded, point_->get(), top);
+            pattern->trace::notify(&PatternTraceObserver::relativePointConnectionAdded, point_->get(), bottom);
+            pattern->trace::notify(&PatternTraceObserver::relativePointConnectionAdded, point_->get(), leg1);
+            pattern->trace::notify(&PatternTraceObserver::relativePointConnectionAdded, point_->get(), leg2);
         }
     }
 }

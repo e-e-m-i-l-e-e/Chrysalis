@@ -2,22 +2,26 @@
 
 using namespace Chrysalis;
 
-PatternSpace::PatternSpace(OutlineContainer* outline): outline_(outline) {}
+PatternSpace::PatternSpace(OutlineContainer outline): outline_(std::move(outline)) {}
 
-PatternSpace::~PatternSpace() {
-    delete outline_;
+PatternSpace* PatternSpace::create() {
+    return new PatternSpace(std::make_unique<NamedElementsContainer<Outline>>());
 }
 
 const Point* PatternSpace::getLastPoint() const {
     return lastPoint_;
 }
 
-OutlineContainer* PatternSpace::getOutline() const {
+const OutlineContainer& PatternSpace::getOutline() const {
     return outline_;
 }
 
 bool PatternSpace::hasPoint(const std::string& name) const {
     return points_.contains(name);
+}
+
+bool PatternSpace::hasOutline(const std::string& name) const {
+    return outline_->has(name);
 }
 
 const Point* PatternSpace::getPoint(const std::string& name) const {
@@ -31,12 +35,12 @@ const std::unordered_map<std::string, const Point*>& PatternSpace::getPoints() c
 void PatternSpace::addPoint(const std::string& name, const Point* point) {
     points_[name] = point;
     lastPoint_ = point;
-    notify(&PatternSpaceObserver::pointAdded, point);
+    trace::notify(&PatternTraceObserver::pointAdded, point);
 }
 
 void PatternSpace::transform(const Transformation& transformation) {
     transformation_ = transformation;
-    notify(&PatternSpaceObserver::transformed, transformation_);
+    trace::notify(&PatternTraceObserver::transformed, transformation_);
 }
 
 const Transformation& PatternSpace::getTransformation() const {

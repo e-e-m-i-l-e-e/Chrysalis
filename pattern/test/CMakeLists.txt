@@ -7,4 +7,4 @@ file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS
 add_executable(PatternLibraryTest ${TEST_SOURCES})
 target_include_directories(PatternLibraryTest PRIVATE include)
 target_link_libraries(PatternLibraryTest PRIVATE ProjectComposerLibrary GTest::gtest_main GTest::gtest GTest::gmock)
-add_test(NAME PatternLibraryTest COMMAND PatternLibraryTest --gtest_repeat=50)
+add_test(NAME PatternLibraryTest COMMAND PatternLibraryTest)

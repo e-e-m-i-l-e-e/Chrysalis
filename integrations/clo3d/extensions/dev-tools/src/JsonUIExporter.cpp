@@ -12,21 +12,16 @@
 #include "Logging.h"
 #define LOGGER_NAME "Json UI Exporter"
 
-JsonUIExporter::JsonUIExporter(JsonUIExporterOptions *options): options_(options) {}
-
-JsonUIExporter::~JsonUIExporter() {
-    delete options_;
-}
+JsonUIExporter::JsonUIExporter(std::unique_ptr<JsonUIExporterOptions> options): options_(std::move(options)) {}
 
 JsonUIExporter* JsonUIExporter::create() {
-    return new JsonUIExporter(new JsonUIExporterOptions());
+    return new JsonUIExporter(std::make_unique<JsonUIExporterOptions>());
 }
 
-void JsonUIExporter::exportUI(const std::forward_list<QWidget*> widgets) {
+void JsonUIExporter::exportUI(std::forward_list<QWidget*>&& widgets) {
     QJsonArray json;
     for (const auto& widget : widgets) {
-        const auto jsonObject = getWidgetJson(widget);
-        if (!jsonObject.keys().isEmpty()) json.append(jsonObject);
+        if (const auto jsonObject = getWidgetJson(widget); !jsonObject.keys().isEmpty()) json.append(jsonObject);
     }
     if (!options_->getRootFolder().exists()) {
         if (options_->getRootFolder().mkpath(".")) {
@@ -50,7 +45,7 @@ void JsonUIExporter::exportUI(const std::forward_list<QWidget*> widgets) {
 }
 
 BaseUIExporterOptions* JsonUIExporter::getOptions() {
-    return options_;
+    return options_.get();
 }
 
 QJsonObject JsonUIExporter::getWidgetJson(const QWidget *widget) {
@@ -175,6 +170,7 @@ QJsonObject JsonUIExporter::getObjectJson(const QObject *object) {
         switch (value.type()) {
             case QVariant::Bool: {
                 properties[property.name()] = value.toBool();
+                break;
             }
             case QVariant::Int:
             case QVariant::UInt:

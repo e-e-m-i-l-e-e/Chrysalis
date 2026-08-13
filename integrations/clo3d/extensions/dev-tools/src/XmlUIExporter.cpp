@@ -18,17 +18,13 @@
 #include "Logging.h"
 #define LOGGER_NAME "XML UI Exporter"
 
-XmlUIExporter::XmlUIExporter(XmlUIExporterOptions *options): options_(options) {}
-
-XmlUIExporter::~XmlUIExporter() {
-    delete options_;
-}
+XmlUIExporter::XmlUIExporter(std::unique_ptr<XmlUIExporterOptions> options): options_(std::move(options)) {}
 
 XmlUIExporter* XmlUIExporter::create() {
-    return new XmlUIExporter(new XmlUIExporterOptions());
+    return new XmlUIExporter(std::make_unique<XmlUIExporterOptions>());
 }
 
-void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
+void XmlUIExporter::exportUI(std::forward_list<QWidget*>&& widgets) {
     int id = 0;
     std::forward_list<std::future<void>> backgroundPostProcessors;
     for (const auto widget: widgets) {
@@ -379,5 +375,5 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*> widgets) {
 }
 
 BaseUIExporterOptions* XmlUIExporter::getOptions() {
-    return options_;
+    return options_.get();
 }

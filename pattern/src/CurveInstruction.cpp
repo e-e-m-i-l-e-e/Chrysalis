@@ -28,6 +28,6 @@ void CurveInstruction::execute() {
     points.push_back(segmentTo.end());
     const auto curve = space().addCurve(from_->origin()->get(), to_->origin()->get(), segmentFrom, segmentTo, points);
     for (const auto& pattern: *patterns_) {
-        pattern->notify(&PatternSpaceObserver::curveAdded, curve);
+        pattern->trace::notify(&PatternTraceObserver::curveAdded, curve);
     }
 }

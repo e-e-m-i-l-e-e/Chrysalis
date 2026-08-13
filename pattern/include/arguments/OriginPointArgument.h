@@ -8,7 +8,7 @@ namespace Chrysalis {
         SERIALIZE_DERIVED_FROM(BasePointArgument)
     public:
         [[nodiscard]] const Point* get() const override;
-        [[nodiscard]] const args::name* name() const override;
+        [[nodiscard]] const args::name& name() const override;
         [[nodiscard]] BasePointArgument* clone() const override;
     };
     namespace args {
