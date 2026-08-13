@@ -32,7 +32,7 @@ object Build : BuildType({
             scriptContent = """
                 set -ex
 
-                sudo add-apt-repository ppa:bkryza/clang-uml
+                sudo add-apt-repository -y ppa:bkryza/clang-uml
                 sudo apt update
                 sudo apt install -y cmake build-essential pkg-config clang-uml gcovr
             """.trimIndent()
@@ -103,7 +103,7 @@ object Build : BuildType({
                 set -ex
 
                 conan install . --build=missing --output-folder=.conan -o '&:app=Chrysalis' -s build_type=Debug
-                
+
                 cmake --preset conan-debug
                 cmake --build --preset conan-debug
             """.trimIndent()
