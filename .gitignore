@@ -4,5 +4,7 @@
 .build
 .conan
 .python
+.teamcity/.idea
+.teamcity/target
 
 CMakeUserPresets.json

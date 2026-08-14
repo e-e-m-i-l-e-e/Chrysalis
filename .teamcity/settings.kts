@@ -1,24 +1,32 @@
 import jetbrains.buildServer.configs.kotlin.*
 import jetbrains.buildServer.configs.kotlin.buildFeatures.perfmon
 import jetbrains.buildServer.configs.kotlin.buildSteps.script
+import jetbrains.buildServer.configs.kotlin.vcs.GitVcsRoot
 
 version = "2026.1"
 
 project {
-    buildType(InstallAndPushDependencies)
+    vcsRoot(HttpsGithubComEEMILEEChrysalisRefsHeadsDevelop)
+
     buildType(Build)
+    buildType(InstallAndPushDependencies)
+
+    buildTypesOrder = arrayListOf(
+        InstallAndPushDependencies,
+        Build
+    )
 }
 
 object InstallAndPushDependencies : BuildType({
     name = "Install And Push Dependencies"
 
     params {
-        param("artifactory.user", "admin")
         password("artifactory.api.key", "credentialsJSON:2811189a-9381-40ae-b4f7-e33e32bd5784")
+        param("artifactory.user", "admin")
     }
 
     vcs {
-        root(DslContext.settingsRoot)
+        root(HttpsGithubComEEMILEEChrysalisRefsHeadsDevelop)
     }
 
     steps {
@@ -84,7 +92,8 @@ object InstallAndPushDependencies : BuildType({
     }
 
     features {
-        perfmon {}
+        perfmon {
+        }
     }
 })
 
@@ -92,17 +101,15 @@ object Build : BuildType({
     name = "Build"
 
     params {
-        param("artifactory.user", "admin")
         password("artifactory.api.key", "credentialsJSON:2811189a-9381-40ae-b4f7-e33e32bd5784")
-
         password("filebrowser.api.key", "credentialsJSON:11fe4b58-4972-4bd2-9b84-f87664304acc")
-
         checkbox("skip.tests", "false", label = "Skip Tests", checked = "true", unchecked = "false")
         checkbox("skip.diagrams", "true", label = "Skip Diagrams Generation", checked = "true", unchecked = "false")
+        param("artifactory.user", "admin")
     }
 
     vcs {
-        root(DslContext.settingsRoot)
+        root(HttpsGithubComEEMILEEChrysalisRefsHeadsDevelop)
     }
 
     steps {
@@ -191,14 +198,14 @@ object Build : BuildType({
         script {
             name = "Run Tests"
             id = "Run_Tests"
-            scriptContent = """
-                set -ex
-                ctest --preset conan-debug --output-on-failure
-            """.trimIndent()
 
             conditions {
                 equals("skip.tests", "false")
             }
+            scriptContent = """
+                set -ex
+                ctest --preset conan-debug --output-on-failure
+            """.trimIndent()
         }
         script {
             name = "Generate Documentation"
@@ -239,6 +246,18 @@ object Build : BuildType({
     }
 
     features {
-        perfmon {}
+        perfmon {
+        }
+    }
+})
+
+object HttpsGithubComEEMILEEChrysalisRefsHeadsDevelop : GitVcsRoot({
+    name = "https://github.com/e-e-m-i-l-e-e/Chrysalis#refs/heads/develop"
+    url = "https://github.com/e-e-m-i-l-e-e/Chrysalis"
+    branch = "refs/heads/develop"
+    branchSpec = "refs/heads/*"
+    authMethod = password {
+        userName = "e-e-m-i-l-e-e"
+        password = "credentialsJSON:6cf6309b-1424-43d1-8344-b6bbc29f1bc8"
     }
 })
