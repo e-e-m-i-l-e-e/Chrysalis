@@ -4,8 +4,18 @@
 #include "arguments/VectorArgument.h"
 #include "arguments/SegmentArgument.h"
 #include "arguments/PatternPointArgument.h"
-#include "instructions/BasePatternInstruction.h"
+#include "instructions/DartInstruction.h"
+#include "instructions/EdgeDartInstruction.h"
+#include "instructions/UnfoldEdgeDartInstruction.h"
 
+namespace Chrysalis
+{
+    class DartInstruction;
+}
+
+/** @defgroup Proxy
+ * @{
+ */
 namespace Chrysalis::Proxy {
     class Number {
     public:
@@ -37,7 +47,7 @@ namespace Chrysalis::Proxy {
     class Number::Point::Vector {
     public:
         explicit Vector(args::number&& number, const PatternPointArgument* point, const args::vector* vector);
-        std::vector<BasePatternInstruction*> operator>>(const args::vector* vector);
+        DartInstruction* operator>>(const args::vector* vector);
     private:
         args::number number_;
         const args::vector* vector_;
@@ -46,7 +56,7 @@ namespace Chrysalis::Proxy {
     class Number::Vector::Segment {
     public:
         explicit Segment(args::number&& number, const args::vector* vector, const args::segment* segment);
-        operator std::vector<BasePatternInstruction*>();
+        operator EdgeDartInstruction*();
     private:
         args::number number_;
         const args::vector* vector_;
@@ -55,7 +65,7 @@ namespace Chrysalis::Proxy {
     class Number::Segment::And::Segment {
     public:
         explicit Segment(args::number&& number, const args::segment* segment1, const args::segment* segment2);
-        operator std::vector<BasePatternInstruction*>();
+        operator UnfoldEdgeDartInstruction*();
     private:
         args::number number_;
         const args::segment* segment1_;

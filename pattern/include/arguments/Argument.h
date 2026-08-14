@@ -4,6 +4,10 @@
 #include "BaseArgument.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Arguments
+     * @{
+     */
     template<typename T>
     class Argument: public BaseArgument<T> {
         PROVIDE_SERIALIZATION_ACCESS_T(Argument)

@@ -6,6 +6,10 @@
 
 namespace Chrysalis {
     /**
+     * @defgroup Instructions
+     * @{
+     */
+    /**
      * @uml{note[top] Syntax samples:
      * A (1, 1)
      * "A 1" (1.0, 2)

@@ -7,6 +7,8 @@
 #include "instructions/IntersectionPointInstruction.h"
 
 namespace Chrysalis::Proxy {
+    /** @defgroup Proxy
+     * @{*/
     class Line {
     public:
         class Lines;
@@ -37,7 +39,7 @@ namespace Chrysalis::Proxy {
     class Line::Lines::And::Names {
     public:
         explicit Names(const args::line* line, const args::container<args::line>* lines, const args::container<Argument<std::string>>* names);
-        operator std::vector<BasePatternInstruction*>() const;
+        operator IntersectionPointInstruction*() const;
     private:
         const args::line* line_;
         const args::container<args::line>* lines_;

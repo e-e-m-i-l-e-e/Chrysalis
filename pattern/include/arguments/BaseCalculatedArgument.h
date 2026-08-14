@@ -6,6 +6,10 @@
 #include "arguments/BaseArgument.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Arguments
+     * @{
+     */
     template<typename T>
     class BaseCalculatedArgument: public BaseArgument<T> {
         SERIALIZE_DERIVED_FROM(BaseArgument<T>, value_)

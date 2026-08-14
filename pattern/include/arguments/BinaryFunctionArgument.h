@@ -6,6 +6,10 @@
 #define BINARY_FUNCTIONS (Add)(Subtract)(Multiply)(Divide)(Min)(Max)
 
 namespace Chrysalis {
+    /**
+     * @defgroup Arguments
+     * @{
+     */
     class BinaryFunctionArgument: public BaseCalculatedArgument<double> {
         SERIALIZE_DERIVED_FROM(BaseCalculatedArgument)
     protected:

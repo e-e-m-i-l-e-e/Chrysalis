@@ -3,6 +3,9 @@
 
 #include "arguments/ConditionalArgument.h"
 
+/** @defgroup Proxy
+ * @{
+ */
 namespace Chrysalis::Proxy {
     struct Condition {
         class Number;

@@ -4,6 +4,10 @@
 #include "arguments/PatternPointArgument.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Arguments
+     * @{
+     */
     class LineArgument {
         PROVIDE_SERIALIZATION_ACCESS(LineArgument)
     protected:

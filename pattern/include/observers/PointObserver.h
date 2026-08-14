@@ -4,6 +4,10 @@
 #include "BaseObserver.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Observers
+     * @{
+     */
     class Point;
     class PointObserver: public BaseObserver<PointObserver> {
     protected:

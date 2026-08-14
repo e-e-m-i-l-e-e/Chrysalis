@@ -5,6 +5,10 @@
 #include "BaseObserver.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Observers
+     * @{
+     */
     class PatternShapeObserver: public BaseObserver<PatternShapeObserver> {
     protected:
         explicit PatternShapeObserver() = default;

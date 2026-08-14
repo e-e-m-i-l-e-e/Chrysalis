@@ -6,6 +6,10 @@
 #include "instructions/BaseInstructionsContainer.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Instructions
+     * @{
+     */
     class PatternInstructionsContainer: public BaseInstructionsContainer<BasePatternInstruction> {
         PROVIDE_SERIALIZATION_ACCESS(PatternInstructionsContainer)
     public:

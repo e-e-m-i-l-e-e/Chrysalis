@@ -7,6 +7,10 @@
 #include "arguments/PatternsContainerArgument.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Arguments
+     * @{
+     */
     class PatternPointArgument: public BasePointArgument {
         PROVIDE_SERIALIZATION_ACCESS(PatternPointArgument)
     public:

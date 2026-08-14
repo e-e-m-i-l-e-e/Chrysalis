@@ -5,6 +5,10 @@
 #include "arguments/VectorArgument.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Instructions
+     * @{
+     */
     class TransformInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(TransformInstruction)
     public:

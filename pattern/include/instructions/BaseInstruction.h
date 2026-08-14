@@ -4,6 +4,10 @@
 #include "serialization.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Instructions
+     * @{
+     */
     class BaseInstruction {
         SERIALIZED
     protected:

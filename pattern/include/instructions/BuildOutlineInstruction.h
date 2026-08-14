@@ -12,6 +12,10 @@
 
 namespace Chrysalis {
     /**
+     * @defgroup Instructions
+     * @{
+     */
+    /**
      * @uml{note[top] Syntax samples:
      * out -> A -> B -> C // (3 instructions)
      * out("Name") -> A -> B -> C

@@ -35,6 +35,10 @@ Proxy::Line::Lines::And* Proxy::Line::Lines::And::operator->() {
     return this;
 }
 
-Proxy::Line::Lines::And::Names::operator std::vector<BasePatternInstruction*>() const {
-    return {new IntersectionPointInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), line_, names_, lines_)};
+Proxy::Line::Lines::And::Names::operator IntersectionPointInstruction*() const {
+    return new IntersectionPointInstruction(
+        Composer::Instructions::space,
+        new args::patterns(*Composer::PatternInstructions::patterns),
+        line_, names_, lines_
+    );
 }

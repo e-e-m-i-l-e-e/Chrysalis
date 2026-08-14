@@ -7,6 +7,10 @@
 #include "BaseCalculatedArgument.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Arguments
+     * @{
+     */
     class ParameterArgument: public BaseCalculatedArgument<double> {
         PROVIDE_SERIALIZATION_ACCESS(ParameterArgument)
     public:

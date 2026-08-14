@@ -7,6 +7,10 @@
 #include "instructions/BasePatternInstruction.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Instructions
+     * @{
+     */
     class CurveInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(CurveInstruction)
     public:

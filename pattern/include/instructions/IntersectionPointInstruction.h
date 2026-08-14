@@ -8,6 +8,10 @@
 #include "instructions/BasePatternInstruction.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Instructions
+     * @{
+     */
     class IntersectionPointInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(IntersectionPointInstruction)
     public:

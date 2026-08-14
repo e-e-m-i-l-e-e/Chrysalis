@@ -5,6 +5,10 @@
 #include "instructions/BaseInstruction.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Instructions
+     * @{
+     */
     class ExpressionInstruction: public BaseInstruction {
         PROVIDE_SERIALIZATION_ACCESS(ExpressionInstruction)
     public:

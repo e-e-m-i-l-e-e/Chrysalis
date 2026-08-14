@@ -37,14 +37,26 @@ Proxy::Number::Point::operator const PatternPointArgument*() const {
     return point_;
 }
 
-std::vector<BasePatternInstruction*> Proxy::Number::Point::Vector::operator>>(const args::vector* vector) {
-    return {new DartInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), point_, std::move(number_), vector_, vector)};
+DartInstruction* Proxy::Number::Point::Vector::operator>>(const args::vector* vector) {
+    return new DartInstruction(
+        Composer::Instructions::space,
+        new args::patterns(*Composer::PatternInstructions::patterns),
+        point_, std::move(number_), vector_, vector
+    );
 }
 
-Proxy::Number::Vector::Segment::operator std::vector<BasePatternInstruction*>() {
-    return {new EdgeDartInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), segment_, vector_, std::move(number_), new args::optional<args::number>())};
+Proxy::Number::Vector::Segment::operator EdgeDartInstruction*() {
+    return new EdgeDartInstruction(
+        Composer::Instructions::space,
+        new args::patterns(*Composer::PatternInstructions::patterns),
+        segment_, vector_, std::move(number_), new args::optional<args::number>()
+    );
 }
 
-Proxy::Number::Segment::And::Segment::operator std::vector<BasePatternInstruction*>() {
-    return {new UnfoldEdgeDartInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), segment1_, segment2_, std::move(number_))};
+Proxy::Number::Segment::And::Segment::operator UnfoldEdgeDartInstruction*() {
+    return new UnfoldEdgeDartInstruction(
+        Composer::Instructions::space,
+        new args::patterns(*Composer::PatternInstructions::patterns),
+        segment1_, segment2_, std::move(number_)
+    );
 }

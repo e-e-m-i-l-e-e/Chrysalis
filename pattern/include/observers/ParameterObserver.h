@@ -2,6 +2,10 @@
 #define CHRYSALIS_PARAMETEROBSERVER_H
 
 namespace Chrysalis {
+    /**
+     * @defgroup Observers
+     * @{
+     */
     class ParameterObserver {
     protected:
         explicit ParameterObserver() = default;

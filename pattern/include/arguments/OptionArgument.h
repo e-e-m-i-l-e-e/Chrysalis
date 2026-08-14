@@ -6,6 +6,10 @@
 #include "arguments/BaseCalculatedArgument.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Arguments
+     * @{
+     */
     class OptionArgument: public BaseCalculatedArgument<bool> {
         PROVIDE_SERIALIZATION_ACCESS(OptionArgument)
     public:

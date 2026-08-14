@@ -5,7 +5,11 @@
 
 #include "arguments/PatternPointArgument.h"
 #include "instructions/BasePatternInstruction.h"
+#include "instructions/BuildOutlineInstruction.h"
 
+/** @defgroup Proxy
+ * @{
+ */
 namespace Chrysalis::Proxy {
     class Outline {
     public:
@@ -19,7 +23,7 @@ namespace Chrysalis::Proxy {
     public:
         explicit Point(const std::string& name, const PatternPointArgument* point);
         Point& operator>>(const PatternPointArgument* point);
-        operator const std::vector<BasePatternInstruction*>() const;
+        operator BuildOutlineInstruction*() const;
     private:
         const std::string name_;
         std::vector<const PatternPointArgument*> points_;

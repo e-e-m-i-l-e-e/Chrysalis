@@ -6,6 +6,10 @@
 #include "arguments/ConditionalArgument.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Instructions
+     * @{
+     */
     class ConditionalInstructionsContainer: public BaseInstruction {
         PROVIDE_SERIALIZATION_ACCESS(ConditionalInstructionsContainer)
     public:

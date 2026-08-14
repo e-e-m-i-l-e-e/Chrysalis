@@ -7,6 +7,10 @@
 #include "CompositiveContainer.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Instructions
+     * @{
+     */
     template<typename T>
     requires std::derived_from<T, BaseInstruction>
     class BaseInstructionsContainer: public BaseInstruction, public CompositiveContainer<T> {

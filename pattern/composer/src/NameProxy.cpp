@@ -45,16 +45,28 @@ Proxy::Name::Vector::Line Proxy::Name::Vector::operator|(const args::line* line)
     return Line(std::move(name_), vector_, line);
 }
 
-std::vector<BasePatternInstruction*> Proxy::Name::operator()(const double x, const double y) {
-    return {new FreePointInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), std::move(name_), std::make_unique<Argument<double>>(x), std::make_unique<Argument<double>>(y))};
+FreePointInstruction* Proxy::Name::operator()(const double x, const double y) {
+    return new FreePointInstruction(
+        Composer::Instructions::space,
+        new args::patterns(*Composer::PatternInstructions::patterns),
+        std::move(name_), std::make_unique<Argument<double>>(x), std::make_unique<Argument<double>>(y)
+    );
 }
 
-Proxy::Name::Vector::operator std::vector<BasePatternInstruction*>() {
-    return {new RelativePointInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), std::move(name_), vector_, new args::optional<args::line>())};
+Proxy::Name::Vector::operator RelativePointInstruction*() {
+    return new RelativePointInstruction(
+        Composer::Instructions::space,
+        new args::patterns(*Composer::PatternInstructions::patterns),
+        std::move(name_), vector_, new args::optional<args::line>()
+    );
 }
 
-Proxy::Name::Vector::Line::operator std::vector<BasePatternInstruction*>() {
-    return {new RelativePointInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), std::move(name_), vector_, new args::optional(line_))};
+Proxy::Name::Vector::Line::operator RelativePointInstruction*() {
+    return new RelativePointInstruction(
+        Composer::Instructions::space,
+        new args::patterns(*Composer::PatternInstructions::patterns),
+        std::move(name_), vector_, new args::optional(line_)
+    );
 }
 
 Proxy::Condition::Number Proxy::operator<<(const double value, Name&& name) {
@@ -73,6 +85,9 @@ const args::condition* Proxy::Name::operator<(Name&& other) {
     return new args::compare::Less(*this, other);
 }
 
-Proxy::Name::Number::operator std::vector<BaseInstruction*>() {
-    return {new ExpressionInstruction(Composer::Instructions::instructionsContainer->expressions(), std::move(name_), std::move(number_))};
+Proxy::Name::Number::operator ExpressionInstruction*() {
+    return new ExpressionInstruction(
+        Composer::Instructions::instructionsContainer->expressions(),
+        std::move(name_), std::move(number_)
+    );
 }

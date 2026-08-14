@@ -4,6 +4,10 @@
 #include "BasePatternInstruction.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Instructions
+     * @{
+     */
     class ResetTransformationInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(ResetTransformationInstruction)
     public:

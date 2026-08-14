@@ -9,7 +9,13 @@
 #include "arguments/OptionArgument.h"
 #include "arguments/VectorArgument.h"
 #include "instructions/BasePatternInstruction.h"
+#include "instructions/ExpressionInstruction.h"
+#include "instructions/FreePointInstruction.h"
+#include "instructions/RelativePointInstruction.h"
 
+/** @defgroup Proxy
+ * @{
+ */
 namespace Chrysalis::Proxy {
     class Name {
     public:
@@ -26,7 +32,7 @@ namespace Chrysalis::Proxy {
         Number operator=(args::number&& number);
         const args::condition* operator<(Name&& other);
         Proxy::Number::Point operator()(args::number&& number);
-        std::vector<BasePatternInstruction*> operator()(double x, double y);
+        FreePointInstruction* operator()(double x, double y);
     private:
         args::name name_;
     };
@@ -35,7 +41,7 @@ namespace Chrysalis::Proxy {
     public:
         class Line;
         explicit Vector(args::name&& name, const args::vector* vector);
-        operator std::vector<BasePatternInstruction*>();
+        operator RelativePointInstruction*();
         Line operator|(const args::line* line);
     private:
         args::name name_;
@@ -44,7 +50,7 @@ namespace Chrysalis::Proxy {
     class Name::Vector::Line {
     public:
         explicit Line(args::name&& name, const args::vector* vector, const args::line* line);
-        operator std::vector<BasePatternInstruction*>();
+        operator RelativePointInstruction*();
     private:
         args::name name_;
         const args::line* line_;
@@ -53,7 +59,7 @@ namespace Chrysalis::Proxy {
     class Name::Number {
     public:
         explicit Number(args::name&& name, args::number&& number);
-        operator std::vector<BaseInstruction*>();
+        operator ExpressionInstruction*();
     private:
         args::name name_;
         args::number number_;

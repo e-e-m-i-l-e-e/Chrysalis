@@ -5,6 +5,10 @@
 #include "arguments/Argument.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Arguments
+     * @{
+     */
     class BasePointArgument {
         SERIALIZED
     protected:

@@ -12,18 +12,18 @@ namespace Chrysalis::Composer {
     public:
         class True;
         explicit ConditionalInstructionsContainerInitializer(const args::condition* condition);
-        True operator<<(std::initializer_list<std::vector<BaseInstruction*>>&& instructions) const;
+        True operator<<(std::initializer_list<BaseInstruction*>&& instructions) const;
     private:
         const args::condition* condition_;
     };
     class ConditionalInstructionsContainerInitializer::True {
     public:
-        explicit True(const args::condition* condition, std::initializer_list<std::vector<BaseInstruction*>>&& instructions);
-        operator std::vector<Chrysalis::BaseInstruction*>() const;
-        std::vector<BaseInstruction*> operator<<(std::initializer_list<std::vector<BaseInstruction*>>&& instructionBlocks) const;
+        explicit True(const args::condition* condition, std::initializer_list<BaseInstruction*>&& instructions);
+        operator Chrysalis::BaseInstruction*() const;
+        BaseInstruction* operator<<(std::initializer_list<BaseInstruction*>&& instructionBlocks) const;
     private:
         const args::condition* condition_;
-        const std::initializer_list<std::vector<BaseInstruction*>> instructions_;
+        const std::initializer_list<BaseInstruction*> instructions_;
     };
 }
 

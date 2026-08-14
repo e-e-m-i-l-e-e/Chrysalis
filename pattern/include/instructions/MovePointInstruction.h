@@ -10,6 +10,10 @@
 
 namespace Chrysalis {
     /**
+     * @defgroup Instructions
+     * @{
+     */
+    /**
      * @uml{note[top] Syntax samples:
      * B -10-> A <-15- C}
      */

@@ -64,6 +64,10 @@ Proxy::Number::Vector::Segment Proxy::Vector::Segment::operator()(const double n
     return Number::Vector::Segment(std::make_unique<Argument<double>>(number), vector_, segment_);
 }
 
-Proxy::Vector::And::Vector::operator std::vector<BasePatternInstruction*>() const {
-    return {new CurveInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), vector1_, vector2_, new args::container<PatternPointArgument>())};
+Proxy::Vector::And::Vector::operator CurveInstruction*() const {
+    return new CurveInstruction(
+        Composer::Instructions::space,
+        new args::patterns(*Composer::PatternInstructions::patterns),
+        vector1_, vector2_, new args::container<PatternPointArgument>()
+    );
 }

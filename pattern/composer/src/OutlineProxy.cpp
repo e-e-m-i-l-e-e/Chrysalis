@@ -23,17 +23,15 @@ Proxy::Outline::Point& Proxy::Outline::Point::operator>>(const PatternPointArgum
     return *this;
 }
 
-Proxy::Outline::Point::operator const std::vector<BasePatternInstruction*>() const {
+Proxy::Outline::Point::operator BuildOutlineInstruction*() const {
     const auto pointsContainer = new args::container<const PatternPointArgument>();
     for (const auto& point: points_) {
         pointsContainer->add(point);
     }
-    return std::vector<BasePatternInstruction*>{
-        new BuildOutlineInstruction(
-            Composer::Instructions::space,
-            new args::patterns(*Composer::PatternInstructions::patterns),
-            std::make_unique<Argument<std::string>>(name_),
-            pointsContainer
-        )
-    };
+    return new BuildOutlineInstruction(
+        Composer::Instructions::space,
+        new args::patterns(*Composer::PatternInstructions::patterns),
+        std::make_unique<Argument<std::string>>(name_),
+        pointsContainer
+    );
 }

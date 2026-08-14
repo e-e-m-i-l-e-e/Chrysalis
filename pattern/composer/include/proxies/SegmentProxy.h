@@ -5,6 +5,9 @@
 #include "VectorProxy.h"
 #include "arguments/SegmentArgument.h"
 
+/** @defgroup Proxy
+ * @{
+ */
 namespace Chrysalis::Proxy {
     class Segment {
     public:

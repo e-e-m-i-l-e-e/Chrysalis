@@ -8,6 +8,10 @@
 #include "CompositiveContainer.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Arguments
+     * @{
+     */
     template<typename T>
     class BaseArgument {
         SERIALIZED

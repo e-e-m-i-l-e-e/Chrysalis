@@ -28,10 +28,18 @@ Proxy::Number Proxy::Point::operator()(args::number&& number) const {
     return Proxy::Number(std::move(number));
 }
 
-Proxy::Point::Vector::operator std::vector<BasePatternInstruction*>() const {
-    return {new MovePointInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), point_, vector_, new args::optional<args::vector>())};
+Proxy::Point::Vector::operator MovePointInstruction*() const {
+    return new MovePointInstruction(
+        Composer::Instructions::space,
+        new args::patterns(*Composer::PatternInstructions::patterns),
+        point_, vector_, new args::optional<args::vector>()
+    );
 }
 
-Proxy::Point::Vector::And::Vector::operator std::vector<BasePatternInstruction*>() const {
-    return {new MovePointInstruction(Composer::Instructions::space, new args::patterns(*Composer::PatternInstructions::patterns), point_, vector1_, new args::optional(vector2_))};
+Proxy::Point::Vector::And::Vector::operator MovePointInstruction*() const {
+    return new MovePointInstruction(
+        Composer::Instructions::space,
+        new args::patterns(*Composer::PatternInstructions::patterns),
+        point_, vector1_, new args::optional(vector2_)
+    );
 }

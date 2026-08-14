@@ -6,6 +6,10 @@
 #include "arguments/BaseArgument.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Arguments
+     * @{
+     */
     class VectorArgument: public RayArgument {
         PROVIDE_SERIALIZATION_ACCESS(VectorArgument)
     protected:

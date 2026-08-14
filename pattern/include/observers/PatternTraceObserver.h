@@ -6,6 +6,10 @@
 #include "Transformation.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Observers
+     * @{
+     */
     class PatternTraceObserver {
     protected:
         explicit PatternTraceObserver() = default;

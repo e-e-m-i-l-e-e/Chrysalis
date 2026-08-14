@@ -8,6 +8,10 @@
 #include "arguments/PatternsContainerArgument.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Instructions
+     * @{
+     */
     class BasePatternInstruction: public BaseInstruction {
         SERIALIZED
     public:

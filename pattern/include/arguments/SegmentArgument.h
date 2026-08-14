@@ -5,6 +5,10 @@
 #include "arguments/PatternPointArgument.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Arguments
+     * @{
+     */
     class SegmentArgument: public VectorArgument {
         PROVIDE_SERIALIZATION_ACCESS(SegmentArgument)
     public:

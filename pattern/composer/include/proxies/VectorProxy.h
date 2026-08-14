@@ -6,7 +6,11 @@
 #include "proxies/NameProxy.h"
 #include "proxies/PointProxy.h"
 #include "arguments/SegmentArgument.h"
+#include "instructions/CurveInstruction.h"
 
+/** @defgroup Proxy
+ * @{
+ */
 namespace Chrysalis::Proxy {
     class Vector {
     public:
@@ -41,7 +45,7 @@ namespace Chrysalis::Proxy {
     class Vector::And::Vector {
     public:
         explicit Vector(const args::vector* vector1, const args::vector* vector2);
-        operator std::vector<BasePatternInstruction*>() const;
+        operator CurveInstruction*() const;
     private:
         const args::vector* vector1_;
         const args::vector* vector2_;

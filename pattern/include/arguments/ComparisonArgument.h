@@ -6,6 +6,10 @@
 #include "BaseCalculatedArgument.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Arguments
+     * @{
+     */
     class ComparisonArgument: public BaseCalculatedArgument<bool> {
         SERIALIZE_DERIVED_FROM(BaseCalculatedArgument)
     protected:

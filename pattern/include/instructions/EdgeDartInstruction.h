@@ -8,6 +8,10 @@
 #include "instructions/BasePatternInstruction.h"
 
 namespace Chrysalis {
+    /**
+     * @defgroup Instructions
+     * @{
+     */
     class EdgeDartInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(EdgeDartInstruction)
     public:

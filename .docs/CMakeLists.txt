@@ -78,6 +78,7 @@ endfunction()
 
 document_module(NAME "Pattern" SOURCE "pattern" OUTPUT "pattern")
 document_module(NAME "Renderer" SOURCE "renderer" OUTPUT "renderer")
+document_module(NAME "Project Composer" SOURCE "pattern/composer" OUTPUT "composer")
 
 add_custom_target(GenerateDoxygen DEPENDS ${ALL_DOXYGEN_TARGETS} COMMENT "Building all modules' documentation...")
 add_custom_target(GenerateCoverageReport DEPENDS ${ALL_COVERAGE_TARGETS} COMMENT "Generating coverage reports...")

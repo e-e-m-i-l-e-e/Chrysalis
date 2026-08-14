@@ -4,6 +4,9 @@
 #include "LineProxy.h"
 #include "arguments/RayArgument.h"
 
+/** @defgroup Proxy
+ * @{
+ */
 namespace Chrysalis::Proxy {
     class Ray {
     public:

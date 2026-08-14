@@ -11,6 +11,10 @@
 
 namespace Chrysalis {
     /**
+     * @defgroup Instructions
+     * @{
+     */
+    /**
      * @uml{note[top] Syntax samples:
      * A -> B 45 10
      * "A 1" ("Back") -> "B 2" 1 / 2 * 3 param("Short alias")

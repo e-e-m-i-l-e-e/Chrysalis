@@ -80,11 +80,11 @@ Composer::PatternInstructions(new args::patterns({                              
         GET_PATTERN_NAME, _,                                                                                           \
         BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__)                                                                          \
     )                                                                                                                  \
-})) << std::initializer_list<std::vector<BasePatternInstruction*>>                                                                  \
+})) << std::initializer_list<BasePatternInstruction*>                                                                  \
 
-#define Block Composer::Instructions(project_) << std::initializer_list<std::vector<BaseInstruction*>>
-#define If(condition) Composer::ConditionalInstructionsContainerInitializer(condition) << std::initializer_list<std::vector<BaseInstruction*>>
-#define Else << std::initializer_list<std::vector<BaseInstruction*>>
+#define Block Composer::Instructions(project_) << std::initializer_list<BaseInstruction*>
+#define If(condition) Composer::ConditionalInstructionsContainerInitializer(condition) << std::initializer_list<BaseInstruction*>
+#define Else << std::initializer_list<BaseInstruction*>
 
 #define REPEAT_NAMES(d, data, elem) new Argument<std::string>(PointName::elem)
 #define names(...) names(new args::container<Argument<std::string>>({BOOST_PP_SEQ_ENUM(BOOST_PP_SEQ_TRANSFORM(REPEAT_NAMES, ~, BOOST_PP_VARIADIC_TO_SEQ(__VA_ARGS__)))}))
