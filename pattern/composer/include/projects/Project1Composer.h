@@ -88,6 +88,10 @@ namespace Chrysalis {
             static constexpr auto MAIN = "main";
         };
     public:
+        struct PatternName {
+            static constexpr auto BACK = "Back";
+            static constexpr auto FRONT = "Front";
+        };
         explicit Project1Composer(Project* project);
 
         static Project* createProject();

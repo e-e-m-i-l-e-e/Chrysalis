@@ -11,39 +11,40 @@
 using namespace Chrysalis;
 
 class TestProject1: public ::testing::Test {
+    static constexpr auto TEMP_FILE = "temp";
 protected:
     void SetUp() override {
-        project_ = Project1Composer::createProject();
-        composer_ = new Project1Composer(project_);
-        composer_->fill();
+        project_ = std::unique_ptr<Project>(Project1Composer::createProject());
+        Project1Composer(project_.get()).fill();
 
         project_->getInstructions()->execute();
-        
-        back_ = composer_->getBack();
-        front_ = composer_->getFront();
+
+        Project::write(TEMP_FILE, project_.get());
+        deserializedProject_ = std::unique_ptr<Project>(Project::read(TEMP_FILE));
+        deserializedProject_->getInstructions()->execute();
     }
-    void TearDown() override {
-        delete project_;
-        delete composer_;
+    [[nodiscard]] std::vector<Project*> getProjects() const {
+        return {project_.get(), deserializedProject_.get()};
     }
-    Project* project_ = nullptr;
-    Project1Composer* composer_ = nullptr;
-    
-    PatternSpace* back_ = nullptr;
-    PatternSpace* front_ = nullptr;
+    static std::vector<std::pair<PatternSpace*, std::reference_wrapper<const std::unordered_map<std::string, std::pair<double, double>>>>> data(const Project* project) {
+        return {
+            std::make_pair(project->getPatterns()->get(Project1Composer::PatternName::BACK)->getSpace(), std::cref(Project1Composer::expectedBack)),
+            std::make_pair(project->getPatterns()->get(Project1Composer::PatternName::FRONT)->getSpace(), std::cref(Project1Composer::expectedFront)),
+        };
+    }
+    std::unique_ptr<Project> project_;
+    std::unique_ptr<Project> deserializedProject_ = nullptr;
 };
 
 TEST_F(TestProject1, Project1) {
-    ASSERT_EQ(composer_->expectedBack.size(), back_->getPoints().size());
-    for (const auto& [name, point]: composer_->expectedBack) {
-        ASSERT_TRUE(back_->hasPoint(name));
-        EXPECT_NEAR(back_->getPoint(name)->x(), point.first, pow(10, -4)) << "x coordinate of point \"" << name << "\" is misplaced.";
-        EXPECT_NEAR(back_->getPoint(name)->y(), point.second, pow(10, -4)) << "x coordinate of point \"" << name << "\" is misplaced.";
-    }
-    ASSERT_EQ(composer_->expectedFront.size(), front_->getPoints().size());
-    for (const auto& [name, point]: composer_->expectedFront) {
-        ASSERT_TRUE(front_->hasPoint(name));
-        EXPECT_NEAR(front_->getPoint(name)->x(), point.first, pow(10, -4)) << "x coordinate of point \"" << name << "\" is misplaced.";
-        EXPECT_NEAR(front_->getPoint(name)->y(), point.second, pow(10, -4)) << "x coordinate of point \"" << name << "\" is misplaced.";
+    for (const auto& project : getProjects()) {
+        for (const auto& [patternSpace, expected]: data(project)) {
+            ASSERT_EQ(patternSpace->getPoints().size(), expected.get().size());
+            for (const auto& [name, point]: expected.get()) {
+                ASSERT_TRUE(patternSpace->hasPoint(name));
+                EXPECT_NEAR(patternSpace->getPoint(name)->x(), point.first, pow(10, -4)) << "x coordinate of point \"" << name << "\" is misplaced.";
+                EXPECT_NEAR(patternSpace->getPoint(name)->y(), point.second, pow(10, -4)) << "x coordinate of point \"" << name << "\" is misplaced.";
+            }
+        }
     }
 }

@@ -45,9 +45,9 @@ void Project1Composer::fillOptions() {
 
 void Project1Composer::fillPatterns() {
     const auto patterns = project_->getPatterns();
-    back_ = Pattern::create("Back");
+    back_ = Pattern::create(PatternName::BACK);
     patterns->add(back_);
-    front_ = Pattern::create("Front");
+    front_ = Pattern::create(PatternName::FRONT);
     patterns->add(front_);
 }
 
