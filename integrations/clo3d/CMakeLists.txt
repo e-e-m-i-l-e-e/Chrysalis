@@ -29,7 +29,6 @@ if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
     # ----- Build "Extensions.dll" -------------------------------------------------------------------------------------
 
     # Prepare requested extensions
-    find_package(clo-sdk REQUIRED)
 
     set(CLO3D_UI_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/ui)
     set(CLO3D_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -49,9 +48,12 @@ if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
             EXTEND_WITH_AUTHENTICATOR=$<BOOL:${EXTEND_WITH_AUTHENTICATOR}>
     )
     target_link_libraries(CLO3DExtensionsBase PUBLIC
-            clo-sdk::clo-sdk
             LoggingLibrary PatternLibrary CLO3DWidgetsLibrary HooksLibrary
             Qt5::Core Qt5::CorePrivate Qt5::Concurrent Qt5::Xml Qt5::Designer)
+    if (WIN32)
+        find_package(clo-sdk REQUIRED)
+        target_link_libraries(CLO3DExtensionsBase PUBLIC clo-sdk::clo-sdk)
+    endif ()
 
     add_library(CLO3DExtensions SHARED $<TARGET_OBJECTS:CLO3DExtensionsBase>)
     target_link_libraries(CLO3DExtensions PUBLIC CLO3DExtensionsBase)

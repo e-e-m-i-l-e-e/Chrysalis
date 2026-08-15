@@ -19,10 +19,11 @@ ProjectSpace* BasePatternInstructionTest<T>::space() const {
 }
 
 template<typename T>
-args::patterns* BasePatternInstructionTest<T>::mockPatterns(int n) {
+args::patterns* BasePatternInstructionTest<T>::mockPatterns(const int n) {
     const auto patterns = new PatternsContainerArgument();
     for (size_t i = 0; i < n; ++i) {
         const auto patternSpace = PatternSpace::create();
+        testPatternSpaces_.push_back(std::unique_ptr<PatternSpace>(patternSpace));
         const auto observer = new PatternTraceObserverMock();
         patternSpace->trace::addObserver(observer);
         patterns->add(patternSpace);

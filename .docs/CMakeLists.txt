@@ -66,6 +66,7 @@ function(document_module)
     set(ALL_DOXYGEN_TARGETS ${ALL_DOXYGEN_TARGETS} GenerateDoxygen_${MODULE_OUTPUT} PARENT_SCOPE)
     set(BREATHE_PROJECTS_LIST "${BREATHE_PROJECTS_LIST}  \"${MODULE_NAME}\": \"${DOXYGEN_XML_DIR}\"," PARENT_SCOPE)
 
+    file(MAKE_DIRECTORY ${DOCUMENTATION_DIR}/coverage/${MODULE_OUTPUT})
     set(GCOVR_FILE ${CMAKE_CURRENT_BINARY_DIR}/${MODULE_OUTPUT}/.gcovr.cfg)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/.gcovr.cfg.in ${GCOVR_FILE} @ONLY)
     add_custom_target(GenerateCoverageReport_${MODULE_OUTPUT}

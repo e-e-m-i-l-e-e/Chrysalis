@@ -1,8 +1,14 @@
-[gcovr]
 root = @CMAKE_SOURCE_DIR@
-filter = @CMAKE_SOURCE_DIR@/@MODULE_SOURCE@/*
+filter = @CMAKE_SOURCE_DIR@/@MODULE_SOURCE@/src/*
+filter = @CMAKE_SOURCE_DIR@/@MODULE_SOURCE@/include/*
 exclude = @CMAKE_SOURCE_DIR@/.conan/.*
 
-html-details = @DOCUMENTS_DIR@/coverage/index.html
+calls = yes
+decisions = yes
+
+sort = filename
+print-summary = yes
+
+html-theme = github.dark-blue
 html-title = Chrysalis - @MODULE_NAME@ Test Coverage
-print-summary = true
+html-details = @DOCUMENTATION_DIR@/coverage/@MODULE_OUTPUT@/index.html

@@ -24,6 +24,7 @@ namespace Chrysalis {
     private:
         ProjectSpace* space_ = nullptr;
         std::vector<PatternTraceObserverMock*> mocks_;
+        std::vector<std::unique_ptr<PatternSpace>> testPatternSpaces_;
     };
     using FreePointInstructionData = std::tuple<std::expected<std::string, Error>, std::expected<double, Error>, std::expected<double, Error>>;
     template class BasePatternInstructionTest<FreePointInstructionData>;

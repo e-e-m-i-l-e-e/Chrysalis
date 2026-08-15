@@ -68,6 +68,7 @@ class ChrysalisConan(ConanFile):
 
     def generate(self):
         toolchain = CMakeToolchain(self)
+        toolchain.generate_presets = False
         toolchain.variables["APP"] = str(self.options.app)
         toolchain.generate()
         deps = CMakeDeps(self)
