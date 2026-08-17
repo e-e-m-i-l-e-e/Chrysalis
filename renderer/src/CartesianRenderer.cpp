@@ -1,7 +1,5 @@
 #include "CartesianRenderer.h"
 
-#include <iostream>
-
 using namespace Chrysalis;
 
 CartesianRenderer::CartesianRenderer(MainOpenGLProgram* program, CartesianRendererData* data)

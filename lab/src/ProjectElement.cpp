@@ -1,6 +1,11 @@
 #include "ProjectElement.h"
 
-#include "../../pattern/composer/include/projects/Project1Composer.h"
+#include <QUrl>
+#include <QString>
+#include <QQuickItem>
+
+#include "ParametersElement.h"
+#include "projects/Project1Composer.h"
 
 using namespace Chrysalis;
 

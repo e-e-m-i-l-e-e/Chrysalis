@@ -385,6 +385,7 @@ class QtConan(ConanFile):
             raise ConanInvalidConfiguration("sqlite3 option enable_column_metadata must be enabled for qt")
 
     def requirements(self):
+        self.requires("zlib/[>=1.2.11 <2]")
         if self.options.openssl:
             self.requires("openssl/[>=1.1 <4]")
         if self.options.with_pcre2:
@@ -675,6 +676,8 @@ class QtConan(ConanFile):
         for module in self._submodules:
             if module in self.options and not self.options.get_safe(module):
                 args.append("-skip " + module)
+
+        args.append("--zlib=system")
 
         # openGL
         opengl = self.options.get_safe("opengl", "no")
@@ -1089,7 +1092,7 @@ Prefix = ..""")
                 requires.append("Core")
             self.cpp_info.components[componentname].requires = _get_corrected_reqs(requires)
 
-        core_reqs = []
+        core_reqs = ["zlib::zlib"]
         if self.options.with_pcre2:
             core_reqs.append("pcre2::pcre2")
         if self.options.with_doubleconversion:

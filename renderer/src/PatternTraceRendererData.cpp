@@ -142,11 +142,11 @@ const Point* PatternTraceRendererData::pointAtPosition(const float x, const floa
 }
 
 size_t PatternTraceRendererData::size() {
-    size_t size = arrows_.size() + points_.size();
-    for (const auto& line: lines_) {
-        size += line.size();
-    }
-    return size;
+    return arrows_.size() + points_.size() +
+           std::accumulate(lines_.begin(), lines_.end(), 0,
+                           [](size_t sum, const auto& line) {
+                               return sum + line.size();
+           });
 }
 
 std::vector<Vertex3f> PatternTraceRendererData::vbo() {

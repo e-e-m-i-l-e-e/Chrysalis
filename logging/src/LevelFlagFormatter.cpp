@@ -1,6 +1,14 @@
 #include "formatters/LevelFlagFormatter.h"
 
+#include <ctime>
+#include <cctype>
+#include <string>
+#include <memory>
 #include <algorithm>
+
+#include <spdlog/common.h>
+#include <spdlog/details/log_msg.h>
+#include <spdlog/pattern_formatter.h>
 
 void LevelFlagFormatter::format(const spdlog::details::log_msg& msg, const std::tm& tm_time, spdlog::memory_buf_t& dest) {
     constexpr static short LOG_LEVEL_LENGTH = 8;

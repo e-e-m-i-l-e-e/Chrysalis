@@ -3,7 +3,6 @@
 
 #include "MVDockWidgetTitleBarBase.h"
 
-
 QT_BEGIN_NAMESPACE
 
 namespace Ui {

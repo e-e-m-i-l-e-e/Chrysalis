@@ -1,7 +1,14 @@
 #ifndef CHRYSALIS_COLOREDNAMEFLAGFORMATTER_H
 #define CHRYSALIS_COLOREDNAMEFLAGFORMATTER_H
 
-#include "NameFlagFormatter.h"
+#include <ctime>
+#include <memory>
+
+#include <spdlog/common.h>
+#include <spdlog/details/log_msg.h>
+#include <spdlog/pattern_formatter.h>
+
+#include "formatters/NameFlagFormatter.h"
 
 class ColoredNameFlagFormatter: public NameFlagFormatter {
 public:

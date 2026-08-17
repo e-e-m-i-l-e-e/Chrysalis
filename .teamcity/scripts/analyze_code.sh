@@ -5,12 +5,39 @@ BUILD_TYPE="${1:?Build type is required}"
 
 . "$PYTHON_VENV"/bin/activate
 
-CodeChecker analyze .build/"$BUILD_TYPE"/compile_commands.json --analyzers clang-tidy --output .build/"$BUILD_TYPE"/codechecker -j 4
-set +e
-CodeChecker parse .build/"$BUILD_TYPE"/codechecker --export html --output .build/"$BUILD_TYPE"/docs/codechecker
-STATUS=$?
-set -e
+CodeChecker analyze .build/"$BUILD_TYPE"/compile_commands.json --analyzers clang-tidy clangsa --ctu                    \
+                                                                                                                       \
+            --analyzer-config                                                                                          \
+                                                                                                                       \
+                clangsa:mode=deep                                                                                      \
+                clangsa:unroll-loops=true                                                                              \
+                clangsa:inline-lambdas=true                                                                            \
+                clangsa:c++-inlining=methods                                                                           \
+                clangsa:report-in-main-source-file=true                                                                \
+                clang-tidy:take-config-from-directory=true                                                             \
+                                                                                                                       \
+            --enable prefix:core                                                                                       \
+            --enable prefix:unix                                                                                       \
+            --enable prefix:deadcode                                                                                   \
+            --enable prefix:security                                                                                   \
+            --enable prefix:cplusplus                                                                                  \
+                                                                                                                       \
+            --enable optin.core                                                                                        \
+            --enable optin.taint                                                                                       \
+            --enable optin.cplusplus                                                                                   \
+            --enable optin.performance                                                                                 \
+                                                                                                                       \
+            --enable alpha.unix                                                                                        \
+            --enable alpha.core                                                                                        \
+            --enable alpha.clone                                                                                       \
+            --enable alpha.security                                                                                    \
+            --enable alpha.deadcode                                                                                    \
+            --enable alpha.cplusplus                                                                                   \
+                                                                                                                       \
+            --output .build/"$BUILD_TYPE"/codechecker -c                                                               \
+            --skip .docs/CodeChecker.skip -j 4 --timeout 600
 
-if [ "$STATUS" -ne 0 ] && [ "$STATUS" -ne 2 ]; then
-    exit "$STATUS"
-fi
+CodeChecker store .build/"$BUILD_TYPE"/codechecker                                                                     \
+            --url https://codechecker.lab.eemilee.me/Chrysalis                                                         \
+            --name Chrysalis                                                                                           \
+            --force --trim-path-prefix "$(pwd)/"

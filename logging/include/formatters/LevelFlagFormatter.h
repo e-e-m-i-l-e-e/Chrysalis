@@ -1,6 +1,11 @@
 #ifndef CHRYSALIS_PLAINLEVELFLAG_H
 #define CHRYSALIS_PLAINLEVELFLAG_H
 
+#include <ctime>
+#include <memory>
+
+#include <spdlog/common.h>
+#include <spdlog/details/log_msg.h>
 #include <spdlog/pattern_formatter.h>
 
 class LevelFlagFormatter: public spdlog::custom_flag_formatter {

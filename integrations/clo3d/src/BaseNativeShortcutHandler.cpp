@@ -1,7 +1,6 @@
 #include "BaseNativeShortcutHandler.h"
 
 #include <ranges>
-#include <Windows.h>
 #include <unordered_map>
 
 #include "Logging.h"
@@ -10,6 +9,9 @@
 // TODO: class for statics
 static int nextId = 1;
 static std::unordered_map<int, BaseNativeShortcutHandler*> registry;
+
+#ifdef _WIN32
+#include <Windows.h>
 HHOOK listenerHook = nullptr;
 
 LRESULT nativeEventHandler(const int nCode, const WPARAM wParam, const LPARAM lParam) {
@@ -21,6 +23,7 @@ LRESULT nativeEventHandler(const int nCode, const WPARAM wParam, const LPARAM lP
     }
     return CallNextHookEx(nullptr, nCode, wParam, lParam);
 }
+#endif
 
 BaseNativeShortcutHandler::BaseNativeShortcutHandler(const QKeySequence &shortcut): id_(nextId++), shortcut_(shortcut) {
     registry[id_] = this;
@@ -28,7 +31,9 @@ BaseNativeShortcutHandler::BaseNativeShortcutHandler(const QKeySequence &shortcu
 
 BaseNativeShortcutHandler::~BaseNativeShortcutHandler() {
     registry.erase(id_);
+#ifdef _WIN32
     UnregisterHotKey(nullptr, id_);
+#endif
 }
 
 BaseNativeShortcutHandler* BaseNativeShortcutHandler::getEventHandler(const int id) {
@@ -36,11 +41,15 @@ BaseNativeShortcutHandler* BaseNativeShortcutHandler::getEventHandler(const int 
 }
 
 void BaseNativeShortcutHandler::stopListening() {
+#ifdef _WIN32
     UnhookWindowsHookEx(listenerHook);
+#endif
 }
 
 void BaseNativeShortcutHandler::startListening() {
+#ifdef _WIN32
     listenerHook = SetWindowsHookEx(WH_GETMESSAGE, &nativeEventHandler, nullptr, GetCurrentThreadId());
+#endif
 }
 
 void BaseNativeShortcutHandler::registerShortcuts() {
@@ -55,6 +64,7 @@ void BaseNativeShortcutHandler::setShortcut(const QKeySequence &shortcut) {
 }
 
 void BaseNativeShortcutHandler::registerShortcut() const {
+#ifdef _WIN32
     const auto key = shortcut_[0] & ~Qt::KeyboardModifierMask & 0xFFFF;;
     const auto qtModifiers = shortcut_[0] & Qt::KeyboardModifierMask;
 
@@ -68,4 +78,5 @@ void BaseNativeShortcutHandler::registerShortcut() const {
     if (!RegisterHotKey(nullptr, id_, winModifiers, key)) {
         LOG_ERROR("Shortcut registration failed: {}", GetLastError());
     }
+#endif
 }

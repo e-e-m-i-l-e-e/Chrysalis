@@ -3,16 +3,22 @@
 
 #include <QDir>
 #include <QLabel>
+#include <QToolButton>
 
+#ifdef _WIN32
 #include <Windows.h>
+#endif
 
 #include "BaseExtension.h"
 #include "CommandRunner.h"
 #include "ExtensionsSettings.h"
+#include "CLO3DExtensionExport.h"
 
-class ExtensionsManager {
+class CLO3D_EXTENSION ExtensionsManager {
     friend BaseExtension;
+#ifdef _WIN32
     friend BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved);
+#endif
 
     static void setMessage(const QString& message);
     static void install();

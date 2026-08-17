@@ -10,11 +10,15 @@
 #include <QtCore/private/qhooks_p.h>
 
 #include "Logging.h"
-#include "../../../../integrations/hooks/include/HooksManager.h"
+#include "HooksManager.h"
 
 // TODO:
 //  - Class for qHookData, constructionQueue, loginDialog
 //  - Intercept other HTTP(S) calls
+
+extern "C" CLO3D_EXTENSION_ENTRY BaseExtension* create() {
+    return new AuthenticatorExtension();
+}
 
 QWidget* loginDialog;
 QObject* authenticationProcessor;

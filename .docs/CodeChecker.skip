@@ -1,0 +1,4 @@
+-*/.qt/rcc/*
+-*/.rcc/qmlcache/*
+-*/mocs_compilation.cpp
+-*qmltyperegistrations.cpp

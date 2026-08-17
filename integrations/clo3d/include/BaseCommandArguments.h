@@ -3,7 +3,9 @@
 
 #include <QSettings>
 
-class BaseCommandArguments {
+#include "CLO3DExtensionExport.h"
+
+class CLO3D_EXTENSION BaseCommandArguments {
 protected:
     explicit BaseCommandArguments(QSettings* settings);
 public:

@@ -3,8 +3,10 @@
 
 #include <QKeySequenceEdit>
 
+#include "CLO3DExtensionExport.h"
+
 namespace UI {
-    class KeySequence: public QKeySequenceEdit {
+    class CLO3D_EXTENSION KeySequence: public QKeySequenceEdit {
     public:
         explicit KeySequence(QWidget* parent = nullptr);
     protected:

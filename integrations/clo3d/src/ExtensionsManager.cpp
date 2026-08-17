@@ -11,6 +11,8 @@
 
 #include <QDesktopServices>
 #include <QLayout>
+#include <QPointer>
+#include <QUrl>
 #include <qthreadpool.h>
 
 // #include <QtCore/private/qobject_p.h>
@@ -23,13 +25,8 @@
 #include <QDockWidget>
 
 #include "ExtensionsSettingsDialog.h"
-#include "GeneralUIExporterOptions.h"
 
-#include "../../integrations/hooks/include/HooksManager.h"
-#include "JsonUIExporterOptions.h"
-#include "UIExporterToolSettingsWidget.h"
-#include "XmlUIExporterOptions.h"
-#include "UIExporterTool.h"
+#include "HooksManager.h"
 
 #include <QToolButton>
 #include <QOpenGLWidget>
@@ -45,6 +42,22 @@ class OpenGLWidget: public QOpenGLWidget {
 public:
     using QOpenGLWidget::paintGL;
 };
+
+#ifdef EXTEND_WITH_AUTHENTICATOR
+// Moved here from AuthenticatorExtension - HooksManager is a template with static
+// state, and a separate plugin DLL linking HooksLibrary privately would get its own
+// disconnected copy of the hook registry. Installing these hooks from ExtensionsManager
+// (which already owns HooksManager calls) keeps a single, shared registry.
+namespace {
+    QWidget* loginDialog = nullptr;
+    QObject* authenticationProcessor = nullptr;
+    QVector<QPointer<QObject>> constructionQueue;
+
+    bool isObjectOfClass(const QObject* object, const QString& className) {
+        return className == object->metaObject()->className();
+    }
+}
+#endif
 
 void ExtensionsManager::addExtension(BaseExtension* extension) {
     extensions.push_front(extension);
@@ -104,6 +117,43 @@ void ExtensionsManager::install() {
         extension->configureSettings(extensionsSettings);
     }
     extensionsSettings->read();
+
+#ifdef EXTEND_WITH_AUTHENTICATOR
+    qtHookData[QHooks::AddQObject] = reinterpret_cast<quintptr>(+[](QObject *object) {
+        for (int i = 0; i < constructionQueue.size(); i++) {
+            if (auto pointer = constructionQueue.at(i)) {
+                if (QObject* obj = pointer.data()) {
+                    if (!authenticationProcessor && isObjectOfClass(obj, "AuthenticationProcessor")) {
+                        authenticationProcessor = obj;
+                    } else if (!loginDialog && isObjectOfClass(obj, "CloUICommon::LoginDialog")) {
+                        loginDialog = qobject_cast<QWidget*>(obj);
+                    }
+                }
+                constructionQueue.removeAt(i);
+                i--;
+            }
+        }
+        constructionQueue.append(QPointer(object));
+    });
+    HooksManager::addBefore<&QApplication::exec>([](const HookHandle& handle) {
+        loginDialog->dumpObjectInfo();
+        authenticationProcessor->dumpObjectInfo();
+
+        LOG_INFO("Skipping logging in");
+        QMetaObject::invokeMethod(authenticationProcessor, "SucceedAuthentication");
+        QMetaObject::invokeMethod(loginDialog, "SignInWithCloset");
+
+        qtHookData[QHooks::AddQObject] = 0;
+        handle.remove();
+    });
+    HooksManager::addIgnore<&QDesktopServices::openUrl>([](const HookHandle &handle, bool &ignore, bool &ret, const QUrl &url) {
+        if (url.toString().startsWith("https://style.clo-set.com/en/account/signin?productId=40")) {
+            LOG_INFO("Bypassing login URL: {}", url.toString().toStdString());
+            ignore = true;
+            ret = true;
+        }
+    });
+#endif
 
     qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(+[] {
         BaseNativeShortcutHandler::registerShortcuts();

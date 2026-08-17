@@ -1,5 +1,7 @@
 #include "ParametersElement.h"
 
+#include "Parameter.h"
+
 void Chrysalis::ParametersElement::setParameters(ParametersContainer* parameters) {
     parameters_ = parameters;
     if (model_) model_->setParameters(parameters_);

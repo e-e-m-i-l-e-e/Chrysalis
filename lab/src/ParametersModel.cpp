@@ -1,6 +1,9 @@
 #include "ParametersModel.h"
 
-#include <iostream>
+#include <QVariant>
+#include <QAbstractItemModel>
+
+#include "Parameter.h"
 
 using namespace Chrysalis;
 
@@ -10,11 +13,11 @@ void ParametersModel::setParameters(ParametersContainer* parameters) {
     endResetModel();
 }
 
-int ParametersModel::rowCount(const QModelIndex& parent) const {
+int ParametersModel::rowCount(const QModelIndex& /*parent*/) const {
     return parameters_ ? parameters_->count() : 0;
 }
 
-int ParametersModel::columnCount(const QModelIndex& parent) const {
+int ParametersModel::columnCount(const QModelIndex& /*parent*/) const {
     return 4;
 }
 

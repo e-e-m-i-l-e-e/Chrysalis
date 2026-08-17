@@ -9,7 +9,7 @@
 #include <QToolButton>
 
 #include "Project.h"
-#include "MVDockingButton.h"
+#include "../include/MVDockingButton.h"
 #include "MVDockWidgetTitleBar.h"
 #include "PatternBuilderDockWidget.h"
 #include "PatternImportDialog.h"
@@ -83,4 +83,8 @@ void ChrysalisExtension::configure(QWidget *widget) {
 
         patternBuilderDockWidget->setStyleSheet("background-color: rgb(37, 37, 40);");
     }
+}
+
+extern "C" CLO3D_EXTENSION_ENTRY BaseExtension* create() {
+    return new ChrysalisExtension();
 }

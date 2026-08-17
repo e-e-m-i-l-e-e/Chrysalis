@@ -1,7 +1,14 @@
 #ifndef CHRYSALIS_COLOREDLEVELFLAG_H
 #define CHRYSALIS_COLOREDLEVELFLAG_H
 
-#include "LevelFlagFormatter.h"
+#include <ctime>
+#include <memory>
+
+#include <spdlog/common.h>
+#include <spdlog/details/log_msg.h>
+#include <spdlog/pattern_formatter.h>
+
+#include "formatters/LevelFlagFormatter.h"
 
 class ColoredLevelFlagFormatter: public LevelFlagFormatter {
 public:

@@ -10,7 +10,7 @@ object InstallAndPushDependencies : BuildType({
         checkbox("chrysalis.debug", "true", label = "Chrysalis (Debug)", checked = "true", unchecked = "false")
         checkbox("chrysalis.release", "false", label = "Chrysalis (Release)", checked = "true", unchecked = "false")
         checkbox("clo3d.debug", "true", label = "CLO3D (Debug)", checked = "true", unchecked = "false")
-        checkbox("clo3d.release", "false", label = "CLO3D (RelWithDebInfo)", checked = "true", unchecked = "false")
+        checkbox("clo3d.release", "false", label = "CLO3D (Release)", checked = "true", unchecked = "false")
     }
 
     vcs {
@@ -53,9 +53,9 @@ object InstallAndPushDependencies : BuildType({
             conditions {
                 equals("clo3d.debug", "true")
             }
-            name = "[RelWithDebInfo] CLO3D: Conan Install And Push Dependencies"
-            id = "CLO3D_Conan_Install_And_Push_Dependencies_RelWithDebInfo"
-            scriptContent = ".teamcity/scripts/conan_install.sh CLO3D RelWithDebInfo"
+            name = "[Debug] CLO3D: Conan Install And Push Dependencies"
+            id = "CLO3D_Conan_Install_And_Push_Dependencies_Debug"
+            scriptContent = ".teamcity/scripts/conan_install.sh CLO3D Debug"
         }
         script {
             conditions {

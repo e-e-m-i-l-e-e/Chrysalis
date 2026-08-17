@@ -1,0 +1,23 @@
+#ifndef CLO3D_TASK_H
+#define CLO3D_TASK_H
+
+#include <functional>
+
+#include <QString>
+#include <QFuture>
+
+#include "BaseTask.h"
+#include "CLO3DExtensionExport.h"
+
+namespace CLO3D {
+    class CLO3D_EXTENSION Task: public BaseTask {
+    public:
+        explicit Task(const QString& name, const std::function<void()>& task);
+    protected:
+        void run(const std::function<void()>& onSuccess) override;
+    private:
+        std::function<void()> task_;
+    };
+}
+
+#endif // CLO3D_TASK_H

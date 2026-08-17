@@ -1,6 +1,6 @@
 # ----- Load tools -----------------------------------------------------------------------------------------------------
 
-set(DOCUMENTATION_DIR ${CMAKE_BINARY_DIR}/docs)
+set(DOCUMENTATION_DIR ${OUTPUT_DIR}/docs)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -29,10 +29,9 @@ endif ()
 
 if(CLANG_UML)
     add_custom_target(GenerateUML
-            COMMAND ${CLANG_UML} -c .docs/diagrams/chrysalis/.clang-uml -o ${DOCUMENTATION_DIR}/diagrams/chrysalis -d ${CMAKE_BINARY_DIR}
-            COMMAND ${CLANG_UML} -c .docs/diagrams/clo3d/.clang-uml -o ${DOCUMENTATION_DIR}/diagrams/clo3d -d ${CMAKE_BINARY_DIR}
+            COMMAND ${CLANG_UML} -c .docs/diagrams/${APP}/.clang-uml -o ${DOCUMENTATION_DIR}/diagrams/${APP} -d ${CMAKE_BINARY_DIR}
             WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-            COMMENT "Generating Chrysalis UML diagrams" USES_TERMINAL VERBATIM
+            COMMENT "Generating UML diagrams" USES_TERMINAL VERBATIM
     )
 else()
     message(WARNING "clang-uml was not found.")
@@ -93,7 +92,7 @@ set(SPHINX_BUILD ${CMAKE_BINARY_DIR}/docs)
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sphinx/source/conf.py.in ${CMAKE_CURRENT_BINARY_DIR}/conf.py @ONLY)
 
-add_custom_target(Documentation
+add_custom_target(GenerateDocumentation
         COMMAND ${SPHINX_EXECUTABLE} -c ${CMAKE_CURRENT_BINARY_DIR} -b html ${SPHINX_SOURCE} ${SPHINX_BUILD}
         WORKING_DIRECTORY ${DOCUMENTATION_DIR}
         COMMENT "Generating Chrysalis documentation" VERBATIM

@@ -1,7 +1,10 @@
 #ifndef CHRYSALIS_EXTENSIONSSETTINGSDIALOG_H
 #define CHRYSALIS_EXTENSIONSSETTINGSDIALOG_H
 
+#include "CLO3DExtensionExport.h"
+
 #include "BaseDialog.h"
+#include "ExtensionsSettings.h"
 #include "BaseExtensionSettingsWidget.h"
 
 namespace UI {
@@ -11,7 +14,7 @@ namespace UI {
     }
     QT_END_NAMESPACE
 
-    class ExtensionsSettingsDialog: public BaseDialog {
+    class CLO3D_EXTENSION ExtensionsSettingsDialog: public BaseDialog {
         Q_OBJECT
     public:
         explicit ExtensionsSettingsDialog(ExtensionsSettings* settings);

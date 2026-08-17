@@ -3,10 +3,12 @@
 
 #include <QWidget>
 
+#include "CLO3DExtensionExport.h"
+
 #include "BaseCommandArguments.h"
 
 namespace UI {
-    class BaseCommandArgumentsWidget: public QWidget {
+    class CLO3D_EXTENSION BaseCommandArgumentsWidget: public QWidget {
     public:
         explicit BaseCommandArgumentsWidget(BaseCommandArguments* arguments);
 

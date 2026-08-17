@@ -45,3 +45,7 @@ void DevToolsExtension::configureSettingsUI(UI::ExtensionsSettingsDialog* extens
         devTool->configureSettingsUI(extensionsSettingsDialog);
     }
 }
+
+extern "C" CLO3D_EXTENSION_ENTRY BaseExtension* create() {
+    return DevToolsExtension::create();
+}

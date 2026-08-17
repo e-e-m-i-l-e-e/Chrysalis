@@ -3,7 +3,9 @@
 
 #include <QKeySequence>
 
-class BaseNativeShortcutHandler {
+#include "CLO3DExtensionExport.h"
+
+class CLO3D_EXTENSION BaseNativeShortcutHandler {
 protected:
     explicit BaseNativeShortcutHandler(const QKeySequence& shortcut);
     virtual ~BaseNativeShortcutHandler();

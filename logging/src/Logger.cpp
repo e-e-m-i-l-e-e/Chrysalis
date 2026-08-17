@@ -1,5 +1,14 @@
 #include "Logger.h"
 
+#include <string>
+#include <memory>
+
+#include <spdlog/common.h>
+#include <spdlog/logger.h>
+#include <spdlog/sinks/sink.h>
+#include <spdlog/details/null_mutex.h>
+#include <spdlog/sinks/basic_file_sink.h>
+
 Logger::Logger(const std::string& loggingDirectory, const char* name)
     : name_(name), logger_(spdlog::logger(name)),
       fileSink_(createFileSink<spdlog::details::null_mutex>(loggingDirectory, name)) {

@@ -1,9 +1,13 @@
 #ifndef CHRYSALIS_EXTENSIONSSETTINGS_H
 #define CHRYSALIS_EXTENSIONSSETTINGS_H
 
+#include <forward_list>
+
+#include "CLO3DExtensionExport.h"
+
 #include "BaseExtensionSettings.h"
 
-class ExtensionsSettings {
+class CLO3D_EXTENSION ExtensionsSettings {
 public:
     explicit ExtensionsSettings(QSettings* settings);
     ~ExtensionsSettings();

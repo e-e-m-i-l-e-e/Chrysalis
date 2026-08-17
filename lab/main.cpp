@@ -1,4 +1,8 @@
+#include <QIcon>
+#include <QObject>
 #include <QQuickWindow>
+#include <QGuiApplication>
+#include <QSGRendererInterface>
 #include <QQmlApplicationEngine>
 
 int main(int argc, char *argv[]) {

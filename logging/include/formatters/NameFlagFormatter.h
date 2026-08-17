@@ -1,6 +1,11 @@
 #ifndef CHRYSALIS_COLOREDNAMEFLAG_H
 #define CHRYSALIS_COLOREDNAMEFLAG_H
 
+#include <ctime>
+#include <memory>
+
+#include <spdlog/common.h>
+#include <spdlog/details/log_msg.h>
 #include <spdlog/pattern_formatter.h>
 
 class NameFlagFormatter: public spdlog::custom_flag_formatter {

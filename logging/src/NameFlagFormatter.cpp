@@ -1,5 +1,13 @@
 #include "formatters/NameFlagFormatter.h"
 
+#include <ctime>
+#include <string>
+#include <memory>
+
+#include <spdlog/common.h>
+#include <spdlog/details/log_msg.h>
+#include <spdlog/pattern_formatter.h>
+
 #include "Logger.h"
 
 void NameFlagFormatter::format(const spdlog::details::log_msg& msg, const std::tm& tm_time, spdlog::memory_buf_t& dest) {

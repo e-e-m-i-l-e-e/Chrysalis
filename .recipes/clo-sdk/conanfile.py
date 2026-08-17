@@ -39,6 +39,7 @@ class CloSdkConan(ConanFile):
 
     def package_info(self):
         self.cpp_info.includedirs = ["include"]
-        self.cpp_info.libdirs = ["lib"]
-        self.cpp_info.bindirs = ["bin"]
-        self.cpp_info.libs = collect_libs(self)
+        if self.settings.os != "Linux":
+            self.cpp_info.libdirs = ["lib"]
+            self.cpp_info.bindirs = ["bin"]
+            self.cpp_info.libs = collect_libs(self)

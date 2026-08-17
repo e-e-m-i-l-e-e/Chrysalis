@@ -1,11 +1,13 @@
 #ifndef CHRYSALIS_BASEEXTENSIONSETTINGSWIDGET_H
 #define CHRYSALIS_BASEEXTENSIONSETTINGSWIDGET_H
 
+#include "CLO3DExtensionExport.h"
+
 #include "NamedWidget.h"
 #include "BaseExtensionSettings.h"
 
 namespace UI {
-    class BaseExtensionSettingsWidget: public NamedWidget {
+    class CLO3D_EXTENSION BaseExtensionSettingsWidget: public NamedWidget {
         Q_OBJECT
     public:
         explicit BaseExtensionSettingsWidget(BaseExtensionSettings* extensionSettings, QWidget *parent);

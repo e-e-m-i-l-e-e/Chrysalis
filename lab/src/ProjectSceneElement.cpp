@@ -2,8 +2,23 @@
 
 #include "glad/gl.h"
 
+#include <QSize>
+#include <QPointF>
+#include <QMouseEvent>
+#include <QHoverEvent>
+#include <QWheelEvent>
 #include <QQuickWindow>
 #include <QOpenGLContext>
+#include <QQuickFramebufferObject>
+
+#include "MainOpenGLProgram.h"
+
+#include "Project.h"
+#include "CursorRenderer.h"
+#include "ProjectRenderer.h"
+#include "CartesianRenderer.h"
+#include "CursorRendererData.h"
+#include "CartesianRendererData.h"
 
 #include "Logging.h"
 #define LOGGER_NAME "Project Scene"

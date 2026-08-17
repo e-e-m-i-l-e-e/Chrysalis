@@ -2,6 +2,7 @@
 #define CHRYSALIS_LOGGERREGISTRY_H
 
 #include <map>
+#include <cstddef>
 #include <forward_list>
 
 #include "spdlog/pattern_formatter.h"

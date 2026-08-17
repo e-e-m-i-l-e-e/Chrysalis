@@ -1,7 +1,18 @@
 #include "formatters/ColoredLevelFlagFormatter.h"
 
+#include <ctime>
+#include <array>
+#include <memory>
+#include <cstring>
+
+#include <spdlog/common.h>
+#include <spdlog/details/log_msg.h>
+#include <spdlog/pattern_formatter.h>
+
+#include "formatters/LevelFlagFormatter.h"
+
 void ColoredLevelFlagFormatter::format(const spdlog::details::log_msg& msg, const std::tm& tm_time, spdlog::memory_buf_t& dest) {
-    static constexpr const char* LEVEL_COLORS[7] = {
+    static constexpr std::array<const char*, 7> LEVEL_COLORS = {
         "\033[90m",   // trace
         "\033[36m",   // debug
         "\033[32m",   // info

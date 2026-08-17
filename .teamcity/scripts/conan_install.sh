@@ -5,5 +5,7 @@ BUILD_TYPE="${2:?Build type is required}"
 
 . "$PYTHON_VENV"/bin/activate
 
-conan install . --build=missing --output-folder=out -o "&:app=$APP" -s build_type="$BUILD_TYPE" -pr:h linux-host -pr:b linux-build
+conan install . --build=missing --output-folder=.conan --lockfile=.conan/lock/"$APP"-"$BUILD_TYPE"-Linux.lock          \
+                -o "&:app=$APP" -s build_type="$BUILD_TYPE"                                                            \
+                -pr:h linux-host -pr:b linux-build
 conan upload "*" --confirm -r chrysalis-conan

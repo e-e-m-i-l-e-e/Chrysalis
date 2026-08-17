@@ -237,7 +237,7 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*>&& widgets) {
 
                         LOG_INFO(LOG_EXPORTING_RESOURCES, id);
 
-                        static QString RESOURCES_FOLDER_NAME = "resources";
+                        static const QString RESOURCES_FOLDER_NAME = "resources";
                         auto resourcesDirectory = options_->getRootFolder();
 
                         if (resourcesDirectory.mkdir(RESOURCES_FOLDER_NAME)) {

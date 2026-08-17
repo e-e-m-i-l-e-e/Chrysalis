@@ -1,9 +1,11 @@
 #ifndef CHRYSALIS_BASECOMMAND_H
 #define CHRYSALIS_BASECOMMAND_H
 
+#include "CLO3DExtensionExport.h"
+
 #include "BaseCommandArguments.h"
 
-class BaseCommand {
+class CLO3D_EXTENSION BaseCommand {
 protected:
     explicit BaseCommand(BaseCommandArguments* arguments);
 public:

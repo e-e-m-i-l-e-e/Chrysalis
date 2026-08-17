@@ -1,11 +1,21 @@
 #include "LoggerRegistry.h"
 
-#include <iostream>
-#include <ranges>
+#include <mutex>
+#include <memory>
+#include <vector>
+#include <cstddef>
 
+#include <spdlog/sinks/stdout_sinks.h>
+
+#include "Logger.h"
 #include "LoggerFormatter.h"
+#include "BaseLoggerRegistryListener.h"
+#include "formatters/NameFlagFormatter.h"
+#include "formatters/LevelFlagFormatter.h"
 #include "formatters/ColoredNameFlagFormatter.h"
 #include "formatters/ColoredLevelFlagFormatter.h"
+
+#include <iostream>
 
 LoggerRegistry::LoggerRegistry(const char* loggingDirectory, const char* fileName)
     : fileName_(fileName), loggingDirectory_(loggingDirectory),

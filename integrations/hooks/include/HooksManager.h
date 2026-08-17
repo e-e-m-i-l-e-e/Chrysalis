@@ -18,7 +18,11 @@
 #ifdef emit
 #  undef emit
 #endif
+#ifdef _WIN32
 #include <polyhook2/Detour/x64Detour.hpp>
+#else
+#include "x64Detour.h"
+#endif
 
 // ─── Logger — optional ────────────────────────────────────────────────────────
 // HooksManager emits log output only when the consuming target also links the

@@ -4,6 +4,7 @@
 #include <QAbstractTableModel>
 
 #include "Logger.h"
+#include "LoggerRegistry.h"
 
 namespace UI {
     class LoggerRegistryModel: public QAbstractTableModel {

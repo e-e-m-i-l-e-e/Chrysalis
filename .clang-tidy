@@ -1,0 +1,16 @@
+Checks: >
+  cert-*,
+  misc-*,
+  boost-*,
+  bugprone-*,
+  modernize-*,
+  performance-*,
+  concurrency-*,
+  portability-*,
+  cppcoreguidelines-*,
+  -cppcoreguidelines-avoid-magic-numbers
+CheckOptions:
+  modernize-use-trailing-return-type.TransformFunctions: false
+WarningsAsErrors: ''
+HeaderFilterRegex: '.*/(integrations|lab|logging|pattern|renderer)/.*'
+FormatStyle: file

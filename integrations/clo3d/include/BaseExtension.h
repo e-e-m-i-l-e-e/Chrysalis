@@ -5,9 +5,9 @@
 #include "ExtensionsSettingsDialog.h"
 
 class BaseExtension {
-protected:
-    virtual ~BaseExtension() = default;
 public:
+    virtual ~BaseExtension() = default;
+
     virtual void install() {}
     virtual void startup() {}
     virtual void configure(QWidget* widget) {}
