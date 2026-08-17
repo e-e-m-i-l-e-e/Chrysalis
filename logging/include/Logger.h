@@ -5,10 +5,11 @@
 #include <spdlog/sinks/basic_file_sink.h>
 
 #include "LoggerFormatter.h"
+#include "LoggingLibraryExport.h"
 #include "formatters/NameFlagFormatter.h"
 #include "formatters/LevelFlagFormatter.h"
 
-class Logger {
+class LOGGING Logger {
     friend class LoggerRegistry;
 
     explicit Logger(const std::string& loggingDirectory, const char* name);

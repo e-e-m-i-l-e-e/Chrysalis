@@ -11,9 +11,10 @@
 
 #include "Logger.h"
 #include "BaseConsoleUser.h"
+#include "LoggingLibraryExport.h"
 #include "BaseLoggerRegistryListener.h"
 
-class LoggerRegistry: BaseConsoleUser {
+class LOGGING LoggerRegistry: BaseConsoleUser {
     friend class BaseLoggerRegistryListener;
 public:
     explicit LoggerRegistry(const char* loggingDirectory, const char* fileName);
@@ -25,7 +26,7 @@ public:
     [[nodiscard]] size_t size() const;
 
     [[nodiscard]] Logger* at(int i) const;
-    Logger* get(const char* name);
+    [[nodiscard]] Logger* get(const char* name);
 
     void flush() const;
 

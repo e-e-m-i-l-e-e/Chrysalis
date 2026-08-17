@@ -8,9 +8,10 @@
 #include <spdlog/details/log_msg.h>
 #include <spdlog/pattern_formatter.h>
 
+#include "LoggingLibraryExport.h"
 #include "formatters/LevelFlagFormatter.h"
 
-class ColoredLevelFlagFormatter: public LevelFlagFormatter {
+class LOGGING ColoredLevelFlagFormatter: public LevelFlagFormatter {
 public:
     void format(const spdlog::details::log_msg& msg, const std::tm& tm_time, spdlog::memory_buf_t& dest) override;
     [[nodiscard]] std::unique_ptr<custom_flag_formatter> clone() const override;

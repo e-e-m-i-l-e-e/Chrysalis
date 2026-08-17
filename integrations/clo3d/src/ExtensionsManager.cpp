@@ -59,8 +59,8 @@ namespace {
 }
 #endif
 
-void ExtensionsManager::addExtension(BaseExtension* extension) {
-    extensions.push_front(extension);
+void ExtensionsManager::addExtension(std::unique_ptr<BaseExtension> extension) {
+    extensions.push_front(std::move(extension));
 }
 
 class PaintFilter : public QObject
@@ -112,7 +112,7 @@ private:
 void ExtensionsManager::install() {
     const auto settings = new QSettings("eemilee.me", "CLO3D Extensions");
     extensionsSettings = new ExtensionsSettings(settings);
-    for (const auto extension: extensions) {
+    for (const auto& extension: extensions) {
         extension->install();
         extension->configureSettings(extensionsSettings);
     }
@@ -181,7 +181,7 @@ void ExtensionsManager::install() {
             LOG_INFO("Main window has been detected by Extensions Manager. Setting up UI.");
             mainWindow = dynamic_cast<QFrame*>(this_);
             for (const auto widget: QApplication::allWidgets()) {
-                for (const auto extension: extensions) {
+                for (const auto& extension: extensions) {
                     extension->configure(widget);
                 }
             }
@@ -193,14 +193,14 @@ void ExtensionsManager::install() {
             const QAction *extensionsSettingsMenu = extensionsMenu->addAction("Extensions Settings");
             QObject::connect(extensionsSettingsMenu, &QAction::triggered, [&]() {
                 const auto extensionsSettingsDialog = new UI::ExtensionsSettingsDialog(extensionsSettings);
-                for (const auto extension: extensions) {
+                for (const auto& extension: extensions) {
                     extension->configureSettingsUI(extensionsSettingsDialog);
                 }
                 extensionsSettingsDialog->exec();
             });
 
             commandRunner_ = new CommandRunner(settings, extensionsMenu->addMenu("Commands"));
-            for (const auto extension: extensions) {
+            for (const auto& extension: extensions) {
                 extension->configureMenu(extensionsMenu);
                 extension->configureCommands(commandRunner_);
             }
@@ -215,7 +215,7 @@ void ExtensionsManager::install() {
                     UTILITY_API->UpdateCloStyleForPlugIn(backgroundMessage_);
                     backgroundMessage_->show();
 
-                    for (const auto extension: extensions) {
+                    for (const auto& extension: extensions) {
                         extension->configureStatusBar(parent);
                     }
                 }

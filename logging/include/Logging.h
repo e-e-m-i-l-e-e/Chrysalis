@@ -2,10 +2,10 @@
 #define CHRYSALIS_LOGGING_H
 
 #include "LoggerRegistry.h"
+#include "LoggingLibraryExport.h"
 
 namespace Logging {
-    inline LoggerRegistry REGISTRY(LOGS_DIR, LOGS_FILE_NAME);
-
+    extern LOGGING LoggerRegistry REGISTRY;
     namespace Message {
         static constexpr auto LOG_SAVING_FILE = FMT_STRING("Saving file: {}.");
         static constexpr auto LOG_FAILED_TO_OPEN_FILE = FMT_STRING("Failed to open file: {}.");

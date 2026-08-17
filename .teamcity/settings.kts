@@ -19,7 +19,6 @@ project {
 
     params {
         param("env.PYTHON_VENV", "%teamcity.agent.home.dir%/Chrysalis/venv")
-        param("env.CONAN_HOME", "%teamcity.agent.home.dir%/Chrysalis/.conan")
 
         param("env.ARTIFACTORY_USER", "admin")
         password("env.ARTIFACTORY_API_KEY", "credentialsJSON:2811189a-9381-40ae-b4f7-e33e32bd5784")

@@ -19,8 +19,11 @@ if (WIN32)
 else ()
     set(CLO_HOME ${CLO3D_TEST_OUTPUT_DIR}/temp CACHE STRING "Folder where CLO3D is installed")
 endif ()
+set(CLO_EXTENSION_HOME ${CLO_HOME}/extensions CACHE STRING "Folder where CLO3D extensions are located")
 
 add_compile_definitions(CLO_HOME="${CLO_HOME}")
+add_compile_definitions(CLO_EXTENSION_HOME="${CLO_EXTENSION_HOME}")
+
 message("CLO_HOME is set to ${CLO_HOME}")
 
 # ----- Build CLO3DExtensions ------------------------------------------------------------------------------------------

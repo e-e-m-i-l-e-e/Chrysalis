@@ -13,7 +13,7 @@ class PolyHook2Conan(ConanFile):
         "fPIC": [True, False]
     }
     default_options = {
-        "shared": True,
+        "shared": False,
         "fPIC": True
     }
 
@@ -33,10 +33,12 @@ class PolyHook2Conan(ConanFile):
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure(variables={
-            "POLYHOOK_BUILD_SHARED_LIB": "ON" if self.options.shared else "OFF",
-            "POLYHOOK_BUILD_STATIC_RUNTIME": self.settings.compiler.runtime != "dynamic"
-        })
+        variables = {
+            "POLYHOOK_BUILD_SHARED_LIB": "ON" if self.options.shared else "OFF"
+        }
+        if self.settings.compiler == "msvc":
+            variables["POLYHOOK_BUILD_STATIC_RUNTIME"] = "ON" if self.settings.compiler.runtime != "dynamic" else "OFF"
+        cmake.configure(variables=variables)
         cmake.build()
 
     def package(self):
@@ -44,4 +46,4 @@ class PolyHook2Conan(ConanFile):
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.libs = ["PolyHook_2"]
+        self.cpp_info.libs = ["PolyHook_2", "asmtk", "asmjit", "Zydis", "Zycore"]

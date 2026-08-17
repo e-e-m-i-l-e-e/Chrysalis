@@ -5,10 +5,9 @@
 
 namespace Chrysalis {
     class ChrysalisExtension: public BaseExtension {
-    protected:
+    public:
         ~ChrysalisExtension() override = default;
 
-    public:
         void configure(QWidget *widget) override;
         void configureMenu(QMenu* extensionMenu) override;
         void configureStatusBar(QWidget *parent) override;

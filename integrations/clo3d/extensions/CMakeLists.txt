@@ -2,7 +2,7 @@ set(CLO3D_EXTENSION_OUTPUT_DIR ${CLO3D_OUTPUT_DIR}/extensions)
 
 function(add_clo3d_extension EXTENSION_NAME)
     set(EXTENSION_NAME ${EXTENSION_NAME}Extension)
-    set(EXTENSION_OBJECT_TARGET ${EXTENSION_NAME}Object)
+    set(EXTENSION_OBJECT_TARGET ${EXTENSION_NAME}Core)
 
     file(GLOB_RECURSE EXTENSION_HEADERS CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/include/*)
     file(GLOB_RECURSE EXTENSION_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*)
@@ -18,7 +18,7 @@ function(add_clo3d_extension EXTENSION_NAME)
 
     if(WIN32)
         add_custom_command(TARGET ${EXTENSION_NAME} POST_BUILD
-                COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${EXTENSION_NAME}> ${CLO_HOME}/extensions/${EXTENSION_NAME}.dll
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:${EXTENSION_NAME}> ${CLO_EXTENSION_HOME}/${EXTENSION_NAME}.dll
                 COMMENT "Deploying ${EXTENSION_NAME}.dll to CLO3D extensions directory"
         )
     endif()

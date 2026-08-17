@@ -9,6 +9,8 @@ BUILD_TYPE="${2:?Build type is required}"
 conan install . --output-folder=.conan --lockfile=.conan/lock/"$APP"-"$BUILD_TYPE"-Linux.lock                          \
                 -o "&:app=$APP" -s build_type="$BUILD_TYPE" -pr:h linux-host -pr:b linux-build
 
+rm -f .build/"$BUILD_TYPE"/CMakeCache.txt
+
 cmake -S . -B .build/"$BUILD_TYPE" --graphviz=.build/"$BUILD_TYPE"/graph/dependencies.dot                              \
               -DCMAKE_TOOLCHAIN_FILE=.conan/build/"$BUILD_TYPE"/generators/conan_toolchain.cmake                       \
               -DPYTHON_VENV_DIR="$PYTHON_VENV"                                                                         \

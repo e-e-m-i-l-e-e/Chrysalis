@@ -26,12 +26,12 @@ class CLO3D_EXTENSION ExtensionsManager {
     inline static QLabel* backgroundMessage_;
 public:
 
-    static void addExtension(BaseExtension* extension);
+    static void addExtension(std::unique_ptr<BaseExtension> extension);
 
     static void setMessage(const char* extensionName, const QString& message, bool logMessage = false);
     static void clearMessage();
 
-    inline static std::forward_list<BaseExtension*> extensions;
+    inline static std::forward_list<std::unique_ptr<BaseExtension>> extensions;
     inline static ExtensionsSettings* extensionsSettings;
 
     inline static QFrame* mainWindow;

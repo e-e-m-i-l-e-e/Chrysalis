@@ -1,10 +1,12 @@
 #ifndef CHRYSALIS_BASELOGGERREGISTRYLISTENER_H
 #define CHRYSALIS_BASELOGGERREGISTRYLISTENER_H
 
+#include "LoggingLibraryExport.h"
+
 class Logger;
 class LoggerRegistry;
 
-class BaseLoggerRegistryListener {
+class LOGGING BaseLoggerRegistryListener {
 protected:
     explicit BaseLoggerRegistryListener(LoggerRegistry& registry);
     virtual ~BaseLoggerRegistryListener() = default;

@@ -19,6 +19,6 @@ add_custom_command(
         TARGET CLO3DExtensionsTest POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:CLO3DExtensionsTest>/temp
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_QOFFSCREEN_PLUGIN} $<TARGET_FILE_DIR:CLO3DExtensionsTest>/platforms/${QT_QOFFSCREEN_PLUGIN_NAME}
-        COMMENT "Copying qoffscreen.dll to test platforms directory"
+        COMMENT "Copying \"qoffscreen\" to test platforms directory"
 )
 add_test(NAME CLO3DExtensionsTest COMMAND CLO3DExtensionsTest)

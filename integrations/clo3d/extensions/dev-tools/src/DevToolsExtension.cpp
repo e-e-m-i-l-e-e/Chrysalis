@@ -3,6 +3,7 @@
 #include "BaseCommandArgumentsWidget.h"
 #include "ExportPatternCommand.h"
 #include "ExportPatternCommandArgumentsWidget.h"
+#include "Logging.h"
 #include "LoggingTool.h"
 #include "UIExporterTool.h"
 #include "UIExporterToolSettingsWidget.h"
