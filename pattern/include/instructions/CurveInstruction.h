@@ -6,11 +6,10 @@
 #include "arguments/PatternPointArgument.h"
 #include "instructions/BasePatternInstruction.h"
 
+/** @defgroup Instructions Instructions
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Instructions
-     * @{
-     */
     class CurveInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(CurveInstruction)
     public:
@@ -30,5 +29,6 @@ namespace Chrysalis {
     };
     SERIALIZE_DERIVED_CONSTRUCTION(CurveInstruction, BasePatternInstruction, space_, patterns_, from_, to_, points_);
 }
+/**@}*/
 
 #endif //CHRYSALIS_CURVEINSTRUCTION_H

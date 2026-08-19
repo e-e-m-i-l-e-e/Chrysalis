@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UI::GeneralUIExporterOptionsWidget</class>
- <widget class="QWidget" name="UI::GeneralUIExporterOptionsWidget">
+ <class>CLO3D::UI::GeneralUIExporterOptionsWidget</class>
+ <widget class="QWidget" name="CLO3D::UI::GeneralUIExporterOptionsWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -30,7 +30,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="UI::BaseUIExporterSettingsBlockContainerWidget" name="baseUIExporterSettingsBlockContainerWidget">
+    <widget class="CLO3D::UI::BaseUIExporterSettingsBlockContainerWidget" name="baseUIExporterSettingsBlockContainerWidget">
      <property name="title">
       <string>General</string>
      </property>
@@ -84,7 +84,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="UI::KeySequence" name="shortcut">
+        <widget class="CLO3D::UI::KeySequence" name="shortcut">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -143,18 +143,18 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>UI::NamedWidget</class>
+   <class>CLO3D::UI::NamedWidget</class>
    <extends>QWidget</extends>
    <header>NamedWidget.h</header>
   </customwidget>
   <customwidget>
-   <class>UI::BaseUIExporterSettingsBlockContainerWidget</class>
-   <extends>UI::NamedWidget</extends>
+   <class>CLO3D::UI::BaseUIExporterSettingsBlockContainerWidget</class>
+   <extends>CLO3D::UI::NamedWidget</extends>
    <header>BaseUIExporterSettingsBlockContainerWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>UI::KeySequence</class>
+   <class>CLO3D::UI::KeySequence</class>
    <extends>QKeySequenceEdit</extends>
    <header>KeySequence.h</header>
   </customwidget>

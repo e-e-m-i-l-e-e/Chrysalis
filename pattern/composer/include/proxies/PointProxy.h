@@ -4,8 +4,8 @@
 #include "instructions/MovePointInstruction.h"
 #include "proxies/NumberProxy.h"
 
-/** @defgroup Proxy
- * @{
+/** @defgroup Proxy Proxy
+ *  @{
  */
 namespace Chrysalis::Proxy {
     class Point {
@@ -40,5 +40,6 @@ namespace Chrysalis::Proxy {
         const args::vector* vector2_;
     };
 }
+/**@}*/
 
 #endif //CHRYSALIS_PROXYPOINT_H

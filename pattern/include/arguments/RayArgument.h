@@ -3,11 +3,10 @@
 
 #include "arguments/LineArgument.h"
 
+/** @defgroup Arguments Arguments
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
     class RayArgument: public LineArgument {
         PROVIDE_SERIALIZATION_ACCESS(RayArgument)
     protected:
@@ -22,5 +21,6 @@ namespace Chrysalis {
         using ray = RayArgument;
     }
 }
+/**@}*/
 
 #endif //CHRYSALIS_RAYARGUMENT_H

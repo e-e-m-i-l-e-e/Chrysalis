@@ -1,5 +1,9 @@
 #include "BaseUIExporterOptions.h"
 
+#include <iostream>
+
+using namespace CLO3D;
+
 bool BaseUIExporterOptions::isEnabled() {
     return true;
 }

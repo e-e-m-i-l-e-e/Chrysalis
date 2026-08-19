@@ -11,6 +11,8 @@
 
 #include "formatters/LevelFlagFormatter.h"
 
+using namespace Logging;
+
 void ColoredLevelFlagFormatter::format(const spdlog::details::log_msg& msg, const std::tm& tm_time, spdlog::memory_buf_t& dest) {
     static constexpr std::array<const char*, 7> LEVEL_COLORS = {
         "\033[90m",   // trace

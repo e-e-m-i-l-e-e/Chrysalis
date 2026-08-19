@@ -8,37 +8,29 @@
 #include "ParameterWidget.h"
 #include "ParameterDelegate.h"
 
-namespace UI
-{
+namespace CLO3D::UI {
     QT_BEGIN_NAMESPACE
-
-    namespace Ui
-    {
+    namespace Ui {
         class PatternImportDialog;
     }
-
     QT_END_NAMESPACE
 
-    class PatternImportDialog : public BaseDialog
-    {
+    class PatternImportDialog: public BaseDialog {
         Q_OBJECT
-
     public:
-        explicit PatternImportDialog(Chrysalis::PatternImporter* importer, ParametersModel* model,
+        explicit PatternImportDialog(PatternImporter* importer, ParametersModel* model,
                                      ParameterDelegate* delegate);
         ~PatternImportDialog() override;
-
         void accept() override;
-
     private:
         Ui::PatternImportDialog* ui;
         /// @uml{composition}
-        Chrysalis::PatternImporter* importer_;
+        PatternImporter* importer_;
         /// @uml{composition}
         ParametersModel* model_;
         /// @uml{composition}
         ParameterDelegate* delegate_;
     };
-} // UI
+} // CLO3D::UI
 
 #endif //CHRYSALIS_PATTERNIMPORTDIALOG_H

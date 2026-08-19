@@ -5,7 +5,7 @@
 
 #define LOGGER_NAME "UI Exporter Options"
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 GeneralUIExporterOptionsWidget::GeneralUIExporterOptionsWidget(QWidget *parent)
     : BaseUIExporterOptionsWidget(parent),
@@ -43,7 +43,7 @@ void GeneralUIExporterOptionsWidget::write() {
     options_->setPickMyMouse(ui->pickMyMouse->isChecked());
 }
 
-BaseUIExporterOptions* GeneralUIExporterOptionsWidget::getOptions() {
+CLO3D::BaseUIExporterOptions* GeneralUIExporterOptionsWidget::getOptions() {
     return options_;
 }
 

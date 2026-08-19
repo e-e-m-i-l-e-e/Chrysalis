@@ -5,6 +5,8 @@
 #include "Logging.h"
 #define LOGGER_NAME "UI Exporter Options"
 
+using namespace CLO3D;
+
 void GeneralUIExporterOptions::read(const QSettings* settings) {
     BaseUIExporterOptions::read(settings);
     setShortcut(settings->value(Keys::SHORTCUT, Defaults::SHORTCUT).value<QKeySequence>());

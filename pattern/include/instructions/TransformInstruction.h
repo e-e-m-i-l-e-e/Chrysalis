@@ -4,11 +4,10 @@
 #include "BasePatternInstruction.h"
 #include "arguments/VectorArgument.h"
 
+/** @defgroup Instructions Instructions
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Instructions
-     * @{
-     */
     class TransformInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(TransformInstruction)
     public:
@@ -25,5 +24,6 @@ namespace Chrysalis {
     };
     SERIALIZE_DERIVED_CONSTRUCTION(TransformInstruction, BasePatternInstruction, space_, patterns_, from_, to_);
 }
+/**@}*/
 
 #endif //CHRYSALIS_CONNECTINSTRUCTION_H

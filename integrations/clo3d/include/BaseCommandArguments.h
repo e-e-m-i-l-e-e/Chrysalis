@@ -5,21 +5,23 @@
 
 #include "CLO3DExtensionExport.h"
 
-class CLO3D_EXTENSION BaseCommandArguments {
-protected:
-    explicit BaseCommandArguments(QSettings* settings);
-public:
-    virtual ~BaseCommandArguments() = default;
+namespace CLO3D {
+    class CLO3D_EXTENSION BaseCommandArguments {
+    protected:
+        explicit BaseCommandArguments(QSettings* settings);
+    public:
+        virtual ~BaseCommandArguments() = default;
 
-    void readSettings();
-    void writeSettings();
+        void readSettings();
+        void writeSettings();
 
-    virtual QString getName() = 0;
-protected:
-    virtual void read() = 0;
-    virtual void write() = 0;
+        virtual QString getName() = 0;
+    protected:
+        virtual void read() = 0;
+        virtual void write() = 0;
 
-    QSettings* settings_;
-};
+        QSettings* settings_;
+    };
+}
 
 #endif //CHRYSALIS_BASECOMMANDARGUMENTS_H

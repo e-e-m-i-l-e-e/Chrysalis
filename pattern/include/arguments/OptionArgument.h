@@ -5,11 +5,10 @@
 #include "arguments/Argument.h"
 #include "arguments/BaseCalculatedArgument.h"
 
+/** @defgroup Arguments Arguments
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
     class OptionArgument: public BaseCalculatedArgument<bool> {
         PROVIDE_SERIALIZATION_ACCESS(OptionArgument)
     public:
@@ -23,5 +22,6 @@ namespace Chrysalis {
     };
     SERIALIZE_DERIVED_CONSTRUCTION(OptionArgument, BaseCalculatedArgument<bool>, options_, name_)
 }
+/**@}*/
 
 #endif //CHRYSALIS_OptionARGUMENT_H

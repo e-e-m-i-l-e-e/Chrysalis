@@ -7,7 +7,7 @@
 
 #include "BaseCommandArguments.h"
 
-namespace UI {
+namespace CLO3D::UI {
     class CLO3D_EXTENSION BaseCommandArgumentsWidget: public QWidget {
     public:
         explicit BaseCommandArgumentsWidget(BaseCommandArguments* arguments);

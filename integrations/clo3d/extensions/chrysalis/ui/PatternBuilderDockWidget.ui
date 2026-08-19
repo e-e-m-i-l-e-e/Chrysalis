@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PatternBuilderDockWidget</class>
- <widget class="QDockWidget" name="PatternBuilderDockWidget">
+ <class>CLO3D::UI::PatternBuilderDockWidget</class>
+ <widget class="QDockWidget" name="CLO3D::UI::PatternBuilderDockWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -40,7 +40,7 @@
         <string>Project</string>
        </attribute>
       </widget>
-      <widget class="UI::PatternBuilder::Parameters" name="parametersTab">
+      <widget class="CLO3D::UI::Parameters" name="parametersTab">
        <attribute name="title">
         <string>Parameters</string>
        </attribute>
@@ -109,7 +109,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>UI::PatternBuilder::Parameters</class>
+   <class>CLO3D::UI::Parameters</class>
    <extends>QWidget</extends>
    <header>Parameters.h</header>
    <container>1</container>

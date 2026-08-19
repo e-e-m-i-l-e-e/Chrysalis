@@ -5,11 +5,10 @@
 #include "instructions/BasePatternInstruction.h"
 #include "instructions/BaseInstructionsContainer.h"
 
+/** @defgroup Instructions Instructions
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Instructions
-     * @{
-     */
     class PatternInstructionsContainer: public BaseInstructionsContainer<BasePatternInstruction> {
         PROVIDE_SERIALIZATION_ACCESS(PatternInstructionsContainer)
     public:
@@ -45,5 +44,6 @@ namespace Chrysalis {
         ::new(obj) PatternInstructionsContainer(options_, expressions_, patterns_);
     }
 }
+/**@}*/
 
 #endif //CHRYSALIS_PATTERNINSTRUCTIONSCONTAINER_H

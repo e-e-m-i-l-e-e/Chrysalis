@@ -3,17 +3,20 @@
 
 #include "LoggingLibraryExport.h"
 
-class Logger;
-class LoggerRegistry;
+namespace Logging {
 
-class LOGGING BaseLoggerRegistryListener {
-protected:
-    explicit BaseLoggerRegistryListener(LoggerRegistry& registry);
-    virtual ~BaseLoggerRegistryListener() = default;
-public:
-    virtual void loggerAdded(Logger* logger) = 0;
-protected:
-    LoggerRegistry& registry_;
-};
+    class Logger;
+    class LoggerRegistry;
+
+    class LOGGING BaseLoggerRegistryListener {
+    protected:
+        explicit BaseLoggerRegistryListener(LoggerRegistry& registry);
+        virtual ~BaseLoggerRegistryListener() = default;
+    public:
+        virtual void loggerAdded(Logger* logger) = 0;
+    protected:
+        LoggerRegistry& registry_;
+    };
+}
 
 #endif //CHRYSALIS_BASELOGGERREGISTRYLISTENER_H

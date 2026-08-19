@@ -3,8 +3,8 @@
 
 #include "arguments/ConditionalArgument.h"
 
-/** @defgroup Proxy
- * @{
+/** @defgroup Proxy Proxy
+ *  @{
  */
 namespace Chrysalis::Proxy {
     struct Condition {
@@ -19,5 +19,6 @@ namespace Chrysalis::Proxy {
         args::number number_;
     };
 }
+/**@}*/
 
 #endif //CHRYSALIS_CONDITIONPROXY_H

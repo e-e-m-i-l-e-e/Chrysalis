@@ -15,7 +15,7 @@
 #include "formatters/ColoredNameFlagFormatter.h"
 #include "formatters/ColoredLevelFlagFormatter.h"
 
-#include <iostream>
+using namespace Logging;
 
 LoggerRegistry::LoggerRegistry(const char* loggingDirectory, const char* fileName)
     : fileName_(fileName), loggingDirectory_(loggingDirectory),

@@ -1,8 +1,9 @@
 #include "WidgetPlugin.h"
 
 #include "Logging.h"
-
 #define LOGGER_NAME "Designer Plugin"
+
+using namespace CLO3D::UI;
 
 QString WidgetPlugin::name() const {
     return QString("UI::").append(this->metaObject()->className()).remove("Plugin");

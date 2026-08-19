@@ -5,7 +5,7 @@
 
 #include "CLO3DExtensionExport.h"
 
-namespace UI {
+namespace CLO3D::UI {
     class CLO3D_EXTENSION KeySequence: public QKeySequenceEdit {
     public:
         explicit KeySequence(QWidget* parent = nullptr);

@@ -7,7 +7,7 @@
 #include "LoggerTextEditSink.h"
 #include "LogLevelDelegate.h"
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 LoggingToolSettingsWidget::LoggingToolSettingsWidget(LoggingToolSettings* settings, LoggerRegistryModel* registryModel,
                                                      LogLevelDelegate* logLevelDelegate, QStackedWidget* sinks,

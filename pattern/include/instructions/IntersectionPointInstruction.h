@@ -7,11 +7,10 @@
 #include "arguments/BaseArgument.h"
 #include "instructions/BasePatternInstruction.h"
 
+/** @defgroup Instructions Instructions
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Instructions
-     * @{
-     */
     class IntersectionPointInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(IntersectionPointInstruction)
     public:
@@ -29,7 +28,6 @@ namespace Chrysalis {
     };
     SERIALIZE_DERIVED_CONSTRUCTION(IntersectionPointInstruction, BasePatternInstruction, space_, patterns_, line_, names_, targets_)
 }
-
-BOOST_CLASS_EXPORT_KEY(Chrysalis::IntersectionPointInstruction)
+/**@}*/
 
 #endif //CHRYSALIS_INTERSECTIONPOINTINSTRUCTION_H

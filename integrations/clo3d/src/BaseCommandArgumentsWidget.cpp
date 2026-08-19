@@ -2,7 +2,7 @@
 
 #include "CLOAPIInterface.h"
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 BaseCommandArgumentsWidget::BaseCommandArgumentsWidget(BaseCommandArguments* arguments): arguments_(arguments) {
     UTILITY_API->UpdateCloStyleForPlugIn(this);

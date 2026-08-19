@@ -8,6 +8,9 @@
 #include "LoggerTextEditSink.h"
 #include "LoggingToolSettingsWidget.h"
 
+using namespace CLO3D;
+using namespace Logging;
+
 LoggingTool::LoggingTool(LoggerRegistry& registry, LoggingToolSettings* settings)
     : BaseLoggerRegistryListener(registry), settings_(settings) {}
 
@@ -17,7 +20,7 @@ LoggingTool::~LoggingTool() {
 }
 
 LoggingTool* LoggingTool::create() {
-    return new LoggingTool(Logging::REGISTRY, new LoggingToolSettings(Logging::REGISTRY));
+    return new LoggingTool(LOG_REGISTRY, new LoggingToolSettings(LOG_REGISTRY));
 }
 
 void LoggingTool::addWidgetSink(Logger* logger) const {

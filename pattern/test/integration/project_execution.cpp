@@ -19,8 +19,8 @@ protected:
 
         project_->getInstructions()->execute();
 
-        Project::write(TEMP_FILE, project_.get());
-        deserializedProject_ = std::unique_ptr<Project>(Project::read(TEMP_FILE));
+        Project::write(TEMP_FILE, *project_);
+        deserializedProject_ = Project::read(TEMP_FILE);
         deserializedProject_->getInstructions()->execute();
     }
     [[nodiscard]] std::vector<Project*> getProjects() const {

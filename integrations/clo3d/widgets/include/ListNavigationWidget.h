@@ -3,13 +3,11 @@
 
 #include "NamedWidget.h"
 
-namespace UI {
+namespace CLO3D::UI {
     QT_BEGIN_NAMESPACE
-
-namespace Ui {
+    namespace Ui {
         class ListNavigationWidget;
     }
-
     QT_END_NAMESPACE
 
     class ListNavigationWidget: public QWidget {

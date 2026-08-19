@@ -3,11 +3,9 @@
 
 #include <QWidget>
 
-namespace UI {
+namespace CLO3D::UI {
     class ClickableWidget: public QWidget {
-
         Q_OBJECT
-
     signals:
         void clicked();
     public:

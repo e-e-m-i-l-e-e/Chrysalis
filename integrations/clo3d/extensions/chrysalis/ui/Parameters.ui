@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UI::PatternBuilder::Parameters</class>
- <widget class="QWidget" name="UI::PatternBuilder::Parameters">
+ <class>CLO3D::UI::Parameters</class>
+ <widget class="QWidget" name="CLO3D::UI::Parameters">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -30,7 +30,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="UI::TableInputAccordion" name="parametersAccordion">
+        <widget class="CLO3D::UI::TableInputAccordion" name="parametersAccordion">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
            <horstretch>0</horstretch>
@@ -107,7 +107,7 @@
         </widget>
        </item>
        <item>
-        <widget class="UI::TableInputAccordion" name="avatarMeasuresAccordion">
+        <widget class="CLO3D::UI::TableInputAccordion" name="avatarMeasuresAccordion">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
            <horstretch>0</horstretch>
@@ -213,7 +213,7 @@
         </widget>
        </item>
        <item>
-        <widget class="UI::TableInputAccordion" name="expressionsAccordion">
+        <widget class="CLO3D::UI::TableInputAccordion" name="expressionsAccordion">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
            <horstretch>0</horstretch>
@@ -309,7 +309,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>UI::TableInputAccordion</class>
+   <class>CLO3D::UI::TableInputAccordion</class>
    <extends>QWidget</extends>
    <header>TableInputAccordion.h</header>
    <container>1</container>

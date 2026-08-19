@@ -4,16 +4,16 @@
 #include <QString>
 #include <QQuickItem>
 
+#include "Logging.h"
 #include "ParametersElement.h"
+#include "exceptions/ProjectIOError.h"
 #include "projects/Project1Composer.h"
+
+#define LOGGER_NAME "Project Element"
 
 using namespace Chrysalis;
 
 ProjectElement::ProjectElement(QQuickItem* parent): QQuickItem(parent) {}
-
-ProjectElement::~ProjectElement() {
-    delete project_;
-}
 
 QString ProjectElement::getName() const {
     return project_->getName().data();
@@ -48,31 +48,34 @@ bool ProjectElement::hasProject() const {
 }
 
 void ProjectElement::createProject() {
-    delete project_;
     project_ = Project::create();
-    Project1Composer composer(project_);
+    Project1Composer composer(project_.get());
     composer.fill();
     parameters_->setParameters(project_->getParameters());
-    emit projectChanged(project_);
+    emit projectChanged(project_.get());
 }
 
 void ProjectElement::openProject(const QUrl& filePath) {
-    project_ = Project::read(filePath.toLocalFile().toUtf8().constData());
+    try {
+        project_ = Project::read(filePath.toLocalFile().toUtf8().constData());
+    } catch (const ProjectIOError& e) {
+        LOG_ERROR("{}", e.what());
+        return;
+    }
     project_->getInstructions()->execute();
     parameters_->setParameters(project_->getParameters());
     setFilePath(filePath);
     emit nameChanged();
-    emit projectChanged(project_);
+    emit projectChanged(project_.get());
 }
 
 
 void ProjectElement::saveProject(const QUrl& filePath) {
-    Project::write(filePath.toLocalFile().toUtf8().data(), project_);
+    Project::write(filePath.toLocalFile().toUtf8().data(), *project_);
     setFilePath(filePath);
 }
 
 void ProjectElement::closeProject() {
-    delete project_;
     project_ = nullptr;
-    emit projectChanged(project_);
+    emit projectChanged(project_.get());
 }

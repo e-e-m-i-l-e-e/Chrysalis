@@ -4,13 +4,14 @@
 #include "ContainerExtension.h"
 #include "BaseUIExporterSettingsBlockContainerWidget.h"
 
-class BaseUIExporterSettingsBlockContainerWidgetExtension: public ContainerExtension {
-    Q_OBJECT
-    Q_INTERFACES(QDesignerContainerExtension)
-public:
-    BaseUIExporterSettingsBlockContainerWidgetExtension(UI::BaseUIExporterSettingsBlockContainerWidget* container, QObject *parent)
-    : ContainerExtension(container, parent) {}
-};
-
+namespace CLO3D::UI {
+    class BaseUIExporterSettingsBlockContainerWidgetExtension: public ContainerExtension {
+        Q_OBJECT
+        Q_INTERFACES(QDesignerContainerExtension)
+    public:
+        BaseUIExporterSettingsBlockContainerWidgetExtension(UI::BaseUIExporterSettingsBlockContainerWidget* container, QObject *parent)
+        : ContainerExtension(container, parent) {}
+    };
+}
 
 #endif //CHRYSALIS_BASEUIEXPORTERSETTINGSBLOCKCONTAINERWIDGETEXTENSION_H

@@ -5,7 +5,7 @@
 
 #define LOGGER_NAME "UI Exporter Options"
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 JsonUIExporterOptionsWidget::JsonUIExporterOptionsWidget(QWidget *parent)
     : BaseUIExporterOptionsWidget(parent),
@@ -53,7 +53,7 @@ void JsonUIExporterOptionsWidget::write() {
     options_->setIgnoreCSS(ui->ignoreCSS->isChecked());
 }
 
-BaseUIExporterOptions* JsonUIExporterOptionsWidget::getOptions() {
+CLO3D::BaseUIExporterOptions* JsonUIExporterOptionsWidget::getOptions() {
     return options_;
 }
 

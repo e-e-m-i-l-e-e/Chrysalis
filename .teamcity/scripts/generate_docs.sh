@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 set -ex
 
-BUILD_TYPE="${1:?Build type is required}"
-SKIP_DIAGRAMS="${2:?SKIP_DIAGRAMS is required}"
+APP="${1:?Application name is required}"
+BUILD_TYPE="${2:?Build type is required}"
+SKIP_DIAGRAMS="${3:?SKIP_DIAGRAMS is required}"
 
-dot -Tsvg .build/"$BUILD_TYPE"/graph/dependencies.dot -o .build/"$BUILD_TYPE"/dependencies.svg
+dot -Tsvg .build/"$BUILD_TYPE"/graph/dependencies.dot -o "$OUTPUT_DIR"/docs/diagrams/"$APP"-dependencies.svg
 
 if [[ "$SKIP_DIAGRAMS" == "false" ]]; then
     cmake --build .build/"$BUILD_TYPE" --target GenerateUML

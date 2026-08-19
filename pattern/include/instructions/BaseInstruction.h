@@ -3,11 +3,10 @@
 
 #include "serialization.h"
 
+/** @defgroup Instructions Instructions
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Instructions
-     * @{
-     */
     class BaseInstruction {
         SERIALIZED
     protected:
@@ -18,5 +17,6 @@ namespace Chrysalis {
         virtual void execute() = 0;
     };
 }
+/**@}*/
 
 #endif //CHRYSALIS_BASEINSTRUCTION_H

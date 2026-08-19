@@ -3,41 +3,43 @@
 
 #include "ExtensionsManager.h"
 
-class BaseUIExporterOptions {
-protected:
-    virtual ~BaseUIExporterOptions() = default;
-public:
-    struct Keys {
-        inline static const QString ROOT_FOLDER = "rootFolder";
-        inline static const QString FILE_NAME = "fileName";
-        inline static const QString OBJECT_NAME = "objectName";
-        inline static const QString CLASS_NAME = "className";
+namespace CLO3D {
+    class BaseUIExporterOptions {
+    protected:
+        virtual ~BaseUIExporterOptions() = default;
+    public:
+        struct Keys {
+            inline static const QString ROOT_FOLDER = "rootFolder";
+            inline static const QString FILE_NAME = "fileName";
+            inline static const QString OBJECT_NAME = "objectName";
+            inline static const QString CLASS_NAME = "className";
+        };
+        struct Defaults {
+            inline static const QDir ROOT_FOLDER = QDir(ROOT_EXTENSIONS_DIR);
+            inline static const QString FILE_NAME = "ui";
+            inline static const QString OBJECT_NAME = "";
+            inline static const QString CLASS_NAME = "";
+        };
+        virtual bool isEnabled();
+
+        virtual void read(const QSettings* settings);
+        virtual void write(QSettings* settings);
+
+        [[nodiscard]] QDir getRootFolder() const;
+        [[nodiscard]] QString getFileName() const;
+        [[nodiscard]] QString getObjectName() const;
+        [[nodiscard]] QString getClassName() const;
+
+        void setRootFolder(const QDir& rootFolder);
+        void setFileName(const QString& fileName);
+        void setObjectName(const QString& objectName);
+        void setClassName(const QString& className);
+    private:
+        QDir rootFolder_ = Defaults::ROOT_FOLDER;
+        QString fileName_ = Defaults::FILE_NAME;
+        QString objectName_ = Defaults::OBJECT_NAME;
+        QString className_ = Defaults::CLASS_NAME;
     };
-    struct Defaults {
-        inline static const QDir ROOT_FOLDER = ExtensionsManager::ROOT_EXTENSIONS_DIR;
-        inline static const QString FILE_NAME = "ui";
-        inline static const QString OBJECT_NAME = "";
-        inline static const QString CLASS_NAME = "";
-    };
-    virtual bool isEnabled();
-
-    virtual void read(const QSettings* settings);
-    virtual void write(QSettings* settings);
-
-    [[nodiscard]] QDir getRootFolder() const;
-    [[nodiscard]] QString getFileName() const;
-    [[nodiscard]] QString getObjectName() const;
-    [[nodiscard]] QString getClassName() const;
-
-    void setRootFolder(const QDir& rootFolder);
-    void setFileName(const QString& fileName);
-    void setObjectName(const QString& objectName);
-    void setClassName(const QString& className);
-private:
-    QDir rootFolder_ = Defaults::ROOT_FOLDER;
-    QString fileName_ = Defaults::FILE_NAME;
-    QString objectName_ = Defaults::OBJECT_NAME;
-    QString className_ = Defaults::CLASS_NAME;
-};
+}
 
 #endif //CHRYSALIS_BASEUIEXPORTEROPTIONS_H

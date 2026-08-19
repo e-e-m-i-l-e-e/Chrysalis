@@ -3,14 +3,13 @@
 
 #include <QWidget>
 
-class MVDockWidgetTitleBarBase : public QWidget {
-    Q_OBJECT
-
-public:
-    explicit MVDockWidgetTitleBarBase(QWidget *parent = nullptr): QWidget(parent) {};
-
-    ~MVDockWidgetTitleBarBase() override {};
-};
-
+namespace CLO3D::UI {
+    class MVDockWidgetTitleBarBase : public QWidget {
+        Q_OBJECT
+    public:
+        explicit MVDockWidgetTitleBarBase(QWidget *parent = nullptr): QWidget(parent) {};
+        ~MVDockWidgetTitleBarBase() override {};
+    };
+}
 
 #endif //CHRYSALIS_MVDOCKWIDGETTITLEBARBASE_H

@@ -5,7 +5,7 @@
 #include "NamedWidget.h"
 #include "ui_ListNavigationWidget.h"
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 ListNavigationWidget::ListNavigationWidget(QWidget *parent): QWidget(parent), ui(new Ui::ListNavigationWidget) {
     ui->setupUi(this);

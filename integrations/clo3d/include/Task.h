@@ -14,8 +14,10 @@ namespace CLO3D {
     public:
         explicit Task(const QString& name, const std::function<void()>& task);
     protected:
-        void run(const std::function<void()>& onSuccess) override;
+        void wait() override;
+        void run(const std::function<void()>& onSuccess, const std::function<void(const BaseTaskException&)>& onException) override;
     private:
+        QFuture<void> future_;
         std::function<void()> task_;
     };
 }

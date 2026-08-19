@@ -3,7 +3,7 @@
 
 #include <QDialog>
 
-namespace UI {
+namespace CLO3D::UI {
     class BaseDialog: public QDialog {
         Q_OBJECT
     public:

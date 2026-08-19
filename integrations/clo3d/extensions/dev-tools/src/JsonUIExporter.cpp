@@ -1,5 +1,8 @@
 #include "JsonUIExporter.h"
 
+#include <memory>
+#include <utility>
+
 #include <QLayout>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -7,12 +10,19 @@
 #include <QMetaProperty>
 #include <QJsonDocument>
 
+#include "Task.h"
+#include "BaseTask.h"
+#include "TaskGroup.h"
 #include "ExtensionsManager.h"
 
 #include "Logging.h"
 #define LOGGER_NAME "Json UI Exporter"
 
-JsonUIExporter::JsonUIExporter(std::unique_ptr<JsonUIExporterOptions> options): options_(std::move(options)) {}
+using namespace CLO3D;
+
+JsonUIExporter::JsonUIExporter(std::unique_ptr<JsonUIExporterOptions> options): options_(std::move(options)) {
+    LOG_TRACE("Exporter has been created.");
+}
 
 JsonUIExporter* JsonUIExporter::create() {
     return new JsonUIExporter(std::make_unique<JsonUIExporterOptions>());
@@ -22,14 +32,6 @@ void JsonUIExporter::exportUI(std::forward_list<QWidget*>&& widgets) {
     QJsonArray json;
     for (const auto& widget : widgets) {
         if (const auto jsonObject = getWidgetJson(widget); !jsonObject.keys().isEmpty()) json.append(jsonObject);
-    }
-    if (!options_->getRootFolder().exists()) {
-        if (options_->getRootFolder().mkpath(".")) {
-            LOG_INFO("\"{}\" directory was created.", options_->getRootFolder().path().toStdString());
-        } else {
-            LOG_ERROR("Failed to create directory: {}.", options_->getRootFolder().path().toStdString());
-            return;
-        }
     }
 
     const auto filePath = options_->getRootFolder().filePath(options_->getFileName().append(".json"));

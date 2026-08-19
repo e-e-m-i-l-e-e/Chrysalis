@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UI::XmlUIExporterOptionsWidget</class>
- <widget class="QWidget" name="UI::XmlUIExporterOptionsWidget">
+ <class>CLO3D::UI::XmlUIExporterOptionsWidget</class>
+ <widget class="QWidget" name="CLO3D::UI::XmlUIExporterOptionsWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -30,7 +30,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="UI::BaseUIExporterSettingsBlockContainerWidget" name="baseUIExporterSettingsBlockContainerWidget">
+    <widget class="CLO3D::UI::BaseUIExporterSettingsBlockContainerWidget" name="baseUIExporterSettingsBlockContainerWidget">
      <property name="title">
       <string>XML</string>
      </property>
@@ -159,13 +159,13 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>UI::NamedWidget</class>
+   <class>CLO3D::UI::NamedWidget</class>
    <extends>QWidget</extends>
    <header>NamedWidget.h</header>
   </customwidget>
   <customwidget>
-   <class>UI::BaseUIExporterSettingsBlockContainerWidget</class>
-   <extends>UI::NamedWidget</extends>
+   <class>CLO3D::UI::BaseUIExporterSettingsBlockContainerWidget</class>
+   <extends>CLO3D::UI::NamedWidget</extends>
    <header>BaseUIExporterSettingsBlockContainerWidget.h</header>
    <container>1</container>
   </customwidget>

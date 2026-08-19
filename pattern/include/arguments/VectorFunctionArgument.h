@@ -7,10 +7,9 @@
 #define VECTOR_FUNCTIONS (Length)(Angle)
 
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
+/** @defgroup Arguments Arguments
+ *  @{
+ */
     /**
      * @uml{note[top] Syntax samples:
      * (A -> B).length

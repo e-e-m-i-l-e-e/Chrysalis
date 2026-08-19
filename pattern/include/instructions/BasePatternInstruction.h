@@ -7,11 +7,10 @@
 #include "arguments/BaseArgument.h"
 #include "arguments/PatternsContainerArgument.h"
 
+/** @defgroup Instructions Instructions
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Instructions
-     * @{
-     */
     class BasePatternInstruction: public BaseInstruction {
         SERIALIZED
     public:
@@ -28,5 +27,6 @@ namespace Chrysalis {
         args::patterns* patterns_; // TODO: instructions container should own and validate this
     };
 };
+/**@}*/
 
 #endif //CHRYSALIS_BASEPATTERNINSTRUCTION_H

@@ -3,7 +3,7 @@
 
 #include "BaseContainer.h"
 
-namespace UI {
+namespace CLO3D::UI {
     class BaseInsertableContainer: public QWidget, public BaseContainer {
     protected:
         explicit BaseInsertableContainer(QWidget *parent): QWidget(parent), BaseContainer() {}

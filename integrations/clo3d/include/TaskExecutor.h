@@ -1,7 +1,6 @@
 #ifndef CHRYSALIS_TASKEXECUTOR_H
 #define CHRYSALIS_TASKEXECUTOR_H
 
-#include <list>
 #include <memory>
 #include <functional>
 #include <unordered_map>
@@ -13,18 +12,18 @@ namespace CLO3D {
     class CLO3D_EXTENSION TaskExecutor {
     public:
         TaskExecutor() = default;
-
-        // Non-copyable: tasks_ holds move-only unique_ptr<BaseTask> entries,
-        // so an implicit copy would be deleted anyway - declared explicitly
-        // to avoid MSVC's dllexport implicit-instantiation of the deleted
-        // copy assignment operator (a known MSVC quirk for exported classes
-        // with move-only members).
         TaskExecutor(const TaskExecutor&) = delete;
         TaskExecutor& operator=(const TaskExecutor&) = delete;
 
-        void submit(std::unique_ptr<BaseTask> task, const std::function<void()>& onSuccess);
+        void wait(const QString& task);
+        void submit(std::unique_ptr<BaseTask> task);
+        void submit(
+            std::unique_ptr<BaseTask> task,
+            const std::function<void()>& onSuccess,
+            const std::function<void(const BaseTaskException&)>& onException = [](const BaseTaskException&) -> void {}
+        );
     private:
-        std::list<std::unique_ptr<BaseTask>> tasks_{};
+        std::unordered_map<std::string, std::unique_ptr<BaseTask>> tasks_{};
     };
 }
 

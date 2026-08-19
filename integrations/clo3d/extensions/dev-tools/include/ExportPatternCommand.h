@@ -4,12 +4,13 @@
 #include "BaseCommand.h"
 #include "ExportPatternCommandArguments.h"
 
-class ExportPatternCommand: public BaseCommand {
-public:
-    explicit ExportPatternCommand(ExportPatternCommandArguments* arguments);
+namespace CLO3D {
+    class ExportPatternCommand: public BaseCommand {
+    public:
+        explicit ExportPatternCommand(ExportPatternCommandArguments* arguments);
 
-    void run() override;
-};
-
+        void run() override;
+    };
+}
 
 #endif //CHRYSALIS_EXPORTPATTERNCOMMAND_H

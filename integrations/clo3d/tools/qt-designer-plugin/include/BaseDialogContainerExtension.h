@@ -4,12 +4,14 @@
 #include "ContainerExtension.h"
 #include "BaseDialogContainer.h"
 
-class BaseDialogContainerExtension : public ContainerExtension {
-    Q_OBJECT
-    Q_INTERFACES(QDesignerContainerExtension)
-public:
-    explicit BaseDialogContainerExtension(UI::BaseDialogContainer* container, QObject* parent)
-        : ContainerExtension(container, parent) {}
-};
+namespace CLO3D::UI {
+    class BaseDialogContainerExtension : public ContainerExtension {
+        Q_OBJECT
+        Q_INTERFACES(QDesignerContainerExtension)
+    public:
+        explicit BaseDialogContainerExtension(UI::BaseDialogContainer* container, QObject* parent)
+            : ContainerExtension(container, parent) {}
+    };
+}
 
 #endif //CHRYSALIS_BASEDIALOGCONTAINEREXTENSION_H

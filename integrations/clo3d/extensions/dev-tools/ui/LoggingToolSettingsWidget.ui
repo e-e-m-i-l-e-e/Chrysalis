@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UI::LoggingToolSettingsWidget</class>
- <widget class="UI::BaseExtensionSettingsWidget" name="UI::LoggingToolSettingsWidget">
+ <class>CLO3D::UI::LoggingToolSettingsWidget</class>
+ <widget class="CLO3D::UI::BaseExtensionSettingsWidget" name="CLO3D::UI::LoggingToolSettingsWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -361,14 +361,14 @@ QLineEdit:disabled {
  </widget>
  <customwidgets>
   <customwidget>
-   <class>UI::NamedWidget</class>
+   <class>CLO3D::UI::NamedWidget</class>
    <extends>QWidget</extends>
    <header>NamedWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>UI::BaseExtensionSettingsWidget</class>
-   <extends>UI::NamedWidget</extends>
+   <class>CLO3D::UI::BaseExtensionSettingsWidget</class>
+   <extends>CLO3D::UI::NamedWidget</extends>
    <header>BaseExtensionSettingsWidget.h</header>
    <container>1</container>
   </customwidget>

@@ -2,8 +2,10 @@
 
 #include "TableInputAccordion.h"
 
+using namespace CLO3D::UI;
+
 QWidget* TableInputAccordionPlugin::createWidget(QWidget *parent) {
-    return new UI::TableInputAccordion(parent);
+    return new TableInputAccordion(parent);
 }
 
 QStringList TableInputAccordionPlugin::domXmlContent() const {

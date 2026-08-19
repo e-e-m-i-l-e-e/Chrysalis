@@ -6,6 +6,8 @@
 #include "Logging.h"
 #define LOGGER_NAME "Shortcut Handler"
 
+using namespace CLO3D;
+
 // TODO: class for statics
 static int nextId = 1;
 static std::unordered_map<int, BaseNativeShortcutHandler*> registry;

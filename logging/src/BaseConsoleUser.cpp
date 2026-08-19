@@ -5,6 +5,8 @@
     #include "Windows.h"
 #endif
 
+using namespace Logging;
+
 BaseConsoleUser::BaseConsoleUser() {
 #ifdef _WIN32
     const bool attached = AttachConsole(ATTACH_PARENT_PROCESS);

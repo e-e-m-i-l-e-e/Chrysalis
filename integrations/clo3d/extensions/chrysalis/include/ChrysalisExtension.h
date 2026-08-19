@@ -3,7 +3,7 @@
 
 #include "BaseExtension.h"
 
-namespace Chrysalis {
+namespace CLO3D {
     class ChrysalisExtension: public BaseExtension {
     public:
         ~ChrysalisExtension() override = default;

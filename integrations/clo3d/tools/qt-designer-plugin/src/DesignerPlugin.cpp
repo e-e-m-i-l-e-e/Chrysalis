@@ -8,6 +8,8 @@
 #include "SettingsBlockContainerWidgetPlugin.h"
 #include "BaseUIExporterSettingsBlockContainerWidgetPlugin.h"
 
+using namespace CLO3D::UI;
+
 QList<QDesignerCustomWidgetInterface*> DesignerPlugin::customWidgets() const {
     return {
         new NamedWidgetPlugin(),

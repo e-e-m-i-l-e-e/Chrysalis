@@ -20,11 +20,11 @@ namespace Chrysalis {
                          ExpressionsContainer* expressions, InstructionsContainer* instructions);
         ~Project();
 
-        static Project* create();
-        static Project* create(const std::string& name);
+        static std::unique_ptr<Project> create();
+        static std::unique_ptr<Project> create(const std::string& name);
 
-        static Project* read(const std::string& filePath);
-        static void write(const std::string& filePath, Project* project);
+        static std::unique_ptr<Project> read(const std::string& filePath);
+        static void write(const std::string& filePath, const Project& project);
 
         std::string getName();
         void setName(const std::string& name);

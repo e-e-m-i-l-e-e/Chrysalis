@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-namespace UI {
+namespace CLO3D::UI {
     class BaseContainer {
     protected:
         BaseContainer() = default;

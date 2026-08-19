@@ -3,16 +3,15 @@
 
 #include "Project.h"
 
-namespace Chrysalis {
+namespace CLO3D {
     class PatternImporter {
     public:
-        explicit PatternImporter(Project* project);
-        ~PatternImporter();
+        explicit PatternImporter(std::unique_ptr<Chrysalis::Project> project);
 
         void import() const;
     private:
         /// @uml{composition}
-        Project* project_;
+        std::unique_ptr<Chrysalis::Project> project_;
     };
 }
 

@@ -3,11 +3,11 @@
 
 #include <forward_list>
 
+/**
+ * @defgroup Observers Observers
+ * @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Observers
-     * @{
-     */
     template<typename T>
     class BaseObservable {
     protected:
@@ -27,5 +27,6 @@ namespace Chrysalis {
         std::forward_list<T*> observers_;
     };
 }
+/**@}*/
 
 #endif //CHRYSALIS_BASEOBSERVABLE_H

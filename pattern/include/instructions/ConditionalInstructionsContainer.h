@@ -5,11 +5,10 @@
 #include "instructions/BaseInstruction.h"
 #include "arguments/ConditionalArgument.h"
 
+/** @defgroup Instructions Instructions
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Instructions
-     * @{
-     */
     class ConditionalInstructionsContainer: public BaseInstruction {
         PROVIDE_SERIALIZATION_ACCESS(ConditionalInstructionsContainer)
     public:
@@ -26,5 +25,6 @@ namespace Chrysalis {
     };
     SERIALIZE_DERIVED_CONSTRUCTION(ConditionalInstructionsContainer, BaseInstruction, condition_, positive_, negative_)
 }
+/**@}*/
 
 #endif //CHRYSALIS_CONDITIONALINSTRUCTIONSCONTAINER_H

@@ -1,6 +1,6 @@
 #include "BaseDialog.h"
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 BaseDialog::BaseDialog() {
     setWindowModality(Qt::WindowModal);

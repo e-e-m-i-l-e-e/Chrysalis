@@ -9,6 +9,7 @@
 
 #define LOGGER_NAME "PatternBuilderDockWidget"
 
+using namespace CLO3D::UI;
 
 PatternBuilderDockWidget::PatternBuilderDockWidget(QWidget *parent) : QDockWidget(parent),
                                                                       ui(new Ui::PatternBuilderDockWidget) {

@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+using namespace CLO3D::UI;
+
 ContainerExtension::ContainerExtension(UI::BaseContainer *container, QObject *parent)
     : QObject(parent), container_(container) {}
 

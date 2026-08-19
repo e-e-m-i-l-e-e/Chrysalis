@@ -3,11 +3,11 @@
 
 #include "BaseObserver.h"
 
+/**
+ * @defgroup Observers Observers
+ * @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Observers
-     * @{
-     */
     class Point;
     class PointObserver: public BaseObserver<PointObserver> {
     protected:
@@ -16,5 +16,6 @@ namespace Chrysalis {
         virtual void pointMoved(const Point* point) = 0;
     };
 }
+/**@}*/
 
 #endif //CHRYSALIS_POINTOBSERVER_H

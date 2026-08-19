@@ -1,7 +1,7 @@
 #include "SettingsBlockContainerWidget.h"
 #include "ui_SettingsBlockContainerWidget.h"
 
-using namespace  UI;
+using namespace CLO3D::UI;
 
 SettingsBlockContainerWidget::SettingsBlockContainerWidget(QWidget *parent)
     : NamedWidget(parent), BaseContainer(), ui(new Ui::SettingsBlockContainerWidget) {

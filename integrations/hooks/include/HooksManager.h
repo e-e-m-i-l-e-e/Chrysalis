@@ -6,6 +6,7 @@
 #include <string>
 #include <list>
 
+#include "HooksLibraryExport.h"
 #include "Logging.h"
 
 // ─── undef Qt's emit if it was defined before this header ────────────────────
@@ -43,7 +44,7 @@
 //  invocation — deletion is deferred so it is safe to call remove() from
 //  inside the callback itself without invalidating the iterator mid-loop.
 // =============================================================================
-class HookHandle {
+class HOOKS HookHandle {
     friend class HooksManager;
 
     // Raw pointer is intentional: the list is an instance member of HookBase
@@ -223,7 +224,7 @@ concept IgnoreCallbackFor =
 //        LOG_INFO("QWidget::show called on {}", self->objectName());
 //    });
 // =============================================================================
-class HooksManager {
+class HOOKS HooksManager {
     inline static auto LOGGER_NAME_ = "Hooks Manager";
     // ── AbstractHook ──────────────────────────────────────────────────────────
     // Base class stored in the hooks map. Owns the PLH detour lifetime.

@@ -4,7 +4,7 @@
 #include <QFileDialog>
 #include <QGraphicsOpacityEffect>
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 BaseUIExporterSettingsBlockContainerWidget::BaseUIExporterSettingsBlockContainerWidget(QWidget *parent)
     : NamedWidget(parent), ui(new Ui::BaseUIExporterSettingsBlockContainerWidget) {

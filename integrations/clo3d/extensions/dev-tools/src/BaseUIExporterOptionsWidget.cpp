@@ -1,10 +1,12 @@
 #include "BaseUIExporterOptionsWidget.h"
 
-QString UI::BaseUIExporterOptionsWidget::getTitle() {
+using namespace CLO3D::UI;
+
+QString BaseUIExporterOptionsWidget::getTitle() {
     return getBaseUIExporterSettings()->getTitle();
 }
 
-void UI::BaseUIExporterOptionsWidget::write() {
+void BaseUIExporterOptionsWidget::write() {
     const auto& baseUIExporterSettings = getBaseUIExporterSettings();
     const auto& options = getOptions();
     options->setRootFolder(baseUIExporterSettings->getRootFolderText());
@@ -13,7 +15,7 @@ void UI::BaseUIExporterOptionsWidget::write() {
     options->setClassName(baseUIExporterSettings->getClassNameText());
 }
 
-void UI::BaseUIExporterOptionsWidget::read() {
+void BaseUIExporterOptionsWidget::read() {
     const auto& baseUIExporterSettings = getBaseUIExporterSettings();
     const auto& options = getOptions();
     baseUIExporterSettings->setRootFolderText(options->getRootFolder().path());

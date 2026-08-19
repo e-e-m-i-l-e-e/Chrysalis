@@ -5,7 +5,7 @@
 
 #define LOGGER_NAME "UI Exporter Settings"
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 UIExporterToolSettingsWidget::UIExporterToolSettingsWidget(UIExporterToolSettings* settings, QWidget *parent)
     : BaseExtensionSettingsWidget(settings, parent),

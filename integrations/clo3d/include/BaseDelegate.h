@@ -3,7 +3,7 @@
 
 #include <QStyledItemDelegate>
 
-namespace UI {
+namespace CLO3D::UI {
     template<typename W, typename C>
     requires std::is_base_of_v<QWidget, W>
     class BaseDelegate: public QStyledItemDelegate {

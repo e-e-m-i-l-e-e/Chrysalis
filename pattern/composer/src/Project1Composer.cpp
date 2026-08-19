@@ -25,7 +25,7 @@ using namespace Chrysalis;
 
 Project1Composer::Project1Composer(Project* project): BaseProjectComposer(project) {}
 
-Project* Project1Composer::createProject() {
+std::unique_ptr<Project> Project1Composer::createProject() {
     return Project::create("Project1Composer");
 }
 

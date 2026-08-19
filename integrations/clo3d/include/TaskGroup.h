@@ -14,7 +14,8 @@ namespace CLO3D {
 
         void addTask(std::unique_ptr<BaseTask> task);
     protected:
-        void run(const std::function<void()>& onSuccess) override;
+        void wait() override;
+        void run(const std::function<void()>& onSuccess, const std::function<void(const BaseTaskException&)>& onException) override;
     private:
         std::vector<std::unique_ptr<BaseTask>> tasks_;
     };

@@ -6,11 +6,10 @@
 #include "arguments/BasePointArgument.h"
 #include "arguments/PatternsContainerArgument.h"
 
+/** @defgroup Arguments Arguments
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
     class PatternPointArgument: public BasePointArgument {
         PROVIDE_SERIALIZATION_ACCESS(PatternPointArgument)
     public:
@@ -32,5 +31,6 @@ namespace Chrysalis {
     };
     SERIALIZE_DERIVED_CONSTRUCTION(PatternPointArgument, BasePointArgument, name_, patterns_)
 }
+/**@}*/
 
 #endif //CHRYSALIS_POINTARGUMENT_H

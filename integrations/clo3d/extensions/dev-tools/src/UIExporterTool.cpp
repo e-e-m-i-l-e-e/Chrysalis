@@ -11,7 +11,10 @@
 #include "UIExporterToolSettingsWidget.h"
 
 #include "Logging.h"
+#include "TaskGroup.h"
 #define LOGGER_NAME "UI Exporter"
+
+using namespace CLO3D;
 
 UIExporterTool::UIExporterTool(UIExporterToolSettings *uiExporterToolSettings, GeneralUIExporterOptions *options)
     : BaseNativeShortcutHandler(options->getShortcut()), options_(options), uiExporterToolSettings_(uiExporterToolSettings) {
@@ -49,36 +52,58 @@ void UIExporterTool::handle() {
     QWidget* widgetAtMousePosition = nullptr;
     if (options_->getPickMyMouse()) {
         widgetAtMousePosition = QApplication::widgetAt(QCursor::pos());
-        static constexpr auto LOG_EXPORT_AT_CURSOR = "Exporting widget at cursor position. Class name: {}. Object name: {}.";
-        LOG_DEBUG(LOG_EXPORT_AT_CURSOR, widgetAtMousePosition->metaObject()->className(), widgetAtMousePosition->objectName().toStdString()
+        LOG_DEBUG(
+            "Exporting widget at cursor position. Class name: {}. Object name: {}.",
+            widgetAtMousePosition->metaObject()->className(),
+            widgetAtMousePosition->objectName().toStdString()
         );
     }
-    std::unordered_map<QString, std::unordered_map<QString, std::forward_list<QWidget*>>> foundWidgets; // <className, <objectName, widgets>>
-    for (const auto exporter : exporters_) {
+    for (const auto exporter: exporters_) {
         const auto options = exporter->getOptions();
         if (!options->isEnabled()) {
-            static constexpr auto LOG_SKIP_EXPORT = "Skipping export using {}";
-            LOG_DEBUG(LOG_SKIP_EXPORT, typeid(*exporter).name());
+            LOG_DEBUG("Skipping export using {}", typeid(*exporter).name());
             continue;
+        }
+        if (!options->getRootFolder().exists()) {
+            if (options->getRootFolder().mkpath(".")) {
+                LOG_INFO("\"{}\" directory was created.", options->getRootFolder().path().toStdString());
+            } else {
+                LOG_ERROR("Failed to create directory: {}.", options->getRootFolder().path().toStdString());
+                continue;
+            }
         }
         if (widgetAtMousePosition) {
             exporter->exportUI(widgetAtMousePosition);
         } else if (options->getClassName().isEmpty() && options->getObjectName().isEmpty()) {
-            // There are no common arguments passed. Let UI Exporter implementation to decide what to export.
-            exporter->exportUI();
+            LOG_INFO("No filters applied. Top-level widgets will be exported by {}.", typeid(*this).name() + 6);
+            std::forward_list<QWidget*> widgets;
+            for (const auto widget: QApplication::topLevelWidgets()) {
+                if (!widget->parent()) {
+                    LOG_INFO(
+                        "Widget with class name \"{}\" and object name \"{}\" will be exported.",
+                        widget->metaObject()->className(),
+                        widget->objectName().toStdString()
+                    );
+                    widgets.push_front(widget);
+                }
+            }
+            exporter->exportUI(std::move(widgets));
         } else {
+            std::forward_list<QWidget*> foundWidgets; // <className, <objectName, widgets>>
             const QString& className = options->getClassName();
             const QString& objectName = options->getObjectName();
             for (const auto widget: QApplication::allWidgets()) {
                 if ((objectName.isEmpty() || objectName == widget->objectName()) &&
                     (className.isEmpty() || className == widget->metaObject()->className())) {
-                    static constexpr auto LOG_MATCH_FOUND = "Matching widget has been found with class \"{}\" and name \"{}\"";
-                    LOG_DEBUG(LOG_MATCH_FOUND, widget->metaObject()->className(), widget->objectName().toStdString());
-                    foundWidgets[className][objectName].push_front(widget);
+                    LOG_DEBUG(
+                        "Matching widget has been found with class \"{}\" and name \"{}\"",
+                        widget->metaObject()->className(),
+                        widget->objectName().toStdString()
+                    );
+                    foundWidgets.push_front(widget);
                 }
             }
-            exporter->exportUI(std::move(foundWidgets[className][objectName]));
+            exporter->exportUI(std::move(foundWidgets));
         }
     }
-    ExtensionsManager::clearMessage();
 }

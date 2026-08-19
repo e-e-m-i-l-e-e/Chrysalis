@@ -7,11 +7,10 @@
 #include "arguments/OptionalArgument.h"
 #include "instructions/BasePatternInstruction.h"
 
+/** @defgroup Instructions Instructions
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Instructions
-     * @{
-     */
     class EdgeDartInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(EdgeDartInstruction)
     public:
@@ -33,7 +32,6 @@ namespace Chrysalis {
     };
     SERIALIZE_DERIVED_CONSTRUCTION(EdgeDartInstruction, BasePatternInstruction, space_, patterns_, edge_, dart_, leg1Intake_, leg2Intake_)
 }
-
-BOOST_CLASS_EXPORT_KEY(Chrysalis::EdgeDartInstruction)
+/**@}*/
 
 #endif //CHRYSALIS_EDGEDARTINSTRUCTION_H

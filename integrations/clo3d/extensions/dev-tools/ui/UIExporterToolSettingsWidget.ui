@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UI::UIExporterToolSettingsWidget</class>
- <widget class="UI::BaseExtensionSettingsWidget" name="UI::UIExporterToolSettingsWidget">
+ <class>CLO3D::UI::UIExporterToolSettingsWidget</class>
+ <widget class="CLO3D::UI::BaseExtensionSettingsWidget" name="CLO3D::UI::UIExporterToolSettingsWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -72,13 +72,13 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="UI::GeneralUIExporterOptionsWidget" name="generalUIExporterOptionsWidget" native="true"/>
+        <widget class="CLO3D::UI::GeneralUIExporterOptionsWidget" name="generalUIExporterOptionsWidget" native="true"/>
        </item>
        <item>
-        <widget class="UI::JsonUIExporterOptionsWidget" name="jsonUIExporterOptionsWidget" native="true"/>
+        <widget class="CLO3D::UI::JsonUIExporterOptionsWidget" name="jsonUIExporterOptionsWidget" native="true"/>
        </item>
        <item>
-        <widget class="UI::XmlUIExporterOptionsWidget" name="xmlUIExporterOptionsWidget" native="true"/>
+        <widget class="CLO3D::UI::XmlUIExporterOptionsWidget" name="xmlUIExporterOptionsWidget" native="true"/>
        </item>
        <item>
         <spacer name="verticalSpacer">
@@ -101,31 +101,31 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>UI::NamedWidget</class>
+   <class>CLO3D::UI::NamedWidget</class>
    <extends>QWidget</extends>
    <header>NamedWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>UI::BaseExtensionSettingsWidget</class>
-   <extends>UI::NamedWidget</extends>
+   <class>CLO3D::UI::BaseExtensionSettingsWidget</class>
+   <extends>CLO3D::UI::NamedWidget</extends>
    <header>BaseExtensionSettingsWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>UI::GeneralUIExporterOptionsWidget</class>
+   <class>CLO3D::UI::GeneralUIExporterOptionsWidget</class>
    <extends>QWidget</extends>
    <header>GeneralUIExporterOptionsWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>UI::JsonUIExporterOptionsWidget</class>
+   <class>CLO3D::UI::JsonUIExporterOptionsWidget</class>
    <extends>QWidget</extends>
    <header>JsonUIExporterOptionsWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>UI::XmlUIExporterOptionsWidget</class>
+   <class>CLO3D::UI::XmlUIExporterOptionsWidget</class>
    <extends>QWidget</extends>
    <header>XmlUIExporterOptionsWidget.h</header>
    <container>1</container>

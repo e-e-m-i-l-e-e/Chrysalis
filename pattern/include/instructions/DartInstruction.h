@@ -5,11 +5,10 @@
 #include "arguments/PatternPointArgument.h"
 #include "instructions/BasePatternInstruction.h"
 
+/** @defgroup Instructions Instructions
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Instructions
-     * @{
-     */
     class DartInstruction: public BasePatternInstruction {
         PROVIDE_SERIALIZATION_ACCESS(DartInstruction)
     public:
@@ -31,5 +30,6 @@ namespace Chrysalis {
     };
     SERIALIZE_DERIVED_CONSTRUCTION(DartInstruction, BasePatternInstruction, space_, patterns_, point_, intake_, top_, bottom_);
 }
+/**@}*/
 
 #endif //CHRYSALIS_DARTINSTRUCTION_H

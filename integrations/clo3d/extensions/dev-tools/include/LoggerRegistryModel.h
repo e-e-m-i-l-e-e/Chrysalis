@@ -6,10 +6,10 @@
 #include "Logger.h"
 #include "LoggerRegistry.h"
 
-namespace UI {
+namespace CLO3D::UI {
     class LoggerRegistryModel: public QAbstractTableModel {
     public:
-        explicit LoggerRegistryModel(QObject* parent, LoggerRegistry& registry);
+        explicit LoggerRegistryModel(QObject* parent, Logging::LoggerRegistry& registry);
 
         [[nodiscard]] Qt::ItemFlags flags(const QModelIndex& index) const override;
         [[nodiscard]] int rowCount(const QModelIndex& parent) const override;
@@ -17,7 +17,7 @@ namespace UI {
         [[nodiscard]] QVariant data(const QModelIndex& index, int role) const override;
         [[nodiscard]] QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
     private:
-        LoggerRegistry& registry_;
+        Logging::LoggerRegistry& registry_;
     };
 
 }

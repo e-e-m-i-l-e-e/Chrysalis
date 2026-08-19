@@ -10,10 +10,10 @@ function(add_clo3d_extension EXTENSION_NAME)
     add_library(${EXTENSION_OBJECT_TARGET} OBJECT ${EXTENSION_HEADERS} ${EXTENSION_SOURCES})
     set_target_properties(${EXTENSION_OBJECT_TARGET} PROPERTIES AUTOUIC_SEARCH_PATHS "${CMAKE_CURRENT_SOURCE_DIR}/ui")
     target_include_directories(${EXTENSION_OBJECT_TARGET} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
-    target_link_libraries(${EXTENSION_OBJECT_TARGET} PUBLIC CLO3DExtensions)
+    target_link_libraries(${EXTENSION_OBJECT_TARGET} PUBLIC CLO3DExtensionsCore)
 
     add_library(${EXTENSION_NAME} SHARED)
-    target_link_libraries(${EXTENSION_NAME} PRIVATE ${EXTENSION_OBJECT_TARGET})
+    target_link_libraries(${EXTENSION_NAME} PRIVATE ${EXTENSION_OBJECT_TARGET} CLO3DExtensions)
     set_target_properties(${EXTENSION_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CLO3D_EXTENSION_OUTPUT_DIR})
 
     if(WIN32)

@@ -2,5 +2,3 @@
 
 Development
 ===========
-
-Documentation for developing Chrysalis.

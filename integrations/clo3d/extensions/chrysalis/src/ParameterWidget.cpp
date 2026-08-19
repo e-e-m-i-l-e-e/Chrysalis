@@ -6,7 +6,7 @@
 
 #include <QDoubleValidator>
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 ParameterWidget::ParameterWidget(QWidget* parent)
     : QWidget(parent), ui(new Ui::ParameterWidget) {

@@ -38,6 +38,8 @@
 
 #include "BaseNativeShortcutHandler.h"
 
+using namespace CLO3D;
+
 class OpenGLWidget: public QOpenGLWidget {
 public:
     using QOpenGLWidget::paintGL;
@@ -118,43 +120,6 @@ void ExtensionsManager::install() {
     }
     extensionsSettings->read();
 
-#ifdef EXTEND_WITH_AUTHENTICATOR
-    qtHookData[QHooks::AddQObject] = reinterpret_cast<quintptr>(+[](QObject *object) {
-        for (int i = 0; i < constructionQueue.size(); i++) {
-            if (auto pointer = constructionQueue.at(i)) {
-                if (QObject* obj = pointer.data()) {
-                    if (!authenticationProcessor && isObjectOfClass(obj, "AuthenticationProcessor")) {
-                        authenticationProcessor = obj;
-                    } else if (!loginDialog && isObjectOfClass(obj, "CloUICommon::LoginDialog")) {
-                        loginDialog = qobject_cast<QWidget*>(obj);
-                    }
-                }
-                constructionQueue.removeAt(i);
-                i--;
-            }
-        }
-        constructionQueue.append(QPointer(object));
-    });
-    HooksManager::addBefore<&QApplication::exec>([](const HookHandle& handle) {
-        loginDialog->dumpObjectInfo();
-        authenticationProcessor->dumpObjectInfo();
-
-        LOG_INFO("Skipping logging in");
-        QMetaObject::invokeMethod(authenticationProcessor, "SucceedAuthentication");
-        QMetaObject::invokeMethod(loginDialog, "SignInWithCloset");
-
-        qtHookData[QHooks::AddQObject] = 0;
-        handle.remove();
-    });
-    HooksManager::addIgnore<&QDesktopServices::openUrl>([](const HookHandle &handle, bool &ignore, bool &ret, const QUrl &url) {
-        if (url.toString().startsWith("https://style.clo-set.com/en/account/signin?productId=40")) {
-            LOG_INFO("Bypassing login URL: {}", url.toString().toStdString());
-            ignore = true;
-            ret = true;
-        }
-    });
-#endif
-
     qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(+[] {
         BaseNativeShortcutHandler::registerShortcuts();
         BaseNativeShortcutHandler::startListening();
@@ -210,10 +175,15 @@ void ExtensionsManager::install() {
                  const auto child: statusBar->children()) {
                 if (child->metaObject() == &QWidget::staticMetaObject && !child->children().empty()) {
                     const auto parent = qobject_cast<QWidget *>(child);
+
                     backgroundMessage_ = new QLabel(parent);
                     backgroundMessage_->setGeometry(statusBar->width() / 2, 2, 500, 20);
                     UTILITY_API->UpdateCloStyleForPlugIn(backgroundMessage_);
                     backgroundMessage_->show();
+
+                    backgroundMessageTimer_ = new QTimer(backgroundMessage_);
+                    backgroundMessageTimer_->setSingleShot(true);
+                    QObject::connect(backgroundMessageTimer_, &QTimer::timeout, &ExtensionsManager::clearMessage);
 
                     for (const auto& extension: extensions) {
                         extension->configureStatusBar(parent);
@@ -444,6 +414,7 @@ void ExtensionsManager::setMessage(const QString &message) {
     QMetaObject::invokeMethod(backgroundMessage_, [message] {
         backgroundMessage_->setText(message);
         backgroundMessage_->repaint();
+        backgroundMessageTimer_->start(1000);
     });
 }
 

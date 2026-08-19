@@ -5,7 +5,7 @@
 #include "LoggingLibraryExport.h"
 
 namespace Logging {
-    extern LOGGING LoggerRegistry REGISTRY;
+    extern LOGGING LoggerRegistry LOG_REGISTRY;
     namespace Message {
         static constexpr auto LOG_SAVING_FILE = FMT_STRING("Saving file: {}.");
         static constexpr auto LOG_FAILED_TO_OPEN_FILE = FMT_STRING("Failed to open file: {}.");
@@ -15,8 +15,8 @@ namespace Logging {
     }
 }
 
-#define LOGGER Logging::REGISTRY.get(LOGGER_NAME)
-#define LOGGER_NAMED(name) Logging::REGISTRY.get(name)
+#define LOGGER Logging::LOG_REGISTRY.get(LOGGER_NAME)
+#define LOGGER_NAMED(name) Logging::LOG_REGISTRY.get(name)
 
 #define LOG_TRACE(...) LOGGER->trace(__VA_ARGS__)
 #define LOG_DEBUG(...) LOGGER->debug(__VA_ARGS__)

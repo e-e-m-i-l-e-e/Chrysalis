@@ -3,7 +3,7 @@
 
 #include <QFileDialog>
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 ExportPatternCommandArgumentsWidget::ExportPatternCommandArgumentsWidget(ExportPatternCommandArguments* arguments)
     : BaseCommandArgumentsWidget(arguments), ui(new Ui::ExportPatternCommandArgumentsWidget) {

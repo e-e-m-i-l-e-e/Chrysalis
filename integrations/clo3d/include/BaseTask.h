@@ -1,6 +1,9 @@
 #ifndef CLO3D_BASETASK_H
 #define CLO3D_BASETASK_H
 
+#include "BaseTaskException.h"
+
+
 #include <functional>
 
 #include <QString>
@@ -25,8 +28,11 @@ namespace CLO3D {
 
         BaseTask& operator=(const BaseTask&) = delete;
         BaseTask& operator=(BaseTask&&) noexcept = delete;
+
+        [[nodiscard]] const QString& name() const;
     protected:
-        virtual void run(const std::function<void()>& onSuccess) = 0;
+        virtual void wait() = 0;
+        virtual void run(const std::function<void()>& onSuccess, const std::function<void(const BaseTaskException&)>& onException) = 0;
     private:
         QString name_;
     };

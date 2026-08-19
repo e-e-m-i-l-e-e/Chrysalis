@@ -1,16 +1,18 @@
 #include "BaseExtensionSettingsWidget.h"
 
-UI::BaseExtensionSettingsWidget::BaseExtensionSettingsWidget(BaseExtensionSettings* extensionSettings, QWidget *parent)
+using namespace CLO3D::UI;
+
+BaseExtensionSettingsWidget::BaseExtensionSettingsWidget(BaseExtensionSettings* extensionSettings, QWidget *parent)
     :NamedWidget(parent), extensionSettings_(extensionSettings) {}
 
-BaseExtensionSettings* UI::BaseExtensionSettingsWidget::getBaseExtensionSettings() const {
+CLO3D::BaseExtensionSettings* BaseExtensionSettingsWidget::getBaseExtensionSettings() const {
     return extensionSettings_;
 }
 
-void UI::BaseExtensionSettingsWidget::write() {
+void BaseExtensionSettingsWidget::write() {
     extensionSettings_->writeSettings();
 }
 
-void UI::BaseExtensionSettingsWidget::read() {
+void BaseExtensionSettingsWidget::read() {
     extensionSettings_->readSettings();
 }

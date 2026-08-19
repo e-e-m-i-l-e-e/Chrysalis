@@ -4,13 +4,11 @@
 #include "NamedWidget.h"
 #include "BaseContainer.h"
 
-namespace UI {
+namespace CLO3D::UI {
     QT_BEGIN_NAMESPACE
-
     namespace Ui {
         class SettingsBlockContainerWidget;
     }
-
     QT_END_NAMESPACE
 
     class SettingsBlockContainerWidget: public NamedWidget, public BaseContainer {

@@ -1,4 +1,2 @@
 Renderer
 ========
-
-Renderer module documentation.

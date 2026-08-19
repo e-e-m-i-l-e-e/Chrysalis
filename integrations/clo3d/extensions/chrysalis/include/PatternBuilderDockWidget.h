@@ -3,25 +3,21 @@
 
 #include <QDockWidget>
 
-QT_BEGIN_NAMESPACE
+namespace CLO3D::UI {
+    QT_BEGIN_NAMESPACE
+    namespace Ui {
+        class PatternBuilderDockWidget;
+    }
+    QT_END_NAMESPACE
 
-namespace Ui {
-    class PatternBuilderDockWidget;
+    class PatternBuilderDockWidget : public QDockWidget {
+        Q_OBJECT
+    public:
+        explicit PatternBuilderDockWidget(QWidget *parent = nullptr);
+        ~PatternBuilderDockWidget() override;
+    private:
+        Ui::PatternBuilderDockWidget *ui;
+    };
 }
-
-QT_END_NAMESPACE
-
-class PatternBuilderDockWidget : public QDockWidget {
-    Q_OBJECT
-
-public:
-    explicit PatternBuilderDockWidget(QWidget *parent = nullptr);
-
-    ~PatternBuilderDockWidget() override;
-
-private:
-    Ui::PatternBuilderDockWidget *ui;
-};
-
 
 #endif //CHRYSALIS_PATTERNBUILDERDOCKWIDGET_H

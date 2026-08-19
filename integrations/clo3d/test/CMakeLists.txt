@@ -1,8 +1,9 @@
 file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/unit/*)
 
-add_executable(CLO3DExtensionsTest main.cpp ${TEST_SOURCES})
-target_link_libraries(CLO3DExtensionsTest PRIVATE CLO3DExtensions GTest::gtest)
+add_executable(CLO3DExtensionsTest ${TEST_SOURCES})
+target_link_libraries(CLO3DExtensionsTest PRIVATE CLO3DExtensionsCore GTest::gtest_main GTest::gtest)
 set_target_properties(CLO3DExtensionsTest PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CLO3D_TEST_OUTPUT_DIR})
+target_compile_definitions(CLO3DExtensionsTest PUBLIC CLO3D_TEST_TEMP_DIR)
 
 if (WIN32)
     if(CMAKE_BUILD_TYPE STREQUAL "Debug")

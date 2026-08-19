@@ -3,6 +3,9 @@
 #include "Logging.h"
 #define LOGGER_NAME "Logging Tool Settings"
 
+using namespace CLO3D;
+using namespace Logging;
+
 LoggingToolSettings::LoggingToolSettings(LoggerRegistry& registry): registry_(registry) {}
 
 void LoggingToolSettings::read() {
@@ -35,7 +38,7 @@ void LoggingToolSettings::flush(const int i) const {
     registry_.at(i)->flush();
 }
 
-void LoggingToolSettings::read(const int loggerIndex, const Logger* logger) const {
+void LoggingToolSettings::read(const int loggerIndex, const Logging::Logger* logger) const {
     settings_->beginGroup(typeid(*this).name() + 6);
     readLoggerSettings(loggerIndex, logger);
     settings_->endGroup();

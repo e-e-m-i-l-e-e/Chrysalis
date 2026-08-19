@@ -4,12 +4,14 @@
 #include "ContainerExtension.h"
 #include "SettingsBlockContainerWidget.h"
 
-class SettingsBlockContainerWidgetExtension: public ContainerExtension {
-    Q_OBJECT
-    Q_INTERFACES(QDesignerContainerExtension)
-public:
-    SettingsBlockContainerWidgetExtension(UI::SettingsBlockContainerWidget *container, QObject *parent)
-    : ContainerExtension(container, parent) {}
-};
+namespace CLO3D::UI {
+    class SettingsBlockContainerWidgetExtension: public ContainerExtension {
+        Q_OBJECT
+        Q_INTERFACES(QDesignerContainerExtension)
+    public:
+        SettingsBlockContainerWidgetExtension(UI::SettingsBlockContainerWidget *container, QObject *parent)
+        : ContainerExtension(container, parent) {}
+    };
+}
 
 #endif //CHRYSALIS_SETTINGSBLOCKCONTAINERWIDGETEXTENSION_H

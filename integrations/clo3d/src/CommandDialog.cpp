@@ -3,7 +3,7 @@
 
 #include "CLOAPIInterface.h"
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 CommandDialog::CommandDialog(const QString& title, BaseCommandArgumentsWidget* argumentsWidget, BaseCommand* command)
     : ui(new Ui::CommandDialog), command_(command), argumentsWidget_(argumentsWidget) {

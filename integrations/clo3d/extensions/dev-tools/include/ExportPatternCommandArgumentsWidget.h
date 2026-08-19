@@ -4,7 +4,7 @@
 #include "BaseCommandArgumentsWidget.h"
 #include "ExportPatternCommandArguments.h"
 
-namespace UI {
+namespace CLO3D::UI {
     QT_BEGIN_NAMESPACE
     namespace Ui {
         class ExportPatternCommandArgumentsWidget;

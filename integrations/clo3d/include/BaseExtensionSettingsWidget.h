@@ -6,7 +6,7 @@
 #include "NamedWidget.h"
 #include "BaseExtensionSettings.h"
 
-namespace UI {
+namespace CLO3D::UI {
     class CLO3D_EXTENSION BaseExtensionSettingsWidget: public NamedWidget {
         Q_OBJECT
     public:

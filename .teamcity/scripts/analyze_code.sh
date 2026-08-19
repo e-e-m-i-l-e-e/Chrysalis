@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -ex
 
-BUILD_TYPE="${1:?Build type is required}"
+APP="${1:?Application name is required}"
+BUILD_TYPE="${2:?Build type is required}"
 
 . "$PYTHON_VENV"/bin/activate
 
@@ -34,10 +35,10 @@ CodeChecker analyze .build/"$BUILD_TYPE"/compile_commands.json --analyzers clang
             --enable alpha.deadcode                                                                                    \
             --enable alpha.cplusplus                                                                                   \
                                                                                                                        \
-            --output .build/"$BUILD_TYPE"/codechecker -c                                                               \
-            --skip .docs/CodeChecker.skip -j 4 --timeout 600
+            --output .build/"$BUILD_TYPE"/"$APP"/codechecker -c                                                        \
+            --skip .docs/CodeChecker-"$APP".skip -j 4 --timeout 600
 
-CodeChecker store .build/"$BUILD_TYPE"/codechecker                                                                     \
+CodeChecker store .build/"$BUILD_TYPE"/"$APP"/codechecker                                                              \
             --url https://codechecker.lab.eemilee.me/Chrysalis                                                         \
-            --name Chrysalis                                                                                           \
+            --name "$APP"                                                                                              \
             --force --trim-path-prefix "$(pwd)/"

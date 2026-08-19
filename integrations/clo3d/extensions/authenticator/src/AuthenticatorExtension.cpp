@@ -12,6 +12,8 @@
 #include "Logging.h"
 #include "HooksManager.h"
 
+using namespace CLO3D;
+
 // TODO:
 //  - Class for qHookData, constructionQueue, loginDialog
 //  - Intercept other HTTP(S) calls

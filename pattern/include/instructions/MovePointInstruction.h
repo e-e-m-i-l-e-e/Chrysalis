@@ -8,11 +8,10 @@
 #include "arguments/OptionalArgument.h"
 #include "arguments/PatternPointArgument.h"
 
+/** @defgroup Instructions Instructions
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Instructions
-     * @{
-     */
     /**
      * @uml{note[top] Syntax samples:
      * B -10-> A <-15- C}
@@ -32,7 +31,6 @@ namespace Chrysalis {
     };
     SERIALIZE_DERIVED_CONSTRUCTION(MovePointInstruction, BasePatternInstruction, space_, patterns_, point_, vector1_, vector2_)
 }
-
-BOOST_CLASS_EXPORT_KEY(Chrysalis::MovePointInstruction)
+/**@}*/
 
 #endif //CHRYSALIS_ADJUSTPOINTINSTRUCTION_H

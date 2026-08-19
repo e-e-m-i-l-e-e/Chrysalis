@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UI::BaseDialogContainer</class>
- <widget class="UI::NamedWidget" name="UI::BaseDialogContainer">
+ <class>CLO3D::UI::BaseDialogContainer</class>
+ <widget class="CLO3D::UI::NamedWidget" name="CLO3D::UI::BaseDialogContainer">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -246,7 +246,7 @@ QPushButton[widget-type=&quot;Active&quot;] {
  </widget>
  <customwidgets>
   <customwidget>
-   <class>UI::NamedWidget</class>
+   <class>CLO3D::UI::NamedWidget</class>
    <extends>QWidget</extends>
    <header>NamedWidget.h</header>
   </customwidget>

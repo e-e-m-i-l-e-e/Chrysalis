@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-namespace UI {
+namespace CLO3D::UI {
     class NamedWidget: public QWidget {
         Q_OBJECT
         Q_PROPERTY(QString title READ getTitle WRITE setTitle)

@@ -5,7 +5,7 @@
 
 #include "Parameter.h"
 
-namespace UI {
+namespace CLO3D::UI {
     QT_BEGIN_NAMESPACE
     namespace Ui {
         class ParameterWidget;

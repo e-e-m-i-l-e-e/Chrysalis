@@ -1,4 +1,0 @@
-file(GLOB_RECURSE POLYHOOK_STUBS_SOURCES CONFIGURE_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/src/*)
-
-add_library(PolyhookStubs STATIC ${POLYHOOK_STUBS_SOURCES})
-target_include_directories(PolyhookStubs PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)

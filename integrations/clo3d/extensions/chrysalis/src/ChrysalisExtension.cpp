@@ -1,19 +1,20 @@
 #include "ChrysalisExtension.h"
 
-#include "Logging.h"
-#define LOGGER_NAME "Chrysalis Extension"
-
 #include <QLayout>
 #include <QFileDialog>
 #include <QMainWindow>
 #include <QToolButton>
 
 #include "Project.h"
-#include "../include/MVDockingButton.h"
+#include "MVDockingButton.h"
 #include "MVDockWidgetTitleBar.h"
 #include "PatternBuilderDockWidget.h"
 #include "PatternImportDialog.h"
 
+#include "Logging.h"
+#define LOGGER_NAME "Chrysalis Extension"
+
+using namespace CLO3D;
 using namespace Chrysalis;
 
 void ChrysalisExtension::configureMenu(QMenu* extensionMenu) {
@@ -32,10 +33,10 @@ void ChrysalisExtension::configureMenu(QMenu* extensionMenu) {
         const auto& filePath = fileDialog->selectedFiles().first().toStdString();
         LOG_INFO("Importing project: {}", filePath);
 
-        const auto project = Project::read(filePath);
-        const auto importer = new PatternImporter(project);
+        auto project = Project::read(filePath);
         const auto parametersModel = new UI::ParametersModel(project->getParameters());
         const auto parametersDelegate = new UI::ParameterDelegate(parametersModel);
+        const auto importer = new PatternImporter(std::move(project));
         (new UI::PatternImportDialog(importer, parametersModel, parametersDelegate))->exec();
     });
     menu->addAction(importPatternAction);
@@ -72,14 +73,14 @@ void ChrysalisExtension::configureStatusBar(QWidget *parent) {
 void ChrysalisExtension::configure(QWidget *widget) {
     if (widget->objectName() == "dockingBarContents" && widget->parent()->findChild<QAction*>()->iconText() == "Right Docking Bar") {
         LOG_INFO("Configuring right docking bar.");
-        const auto patternBuilderDockItem = new MVDockingButton(widget);
+        const auto patternBuilderDockItem = new UI::MVDockingButton(widget);
         qobject_cast<QVBoxLayout*>(widget->layout())->insertWidget(8, patternBuilderDockItem);
         patternBuilderDockItem->show();
     } else if (widget->objectName() == "DummyDockingWindow") {
         const auto mainWindow = qobject_cast<QMainWindow*>(widget);
-        const auto patternBuilderDockWidget = new PatternBuilderDockWidget(widget);
+        const auto patternBuilderDockWidget = new UI::PatternBuilderDockWidget(widget);
         mainWindow->addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, patternBuilderDockWidget);
-        patternBuilderDockWidget->setTitleBarWidget(new MVDockWidgetTitleBar());
+        patternBuilderDockWidget->setTitleBarWidget(new UI::MVDockWidgetTitleBar());
 
         patternBuilderDockWidget->setStyleSheet("background-color: rgb(37, 37, 40);");
     }

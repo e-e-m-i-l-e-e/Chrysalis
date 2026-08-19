@@ -3,11 +3,11 @@
 
 #include "BaseObservable.h"
 
+/**
+ * @defgroup Observers Observers
+ * @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Observers
-     * @{
-     */
     template <typename T>
     class BaseObserver {
     protected:
@@ -19,5 +19,6 @@ namespace Chrysalis {
         }
     };
 }
+/**@}*/
 
 #endif //CHRYSALIS_BASEOBSERVER_H

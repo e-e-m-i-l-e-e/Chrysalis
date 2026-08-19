@@ -7,11 +7,10 @@
 #include "Error.h"
 #include "CompositiveContainer.h"
 
+/** @defgroup Arguments Arguments
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
     template<typename T>
     class BaseArgument {
         SERIALIZED
@@ -29,5 +28,6 @@ namespace Chrysalis {
         using container = CompositiveContainer<T>;
     }
 }
+/**@}*/
 
 #endif //CHRYSALIS_BASEARGUMENT_H

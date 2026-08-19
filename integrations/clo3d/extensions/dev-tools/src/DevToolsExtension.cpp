@@ -8,6 +8,8 @@
 #include "UIExporterTool.h"
 #include "UIExporterToolSettingsWidget.h"
 
+using namespace CLO3D;
+
 DevToolsExtension::~DevToolsExtension() {
     for (const auto devTool: devTools_) {
         delete devTool;

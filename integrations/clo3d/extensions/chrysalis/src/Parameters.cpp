@@ -9,31 +9,31 @@
 
 #define LOGGER_NAME "Parameters"
 
-namespace UI::PatternBuilder {
-    Parameters::Parameters(QWidget *parent) : QWidget(parent), ui(new Ui::Parameters) {
-        ui->setupUi(this);
-        UTILITY_API->UpdateCloStyleForPlugIn(this);
+using namespace CLO3D::UI;
 
-        ui->avatarMeasuresAccordion->install({ui->customTools_2, ui->beforeTable_2, ui->afterTable_2});
+Parameters::Parameters(QWidget *parent) : QWidget(parent), ui(new Ui::Parameters) {
+    ui->setupUi(this);
+    UTILITY_API->UpdateCloStyleForPlugIn(this);
 
-        connect(ui->avatarMeasuresAccordion->getAccordionTitle(), &ClickableWidget::clicked, this, [] {
-            for (const auto &avatar: EXPORT_API->GetAvatarNameList()) {
-                LOG_INFO("Avatar name: {}", avatar);
-            }
-            for (int i = 0; i < EXPORT_API->GetAvatarCount(); i++) {
-                for (auto property: UTILITY_API->GetAvatarProperties(i)) {
-                    LOG_INFO("Avatar property. Name: {} value: {}", property.first, property.second);
-                }
-            }
-            for (auto action: ExtensionsManager::action->actions()) {
-                // LOG_INFO("Action: {}", action->objectName().toStdString());)
-            }
-            LOG_INFO("Is enabled: {}", ExtensionsManager::action->isEnabled());
-            ExtensionsManager::action->click();
-        });
-    }
+    ui->avatarMeasuresAccordion->install({ui->customTools_2, ui->beforeTable_2, ui->afterTable_2});
 
-    Parameters::~Parameters() {
-        delete ui;
-    }
-} // UI::PatternBuilder
+    connect(ui->avatarMeasuresAccordion->getAccordionTitle(), &ClickableWidget::clicked, this, [] {
+        for (const auto &avatar: EXPORT_API->GetAvatarNameList()) {
+            LOG_INFO("Avatar name: {}", avatar);
+        }
+        for (int i = 0; i < EXPORT_API->GetAvatarCount(); i++) {
+            for (auto property: UTILITY_API->GetAvatarProperties(i)) {
+                LOG_INFO("Avatar property. Name: {} value: {}", property.first, property.second);
+            }
+        }
+        for (auto action: ExtensionsManager::action->actions()) {
+            // LOG_INFO("Action: {}", action->objectName().toStdString());)
+        }
+        LOG_INFO("Is enabled: {}", ExtensionsManager::action->isEnabled());
+        ExtensionsManager::action->click();
+    });
+}
+
+Parameters::~Parameters() {
+    delete ui;
+}

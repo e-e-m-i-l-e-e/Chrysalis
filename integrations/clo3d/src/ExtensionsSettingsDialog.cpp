@@ -5,7 +5,7 @@
 
 #include "ExtensionsSettings.h"
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 ExtensionsSettingsDialog::ExtensionsSettingsDialog(ExtensionsSettings* settings)
     : ui(new Ui::ExtensionsSettingsDialog), extensionsSettings(settings) {

@@ -5,6 +5,8 @@ copyright = '2026, emilyyy0621@gmail.com'
 author = 'emilyyy0621@gmail.com'
 release = '1.0'
 
+hostname = 'chrysalis.docs.eemilee.me'
+
 documentation_dir = "@DOCUMENTATION_DIR@"
 documentation_dir_relative = os.path.relpath(documentation_dir, "@SPHINX_SOURCE@")
 
@@ -15,6 +17,9 @@ extensions = [
     "sphinxcontrib.plantuml"
 ]
 
+modules = [
+    @MODULES_LIST@
+]
 breathe_projects = {
     @BREATHE_PROJECTS_LIST@
 }

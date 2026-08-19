@@ -6,7 +6,8 @@ file(GLOB_RECURSE TEST_SOURCES CONFIGURE_DEPENDS
 add_executable(DevToolsExtensionTest main.cpp ${TEST_SOURCES})
 target_include_directories(DevToolsExtensionTest PRIVATE include)
 set_target_properties(DevToolsExtensionTest PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CLO3D_TEST_OUTPUT_DIR})
-target_link_libraries(DevToolsExtensionTest PRIVATE DevToolsExtensionObject GTest::gtest GTest::gmock)
+target_link_libraries(DevToolsExtensionTest PRIVATE GTest::gtest GTest::gmock DevToolsExtensionCore CLO3DExtensionsCore)
+target_compile_definitions(DevToolsExtensionTest PUBLIC CLO3D_TEST_TEMP_DIR="${CLO3D_TEST_TEMP_DIR}")
 add_dependencies(DevToolsExtensionTest CLO3DExtensionsTest)
 
 if (WIN32)

@@ -8,6 +8,8 @@
 
 #include <iostream>
 
+using namespace CLO3D::UI;
+
 static const QString basicWidget = R"(
 <widget class="%1" name="%2">
     %3

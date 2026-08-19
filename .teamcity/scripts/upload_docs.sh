@@ -3,7 +3,7 @@ set -ex
 
 BUILD_TYPE="${1:?Build type is required}"
 
-cd .build/"$BUILD_TYPE"
+cd "$OUTPUT_DIR"
 tar -czvf documentation.tar.gz docs
 
 curl                                                                                                                   \
@@ -16,7 +16,7 @@ curl                                                                            
 curl                                                                                                                   \
   --fail-with-body                                                                                                     \
   -X POST                                                                                                              \
-  -H "Authorization: Bearer $FILEBROWSER_API_KEY"                                                                     \
+  -H "Authorization: Bearer $FILEBROWSER_API_KEY"                                                                      \
   -H "Content-Type: application/json"                                                                                  \
   -d '{
         "fromSource": "srv",

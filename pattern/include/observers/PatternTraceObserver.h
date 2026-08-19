@@ -5,11 +5,11 @@
 #include "Curve.h"
 #include "Transformation.h"
 
+/**
+ * @defgroup Observers Observers
+ * @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Observers
-     * @{
-     */
     class PatternTraceObserver {
     protected:
         explicit PatternTraceObserver() = default;
@@ -22,5 +22,6 @@ namespace Chrysalis {
         virtual void relativePointConnectionRemoved(const Point* from, const Point* to) = 0;
     };
 }
+/**@}*/
 
 #endif //CHRYSALIS_PATTERNTRACEOBSERVER_H

@@ -3,11 +3,10 @@
 
 #include "PatternSpace.h"
 
+/** @defgroup Arguments Arguments
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
     class PatternsContainerArgument: public AssociativeContainer<PatternSpace> {
         SERIALIZE_DERIVED_FROM(AssociativeContainer)
     public:
@@ -32,5 +31,6 @@ namespace Chrysalis {
         using patterns = PatternsContainerArgument;
     }
 }
+/**@}*/
 
 #endif //CHRYSALIS_PATTERNSCONTAINERARGUMENT_H

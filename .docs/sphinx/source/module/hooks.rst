@@ -1,4 +1,2 @@
 Hooks
 =====
-
-Hooks module documentation.

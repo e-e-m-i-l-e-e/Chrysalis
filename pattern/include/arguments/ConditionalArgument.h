@@ -4,11 +4,10 @@
 #include "arguments/BaseArgument.h"
 #include "arguments/BaseCalculatedArgument.h"
 
+/** @defgroup Arguments Arguments
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
     class ConditionalArgument: public BaseCalculatedArgument<double> {
         PROVIDE_SERIALIZATION_ACCESS(ConditionalArgument)
     public:
@@ -27,5 +26,6 @@ namespace Chrysalis {
         using conditional = ConditionalArgument;
     }
 }
+/**@}*/
 
 #endif //CHRYSALIS_CONDITIONALARGUMENT_H

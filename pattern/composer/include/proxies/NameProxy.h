@@ -13,8 +13,8 @@
 #include "instructions/FreePointInstruction.h"
 #include "instructions/RelativePointInstruction.h"
 
-/** @defgroup Proxy
- * @{
+/** @defgroup Proxy Proxy
+ *  @{
  */
 namespace Chrysalis::Proxy {
     class Name {
@@ -65,5 +65,6 @@ namespace Chrysalis::Proxy {
         args::number number_;
     };
 }
+/**@}*/
 
 #endif //CHRYSALIS_NAMEPROXY_H

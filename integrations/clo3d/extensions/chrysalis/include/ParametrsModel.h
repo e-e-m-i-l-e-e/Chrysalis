@@ -4,7 +4,7 @@
 #include "ParameterWidget.h"
 #include "BaseListModel.h"
 
-namespace UI {
+namespace CLO3D::UI {
     class ParametersModel: public BaseModel<Chrysalis::ParametersContainer> {
     public:
         explicit ParametersModel(Chrysalis::ParametersContainer* parameters): BaseModel(parameters) {}

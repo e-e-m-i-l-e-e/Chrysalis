@@ -5,7 +5,7 @@
 
 #define LOGGER_NAME "UI Exporter Options"
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 XmlUIExporterOptionsWidget::XmlUIExporterOptionsWidget(QWidget *parent)
     : BaseUIExporterOptionsWidget(parent),
@@ -53,7 +53,7 @@ void XmlUIExporterOptionsWidget::write() {
     options_->setUICompatible(ui->uiCompatible->isChecked());
 }
 
-BaseUIExporterOptions* XmlUIExporterOptionsWidget::getOptions() {
+CLO3D::BaseUIExporterOptions* XmlUIExporterOptionsWidget::getOptions() {
     return options_;
 }
 

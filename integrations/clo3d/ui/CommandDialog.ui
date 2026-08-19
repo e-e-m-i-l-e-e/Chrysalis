@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UI::CommandDialog</class>
- <widget class="BaseDialog" name="UI::CommandDialog">
+ <class>CLO3D::UI::CommandDialog</class>
+ <widget class="BaseDialog" name="CLO3D::UI::CommandDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -45,7 +45,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="UI::BaseDialogContainer" name="baseDialogContainer">
+    <widget class="CLO3D::UI::BaseDialogContainer" name="baseDialogContainer">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -204,14 +204,14 @@ QLineEdit:disabled {
  </widget>
  <customwidgets>
   <customwidget>
-   <class>UI::NamedWidget</class>
+   <class>CLO3D::UI::NamedWidget</class>
    <extends>QWidget</extends>
    <header>NamedWidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>UI::BaseDialogContainer</class>
-   <extends>UI::NamedWidget</extends>
+   <class>CLO3D::UI::BaseDialogContainer</class>
+   <extends>CLO3D::UI::NamedWidget</extends>
    <header>BaseDialogContainer.h</header>
    <container>1</container>
   </customwidget>
@@ -227,7 +227,7 @@ QLineEdit:disabled {
   <connection>
    <sender>baseDialogContainer</sender>
    <signal>closed()</signal>
-   <receiver>UI::CommandDialog</receiver>
+   <receiver>CLO3D::UI::CommandDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -243,7 +243,7 @@ QLineEdit:disabled {
   <connection>
    <sender>runButton</sender>
    <signal>clicked()</signal>
-   <receiver>UI::CommandDialog</receiver>
+   <receiver>CLO3D::UI::CommandDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">

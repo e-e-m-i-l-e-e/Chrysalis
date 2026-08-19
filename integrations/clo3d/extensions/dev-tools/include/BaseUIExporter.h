@@ -3,17 +3,18 @@
 
 #include <forward_list>
 
+#include "BaseTask.h"
 #include "BaseUIExporterOptions.h"
 
-class BaseUIExporter {
-protected:
-    virtual ~BaseUIExporter() = default;
-public:
-    void exportUI();
-    void exportUI(QWidget* widget);
-    virtual void exportUI(std::forward_list<QWidget*>&& widgets) = 0;
-
-    virtual BaseUIExporterOptions* getOptions() = 0;
-};
+namespace CLO3D {
+    class BaseUIExporter {
+    protected:
+        virtual ~BaseUIExporter() = default;
+    public:
+        void exportUI(QWidget* widget);
+        virtual void exportUI(std::forward_list<QWidget*>&& widgets) = 0;
+        virtual BaseUIExporterOptions* getOptions() = 0;
+    };
+}
 
 #endif //CHRYSALIS_BASEUIEXPORTER_H

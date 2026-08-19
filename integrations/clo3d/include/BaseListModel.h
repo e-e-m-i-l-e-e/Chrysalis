@@ -8,7 +8,7 @@
 
 Q_DECLARE_METATYPE(Chrysalis::Parameter*)
 
-namespace UI {
+namespace CLO3D::UI {
     template<typename T>
     class BaseModel: public QAbstractListModel {
     protected:

@@ -94,7 +94,7 @@ namespace Chrysalis {
         };
         explicit Project1Composer(Project* project);
 
-        static Project* createProject();
+        static std::unique_ptr<Project> createProject();
 
         [[nodiscard]] PatternSpace* getBack() const;
         [[nodiscard]] PatternSpace* getFront() const;

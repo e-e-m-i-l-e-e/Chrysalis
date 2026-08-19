@@ -5,11 +5,10 @@
 
 #define BINARY_FUNCTIONS (Add)(Subtract)(Multiply)(Divide)(Min)(Max)
 
+/** @defgroup Arguments Arguments
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
     class BinaryFunctionArgument: public BaseCalculatedArgument<double> {
         SERIALIZE_DERIVED_FROM(BaseCalculatedArgument)
     protected:
@@ -41,5 +40,6 @@ namespace Chrysalis {
     BOOST_PP_SEQ_FOR_EACH(DECLARE_BINARY_FUNCTION, _, BINARY_FUNCTIONS)
     #undef DECLARE_BINARY_FUNCTION
 }
+/**@}*/
 
 #endif //CHRYSALIS_BINARYFUNCTIONARGUMENT_H

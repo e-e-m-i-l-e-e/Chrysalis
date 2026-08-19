@@ -3,11 +3,10 @@
 
 #include "BaseArgument.h"
 
+/** @defgroup Arguments Arguments
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
     template<typename T>
     class Argument: public BaseArgument<T> {
         PROVIDE_SERIALIZATION_ACCESS_T(Argument)
@@ -28,5 +27,6 @@ namespace Chrysalis {
         using name = std::unique_ptr<Argument<std::string>>;
     }
 }
+/**@}*/
 
 #endif // CHRYSALIS_BASEVALIDARGUMENT_H

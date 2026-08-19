@@ -1,5 +1,7 @@
 #include "JsonUIExporterOptions.h"
 
+using namespace CLO3D;
+
 bool JsonUIExporterOptions::isEnabled() {
     return isEnabled_;
 }

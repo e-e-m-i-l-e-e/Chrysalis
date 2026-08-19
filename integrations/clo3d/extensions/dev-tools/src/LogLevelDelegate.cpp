@@ -3,7 +3,7 @@
 #include <QTimer>
 #include <QComboBox>
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 LogLevelDelegate::LogLevelDelegate(LoggerRegistryModel* model): QStyledItemDelegate(model), editors_(model->rowCount({})) {
     static const auto prepareLevels = [] {

@@ -5,11 +5,10 @@
 
 #include "arguments/BaseArgument.h"
 
+/** @defgroup Arguments Arguments
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
     template<typename T>
     class BaseCalculatedArgument: public BaseArgument<T> {
         SERIALIZE_DERIVED_FROM(BaseArgument<T>, value_)
@@ -33,5 +32,6 @@ namespace Chrysalis {
         mutable boost::optional<T> value_;
     };
 }
+/**@}*/
 
 #endif //CHRYSALIS_BASECACHABLEARGUMENT_H

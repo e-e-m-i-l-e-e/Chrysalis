@@ -7,13 +7,11 @@
 #include "BaseUIExporterOptionsWidget.h"
 #include "BaseExtensionSettingsWidget.h"
 
-namespace UI {
+namespace CLO3D::UI {
     QT_BEGIN_NAMESPACE
-
     namespace Ui {
         class UIExporterToolSettingsWidget;
     }
-
     QT_END_NAMESPACE
 
     class UIExporterToolSettingsWidget: public BaseExtensionSettingsWidget {

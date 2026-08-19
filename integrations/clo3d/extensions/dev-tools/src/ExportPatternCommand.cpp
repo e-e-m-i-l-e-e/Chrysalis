@@ -5,6 +5,8 @@
 #include "Logging.h"
 #define LOGGER_NAME "Export Pattern Command"
 
+using namespace CLO3D;
+
 ExportPatternCommand::ExportPatternCommand(ExportPatternCommandArguments* arguments): BaseCommand(arguments) {}
 
 void ExportPatternCommand::run() {

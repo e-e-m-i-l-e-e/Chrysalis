@@ -1,6 +1,6 @@
 #include "ClickableWidget.h"
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 ClickableWidget::ClickableWidget(QWidget *parent): QWidget(parent) {
     setAttribute(Qt::WA_StyledBackground, true);

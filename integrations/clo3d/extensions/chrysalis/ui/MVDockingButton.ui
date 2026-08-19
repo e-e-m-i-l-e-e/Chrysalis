@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <ui version="4.0">
-    <class>MVDockingButton</class>
-    <widget class="MVDockingButton">
+    <class>CLO3D::UI::MVDockingButton</class>
+    <widget class="CLO3D::UI::MVDockingButton">
         <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -1735,7 +1735,7 @@
     <connections/>
     <customwidgets>
         <customwidget>
-            <class>MVDockingButton</class>
+            <class>CLO3D::UI::MVDockingButton</class>
             <extends>QWidget</extends>
             <header>MVDockingButton.h</header>
         </customwidget>

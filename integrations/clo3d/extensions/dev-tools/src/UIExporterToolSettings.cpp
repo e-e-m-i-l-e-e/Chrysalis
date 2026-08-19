@@ -1,5 +1,7 @@
 #include "UIExporterToolSettings.h"
 
+using namespace CLO3D;
+
 void UIExporterToolSettings::read() {
     for (const auto& options : options_) {
         settings_->beginGroup(typeid(*options).name() + 6);

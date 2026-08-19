@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UI::BaseUIExporterSettingsBlockContainerWidget</class>
- <widget class="QWidget" name="UI::BaseUIExporterSettingsBlockContainerWidget">
+ <class>CLO3D::UI::BaseUIExporterSettingsBlockContainerWidget</class>
+ <widget class="QWidget" name="CLO3D::UI::BaseUIExporterSettingsBlockContainerWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -30,7 +30,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="UI::SettingsBlockContainerWidget" name="settingsBlockContainerWidget">
+    <widget class="CLO3D::UI::SettingsBlockContainerWidget" name="settingsBlockContainerWidget">
      <widget class="QWidget" name="customTools">
       <layout class="QHBoxLayout" name="layout">
        <property name="spacing">
@@ -237,13 +237,13 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>UI::NamedWidget</class>
+   <class>CLO3D::UI::NamedWidget</class>
    <extends>QWidget</extends>
    <header>NamedWidget.h</header>
   </customwidget>
   <customwidget>
-   <class>UI::SettingsBlockContainerWidget</class>
-   <extends>UI::NamedWidget</extends>
+   <class>CLO3D::UI::SettingsBlockContainerWidget</class>
+   <extends>CLO3D::UI::NamedWidget</extends>
    <header>SettingsBlockContainerWidget.h</header>
    <container>1</container>
   </customwidget>

@@ -6,11 +6,10 @@
 #include "BaseInstruction.h"
 #include "CompositiveContainer.h"
 
+/** @defgroup Instructions Instructions
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Instructions
-     * @{
-     */
     template<typename T>
     requires std::derived_from<T, BaseInstruction>
     class BaseInstructionsContainer: public BaseInstruction, public CompositiveContainer<T> {
@@ -63,5 +62,6 @@ namespace Chrysalis {
     }
     using InstructionsContainer = BaseInstructionsContainer<BaseInstruction>;
 }
+/**@}*/
 
 #endif //CHRYSALIS_BASEINSTRUCTIONSCONTAINER_H

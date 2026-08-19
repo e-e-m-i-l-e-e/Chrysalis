@@ -2,6 +2,8 @@
 
 #include "ListNavigationWidget.h"
 
+using namespace CLO3D::UI;
+
 QWidget* ListNavigationWidgetPlugin::createWidget(QWidget *parent) {
-    return new UI::ListNavigationWidget(parent);
+    return new ListNavigationWidget(parent);
 }

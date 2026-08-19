@@ -7,8 +7,8 @@
 #include "instructions/BasePatternInstruction.h"
 #include "instructions/BuildOutlineInstruction.h"
 
-/** @defgroup Proxy
- * @{
+/** @defgroup Proxy Proxy
+ *  @{
  */
 namespace Chrysalis::Proxy {
     class Outline {
@@ -29,5 +29,6 @@ namespace Chrysalis::Proxy {
         std::vector<const PatternPointArgument*> points_;
     };
 }
+/**@}*/
 
 #endif //CHRYSALIS_OUTLINEPROXY_H

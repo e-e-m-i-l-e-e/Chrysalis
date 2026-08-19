@@ -4,13 +4,11 @@
 #include "BaseUIExporterOptionsWidget.h"
 #include "JsonUIExporterOptions.h"
 
-namespace UI {
+namespace CLO3D::UI {
     QT_BEGIN_NAMESPACE
-
     namespace Ui {
         class JsonUIExporterOptionsWidget;
     }
-
     QT_END_NAMESPACE
 
     class JsonUIExporterOptionsWidget: public BaseUIExporterOptionsWidget {

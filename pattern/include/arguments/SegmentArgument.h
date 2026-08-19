@@ -4,11 +4,10 @@
 #include "arguments/VectorArgument.h"
 #include "arguments/PatternPointArgument.h"
 
+/** @defgroup Arguments Arguments
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
     class SegmentArgument: public VectorArgument {
         PROVIDE_SERIALIZATION_ACCESS(SegmentArgument)
     public:
@@ -27,5 +26,6 @@ namespace Chrysalis {
         using segment = SegmentArgument;
     }
 }
+/**@}*/
 
 #endif //CHRYSALIS_SEGMENTARGUMENT_H

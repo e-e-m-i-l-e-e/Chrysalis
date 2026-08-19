@@ -4,13 +4,11 @@
 #include "BaseContainer.h"
 #include "ClickableWidget.h"
 
-namespace UI {
+namespace CLO3D::UI {
     QT_BEGIN_NAMESPACE
-
     namespace Ui {
         class TableInputAccordion;
     }
-
     QT_END_NAMESPACE
 
     class TableInputAccordion: public QWidget, public BaseContainer {

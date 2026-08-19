@@ -3,11 +3,10 @@
 
 #include "arguments/BasePointArgument.h"
 
+/** @defgroup Arguments Arguments
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
     class OriginPointArgument: public BasePointArgument {
         SERIALIZE_DERIVED_FROM(BasePointArgument)
     public:
@@ -19,5 +18,6 @@ namespace Chrysalis {
         using origin = OriginPointArgument;
     }
 }
+/**@}*/
 
 #endif //CHRYSALIS_ORIGINPOINTARGUMENT_H

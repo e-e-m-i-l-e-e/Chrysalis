@@ -1,5 +1,7 @@
 #include "ExportPatternCommandArguments.h"
 
+using namespace CLO3D;
+
 ExportPatternCommandArguments::ExportPatternCommandArguments(QSettings* settings): BaseCommandArguments(settings) {}
 
 void ExportPatternCommandArguments::read() {

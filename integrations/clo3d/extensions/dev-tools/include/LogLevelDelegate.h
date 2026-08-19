@@ -6,7 +6,7 @@
 
 #include "LoggerRegistryModel.h"
 
-namespace UI {
+namespace CLO3D::UI {
     class LogLevelDelegate: public QStyledItemDelegate {
     public:
         explicit LogLevelDelegate(LoggerRegistryModel* model);

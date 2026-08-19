@@ -9,11 +9,10 @@
 #include "arguments/PatternsContainerArgument.h"
 #include "instructions/BasePatternInstruction.h"
 
+/** @defgroup Instructions Instructions
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Instructions
-     * @{
-     */
     /**
      * @uml{note[top] Syntax samples:
      * A -> B 45 10
@@ -39,7 +38,6 @@ namespace Chrysalis {
     };
     SERIALIZE_DERIVED_CONSTRUCTION(RelativePointInstruction, BasePatternInstruction, space_, patterns_, name_, vector_, line_)
 }
-
-BOOST_CLASS_EXPORT_KEY(Chrysalis::RelativePointInstruction)
+/**@}*/
 
 #endif //CHRYSALIS_ADDPOINTINSTRUCTION_H

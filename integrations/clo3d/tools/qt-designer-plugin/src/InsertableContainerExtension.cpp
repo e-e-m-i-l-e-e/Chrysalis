@@ -1,5 +1,7 @@
 #include "InsertableContainerExtension.h"
 
+using namespace CLO3D::UI;
+
 InsertableContainerExtension::InsertableContainerExtension(UI::BaseInsertableContainer *container, QObject *parent)
     : ContainerExtension(container, parent), container_(container) {}
 

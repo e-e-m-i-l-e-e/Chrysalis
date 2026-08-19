@@ -2,9 +2,9 @@
 
 #include "LoggerRegistry.h"
 
-using namespace UI;
+using namespace CLO3D::UI;
 
-LoggerRegistryModel::LoggerRegistryModel(QObject* parent, LoggerRegistry& registry)
+LoggerRegistryModel::LoggerRegistryModel(QObject* parent, Logging::LoggerRegistry& registry)
     : QAbstractTableModel(parent), registry_(registry) {}
 
 Qt::ItemFlags LoggerRegistryModel::flags(const QModelIndex& index) const {

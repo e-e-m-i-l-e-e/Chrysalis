@@ -2,6 +2,8 @@
 
 #include "SettingsBlockContainerWidget.h"
 
+using namespace CLO3D::UI;
+
 QWidget* SettingsBlockContainerWidgetPlugin::createWidget(QWidget *parent) {
     return new UI::SettingsBlockContainerWidget(parent);
 }

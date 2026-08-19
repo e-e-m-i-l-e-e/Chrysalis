@@ -8,6 +8,8 @@
 #include "SettingsBlockContainerWidget.h"
 #include "SettingsBlockContainerWidgetExtension.h"
 
+using namespace CLO3D::UI;
+
 ExtensionFactory::ExtensionFactory(QExtensionManager* parent): QExtensionFactory(parent) {}
 
 QObject* ExtensionFactory::createExtension(QObject* object, const QString& iid, QObject* parent) const {

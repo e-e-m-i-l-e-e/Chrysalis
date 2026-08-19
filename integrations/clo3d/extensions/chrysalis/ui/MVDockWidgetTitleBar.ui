@@ -3,8 +3,8 @@
     <author/>
     <comment/>
     <exportmacro/>
-    <class>MVDockWidgetTitleBar</class>
-    <widget class="MVDockWidgetTitleBarBase" name="MVDockWidgetTitleBar">
+    <class>CLO3D::UI::MVDockWidgetTitleBar</class>
+    <widget class="MVDockWidgetTitleBarBase" name="CLO3D::UI::MVDockWidgetTitleBar">
         <property name="minimumHeight">
             <number>0</number>
         </property>
@@ -2330,7 +2330,7 @@
     <connections/>
     <customwidgets>
         <customwidget>
-            <class>MVDockWidgetTitleBar</class>
+            <class>CLO3D::UI::MVDockWidgetTitleBar</class>
             <extends>MVDockWidgetTitleBarBase</extends>
             <header>MVDockWidgetTitleBar.h</header>
         </customwidget>

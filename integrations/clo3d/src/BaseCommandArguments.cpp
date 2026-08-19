@@ -1,5 +1,7 @@
 #include "BaseCommandArguments.h"
 
+using namespace CLO3D;
+
 BaseCommandArguments::BaseCommandArguments(QSettings* settings): settings_(settings) {}
 
 void BaseCommandArguments::readSettings() {

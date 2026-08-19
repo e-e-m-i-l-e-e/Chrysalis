@@ -6,9 +6,10 @@
 #include "arguments/LineArgument.h"
 #include "instructions/IntersectionPointInstruction.h"
 
+/** @defgroup Proxy Proxy
+ *  @{
+ */
 namespace Chrysalis::Proxy {
-    /** @defgroup Proxy
-     * @{*/
     class Line {
     public:
         class Lines;
@@ -46,5 +47,6 @@ namespace Chrysalis::Proxy {
         const args::container<Argument<std::string>>* names_;
     };
 }
+/**@}*/
 
 #endif //CHRYSALIS_LINEPROXY_H

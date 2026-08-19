@@ -5,11 +5,10 @@
 
 #include "BaseCalculatedArgument.h"
 
+/** @defgroup Arguments Arguments
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
     class ComparisonArgument: public BaseCalculatedArgument<bool> {
         SERIALIZE_DERIVED_FROM(BaseCalculatedArgument)
     protected:
@@ -42,5 +41,6 @@ namespace Chrysalis {
     BOOST_PP_SEQ_FOR_EACH(DECLARE_COMPARISON, _, COMPARISONS)
     #undef DECLARE_COMPARISON
 }
+/**@}*/
 
 #endif //CHRYSALIS_COMPARISONARGUMENT_H

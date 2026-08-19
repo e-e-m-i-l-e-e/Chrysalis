@@ -8,7 +8,8 @@
 #include "formatters/ColoredLevelFlagFormatter.h"
 #include "formatters/ColoredNameFlagFormatter.h"
 
-using namespace UI;
+using namespace Logging;
+using namespace CLO3D::UI;
 
 LoggerTextEditSink::LoggerTextEditSink(QWidget* parent)
     : QTextEdit(parent), sink_(std::make_shared<spdlog::sinks::qt_sink_mt>(this, FORMAT_METHOD)), cursor_(document()) {

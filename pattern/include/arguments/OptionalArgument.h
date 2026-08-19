@@ -3,11 +3,10 @@
 
 #include "serialization.h"
 
+/** @defgroup Arguments Arguments
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
     template<typename T>
     class OptionalArgument {
         SERIALIZE(argument_)
@@ -31,5 +30,6 @@ namespace Chrysalis {
         using optional = OptionalArgument<T>;
     }
 }
+/**@}*/
 
 #endif //CHRYSALIS_OPTIONALARGUMENT_H

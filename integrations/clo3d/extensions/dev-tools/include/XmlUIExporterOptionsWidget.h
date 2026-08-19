@@ -4,13 +4,11 @@
 #include "BaseUIExporterOptionsWidget.h"
 #include "XmlUIExporterOptions.h"
 
-namespace UI {
+namespace CLO3D::UI {
     QT_BEGIN_NAMESPACE
-
     namespace Ui {
         class XmlUIExporterOptionsWidget;
     }
-
     QT_END_NAMESPACE
 
     class XmlUIExporterOptionsWidget: public BaseUIExporterOptionsWidget {

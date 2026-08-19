@@ -7,13 +7,13 @@
 
 #include "Logger.h"
 
-namespace UI {
+namespace CLO3D::UI {
     class LoggerTextEditSink: public QTextEdit {
         Q_OBJECT
     public:
         explicit LoggerTextEditSink(QWidget* parent);
 
-        void attach(Logger* logger) const;
+        void attach(Logging::Logger* logger) const;
     public slots:
         void format(const QString& text);
     protected:

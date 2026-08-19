@@ -4,7 +4,7 @@
 
 #include "ui_BaseDialogContainer.h"
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 BaseDialogContainer::BaseDialogContainer(QWidget* parent)
     : NamedWidget(parent), ui(new Ui::BaseDialogContainer) {

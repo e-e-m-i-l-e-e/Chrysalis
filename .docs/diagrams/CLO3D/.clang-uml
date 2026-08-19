@@ -12,7 +12,7 @@ diagrams:
     exclude:
       namespaces:
         - std
-        - UI::Ui
+        - CLO3D::UI::Ui
       elements:
         - WidgetPlugin
         - ContainerPlugin
@@ -55,7 +55,7 @@ diagrams:
             FontStyle Bold
           }
         - >
-          skinparam class<<UI>> {
+          skinparam class<<CLO3D::UI>> {
             BackgroundColor #F5EEF8
             BorderColor #8E44AD
             FontColor #4A235A
@@ -107,7 +107,7 @@ diagrams:
         - std
         - fmt
         - spdlog
-        - UI::Ui
+        - CLO3D::UI::Ui
       elements:
         - QFlags<Qt::ItemFlag>
         - BaseNativeShortcutHandler
@@ -144,7 +144,7 @@ diagrams:
             FontStyle Bold
           }
         - >
-          skinparam class<<UI>> {
+          skinparam class<<CLO3D::UI>> {
             BackgroundColor #F5EEF8
             BorderColor #8E44AD
             FontColor #4A235A
@@ -197,7 +197,7 @@ diagrams:
         - std
         - CGAL
         - boost
-        - UI::Ui
+        - CLO3D::UI::Ui
       elements:
         - type: class
           name:
@@ -230,7 +230,7 @@ diagrams:
             FontStyle Bold
           }
         - >
-          skinparam class<<UI>> {
+          skinparam class<<CLO3D::UI>> {
             BackgroundColor #F5EEF8
             BorderColor #8E44AD
             FontColor #4A235A
@@ -277,7 +277,7 @@ diagrams:
     exclude:
       namespaces:
         - std
-        - UI::Ui
+        - CLO3D::UI::Ui
       elements:
         - type: method
           name:
@@ -302,7 +302,7 @@ diagrams:
             FontStyle Bold
           }
         - >
-          skinparam class<<UI>> {
+          skinparam class<<CLO3D::UI>> {
             BackgroundColor #F5EEF8
             BorderColor #8E44AD
             FontColor #4A235A

@@ -10,6 +10,8 @@
 
 #include "Logger.h"
 
+using namespace Logging;
+
 void NameFlagFormatter::format(const spdlog::details::log_msg& msg, const std::tm& tm_time, spdlog::memory_buf_t& dest) {
     std::string name(msg.logger_name.begin(), msg.logger_name.end());
     if (name.length() < Logger::LOGGER_NAME_LENGTH) {

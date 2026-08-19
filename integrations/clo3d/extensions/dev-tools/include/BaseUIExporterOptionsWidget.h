@@ -4,7 +4,7 @@
 #include "BaseUIExporterOptions.h"
 #include "BaseUIExporterSettingsBlockContainerWidget.h"
 
-namespace UI {
+namespace CLO3D::UI {
     class BaseUIExporterOptionsWidget: public QWidget {
         Q_OBJECT
     protected:

@@ -10,11 +10,10 @@
 #include "BuildOutlineInstruction.h"
 #include "arguments/PatternPointArgument.h"
 
+/** @defgroup Instructions Instructions
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Instructions
-     * @{
-     */
     /**
      * @uml{note[top] Syntax samples:
      * out -> A -> B -> C // (3 instructions)
@@ -35,7 +34,6 @@ namespace Chrysalis {
     };
     SERIALIZE_DERIVED_CONSTRUCTION(BuildOutlineInstruction, BasePatternInstruction, space_, patterns_, outlineName_, points_)
 }
-
-BOOST_CLASS_EXPORT_KEY(Chrysalis::BuildOutlineInstruction)
+/**@}*/
 
 #endif //CHRYSALIS_STARTOUTLINEINSTRUCTION_H

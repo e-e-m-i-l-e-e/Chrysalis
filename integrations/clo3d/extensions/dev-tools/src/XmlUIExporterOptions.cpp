@@ -1,5 +1,7 @@
 #include "XmlUIExporterOptions.h"
 
+using namespace CLO3D;
+
 bool XmlUIExporterOptions::isEnabled() {
     return isEnabled_;
 }

@@ -1,8 +1,11 @@
 #include "Project.h"
 
-#include <boost/serialization/export.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
+#include <boost/serialization/export.hpp>
+#include <boost/serialization/unique_ptr.hpp>
+
+#include "exceptions/ProjectIOError.h"
 
 #include "Option.h"
 #include "Expression.h"
@@ -35,7 +38,7 @@
 
 using namespace Chrysalis;
 
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::ParameterArgument)
+BOOST_CLASS_EXPORT(Chrysalis::ParameterArgument)
 
 BOOST_CLASS_EXPORT(Chrysalis::BinaryFunctionArgument::Add)
 BOOST_CLASS_EXPORT(Chrysalis::BinaryFunctionArgument::Subtract)
@@ -81,12 +84,12 @@ BOOST_CLASS_EXPORT(Chrysalis::PatternInstructionsContainer)
 BOOST_CLASS_EXPORT(Chrysalis::BaseInstructionsContainer<BaseInstruction>)
 BOOST_CLASS_EXPORT(Chrysalis::ConditionalInstructionsContainer)
 BOOST_CLASS_EXPORT(Chrysalis::FreePointInstruction)
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::EdgeDartInstruction)
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::MovePointInstruction)
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::BuildOutlineInstruction)
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::RelativePointInstruction)
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::UnfoldEdgeDartInstruction)
-BOOST_CLASS_EXPORT_IMPLEMENT(Chrysalis::IntersectionPointInstruction)
+BOOST_CLASS_EXPORT(Chrysalis::EdgeDartInstruction)
+BOOST_CLASS_EXPORT(Chrysalis::MovePointInstruction)
+BOOST_CLASS_EXPORT(Chrysalis::BuildOutlineInstruction)
+BOOST_CLASS_EXPORT(Chrysalis::RelativePointInstruction)
+BOOST_CLASS_EXPORT(Chrysalis::UnfoldEdgeDartInstruction)
+BOOST_CLASS_EXPORT(Chrysalis::IntersectionPointInstruction)
 
 Project::Project(std::string name, ProjectSpace* space, PatternsContainer* patterns,
                  ParametersContainer* parameters, OptionsContainer* options,
@@ -104,60 +107,46 @@ Project::~Project() {
     delete instructions_;
 }
 
-Project* Project::create() {
+std::unique_ptr<Project> Project::create() {
     return create("Untitled");
 }
 
-Project* Project::create(const std::string& name) {
+std::unique_ptr<Project> Project::create(const std::string& name) {
     const auto globalOptions = new OptionsContainer();
     const auto globalExpressions = new ExpressionsContainer();
-    return new Project(name, new ProjectSpace(), new PatternsContainer(), new ParametersContainer(),
-                       globalOptions, globalExpressions,
-                       new InstructionsContainer(
-                           new OptionsContainer(globalOptions),
-                           new ExpressionsContainer(globalExpressions)
-                       )
-    );
+    return std::make_unique<Project>(
+        name,
+        new ProjectSpace(),
+        new PatternsContainer(),
+        new ParametersContainer(),
+        globalOptions,
+        globalExpressions,
+        new InstructionsContainer(new OptionsContainer(globalOptions), new ExpressionsContainer(globalExpressions)));
 }
 
-Project* Project::read(const std::string& filePath) {
+std::unique_ptr<Project> Project::read(const std::string& filePath) {
+    std::ifstream file(filePath, std::ios::binary);
+    if (!file.is_open()) throw ProjectIOError("Failed to open file: " + filePath);
+    boost::archive::binary_iarchive archive(file);
+    Project* project;
     try {
-        std::ifstream file(filePath, std::ios::binary);
-        if (!file.is_open()) {
-            std::cout << "Failed to open file: " << filePath;
-            return nullptr;
-        }
-
-        boost::archive::binary_iarchive archive(file);
-        Project* project;
         archive >> project;
-        return project;
+        return std::unique_ptr<Project>(project);
     } catch (const boost::archive::archive_exception &e) {
-        std::cout << "Archive error: " << e.what();
-    } catch (const std::exception &e) {
-        std::cout << "Read error: " << e.what();
+        delete project;
+        throw ProjectIOError("Cannot read file: " + filePath + ". Code #" + std::to_string(e.code) + ": " + e.what());
     }
-    return nullptr;
 }
 
-void Project::write(const std::string& filePath, Project* project) {
-    try {
-        std::ofstream file(filePath, std::ios::binary);
-        if (!file.is_open()) {
-            std::cout << "Failed to open file: " << filePath;
-            return;
-        }
-
-        boost::archive::binary_oarchive archive(file);
-        archive << project;
-
-        file.flush();
-        file.close();
-    } catch (const boost::archive::archive_exception &e) {
-        std::cout << "Archive error: " << e.what();
-    } catch (const std::exception &e) {
-        std::cout << "Write error: " << e.what();
+void Project::write(const std::string& filePath, const Project& project) {
+    std::ofstream file(filePath, std::ios::binary);
+    if (!file.is_open()) {
+        throw ProjectIOError("Failed to open file for write: " + filePath);
     }
+    boost::archive::binary_oarchive archive(file);
+    archive << &project;
+    file.close();
+    if (!file) throw ProjectIOError("Failed to save project into: " + filePath);
 }
 
 std::string Project::getName() {

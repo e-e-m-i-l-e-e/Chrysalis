@@ -15,7 +15,6 @@ namespace Chrysalis {
         Q_PROPERTY(ParametersElement* parameters READ getParameters WRITE setParameters NOTIFY parametersChanged)
     public:
         explicit ProjectElement(QQuickItem *parent = nullptr);
-        ~ProjectElement() override;
 
         [[nodiscard]] QString getName() const;
         [[nodiscard]] QUrl getFilePath() const;
@@ -40,7 +39,7 @@ namespace Chrysalis {
 
     private:
         QUrl filePath_;
-        Project* project_ = nullptr;
+        std::unique_ptr<Project> project_;
         ParametersElement* parameters_ = nullptr;
     };
 }

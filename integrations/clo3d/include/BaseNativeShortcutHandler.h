@@ -5,25 +5,26 @@
 
 #include "CLO3DExtensionExport.h"
 
-class CLO3D_EXTENSION BaseNativeShortcutHandler {
-protected:
-    explicit BaseNativeShortcutHandler(const QKeySequence& shortcut);
-    virtual ~BaseNativeShortcutHandler();
-public:
-    virtual void handle() = 0;
-    void setShortcut(const QKeySequence &shortcut);
+namespace CLO3D {
+    class CLO3D_EXTENSION BaseNativeShortcutHandler {
+    protected:
+        explicit BaseNativeShortcutHandler(const QKeySequence& shortcut);
+        virtual ~BaseNativeShortcutHandler();
+    public:
+        virtual void handle() = 0;
+        void setShortcut(const QKeySequence &shortcut);
 
-    static BaseNativeShortcutHandler* getEventHandler(int id);
+        static BaseNativeShortcutHandler* getEventHandler(int id);
 
-    static void stopListening();
-    static void startListening();
-    static void registerShortcuts();
-private:
-    void registerShortcut() const;
-protected:
-    int id_;
-    QKeySequence shortcut_;
-};
-
+        static void stopListening();
+        static void startListening();
+        static void registerShortcuts();
+    private:
+        void registerShortcut() const;
+    protected:
+        int id_;
+        QKeySequence shortcut_;
+    };
+}
 
 #endif //CHRYSALIS_BASENATIVEEVENTHANDLER_H

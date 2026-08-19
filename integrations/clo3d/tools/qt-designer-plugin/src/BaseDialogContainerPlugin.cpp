@@ -2,6 +2,8 @@
 
 #include "BaseDialogContainer.h"
 
+using namespace CLO3D::UI;
+
 QWidget* BaseDialogContainerPlugin::createWidget(QWidget* parent) {
     return new UI::BaseDialogContainer(parent);
 }

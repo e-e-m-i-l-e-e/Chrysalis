@@ -4,9 +4,9 @@
 #include "CLOAPIInterface.h"
 #include "PatternImporter.h"
 
-using namespace UI;
+using namespace CLO3D::UI;
 
-PatternImportDialog::PatternImportDialog(Chrysalis::PatternImporter* importer, ParametersModel* model,
+PatternImportDialog::PatternImportDialog(PatternImporter* importer, ParametersModel* model,
                                          ParameterDelegate* delegate)
     : ui(new Ui::PatternImportDialog), importer_(importer), model_(model), delegate_(delegate) {
     ui->setupUi(this);

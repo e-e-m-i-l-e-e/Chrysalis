@@ -2,6 +2,8 @@
 
 #include "BaseUIExporterSettingsBlockContainerWidget.h"
 
+using namespace CLO3D::UI;
+
 QWidget* BaseUIExporterSettingsBlockContainerWidgetPlugin::createWidget(QWidget *parent) {
     return new UI::BaseUIExporterSettingsBlockContainerWidget(parent);
 }

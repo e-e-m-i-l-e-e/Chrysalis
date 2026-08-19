@@ -1,5 +1,7 @@
 #include "TaskGroup.h"
 
+#include "TaskGroupException.h"
+
 #include <atomic>
 #include <memory>
 
@@ -7,12 +9,28 @@ using namespace CLO3D;
 
 TaskGroup::TaskGroup(const QString& name): BaseTask(name) {}
 
-void TaskGroup::run(const std::function<void()>& onSuccess) {
+void TaskGroup::wait() {
+    TaskGroupException groupException(name());
+    for (const auto& task : tasks_) {
+        try {
+            task->wait();
+        } catch (const BaseTaskException& e) {
+            groupException.addException(e);
+        }
+    }
+    if (!groupException.empty()) throw groupException;
+}
+
+void TaskGroup::run(const std::function<void()>& onSuccess, const std::function<void(const BaseTaskException&)>& onException) {
     const auto remaining = std::make_shared<std::atomic<size_t>>(tasks_.size());
     for (const auto& task : tasks_) {
-        task->run([&, remaining, onSuccess] -> void {
+        task->run([remaining, onSuccess] -> void {
             if (remaining->fetch_sub(1) == 1) {
                 onSuccess();
+            }
+        }, [remaining, onException](const BaseTaskException& e) -> void {
+            if (remaining->fetch_sub(1) == 1) {
+                onException(e);
             }
         });
     }

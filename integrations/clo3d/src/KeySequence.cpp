@@ -2,7 +2,7 @@
 
 #include "BaseNativeShortcutHandler.h"
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 KeySequence::KeySequence(QWidget* parent): QKeySequenceEdit(parent) {}
 

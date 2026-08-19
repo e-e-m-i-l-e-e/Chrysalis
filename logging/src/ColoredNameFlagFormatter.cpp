@@ -13,6 +13,8 @@
 
 #include "formatters/NameFlagFormatter.h"
 
+using namespace Logging;
+
 void ColoredNameFlagFormatter::format(const spdlog::details::log_msg& msg, const std::tm& tm_time, spdlog::memory_buf_t& dest) {
     static constexpr auto COLOR_PALETTE = std::to_array<const char*>({
         "\033[34m",  // blue

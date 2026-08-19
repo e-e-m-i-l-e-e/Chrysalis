@@ -13,8 +13,8 @@ namespace Chrysalis
     class DartInstruction;
 }
 
-/** @defgroup Proxy
- * @{
+/** @defgroup Proxy Proxy
+ *  @{
  */
 namespace Chrysalis::Proxy {
     class Number {
@@ -72,5 +72,6 @@ namespace Chrysalis::Proxy {
         const args::segment* segment2_;
     };
 }
+/**@}*/
 
 #endif //CHRYSALIS_NUMBERPROXY_H

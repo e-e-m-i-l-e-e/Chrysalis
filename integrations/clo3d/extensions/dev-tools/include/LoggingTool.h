@@ -10,25 +10,27 @@
 #include "LoggingToolSettings.h"
 #include "BaseLoggerRegistryListener.h"
 
-class LoggingTool: public BaseDevTool, public BaseLoggerRegistryListener {
-public:
-    explicit LoggingTool(LoggerRegistry& registry, LoggingToolSettings* settings);
-    ~LoggingTool() override;
+namespace CLO3D {
+    class LoggingTool: public BaseDevTool, public Logging::BaseLoggerRegistryListener {
+    public:
+        explicit LoggingTool(Logging::LoggerRegistry& registry, LoggingToolSettings* settings);
+        ~LoggingTool() override;
 
-    static LoggingTool* create();
+        static LoggingTool* create();
 
-    void loggerAdded(Logger* logger) override;
+        void loggerAdded(Logging::Logger* logger) override;
 
-    void startup() override;
-    void configureSettings(ExtensionsSettings *extensionsSettings) override;
-    void configureSettingsUI(UI::ExtensionsSettingsDialog *extensionsSettingsDialog) override;
-private:
-    void addWidgetSink(Logger* logger) const;
+        void startup() override;
+        void configureSettings(ExtensionsSettings* extensionsSettings) override;
+        void configureSettingsUI(UI::ExtensionsSettingsDialog* extensionsSettingsDialog) override;
+    private:
+        void addWidgetSink(Logging::Logger* logger) const;
 
-    UI::LoggerTextEditSink* commonWidgetSink_ = nullptr;
+        UI::LoggerTextEditSink* commonWidgetSink_ = nullptr;
 
-    QStackedWidget* sinks_ = nullptr;
-    LoggingToolSettings* settings_;
-};
+        QStackedWidget* sinks_ = nullptr;
+        LoggingToolSettings* settings_;
+    };
+}
 
 #endif //CHRYSALIS_LOGGINGTOOL_H

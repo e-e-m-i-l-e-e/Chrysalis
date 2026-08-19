@@ -5,8 +5,8 @@
 #include "VectorProxy.h"
 #include "arguments/SegmentArgument.h"
 
-/** @defgroup Proxy
- * @{
+/** @defgroup Proxy Proxy
+ *  @{
  */
 namespace Chrysalis::Proxy {
     class Segment {
@@ -45,5 +45,6 @@ namespace Chrysalis::Proxy {
         const args::segment* segment2_;
     };
 }
+/**@}*/
 
 #endif //CHRYSALIS_SEGMENT_H

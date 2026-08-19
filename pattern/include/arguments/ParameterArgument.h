@@ -6,11 +6,10 @@
 #include "Parameter.h"
 #include "BaseCalculatedArgument.h"
 
+/** @defgroup Arguments Arguments
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
     class ParameterArgument: public BaseCalculatedArgument<double> {
         PROVIDE_SERIALIZATION_ACCESS(ParameterArgument)
     public:
@@ -22,7 +21,6 @@ namespace Chrysalis {
     };
     SERIALIZE_DERIVED_CONSTRUCTION(ParameterArgument, BaseCalculatedArgument<double>, parameter_)
 }
-
-BOOST_CLASS_EXPORT_KEY(Chrysalis::ParameterArgument)
+/**@}*/
 
 #endif //CHRYSALIS_PARAMETERARGUMENT_H

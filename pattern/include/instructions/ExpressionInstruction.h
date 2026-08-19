@@ -4,11 +4,10 @@
 #include "arguments/ExpressionArgument.h"
 #include "instructions/BaseInstruction.h"
 
+/** @defgroup Instructions Instructions
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Instructions
-     * @{
-     */
     class ExpressionInstruction: public BaseInstruction {
         PROVIDE_SERIALIZATION_ACCESS(ExpressionInstruction)
     public:
@@ -22,5 +21,6 @@ namespace Chrysalis {
     };
     SERIALIZE_DERIVED_CONSTRUCTION(ExpressionInstruction, BaseInstruction, expressions_, name_, value_)
 }
+/**@}*/
 
 #endif //CHRYSALIS_EXPRESSIONINSTRUCTION_H

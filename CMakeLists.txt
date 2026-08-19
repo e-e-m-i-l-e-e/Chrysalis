@@ -9,7 +9,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON CACHE BOOL "Export compile_commands.json" FORCE)
 
-set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/BuildArtifacts")
+set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/BuildArtifacts" CACHE PATH "Output directory")
 set(LOGS_DIR "${CMAKE_SOURCE_DIR}/.logs" CACHE PATH "Directory for log files")
 list(APPEND CMAKE_PROGRAM_PATH "${CMAKE_SOURCE_DIR}/.misc")
 

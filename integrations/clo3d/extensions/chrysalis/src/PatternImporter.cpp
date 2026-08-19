@@ -12,13 +12,10 @@
 #include "Logging.h"
 #define LOGGER_NAME "Pattern Importer"
 
+using namespace CLO3D;
 using namespace Chrysalis;
 
-PatternImporter::PatternImporter(Project* project): project_(project) {}
-
-PatternImporter::~PatternImporter() {
-    delete project_;
-}
+PatternImporter::PatternImporter(std::unique_ptr<Project> project): project_(std::move(project)) {}
 
 void PatternImporter::import() const {
     static auto getPointObject = [](const CG::Point& point, const bool isCurved = false) {

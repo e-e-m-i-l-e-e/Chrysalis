@@ -39,7 +39,7 @@ BOOL WINAPI DllMain(const HINSTANCE hInst, const DWORD reason, LPVOID) {
                 continue;
             }
             constexpr auto CREATE_EXTENSION_FUNCTION = "create";
-            using CreateExtension = BaseExtension*(*)();
+            using CreateExtension = CLO3D::BaseExtension*(*)();
             const auto create = reinterpret_cast<CreateExtension>(GetProcAddress(module, CREATE_EXTENSION_FUNCTION));
             if (!create) {
                 LOG_ERROR(
@@ -49,10 +49,9 @@ BOOL WINAPI DllMain(const HINSTANCE hInst, const DWORD reason, LPVOID) {
                 FreeLibrary(module);
                 continue;
             }
-            ExtensionsManager::addExtension(std::unique_ptr<BaseExtension>(create()));
+            CLO3D::ExtensionsManager::addExtension(std::unique_ptr<CLO3D::BaseExtension>(create()));
         }
-
-        ExtensionsManager::install();
+        CLO3D::ExtensionsManager::install();
     }
     return TRUE;
 }

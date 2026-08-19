@@ -4,11 +4,10 @@
 #include "Point.h"
 #include "arguments/Argument.h"
 
+/** @defgroup Arguments Arguments
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Arguments
-     * @{
-     */
     class BasePointArgument {
         SERIALIZED
     protected:
@@ -27,5 +26,6 @@ namespace Chrysalis {
         using point = BasePointArgument;
     }
 }
+/**@}*/
 
 #endif //CHRYSALIS_BASEPOINTARGUMENT_H

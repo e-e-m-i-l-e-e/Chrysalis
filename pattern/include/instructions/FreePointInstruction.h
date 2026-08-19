@@ -4,11 +4,10 @@
 #include "arguments/Argument.h"
 #include "instructions/BasePatternInstruction.h"
 
+/** @defgroup Instructions Instructions
+ *  @{
+ */
 namespace Chrysalis {
-    /**
-     * @defgroup Instructions
-     * @{
-     */
     /**
      * @uml{note[top] Syntax samples:
      * A (1, 1)
@@ -28,5 +27,6 @@ namespace Chrysalis {
     };
     SERIALIZE_DERIVED_CONSTRUCTION(FreePointInstruction, BasePatternInstruction, space_, patterns_, pointName_, x_, y_)
 }
+/**@}*/
 
 #endif //CHRYSALIS_FREEPOINTINSTRUCTION_H

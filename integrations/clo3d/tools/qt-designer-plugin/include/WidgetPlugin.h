@@ -3,16 +3,18 @@
 
 #include <QtUiPlugin/QDesignerCustomWidgetInterface>
 
-class WidgetPlugin: public QObject, public QDesignerCustomWidgetInterface {
-public:
-    QString name() const override; // NOLINT(*-use-nodiscard)
-    QString group() const override; // NOLINT(*-use-nodiscard)
-    QString toolTip() const override; // NOLINT(*-use-nodiscard)
-    QString whatsThis() const override; // NOLINT(*-use-nodiscard)
-    QString includeFile() const override; // NOLINT(*-use-nodiscard)
-    QIcon icon() const override; // NOLINT(*-use-nodiscard)
-    bool isContainer() const override;
-    void initialize(QDesignerFormEditorInterface *core) override;
-};
+namespace CLO3D::UI {
+    class WidgetPlugin: public QObject, public QDesignerCustomWidgetInterface {
+    public:
+        QString name() const override; // NOLINT(*-use-nodiscard)
+        QString group() const override; // NOLINT(*-use-nodiscard)
+        QString toolTip() const override; // NOLINT(*-use-nodiscard)
+        QString whatsThis() const override; // NOLINT(*-use-nodiscard)
+        QString includeFile() const override; // NOLINT(*-use-nodiscard)
+        QIcon icon() const override; // NOLINT(*-use-nodiscard)
+        bool isContainer() const override;
+        void initialize(QDesignerFormEditorInterface *core) override;
+    };
+}
 
 #endif //CHRYSALIS_WIDGETPLUGIN_H

@@ -3,6 +3,9 @@
 
 #include <gtest/gtest.h>
 
+#include <vector>
+#include <memory>
+
 #include <QSettings>
 #include <QTemporaryFile>
 
@@ -14,6 +17,7 @@ public:
 protected:
     void SetUp() override;
     [[nodiscard]] QSettings* settings() const;
+    [[nodiscard]] virtual QString testDirectory() const = 0;
 private:
     QTemporaryFile settingsFile_;
     std::unique_ptr<QSettings> settings_;

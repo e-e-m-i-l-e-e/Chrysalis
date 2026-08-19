@@ -42,6 +42,8 @@
 </nav>
 {% elif pagename.startswith('development/') %}
 <nav class="chrysalis-section-nav" aria-label="Development">
-  <a href="{{ pathto('development/index') }}" class="current">Overview</a>
+  <a href="{{ pathto('development/index') }}" {% if pagename == 'development/index' %} class="current"{% endif %}>Overview</a>
+  <a href="{{ pathto('development/doxygen') }}" {% if pagename == 'development/doxygen' %} class="current"{% endif %}>Doxygen</a>
+  <a href="{{ pathto('development/coverage') }}" {% if pagename == 'development/coverage' %} class="current"{% endif %}>Code Coverage</a>
 </nav>
 {% endif %}

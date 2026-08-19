@@ -3,6 +3,8 @@
 #include "Logging.h"
 #define LOGGER_NAME "Extensions Settings"
 
+using namespace CLO3D;
+
 void BaseExtensionSettings::setSettings(QSettings *settings) {
     settings_ = settings;
 }

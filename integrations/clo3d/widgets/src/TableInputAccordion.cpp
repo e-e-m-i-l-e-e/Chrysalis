@@ -6,7 +6,7 @@
 
 #include <QPropertyAnimation>
 
-using namespace UI;
+using namespace CLO3D::UI;
 
 TableInputAccordion::TableInputAccordion(QWidget *parent): QWidget(parent), BaseContainer(), ui(new Ui::TableInputAccordion) {
     ui->setupUi(this);
