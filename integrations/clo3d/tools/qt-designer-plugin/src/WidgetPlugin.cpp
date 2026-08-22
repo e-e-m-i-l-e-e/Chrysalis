@@ -6,7 +6,7 @@
 using namespace CLO3D::UI;
 
 QString WidgetPlugin::name() const {
-    return QString("UI::").append(this->metaObject()->className()).remove("Plugin");
+    return QString(this->metaObject()->className()).remove("Plugin");
 }
 
 QString WidgetPlugin::group() const {

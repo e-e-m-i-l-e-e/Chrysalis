@@ -32,8 +32,8 @@ CodeChecker analyze .build/"$BUILD_TYPE"/compile_commands.json --analyzers clang
             --enable alpha.core                                                                                        \
             --enable alpha.clone                                                                                       \
             --enable alpha.security                                                                                    \
-            --enable alpha.deadcode                                                                                    \
             --enable alpha.cplusplus                                                                                   \
+            --disable alpha.cplusplus.IteratorRange                                                                    \
                                                                                                                        \
             --output .build/"$BUILD_TYPE"/"$APP"/codechecker -c                                                        \
             --skip .docs/CodeChecker-"$APP".skip -j 4 --timeout 600

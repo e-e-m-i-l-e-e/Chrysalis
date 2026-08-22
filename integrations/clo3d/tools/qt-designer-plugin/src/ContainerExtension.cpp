@@ -4,7 +4,7 @@
 
 using namespace CLO3D::UI;
 
-ContainerExtension::ContainerExtension(UI::BaseContainer *container, QObject *parent)
+ContainerExtension::ContainerExtension(BaseContainer *container, QObject *parent)
     : QObject(parent), container_(container) {}
 
 int ContainerExtension::count() const {

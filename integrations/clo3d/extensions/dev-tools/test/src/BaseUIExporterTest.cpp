@@ -4,6 +4,7 @@
 
 #include "BaseUIExporterOptions.h"
 #include "Logging.h"
+#include "data/TestWidget_AllTypes.h"
 
 using namespace CLO3D;
 
@@ -20,6 +21,11 @@ void BaseUIExporterTest::SetUp() {
             BaseUIExporterOptions::Keys::ROOT_FOLDER, exporterDirectory
         );
     }
+    ExtensionsManager::executor_ = new TaskExecutor();
+}
+
+void BaseUIExporterTest::TearDown() {
+    delete ExtensionsManager::executor_;
 }
 
 QSettings* BaseUIExporterTest::settings() const {
@@ -28,117 +34,6 @@ QSettings* BaseUIExporterTest::settings() const {
 
 std::vector<UIExporterData> BaseUIExporterTest::testData = {
     UIExporterData([] -> std::forward_list<QWidget*> {
-        return {
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-            new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(), new QWidget(),
-        };
+        return {new TestWidget_AllTypes()};
     })
 };

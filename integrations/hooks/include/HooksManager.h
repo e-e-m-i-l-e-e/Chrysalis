@@ -1,13 +1,10 @@
 #ifndef CHRYSALIS_HOOKMANAGER_H
 #define CHRYSALIS_HOOKMANAGER_H
 
-#include <unordered_map>
+#include <list>
 #include <regex>
 #include <string>
-#include <list>
-
-#include "HooksLibraryExport.h"
-#include "Logging.h"
+#include <optional>
 
 // ─── undef Qt's emit if it was defined before this header ────────────────────
 // Qt defines `#define emit` (empty). asmjit (pulled in by polyhook) uses
@@ -21,199 +18,11 @@
 #  undef emit
 #endif
 
-#include <polyhook2/Detour/x64Detour.hpp>
-
-// ─── Logger — optional ────────────────────────────────────────────────────────
-// HooksManager emits log output only when the consuming target also links the
-// Logger INTERFACE target. Logger propagates the LOGS_DIR compile definition
-// via CMake transitive dependencies, so its presence is a reliable signal that
-// Logger.h is available and fully configured.
-//
-// When LOGS_DIR is not defined, HooksManager compiles with zero dependency on
-// spdlog or Logger. Each logging call is wrapped in #ifdef LOGS_DIR so the
-// lines are absent entirely from the translation unit — no stubs, no overhead.
+#include "types.h"
 #include "Logging.h"
-
-// =============================================================================
-//  HookHandle
-//  Must be defined before hook_detail so the Before/After std::function
-//  signatures that reference it can be fully formed.
-//
-//  Returned to the caller when registering a before/after callback.
-//  Calling remove() schedules the callback for deletion on the next hook
-//  invocation — deletion is deferred so it is safe to call remove() from
-//  inside the callback itself without invalidating the iterator mid-loop.
-// =============================================================================
-class HOOKS HookHandle {
-    friend class HooksManager;
-
-    // Raw pointer is intentional: the list is an instance member of HookBase
-    // and outlives every HookHandle created during a single hook invocation.
-    std::list<std::function<void()> > *_executeLater;
-    std::function<void()> _remover;
-
-    HookHandle(std::list<std::function<void()> > &executeLater,
-               std::function<void()> remover)
-        : _executeLater(&executeLater), _remover(std::move(remover)) {}
-
-public:
-    // Schedule this callback for removal. Safe to call from inside the callback.
-    void remove() const {
-        _executeLater->push_back(_remover);
-    }
-};
-
-// =============================================================================
-//  hook_detail — type-level traits for concepts
-//
-//  MSVC cannot deduce partial specializations of templates whose non-type
-//  template parameter is a member function pointer (e.g. Traits<&Foo::bar>).
-//  The workaround is to specialize on the pointer *type* via decltype(F),
-//  which uses ordinary type-level partial specialization that all compilers
-//  handle reliably.
-//
-//  These are kept in a detail namespace to avoid polluting global scope.
-// =============================================================================
-namespace hook_detail {
-    // ── AfterType<R, ExtraArgs...> ────────────────────────────────────────────────
-    // Lazily builds the After std::function signature.
-    // std::conditional_t is NOT used here because it instantiates both branches
-    // eagerly — forming std::function<void(HookHandle, void&, ...)> is ill-formed.
-    // Partial specialization on void avoids that instantiation entirely.
-    template<typename R, typename... ExtraArgs>
-    struct AfterType {
-        // Non-void: callback receives the return value as a mutable ref first.
-        using type = std::function<void(HookHandle, R &, ExtraArgs &...)>;
-    };
-
-    template<typename... ExtraArgs>
-    struct AfterType<void, ExtraArgs...> {
-        // Void: no return value parameter.
-        using type = std::function<void(HookHandle, ExtraArgs &...)>;
-    };
-
-    template<typename R, typename... ExtraArgs>
-    struct IgnoreType {
-        // For reference return types a reference variable cannot be
-        // default-initialized before the original call, so the Ignore callback
-        // receives a raw pointer to the referent instead of R& itself.
-        // The callback may redirect the pointer to an alternative object;
-        // leaving it as nullptr while setting ignore=true is UB on dereference.
-        using ResultArg = std::conditional_t<std::is_reference_v<R>,
-                                             std::remove_reference_t<R>*,
-                                             R>;
-        using type = std::function<void(HookHandle, bool&, ResultArg&, ExtraArgs &...)>;
-    };
-
-    template<typename... ExtraArgs>
-    struct IgnoreType<void, ExtraArgs...> {
-        using type = std::function<void(HookHandle, bool&, ExtraArgs &...)>;
-    };
-
-    // ── FuncTraits<T> — undefined base (SFINAE / concept failure for bad T) ──────
-    template<typename T>
-    struct FuncTraits;
-
-    // ── Free function: R(*)(Args...) ──────────────────────────────────────────────
-    template<typename R, typename... Args>
-    struct FuncTraits<R(*)(Args...)> {
-        using Before = std::function<void(HookHandle, Args &...)>;
-        using After = AfterType<R, Args...>::type;
-        using Ignore = IgnoreType<R, Args...>::type;
-    };
-
-    // ── Non-const member function: R(Class::*)(Args...) ──────────────────────────
-    template<typename R, typename Class, typename... Args>
-    struct FuncTraits<R(Class::*)(Args...)> {
-        using Before = std::function<void(HookHandle, Class *&, Args &...)>;
-        using After = AfterType<R, Class *, Args...>::type;
-        using Ignore = IgnoreType<R, Class *, Args...>::type;
-    };
-
-    // ── Const member function: R(Class::*)(Args...) const ────────────────────────
-    template<typename R, typename Class, typename... Args>
-    struct FuncTraits<R(Class::*)(Args...) const> {
-        using Before = std::function<void(HookHandle, const Class *&, Args &...)>;
-        using After = std::conditional_t<
-            std::is_trivial_v<R>,
-            typename AfterType<R, const Class *, Args...>::type,
-            typename AfterType<void, const Class *, R *, Args...>::type
-        >;
-        using Ignore = IgnoreType<R, const Class *, Args...>::type;
-    };
-
-    // ── Noexcept free function: R(*)(Args...) noexcept ───────────────────────────
-    template<typename R, typename... Args>
-    struct FuncTraits<R(*)(Args...) noexcept> {
-        using Before = std::function<void(HookHandle, Args &...)>;
-        using After = AfterType<R, Args...>::type;
-        using Ignore = IgnoreType<R, Args...>::type;
-    };
-
-    // ── Noexcept non-const member function: R(Class::*)(Args...) noexcept ────────
-    template<typename R, typename Class, typename... Args>
-    struct FuncTraits<R(Class::*)(Args...) noexcept> {
-        using Before = std::function<void(HookHandle, Class *&, Args &...)>;
-        using After = AfterType<R, Class *, Args...>::type;
-        using Ignore = IgnoreType<R, Class *, Args...>::type;
-    };
-
-    // ── Noexcept const member function: R(Class::*)(Args...) const noexcept ──────
-    // Before uses the same hidden-pointer convention as the non-noexcept const
-    // specialization: for non-trivial R the MSVC x64 ABI passes a hidden R*
-    // buffer pointer as the 2nd argument, so Before must expose it so callers
-    // can see (and optionally redirect) the write-back destination.
-    template<typename R, typename Class, typename... Args>
-    struct FuncTraits<R(Class::*)(Args...) const noexcept> {
-        using Before = std::conditional_t<
-            std::is_trivial_v<R>,
-            std::function<void(HookHandle, const Class *&, Args &...)>,
-            std::function<void(HookHandle, const Class *&, R *&, Args &...)>
-        >;
-        using After = std::conditional_t<
-            std::is_trivial_v<R>,
-            typename AfterType<R, const Class *, Args...>::type,
-            typename AfterType<void, const Class *, R *, Args...>::type
-        >;
-        using Ignore = IgnoreType<R, const Class *, Args...>::type;
-    };
-} // namespace hook_detail
-
-// =============================================================================
-//  Concepts
-// =============================================================================
-
-// ── HookableFunction<F> ───────────────────────────────────────────────────────
-// F must be a free function pointer or a (possibly const) member function
-// pointer. Implemented via standard type traits to avoid MSVC's partial
-// specialization deduction issues with member function pointer NTTPs.
-template<auto F>
-concept HookableFunction =
-        std::is_member_function_pointer_v<decltype(F)> ||
-        (std::is_pointer_v<decltype(F)> &&
-         std::is_function_v<std::remove_pointer_t<decltype(F)> >);
-
-// ── BeforeCallbackFor<Cb, F> ──────────────────────────────────────────────────
-// Cb must be implicitly convertible to the expected Before callback type for F.
-// Gives a readable error at the addBefore call site when the signature is wrong.
-template<typename Cb, auto F>
-concept BeforeCallbackFor =
-        HookableFunction<F> &&
-        std::convertible_to<Cb, typename hook_detail::FuncTraits<decltype(F)>::Before>;
-
-// ── AfterCallbackFor<Cb, F> ───────────────────────────────────────────────────
-// Same as above for After callbacks, which additionally carry the return value
-// (if non-void) as a first mutable reference before the call arguments.
-template<typename Cb, auto F>
-concept AfterCallbackFor =
-        HookableFunction<F> &&
-        std::convertible_to<Cb, typename hook_detail::FuncTraits<decltype(F)>::After>;
-
-// ── IgnoreCallbackFor<Cb, F> ───────────────────────────────────────────────────
-template<typename Cb, auto F>
-concept IgnoreCallbackFor =
-        HookableFunction<F> &&
-        std::convertible_to<Cb, typename hook_detail::FuncTraits<decltype(F)>::Ignore>;
+#include "BaseHook.h"
+#include "HookHandle.h"
+#include "HooksLibraryExport.h"
 
 // =============================================================================
 //  HooksManager
@@ -225,37 +34,7 @@ concept IgnoreCallbackFor =
 //    });
 // =============================================================================
 class HOOKS HooksManager {
-    inline static auto LOGGER_NAME_ = "Hooks Manager";
-    // ── AbstractHook ──────────────────────────────────────────────────────────
-    // Base class stored in the hooks map. Owns the PLH detour lifetime.
-    //
-    // IMPORTANT: hook() is NOT called in the constructor. Subclasses must call
-    // install() explicitly after all instance state (_instance, _address) is
-    // fully initialized. This prevents a race where the hooked function fires
-    // between _detour.hook() and the assignment of _instance.
-    class AbstractHook {
-    public:
-        explicit AbstractHook(const uint64_t function, const uint64_t hook, uint64_t *original)
-            : _detour(function, hook, original) {}
-
-        // Activate the detour. Must be called after _instance is set.
-        void install() {
-            _detour.hook();
-        }
-
-        virtual ~AbstractHook() {
-            _detour.unHook();
-        }
-
-    protected:
-        PLH::x64Detour _detour;
-    };
-
-    // ── HookTraits forward declaration ────────────────────────────────────────
-    // Specialised below for free functions and member functions.
-    template<auto Function>
-    struct HookTraits;
-
+    static constexpr auto LOGGER_NAME_ = "Hooks Manager";
     // =========================================================================
     //  HookBase<R, Original, CallArgs...>
     //
@@ -282,49 +61,71 @@ class HOOKS HooksManager {
         // After callbacks additionally receive the return value (if non-void)
         // so they can inspect or replace it. AfterType is used instead of
         // std::conditional_t to avoid eagerly instantiating void& (ill-formed).
-        using After = hook_detail::AfterType<R, CallArgs...>::type;
+        using After = AfterType<R, CallArgs...>::type;
 
-        using Ignore = hook_detail::IgnoreType<R, CallArgs...>::type;
+        // Replace callbacks fully substitute for the original call: they get
+        // the (mutable) call arguments and must produce the return value.
+        using Replace = ReplaceType<R, CallArgs...>::type;
+
+        // IgnoreConditionally callbacks decide, per call, whether the original
+        // should run — like Before, plus a leading bool& the callback sets.
+        using IgnoreConditionally = IgnoreConditionallyType<R, CallArgs...>::type;
 
         // ── Instance data — allocated on first use, freed on last removal ─────
         std::list<Before> _before;
         std::list<After> _after;
-        std::list<Ignore> _ignore;
+        std::optional<Replace> _replace;                 // only one Replace per function
+        std::optional<IgnoreConditionally> _ignoreConditionally; // only one per function
+        bool _ignoreActive = false;                       // only one Ignore per function (void only)
         std::list<std::function<void()> > _executeLater;
         void* _address = nullptr;
 
-        void addBefore(Before cb) {
-            _before.push_back(std::move(cb));
+        void addBefore(Before cb, std::optional<size_t> position = std::nullopt) {
+            insertAt(_before, std::move(cb), position);
         }
-        void addAfter(After cb) {
-            _after.push_back(std::move(cb));
+        void addAfter(After cb, std::optional<size_t> position = std::nullopt) {
+            insertAt(_after, std::move(cb), position);
         }
-        void addIgnore(Ignore cb) {
-            _ignore.push_back(std::move(cb));
+        void removeBeforeAt(size_t position) {
+            eraseAt(_before, position);
+        }
+        void removeAfterAt(size_t position) {
+            eraseAt(_after, position);
+        }
+        void setReplace(Replace cb) {
+            _replace = std::move(cb);
+        }
+        void clearReplace() {
+            _replace.reset();
+        }
+        void setIgnoreConditionally(IgnoreConditionally cb) {
+            _ignoreConditionally = std::move(cb);
+        }
+        void clearIgnoreConditionally() {
+            _ignoreConditionally.reset();
+        }
+
+        // True once no Before/After/Replace/Ignore/IgnoreConditionally
+        // registration remains — the signal that the detour can be torn down.
+        bool isEmpty() const {
+            return _before.empty() && _after.empty() && !_replace.has_value()
+                   && !_ignoreActive && !_ignoreConditionally.has_value();
         }
 
         // ── iterate ───────────────────────────────────────────────────────────
         // Walks `list` and invokes each callback with a HookHandle that, when
-        // remove() is called, schedules erasure via _executeLater.
+        // remove() is called, schedules erasure via _executeLater. Erasure
+        // itself only happens later, when a flush loop runs the queued
+        // closure (see hook()'s tail) — never synchronously from here, since
+        // that could invalidate the very list this loop is iterating.
         // std::list is used deliberately: erasing by iterator is O(1) and
         // does not invalidate any other iterators.
         template<typename T, typename... Args>
         void iterate(std::list<T> &list, Args &... args) {
             for (auto it = list.begin(); it != list.end(); ++it) {
                 (*it)(HookHandle(_executeLater, [this, &list, it] {
-#ifdef LOGS_DIR
-                    LOG_DEBUG_TO(HooksManager::LOGGER_NAME_, "Removing callback for hook: {}", getName(_address));
-#endif
+                    LOG_DEBUG_TO(LOGGER_NAME_, "Removing callback for hook: {}", getName(_address));
                     list.erase(it);
-
-                    // If no callbacks remain, tear down the detour entirely
-                    // to avoid unnecessary overhead on every call.
-                    if (_before.empty() && _after.empty() && _ignore.empty()) {
-#ifdef LOGS_DIR
-                        LOG_DEBUG_TO(HooksManager::LOGGER_NAME_, "No callbacks left — detaching hook: {}", getName(_address));
-#endif
-                        remove(_address);
-                    }
                 }), args...);
             }
         }
@@ -335,46 +136,94 @@ class HOOKS HooksManager {
         // It accesses all data through _instance, which is guaranteed non-null
         // on entry (install() is only called after _instance is set).
         //
-        // _executeLater is swapped into a local list before iteration.
-        // This is critical: a deferred removal may call remove(_address) which
-        // deletes the HookBase instance — destroying _executeLater while we
-        // would still be iterating it. Owning the list on the stack avoids
-        // the use-after-free entirely.
+        // Deferred removals (from handle.remove(), called by any Before/
+        // Replace/IgnoreConditionally/After callback in THIS call) are
+        // flushed at the very end — after Before, Replace/Ignore, and After
+        // have all run — rather than at entry. This is the one safe moment
+        // to also tear the detour down if that flush left nothing registered:
+        // nothing after this point touches `inst` or the trampoline again, so
+        // unHook() invalidating them is harmless. Doing this any earlier (or
+        // synchronously mid-iteration) risks calling through an already-
+        // unhooked/freed trampoline later in the same call — this is exactly
+        // what caused a real crash during development; see git history/PR
+        // discussion for HooksManagerTest's *_RemoveViaHandle tests.
         //
-        // After flushing deferred removals, _instance is re-checked: if the
-        // last callback was removed, the instance is gone, and we call through
-        // to the original function without touching any instance state.
+        // Replace takes priority over the original call when set (it fully
+        // substitutes for it). Ignore (void functions only) simply skips the
+        // call. Both are mutually exclusive in practice, but if a user sets
+        // both, Replace wins since it is the more explicit instruction.
         static R hook(CallArgs... args) {
-            // Swap pending removals onto the stack before running any of them.
-            std::list<std::function<void()> > pending;
-            std::swap(_instance->_executeLater, pending);
-            for (auto &f: pending) f();
-
             auto *inst = _instance;
             inst->iterate(inst->_before, args...);
 
-            bool ignore = false;
+            auto replaceHandle = [inst] {
+                return HookHandle(inst->_executeLater, [inst] {
+                    inst->_replace.reset();
+                });
+            };
+            auto ignoreCondHandle = [inst] {
+                return HookHandle(inst->_executeLater, [inst] {
+                    inst->_ignoreConditionally.reset();
+                });
+            };
+
             if constexpr (std::is_void_v<R>) {
-                inst->iterate(inst->_ignore, ignore, args...);
-                if (!ignore) original(args...);
-                if (_instance) inst->iterate(inst->_after, args...);
+                if (inst->_replace) {
+                    (*inst->_replace)(replaceHandle(), args...);
+                } else {
+                    bool ignore = inst->_ignoreActive;
+                    if (inst->_ignoreConditionally) {
+                        (*inst->_ignoreConditionally)(ignoreCondHandle(), ignore, args...);
+                    }
+                    if (!ignore) original(args...);
+                }
+                inst->iterate(inst->_after, args...);
+                finalize(inst);
             } else if constexpr (std::is_reference_v<R>) {
                 // Reference return: a reference variable cannot be
                 // default-initialized, so use a pointer for result storage.
-                // Ignore callbacks receive this pointer (may redirect it);
-                // After callbacks receive the dereferenced value as expected.
                 std::remove_reference_t<R>* result_ptr = nullptr;
-                inst->iterate(inst->_ignore, ignore, result_ptr, args...);
-                if (!ignore) result_ptr = &original(args...);
-                if (_instance && result_ptr) inst->iterate(inst->_after, *result_ptr, args...);
-                return *result_ptr; // NOLINT: caller must ensure result_ptr is non-null when ignore=true
+                if (inst->_replace) {
+                    result_ptr = &(*inst->_replace)(replaceHandle(), args...);
+                } else {
+                    bool ignore = inst->_ignoreActive;
+                    if (inst->_ignoreConditionally) {
+                        (*inst->_ignoreConditionally)(ignoreCondHandle(), ignore, result_ptr, args...);
+                    }
+                    if (!ignore) result_ptr = &original(args...);
+                }
+                if (result_ptr) inst->iterate(inst->_after, *result_ptr, args...);
+                finalize(inst);
+                return *result_ptr; // NOLINT: caller must ensure result_ptr is non-null
             } else {
                 R result{};
-                inst->iterate(inst->_ignore, ignore, result, args...);
-                if (!ignore) result = original(args...);
-                if (_instance) inst->iterate(inst->_after, result, args...);
+                if (inst->_replace) {
+                    result = (*inst->_replace)(replaceHandle(), args...);
+                } else {
+                    bool ignore = inst->_ignoreActive;
+                    if (inst->_ignoreConditionally) {
+                        (*inst->_ignoreConditionally)(ignoreCondHandle(), ignore, result, args...);
+                    }
+                    if (!ignore) result = original(args...);
+                }
+                inst->iterate(inst->_after, result, args...);
+                finalize(inst);
                 return result;
             }
+        }
+
+        // ── finalize ──────────────────────────────────────────────────────────
+        // Shared tail for every hook() variant in this file (this one and the
+        // four hand-rolled hidden-pointer ones below): flush deferred
+        // removals now that every callback for this call has had its chance
+        // to self-remove, then tear the detour down if nothing is left
+        // registered. Must be the LAST thing done with `inst` in the calling
+        // hook() — see hook()'s comment above for why the timing matters.
+        static void finalize(HookBase *inst) {
+            std::list<std::function<void()> > pending;
+            std::swap(inst->_executeLater, pending);
+            for (auto &f: pending) f();
+            if (inst->isEmpty()) remove(inst->_address);
         }
 
         // ── Static members ────────────────────────────────────────────────────
@@ -386,9 +235,14 @@ class HOOKS HooksManager {
         static inline HookBase *_instance = nullptr;
     };
 
+    // ── HookTraits forward declaration ────────────────────────────────────────
+    // Specialised below for free functions and member functions.
+    template<auto Function>
+    struct HookTraits;
     // ── Hook<Target> ──────────────────────────────────────────────────────────
-    // Concrete hook stored in the map. Bridges the type-erased AbstractHook
-    // with the typed HookTraits so addBefore/addAfter remain type-safe.
+    // Concrete hook stored in the map. Bridges the type-erased BaseHook
+    // with the typed HookTraits so addBefore/addAfter/addReplace/addIgnore
+    // remain type-safe.
     //
     // Owns the HookBase instance: creates it in the constructor, deletes it
     // (and clears _instance) in the destructor. After destruction, all callback
@@ -397,9 +251,9 @@ class HOOKS HooksManager {
     // Note: template constraint uses `requires` clause — MSVC C7600 rejects
     // the shorthand `template<HookableFunction auto Target>` for non-type params.
     template<auto Target> requires HookableFunction<Target>
-    struct Hook : AbstractHook {
+    struct Hook : BaseHook {
         explicit Hook(void *address)
-            : AbstractHook(
+            : BaseHook(
                 HookTraits<Target>::address(),
                 reinterpret_cast<uint64_t>(&HookTraits<Target>::hook),
                 reinterpret_cast<uint64_t *>(&HookTraits<Target>::original)) {
@@ -410,11 +264,25 @@ class HOOKS HooksManager {
             inst->_address = address;
             HookTraits<Target>::_instance = inst;
 
-            install(); // detour goes live only now — _instance is guaranteed valid
+            if (!install()) {
+                // Roll back: the detour never took effect (see install()'s
+                // comment for why), so the instance/address are pointing at
+                // an inert registration nothing will ever call into. Leaving
+                // it in place would make every addBefore/addAfter/etc. call
+                // silently do nothing forever — fail loudly instead so the
+                // caller finds out immediately, at the call site, rather
+                // than debugging "why doesn't my hook fire".
+                delete inst;
+                HookTraits<Target>::_instance = nullptr;
+                throw std::runtime_error(
+                    "HooksManager: failed to install detour — target function's "
+                    "compiled prologue is too short to hook (this can happen with "
+                    "trivial one-line functions under aggressive optimization)");
+            }
         }
 
         ~Hook() override {
-            // AbstractHook's destructor calls unHook() first, guaranteeing the
+            // BaseHook's destructor calls unHook() first, guaranteeing the
             // detour is removed before we free the instance. No in-flight hook()
             // call can be using _instance after unHook() returns.
             //
@@ -424,16 +292,44 @@ class HOOKS HooksManager {
             HookTraits<Target>::_instance = nullptr;
         }
 
-        void addBefore(HookTraits<Target>::Before cb) {
-            HookTraits<Target>::_instance->addBefore(std::move(cb));
+        void addBefore(HookTraits<Target>::Before cb, std::optional<size_t> position = std::nullopt) {
+            HookTraits<Target>::_instance->addBefore(std::move(cb), position);
         }
 
-        void addAfter(HookTraits<Target>::After cb) {
-            HookTraits<Target>::_instance->addAfter(std::move(cb));
+        void addAfter(HookTraits<Target>::After cb, std::optional<size_t> position = std::nullopt) {
+            HookTraits<Target>::_instance->addAfter(std::move(cb), position);
         }
 
-        void addIgnore(HookTraits<Target>::Ignore cb) {
-            HookTraits<Target>::_instance->addIgnore(std::move(cb));
+        void removeBeforeAt(size_t position) {
+            HookTraits<Target>::_instance->removeBeforeAt(position);
+        }
+
+        void removeAfterAt(size_t position) {
+            HookTraits<Target>::_instance->removeAfterAt(position);
+        }
+
+        void setReplace(HookTraits<Target>::Replace cb) {
+            HookTraits<Target>::_instance->setReplace(std::move(cb));
+        }
+
+        void clearReplace() {
+            HookTraits<Target>::_instance->clearReplace();
+        }
+
+        void setIgnoreConditionally(HookTraits<Target>::IgnoreConditionally cb) {
+            HookTraits<Target>::_instance->setIgnoreConditionally(std::move(cb));
+        }
+
+        void clearIgnoreConditionally() {
+            HookTraits<Target>::_instance->clearIgnoreConditionally();
+        }
+
+        void setIgnoreActive(bool active) {
+            HookTraits<Target>::_instance->_ignoreActive = active;
+        }
+
+        bool empty() const {
+            return HookTraits<Target>::_instance->isEmpty();
         }
     };
 
@@ -456,8 +352,15 @@ class HOOKS HooksManager {
     //  @tparam Class    Class that owns the member function
     //  @tparam Args     Argument types (excluding implicit this)
     //  @tparam Function Pointer to the member function to hook
+    //
+    //  Handles trivial and void R (no hidden return pointer involved — the
+    //  compiler returns the value in a register either way, whether R is
+    //  declared here as a real by-value return or the real member function's
+    //  own return; both compile identically). Non-trivial, non-void R needs
+    //  its own specialization below — see the comment there for why.
     // =========================================================================
     template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...)>
+    requires (std::is_trivial_v<R> || std::is_void_v<R>)
     struct HookTraits<Function> : HookBase<R, R(*)(Class *, Args...), Class *, Args...> {
         static uint64_t address() {
             // Reinterpret a member function pointer as a raw address.
@@ -474,17 +377,152 @@ class HOOKS HooksManager {
     };
 
     // =========================================================================
+    //  HookTraits — non-const member function, NON-TRIVIAL non-void return
+    //
+    //  Why this needs its own specialization instead of just declaring
+    //  hook()/original with plain by-value return type R (as the trivial/void
+    //  branch above does): R being non-trivial means the real, compiled
+    //  Class::Function *itself* uses a hidden caller-allocated return pointer
+    //  under the hood — but WHERE that pointer sits in the parameter list is
+    //  a property of the *member function* calling convention specifically:
+    //    • MSVC x64:    this, hidden-return-pointer, then explicit args
+    //    • Itanium ABI: hidden-return-pointer, this, then explicit args
+    //  hook()/original, as declared here, are ordinary *free* functions that
+    //  happen to take an explicit Class* parameter to model `this` — the
+    //  compiler has no idea that parameter is meant to be `this`, so it
+    //  applies the *free function* rule when deciding where to insert a
+    //  hidden pointer (strictly first, before every explicit parameter,
+    //  including the one modeling `this`) — which disagrees with where the
+    //  real member function actually put it. Trivial/void R never triggers
+    //  this because there's no hidden pointer to place either way, so both
+    //  rules coincide and the plain by-value branch above works unmodified.
+    //
+    //  The fix: declare the hidden pointer *explicitly*, by hand, in the
+    //  platform-correct position, rather than relying on the compiler to
+    //  insert one implicitly for a by-value R return. CallArgs (used to
+    //  derive Before/After/Replace/IgnoreConditionally) deliberately excludes
+    //  the pointer — those callback types stay the same plain-R-by-value
+    //  shape used everywhere else in this file; only the low-level
+    //  hook()/original signatures need to know about it.
+    // =========================================================================
+#if defined(_MSC_VER)
+    template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...)>
+    requires (!std::is_trivial_v<R> && !std::is_void_v<R>)
+    struct HookTraits<Function> : HookBase<R, void(*)(Class *, R *, Args...), Class *, Args...> {
+        using Base = HookBase<R, void(*)(Class *, R *, Args...), Class *, Args...>;
+
+        static uint64_t address() {
+            union {
+                R (Class::*mfp)(Args...);
+                uint64_t addr;
+            } u;
+            u.mfp = Function;
+            return u.addr;
+        }
+
+        // See the class-level comment above for why this can't just be a
+        // plain by-value-returning hook(): `ret` is placed explicitly, by
+        // hand, in the position MSVC's x64 ABI actually uses for a member
+        // function (this, ret, args...) — it is NOT the compiler-inferred
+        // hidden pointer for a by-value return, which would land elsewhere.
+        //
+        // `*ret` is exactly ONE of: constructed by original() (normal path),
+        // or placement-constructed here from a Replace/IgnoreConditionally
+        // result (skip path) — never both, never neither.
+        static R* hook(Class* thiz, R* ret, Args... args) {
+
+            auto* inst = Base::_instance;
+            inst->iterate(inst->_before, thiz, args...);
+
+            if (inst->_replace) {
+                new (ret) R((*inst->_replace)(HookHandle(inst->_executeLater, [inst] {
+                    inst->_replace.reset();
+                }), thiz, args...));
+            } else {
+                bool ignore = inst->_ignoreActive; // always false here (Ignore is void-only)
+                R localResult{};                   // safe placeholder — NOT *ret
+                if (inst->_ignoreConditionally) {
+                    (*inst->_ignoreConditionally)(HookHandle(inst->_executeLater, [inst] {
+                        inst->_ignoreConditionally.reset();
+                    }), ignore, localResult, thiz, args...);
+                }
+                if (!ignore) {
+                    Base::original(thiz, ret, args...); // constructs *ret itself
+                } else {
+                    new (ret) R(std::move(localResult)); // *ret still raw: construct from the substitute
+                }
+            }
+
+            if (Base::_instance) inst->iterate(inst->_after, *ret, thiz, args...);
+
+            Base::finalize(inst);
+
+            return ret;
+        }
+    };
+#else
+    template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...)>
+    requires (!std::is_trivial_v<R> && !std::is_void_v<R>)
+    struct HookTraits<Function> : HookBase<R, void(*)(R *, Class *, Args...), Class *, Args...> {
+        using Base = HookBase<R, void(*)(R *, Class *, Args...), Class *, Args...>;
+
+        static uint64_t address() {
+            union {
+                R (Class::*mfp)(Args...);
+                uint64_t addr;
+            } u;
+            u.mfp = Function;
+            return u.addr;
+        }
+
+        // Itanium ABI order: hidden return pointer first, then `this`. See
+        // the class-level comment above for the full explanation.
+        static R* hook(R* ret, Class* thiz, Args... args) {
+
+            auto* inst = Base::_instance;
+            inst->iterate(inst->_before, thiz, args...);
+
+            if (inst->_replace) {
+                new (ret) R((*inst->_replace)(HookHandle(inst->_executeLater, [inst] {
+                    inst->_replace.reset();
+                }), thiz, args...));
+            } else {
+                bool ignore = inst->_ignoreActive;
+                R localResult{};
+                if (inst->_ignoreConditionally) {
+                    (*inst->_ignoreConditionally)(HookHandle(inst->_executeLater, [inst] {
+                        inst->_ignoreConditionally.reset();
+                    }), ignore, localResult, thiz, args...);
+                }
+                if (!ignore) {
+                    Base::original(ret, thiz, args...);
+                } else {
+                    new (ret) R(std::move(localResult));
+                }
+            }
+
+            if (Base::_instance) inst->iterate(inst->_after, *ret, thiz, args...);
+
+            Base::finalize(inst);
+
+            return ret;
+        }
+    };
+#endif
+
+    // =========================================================================
     //  HookTraits — const member function specialization
-    //  Mirrors the non-const variant above. The implicit `this` pointer becomes
-    //  `const Class*` throughout: in HookBase's CallArgs, in the trampoline
-    //  signature, and in the lambda parameter list seen by callers.
+    //  Mirrors the non-const variant above, including the trivial/void vs
+    //  non-trivial split and why it's needed — see the comment above the
+    //  non-const non-trivial specialization for the full explanation. The
+    //  implicit `this` pointer becomes `const Class*` throughout.
     //
     //  Without this specialization any addBefore<&Foo::constMethod> call
     //  silently falls through to the undefined primary template and fails to
     //  compile. Examples: QSettings::value, QSettings::contains, QVariant::toString.
     // =========================================================================
     template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) const>
-    requires std::is_trivial_v<R>
+    requires (std::is_trivial_v<R> || std::is_void_v<R>)
     struct HookTraits<Function> : HookBase<R, R(*)(const Class *, Args...), const Class *, Args...> {
         static uint64_t address() {
             union {
@@ -496,9 +534,11 @@ class HOOKS HooksManager {
         }
     };
 
+#if defined(_MSC_VER)
     template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) const>
-    struct HookTraits<Function> : HookBase<void, void(*)(const Class *, R *, Args...), const Class *, R *, Args...> {
-        using Base = HookBase<void, void(*)(const Class *, R *, Args...), const Class *, R *, Args...>;
+    requires (!std::is_trivial_v<R> && !std::is_void_v<R>)
+    struct HookTraits<Function> : HookBase<R, void(*)(const Class *, R *, Args...), const Class *, Args...> {
+        using Base = HookBase<R, void(*)(const Class *, R *, Args...), const Class *, Args...>;
 
         static uint64_t address() {
             union {
@@ -509,38 +549,105 @@ class HOOKS HooksManager {
             return u.addr;
         }
 
-        // ── MSVC x64 ABI: hidden-pointer return convention ────────────────────
-        // For non-trivial return types the compiler inserts a hidden buffer
-        // pointer as the 2nd argument (RDX, right after `this` in RCX).
-        // The CALLEE must write the result into that buffer AND return the
-        // same pointer in RAX.
-        //
-        // HookBase<void,...>::hook() returns void, so RAX after the detour is
-        // whatever the last internal call left there — garbage — and the
-        // caller's copy-initialisation of its local QVariant reads from a bad
-        // address → access violation.
-        //
-        // Fix: shadow HookBase::hook here with the identical void-path logic
-        // but return `ret` so that RAX is correct when the detour exits.
-        // Hook<Target> passes &HookTraits<Target>::hook to polyhook, so name
-        // lookup picks up this definition first (shadowing Base::hook).
         static R* hook(const Class* thiz, R* ret, Args... args) {
-            std::list<std::function<void()>> pending;
-            std::swap(Base::_instance->_executeLater, pending);
-            for (auto& f : pending) f();
-
             auto* inst = Base::_instance;
-            inst->iterate(inst->_before, thiz, ret, args...);
+            inst->iterate(inst->_before, thiz, args...);
 
-            bool ignore = false;
-            inst->iterate(inst->_ignore, ignore, thiz, ret, args...);
-            if (!ignore) Base::original(thiz, ret, args...);
-            if (Base::_instance) inst->iterate(inst->_after, thiz, ret, args...);
+            if (inst->_replace) {
+                new (ret) R((*inst->_replace)(HookHandle(inst->_executeLater, [inst] {
+                    inst->_replace.reset();
+                }), thiz, args...));
+            } else {
+                bool ignore = inst->_ignoreActive;
+                R localResult{};
+                if (inst->_ignoreConditionally) {
+                    (*inst->_ignoreConditionally)(HookHandle(inst->_executeLater, [inst] {
+                        inst->_ignoreConditionally.reset();
+                    }), ignore, localResult, thiz, args...);
+                }
+                if (!ignore) {
+                    Base::original(thiz, ret, args...);
+                } else {
+                    new (ret) R(std::move(localResult));
+                }
+            }
 
-            return ret; // satisfy MSVC ABI: hidden return pointer must be in RAX
+            if (Base::_instance) inst->iterate(inst->_after, *ret, thiz, args...);
+
+            Base::finalize(inst);
+
+            return ret;
         }
     };
+#else
+    template<typename R, typename Class, typename... Args, R(Class::*Function)(Args...) const>
+    requires (!std::is_trivial_v<R> && !std::is_void_v<R>)
+    struct HookTraits<Function> : HookBase<R, void(*)(R *, const Class *, Args...), const Class *, Args...> {
+        using Base = HookBase<R, void(*)(R *, const Class *, Args...), const Class *, Args...>;
 
+        static uint64_t address() {
+            union {
+                R (Class::*mfp)(Args...) const;
+                uint64_t addr;
+            } u;
+            u.mfp = Function;
+            return u.addr;
+        }
+
+        static R* hook(R* ret, const Class* thiz, Args... args) {
+
+            auto* inst = Base::_instance;
+            inst->iterate(inst->_before, thiz, args...);
+
+            if (inst->_replace) {
+                new (ret) R((*inst->_replace)(HookHandle(inst->_executeLater, [inst] {
+                    inst->_replace.reset();
+                }), thiz, args...));
+            } else {
+                bool ignore = inst->_ignoreActive;
+                R localResult{};
+                if (inst->_ignoreConditionally) {
+                    (*inst->_ignoreConditionally)(HookHandle(inst->_executeLater, [inst] {
+                        inst->_ignoreConditionally.reset();
+                    }), ignore, localResult, thiz, args...);
+                }
+                if (!ignore) {
+                    Base::original(ret, thiz, args...);
+                } else {
+                    new (ret) R(std::move(localResult));
+                }
+            }
+
+            if (Base::_instance) inst->iterate(inst->_after, *ret, thiz, args...);
+
+            Base::finalize(inst);
+
+            return ret;
+        }
+    };
+#endif
+
+    // ── list helpers — positional insert/erase ────────────────────────────────
+    // Shared by Before/After lists so "insert at any place" / "remove via
+    // position" behave identically for both callback kinds.
+    template<typename T>
+    static void insertAt(std::list<T> &list, T item, std::optional<size_t> position) {
+        if (!position || *position >= list.size()) {
+            list.push_back(std::move(item));
+        } else {
+            auto it = list.begin();
+            std::advance(it, static_cast<long>(*position));
+            list.insert(it, std::move(item));
+        }
+    }
+
+    template<typename T>
+    static void eraseAt(std::list<T> &list, size_t position) {
+        if (position >= list.size()) return;
+        auto it = list.begin();
+        std::advance(it, static_cast<long>(position));
+        list.erase(it);
+    }
     // ── getHook ───────────────────────────────────────────────────────────────
     // Returns the existing Hook for F, or creates and registers a new one.
     template<auto F> requires HookableFunction<F>
@@ -556,76 +663,190 @@ class HOOKS HooksManager {
         if (it == _hooks.end()) {
             auto *hook = new Hook<F>(u.addr);
             _hooks[u.addr] = hook;
-            LOG_INFO_TO(LOGGER_NAME_, "Hook created: {}", getName(u.addr));
+            LOG_INFO_TO(LOGGER_NAME_, "Hook has been created: {}", getName(u.addr));
             return hook;
         }
 
         return dynamic_cast<Hook<F>*>(it->second);
     }
 
+    // ── findHook ──────────────────────────────────────────────────────────────
+    // Like getHook, but never creates one. Used by the position/remove-style
+    // APIs, which are no-ops on a function that was never hooked.
+    template<auto F> requires HookableFunction<F>
+    static Hook<F> *findHook() {
+        union {
+            decltype(F) p;
+            void *addr;
+        } u;
+        u.p = F;
+
+        const auto it = _hooks.find(u.addr);
+        if (it == _hooks.end()) return nullptr;
+        return dynamic_cast<Hook<F>*>(it->second);
+    }
+
+    // ── tearDownIfEmpty ───────────────────────────────────────────────────────
+    // After an external (non-handle) removal, detach the detour entirely once
+    // no Before/After/Replace/Ignore registration remains — same policy as
+    // the deferred, handle-based removal path in HookBase::finalize(), which
+    // runs this same check at the end of every hook() call.
+    template<auto F>
+    static void tearDownIfEmpty(Hook<F> *hook) {
+        if (hook->empty()) {
+            union {
+                decltype(F) p;
+                void *addr;
+            } u;
+            u.p = F;
+            remove(u.addr);
+        }
+    }
+
     // ── remove ────────────────────────────────────────────────────────────────
     // Unregisters and destroys the Hook for `address`. The Hook destructor
     // unregisters the detour and deletes the HookBase instance, freeing all
     // callback lists. Called automatically when the last callback is removed.
-    static void remove(void* address) {
-        const auto it = _hooks.find(address);
-        if (it == _hooks.end()) return;
-        const auto *hook = it->second;
-        _hooks.erase(it);
-        delete hook; // ~Hook() → unHook() then ~HookBase()
-    }
+    static void remove(void* address);
 
     // ── getName ───────────────────────────────────────────────────────────────
     // Extracts a human-readable "Class::method" label from the RTTI type name
     // of the hook stored at `address`.
-    static std::string getName(void* address) {
-        const auto it = _hooks.find(address);
-        if (it == _hooks.end()) return "<unknown>";
-
-        std::string raw = typeid(*it->second).name();
-
-        // The template instantiation string contains the original function
-        // signature — extract the last "Namespace::Method(" token from it.
-        static const std::regex re(R"(<[^>]*?(\w+::\w+)\()");
-        std::smatch match;
-        if (std::regex_search(raw, match, re) && match.size() > 1)
-            return match[1].str();
-        return raw;
-    }
+    static std::string getName(void* address);
 
     // ── _hooks ────────────────────────────────────────────────────────────────
-    // Global map from opaque function address to its live AbstractHook.
+    // Global map from opaque function address to its live BaseHook.
     // std::unordered_map gives O(1) average lookup.
-    static inline std::unordered_map<void*, AbstractHook*> _hooks;
+    static inline std::unordered_map<void*, BaseHook*> _hooks;
 
 public:
     // ── addBefore ─────────────────────────────────────────────────────────────
-    // Register a callback to run before function F.
+    // Register a callback to run before function F. Multiple callbacks may be
+    // registered per function; by default the callback is appended, but an
+    // explicit `position` inserts it at that index (0 = front) instead.
     // Creates the hook automatically on first registration.
     //
     // Compile-time guarantees:
     //   • F must be a free or member function pointer          (HookableFunction)
     //   • Callback signature must match (HookHandle, Args&...) (BeforeCallbackFor)
     template<auto F, typename Callback> requires BeforeCallbackFor<Callback, F>
-    static void addBefore(Callback &&callback) {
-        getHook<F>()->addBefore(std::forward<Callback>(callback));
+    static void addBefore(Callback &&callback, std::optional<size_t> position = std::nullopt) {
+        getHook<F>()->addBefore(std::forward<Callback>(callback), position);
+    }
+
+    // ── removeBefore ──────────────────────────────────────────────────────────
+    // Remove the Before callback at `position` (0-based) without needing a
+    // HookHandle. No-op if F isn't hooked or position is out of range.
+    template<auto F> requires HookableFunction<F>
+    static void removeBefore(size_t position) {
+        if (auto *hook = findHook<F>()) {
+            hook->removeBeforeAt(position);
+            tearDownIfEmpty<F>(hook);
+        }
     }
 
     // ── addAfter ──────────────────────────────────────────────────────────────
-    // Register a callback to run after function F.
+    // Register a callback to run after function F. Multiple callbacks may be
+    // registered per function; by default the callback is appended, but an
+    // explicit `position` inserts it at that index (0 = front) instead.
     // Creates the hook automatically on first registration.
     //
     // Compile-time guarantees:
     //   • F must be a free or member function pointer                (HookableFunction)
     //   • Callback signature must match (HookHandle[, R&], Args&...) (AfterCallbackFor)
     template<auto F, typename Callback> requires AfterCallbackFor<Callback, F>
-    static void addAfter(Callback &&callback) {
-        getHook<F>()->addAfter(std::forward<Callback>(callback));
+    static void addAfter(Callback &&callback, std::optional<size_t> position = std::nullopt) {
+        getHook<F>()->addAfter(std::forward<Callback>(callback), position);
     }
 
-    template<auto F, typename Callback> requires IgnoreCallbackFor<Callback, F>
-    static void addIgnore(Callback &&callback) {
-        getHook<F>()->addIgnore(std::forward<Callback>(callback));
+    // ── removeAfter ───────────────────────────────────────────────────────────
+    // Remove the After callback at `position` (0-based) without needing a
+    // HookHandle. No-op if F isn't hooked or position is out of range.
+    template<auto F> requires HookableFunction<F>
+    static void removeAfter(size_t position) {
+        if (auto *hook = findHook<F>()) {
+            hook->removeAfterAt(position);
+            tearDownIfEmpty<F>(hook);
+        }
+    }
+
+    // ── addReplace ────────────────────────────────────────────────────────────
+    // Register the (single) callback that completely replaces function F: the
+    // original body is never invoked, and the callback itself must produce
+    // the return value. Registering again simply overwrites the previous
+    // replacement, since only one Replace can exist per function. The
+    // callback receives a HookHandle exactly like Before/After, so it can
+    // remove itself the same way (handle.remove() inside the callback).
+    //
+    // Compile-time guarantees:
+    //   • F must be a free or member function pointer                     (HookableFunction)
+    //   • Callback signature must match (HookHandle, Args&...) -> R       (ReplaceCallbackFor)
+    template<auto F, typename Callback> requires ReplaceCallbackFor<Callback, F>
+    static void addReplace(Callback &&callback) {
+        getHook<F>()->setReplace(std::forward<Callback>(callback));
+    }
+
+    // ── removeReplace ─────────────────────────────────────────────────────────
+    // Remove the Replace callback for F (if any) without needing its
+    // HookHandle. No-op if F isn't hooked or has no Replace registered.
+    template<auto F> requires HookableFunction<F>
+    static void removeReplace() {
+        if (auto *hook = findHook<F>()) {
+            hook->clearReplace();
+            tearDownIfEmpty<F>(hook);
+        }
+    }
+
+    // ── addIgnoreConditionally ────────────────────────────────────────────────
+    // Register the (single) callback that decides, per call, whether the
+    // original body of F should run — like Before, but with a leading bool&
+    // the callback sets to skip the call. For non-void F it also receives a
+    // mutable result reference to supply a substitute value when it chooses
+    // to skip. This is the direct successor to the old callback-based Ignore
+    // hook, now capped at one registration per function. Registering again
+    // simply overwrites the previous callback.
+    //
+    // Compile-time guarantees:
+    //   • F must be a free or member function pointer                       (HookableFunction)
+    //   • Callback signature must match (HookHandle, bool&[, R&], Args&...) (IgnoreConditionallyCallbackFor)
+    template<auto F, typename Callback> requires IgnoreConditionallyCallbackFor<Callback, F>
+    static void addIgnoreConditionally(Callback &&callback) {
+        getHook<F>()->setIgnoreConditionally(std::forward<Callback>(callback));
+    }
+
+    // ── removeIgnoreConditionally ─────────────────────────────────────────────
+    // Remove the IgnoreConditionally callback for F (if any) without needing
+    // its HookHandle. No-op if F isn't hooked or has none registered.
+    template<auto F> requires HookableFunction<F>
+    static void removeIgnoreConditionally() {
+        if (auto *hook = findHook<F>()) {
+            hook->clearIgnoreConditionally();
+            tearDownIfEmpty<F>(hook);
+        }
+    }
+
+    // ── addIgnore ─────────────────────────────────────────────────────────────
+    // Activate Ignore for function F: the original body stops being called
+    // (After callbacks, if any, still run). Only one Ignore state exists per
+    // function — it is a toggle, not a callback list — and it takes no
+    // callback argument because there is nothing for it to do besides skip
+    // the call. Restricted to void-returning functions (VoidHookableFunction):
+    // a non-void function has no sensible result to produce when skipped.
+    // Safe to call again after removeIgnore() to reactivate.
+    template<auto F> requires VoidHookableFunction<F>
+    static void addIgnore() {
+        getHook<F>()->setIgnoreActive(true);
+    }
+
+    // ── removeIgnore ──────────────────────────────────────────────────────────
+    // Deactivate Ignore for function F, letting the original body run again.
+    // No-op if F isn't hooked or Ignore was never activated.
+    template<auto F> requires VoidHookableFunction<F>
+    static void removeIgnore() {
+        if (auto *hook = findHook<F>()) {
+            hook->setIgnoreActive(false);
+            tearDownIfEmpty<F>(hook);
+        }
     }
 };
 

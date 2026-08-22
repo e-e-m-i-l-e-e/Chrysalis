@@ -20,18 +20,19 @@ void ProjectRenderer::initialize() const {
     cartesianRenderer_->initialize();
 }
 
+void ProjectRenderer::addObserver(BaseRendererObserver* observer) {
+    observers_.emplace_back(observer);
+}
+
 void ProjectRenderer::useProject(const Project* project) {
     patternRenderers_.clear();
-    for (const auto& pattern: *project->getPatterns()) {
-        const auto patternTraceRendererData = new PatternTraceRendererData();
-        pattern->getSpace()->trace::addObserver(patternTraceRendererData);
-        const auto patternShapeRendererData = new PatternShapeRendererData();
-        pattern->getSpace()->shape::addObserver(patternShapeRendererData);
+    for (const auto pattern: *project->getPatterns()) {
+        const auto patternTraceRendererData = new PatternTraceRendererData(pattern->getSpace(), observers_);
+        const auto patternShapeRendererData = new PatternShapeRendererData(pattern->getSpace(), observers_);
         patternRenderers_.emplace_back(
-            new PatternTraceRenderer(program_, patternTraceRendererData),
-            new PatternShapeRenderer(program_, patternShapeRendererData)
-        );
-        patternRenderers_.back().initialize();
+            std::make_unique<PatternRenderer>(std::make_unique<PatternTraceRenderer>(program_, patternTraceRendererData),
+                                              std::make_unique<PatternShapeRenderer>(program_, patternShapeRendererData)));
+        patternRenderers_.back()->initialize();
     }
 }
 
@@ -52,7 +53,7 @@ void ProjectRenderer::scaleChanged(const float scaleFactor, const float zoomX, c
     area_.offset(zoomX * (1 - scaleFactor), zoomY * (1 - scaleFactor));
     scale_ *= scaleFactor;
     cartesianRenderer_->changeArea(area_);
-    for (const auto& patternRenderer: patternRenderers_) patternRenderer.scaleChanged(scale_);
+    for (const auto& patternRenderer: patternRenderers_) patternRenderer->scaleChanged(scale_);
     updateProjectionMatrix();
 }
 
@@ -60,7 +61,7 @@ void ProjectRenderer::cursorPositionChanged(const float x, const float y) const 
     const float cursorX = x * area_.width() + area_.x();
     const float cursorY = y * area_.height() + area_.y();
     for (const auto& patternRenderer: patternRenderers_) {
-        if (const Point* point = patternRenderer.traceRenderer()->pointAtPosition(cursorX, cursorY)) {
+        if (const Point* point = patternRenderer->traceRenderer().pointAtPosition(cursorX, cursorY)) {
             cursorRenderer_->displayCursor(point->x(), point->y());
             return;
         }
@@ -89,12 +90,12 @@ void ProjectRenderer::render() const {
     program_->bind();
     program_->setProjection(projection_);
     cartesianRenderer_->render();
-    for (const auto& patternRenderer: patternRenderers_) patternRenderer.render();
+    for (const auto& patternRenderer: patternRenderers_) patternRenderer->render();
     cursorRenderer_->render();
 }
 
 bool ProjectRenderer::prepareNextFrame() const {
     cartesianRenderer_->upload();
-    for (const auto& patternRenderer: patternRenderers_) patternRenderer.upload();
+    for (const auto& patternRenderer: patternRenderers_) patternRenderer->upload();
     return cursorRenderer_->animate();
 }

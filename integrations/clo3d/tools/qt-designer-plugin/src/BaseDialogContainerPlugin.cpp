@@ -5,7 +5,7 @@
 using namespace CLO3D::UI;
 
 QWidget* BaseDialogContainerPlugin::createWidget(QWidget* parent) {
-    return new UI::BaseDialogContainer(parent);
+    return new BaseDialogContainer(parent);
 }
 
 QStringList BaseDialogContainerPlugin::domXmlContent() const {

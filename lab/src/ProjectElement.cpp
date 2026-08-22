@@ -3,6 +3,7 @@
 #include <QUrl>
 #include <QString>
 #include <QQuickItem>
+#include <QLocalSocket>
 
 #include "Logging.h"
 #include "ParametersElement.h"
@@ -47,6 +48,30 @@ bool ProjectElement::hasProject() const {
     return project_ != nullptr;
 }
 
+void ProjectElement::execute() const {
+    project_->execute();
+}
+
+void ProjectElement::sendToCLO3D() const {
+    const auto socket = new QLocalSocket();
+    connect(socket, &QLocalSocket::disconnected, socket, &QObject::deleteLater);
+    socket->connectToServer("CLO3D");
+    if (!socket->waitForConnected(1000)) {
+        LOG_ERROR("Failed to connect to CLO3D: {}", socket->errorString().toStdString());
+        socket->deleteLater();
+        return;
+    }
+    const std::vector<char> buffer = project_->bytes();
+    if (const QByteArray message(buffer.data(), buffer.size());
+        socket->write(message) == -1 || !socket->waitForBytesWritten(1000)) {
+        LOG_ERROR("Failed to send project to CLO3D: {}", socket->errorString().toStdString());
+    } else {
+        LOG_INFO("Project has been sent to CLO3D.");
+    }
+    socket->flush();
+    socket->disconnectFromServer();
+}
+
 void ProjectElement::createProject() {
     project_ = Project::create();
     Project1Composer composer(project_.get());
@@ -62,7 +87,7 @@ void ProjectElement::openProject(const QUrl& filePath) {
         LOG_ERROR("{}", e.what());
         return;
     }
-    project_->getInstructions()->execute();
+    project_->execute();
     parameters_->setParameters(project_->getParameters());
     setFilePath(filePath);
     emit nameChanged();

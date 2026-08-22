@@ -32,7 +32,7 @@ BreakBeforeBinaryOperators: None
 BreakConstructorInitializers: BeforeColon
 BreakConstructorInitializersBeforeComma: false
 BinPackArguments: false
-BinPackParameters: false
+BinPackParameters: true
 AlignAfterOpenBracket: true
 PenaltyBreakBeforeFirstCallParameter: 0
 ConstructorInitializerAllOnOneLineOrOnePerLine: false

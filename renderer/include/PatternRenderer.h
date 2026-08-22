@@ -7,20 +7,20 @@
 namespace Chrysalis {
     class PatternRenderer {
     public:
-        explicit PatternRenderer(PatternTraceRenderer* traceRenderer, PatternShapeRenderer* shapeRenderer);
-        ~PatternRenderer();
+        explicit PatternRenderer(std::unique_ptr<PatternTraceRenderer> traceRenderer,
+                                 std::unique_ptr<PatternShapeRenderer> shapeRenderer);
 
         void upload() const;
         void render() const;
         void initialize() const;
         void scaleChanged(float scale) const;
 
-        const PatternTraceRenderer* traceRenderer() const;
+        const PatternTraceRenderer& traceRenderer() const;
     private:
         /// @uml{composition}
-        PatternTraceRenderer* traceRenderer_;
+        std::unique_ptr<PatternTraceRenderer> traceRenderer_;
         /// @uml{composition}
-        PatternShapeRenderer* shapeRenderer_;
+        std::unique_ptr<PatternShapeRenderer> shapeRenderer_;
     };
 }
 

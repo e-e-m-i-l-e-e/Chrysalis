@@ -3,18 +3,13 @@
 #include "Project.h"
 #include "projects/Project1Composer.h"
 
-#include "arguments/ParameterArgument.h"
-#include "arguments/VectorFunctionArgument.h"
-
-#include "instructions/FreePointInstruction.h"
-
 using namespace Chrysalis;
 
 class TestProject1: public ::testing::Test {
     static constexpr auto TEMP_FILE = "temp";
 protected:
     void SetUp() override {
-        project_ = std::unique_ptr<Project>(Project1Composer::createProject());
+        project_ = Project1Composer::createProject();
         Project1Composer(project_.get()).fill();
 
         project_->getInstructions()->execute();
@@ -22,9 +17,13 @@ protected:
         Project::write(TEMP_FILE, *project_);
         deserializedProject_ = Project::read(TEMP_FILE);
         deserializedProject_->getInstructions()->execute();
+
+        const std::vector<char> bytes = project_->bytes();
+        deserializedFromBytesProject_ = Project::fromBytes(bytes.data(), bytes.size());
+        deserializedFromBytesProject_ ->getInstructions()->execute();
     }
     [[nodiscard]] std::vector<Project*> getProjects() const {
-        return {project_.get(), deserializedProject_.get()};
+        return {project_.get(), deserializedProject_.get(), deserializedFromBytesProject_.get()};
     }
     static std::vector<std::pair<PatternSpace*, std::reference_wrapper<const std::unordered_map<std::string, std::pair<double, double>>>>> data(const Project* project) {
         return {
@@ -32,8 +31,10 @@ protected:
             std::make_pair(project->getPatterns()->get(Project1Composer::PatternName::FRONT)->getSpace(), std::cref(Project1Composer::expectedFront)),
         };
     }
+private:
     std::unique_ptr<Project> project_;
-    std::unique_ptr<Project> deserializedProject_ = nullptr;
+    std::unique_ptr<Project> deserializedProject_;
+    std::unique_ptr<Project> deserializedFromBytesProject_;
 };
 
 TEST_F(TestProject1, Project1) {

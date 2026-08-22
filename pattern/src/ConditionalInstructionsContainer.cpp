@@ -16,11 +16,11 @@ ConditionalInstructionsContainer::~ConditionalInstructionsContainer() {
 void ConditionalInstructionsContainer::execute() {
     if (condition_->get()) {
         for (const auto& instruction: *positive_) {
-            instruction->execute();
+            instruction->run();
         }
     } else {
         for (const auto& instruction: *negative_) {
-            instruction->execute();
+            instruction->run();
         }
     }
 }

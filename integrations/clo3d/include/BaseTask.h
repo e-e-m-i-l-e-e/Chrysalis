@@ -3,8 +3,9 @@
 
 #include "BaseTaskException.h"
 
-
+#include <mutex>
 #include <functional>
+#include <condition_variable>
 
 #include <QString>
 

@@ -1,6 +1,9 @@
 #ifndef CHRYSALIS_PROJECT_H
 #define CHRYSALIS_PROJECT_H
 
+#include <queue>
+#include <condition_variable>
+
 #include "Option.h"
 #include "Pattern.h"
 #include "Parameter.h"
@@ -23,11 +26,17 @@ namespace Chrysalis {
         static std::unique_ptr<Project> create();
         static std::unique_ptr<Project> create(const std::string& name);
 
+        std::vector<char> bytes() const;
+        static std::unique_ptr<Project> fromBytes(const char* bytes, size_t size);
+
         static std::unique_ptr<Project> read(const std::string& filePath);
         static void write(const std::string& filePath, const Project& project);
 
         std::string getName();
         void setName(const std::string& name);
+
+        void execute();
+        void onExecuted(const std::function<void()>& function);
 
         [[nodiscard]] ProjectSpace* getSpace() const;
         [[nodiscard]] OptionsContainer* getOptions() const;
@@ -36,6 +45,13 @@ namespace Chrysalis {
         [[nodiscard]] ExpressionsContainer* getExpressions() const;
         [[nodiscard]] InstructionsContainer* getInstructions() const;
     private:
+        std::mutex mutex_;
+        std::jthread thread_;
+        std::condition_variable startExecution_;
+        std::atomic<bool> pendingExecution_ = false;
+
+        std::queue<std::function<void()>> queue_;
+
         std::string name_;
         /// @uml{composition}
         ProjectSpace* space_;

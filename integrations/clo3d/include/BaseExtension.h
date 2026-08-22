@@ -1,6 +1,7 @@
 #ifndef CHRYSALIS_BASEEXTENSION_H
 #define CHRYSALIS_BASEEXTENSION_H
 
+#include "LocalServer.h"
 #include "CommandRunner.h"
 #include "ExtensionsSettingsDialog.h"
 
@@ -17,6 +18,7 @@ namespace CLO3D {
         virtual void configureCommands(CommandRunner* container) {}
         virtual void configureSettings(ExtensionsSettings* extensionsSettings) {}
         virtual void configureSettingsUI(UI::ExtensionsSettingsDialog* extensionsSettingsDialog) {}
+        virtual void configureLocalServer(LocalServer* localServer) {}
     };
 }
 

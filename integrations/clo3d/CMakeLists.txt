@@ -38,7 +38,7 @@ set_target_properties(CLO3DExtensionsCore PROPERTIES AUTOUIC_SEARCH_PATHS "${CMA
 target_include_directories(CLO3DExtensionsCore PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(CLO3DExtensionsCore PUBLIC
         LoggingLibrary PatternLibrary CLO3DWidgetsLibrary HooksLibrary
-        Qt5::Core Qt5::CorePrivate Qt5::Concurrent Qt5::Xml Qt5::Designer)
+        Qt5::Core Qt5::CorePrivate Qt5::Concurrent Qt5::Network Qt5::Xml Qt5::Designer)
 find_package(clo-sdk REQUIRED)
 if (WIN32)
     target_link_libraries(CLO3DExtensionsCore PUBLIC clo-sdk::clo-sdk)

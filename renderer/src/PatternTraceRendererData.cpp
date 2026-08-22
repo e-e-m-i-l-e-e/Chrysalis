@@ -6,6 +6,16 @@
 
 using namespace Chrysalis;
 
+PatternTraceRendererData::PatternTraceRendererData(BaseObservable<PatternTraceObserver>* observable,
+                                                   const std::vector<BaseRendererObserver*>& observers)
+    : BaseObservableRendererData(observers), observable_(observable) {
+    observable_->addObserver(this);
+}
+
+PatternTraceRendererData::~PatternTraceRendererData() {
+    observable_->removeObserver(this);
+}
+
 PatternTraceRendererData::Arrow PatternTraceRendererData::buildArrow(const CG::Point& pointFrom, const CG::Point& pointTo) {
     static constexpr double ARROW_BASE_FACTOR = 0.75;
     static constexpr double ARROW_WING_LENGTH = 0.75;

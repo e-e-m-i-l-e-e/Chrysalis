@@ -4,6 +4,16 @@
 
 using namespace Chrysalis;
 
+PatternShapeRendererData::PatternShapeRendererData(BaseObservable<PatternShapeObserver>* observable,
+                                                   const std::vector<BaseRendererObserver*>& observers)
+    : BaseObservableRendererData(observers), observable_(observable) {
+    observable_->addObserver(this);
+}
+
+PatternShapeRendererData::~PatternShapeRendererData() {
+    observable_->removeObserver(this);
+}
+
 void PatternShapeRendererData::pointAdded(const Outline* outline, const Point* point) {
     if (!data_.contains(outline)) {
         triangulation_.emplace(outline, CGAL::Constrained_Delaunay_triangulation_2<CG::LinearKernel>{});

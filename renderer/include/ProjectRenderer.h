@@ -2,9 +2,10 @@
 #define CHRYSALIS_PROJECTRENDERER_H
 
 #include "Project.h"
-#include "CartesianRenderer.h"
 #include "CursorRenderer.h"
 #include "PatternRenderer.h"
+#include "CartesianRenderer.h"
+#include "BaseRendererObserver.h"
 
 namespace Chrysalis {
     class ProjectRenderer {
@@ -13,6 +14,7 @@ namespace Chrysalis {
         ~ProjectRenderer();
 
         void initialize() const;
+        void addObserver(BaseRendererObserver* observer);
 
         void scaleChanged(float scaleFactor, float zoomX, float zoomY);
         void areaSizeChanged(float width, float height);
@@ -39,7 +41,8 @@ namespace Chrysalis {
         CursorRenderer* cursorRenderer_;
         /// @uml{composition}
         CartesianRenderer* cartesianRenderer_;
-        std::list<PatternRenderer> patternRenderers_;
+        std::vector<std::unique_ptr<PatternRenderer>> patternRenderers_;
+        std::vector<BaseRendererObserver*> observers_;
     };
 }
 

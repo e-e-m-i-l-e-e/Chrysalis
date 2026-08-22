@@ -43,15 +43,16 @@ ProjectSceneElement::Renderer* ProjectSceneElement::createRenderer() const {
     });
     if (!isInitialized) LOG_CRITICAL("Failed to load OpenGL functions.");
     renderer_->initialize();
+    renderer_->addObserver(const_cast<ProjectSceneElement*>(this));
     return renderer_;
 }
 
-void ProjectSceneElement::projectChanged(const Project* project) {
+void ProjectSceneElement::projectChanged(Project* project) {
     renderer_->changeProject(project);
     update();
 }
 
-void ProjectSceneElement::Renderer::changeProject(const Project* project) {
+void ProjectSceneElement::Renderer::changeProject(Project* project) {
     pendingProject_ = project;
 }
 
@@ -62,7 +63,7 @@ void ProjectSceneElement::Renderer::render() {
 void ProjectSceneElement::Renderer::synchronize(QQuickFramebufferObject* object) {
     if (pendingProject_) {
         useProject(pendingProject_.value());
-        pendingProject_.value()->getInstructions()->execute();
+        pendingProject_.value()->execute();
         pendingProject_.reset();
     }
     if (prepareNextFrame()) object->update();
@@ -71,6 +72,12 @@ void ProjectSceneElement::Renderer::synchronize(QQuickFramebufferObject* object)
 QOpenGLFramebufferObject* ProjectSceneElement::Renderer::createFramebufferObject(const QSize& size) {
     areaSizeChanged(static_cast<float>(size.width()), static_cast<float>(size.height()));
     return QQuickFramebufferObject::Renderer::createFramebufferObject(size);
+}
+
+void ProjectSceneElement::vboChanged() {
+    QMetaObject::invokeMethod(this, [this] {
+        update();
+    });
 }
 
 QPointF ProjectSceneElement::normalize(QPointF&& point) const {

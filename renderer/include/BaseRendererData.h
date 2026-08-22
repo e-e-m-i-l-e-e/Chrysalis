@@ -15,7 +15,7 @@ namespace Chrysalis {
         virtual size_t size() = 0;
         virtual std::vector<V> vbo() = 0;
 
-        void updateVBO() {
+        virtual void updateVBO() {
             shouldUpload_ = true;
         }
         [[nodiscard]] bool shouldUpload() {

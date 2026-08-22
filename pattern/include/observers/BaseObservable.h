@@ -1,7 +1,8 @@
 #ifndef CHRYSALIS_BASEOBSERVABLE_H
 #define CHRYSALIS_BASEOBSERVABLE_H
 
-#include <forward_list>
+#include <set>
+#include <mutex>
 
 /**
  * @defgroup Observers Observers
@@ -15,16 +16,23 @@ namespace Chrysalis {
         virtual ~BaseObservable() = default;
     public:
         template<typename... Args, typename... CallArgs>
-        void notify(void(T::*function)(Args...), CallArgs&&... args) {
+        void notify(void(T::*function)(Args...), CallArgs&&... args) const {
+            std::lock_guard lock(mutex_);
             for (const auto& observer: observers_) {
                 (observer->*function)(std::forward<CallArgs>(args)...);
             }
         }
         void addObserver(T* observer) {
-            observers_.push_front(observer);
+            std::lock_guard lock(mutex_);
+            observers_.insert(observer);
+        }
+        void removeObserver(T* observer) {
+            std::lock_guard lock(mutex_);
+            observers_.erase(observer);
         }
     private:
-        std::forward_list<T*> observers_;
+        std::set<T*> observers_;
+        mutable std::mutex mutex_;
     };
 }
 /**@}*/

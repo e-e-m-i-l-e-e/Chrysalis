@@ -1,30 +1,36 @@
 #include "TaskExecutor.h"
 
+#include <shared_mutex>
+
 #include <QFuture>
 #include <QFutureWatcher>
 
 using namespace CLO3D;
 
-void TaskExecutor::wait(const QString& task) {
-    auto it = tasks_.find(task.toStdString());
-    if (it == tasks_.end()) return;
-    it->second->wait();
+void TaskExecutor::wait(const QString& taskName) {
+    BaseTask* task = nullptr;
+    {
+        std::shared_lock lock(mutex_);
+        const auto it = tasks_.find(taskName.toStdString());
+        if (it == tasks_.end()) return;
+        task = it->second.get();
+    }
+    task->wait();
 }
 
 void TaskExecutor::submit(std::unique_ptr<BaseTask> task) {
-    const auto it = tasks_.emplace(task->name().toStdString(), std::move(task)).first;
-    it->second->run([]{}, [](const BaseTaskException&){});
-    it->second->wait();
-    tasks_.erase(it);
+    BaseTask* t = task.get();
+    submit(std::move(task), [] -> void {}, [](const BaseTaskException&) -> void {});
+    t->wait();
 }
 
 void TaskExecutor::submit(std::unique_ptr<BaseTask> task, const std::function<void()>& onSuccess, const std::function<void(const BaseTaskException&)>& onException) {
-    auto it = tasks_.emplace(task->name().toStdString(), std::move(task)).first;
-    it->second->run([this, it, onSuccess] -> void {
-        onSuccess();
-        tasks_.erase(it);
-    }, [this, it, onException](const BaseTaskException& e) -> void {
-        onException(e);
-        tasks_.erase(it);
-    });
+    BaseTask* t = task.get();
+    {
+        // TODO: handle duplicates in names
+        std::unique_lock lock(mutex_);
+        const auto name = task->name().toStdString();
+        tasks_.emplace(name, std::move(task));
+    }
+    t->run(onSuccess, onException);
 }

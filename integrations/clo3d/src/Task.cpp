@@ -18,23 +18,25 @@ Task::Task(const QString& name, const std::function<void()>& task): BaseTask(nam
     LOG_TRACE("\"{}\" task have been created.", name.toStdString());
 }
 
-void Task::wait() {
+Task::~Task() {
     future_.waitForFinished();
 }
 
+void Task::wait() {
+    future_.waitForFinished();
+    if (exception_) throw *exception_;
+}
+
 void Task::run(const std::function<void()>& onSuccess, const std::function<void(const BaseTaskException&)>& onException) {
-    const auto watcher = new QFutureWatcher<void>();
-    QObject::connect(watcher, &QFutureWatcher<void>::finished, [this, watcher, onSuccess, onException] -> void {
+    future_ = QtConcurrent::run([this, onSuccess, onException] -> void {
         try {
-            future_.waitForFinished();
+            task_();
             onSuccess();
         } catch (const std::exception& e) {
-            onException(TaskException(name(), e.what()));
+            exception_.emplace(name(), e.what());
+            onException(*exception_);
         } catch (...) {
             LOG_ERROR("Unknown exception thrown in \"{}\" task.", name().toStdString());
         }
-        watcher->deleteLater();
     });
-    future_ = QtConcurrent::run(task_);
-    watcher->setFuture(future_);
 }

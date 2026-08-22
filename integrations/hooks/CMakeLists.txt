@@ -6,3 +6,5 @@ add_library(HooksLibrary SHARED ${HOOKS_SOURCES})
 target_include_directories(HooksLibrary PUBLIC include)
 target_link_libraries(HooksLibrary PUBLIC LoggingLibrary polyhook2::polyhook2)
 target_compile_definitions(HooksLibrary PRIVATE HOOKS_LIBRARY_EXPORT)
+
+add_subdirectory(test)

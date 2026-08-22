@@ -11,13 +11,13 @@
 namespace CLO3D {
     class CLO3D_EXTENSION TaskException: public BaseTaskException {
     public:
-        explicit TaskException(const QString& task, const QString& message);
+        explicit TaskException(const QString& task, const char* message);
 
-        QString name() const override;
-        QString message() const override;
+        const QString& name() const override;
+        [[nodiscard]] const char* what() const noexcept override;
     private:
         const QString task_;
-        const QString message_;
+        const char* message_;
     };
 }
 

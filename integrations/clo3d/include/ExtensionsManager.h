@@ -11,6 +11,7 @@
 BOOL WINAPI DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved);
 #endif
 
+#include "LocalServer.h"
 #include "TaskExecutor.h"
 #include "BaseExtension.h"
 #include "CommandRunner.h"
@@ -45,7 +46,8 @@ namespace CLO3D {
 
         inline static QToolButton* action;
         inline static CommandRunner* commandRunner_;
-        inline static TaskExecutor executor;
+        inline static TaskExecutor* executor_;
+        inline static LocalServer* localServer_;
     };
 }
 

@@ -1,5 +1,7 @@
 #include "ChrysalisExtension.h"
 
+#include <memory>
+
 #include <QLayout>
 #include <QFileDialog>
 #include <QMainWindow>
@@ -7,9 +9,10 @@
 
 #include "Project.h"
 #include "MVDockingButton.h"
+#include "LocalServerListener.h"
+#include "PatternImportDialog.h"
 #include "MVDockWidgetTitleBar.h"
 #include "PatternBuilderDockWidget.h"
-#include "PatternImportDialog.h"
 
 #include "Logging.h"
 #define LOGGER_NAME "Chrysalis Extension"
@@ -88,4 +91,8 @@ void ChrysalisExtension::configure(QWidget *widget) {
 
 extern "C" CLO3D_EXTENSION_ENTRY BaseExtension* create() {
     return new ChrysalisExtension();
+}
+
+void ChrysalisExtension::configureLocalServer(LocalServer* localServer) {
+    localServer->listen(std::make_unique<LocalServerListener>());
 }

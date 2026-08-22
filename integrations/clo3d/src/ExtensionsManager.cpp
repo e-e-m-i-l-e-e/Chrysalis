@@ -120,11 +120,17 @@ void ExtensionsManager::install() {
     }
     extensionsSettings->read();
 
+    executor_ = new TaskExecutor();
+
     qtHookData[QHooks::Startup] = reinterpret_cast<quintptr>(+[] {
         BaseNativeShortcutHandler::registerShortcuts();
         BaseNativeShortcutHandler::startListening();
         for (const auto& extension: extensions) {
             extension->startup();
+        }
+        localServer_ = new LocalServer();
+        for (const auto& extension: extensions) {
+            extension->configureLocalServer(localServer_);
         }
     });
 
@@ -199,7 +205,7 @@ void ExtensionsManager::install() {
         }
     });
 
-    HooksManager::addIgnore<&QObject::installEventFilter>([](const HookHandle& handle, bool& ignore, QObject* object, QObject*& receiver) {
+    HooksManager::addBefore<&QObject::installEventFilter>([](const HookHandle& handle, QObject* object, QObject*& receiver) {
         if (const auto openGL = qobject_cast<QOpenGLWidget*>(object)) {
             if (openGL->parent()->parent()) LOG_DEBUG("Installing event filter on QOpenGLWidget: {}. Parent: {}.", openGL->objectName().toStdString(), object->parent()->parent()->metaObject()->className());
             QObject* original = receiver;
@@ -224,7 +230,6 @@ void ExtensionsManager::install() {
             }
         }
     });
-
     // HooksManager::addBefore<&fwrite>([](const HookHandle&, void const* _Buffer, size_t _ElementSize, size_t _ElementCount, FILE *) {
     //     size_t total = _ElementSize * _ElementCount;
     //
@@ -408,6 +413,11 @@ void ExtensionsManager::install() {
     //         }
     //     }
     // });
+    HooksManager::addBefore<&QApplication::exit>([](const HookHandle& handle, int returnCode) {
+        std::cout << "Canceling" << std::endl;
+        delete executor_;
+        executor_ = nullptr;
+    });
 }
 
 void ExtensionsManager::setMessage(const QString &message) {

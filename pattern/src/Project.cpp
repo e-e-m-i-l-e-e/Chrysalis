@@ -1,5 +1,7 @@
 #include "Project.h"
 
+#include <boost/iostreams/stream.hpp>
+#include <boost/iostreams/device/back_inserter.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
 #include <boost/serialization/export.hpp>
@@ -91,14 +93,38 @@ BOOST_CLASS_EXPORT(Chrysalis::RelativePointInstruction)
 BOOST_CLASS_EXPORT(Chrysalis::UnfoldEdgeDartInstruction)
 BOOST_CLASS_EXPORT(Chrysalis::IntersectionPointInstruction)
 
-Project::Project(std::string name, ProjectSpace* space, PatternsContainer* patterns,
-                 ParametersContainer* parameters, OptionsContainer* options,
-                 ExpressionsContainer* expressions, InstructionsContainer* instructions)
+Project::Project(std::string name, ProjectSpace* space, PatternsContainer* patterns, ParametersContainer* parameters,
+                 OptionsContainer* options, ExpressionsContainer* expressions, InstructionsContainer* instructions)
     : name_(std::move(name)), space_(space), options_(options), patterns_(patterns), parameters_(parameters),
-      expressions_(expressions),
-      instructions_(instructions) {}
+      expressions_(expressions), instructions_(instructions), thread_([this](const std::stop_token& stopToken) -> void {
+          std::unique_lock lock(mutex_);
+          while (!stopToken.stop_requested()) {
+              startExecution_.wait(lock, [&] -> bool {
+                  return pendingExecution_ || stopToken.stop_requested() || !queue_.empty();
+              });
+              if (stopToken.stop_requested()) return;
+              while (!queue_.empty()) {
+                  auto task = std::move(queue_.front());
+                  queue_.pop();
+                  lock.unlock();
+                  task();
+                  lock.lock();
+              }
+              if (pendingExecution_) {
+                  pendingExecution_ = false;
+                  lock.unlock();
+                  instructions_->execute();
+                  lock.lock();
+              }
+          }
+      }) {}
 
 Project::~Project() {
+    instructions_->ignore();
+    thread_.request_stop();
+    startExecution_.notify_one();
+    thread_.join();
+    
     delete space_;
     delete options_;
     delete patterns_;
@@ -124,11 +150,34 @@ std::unique_ptr<Project> Project::create(const std::string& name) {
         new InstructionsContainer(new OptionsContainer(globalOptions), new ExpressionsContainer(globalExpressions)));
 }
 
+std::vector<char> Project::bytes() const {
+    std::vector<char> buffer;
+    boost::iostreams::back_insert_device sink(buffer);
+    boost::iostreams::stream os(sink);
+    boost::archive::binary_oarchive archive(os);
+    archive << this;
+    return buffer;
+}
+
+std::unique_ptr<Project> Project::fromBytes(const char* bytes, const size_t size) {
+    boost::iostreams::array_source source(bytes, size);
+    boost::iostreams::stream is(source);
+    boost::archive::binary_iarchive archive(is);
+    Project* project = nullptr;
+    try {
+        archive >> project;
+        return std::unique_ptr<Project>(project);
+    } catch (const boost::archive::archive_exception &e) {
+        delete project;
+        throw ProjectIOError("Cannot read project from bytes");
+    }
+}
+
 std::unique_ptr<Project> Project::read(const std::string& filePath) {
     std::ifstream file(filePath, std::ios::binary);
     if (!file.is_open()) throw ProjectIOError("Failed to open file: " + filePath);
     boost::archive::binary_iarchive archive(file);
-    Project* project;
+    Project* project = nullptr;
     try {
         archive >> project;
         return std::unique_ptr<Project>(project);
@@ -147,6 +196,19 @@ void Project::write(const std::string& filePath, const Project& project) {
     archive << &project;
     file.close();
     if (!file) throw ProjectIOError("Failed to save project into: " + filePath);
+}
+
+void Project::execute() {
+    pendingExecution_ = true;
+    startExecution_.notify_one();
+}
+
+void Project::onExecuted(const std::function<void()>& function) {
+    {
+        std::lock_guard lock(mutex_);
+        queue_.push(function);
+    }
+    startExecution_.notify_one();
 }
 
 std::string Project::getName() {

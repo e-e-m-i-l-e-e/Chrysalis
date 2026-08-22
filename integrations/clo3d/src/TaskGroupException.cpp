@@ -1,19 +1,24 @@
 #include "TaskGroupException.h"
 
+#include <iostream>
+#include <ostream>
+
+#include <iostream>
+
 using namespace CLO3D;
 
 TaskGroupException::TaskGroupException(const QString& groupName): groupName(groupName) {}
 
-QString TaskGroupException::name() const {
+const QString& TaskGroupException::name() const {
     return groupName;
 }
 
-QString TaskGroupException::message() const {
+const char* TaskGroupException::what() const noexcept {
     QString errorMessage = groupName + ":";
     for (const auto& [name, message]: tasksMessages) {
         errorMessage.append("\n\t").append(name).append(": ").append(message);
     }
-    return errorMessage;
+    return errorMessage.toUtf8().constData();
 }
 
 bool TaskGroupException::empty() const {
@@ -21,5 +26,5 @@ bool TaskGroupException::empty() const {
 }
 
 void TaskGroupException::addException(const BaseTaskException& e) {
-    tasksMessages.emplace_back(e.name(), e.message());
+    tasksMessages.emplace_back(e.name(), QString::fromUtf8(e.what()));
 }

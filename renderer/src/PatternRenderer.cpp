@@ -2,13 +2,9 @@
 
 using namespace Chrysalis;
 
-PatternRenderer::PatternRenderer(PatternTraceRenderer* traceRenderer, PatternShapeRenderer* shapeRenderer)
-    : traceRenderer_(traceRenderer), shapeRenderer_(shapeRenderer) {}
-
-PatternRenderer::~PatternRenderer() {
-    delete traceRenderer_;
-    delete shapeRenderer_;
-}
+PatternRenderer::PatternRenderer(std::unique_ptr<PatternTraceRenderer> traceRenderer,
+                                 std::unique_ptr<PatternShapeRenderer> shapeRenderer)
+    : traceRenderer_(std::move(traceRenderer)), shapeRenderer_(std::move(shapeRenderer)) {}
 
 void PatternRenderer::initialize() const {
     traceRenderer_->initialize();
@@ -29,6 +25,6 @@ void PatternRenderer::scaleChanged(const float scale) const {
     traceRenderer_->scaleChanged(scale);
 }
 
-const PatternTraceRenderer* PatternRenderer::traceRenderer() const {
-    return traceRenderer_;
+const PatternTraceRenderer& PatternRenderer::traceRenderer() const {
+    return *traceRenderer_;
 }

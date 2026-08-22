@@ -1,5 +1,7 @@
 #include "BaseTask.h"
 
+#include "Logging.h"
+
 using namespace CLO3D;
 
 BaseTask::BaseTask(const QString& name): name_(name) {}

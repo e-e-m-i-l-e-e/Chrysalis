@@ -14,8 +14,8 @@ namespace CLO3D {
     public:
         explicit TaskGroupException(const QString& groupName);
 
-        QString name() const override;
-        QString message() const override;
+        const QString& name() const override;
+        [[nodiscard]] const char* what() const noexcept override;
 
         bool empty() const;
         void addException(const BaseTaskException& e);

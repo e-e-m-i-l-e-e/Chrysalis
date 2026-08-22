@@ -5,7 +5,7 @@
 using namespace CLO3D::UI;
 
 QWidget* SettingsBlockContainerWidgetPlugin::createWidget(QWidget *parent) {
-    return new UI::SettingsBlockContainerWidget(parent);
+    return new SettingsBlockContainerWidget(parent);
 }
 
 QStringList SettingsBlockContainerWidgetPlugin::domXmlContent() const {

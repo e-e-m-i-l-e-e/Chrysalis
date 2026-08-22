@@ -6,28 +6,28 @@
 #include "ProjectRenderer.h"
 
 namespace Chrysalis {
-    class ProjectSceneElement: public QQuickFramebufferObject {
+    class ProjectSceneElement: public QQuickFramebufferObject, public BaseRendererObserver {
         Q_OBJECT
         QML_NAMED_ELEMENT(ProjectScene)
-
         class Renderer: public ProjectRenderer, public QQuickFramebufferObject::Renderer {
         public:
             explicit Renderer(MainOpenGLProgram* program, CartesianRenderer* cartesianRenderer, CursorRenderer* cursorRenderer);
 
-            void changeProject(const Project* project);
+            void changeProject(Project* project);
         protected:
             void render() override;
             void synchronize(QQuickFramebufferObject*) override;
             QOpenGLFramebufferObject* createFramebufferObject(const QSize& size) override;
         private:
-            boost::optional<const Project*> pendingProject_ = boost::none;
+            boost::optional<Project*> pendingProject_ = boost::none;
         };
     public:
         explicit ProjectSceneElement(QQuickItem *parent = nullptr);
 
         [[nodiscard]] Renderer* createRenderer() const override;
+        void vboChanged() override;
     public slots:
-        void projectChanged(const Project* project);
+        void projectChanged(Project* project);
     protected:
         void wheelEvent(QWheelEvent* event) override;
         void hoverMoveEvent(QHoverEvent* event) override;

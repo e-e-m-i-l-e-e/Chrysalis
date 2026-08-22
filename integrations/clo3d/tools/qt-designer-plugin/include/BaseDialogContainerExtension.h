@@ -9,7 +9,7 @@ namespace CLO3D::UI {
         Q_OBJECT
         Q_INTERFACES(QDesignerContainerExtension)
     public:
-        explicit BaseDialogContainerExtension(UI::BaseDialogContainer* container, QObject* parent)
+        explicit BaseDialogContainerExtension(BaseDialogContainer* container, QObject* parent)
             : ContainerExtension(container, parent) {}
     };
 }

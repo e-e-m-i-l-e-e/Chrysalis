@@ -12,7 +12,9 @@ if (WIN32)
     set(QT_DESIGNER_RUNTIME_DIR ${OUTPUT_DIR}/CLO3DQtDesigner)
     add_custom_command(TARGET CLO3DQtDesignerPlugin POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E make_directory "${QT_DESIGNER_RUNTIME_DIR}"
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${QT_DESIGNER_EXE}" "${QT_DESIGNER_RUNTIME_DIR}/designer.exe")
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different "${QT_DESIGNER_EXE}" "${QT_DESIGNER_RUNTIME_DIR}/designer.exe"
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:LoggingLibrary> "${QT_DESIGNER_RUNTIME_DIR}"
+            COMMAND_EXPAND_LISTS)
     add_custom_command(TARGET CLO3DQtDesignerPlugin POST_BUILD
             COMMAND "${QT_WINDEPLOYQT_EXE}" --dir "${QT_DESIGNER_RUNTIME_DIR}" --no-compiler-runtime "${QT_DESIGNER_RUNTIME_DIR}/designer.exe")
 endif ()

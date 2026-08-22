@@ -9,11 +9,10 @@
 #include "CLO3DExtensionExport.h"
 
 namespace CLO3D {
-    class CLO3D_EXTENSION BaseTaskException {
+    class CLO3D_EXTENSION BaseTaskException: public std::exception {
     public:
         virtual ~BaseTaskException() = default;
-        virtual QString name() const = 0;
-        virtual QString message() const = 0;
+        virtual const QString& name() const = 0;
     };
 }
 

@@ -352,7 +352,7 @@ void XmlUIExporter::exportUI(std::forward_list<QWidget*>&& widgets) {
             }
         }));
     }
-    ExtensionsManager::executor.submit(std::move(group), [] -> void {
+    ExtensionsManager::executor_->submit(std::move(group), [] -> void {
         ExtensionsManager::clearMessage();
     });
 }

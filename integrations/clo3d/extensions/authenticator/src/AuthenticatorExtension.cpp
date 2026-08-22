@@ -58,7 +58,7 @@ void AuthenticatorExtension::install() {
         qtHookData[QHooks::AddQObject] = 0;
         handle.remove();
     });
-    HooksManager::addIgnore<&QDesktopServices::openUrl>([](const HookHandle &handle, bool &ignore, bool &ret, const QUrl &url) {
+    HooksManager::addIgnoreConditionally<&QDesktopServices::openUrl>([](const HookHandle &handle, bool& ignore, bool ret, const QUrl &url) {
         if (url.toString().startsWith("https://style.clo-set.com/en/account/signin?productId=40")) {
             LOG_INFO("Bypassing login URL: {}", url.toString().toStdString());
             ignore = true;

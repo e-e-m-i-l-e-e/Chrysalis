@@ -199,6 +199,20 @@ ApplicationWindow {
                         Component.onCompleted: {
                             patternProject.projectChanged.connect(projectChanged)
                         }
+
+                        RowLayout {
+                           Button {
+                               text: "Send to CLO3D"
+                               onClicked: patternProject.sendToCLO3D()
+                           }
+                           Button {
+                               text: "Execute"
+                               onClicked: patternProject.execute()
+                           }
+                           anchors.right: parent.right
+                           anchors.bottom: parent.bottom
+                           anchors.margins: 10
+                        }
                     }
                 }
             }

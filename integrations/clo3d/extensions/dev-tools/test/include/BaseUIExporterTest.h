@@ -16,6 +16,7 @@ public:
     static std::vector<UIExporterData> testData;
 protected:
     void SetUp() override;
+    void TearDown() override;
     [[nodiscard]] QSettings* settings() const;
     [[nodiscard]] virtual QString testDirectory() const = 0;
 private:

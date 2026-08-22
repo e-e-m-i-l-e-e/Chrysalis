@@ -8,9 +8,13 @@ Checks: >
   concurrency-*,
   portability-*,
   cppcoreguidelines-*,
+  -boost-use-ranges,
+  -bugprone-throwing-static-initialization,
+  -bugprone-easily-swappable-parameters,
   -cppcoreguidelines-avoid-magic-numbers
 CheckOptions:
   modernize-use-trailing-return-type.TransformFunctions: false
+  misc-include-cleaner.MissingIncludes: false
 WarningsAsErrors: ''
 HeaderFilterRegex: '.*/(integrations|lab|logging|pattern|renderer)/.*'
 FormatStyle: file

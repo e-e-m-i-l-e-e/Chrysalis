@@ -14,7 +14,12 @@ namespace Chrysalis {
     public:
         virtual ~BaseInstruction() = default;
 
+        void run();
+        virtual void ignore();
+    protected:
         virtual void execute() = 0;
+
+        bool executed_ = false;
     };
 }
 /**@}*/

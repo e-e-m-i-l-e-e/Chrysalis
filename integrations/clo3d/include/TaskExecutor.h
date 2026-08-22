@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <functional>
+#include <shared_mutex>
 #include <unordered_map>
 
 #include "BaseTask.h"
@@ -12,6 +13,7 @@ namespace CLO3D {
     class CLO3D_EXTENSION TaskExecutor {
     public:
         TaskExecutor() = default;
+
         TaskExecutor(const TaskExecutor&) = delete;
         TaskExecutor& operator=(const TaskExecutor&) = delete;
 
@@ -23,6 +25,7 @@ namespace CLO3D {
             const std::function<void(const BaseTaskException&)>& onException = [](const BaseTaskException&) -> void {}
         );
     private:
+        std::shared_mutex mutex_;
         std::unordered_map<std::string, std::unique_ptr<BaseTask>> tasks_{};
     };
 }

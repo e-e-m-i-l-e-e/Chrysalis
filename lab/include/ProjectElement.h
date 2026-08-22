@@ -29,13 +29,15 @@ namespace Chrysalis {
         void nameChanged();
         void filePathChanged();
         void parametersChanged();
-        void projectChanged(const Project* project);
+        void projectChanged(Project* project);
 
     public slots:
+        void execute() const;
         void createProject();
         void openProject(const QUrl& filePath);
         void saveProject(const QUrl& filePath);
         void closeProject();
+        void sendToCLO3D() const;
 
     private:
         QUrl filePath_;

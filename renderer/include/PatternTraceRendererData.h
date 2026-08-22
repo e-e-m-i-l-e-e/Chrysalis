@@ -7,10 +7,12 @@
 #include "Layout.h"
 #include "Vertex3f.h"
 #include "BaseRendererData.h"
+#include "BaseObservableRendererData.h"
+#include "PatternSpace.h"
 #include "observers/PatternTraceObserver.h"
 
 namespace Chrysalis {
-    class PatternTraceRendererData: public BaseRendererData<Vertex3f>, public PatternTraceObserver, public PointObserver {
+    class PatternTraceRendererData: public BaseObservableRendererData<Vertex3f>, public PatternTraceObserver, public PointObserver {
         struct Arrow {
             CG::Point baseBegin;
             CG::Point baseEnd;
@@ -18,6 +20,10 @@ namespace Chrysalis {
             CG::Point rightWing;
         };
     public:
+        explicit PatternTraceRendererData(BaseObservable<PatternTraceObserver>* observable,
+                                          const std::vector<BaseRendererObserver*>& observers);
+        ~PatternTraceRendererData() override;
+
         static constexpr float POINT_RADIUS = 0.25f;
 
         void pointMoved(const Point* point) override;
@@ -39,6 +45,8 @@ namespace Chrysalis {
         static float length(const CG::Point& pointFrom, const CG::Point& pointTo);
         static Arrow buildArrow(const CG::Point& pointFrom, const CG::Point& pointTo);
         static CG::Point intersectionPoint(const CG::Point& pointFrom, const CG::Point& pointTo);
+
+        BaseObservable<PatternTraceObserver>* observable_;
 
         std::vector<Vertex3f> points_;
         std::vector<Vertex3f> arrows_;

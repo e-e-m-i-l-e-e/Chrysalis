@@ -11,6 +11,7 @@ namespace CLO3D {
         void configure(QWidget *widget) override;
         void configureMenu(QMenu* extensionMenu) override;
         void configureStatusBar(QWidget *parent) override;
+        void configureLocalServer(LocalServer* localServer) override;
     };
 }
 

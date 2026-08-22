@@ -7,5 +7,5 @@ using namespace CLO3D::UI;
 NamedWidgetPlugin::NamedWidgetPlugin(): WidgetPlugin() {}
 
 QWidget* NamedWidgetPlugin::createWidget(QWidget* parent) {
-    return new UI::NamedWidget(parent);
+    return new NamedWidget(parent);
 }
