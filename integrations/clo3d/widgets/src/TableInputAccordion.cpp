@@ -1,6 +1,5 @@
 #include "TableInputAccordion.h"
 
-#include <iostream>
 
 #include "ui_TableInputAccordion.h"
 

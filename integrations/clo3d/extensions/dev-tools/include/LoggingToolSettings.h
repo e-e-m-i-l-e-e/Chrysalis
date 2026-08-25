@@ -27,16 +27,17 @@ namespace CLO3D {
 
         void read(int loggerIndex, const Logging::Logger* logger) const;
 
-        const std::string& getFileName() const;
-        int getLogLevel(int loggerIndex) const;
-        QString getLoggingDirectory() const;
+        [[nodiscard]] const std::string& getFileName() const;
+        [[nodiscard]] int getLogLevel(int loggerIndex) const;
+        [[nodiscard]] QString getLoggingDirectory() const;
 
         void setFileName(const QString& fileName) const;
         void setLogLevel(int loggerIndex, int logLevel) const;
         void setLoggingDirectory(const QString& loggingDirectory) const;
 
-        QString getLoggerFileLocation() const;
-        QString getLoggerFileLocation(const QString& loggerName) const;
+        [[nodiscard]] QString getLoggerFileLocation() const;
+        [[nodiscard]] QString getLoggerFileLocation(const QString& loggerName) const;
+
     private:
         void readLoggerSettings(int loggerIndex, const Logging::Logger* logger) const;
 

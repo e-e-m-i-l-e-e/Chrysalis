@@ -7,7 +7,7 @@
 
 namespace Chrysalis {
     struct OptionValue {
-        operator bool() const;
+        explicit operator bool() const;
         bool value;
     };
     class Option: public BaseNamedElement, public Argument<OptionValue> {

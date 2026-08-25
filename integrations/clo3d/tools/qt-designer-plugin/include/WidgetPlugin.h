@@ -6,13 +6,13 @@
 namespace CLO3D::UI {
     class WidgetPlugin: public QObject, public QDesignerCustomWidgetInterface {
     public:
-        QString name() const override; // NOLINT(*-use-nodiscard)
-        QString group() const override; // NOLINT(*-use-nodiscard)
-        QString toolTip() const override; // NOLINT(*-use-nodiscard)
-        QString whatsThis() const override; // NOLINT(*-use-nodiscard)
-        QString includeFile() const override; // NOLINT(*-use-nodiscard)
-        QIcon icon() const override; // NOLINT(*-use-nodiscard)
-        bool isContainer() const override;
+        [[nodiscard]] QString name() const override;
+        [[nodiscard]] QString group() const override;
+        [[nodiscard]] QString toolTip() const override;
+        [[nodiscard]] QString whatsThis() const override;
+        [[nodiscard]] QString includeFile() const override;
+        [[nodiscard]] QIcon icon() const override;
+        [[nodiscard]] bool isContainer() const override;
         void initialize(QDesignerFormEditorInterface *core) override;
     };
 }

@@ -30,13 +30,6 @@ namespace Chrysalis {
                 instruction->ignore();
             }
         }
-        void execute() override {
-            for (auto it = instructions_.begin(); it != instructions_.end(); ++it) {
-                (*it)->run();
-                std::this_thread::sleep_for(std::chrono::milliseconds(50));
-                lastInstruction_ = it;
-            }
-        }
         void add(T* instruction) {
             lastInstruction_ = instructions_.insert(
                 lastInstruction_ == instructions_.end() ? instructions_.end() : std::next(lastInstruction_),
@@ -55,6 +48,14 @@ namespace Chrysalis {
         }
         [[nodiscard]] ExpressionsContainer* expressions() const {
             return expressions_;
+        }
+    protected:
+        void execute() override {
+            for (auto it = instructions_.begin(); it != instructions_.end(); ++it) {
+                (*it)->run();
+                std::this_thread::sleep_for(std::chrono::milliseconds(50));
+                lastInstruction_ = it;
+            }
         }
     private:
         /// @uml{composition}

@@ -8,9 +8,9 @@ object Build : BuildType({
 
     params {
         password("env.FILEBROWSER_API_KEY", "credentialsJSON:11fe4b58-4972-4bd2-9b84-f87664304acc")
-        password("env.CC_ANALYZER_BIN", "clang-tidy:/usr/bin/clang-tidy-23;clangsa:/usr/bin/clang-23")
 
         select("build.type", "Debug", label = "Build Type", options = listOf("Debug", "Release"))
+        select("build.sanitizer", "ASan", label = "Sanitizer", options = listOf("ASan", "TSan"))
         select("app.name", "All", label = "App Name", options = listOf("Chrysalis", "CLO3D", "All"))
 
         checkbox("skip.tests", "false", label = "Skip Tests", checked = "true", unchecked = "false")
@@ -18,6 +18,7 @@ object Build : BuildType({
         checkbox("skip.analysis", "true", label = "Skip Static Code Analysis", checked = "true", unchecked = "false")
 
         param("env.OUTPUT_DIR", ".build/%build.type%/BuildArtifacts")
+        param("env.CC_ANALYZER_BIN", "clang-tidy:/usr/bin/clang-tidy-23;clangsa:/usr/bin/clang-23")
     }
 
     vcs {
@@ -31,7 +32,7 @@ object Build : BuildType({
             }
             name = "Chrysalis: CMake Build"
             id = "Chrysalis_CMake_Build"
-            scriptContent = ".teamcity/scripts/build.sh Chrysalis %build.type%"
+            scriptContent = ".teamcity/scripts/build.sh Chrysalis %build.type% %build.sanitizer%"
         }
         script {
             conditions {
@@ -48,7 +49,7 @@ object Build : BuildType({
             }
             name = "Chrysalis: Generate Documentation"
             id = "Chrysalis_Generate_Documentation"
-            scriptContent = ".teamcity/scripts/generate_docs.sh Chrysalis %build.type% %skip.diagrams%"
+            scriptContent = ".teamcity/scripts/generate_docs.sh Chrysalis %build.type% %skip.diagrams% %build.sanitizer%"
         }
         script {
             conditions {
@@ -65,7 +66,7 @@ object Build : BuildType({
             }
             name = "CLO3D: CMake Build"
             id = "CLO3D_CMake_Build"
-            scriptContent = ".teamcity/scripts/build.sh CLO3D %build.type%"
+            scriptContent = ".teamcity/scripts/build.sh CLO3D %build.type% %build.sanitizer%"
         }
         script {
             conditions {
@@ -82,7 +83,7 @@ object Build : BuildType({
             }
             name = "CLO3D: Generate Documentation"
             id = "CLO3D_Generate_Documentation"
-            scriptContent = ".teamcity/scripts/generate_docs.sh CLO3D %build.type% %skip.diagrams%"
+            scriptContent = ".teamcity/scripts/generate_docs.sh CLO3D %build.type% %skip.diagrams% %build.sanitizer%"
         }
         script {
             conditions {

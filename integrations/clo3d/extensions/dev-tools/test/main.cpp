@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <QApplication>
 
-#if defined(__has_include) && !defined(_MSC_VER)
-  #if __has_include(<sanitizer/lsan_interface.h>)
+#if (defined(__has_feature) && __has_feature(address_sanitizer)) || defined(__SANITIZE_ADDRESS__)
+  #if defined(__has_include) && !defined(_MSC_VER) && __has_include(<sanitizer/lsan_interface.h>)
     #include <sanitizer/lsan_interface.h>
     #define HAS_LSAN 1
   #endif

@@ -4,7 +4,6 @@
 #include <utility>
 
 #include "JsonUIExporter.h"
-#include "ExtensionsManager.h"
 #include "BaseUIExporterTest.h"
 #include "JsonUIExporterOptions.h"
 

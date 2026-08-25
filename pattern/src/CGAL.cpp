@@ -68,8 +68,8 @@ std::optional<CG::Point> CG::yIntersection(const Point& pointFrom, const Point& 
 CG::Point CG::circlesIntersection(const Point& anchor,
                                               CPoint center1, const double radius1,
                                               CPoint center2, const double radius2) {
-    const Circle circle1(center1, pow(radius1, 2));
-    const Circle circle2(center2, pow(radius2, 2));
+    const Circle circle1(center1, std::pow(radius1, 2));
+    const Circle circle2(center2, std::pow(radius2, 2));
 
     std::vector<CCIntersection> intersections;
     CGAL::intersection(circle1, circle2, std::back_inserter(intersections));
@@ -80,7 +80,7 @@ CG::Point CG::circlesIntersection(const Point& anchor,
         const auto point = std::get<std::pair<CArcPoint, unsigned int>>(intersection).first;
         const double x = CGAL::to_double(point.x());
         const double y = CGAL::to_double(point.y());
-        if (const double distance = pow(x - anchor.x(), 2) + pow(y - anchor.y(), 2); distance < minSDistance) {
+        if (const double distance = std::pow(x - anchor.x(), 2) + std::pow(y - anchor.y(), 2); distance < minSDistance) {
             minSDistance = distance;
             intersectionPoint = Point(x, y);
         }

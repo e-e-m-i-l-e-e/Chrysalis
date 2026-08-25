@@ -2,7 +2,6 @@
 
 #include <ranges>
 
-#include "ProjectSpace.h"
 
 using namespace Chrysalis;
 

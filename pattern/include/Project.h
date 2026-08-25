@@ -18,9 +18,10 @@ namespace Chrysalis {
         static constexpr auto PROJECT_FILE_SUFFIX = "chrysalis";
         static constexpr auto PROJECT_NAME_FILTER = "Chrysalis Project (*.chrysalis)";
 
-        explicit Project(std::string name, ProjectSpace* space, PatternsContainer* patterns,
-                         ParametersContainer* parameters, OptionsContainer* options,
-                         ExpressionsContainer* expressions, InstructionsContainer* instructions);
+        explicit Project(std::string name, std::unique_ptr<ProjectSpace> space,
+                         std::unique_ptr<PatternsContainer> patterns, std::unique_ptr<ParametersContainer> parameters,
+                         std::unique_ptr<OptionsContainer> options, std::unique_ptr<ExpressionsContainer> expressions,
+                         std::unique_ptr<InstructionsContainer> instructions);
         ~Project();
 
         static std::unique_ptr<Project> create();
@@ -46,25 +47,25 @@ namespace Chrysalis {
         [[nodiscard]] InstructionsContainer* getInstructions() const;
     private:
         std::mutex mutex_;
-        std::jthread thread_;
         std::condition_variable startExecution_;
         std::atomic<bool> pendingExecution_ = false;
 
         std::queue<std::function<void()>> queue_;
+        std::jthread thread_;
 
         std::string name_;
         /// @uml{composition}
-        ProjectSpace* space_;
+        std::unique_ptr<ProjectSpace> space_;
         /// @uml{composition}
-        OptionsContainer* options_;
+        std::unique_ptr<OptionsContainer> options_;
         /// @uml{composition}
-        PatternsContainer* patterns_;
+        std::unique_ptr<PatternsContainer> patterns_;
         /// @uml{composition}
-        ParametersContainer* parameters_;
+        std::unique_ptr<ParametersContainer> parameters_;
         /// @uml{composition}
-        ExpressionsContainer* expressions_;
+        std::unique_ptr<ExpressionsContainer> expressions_;
         /// @uml{composition}
-        InstructionsContainer* instructions_;
+        std::unique_ptr<InstructionsContainer> instructions_;
     };
     SERIALIZE_CONSTRUCTION(Project, name_, space_, patterns_, parameters_, options_, expressions_, instructions_)
 }

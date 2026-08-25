@@ -4,7 +4,6 @@
 #include "BaseDialogContainerPlugin.h"
 #include "TableInputAccordionPlugin.h"
 #include "ListNavigationWidgetPlugin.h"
-#include "SettingsBlockContainerWidget.h"
 #include "SettingsBlockContainerWidgetPlugin.h"
 #include "BaseUIExporterSettingsBlockContainerWidgetPlugin.h"
 

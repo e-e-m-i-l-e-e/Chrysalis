@@ -1,5 +1,4 @@
 #include "instructions/ExpressionInstruction.h"
-#include <iostream>
 
 using namespace Chrysalis;
 

@@ -40,7 +40,7 @@ namespace Chrysalis::Proxy {
     class Line::Lines::And::Names {
     public:
         explicit Names(const args::line* line, const args::container<args::line>* lines, const args::container<Argument<std::string>>* names);
-        operator IntersectionPointInstruction*() const;
+        operator IntersectionPointInstruction*() const;  // NOLINT(cppcoreguidelines-explicit-constructor)
     private:
         const args::line* line_;
         const args::container<args::line>* lines_;

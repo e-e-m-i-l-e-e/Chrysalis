@@ -1,6 +1,5 @@
 #include "BaseTask.h"
 
-#include "Logging.h"
 
 using namespace CLO3D;
 

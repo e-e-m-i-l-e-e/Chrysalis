@@ -27,7 +27,6 @@ void TaskExecutor::submit(std::unique_ptr<BaseTask> task) {
 void TaskExecutor::submit(std::unique_ptr<BaseTask> task, const std::function<void()>& onSuccess, const std::function<void(const BaseTaskException&)>& onException) {
     BaseTask* t = task.get();
     {
-        // TODO: handle duplicates in names
         std::unique_lock lock(mutex_);
         const auto name = task->name().toStdString();
         tasks_.emplace(name, std::move(task));

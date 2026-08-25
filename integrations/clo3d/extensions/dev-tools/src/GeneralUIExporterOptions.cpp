@@ -2,7 +2,6 @@
 
 #include <QKeySequence>
 
-#include "Logging.h"
 #define LOGGER_NAME "UI Exporter Options"
 
 using namespace CLO3D;

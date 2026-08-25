@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "BaseUIExporterOptions.h"
-#include "Logging.h"
 #include "data/TestWidget_AllTypes.h"
 
 using namespace CLO3D;

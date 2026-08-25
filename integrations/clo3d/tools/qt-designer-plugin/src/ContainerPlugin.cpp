@@ -6,7 +6,6 @@
 
 #include "ExtensionFactory.h"
 
-#include <iostream>
 
 using namespace CLO3D::UI;
 

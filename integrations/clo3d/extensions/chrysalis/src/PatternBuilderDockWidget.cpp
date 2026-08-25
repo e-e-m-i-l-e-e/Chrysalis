@@ -2,7 +2,6 @@
 
 #include <CLOAPIInterface.h>
 
-#include "Logging.h"
 #include "ui_PatternBuilderDockWidget.h"
 
 #include <QTabBar>

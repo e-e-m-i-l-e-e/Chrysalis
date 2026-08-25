@@ -3,6 +3,7 @@ set -ex
 
 APP="${1:?Application name is required}"
 BUILD_TYPE="${2:?Build type is required}"
+SANITIZER="${3:?Sanitizer is required}"
 
 . "$PYTHON_VENV"/bin/activate
 
@@ -16,7 +17,7 @@ rm -f .build/"$BUILD_TYPE"/CMakeCache.txt
 
 cmake -S . -B .build/"$BUILD_TYPE" --graphviz=.build/"$BUILD_TYPE"/graph/dependencies.dot                              \
               -DCMAKE_TOOLCHAIN_FILE=.conan/build/"$BUILD_TYPE"/generators/conan_toolchain.cmake                       \
-              -DPYTHON_VENV_DIR="$PYTHON_VENV" -DOUTPUT_DIR="$OUTPUT_DIR"                                              \
+              -DSANITIZER="$SANITIZER" -DPYTHON_VENV_DIR="$PYTHON_VENV" -DOUTPUT_DIR="$OUTPUT_DIR"                     \
               -DCMAKE_BUILD_TYPE="$BUILD_TYPE"
 
 cmake --build .build/"$BUILD_TYPE" -j 6

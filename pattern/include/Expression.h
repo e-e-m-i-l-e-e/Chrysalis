@@ -7,7 +7,7 @@
 
 namespace Chrysalis {
     struct ExpressionValue {
-        operator double() const;
+        explicit operator double() const;
         double value;
     };
     class Expression: public BaseNamedElement, public BaseCalculatedArgument<ExpressionValue> {

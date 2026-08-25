@@ -2,7 +2,6 @@
 
 #include "PatternImporter.h"
 
-#include "Logging.h"
 #define LOGGER_NAME "Chrysalis: Local Server Listener"
 
 using namespace CLO3D;

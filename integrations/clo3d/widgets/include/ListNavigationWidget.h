@@ -16,9 +16,10 @@ namespace CLO3D::UI {
         explicit ListNavigationWidget(QWidget *parent = nullptr);
         ~ListNavigationWidget() override;
 
-        int count() const;
+        [[nodiscard]] int count() const;
         void addPage(NamedWidget* page) const;
-        NamedWidget* getPage(int index) const;
+        [[nodiscard]] NamedWidget* getPage(int index) const;
+
     private:
         Ui::ListNavigationWidget *ui;
     };

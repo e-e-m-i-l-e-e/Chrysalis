@@ -25,11 +25,13 @@ void TaskGroup::run(const std::function<void()>& onSuccess, const std::function<
     const auto remaining = std::make_shared<std::atomic<size_t>>(tasks_.size());
     for (const auto& task : tasks_) {
         task->run([remaining, onSuccess] -> void {
-            if (remaining->fetch_sub(1) == 1) {
+            if (remaining->fetch_sub(1, std::memory_order_release) == 1) {
+                std::atomic_thread_fence(std::memory_order_acquire);
                 onSuccess();
             }
         }, [remaining, onException](const BaseTaskException& e) -> void {
-            if (remaining->fetch_sub(1) == 1) {
+            if (remaining->fetch_sub(1, std::memory_order_release) == 1) {
+                std::atomic_thread_fence(std::memory_order_acquire);
                 onException(e);
             }
         });

@@ -18,7 +18,7 @@ namespace Chrysalis {
         void TearDown() override;
 
         ProjectSpace* space() const;
-        args::patterns* mockPatterns(int n);
+        args::patterns* mockPatterns(size_t n);
         static args::patterns* mockPatterns();
         std::vector<PatternTraceObserverMock*>& observers();
     private:

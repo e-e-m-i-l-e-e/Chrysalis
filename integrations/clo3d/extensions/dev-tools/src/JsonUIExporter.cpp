@@ -10,9 +10,6 @@
 #include <QMetaProperty>
 #include <QJsonDocument>
 
-#include "Task.h"
-#include "BaseTask.h"
-#include "TaskGroup.h"
 #include "ExtensionsManager.h"
 
 #include "Logging.h"

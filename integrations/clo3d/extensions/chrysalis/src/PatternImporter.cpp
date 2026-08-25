@@ -29,7 +29,7 @@ void PatternImporter::import() const {
         return pointObject;
     };
     LOG_INFO("Importing pattern from project: {}", project_->getName());
-    project_->getInstructions()->execute();
+    project_->getInstructions()->run();
 
     QJsonObject root;
     QJsonArray patternList;

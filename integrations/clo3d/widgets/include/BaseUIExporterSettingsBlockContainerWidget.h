@@ -24,7 +24,7 @@ namespace CLO3D::UI {
 
         void setTitle(const QString &title) override;
 
-        int getLabelWidth() const;
+        [[nodiscard]] int getLabelWidth() const;
         void setLabelWidth(int labelWidth);
 
         void setRootFolderText(const QString &rootFolder) const;
@@ -32,10 +32,10 @@ namespace CLO3D::UI {
         void setObjectNameText(const QString &objectName) const;
         void setClassNameText(const QString &className) const;
 
-        QString getRootFolderText() const;
-        QString getFileNameText() const;
-        QString getObjectNameText() const;
-        QString getClassNameText() const;
+        [[nodiscard]] QString getRootFolderText() const;
+        [[nodiscard]] QString getFileNameText() const;
+        [[nodiscard]] QString getObjectNameText() const;
+        [[nodiscard]] QString getClassNameText() const;
     signals:
         void rootFolderChanged(const QString& rootFolder);
         void fileNameChanged(const QString& fileName);

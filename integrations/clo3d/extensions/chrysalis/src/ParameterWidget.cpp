@@ -1,6 +1,5 @@
 #include "ParameterWidget.h"
 
-#include <iostream>
 
 #include "ui_ParameterWidget.h"
 

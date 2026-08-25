@@ -4,6 +4,7 @@ set -ex
 APP="${1:?Application name is required}"
 BUILD_TYPE="${2:?Build type is required}"
 SKIP_DIAGRAMS="${3:?SKIP_DIAGRAMS is required}"
+SANITIZER="${4:?Sanitizer is required}"
 
 dot -Tsvg .build/"$BUILD_TYPE"/graph/dependencies.dot -o "$OUTPUT_DIR"/docs/diagrams/"$APP"-dependencies.svg
 
@@ -12,5 +13,7 @@ if [[ "$SKIP_DIAGRAMS" == "false" ]]; then
 fi
 
 cmake --build .build/"$BUILD_TYPE" --target GenerateDoxygen
-cmake --build .build/"$BUILD_TYPE" --target GenerateCoverageReport
+if [[ "$SANITIZER" != "TSan" ]]; then
+    cmake --build .build/"$BUILD_TYPE" --target GenerateCoverageReport
+fi
 cmake --build .build/"$BUILD_TYPE" --target GenerateDocumentation

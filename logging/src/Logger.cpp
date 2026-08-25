@@ -6,7 +6,6 @@
 #include <spdlog/common.h>
 #include <spdlog/logger.h>
 #include <spdlog/sinks/sink.h>
-#include <spdlog/details/null_mutex.h>
 #include <spdlog/sinks/basic_file_sink.h>
 
 using namespace Logging;

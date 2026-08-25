@@ -8,7 +8,7 @@
 namespace Chrysalis {
     template<typename D>
     requires requires {
-        []<typename V>(BaseRendererData<V>*) {}(static_cast<D*>(nullptr));
+        []<typename V>(BaseRendererData<V>*) -> auto {}(static_cast<D*>(nullptr));
     }
     class BaseRenderer {
         using V = decltype([]<typename V>(BaseRendererData<V>*) -> V {}(static_cast<D*>(nullptr)));

@@ -1,7 +1,5 @@
 #include "Parameter.h"
 
-#include <iostream>
-#include <utility>
 
 using namespace Chrysalis;
 

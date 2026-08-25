@@ -1,6 +1,5 @@
 #include "ContainerExtension.h"
 
-#include <iostream>
 
 using namespace CLO3D::UI;
 

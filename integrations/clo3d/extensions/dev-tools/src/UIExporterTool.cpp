@@ -1,17 +1,14 @@
 #include "UIExporterTool.h"
 
-#include <unordered_map>
 
 #include <QApplication>
 
 #include "XmlUIExporter.h"
 #include "JsonUIExporter.h"
-#include "ExtensionsManager.h"
 #include "UIExporterToolSettings.h"
 #include "UIExporterToolSettingsWidget.h"
 
 #include "Logging.h"
-#include "TaskGroup.h"
 #define LOGGER_NAME "UI Exporter"
 
 using namespace CLO3D;

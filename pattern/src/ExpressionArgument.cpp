@@ -8,6 +8,6 @@ ExpressionArgument::ExpressionArgument(const ExpressionsContainer* expressions, 
 std::expected<double, Error> ExpressionArgument::calculate() const {
     return name_->get().and_then([this](const std::string& name) -> std::expected<double, Error> {
         if (!expressions_->has(name)) return std::unexpected(Error{"Requested expression doesn't exist: \"" + name + "\""});
-        return expressions_->get(name)->get();
+        return static_cast<double>(*expressions_->get(name)->get());
     });
 }

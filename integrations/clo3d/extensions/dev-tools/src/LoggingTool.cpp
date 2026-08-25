@@ -1,9 +1,7 @@
 #include "LoggingTool.h"
 
-#include <ranges>
 
 #include "Logging.h"
-#include "LoggerFormatter.h"
 #include "ExtensionsSettings.h"
 #include "LoggerTextEditSink.h"
 #include "LoggingToolSettingsWidget.h"

@@ -13,7 +13,6 @@
 #include <QLayout>
 #include <QPointer>
 #include <QUrl>
-#include <qthreadpool.h>
 
 // #include <QtCore/private/qobject_p.h>
 // #include <QtCore/private/qfiledevice_p.h>

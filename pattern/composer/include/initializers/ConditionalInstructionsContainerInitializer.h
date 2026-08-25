@@ -1,7 +1,6 @@
 #ifndef CHRYSALIS_CONDITIONALINSTRUCTIONSCONTAINERINITIALIZER_H
 #define CHRYSALIS_CONDITIONALINSTRUCTIONSCONTAINERINITIALIZER_H
 
-#include <vector>
 #include <initializer_list>
 
 #include "instructions/BaseInstruction.h"
@@ -19,7 +18,7 @@ namespace Chrysalis::Composer {
     class ConditionalInstructionsContainerInitializer::True {
     public:
         explicit True(const args::condition* condition, std::initializer_list<BaseInstruction*>&& instructions);
-        operator Chrysalis::BaseInstruction*() const;
+        operator Chrysalis::BaseInstruction*() const; // NOLINT(cppcoreguidelines-explicit-constructor)
         BaseInstruction* operator<<(std::initializer_list<BaseInstruction*>&& instructionBlocks) const;
     private:
         const args::condition* condition_;

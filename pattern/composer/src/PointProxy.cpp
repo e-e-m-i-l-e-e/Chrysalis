@@ -1,6 +1,5 @@
 #include "proxies/PointProxy.h"
 
-#include "proxies/VectorProxy.h"
 
 #include "initializers/Instructions.h"
 #include "initializers/PatternInstructions.h"

@@ -18,7 +18,7 @@ namespace CLO3D {
         void read() override;
         void write() override;
 
-        const QString& getFilePath() const;
+        [[nodiscard]] const QString& getFilePath() const;
         void setFilePath(const QString& filePath);
 
         QString getName() override;

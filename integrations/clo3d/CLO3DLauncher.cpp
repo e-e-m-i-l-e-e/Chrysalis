@@ -1,6 +1,5 @@
 #define LOGGER_NAME "CLO3DLauncher"
 
-#include <Windows.h>
 #include <Logging.h>
 
 // =============================================================================
@@ -144,7 +143,9 @@ static bool injectDll(const HANDLE process, const std::string &dllPath) {
 
     // Ensure remote memory is freed even if later steps fail.
     // Lambda captures so the address is available at cleanup time.
-    const auto freeRemote = [&] { VirtualFreeEx(process, remoteMem, 0, MEM_RELEASE); };
+    const auto freeRemote = [&] -> void {
+        VirtualFreeEx(process, remoteMem, 0, MEM_RELEASE);
+    };
 
     // ── Write the DLL path into target memory ─────────────────────────────────
     if (!WriteProcessMemory(process, remoteMem, dllPath.c_str(), pathSize, nullptr)) {
@@ -158,8 +159,7 @@ static bool injectDll(const HANDLE process, const std::string &dllPath) {
     // we get the exact runtime address of the function in the target process
     // (safe on all modern x64 Windows since kernel32 is mapped at the same
     // virtual address in every process).
-    const auto loadLibAddr = reinterpret_cast<LPTHREAD_START_ROUTINE>(
-        GetProcAddress(GetModuleHandleA("kernel32.dll"), "LoadLibraryA"));
+    const auto loadLibAddr = reinterpret_cast<LPTHREAD_START_ROUTINE>(GetProcAddress(GetModuleHandleA("kernel32.dll"), "LoadLibraryA"));
 
     const WinHandle thread{
         CreateRemoteThread(

@@ -14,12 +14,10 @@
 
 #include "arguments/ParameterArgument.h"
 #include "arguments/ComparisonArgument.h"
-#include "arguments/BaseCalculatedArgument.h"
 #include "arguments/BinaryFunctionArgument.h"
 #include "arguments/ConditionalArgument.h"
 #include "arguments/ExpressionArgument.h"
 #include "arguments/VectorFunctionArgument.h"
-#include "arguments/OptionalArgument.h"
 #include "arguments/OptionArgument.h"
 #include "arguments/OriginPointArgument.h"
 
@@ -93,10 +91,12 @@ BOOST_CLASS_EXPORT(Chrysalis::RelativePointInstruction)
 BOOST_CLASS_EXPORT(Chrysalis::UnfoldEdgeDartInstruction)
 BOOST_CLASS_EXPORT(Chrysalis::IntersectionPointInstruction)
 
-Project::Project(std::string name, ProjectSpace* space, PatternsContainer* patterns, ParametersContainer* parameters,
-                 OptionsContainer* options, ExpressionsContainer* expressions, InstructionsContainer* instructions)
-    : name_(std::move(name)), space_(space), options_(options), patterns_(patterns), parameters_(parameters),
-      expressions_(expressions), instructions_(instructions), thread_([this](const std::stop_token& stopToken) -> void {
+Project::Project(std::string name, std::unique_ptr<ProjectSpace> space, std::unique_ptr<PatternsContainer> patterns,
+                 std::unique_ptr<ParametersContainer> parameters, std::unique_ptr<OptionsContainer> options,
+                 std::unique_ptr<ExpressionsContainer> expressions, std::unique_ptr<InstructionsContainer> instructions)
+    : name_(std::move(name)), space_(std::move(space)), options_(std::move(options)), patterns_(std::move(patterns)),
+      parameters_(std::move(parameters)), expressions_(std::move(expressions)), instructions_(std::move(instructions)),
+      thread_([this](const std::stop_token& stopToken) -> void {
           std::unique_lock lock(mutex_);
           while (!stopToken.stop_requested()) {
               startExecution_.wait(lock, [&] -> bool {
@@ -113,7 +113,7 @@ Project::Project(std::string name, ProjectSpace* space, PatternsContainer* patte
               if (pendingExecution_) {
                   pendingExecution_ = false;
                   lock.unlock();
-                  instructions_->execute();
+                  instructions_->run();
                   lock.lock();
               }
           }
@@ -124,13 +124,6 @@ Project::~Project() {
     thread_.request_stop();
     startExecution_.notify_one();
     thread_.join();
-    
-    delete space_;
-    delete options_;
-    delete patterns_;
-    delete parameters_;
-    delete expressions_;
-    delete instructions_;
 }
 
 std::unique_ptr<Project> Project::create() {
@@ -142,12 +135,12 @@ std::unique_ptr<Project> Project::create(const std::string& name) {
     const auto globalExpressions = new ExpressionsContainer();
     return std::make_unique<Project>(
         name,
-        new ProjectSpace(),
-        new PatternsContainer(),
-        new ParametersContainer(),
-        globalOptions,
-        globalExpressions,
-        new InstructionsContainer(new OptionsContainer(globalOptions), new ExpressionsContainer(globalExpressions)));
+        std::make_unique<ProjectSpace>(),
+        std::make_unique<PatternsContainer>(),
+        std::make_unique<ParametersContainer>(),
+        std::unique_ptr<OptionsContainer>(globalOptions),
+        std::unique_ptr<ExpressionsContainer>(globalExpressions),
+        std::make_unique<InstructionsContainer>(new OptionsContainer(globalOptions), new ExpressionsContainer(globalExpressions)));
 }
 
 std::vector<char> Project::bytes() const {
@@ -220,25 +213,25 @@ void Project::setName(const std::string& name) {
 }
 
 ProjectSpace* Project::getSpace() const {
-    return space_;
+    return space_.get();
 }
 
 OptionsContainer* Project::getOptions() const {
-    return options_;
+    return options_.get();
 }
 
 PatternsContainer* Project::getPatterns() const {
-    return patterns_;
+    return patterns_.get();
 }
 
 ParametersContainer* Project::getParameters() const {
-    return parameters_;
+    return parameters_.get();
 }
 
 ExpressionsContainer* Project::getExpressions() const {
-    return expressions_;
+    return expressions_.get();
 }
 
 InstructionsContainer* Project::getInstructions() const {
-    return instructions_;
+    return instructions_.get();
 }

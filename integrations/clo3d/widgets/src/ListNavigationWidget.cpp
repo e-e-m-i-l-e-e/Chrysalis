@@ -1,6 +1,5 @@
 #include "ListNavigationWidget.h"
 
-#include <iostream>
 
 #include "NamedWidget.h"
 #include "ui_ListNavigationWidget.h"

@@ -232,5 +232,20 @@ namespace {
         }
         EXPECT_TRUE(executed);
     }
-
+    //TODO: Duplicated_task_name
+    // TEST(TaskExecutorTest, Duplicated_task_name) {
+    //     TaskExecutor executor;
+    //     std::atomic first = 0;
+    //     std::atomic second = 0;
+    //
+    //     executor.submit(std::make_unique<Task>("Dup", [&] -> void {
+    //         ++first;
+    //     }));
+    //     executor.submit(std::make_unique<Task>("Dup", [&] -> void {
+    //         ++second;
+    //     }));
+    //     EXPECT_EQ(first.load(), 1);
+    //     EXPECT_EQ(second.load(), 1);
+    //     EXPECT_NO_THROW(executor.wait("Dup"));
+    // }
 }

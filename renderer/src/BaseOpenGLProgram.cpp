@@ -1,6 +1,5 @@
 #include "BaseOpenGLProgram.h"
 
-#include <fstream>
 
 #include "Logging.h"
 #define LOGGER_NAME "OpenGL Program"

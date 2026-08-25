@@ -1,9 +1,5 @@
 #include "TaskGroupException.h"
 
-#include <iostream>
-#include <ostream>
-
-#include <iostream>
 
 using namespace CLO3D;
 
@@ -18,7 +14,8 @@ const char* TaskGroupException::what() const noexcept {
     for (const auto& [name, message]: tasksMessages) {
         errorMessage.append("\n\t").append(name).append(": ").append(message);
     }
-    return errorMessage.toUtf8().constData();
+    const auto bytes = errorMessage.toUtf8();
+    return bytes.constData();
 }
 
 bool TaskGroupException::empty() const {

@@ -4,7 +4,6 @@
 #include <QFileDialog>
 #include <QDesktopServices>
 
-#include "LoggerTextEditSink.h"
 #include "LogLevelDelegate.h"
 
 using namespace CLO3D::UI;

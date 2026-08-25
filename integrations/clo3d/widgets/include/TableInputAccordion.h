@@ -21,17 +21,17 @@ namespace CLO3D::UI {
 
         ~TableInputAccordion() override;
 
-        int count() const override;
+        [[nodiscard]] int count() const override;
         void insertWidget(int index, QWidget* widget) override;
         [[nodiscard]] QWidget* getWidget(int index) override;
 
-        QString getTitle() const;
+        [[nodiscard]] QString getTitle() const;
         void setTitle(const QString &title) const;
 
-        QStringList getColumns() const;
+        [[nodiscard]] QStringList getColumns() const;
         void setColumns(const QStringList &columns) const;
 
-        ClickableWidget* getAccordionTitle() const;
+        [[nodiscard]] ClickableWidget* getAccordionTitle() const;
 
     private:
         Ui::TableInputAccordion *ui;

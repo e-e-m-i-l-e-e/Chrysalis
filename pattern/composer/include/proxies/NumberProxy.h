@@ -56,7 +56,7 @@ namespace Chrysalis::Proxy {
     class Number::Vector::Segment {
     public:
         explicit Segment(args::number&& number, const args::vector* vector, const args::segment* segment);
-        operator EdgeDartInstruction*();
+        operator EdgeDartInstruction*();  // NOLINT(cppcoreguidelines-explicit-constructor)
     private:
         args::number number_;
         const args::vector* vector_;
@@ -65,7 +65,7 @@ namespace Chrysalis::Proxy {
     class Number::Segment::And::Segment {
     public:
         explicit Segment(args::number&& number, const args::segment* segment1, const args::segment* segment2);
-        operator UnfoldEdgeDartInstruction*();
+        operator UnfoldEdgeDartInstruction*();  // NOLINT(cppcoreguidelines-explicit-constructor)
     private:
         args::number number_;
         const args::segment* segment1_;

@@ -7,9 +7,9 @@
 #include "ExtensionsManager.h"
 #include "BaseUIExporterTest.h"
 #include "XmlUIExporterOptions.h"
-#include "data/TestWidget_AllTypes.h"
 
 #include <QStackedWidget>
+#include <QRegularExpression>
 
 using namespace CLO3D;
 

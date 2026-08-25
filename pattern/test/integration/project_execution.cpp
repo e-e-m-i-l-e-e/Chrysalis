@@ -12,17 +12,17 @@ protected:
         project_ = Project1Composer::createProject();
         Project1Composer(project_.get()).fill();
 
-        project_->getInstructions()->execute();
+        project_->getInstructions()->run();
 
         Project::write(TEMP_FILE, *project_);
         deserializedProject_ = Project::read(TEMP_FILE);
-        deserializedProject_->getInstructions()->execute();
+        deserializedProject_->getInstructions()->run();
 
         const std::vector<char> bytes = project_->bytes();
         deserializedFromBytesProject_ = Project::fromBytes(bytes.data(), bytes.size());
-        deserializedFromBytesProject_ ->getInstructions()->execute();
+        deserializedFromBytesProject_ ->getInstructions()->run();
     }
-    [[nodiscard]] std::vector<Project*> getProjects() const {
+    std::vector<Project*> getProjects() const {
         return {project_.get(), deserializedProject_.get(), deserializedFromBytesProject_.get()};
     }
     static std::vector<std::pair<PatternSpace*, std::reference_wrapper<const std::unordered_map<std::string, std::pair<double, double>>>>> data(const Project* project) {

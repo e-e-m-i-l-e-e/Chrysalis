@@ -25,8 +25,8 @@ namespace Chrysalis::Proxy {
 
         operator args::name();
         operator args::number();
-        operator const OptionArgument*();
-        operator const PatternPointArgument*();
+        operator const OptionArgument*();  // NOLINT(cppcoreguidelines-explicit-constructor)
+        operator const PatternPointArgument*();  // NOLINT(cppcoreguidelines-explicit-constructor)
 
         Number operator=(double value);
         Number operator=(args::number&& number);
@@ -41,7 +41,7 @@ namespace Chrysalis::Proxy {
     public:
         class Line;
         explicit Vector(args::name&& name, const args::vector* vector);
-        operator RelativePointInstruction*();
+        operator RelativePointInstruction*();  // NOLINT(cppcoreguidelines-explicit-constructor)
         Line operator|(const args::line* line);
     private:
         args::name name_;
@@ -50,7 +50,7 @@ namespace Chrysalis::Proxy {
     class Name::Vector::Line {
     public:
         explicit Line(args::name&& name, const args::vector* vector, const args::line* line);
-        operator RelativePointInstruction*();
+        operator RelativePointInstruction*();  // NOLINT(cppcoreguidelines-explicit-constructor)
     private:
         args::name name_;
         const args::line* line_;
